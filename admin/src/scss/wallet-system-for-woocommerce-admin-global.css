@@ -417,3 +417,50 @@ select {
 .toplevel_page_mwb-plugins div img {
     width: 30px;
 }
+
+/* custom css added */
+#mwb_edit_wallet_action {
+    width:110px;
+}
+
+.wpg-secion-wrap h3 {
+    margin-bottom:30px;
+    margin-top:10px;
+}
+.mwb-wpg-number .mdc-text-field+.mdc-text-field-helper-line {
+    padding-left:0px!important;
+}
+
+.wpg-secion-wrap .button-primary {
+    background-color: #2196f3;
+    border-radius: 35px!important;
+    padding: 10px 20px!important;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+.mwb-section .notice    {
+    margin-left: 0px;
+}
+
+.wpg-secion-wrap .enable_paypal_sandbox {
+    display:none;
+}
+#export_user_wallet {
+	float:right;
+}
+
+.table-view-list tr .column-status {
+    text-transform: capitalize;
+}
+
+#table_id_wrapper {
+    margin:40px 0;
+}
+
+.dataTables_wrapper .toolbar {
+    float: right;
+}
+
+
+
