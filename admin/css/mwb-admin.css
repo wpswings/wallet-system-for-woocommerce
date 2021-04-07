@@ -5,11 +5,40 @@
  * and use $c prefix.
  * use lowercase for color code and variable name 
  * i.e $c-black: #000000; */
-/* Create Typo variables here
- * use $ff prefix for font family
- * use $fs for font size
- i.e $ff-roboto-b: Roboto-bold;
- * $fs-large: 40px; */
+/*==========================================================
+=            Typography Variable and Declaration            =
+============================================================*/
+@font-face {
+  font-family: 'NunitoSans-ExtraBold';
+  src: url("../fonts/nunito-sans/NunitoSans-ExtraBold.ttf");
+  font-style: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NunitoSans-SemiBold';
+  src: url("../fonts/nunito-sans/NunitoSans-SemiBold.ttf");
+  font-style: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NunitoSans-Bold';
+  src: url("../fonts/nunito-sans/NunitoSans-Bold.ttf");
+  font-style: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NunitoSans-Regular';
+  src: url("../fonts/nunito-sans/NunitoSans-Regular.ttf");
+  font-style: normal;
+  font-display: swap;
+}
+
+/*----------  Font Family Variable  ----------*/
+/*----------  Font Size Variable  ----------*/
+/*=====  End of Typography Variable and Declaration  ======*/
 /* Placeholders */
 /* Mixins */
 /* SCSS Functions */
@@ -22,6 +51,45 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  font-family: 'NunitoSans-Regular';
+  font-size: 16px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+  text-decoration: none;
+  outline: none;
+  color: none;
+  box-shadow: none;
+}
+
+p {
+  font-size: 16px;
+}
+
+ul {
+  margin: 0;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
 .mwb-info-img {
   display: inline-block;
   margin-right: 6px;
@@ -30,6 +98,30 @@
 }
 
 /* Enter Button Global CSS Here */
+.mwb-btn {
+  border-radius: 50px;
+  border: 1px solid #2196f3;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "NunitoSans-Regular";
+  font-size: 14px;
+  font-weight: 400;
+  min-width: 140px;
+  outline: 0;
+  padding: 16px 32px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.mwb-btn:hover, .mwb-btn:active, .mwb-btn:focus {
+  color: #ffffff;
+}
+
+.mwb-btn__filled {
+  background-color: #2196f3;
+}
+
 /* Header CSS */
 /* Footer CSS */
 /* Navigation CSS */
@@ -166,6 +258,134 @@
 }
 
 /* overview page css ends */
+/*====================================
+=            Tabs Section            =
+====================================*/
+.mwb-navbar .mwb-link {
+  color: #1d201f;
+}
+
+.mwb-navbar .mwb-link.active {
+  color: #2196f3;
+}
+
+/*=====  End of Tabs Section  ======*/
+/*=======================================
+=            General section            =
+=======================================*/
+.mwb-wsfw-gen-section-form .mwb-form-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px 35px;
+  padding-top: 30px;
+}
+
+.mwb-wsfw-gen-section-form .mwb-form-group .mwb-form-group__label {
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0 15px;
+}
+
+.mwb-wsfw-gen-section-form .mwb-form-group .mwb-form-group__label .mwb-form-label {
+  font-family: "NunitoSans-SemiBold";
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.3px;
+}
+
+.mwb-wsfw-gen-section-form .mwb-form-group .mwb-form-group__control {
+  flex: 0 0 80%;
+  max-width: 80%;
+  padding: 0 15px;
+}
+
+/*=====  End of General section  ======*/
+/*======================================
+=            Wallet Section            =
+======================================*/
+.mwb-wpg-gen-section-form {
+  margin-bottom: 50px;
+}
+
+.mwb-wpg-gen-section-form h3 {
+  border-bottom: 1px solid #c7c7c7;
+  color: #1d201f;
+  font-family: "NunitoSans-ExtraBold";
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+  padding-bottom: 15px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group {
+  margin: 0 0 35px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__label {
+  align-self: center;
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0 15px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__label .mwb-form-label {
+  color: #1d201f;
+  font-family: "NunitoSans-ExtraBold";
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control {
+  flex: 0 0 80%;
+  max-width: 80%;
+  padding: 0 15px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control label {
+  max-height: 40px;
+  padding-right: 10px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control label input {
+  padding: 0;
+  max-width: 150px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 360px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select input {
+  border-width: 2px;
+  height: 18px;
+  padding: 0px !important;
+  vertical-align: sub;
+  width: 18px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select input:before {
+  background-color: #2196f3;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select input:checked {
+  border-color: #2196f3;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select label {
+  font-family: "NunitoSans-Regular";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0.25px;
+}
+
+/*=====  End of Wallet Section  ======*/
 
 @media (max-width: 992px){
   .mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item {

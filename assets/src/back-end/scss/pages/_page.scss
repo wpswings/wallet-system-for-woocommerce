@@ -1,5 +1,142 @@
 @import 
-    'about',
-    'home',
-    'overview';
-    
+'about',
+'home',
+'overview';
+
+
+
+/*====================================
+=            Tabs Section            =
+====================================*/
+.mwb-navbar{
+	.mwb-link {
+		color: $c-outer-space;
+
+		&.active {
+			color: $c-doger-blue;
+		}
+	}
+}
+
+/*=====  End of Tabs Section  ======*/
+
+/*=======================================
+=            General section            =
+=======================================*/
+.mwb-wsfw-gen-section-form {
+	.mwb-form-group {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 -15px 35px;
+		padding-top: 30px;
+
+		.mwb-form-group__label {
+			flex: 0 0 20%;
+			max-width: 20%;
+			padding: 0 15px;
+
+			.mwb-form-label {
+				font-family: $ff-nunitosans-s;
+				font-size: $fs-normal;
+				line-height: 24px;
+				letter-spacing: 0.3px;
+			}
+		}
+
+		.mwb-form-group__control {
+			flex: 0 0 80%;
+			max-width: 80%;
+			padding: 0 15px;
+		}
+	}	
+}
+
+
+/*=====  End of General section  ======*/
+
+/*======================================
+=            Wallet Section            =
+======================================*/
+.mwb-wpg-gen-section-form {
+	margin-bottom: 50px;
+
+	h3 {
+		border-bottom: 1px solid $c-silver;
+		color: $c-outer-space;
+		font-family: $ff-nunitosans-e;
+		font-size: $fs-normal;
+		font-weight: 700;
+		line-height: 26px;
+		letter-spacing: 0.5px;
+		padding-bottom: 15px;
+	}
+
+	.mwb-form-group {
+		margin: 0 0 35px;
+
+		.mwb-form-group__label {		
+			align-self: center;
+			flex: 0 0 20%;
+			max-width: 20%;
+			padding: 0 15px;
+
+			.mwb-form-label {
+				color: $c-outer-space;
+				font-family: $ff-nunitosans-e;
+				font-size: $fs-normal;
+				font-weight: 700;
+				line-height: 26px;
+				letter-spacing: 0.5px;
+			}
+		}
+
+		.mwb-form-group__control {
+			flex: 0 0 80%;
+			max-width: 80%;
+			padding: 0 15px;
+
+			label {
+				max-height: 40px;
+				padding-right: 10px;
+
+				input {
+					padding: 0;
+					max-width: 150px;
+				}
+			}
+
+			.mwb-form-select {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				max-width: 360px;
+
+				input {
+					border-width: 2px;
+					height: 18px;
+					padding: 0px !important;
+					vertical-align: sub;
+					width: 18px;
+
+					&:before {
+						background-color: $c-doger-blue;
+					}
+
+					&:checked {						
+						border-color: $c-doger-blue;
+					}
+				}
+
+				label {
+					font-family: $ff-nunitosans-r;
+					font-size: $fs-normal;
+					font-weight: 400;
+					line-height: 26px;
+					letter-spacing: 0.25px;
+				}
+			}
+		}
+	}	
+}
+
+/*=====  End of Wallet Section  ======*/

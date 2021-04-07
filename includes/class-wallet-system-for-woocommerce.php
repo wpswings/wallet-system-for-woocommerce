@@ -243,7 +243,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'edit_user_profile_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 ); 
 			
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
-		
+
 		}
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_withdrawal_post_type', 20 );
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_wallet_recharge_post_type', 30 );
@@ -627,9 +627,9 @@ class Wallet_System_For_Woocommerce {
 									placeholder="<?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?>"
 									>
 								</label>
-								<div class="mdc-text-field-helper-line">
+								<!-- <div class="mdc-text-field-helper-line">
 									<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<?php
@@ -702,7 +702,7 @@ class Wallet_System_For_Woocommerce {
 							</div>
 							<div class="mwb-form-group__control">
 								<div class="mwb-form-select">
-									<select id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : '' ); ?><?php echo ( 'multiselect' === $wsfw_component['type'] ) ? '[]' : ''; ?>" id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mdl-textfield__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" <?php echo 'multiselect' === $wsfw_component['type'] ? 'multiple="multiple"' : ''; ?> >
+									<!-- <select id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : '' ); ?><?php echo ( 'multiselect' === $wsfw_component['type'] ) ? '[]' : ''; ?>" id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mdl-textfield__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" <?php echo 'multiselect' === $wsfw_component['type'] ? 'multiple="multiple"' : ''; ?> >
 										<?php
 										foreach ( $wsfw_component['options'] as $wsfw_key => $wsfw_val ) {
 											?>
@@ -720,8 +720,16 @@ class Wallet_System_For_Woocommerce {
 											<?php
 										}
 										?>
-									</select>
-									<label class="mdl-textfield__label" for="octane"><?php echo esc_html( $wsfw_component['description'] ); ?><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
+									</select> -->
+									<div class="mwb-form-select-card">
+										<input type="radio" id="debit" name="card" value="debit">
+										<label for="debit">Debit Card</label>
+									</div>
+									<div class="mwb-form-select-card">
+										<input type="radio" id="credit" name="card" value="credit">
+										<label for="credit">Credit Card</label>
+									</div>
+									<!-- <label class="mdl-textfield__label" for="octane"><?php echo esc_html( $wsfw_component['description'] ); ?><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label> -->
 								</div>
 							</div>
 						</div>
@@ -840,75 +848,75 @@ class Wallet_System_For_Woocommerce {
 						break;
 
 						case 'multi':
-							?>
-							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
-								<div class="mwb-form-group__label">
-									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
-									</div>
-									<div class="mwb-form-group__control">
-									<?php
-									foreach ( $wsfw_component['value'] as $component ) {
-										?>
-											<label class="mdc-text-field mdc-text-field--outlined">
-												<span class="mdc-notched-outline">
-													<span class="mdc-notched-outline__leading"></span>
-													<span class="mdc-notched-outline__notch">
-														<?php if ( 'number' != $component['type'] ) { ?>
-															<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?></span>
-														<?php } ?>
-													</span>
-													<span class="mdc-notched-outline__trailing"></span>
-												</span>
-												<input 
-												class="mdc-text-field__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
-												name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
-												id="<?php echo esc_attr( $component['id'] ); ?>"
-												type="<?php echo esc_attr( $component['type'] ); ?>"
-												value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
-												placeholder="<?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?>"
-												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'max=10 min=0' : '' ); ?>
-												>
-											</label>
-								<?php } ?>
-									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
-									</div>
-								</div>
+						?>
+						<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
+							<div class="mwb-form-group__label">
+								<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 							</div>
+							<div class="mwb-form-group__control">
 								<?php
-							break;
-						case 'color':
-						case 'date':
-						case 'file':
-							?>
-							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
-								<div class="mwb-form-group__label">
-									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
-								</div>
-								<div class="mwb-form-group__control">
+								foreach ( $wsfw_component['value'] as $component ) {
+									?>
 									<label class="mdc-text-field mdc-text-field--outlined">
+										<span class="mdc-notched-outline">
+											<span class="mdc-notched-outline__leading"></span>
+											<span class="mdc-notched-outline__notch">
+												<?php if ( 'number' != $component['type'] ) { ?>
+													<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?></span>
+												<?php } ?>
+											</span>
+											<span class="mdc-notched-outline__trailing"></span>
+										</span>
 										<input 
 										class="mdc-text-field__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
 										name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
-										id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
-										type="<?php echo esc_attr( $wsfw_component['type'] ); ?>"
+										id="<?php echo esc_attr( $component['id'] ); ?>"
+										type="<?php echo esc_attr( $component['type'] ); ?>"
 										value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
-										<?php echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max='. date( 'Y-m-d', strtotime( date( "Y-m-d", mktime() ) . " + 365 day" ) ) .' ' . 'min=' . date( "Y-m-d" ) . '' : '' ); ?>
+										placeholder="<?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?>"
+										<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'max=10 min=0' : '' ); ?>
 										>
 									</label>
-									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
-									</div>
+								<?php } ?>
+								<div class="mdc-text-field-helper-line">
+									<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
 								</div>
 							</div>
-							<?php
+						</div>
+						<?php
+						break;
+						case 'color':
+						case 'date':
+						case 'file':
+						?>
+						<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
+							<div class="mwb-form-group__label">
+								<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
+							</div>
+							<div class="mwb-form-group__control">
+								<label class="mdc-text-field mdc-text-field--outlined">
+									<input 
+									class="mdc-text-field__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
+									name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
+									id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
+									type="<?php echo esc_attr( $wsfw_component['type'] ); ?>"
+									value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
+									<?php echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max='. date( 'Y-m-d', strtotime( date( "Y-m-d", mktime() ) . " + 365 day" ) ) .' ' . 'min=' . date( "Y-m-d" ) . '' : '' ); ?>
+									>
+								</label>
+								<div class="mdc-text-field-helper-line">
+									<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+								</div>
+							</div>
+						</div>
+						<?php
 						break;
 
 						case 'submit':
 						?>
 						<tr valign="top">
 							<td scope="row">
-								<input type="submit" class="button button-primary" 
+								<input type="submit" class="mwb-btn mwb-btn__filled" 
 								name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 								id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
 								class="<?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>"
@@ -948,33 +956,33 @@ class Wallet_System_For_Woocommerce {
 	 */
 	public function insert_transaction_data_in_table( $transactiondata ) {
 		global $wpdb;
-        $table_name = $wpdb->prefix . 'PC_wallet_transaction';
+		$table_name = $wpdb->prefix . 'PC_wallet_transaction';
 
         //Check if table exists
-        if( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) :
+		if( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) :
 
             //if not, create the table   
-            $sql = "CREATE TABLE " . $table_name . " (
-            (...)
-            ) ENGINE=InnoDB;";
+			$sql = "CREATE TABLE " . $table_name . " (
+			(...)
+		) ENGINE=InnoDB;";
 
-            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-            dbDelta($sql);
-        else:
-          
-            $insert = "INSERT INTO  " . $table_name . "
-                ( user_id, amount, transaction_type, payment_method, transaction_id, date ) 
-                VALUES ( '" . $transactiondata['user_id']. "' , '" . $transactiondata['amount'] . "', '" . $transactiondata['transaction_type'] . "', '". $transactiondata['payment_method'] . "', '". $transactiondata['order_id'] . "', NOW() )";
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta($sql);
+	else:
 
-            $results = $wpdb->query( $insert );
-			if ( $results ) { 
-				return true;
-			} else {
-				return false;
-			}
-         
-        endif;
-	}
+		$insert = "INSERT INTO  " . $table_name . "
+		( user_id, amount, transaction_type, payment_method, transaction_id, date ) 
+		VALUES ( '" . $transactiondata['user_id']. "' , '" . $transactiondata['amount'] . "', '" . $transactiondata['transaction_type'] . "', '". $transactiondata['payment_method'] . "', '". $transactiondata['order_id'] . "', NOW() )";
+
+		$results = $wpdb->query( $insert );
+		if ( $results ) { 
+			return true;
+		} else {
+			return false;
+		}
+
+	endif;
+}
 
 
 }
