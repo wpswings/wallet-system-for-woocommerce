@@ -462,5 +462,9 @@ select {
     float: right;
 }
 
+.error {
+    color:red;
+}
+
 
 

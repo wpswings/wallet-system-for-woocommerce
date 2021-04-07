@@ -97,6 +97,24 @@
 
 		}
 
+		$(document).on( 'blur','#wsfw_wallet_amount_for_users', function(){
+			var amount = $('#wsfw_wallet_amount_for_users').val();
+			if( amount == '' ) {
+				$('.error').hide();
+				$('#update_wallet').prop('disabled', false);
+			} else if ( amount <= 0 ) {
+				console.log(amount);
+				$(this).parent().after('<p class="error">Enter amount greater than 0</p>');
+				$('.error').show();
+
+				$('#update_wallet').prop('disabled', true);
+			} else {
+				$('.error').hide();
+				$('#update_wallet').prop('disabled', false);
+			}
+			
+		
+		});
 
 	});
 

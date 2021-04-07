@@ -88,6 +88,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_enqueue_scripts( $hook ) {
 
 		$screen = get_current_screen();
+
 		if ( isset( $screen->id ) && 'makewebbetter_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
 			wp_enqueue_script( 'mwb-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
@@ -162,7 +163,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_submenu_page( $menus = array() ) {
 		$menus[] = array(
-			'name'            => __( 'Wallet System for WooCommerce', 'wallet-system-for-woocommerce' ),
+			'name'            => __( 'Settings', 'wallet-system-for-woocommerce' ),
 			'slug'            => 'wallet_system_for_woocommerce_menu',
 			'menu_link'       => 'wallet_system_for_woocommerce_menu',
 			'instance'        => $this,
@@ -412,6 +413,20 @@ class Wallet_System_For_Woocommerce_Admin {
 					$mwb_wsfw_error_text = esc_html__( 'Settings saved !', 'wallet-system-for-woocommerce' );
 					$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
 				}
+
+				$enable = get_option( 'PC_enable', '' );
+				$wallet_payment_enable = get_option( 'woocommerce_mwb_wsfw_wallet_payment_gateway_settings' );
+				if ( isset( $enable ) && '' === $enable ) { 
+					if ( $wallet_payment_enable ) {
+						$wallet_payment_enable['enabled'] = 'no';
+						update_option( 'woocommerce_mwb_wsfw_wallet_payment_gateway_settings', $wallet_payment_enable );
+					}
+				} else {
+					if ( $wallet_payment_enable ) {
+						$wallet_payment_enable['enabled'] = 'yes';
+						update_option( 'woocommerce_mwb_wsfw_wallet_payment_gateway_settings', $wallet_payment_enable );
+					}
+				}
 			}
 		}
 	}
@@ -435,6 +450,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					<td>
 						<input type="number" name="mwb_wallet" id="mwb_wallet">
 						<span class="description">Add/deduct money to/from wallet</span>
+						<p class="error" ></p>
 					</td>
 				</tr>
 				<tr>
@@ -444,7 +460,7 @@ class Wallet_System_For_Woocommerce_Admin {
 							<option value="credit"><?php esc_html_e( 'Credit', 'wallet-system-for-woocommerce' ); ?></option>
 							<option value="debit"><?php esc_html_e( 'Debit', 'wallet-system-for-woocommerce' ); ?></option>
 						</select>
-						<span class="description">><?php esc_html_e( 'Whether want to add amount or deduct it from wallet', 'wallet-system-for-woocommerce' ); ?></span>
+						<span class="description"><?php esc_html_e( 'Whether want to add amount or deduct it from wallet', 'wallet-system-for-woocommerce' ); ?></span>
 					</td>
 				</tr>
 			</table>
@@ -655,15 +671,15 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => get_option( 'wallet_minimum_withdrawn_amount', '' ),
 				'class'       => 'wsfw-number-class',
 			),
-			array(
-				'title'       => __( 'Maximum Withdrawal Amount ( ', 'wallet-system-for-woocommerce' ).get_woocommerce_currency_symbol(). ' )',
-				'type'        => 'number',
-				'description' => __( 'Maximum amount that can be withdrawn at a time.', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wallet_maximum_withdrawn_amount',
-				'id'          => 'wallet_maximum_withdrawn_amount',
-				'value'       => get_option( 'wallet_maximum_withdrawn_amount', '' ),
-				'class'       => 'wsfw-number-class',
-			),
+			// array(
+			// 	'title'       => __( 'Maximum Withdrawal Amount ( ', 'wallet-system-for-woocommerce' ).get_woocommerce_currency_symbol(). ' )',
+			// 	'type'        => 'number',
+			// 	'description' => __( 'Maximum amount that can be withdrawn at a time.', 'wallet-system-for-woocommerce' ),
+			// 	'name'        => 'wallet_maximum_withdrawn_amount',
+			// 	'id'          => 'wallet_maximum_withdrawn_amount',
+			// 	'value'       => get_option( 'wallet_maximum_withdrawn_amount', '' ),
+			// 	'class'       => 'wsfw-number-class',
+			// ),
 
 			array(
 				'title'       => __( 'Withdraw Methods', 'wallet-system-for-woocommerce' ),
@@ -1029,6 +1045,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			padding: 1.2em 10px;
 			line-height: 26px;
 		}
+		.form-table td .error {
+			color:red;
+		}
 		</style>
     	';
 
@@ -1040,7 +1059,25 @@ class Wallet_System_For_Woocommerce_Admin {
 					jQuery(jQuery(".wrap h1")[0]).append("<a href='<?php esc_attr_e( $url, 'wallet-system-for-woocommerce' ); ?>' class='add-new-h2'>Add Order</a>");
 				});
 			</script>
-	<?php }
+		<?php }
+
+		if ( isset( $current_screen->id ) && ( 'profile' == $current_screen->id  || 'user-edit' == $current_screen->id ) ) { ?>
+		<script>
+		jQuery(document).ready(function() { 
+			jQuery(document).on( 'blur','#mwb_wallet', function(){
+				var amount = jQuery('#mwb_wallet').val();
+				if ( amount <= 0 ) {
+					jQuery('.error').show();
+					jQuery('.error').html('Enter amount greater than 0');
+				} else {
+					jQuery('.error').hide();
+				}
+			
+			});
+		});
+		</script>
+		<?php }
+
 	}
 
 	/**

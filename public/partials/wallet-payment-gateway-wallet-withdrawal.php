@@ -9,7 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 $min = get_option( 'wallet_minimum_withdrawn_amount', 0 );
-$max = get_option( 'wallet_maximum_withdrawn_amount', '' );
+//$max = get_option( 'wallet_maximum_withdrawn_amount', '' );
+$wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 
 ?>
 
@@ -65,7 +66,7 @@ $max = get_option( 'wallet_maximum_withdrawn_amount', '' );
         <form method="post" action="" id="mwb_wallet_transfer_form">
             <p class="mwb-wallet-field-container form-row form-row-wide">
                 <label for="mwb_wallet_withdrawal_amount"><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></label>
-                <input type="number" step="0.01" min="<?php esc_attr_e( $min, 'wallet-system-for-woocommerce' ); ?>" max="<?php esc_attr_e( $max, 'wallet-system-for-woocommerce' ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
+                <input type="number" step="0.01" min="<?php esc_attr_e( $min, 'wallet-system-for-woocommerce' ); ?>" max="<?php esc_attr_e( $wallet_bal, 'wallet-system-for-woocommerce' ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
             </p>
             <?php
             if ( ! empty( $wallet_methods ) && is_array( $wallet_methods ) ) { ?>

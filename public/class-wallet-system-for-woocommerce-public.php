@@ -102,6 +102,8 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( $wallet_amount < $mwb_cart_total ) {
 					unset( $available_gateways['mwb_wsfw_wallet_payment_gateway'] );
 				}
+			} elseif ( isset( $wallet_amount ) && $wallet_amount <= 0 ) {
+				unset( $available_gateways['mwb_wsfw_wallet_payment_gateway'] );
 			} 
 		}
 		return $available_gateways;

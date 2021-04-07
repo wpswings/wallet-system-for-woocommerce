@@ -60,11 +60,12 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			// Load the settings.
 			$this->init_form_fields();
 			$this->init_settings();
-
+			
 			// Define user set variables.
 			$this->title        = $this->get_option( 'title' );
 			$this->description  = $this->get_option( 'description' );
 			$this->instructions = $this->get_option( 'instructions', $this->description );
+			$this->enabled = $this->get_option( 'enabled' );
 
 			// Actions.
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
