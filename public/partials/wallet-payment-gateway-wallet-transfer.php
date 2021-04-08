@@ -36,3 +36,5 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
         </p>
     </form>
 </div>
+
+
