@@ -1,6 +1,6 @@
 <?php
 /**
- * Provide a admin area view for the plugin
+ * Provide a admin area view for show wallet orders
  *
  * This file is used to show wallet orders.
  *
@@ -17,6 +17,52 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH. 'admin/class-wallet-orders.php';
 $wallet_orders = new Wallet_Orders_List();
+
+// message on applying bulk action
+if ( ! empty ( $_REQUEST['bulk_action'] ) && ( 'trash' !== $_REQUEST['bulk_action'] && 'untrash' !== $_REQUEST['bulk_action'] && 'delete' !== $_REQUEST['bulk_action'] ) ) {
+    $changed = $_REQUEST['changed'];
+    printf(
+        '<div id="message" class="updated notice is-dismissable"><p>' . _n(
+            '%d order status changed.',
+            '%d order status changed.',
+            $changed
+        ) . '</p></div>',
+        $changed
+    );
+}
+if ( ! empty ( $_REQUEST['bulk_action'] ) && ( 'trash' === $_REQUEST['bulk_action'] ) ) {
+    $changed = $_REQUEST['changed'];
+    printf(
+        '<div id="message" class="updated notice is-dismissable"><p>' . _n(
+            '%d order moved to trash.',
+            '%d orders moved to trash.',
+            $changed
+        ) . '</p></div>',
+        $changed
+    );
+}
+if ( ! empty ( $_REQUEST['bulk_action'] ) && ( 'untrash' === $_REQUEST['bulk_action'] ) ) {
+    $changed = $_REQUEST['changed'];
+    printf(
+        '<div id="message" class="updated notice is-dismissable"><p>' . _n(
+            '%d order restored from the Trash.',
+            '%d orders restored from the Trash.',
+            $changed
+        ) . '</p></div>',
+        $changed
+    );
+}
+if ( ! empty ( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_action'] ) ) {
+    $changed = $_REQUEST['changed'];
+    printf(
+        '<div id="message" class="updated notice is-dismissable"><p>' . _n(
+            '%d order permanently deleted',
+            '%d orders permanently deleted',
+            $changed
+        ) . '</p></div>',
+        $changed
+    );
+}
 
 ?>
 <div class="wrap">
