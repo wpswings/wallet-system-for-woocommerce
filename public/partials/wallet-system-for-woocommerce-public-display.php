@@ -128,7 +128,7 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
             }
     
         }
-        update_post_meta( $withdrawal_id, 'withdrawal_request_status', 'Pending' );
+        //update_post_meta( $withdrawal_id, 'withdrawal_request_status', 'Pending' );
         update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
  
         echo '<script>window.location.href = "' . $current_url . '";</script>';

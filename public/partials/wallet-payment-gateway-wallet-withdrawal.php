@@ -48,7 +48,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
                     if ( $userid == $user_id ) {
                         echo '<tr>
                         <td>'. wc_price( get_post_meta( $request_id , 'mwb_wallet_withdrawal_amount' , true ) ) .'</td>
-                        <td>'. get_post_meta( $request_id , 'withdrawal_request_status' , true ) .'</td>
+                        <td>'. $pending->post_status .'</td>
                         <td>'. get_post_meta( $request_id , 'wallet_payment_method' , true ) .'</td>
                         <td>'. $pending->post_date .'</td>
                         </tr>';

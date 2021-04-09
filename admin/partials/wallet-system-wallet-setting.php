@@ -194,6 +194,7 @@ $wsfw_import_settings = apply_filters( 'wsfw_import_wallet_array', array() );
 	</div>
 </form>
 
+
 <button class="mdc-button mdc-button--raised mdc-ripple-upgraded" id="export_user_wallet" > <span class="mdc-button__ripple"></span>
 	<span class="mdc-button__label"><?php esc_html_e( 'Export user\'s wallet' , 'wallet-system-for-woocommerce' ); ?></span>
 </button>

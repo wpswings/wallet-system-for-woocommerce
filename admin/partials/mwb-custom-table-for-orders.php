@@ -66,12 +66,16 @@ if ( ! empty ( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_acti
 
 ?>
 <div class="wrap">
+
     <h1 class="wp-heading-inline"> <?php esc_html_e( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ); ?></h1>
     <div id="wrapper" class="mwb_wcb_all_trans_container meta-box-sortables ui-sortable wallet_shop_order">
+        <?php //$wallet_orders->custom_filter_date(); ?>
         <form action="" method="POST">
         
             <?php 
+            $wallet_orders->display_header();
             $wallet_orders->views();
+
             if( isset($_GET['s']) ){
                 $wallet_orders->prepare_items($_GET['s']);
             } else {
@@ -82,6 +86,47 @@ if ( ! empty ( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_acti
             $wallet_orders->display();
             ?>
         </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>
+        $('.bulkactions').append('<input id="searchFrom" class="searchInput" type="text" placeholder="From d/m/y"/><input id="searchTo" class="searchInput" type="text" placeholder="To" >');
+        $(".searchInput").on("input", function() {
+        var from = stringToDate($("#searchFrom").val());
+        var to = stringToDate($("#searchTo").val());
+
+        $(".walletrechargeorders tr").each(function() {
+            var row = $(this);
+            var date = stringToDate(row.find("td").eq(3).text());
+            
+            //show all rows by default
+            var show = true;
+
+            //if from date is valid and row date is less than from date, hide the row
+            if (from && date < from)
+            show = false;
+            
+            //if to date is valid and row date is greater than to date, hide the row
+            if (to && date > to)
+            show = false;
+
+            if (show)
+            row.show();
+            else
+            row.hide();
+        });
+        });
+
+        //parse entered date. return NaN if invalid
+        function stringToDate(s) {
+        var ret = NaN;
+        var parts = s.split("/");
+        date = new Date(parts[2], parts[0], parts[1]);
+        if (!isNaN(date.getTime())) {
+            ret = date;
+        }
+        return ret;
+        }
+        </script>
+
     </div>
 </div>
 
