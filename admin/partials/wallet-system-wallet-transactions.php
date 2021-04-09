@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 //$wallet_transactions = new Wallet_Transactions_List();
 
 ?>
-<div id="wrapper" class="mwb_wcb_all_trans_container">
+<!-- <div id="wrapper" class="mwb_wcb_all_trans_container">
 	<h3> <?php esc_html_e( 'All Wallet Transactions', 'wallet-payment-gateway' ); ?></h3>
     
     <table id="table_id"  class="display" >
@@ -114,6 +114,106 @@ if ( ! defined( 'ABSPATH' ) ) {
         // $wallet_transactions->display();
         ?>
 	</form> -->
+</div> -->
+
+<div class="mwb-wpg-gen-section-table-wrap mwb-wpg-transcation-section-table">
+    <h4>Transactions</h4>
+    <div class="mwb-wpg-gen-section-table-container">
+        <table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive" style="width:100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Amount</th>
+                    <th>Action (Debit/Credit)</th>
+                    <th>Transaction ID</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>copy text</td>
+                    <td>123userdemo@mysite.com</td>
+                    <td>copy text</td>
+                    <td>123456</td>                 
+                    <td>Debit</td>                  
+                    <td>1234567890</td>               
+                    <td>DD/MM/YYYY</td>               
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>copy text</td>
+                    <td>123userdemo@mysite.com</td>
+                    <td>copy text</td>
+                    <td>123456</td>                 
+                    <td>Debit</td>                  
+                    <td>1234567890</td>               
+                    <td>DD/MM/YYYY</td>               
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>copy text</td>
+                    <td>123userdemo@mysite.com</td>
+                    <td>copy text</td>
+                    <td>123456</td>                 
+                    <td>Debit</td>                  
+                    <td>1234567890</td>               
+                    <td>DD/MM/YYYY</td>               
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>copy text</td>
+                    <td>123userdemo@mysite.com</td>
+                    <td>copy text</td>
+                    <td>123456</td>                 
+                    <td>Debit</td>                  
+                    <td>1234567890</td>               
+                    <td>DD/MM/YYYY</td>               
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>copy text</td>
+                    <td>123userdemo@mysite.com</td>
+                    <td>copy text</td>
+                    <td>123456</td>                 
+                    <td>Debit</td>                  
+                    <td>1234567890</td>               
+                    <td>DD/MM/YYYY</td>               
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>copy text</td>
+                    <td>123userdemo@mysite.com</td>
+                    <td>copy text</td>
+                    <td>123456</td>                 
+                    <td>Debit</td>                  
+                    <td>1234567890</td>               
+                    <td>DD/MM/YYYY</td>               
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>copy text</td>
+                    <td>123userdemo@mysite.com</td>
+                    <td>copy text</td>
+                    <td>123456</td>                 
+                    <td>Debit</td>                  
+                    <td>1234567890</td>               
+                    <td>DD/MM/YYYY</td>               
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>copy text</td>
+                    <td>123userdemo@mysite.com</td>
+                    <td>copy text</td>
+                    <td>123456</td>                 
+                    <td>Debit</td>                  
+                    <td>1234567890</td>               
+                    <td>DD/MM/YYYY</td>               
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-

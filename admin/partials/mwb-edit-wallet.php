@@ -117,6 +117,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
             </tbody>
         </table>
         <input type="hidden" name="user_id" value="<?php esc_attr_e( $user_id, 'walllet-payment-gateway' ); ?>">
-        <p class="submit"><input type="submit" name="update_wallet" class="button button-primary" value="Update Wallet"></p>           
+        <p class="submit"><input type="submit" name="update_wallet" class="button button-primary mwb_wallet-update" value="Update Wallet"></p>   
+                
    </form>
 </div>

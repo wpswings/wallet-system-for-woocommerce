@@ -108,6 +108,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
+
+			wp_enqueue_script( 'mwb-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/mwb-admin.min.js', array(), time(), false );
+
 		}
 	}
 
@@ -944,7 +947,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name' => 'update_wallet',
 				'id'    => 'update_wallet',
 				'button_text' => __( 'Update Wallet', 'wallet-system-for-woocommerce' ),
-				'class' => 'wsfw-button-class',
+				'class' => 'wsfw-button-class', 'wsfw-update',
 			),
 		);
 		return $wsfw_update_wallet;

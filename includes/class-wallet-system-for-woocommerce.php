@@ -732,7 +732,7 @@ class Wallet_System_For_Woocommerce {
 									<!-- <label class="mdl-textfield__label" for="octane"><?php echo esc_html( $wsfw_component['description'] ); ?><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label> -->
 								</div>
 							</div>
-						</div>
+						</div>					
 
 						<?php
 						break;
@@ -888,7 +888,7 @@ class Wallet_System_For_Woocommerce {
 						case 'color':
 						case 'date':
 						case 'file':
-						?>
+						?>						
 						<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
 							<div class="mwb-form-group__label">
 								<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
@@ -924,7 +924,9 @@ class Wallet_System_For_Woocommerce {
 								/>
 							</td>
 						</tr>
+
 						<?php
+						
 						break;
 
 						default:
