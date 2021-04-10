@@ -52,6 +52,70 @@
             }
         });
 
+		// on clicking call ajax for getting user's wallet details
+		$(document).on( 'click', '#export_user_wallet', function() {
+			$.ajax({
+				type: 'POST',
+				url: wsfw_admin_param.ajaxurl,
+				data: {
+					action: 'export_users_wallet',
+
+				},
+				datatType: 'JSON',
+				success: function( response ) {
+					console.log(response);
+					var filename = 'users_wallet.csv';
+					let csvContent = "data:text/csv;charset=utf-8,";
+					response.forEach(function(rowArray) {
+						let row = rowArray.join(",");
+						csvContent += row + "\r\n";
+					});
+					
+					var encodedUri = encodeURI(csvContent);
+					download(filename, encodedUri);
+				}
+
+			})
+			.fail(function ( response ) {
+				$( '#export_user_wallet' ).after('<span style="color:red;" >An error occured!</span>');		
+			});
+		});
+
+		// Download the user's wallet csv file on clicking button
+		function download(filename, text) {
+			var element = document.createElement('a');
+			element.setAttribute('href', text);
+			element.setAttribute('download', filename);
+		
+			element.style.display = 'none';
+			document.body.appendChild(element);
+		
+			element.click();
+		
+			document.body.removeChild(element);
+			
+
+		}
+
+		$(document).on( 'blur','#wsfw_wallet_amount_for_users', function(){
+			var amount = $('#wsfw_wallet_amount_for_users').val();
+			if( amount == '' ) {
+				$('.error').hide();
+				$('#update_wallet').prop('disabled', false);
+			} else if ( amount <= 0 ) {
+				console.log(amount);
+				$(this).parent().after('<p class="error">Enter amount greater than 0</p>');
+				$('.error').show();
+
+				$('#update_wallet').prop('disabled', true);
+			} else {
+				$('.error').hide();
+				$('#update_wallet').prop('disabled', false);
+			}
+			
+		
+		});
+
 	});
 
 	$(window).load(function(){
