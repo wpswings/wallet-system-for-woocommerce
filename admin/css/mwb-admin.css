@@ -406,11 +406,40 @@ table.dataTable, table.dataTable th, table.dataTable td {
  * and use $c prefix.
  * use lowercase for color code and variable name 
  * i.e $c-black: #000000; */
-/* Create Typo variables here
- * use $ff prefix for font family
- * use $fs for font size
- i.e $ff-roboto-b: Roboto-bold;
- * $fs-large: 40px; */
+/*==========================================================
+=            Typography Variable and Declaration            =
+============================================================*/
+@font-face {
+  font-family: 'NunitoSans-ExtraBold';
+  src: url("../fonts/nunito-sans/NunitoSans-ExtraBold.ttf");
+  font-style: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NunitoSans-SemiBold';
+  src: url("../fonts/nunito-sans/NunitoSans-SemiBold.ttf");
+  font-style: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NunitoSans-Bold';
+  src: url("../fonts/nunito-sans/NunitoSans-Bold.ttf");
+  font-style: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NunitoSans-Regular';
+  src: url("../fonts/nunito-sans/NunitoSans-Regular.ttf");
+  font-style: normal;
+  font-display: swap;
+}
+
+/*----------  Font Family Variable  ----------*/
+/*----------  Font Size Variable  ----------*/
+/*=====  End of Typography Variable and Declaration  ======*/
 /* Placeholders */
 /* Mixins */
 /* SCSS Functions */
@@ -423,6 +452,45 @@ table.dataTable, table.dataTable th, table.dataTable td {
   box-sizing: border-box;
 }
 
+html,
+body {
+  font-family: 'NunitoSans-Regular';
+  font-size: 16px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+  text-decoration: none;
+  outline: none;
+  color: none;
+  box-shadow: none;
+}
+
+p {
+  font-size: 16px;
+}
+
+ul {
+  margin: 0;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
 .mwb-info-img {
   display: inline-block;
   margin-right: 6px;
@@ -431,6 +499,30 @@ table.dataTable, table.dataTable th, table.dataTable td {
 }
 
 /* Enter Button Global CSS Here */
+.mwb-btn {
+  border-radius: 50px;
+  border: 1px solid #2196f3;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "NunitoSans-Regular";
+  font-size: 14px;
+  font-weight: 400;
+  min-width: 140px;
+  outline: 0;
+  padding: 16px 32px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.mwb-btn:hover, .mwb-btn:active, .mwb-btn:focus {
+  color: #ffffff;
+}
+
+.mwb-btn__filled {
+  background-color: #2196f3;
+}
+
 /* Header CSS */
 /* Footer CSS */
 /* Navigation CSS */
@@ -567,6 +659,426 @@ table.dataTable, table.dataTable th, table.dataTable td {
 }
 
 /* overview page css ends */
+/*====================================
+=            Tabs Section            =
+====================================*/
+.mwb-navbar .mwb-link {
+  color: #1d201f;
+}
+
+.mwb-navbar .mwb-link.active {
+  color: #2196f3;
+}
+
+/*=====  End of Tabs Section  ======*/
+/*=======================================
+=            General section            =
+=======================================*/
+.mwb-wsfw-gen-section-form .mwb-form-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px 35px;
+  padding-top: 30px;
+}
+
+.mwb-wsfw-gen-section-form .mwb-form-group .mwb-form-group__label {
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0 15px;
+}
+
+.mwb-wsfw-gen-section-form .mwb-form-group .mwb-form-group__label .mwb-form-label {
+  font-family: "NunitoSans-SemiBold";
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.3px;
+}
+
+.mwb-wsfw-gen-section-form .mwb-form-group .mwb-form-group__control {
+  flex: 0 0 80%;
+  max-width: 80%;
+  padding: 0 15px;
+}
+
+/*=====  End of General section  ======*/
+/*======================================
+=            Wallet Section            =
+======================================*/
+.mwb-wpg-gen-section-form {
+  margin-bottom: 50px;
+}
+
+.mwb-wpg-gen-section-form h3 {
+  border-bottom: 1px solid #c7c7c7;
+  color: #1d201f;
+  font-family: "NunitoSans-ExtraBold";
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+  padding-bottom: 15px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group {
+  margin: 0 0 35px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__label {
+  align-self: center;
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0 15px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__label .mwb-form-label {
+  color: #1d201f;
+  font-family: "NunitoSans-ExtraBold";
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control {
+  flex: 0 0 80%;
+  max-width: 80%;
+  padding: 0 15px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control label {
+  max-height: 40px;
+  padding-right: 10px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control label input {
+  padding: 0;
+  max-width: 150px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 360px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select input {
+  border-width: 2px;
+  height: 18px;
+  padding: 0px !important;
+  vertical-align: sub;
+  width: 18px;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select input:before {
+  background-color: #2196f3;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select input:checked {
+  border-color: #2196f3;
+}
+
+.mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__control .mwb-form-select label {
+  font-family: "NunitoSans-Regular";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0.25px;
+}
+
+.mwb-wpg-gen-section-form-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: space-between;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form {
+  flex: 0 0 calc(50% - 10px);
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form h3 {
+  border-bottom: none;
+  padding: 0 0 0 15px;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb-form-group .mwb-form-group__label {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb-form-group__control {
+  flex: 0 0 60%;
+  max-width: 60%;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb_wallet-update--popupwrap {
+  bottom: 0;
+  display: block;
+  display: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 5555555;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb_wallet-update--popupwrap:after {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 100%;
+  background: rgba(121, 121, 121, 0.8);
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb_wallet-update--popupwrap .mwb_wallet-update-popup {
+  background: #ffffff;
+  border-radius: 5px;
+  left: 0;
+  margin: auto;
+  max-width: 550px;
+  padding: 30px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 455;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb_wallet-update--popupwrap .mwb_wallet-update-popup h3 {
+  margin-bottom: 30px;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb_wallet-update--popupwrap .mwb_wallet-update-popup .mwb-btn {
+  color: #ffffff;
+}
+
+.mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb_wallet-update--popupwrap .mwb_wallet-update-popup a {
+  color: #f32121;
+  margin: 0 10px;
+}
+
+.mwb-wpg-gen-section-form-wrapper #export_user_wallet {
+  background-color: #ffffff;
+  border: 0;
+  bottom: 28%;
+  cursor: pointer;
+  height: auto;
+  position: absolute;
+  right: 3%;
+}
+
+.mwb_wallet-edit--popupwrap {
+  bottom: 0;
+  display: block;
+  display: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 5555555;
+}
+
+.mwb_wallet-edit--popupwrap:after {
+  background: rgba(121, 121, 121, 0.8);
+  content: '';
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.mwb_wallet-edit--popupwrap .mwb_wallet-edit-popup {
+  background: #ffffff;
+  border-radius: 5px;
+  left: 0;
+  margin: auto;
+  max-width: 550px;
+  padding: 30px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 455;
+}
+
+.mwb_wallet-edit--popupwrap .mwb_wallet-edit-popup .mwb_wallet-edit-popup-amount {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.mwb_wallet-edit--popupwrap .mwb_wallet-edit-popup .mwb_wallet-edit-popup-amount .mwb_wallet-edit-popup-control {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 250px;
+}
+
+.mwb_wallet-edit--popupwrap .mwb_wallet-edit-popup .mwb_wallet-edit-popup-amount .mwb_wallet-edit-popup-control label {
+  font-family: "NunitoSans-SemiBold";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0.25px;
+}
+
+.mwb_wallet-edit--popupwrap .mwb_wallet-edit-popup .mwb_wallet-edit-popup-label {
+  min-width: 220px;
+  text-align: left;
+}
+
+.mwb_wallet-edit--popupwrap .mwb_wallet-edit-popup .mwb_wallet-edit-popup-label label {
+  color: #1d201f;
+  font-family: "NunitoSans-Bold";
+  font-size: 16px;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+}
+
+.mwb-wpg-gen-section-table-wrap h4 {
+  color: #1d201f;
+  font-family: "NunitoSans-Bold";
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container {
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  margin-bottom: 55px;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table {
+  border-collapse: collapse;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table thead {
+  text-align: left;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table thead th {
+  border-bottom: 1px solid rgba(33, 33, 33, 0.08);
+  padding: 15px;
+  font-family: "NunitoSans-SemiBold";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.25px;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table thead th:last-child {
+  text-align: right;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td {
+  border-bottom: 1px solid rgba(33, 33, 33, 0.08);
+  padding: 15px;
+  font-family: "NunitoSans-SemiBold";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.25px;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td .dtr-details li {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td .dtr-details li .dtr-title {
+  margin-right: 20px;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td span {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td span img {
+  margin: 0 6px;
+  width: 22px;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .bottom {
+  bottom: -60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .bottom .dataTables_length {
+  font-family: "NunitoSans-SemiBold";
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .bottom .dataTables_length select {
+  margin: 0 25px;
+  min-width: 90px;
+  padding: 5px 30px 5px 15px !important;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .bottom .dataTables_info {
+  font-family: "NunitoSans-SemiBold";
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  margin-right: 5px;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .bottom .dataTables_paginate {
+  padding: 0;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .bottom .dataTables_paginate span .paginate_button {
+  display: none !important;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .bottom .dataTables_paginate .paginate_button:hover {
+  background: #ffffff;
+  border: 0;
+}
+
+/*=====  End of Wallet Section  ======*/
+/*==========================================
+=            Withdrawal Section            =
+==========================================*/
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table thead th:last-child {
+  text-align: left;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select {
+  border: 0;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select .approved {
+  color: #03dac5 !important;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select .pending {
+  color: #fdb51a !important;
+}
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select .rejected {
+  color: #f32121 !important;
+}
+
+/*=====  End of Withdrawal Section  ======*/
 
 @media screen and (max-width: 767px){
   .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_paginate {
@@ -592,6 +1104,12 @@ table.dataTable, table.dataTable th, table.dataTable td {
   .mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item {
     flex: 0 0 50%;
     max-width: 50%;
+  }
+  .mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form {
+    flex: 0 0 100%;
+  }
+  .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td span {
+    justify-content: flex-start;
   }
 }
 

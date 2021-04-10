@@ -118,6 +118,7 @@ function cssBackend()
 {
   return gulp
   .src([
+    'node_modules/datatables/media/css/jquery.dataTables.min.css',
     'assets/src/back-end/scss/main.scss',
   ])
   .pipe(plumber())
@@ -156,7 +157,9 @@ function scriptsBackend()
   return (
   gulp
     .src([
-    'assets/src/back-end/js/**/*',
+      'node_modules/datatables/media/js/jquery.dataTables.min.js',
+      'node_modules/datatables.net-responsive/js/dataTables.responsive.min.js',
+      'assets/src/back-end/js/**/*',
     ])
     .pipe(plumber())
     .pipe(concat('mwb-admin.js'))

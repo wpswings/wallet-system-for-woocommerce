@@ -51,10 +51,46 @@ $wsfw_withdrawal_settings = apply_filters( 'wsfw_wallet_withdrawal_array', array
 
 <form action="" method="POST" class="mwb-wpg-gen-section-form">
 	<div class="wpg-secion-wrap">
-    <h3><?php esc_html_e( 'Wallet Withdrawal Setting' , 'wallet-system-for-woocommerce' ); ?></h3>
+		<h3><?php esc_html_e( 'Wallet Withdrawal Setting' , 'wallet-system-for-woocommerce' ); ?></h3>
 		<?php
 		$wsfw_general_html = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_generate_html( $wsfw_withdrawal_settings );
 		echo esc_html( $wsfw_general_html );
 		?>
 	</div>
 </form>
+
+<div class="mwb-wpg-gen-section-table-wrap mwb-wpg-withdrawal-section-table">
+	<h4>Withdrawal</h4>
+	<div class="mwb-wpg-gen-section-table-container">
+		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive" style="width:100%">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Withdrawal ID</th>
+					<th>User ID</th>
+					<th>Status</th>
+					<th>Date</th>
+					<th>Update</th>
+					<th>Note</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>1234567890</td>
+					<td>1234567890</td>
+					<td>
+						<select onchange="this.className=this.options[this.selectedIndex].className" name="mwb-wpg-gen-table_status" aria-controls="mwb-wpg-gen-section-table" class="approved">
+							<option class="approved" value="approved">approved</option>
+							<option class="pending" value="pending">pending</option>
+							<option class="rejected" value="rejected">rejected</option>
+						</select>
+					</td>
+					<td>DD/MM/YYYY</td>					
+					<td>copy text</td>					
+					<td>Lorem ipsum dolor sit amet, </td>					
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+</div>
