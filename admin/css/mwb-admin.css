@@ -837,7 +837,7 @@ img {
 }
 
 .mwb-wpg-gen-section-form-wrapper .mwb-wpg-gen-section-form .mwb_wallet-update--popupwrap .mwb_wallet-update-popup {
-  background: #fff;
+  background: #ffffff;
   border-radius: 5px;
   left: 0;
   margin: auto;
@@ -865,12 +865,13 @@ img {
 }
 
 .mwb-wpg-gen-section-form-wrapper #export_user_wallet {
-  position: absolute;
-  height: auto;
-  right: 3%;
-  bottom: 28%;
-  border: 0;
   background-color: #ffffff;
+  border: 0;
+  bottom: 28%;
+  cursor: pointer;
+  height: auto;
+  position: absolute;
+  right: 3%;
 }
 
 .mwb_wallet-edit--popupwrap {
@@ -887,15 +888,15 @@ img {
 }
 
 .mwb_wallet-edit--popupwrap:after {
-  position: absolute;
+  background: rgba(121, 121, 121, 0.8);
   content: '';
   height: 100%;
+  position: absolute;
   width: 100%;
-  background: rgba(121, 121, 121, 0.8);
 }
 
 .mwb_wallet-edit--popupwrap .mwb_wallet-edit-popup {
-  background: #fff;
+  background: #ffffff;
   border-radius: 5px;
   left: 0;
   margin: auto;
@@ -1049,7 +1050,7 @@ img {
 }
 
 .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .bottom .dataTables_paginate .paginate_button:hover {
-  background: #fff;
+  background: #ffffff;
   border: 0;
 }
 

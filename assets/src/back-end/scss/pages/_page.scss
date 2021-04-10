@@ -191,7 +191,7 @@
 			}
 
 			.mwb_wallet-update-popup {
-				background: #fff;
+				background: $c-white;
 				border-radius: 5px;
 				left: 0;
 				margin: auto;
@@ -220,12 +220,13 @@
 		}		
 	}
 	#export_user_wallet {
-		position: absolute;
-		height: auto;
-		right: 3%;
-		bottom: 28%;
-		border: 0;
 		background-color: $c-white;
+		border: 0;
+		bottom: 28%;
+		cursor: pointer;
+		height: auto;
+		position: absolute;
+		right: 3%;
 	}
 }
 
@@ -242,15 +243,15 @@
 	z-index: 5555555;
 
 	&:after {
-		position: absolute;
+		background: rgba(121, 121, 121, 0.8);
 		content: '';
 		height: 100%;
+		position: absolute;
 		width: 100%;
-		background: rgba(121, 121, 121, 0.8);
 	}
 
 	.mwb_wallet-edit-popup {
-		background: #fff;
+		background: $c-white;
 		border-radius: 5px;
 		left: 0;
 		margin: auto;
@@ -413,7 +414,7 @@
 
 				.paginate_button {
 					&:hover {
-						background: #fff;
+						background: $c-white;
 						border: 0;
 					}
 				}
