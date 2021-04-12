@@ -253,15 +253,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$items['customer-logout'] = $logout;
 		return $items;
 	}
-	/**
-	 *  Add new query var.
-	 *
-	 * @param array $vars    Query variable.
-	 */
-	public function mwb_wsfw_wallet_query_var( $vars ) {
-		$vars[] = 'mwb-wallet';
-		return $vars;
-	}
+	
 	/**
 	 *  Register new endpoint to use for My Account page.
 	 */
@@ -274,6 +266,17 @@ class Wallet_System_For_Woocommerce_Public {
 		add_rewrite_endpoint( 'wallet-transactions', EP_PERMALINK | EP_PAGES );
 		$wp_rewrite->flush_rules();
 	}
+
+	/**
+	 *  Add new query var.
+	 *
+	 * @param array $vars    Query variable.
+	 */
+	public function mwb_wsfw_wallet_query_var( $vars ) {
+		$vars[] = 'mwb-wallet';
+		return $vars;
+	}
+	
 	/**
 	 * Add content to the new endpoint.
 	 */
