@@ -53,14 +53,14 @@ class Wallet_System_AjaxHandler{
 			$amount = empty( $_POST['amount'] )? 0: sanitize_text_field( $_POST['amount'] );
 			if ( $wallet_amount >= $amount ) {
 				$wallet_amount -= $amount;
-				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-payment-gateway' ) .wc_price( $wallet_amount ) ;
+				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) .wc_price( $wallet_amount ) ;
 				$message['price'] = wc_price( $amount );
 				WC()->session->set( 'custom_fee', esc_attr( $_POST['amount'] ) );
 				
 				
 
 			} else {
-				$message['message'] = esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-payment-gateway' );
+				$message['message'] = esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' );
 			}
 			wp_send_json($message);
 			wp_die();

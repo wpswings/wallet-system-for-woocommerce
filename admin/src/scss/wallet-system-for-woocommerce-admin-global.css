@@ -466,5 +466,20 @@ select {
     color:red;
 }
 
-
-
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td .woocommerce-Price-amount {
+    display: inline-flex;
+}
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td .woocommerce-Price-amount span {
+    display: inline-flex;
+}
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select.approved {
+    color: #03dac5 !important;
+  }
+  
+  .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select.pending {
+    color: #fdb51a !important;
+  }
+  
+  .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select.rejected {
+    color: #f32121 !important;
+  }

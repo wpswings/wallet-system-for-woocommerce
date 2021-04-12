@@ -109,6 +109,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
+
+			wp_enqueue_script( 'mwb-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/mwb-admin.min.js', array(), time(), false );
+
 		}
 	}
 
@@ -128,8 +131,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 
-			// add custom post type Withdrawal Request as submenu
-			add_submenu_page( 'mwb-plugins', 'Withdrawal Request',  'Withdrawal Request', 'edit_posts', 'edit.php?post_type=wallet_withdrawal' );
+			// // add custom post type Withdrawal Request as submenu
+			// add_submenu_page( 'mwb-plugins', 'Withdrawal Request',  'Withdrawal Request', 'edit_posts', 'edit.php?post_type=wallet_withdrawal' );
 			
 			add_submenu_page( '', 'Edit User Wallet',  '', 'edit_posts', 'mwb-edit-wallet', array( $this, 'edit_wallet_of_user' ) );
 			
@@ -212,6 +215,30 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description'  => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
 				'name'	=> 'PC_enable',
 				'id'    => 'PC_enable',
+				'value' => 'on',
+				'class' => 'wsfw-radio-switch-class',
+				'options' => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no' => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			// array(
+			// 	'title' => __( 'Wallet Recharge', 'wallet-system-for-woocommerce' ),
+			// 	'type'  => 'checkbox',
+			// 	'description'  => __( 'Enable to allow customers to recharge their wallet', 'wallet-system-for-woocommerce' ),
+			// 	'name'  => 'wsfw_enable_wallet_recharge',
+			// 	'id'    => 'wsfw_enable_wallet_recharge',
+			// 	'value' => '1',
+			// 	'data-value' => get_option( 'wsfw_enable_wallet_recharge', '' ),
+			// 	'class' => 'wsfw-checkbox-class',
+			// 	'placeholder' => __( 'Checkbox Demo', 'wallet-system-for-woocommerce' ),
+			// ),
+			array(
+				'title' => __( 'Wallet Recharge', 'wallet-system-for-woocommerce' ),
+				'type'  => 'radio-switch',
+				'description'  => __( 'Enable to allow customers to recharge their wallet', 'wallet-system-for-woocommerce' ),
+				'name'  => 'wsfw_enable_wallet_recharge',
+				'id'    => 'wsfw_enable_wallet_recharge',
 				'value' => 'on',
 				'class' => 'wsfw-radio-switch-class',
 				'options' => array(
@@ -540,7 +567,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		if ( 'mwb_wallet_actions' === $column_name ) {
 			$html = '<p><a href="' . esc_url( admin_url( "?page=mwb-edit-wallet&id=$user_id" ) ). '" title="Edit Wallet" class="button wallet-manage"></a> 
-			<a class="button view-transactions" href="' . esc_url( admin_url( "?page=mwb-user-wallet-transactions&id=$user_id" ) ). '" title="View Transactions" ></a></p>';
+			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=mwb-user-wallet-transactions&id=$user_id" ) ). '" title="View Transactions" ></a></p>';
 			return $html;
 		}
 	}
@@ -671,16 +698,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => get_option( 'wallet_minimum_withdrawn_amount', '' ),
 				'class'       => 'wsfw-number-class',
 			),
-			// array(
-			// 	'title'       => __( 'Maximum Withdrawal Amount ( ', 'wallet-system-for-woocommerce' ).get_woocommerce_currency_symbol(). ' )',
-			// 	'type'        => 'number',
-			// 	'description' => __( 'Maximum amount that can be withdrawn at a time.', 'wallet-system-for-woocommerce' ),
-			// 	'name'        => 'wallet_maximum_withdrawn_amount',
-			// 	'id'          => 'wallet_maximum_withdrawn_amount',
-			// 	'value'       => get_option( 'wallet_maximum_withdrawn_amount', '' ),
-			// 	'class'       => 'wsfw-number-class',
-			// ),
-
 			array(
 				'title'       => __( 'Withdraw Methods', 'wallet-system-for-woocommerce' ),
 				'type'        => 'checkbox',
@@ -825,6 +842,13 @@ class Wallet_System_For_Woocommerce_Admin {
 				return array('Approved');
 			}
 		}
+		if( $post->post_type == 'wallet_withdrawal') {
+			if ( get_query_var( 'post_status' ) != 'approved' ) { // not for pages with all posts of this status
+				if ( $post->post_status == 'approved' ) {
+					return array( 'approved' );
+				}
+			}
+		}
 		return $states;
 		}
 
@@ -944,17 +968,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_wallet_setting_page( $wsfw_settings_wallet ) {
 		$wsfw_settings_wallet = array(
 
-			array(
-				'title' => __( 'Enable', 'wallet-system-for-woocommerce' ),
-				'type'  => 'checkbox',
-				'description'  => __( 'Enable to allow customers to recharge their wallet', 'wallet-system-for-woocommerce' ),
-				'name'  => 'wsfw_enable_wallet_recharge',
-				'id'    => 'wsfw_enable_wallet_recharge',
-				'value' => '1',
-				'data-value' => get_option( 'wsfw_enable_wallet_recharge', '' ),
-				'class' => 'wsfw-checkbox-class',
-				'placeholder' => __( 'Checkbox Demo', 'wallet-system-for-woocommerce' ),
-			),
+			
 			// array(
 			// 	'title' => __( 'Minimum Amount ( ', 'wallet-system-for-woocommerce' ).get_woocommerce_currency_symbol(). ' )',
 			// 	'type'  => 'number',
@@ -980,7 +994,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name' => 'wallet_topup_setting',
 				'id'    => 'wallet_topup_setting',
 				'button_text' => __( 'Save Changes', 'wallet-system-for-woocommerce' ),
-				'class' => 'wsfw-button-class',
+				'class' => 'wsfw-button-class', 'wsfw-update',
 			),
 		);
 		return $wsfw_settings_wallet;
@@ -1008,22 +1022,21 @@ class Wallet_System_For_Woocommerce_Admin {
 			// wallet action
 			array(
 				'title' => __( 'Action', 'wallet-system-for-woocommerce' ),
-				'type'  => 'select',
+				'type'  => 'oneline-radio',
 				'description'  => __( 'Whether want to add/deduct certain amount from wallet of all users', 'wallet-system-for-woocommerce' ),
 				'name'    => 'wsfw_wallet_action_for_users',
 				'id'    => 'wsfw_wallet_action_for_users',
 				'value' => '',
-				'class' => 'wsfw-select-class',
-				'placeholder' => __( 'Select Demo', 'wallet-system-for-woocommerce' ),
+				'class' => 'wsfw-radio-class',
+				'placeholder' => __( 'Radio Demo', 'wallet-system-for-woocommerce' ),
 				'options' => array(
-					'' => __( 'Select option', 'wallet-system-for-woocommerce' ),
 					'credit' => __( 'Credit', 'wallet-system-for-woocommerce' ),
 					'debit' => __( 'Debit', 'wallet-system-for-woocommerce' ),
 				),
 			),
 		
 			array(
-				'type'  => 'submit',
+				'type'  => 'button',
 				'name' => 'update_wallet',
 				'id'    => 'update_wallet',
 				'button_text' => __( 'Update Wallet', 'wallet-system-for-woocommerce' ),

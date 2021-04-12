@@ -15,6 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $wsfw_mwb_wsfw_obj;
+
+if ( isset( $_POST['wsfw_button_demo'] ) ) {
+	$wsfw_plugin_admin = new Wallet_System_For_Woocommerce_Admin( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
+	$wsfw_plugin_admin->wsfw_admin_save_tab_settings();
+}
+
 $wsfw_genaral_settings = apply_filters( 'wsfw_general_settings_array', array() );
 ?>
 <!--  template file for admin settings. -->

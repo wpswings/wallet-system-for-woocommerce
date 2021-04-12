@@ -34,7 +34,6 @@ class Wallet_System_For_Woocommerce_Deactivator {
 			delete_option( 'PC_rechargeable_product_id' );
 			wp_delete_post( $product_id, true );
 		}
-
 	}
 
 }

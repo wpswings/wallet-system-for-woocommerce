@@ -22,57 +22,47 @@ $user = get_user_by( 'id', $user_id );
 
 ?>
 
-<div class="wrap">
-    <h2>
-        <?php esc_html_e( 'Wallet Transactions: '.$user->user_login. '('.$user->user_email. ')', 'wallet-payment-gateway' );
+<div class="mwb-wpg-gen-section-table-wrap mwb-wpg-transcation-section-table">
+    <h4><?php esc_html_e( 'Wallet Transactions: '.$user->user_login. '('.$user->user_email. ')', 'wallet-system-for-woocommerce' );
         ?>
-        <a style="text-decoration: none;" href="<?php echo esc_url( admin_url( "users.php" ) ); ?>"><span class="dashicons dashicons-editor-break" style="vertical-align: middle;"></span></a>
-    </h2>
-    <p>
-    
-    <table id="table_id"  class="display" >
-        <thead>
-            <tr>
-                <th><?php esc_html_e( 'Transaction Id', 'wallet-payment-gateway' ); ?></th>
-                <th><?php esc_html_e( 'Amount', 'wallet-payment-gateway' ); ?></th>
-                <th><?php esc_html_e( 'Payment Method', 'wallet-payment-gateway' ); ?></th>
-                <th><?php esc_html_e( 'Details', 'wallet-payment-gateway' ); ?></th>
-                <th><?php esc_html_e( 'Date', 'wallet-payment-gateway' ); ?></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'PC_wallet_transaction';
-        $transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id = $user_id" );
-        if ( ! empty( $transactions ) && is_array($transactions ) ) {
-            foreach ( $transactions as $transaction ) {
-                ?>
+        <a style="text-decoration: none;" href="<?php echo esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-wallet-setting" ) ); ?>"><span class="dashicons dashicons-editor-break" style="vertical-align: middle;"></span></a></h4>
+    <div class="mwb-wpg-gen-section-table-container">
+        <table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive" style="width:100%">
+            <thead>
                 <tr>
-                    <td><?php echo $transaction->Id;  ?></td>
-                    <td><?php echo wc_price( $transaction->amount ); ?></td>
-                    <td><?php esc_html_e( $transaction->payment_method, 'wallet-payment-gateway' ); ?></td>
-                    <td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
-                    <td><?php $date = date_create($transaction->date);
-                    esc_html_e( date_format( $date,"Y-m-d"), 'wallet-payment-gateway' );
-                     ?></td>
+                    <th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Action (Debit/Credit)', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
                 </tr>
+            </thead>
+            <tbody>
                 <?php
-            }
-        }
-       
-        ?>
-        </tbody>
-	</table>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
-    <script>
-    jQuery(document).ready(function(){
-        jQuery('#table_id').DataTable({
-            "order": [[ 0, "desc" ]]
-        });
-    });
-    </script>
+                global $wpdb;
+                $table_name = $wpdb->prefix . 'PC_wallet_transaction';
+                $transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id = $user_id ORDER BY `Id` DESC" );
+                if ( ! empty( $transactions ) && is_array($transactions ) ) {
+                    $i = 1;
+                    foreach ( $transactions as $transaction ) {
+                        ?>
+                        <tr>
+                            <td><?php echo $i;  ?></td>
+                            <td><?php echo $transaction->Id;  ?></td>
+                            <td><?php echo wc_price( $transaction->amount ); ?></td>
+                            <td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
+                            <td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
+                            <td><?php $date = date_create($transaction->date);
+                            esc_html_e( date_format( $date,"d/m/Y"), 'wallet-system-for-woocommerce' );
+                            ?></td>
+                        </tr>
+                        <?php
+                        $i++;
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-

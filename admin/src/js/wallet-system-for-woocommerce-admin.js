@@ -115,6 +115,31 @@
 			
 		
 		});
+		$(document).on( 'click', '#update_wallet', function(e) {
+			e.preventDefault(e);
+			$('.mwb_wallet-update--popupwrap').show();
+		});
+		$(document).on("click", "#confirm_updatewallet", function(){
+			$('.mwb_wallet-update--popupwrap').hide();
+		});
+	
+		$(document).on("click", "#cancel_walletupdate", function(){
+			$('.mwb_wallet-update--popupwrap').hide();
+		});
+
+		$(document).on("click", ".edit_wallet", function(e){
+			e.preventDefault(e);
+			var userid = $(this).attr('data-userid');
+			$('.mwb_wallet-edit--popupwrap').show();
+			$('.mwb_wallet-edit--popupwrap').find('.mwb_wallet-edit-popup-btn').before('<input class="userid" type="hidden" name="user_id" value="'+userid+'">');
+		});
+
+		$(document).on("click", "#close_wallet_form", function(e){
+			$('.mwb_wallet-edit-popup-fill').val('');
+			$('.mwb_wallet-edit--popupwrap').find('.userid').remove();
+			$('.mwb_wallet-edit--popupwrap').hide();
+
+		});
 
 	});
 

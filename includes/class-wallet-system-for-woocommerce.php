@@ -216,7 +216,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'mwb_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
 		$this->loader->add_filter( 'wsfw_template_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
-		$this->loader->add_filter( 'wsfw_wallet_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_setting_page', 10 );
+		// $this->loader->add_filter( 'wsfw_wallet_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_setting_page', 10 );
 		$this->loader->add_filter( 'wsfw_update_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_update_wallet_page', 10 );
 		// for importing wallet
 		$this->loader->add_filter( 'wsfw_import_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_import_wallets_page', 10 );
@@ -224,7 +224,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_wallet_withdrawal_array', $wsfw_plugin_admin, 'wsfw_admin_withdrawal_setting_page', 10 );
 
 		// Saving tab settings.
-		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wsfw_admin_save_tab_settings' );
+		//$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wsfw_admin_save_tab_settings' );
 
 		$enable = get_option( 'PC_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
@@ -397,15 +397,16 @@ class Wallet_System_For_Woocommerce {
 		);
 
 		// added tab for wallet withdrawal settings
-		$wsfw_default_tabs['wallet-system-withdrawal-setting'] = array(
-			'title'       => esc_html__( 'Withdrawal Request', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-withdrawal-setting',
-		);
-
-		// added tab for wallet withdrawal settings
 		$wsfw_default_tabs['wallet-system-wallet-transactions'] = array(
 			'title'       => esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ),
 			'name'        => 'wallet-system-wallet-transactions',
+		);
+
+
+		// added tab for wallet withdrawal settings
+		$wsfw_default_tabs['wallet-system-withdrawal-setting'] = array(
+			'title'       => esc_html__( 'Withdrawal Request', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wallet-system-withdrawal-setting',
 		);
 
 		$wsfw_default_tabs['wallet-system-for-woocommerce-system-status'] = array(
@@ -630,9 +631,9 @@ class Wallet_System_For_Woocommerce {
 									placeholder="<?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?>"
 									>
 								</label>
-								<div class="mdc-text-field-helper-line">
+								<!-- <div class="mdc-text-field-helper-line">
 									<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<?php
@@ -724,7 +725,6 @@ class Wallet_System_For_Woocommerce {
 										}
 										?>
 									</select>
-									<label class="mdl-textfield__label" for="octane"><?php echo esc_html( $wsfw_component['description'] ); ?><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
 								</div>
 							</div>
 						</div>
@@ -911,7 +911,7 @@ class Wallet_System_For_Woocommerce {
 						?>
 						<tr valign="top">
 							<td scope="row">
-								<input type="submit" class="button button-primary" 
+								<input type="submit" class="mwb-btn mwb-btn__filled" 
 								name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 								id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
 								class="<?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>"
@@ -921,6 +921,37 @@ class Wallet_System_For_Woocommerce {
 						</tr>
 						<?php
 						break;
+
+						case 'oneline-radio':
+							?>
+							<div class="mwb-form-group">
+								<div class="mwb-form-group__label">
+									<label class="mwb-form-label" for="<?php echo esc_attr( $wsfw_component['id'] ); ?>"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
+								</div>
+								<div class="mwb-form-group__control">
+									<div class="mwb-form-select">
+										<?php
+										foreach ( $wsfw_component['options'] as $wsfw_radio_key => $wsfw_radio_val ) {
+											?>
+											<div class="mwb-form-select-card">
+												<input
+												type="radio"
+												id="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
+												name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
+												value="<?php echo esc_attr( $wsfw_radio_key ); ?>"
+												<?php checked( get_option( $wsfw_component['name'], '' ) , $wsfw_radio_key ); ?> >
+												<label for="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"><?php echo esc_attr( $wsfw_radio_val ); ?></label>
+											</div>
+											<?php
+										}
+										?>
+										<!-- <label class="mdl-textfield__label" for="octane"><?php //echo esc_html( $wsfw_component['description'] ); ?><?php //echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label> -->
+									</div>
+								</div>
+							</div>
+	
+							<?php
+							break;
 
 						default:
 						break;
