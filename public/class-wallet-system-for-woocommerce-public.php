@@ -62,7 +62,8 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_public_enqueue_styles() {
 
 		wp_enqueue_style( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/scss/wallet-system-for-woocommerce-public.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/mwb-public.min.css', array(), $this->version, 'all' );
+	
 	}
 
 	/**
@@ -75,6 +76,7 @@ class Wallet_System_For_Woocommerce_Public {
 		wp_register_script( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-public.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name, 'wsfw_public_param', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/mwb-public.min.js', array(), $this->version, 'all' );
 
 	}
 
@@ -196,6 +198,7 @@ class Wallet_System_For_Woocommerce_Public {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
+						'note'             => '',
 					);
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
@@ -227,6 +230,7 @@ class Wallet_System_For_Woocommerce_Public {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
+						'note'             => '',
 			
 					);
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();

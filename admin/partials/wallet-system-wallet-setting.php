@@ -77,6 +77,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 								'payment_method'   => 'Through importing Wallet',
 								'transaction_type' => $transaction_type,
 								'order_id'         => '',
+								'note'             => '',
 					
 							);
 							$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -148,6 +149,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					'payment_method'   => 'Manually By Admin',
 					'transaction_type' => $transaction_type,
 					'order_id'         => '',
+					'note'             => '',
 		
 				);
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -217,6 +219,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
             'payment_method'   => 'Manually By Admin',
             'transaction_type' => $transaction_type,
             'order_id'         => '',
+			'note'             => '',
 
         );
         $wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -309,10 +312,10 @@ $wsfw_import_settings = apply_filters( 'wsfw_import_wallet_array', array() );
 							<td><?php echo wc_price( $wallet_bal ); ?></td>
 							<td>
 								<span>
-									<a class="edit_wallet" data-userid="<?php echo $user->ID; ?>" href="" >
+									<a class="edit_wallet" data-userid="<?php echo $user->ID; ?>" href="" title="Edit Wallet" >
 										<img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/edit.svg">
 									</a>	
-									<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=mwb-user-wallet-transactions&id=' .$user->ID ); ?>" >
+									<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=mwb-user-wallet-transactions&id=' .$user->ID ); ?>" title="View Transactions" >
 										<img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/eye.svg">
 									</a>
 								</span>

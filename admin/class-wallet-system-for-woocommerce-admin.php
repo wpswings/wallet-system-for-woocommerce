@@ -524,6 +524,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'payment_method'   => 'Manually By Admin',
 				'transaction_type' => $transaction_type,
 				'order_id'         => '',
+				'note'             => '',
 	
 			);
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -603,7 +604,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
-			
+						'note'             => '',
 					);
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
@@ -634,7 +635,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
-			
+						'note'             => '',
 					);
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
@@ -751,6 +752,88 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		wp_send_json($userdata);
 
+	}
+
+	/**
+	 * update wallet and status on changing status of wallet request
+	 *
+	 * @return void
+	 */
+	public function change_wallet_withdrawan_status() {
+		$update = true;
+		if ( empty( $_POST['withdrawal_id'] ) ) {
+			$mwb_wsfw_error_text = esc_html__( 'Withdrawal Id is not given', 'wallet-system-for-woocommerce' );
+			$message = array( 'msg' => $mwb_wsfw_error_text, 'msgType' => 'error' );
+			$update = false;
+		}
+		if ( empty( $_POST['user_id'] ) ) {
+			$mwb_wsfw_error_text = esc_html__( 'User Id is not given', 'wallet-system-for-woocommerce' );
+			$message = array( 'msg' => $mwb_wsfw_error_text, 'msgType' => 'error' );
+			$update = false;
+		}
+		if ( $update ) {
+			$updated_status = sanitize_text_field( $_POST['status'] );
+			$withdrawal_id = sanitize_text_field( $_POST['withdrawal_id'] );
+			$user_id = sanitize_text_field( $_POST['user_id'] );
+			$withdrawal_request = get_post( $withdrawal_id );
+			if ( 'approved' === $updated_status ) {
+				$withdrawal_amount = get_post_meta( $withdrawal_id, 'mwb_wallet_withdrawal_amount', true );
+				if ( $user_id ) {
+					$walletamount = get_user_meta( $user_id, 'mwb_wallet', true );
+					if ( $walletamount < $withdrawal_amount ) {
+						$walletamount = 0;
+					} else {
+						$walletamount -= $withdrawal_amount;
+					}
+					$update_wallet = update_user_meta( $user_id, 'mwb_wallet', $walletamount );
+					delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
+					if ( $update_wallet ) {
+						$withdrawal_request->post_status = 'approved';
+						wp_update_post( $withdrawal_request );
+					}
+					$transaction_type = 'Wallet debited through user withdrawing request <a href="#" >#' . $withdrawal_id . '</a>';
+					$transaction_data = array(
+						'user_id'          => $user_id,
+						'amount'           => $withdrawal_amount,
+						'payment_method'   => 'Manually By Admin',
+						'transaction_type' => htmlentities( $transaction_type ),
+						'order_id'         => $withdrawal_id,
+						'note'             => '',
+		
+					);
+					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+					$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+					if ( $result ) {
+						$mwb_wsfw_error_text = esc_html__( 'Wallet withdrawan request is approved for user #'.$user_id, 'wallet-system-for-woocommerce' );
+						$message = array( 'msg' => $mwb_wsfw_error_text, 'msgType' => 'success' );
+					} else {
+						$mwb_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+						$message = array( 'msg' => $mwb_wsfw_error_text, 'msgType' => 'error' );
+					}
+				};
+			}
+			if ( 'rejected' === $updated_status ) {
+				$withdrawal_amount = get_post_meta( $withdrawal_id, 'mwb_wallet_withdrawal_amount', true );
+				if ( $user_id ) {
+					$withdrawal_request->post_status = 'rejected';
+					wp_update_post( $withdrawal_request );
+					delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
+					$mwb_wsfw_error_text = esc_html__( 'Wallet withdrawan request is rejected for user #'.$user_id, 'wallet-system-for-woocommerce' );
+					$message = array( 'msg' => $mwb_wsfw_error_text, 'msgType' => 'success' );
+				};
+			}
+			if ( 'pending' === $updated_status ) {
+				$withdrawal_amount = get_post_meta( $withdrawal_id, 'mwb_wallet_withdrawal_amount', true );
+				if ( $user_id ) {
+					$withdrawal_request->post_status = 'pending';
+					wp_update_post( $withdrawal_request );
+					$mwb_wsfw_error_text = esc_html__( 'Wallet withdrawan request status is changed to pending for user #'.$user_id, 'wallet-system-for-woocommerce' );
+					$message = array( 'msg' => $mwb_wsfw_error_text, 'msgType' => 'success' );
+				};
+			}
+		}
+		wp_send_json( $message );
+		
 	}
 
 	/**
@@ -943,13 +1026,14 @@ class Wallet_System_For_Woocommerce_Admin {
 				update_user_meta( $user_id, 'mwb_wallet', $walletamount );
 				delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
 
-				$transaction_type = 'Wallet debited through user withdrawing request <a href="' . admin_url('post.php?post='.$post_id.'&action=edit') . '" >#' . $post_id . '</a>';
+				$transaction_type = 'Wallet debited through user withdrawing request <a href="#" >#' . $post_id . '</a>';
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $withdrawal_amount,
 					'payment_method'   => $payment_method,
 					'transaction_type' => htmlentities( $transaction_type ),
 					'order_id'         => $post_id,
+					'note'             => '',
 		
 				);
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();

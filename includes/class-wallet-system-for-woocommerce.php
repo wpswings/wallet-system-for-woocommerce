@@ -237,7 +237,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'manage_wallet_withdrawal_posts_custom_column', $wsfw_plugin_admin, 'wsfw_show_withdrawal_columns_data', 10, 2 );
 			// enable wallet withdrawal for user on status approved(publish)
 			$this->loader->add_action( 'admin_footer-post.php', $wsfw_plugin_admin, 'wsfw_append_wallet_status_list' );
-			$this->loader->add_action( 'save_post_wallet_withdrawal', $wsfw_plugin_admin, 'wsfw_enable_withdrawal_request', 10, 2);
+		
 			$this->loader->add_action( 'show_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10 , 1 );
 			$this->loader->add_action( 'edit_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10, 1 );  
 			$this->loader->add_action( 'personal_options_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 );
@@ -253,7 +253,9 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'display_post_states', $wsfw_plugin_admin, 'display_archive_state' );
 		$this->loader->add_action( 'wp_ajax_export_users_wallet', $wsfw_plugin_admin, 'export_users_wallet' );
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 10, 3 ); 
+		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
 	}
+
 
 	/**
 	 * Register all of the hooks related to the common functionality
@@ -997,8 +999,8 @@ class Wallet_System_For_Woocommerce {
         else:
           
             $insert = "INSERT INTO  " . $table_name . "
-                ( user_id, amount, transaction_type, payment_method, transaction_id, date ) 
-                VALUES ( '" . $transactiondata['user_id']. "' , '" . $transactiondata['amount'] . "', '" . $transactiondata['transaction_type'] . "', '". $transactiondata['payment_method'] . "', '". $transactiondata['order_id'] . "', NOW() )";
+                ( user_id, amount, transaction_type, payment_method, transaction_id, note, date ) 
+                VALUES ( '" . $transactiondata['user_id']. "' , '" . $transactiondata['amount'] . "', '" . $transactiondata['transaction_type'] . "', '". $transactiondata['payment_method'] . "', '". $transactiondata['order_id'] . "', '". $transactiondata['note'] . "', NOW() )";
 
             $results = $wpdb->query( $insert );
 			if ( $results ) { 

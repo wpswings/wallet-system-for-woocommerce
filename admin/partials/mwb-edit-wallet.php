@@ -67,6 +67,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
             'payment_method'   => 'Manually By Admin',
             'transaction_type' => $transaction_type,
             'order_id'         => '',
+            'note'             => '',
 
         );
         $wallet_payment_gateway = new Wallet_System_For_Woocommerce();

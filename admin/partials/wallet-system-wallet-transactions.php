@@ -17,6 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
+<div>
+
+    <table>
+            <tbody>
+                <tr>
+                    <td>Search</td>
+                    <td><input type="text" id="search_in_table"></td>
+                </tr>
+                <tr>
+                    <td>Minimum Date:</td>
+                    <td><input name="min" id="min" type="text"></td>
+                </tr>
+                <tr>
+                    <td>Maximum Date:</td>
+                    <td><input name="max" id="max" type="text"></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+</div>
+
+
 <div class="mwb-wpg-gen-section-table-wrap mwb-wpg-transcation-section-table">
     <h4>Transactions</h4>
     <div class="mwb-wpg-gen-section-table-container">
@@ -29,7 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <th><?php esc_html_e( 'Role', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
-                    <th><?php esc_html_e( 'Action (Debit/Credit)', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
                 </tr>
@@ -54,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
                             <td><?php echo $transaction->Id;  ?></td>
                             <td><?php $date = date_create($transaction->date);
-                            esc_html_e( date_format( $date,"d/m/Y"), 'wallet-system-for-woocommerce' );
+                            esc_html_e( date_format( $date,"m/d/Y"), 'wallet-system-for-woocommerce' );
                             ?></td>
                         </tr>
                         <?php
@@ -68,3 +91,32 @@ if ( ! defined( 'ABSPATH' ) ) {
         </table>
     </div>
 </div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
+<script>
+jQuery.fn.dataTable.ext.search.push(
+    function (settings, data, dataIndex) {
+        var min = jQuery('#min').datepicker("getDate");
+        var max = jQuery('#max').datepicker("getDate");   
+        var startDate = new Date(data[8]);
+        if (min == null && max == null) { return true; }
+        if (min == null && startDate <= max) { return true;}
+        if(max == null && startDate >= min) {return true;}
+        if (startDate <= max && startDate >= min) { return true; }
+        return false;
+    }
+);
+jQuery(document).ready(function(){
+    var table = jQuery('#mwb-wpg-gen-table').DataTable();   //pay attention to capital D, which is mandatory to retrieve "api" datatables' object, as @Lionel said
+    jQuery('#search_in_table').keyup(function(){
+        table.search(jQuery(this).val()).draw() ;
+    });
+    jQuery("#min").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
+    jQuery("#max").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
+    
+    jQuery('#min, #max').change(function () {
+        table.draw();
+    });
+});
+
+</script>

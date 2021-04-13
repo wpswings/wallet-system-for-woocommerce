@@ -17,3 +17,50 @@
     }
 }
 
+html,
+body {
+    font-family: 'NunitoSans-Regular';
+    font-size: $fs-normal;
+    line-height: 22px;
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+        outline: none;
+        color: none;
+        box-shadow: none;
+    }
+}
+
+p {
+    font-size: $fs-normal;
+}
+
+ul {
+    margin: 0;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+.mwb-info-img {
+    display: inline-block;
+    margin-right: 6px;
+    margin-top: -3px;
+    max-width: 15px;
+}

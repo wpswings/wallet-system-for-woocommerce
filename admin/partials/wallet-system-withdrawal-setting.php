@@ -16,33 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 global $wsfw_mwb_wsfw_obj;
 
-if ( isset( $_POST['save_withdrawn_settings'] ) && ! empty( $_POST['save_withdrawn_settings'] ) ) {
-	unset( $_POST['save_withdrawn_settings'] );
-	if ( empty( $_POST['wallet_withdraw_methods'] ) ) {
-		$mwb_wsfw_error_text = esc_html__( 'Select any payment method.', 'wallet-system-for-woocommerce' );
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'error' );
-	} else {
-		foreach ( $_POST as $key => $value ) {
-			if ( 'wallet_withdraw_methods' === $key ) {
-				$method = array();
-				foreach( $value as $method_key => $method_value ) {
-					
-					$method[$method_key]['name'] = $method_value;
-					$method[$method_key]['value'] = 1;
-				}
-				
-				update_option( $key, $method );
-			} else {
-				update_option( $key, $value );
-			}
-			
-		}
-		$mwb_wsfw_error_text = esc_html__( 'Save settings.', 'wallet-system-for-woocommerce' );
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
-	}
-	
-}
-
 if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_withdrawal_request'] ) ) {
 	unset( $_POST['update_withdrawal_request'] );
 	$update = true;
@@ -52,8 +25,8 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 		$update = false;
 	}
 	if ( empty( $_POST['user_id'] ) ) {
-		$msfw_wpg_error_text = esc_html__( 'User Id is not given', 'wallet-system-for-woocommerce' );
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+		$mwb_wsfw_error_text = esc_html__( 'User Id is not given', 'wallet-system-for-woocommerce' );
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'error' );
 		$update = false;
 	}
 	if ( $update ) {
@@ -64,7 +37,6 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 		$request_status = $withdrawal_request->post_status;
 		if ( 'approved' === $updated_status ) {
 			$withdrawal_amount = get_post_meta( $withdrawal_id, 'mwb_wallet_withdrawal_amount', true );
-			$payment_method = get_post_meta( $withdrawal_id, 'wallet_payment_method', true );
 			if ( $user_id ) {
 				$walletamount = get_user_meta( $user_id, 'mwb_wallet', true );
 				if ( $walletamount < $withdrawal_amount ) {
@@ -82,19 +54,20 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $withdrawal_amount,
-					'payment_method'   => $payment_method,
+					'payment_method'   => 'Manually By Admin',
 					'transaction_type' => htmlentities( $transaction_type ),
 					'order_id'         => $withdrawal_id,
+					'note'             => '',
 	
 				);
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 				$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				if ( $result ) {
-					$msfw_wpg_error_text = esc_html__( 'Wallet withdrawan request is approved for user #'.$user_id, 'wallet-system-for-woocommerce' );
-					$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'success' );
+					$mwb_wsfw_error_text = esc_html__( 'Wallet withdrawan request is approved for user #'.$user_id, 'wallet-system-for-woocommerce' );
+					$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
 				} else {
-					$msfw_wpg_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
-					$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+					$mwb_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+					$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'error' );
 				}
 			};
 		}
@@ -104,29 +77,51 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 				$withdrawal_request->post_status = 'rejected';
 				wp_update_post( $withdrawal_request );
 				delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
-				$msfw_wpg_error_text = esc_html__( 'Wallet withdrawan request is rejected for user #'.$user_id, 'wallet-system-for-woocommerce' );
-				$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'success' );
+				$mwb_wsfw_error_text = esc_html__( 'Wallet withdrawan request is rejected for user #'.$user_id, 'wallet-system-for-woocommerce' );
+				$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
+			};
+		}
+		if ( 'pending' === $updated_status ) {
+			$withdrawal_amount = get_post_meta( $withdrawal_id, 'mwb_wallet_withdrawal_amount', true );
+			if ( $user_id ) {
+				$withdrawal_request->post_status = 'pending';
+				wp_update_post( $withdrawal_request );
+				$mwb_wsfw_error_text = esc_html__( 'Wallet withdrawan request status is changed to pending for user #'.$user_id, 'wallet-system-for-woocommerce' );
+				$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
 			};
 		}
 	}
 	
 }
 
-$wsfw_withdrawal_settings = apply_filters( 'wsfw_wallet_withdrawal_array', array() );
-
-
 ?>
 <!--  template file for admin settings. -->
 
-<form action="" method="POST" class="mwb-wpg-gen-section-form">
-	<div class="wpg-secion-wrap">
-    <h3><?php esc_html_e( 'Wallet Withdrawal Setting' , 'wallet-system-for-woocommerce' ); ?></h3>
-		<?php
-		$wsfw_general_html = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_generate_html( $wsfw_withdrawal_settings );
-		echo esc_html( $wsfw_general_html );
-		?>
-	</div>
-</form>
+
+<div>
+
+    <table>
+            <tbody>
+                <tr>
+                    <td>Search</td>
+                    <td><input type="text" id="search_in_table"></td>
+                </tr>
+                <tr>
+                    <td>Filter By:</td>
+                    <td>
+						<select id="filter_status" >
+							<option value="">status</option>
+							<option value="approved">approved</option>
+							<option value="pending">pending</option>
+							<option value="rejected">rejected</option>
+						</select>
+					</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+</div>
 
 <div class="mwb-wpg-gen-section-table-wrap mwb-wpg-withdrawal-section-table">
 	<h4><?php esc_html_e( 'Withdrawal Requests' , 'wallet-system-for-woocommerce' ); ?></h4>
@@ -137,10 +132,10 @@ $wsfw_withdrawal_settings = apply_filters( 'wsfw_wallet_withdrawal_array', array
 					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Withdrawal ID', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'User ID', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Withdrawal Amount', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Withdrawal Amount', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Update', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
 					<!-- <th>Note</th> -->
 				</tr>
 			</thead>
@@ -164,24 +159,25 @@ $wsfw_withdrawal_settings = apply_filters( 'wsfw_wallet_withdrawal_array', array
 								<td><?php echo $i; ?></td>
 								<td><?php echo $request->ID; ?></td>
 								<td><?php echo $user_id;  ?></td>
-								<td><?php echo wc_price( $withdrawal_amount ); ?></td>
 								<td>
 									<form action="" method="POST">
-										<select onchange="this.className=this.options[this.selectedIndex].className" name="mwb-wpg-gen-table_status" aria-controls="mwb-wpg-gen-section-table" class="<?php esc_html_e( $request->post_status, 'wallet-system-for-woocommerce' ); ?>">
+										<select onchange="this.className=this.options[this.selectedIndex].className" name="mwb-wpg-gen-table_status" id="mwb-wpg-gen-table_status" aria-controls="mwb-wpg-gen-section-table" class="<?php esc_html_e( $request->post_status, 'wallet-system-for-woocommerce' ); ?>">
 											<option class="approved" value="approved" <?php selected( 'approved', $request->post_status, true); ?> ><?php esc_html_e( 'approved', 'wallet-system-for-woocommerce' ); ?></option>
 											<option class="pending" value="pending" <?php selected( 'pending', $request->post_status, true); ?> ><?php esc_html_e( 'pending', 'wallet-system-for-woocommerce' ); ?></option>
 											<option class="rejected" value="rejected" <?php selected( 'rejected', $request->post_status, true); ?> ><?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></option>
 										</select>
 										<input type="hidden" name="withdrawal_id" value="<?php esc_attr_e( $request->ID, 'wallet-system-for-woocommerce' ); ?>" />
 										<input type="hidden" name="user_id" value="<?php esc_attr_e( $user_id, 'wallet-system-for-woocommerce' ); ?>" />
-										<input type="submit" class="update" name="update_withdrawal_request" value="Update" >
+										<div id="overlay" style="display:none;width:69px;height:89px;">
+											<img src='<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL."admin/image/loader.gif"; ?>' width="64" height="64" /><br>Loading..
+										</div>
 									</form>
 								</td>
+								<td><?php echo wc_price( $withdrawal_amount ); ?></td>
 								<td><?php $date = date_create($request->post_date);
 								esc_html_e( date_format( $date,"d/m/Y"), 'wallet-system-for-woocommerce' );
 								?></td>					
-								<td><?php $date = date_create($request->post_modified);
-								esc_html_e( date_format( $date,"d/m/Y"), 'wallet-system-for-woocommerce' );
+								<td><?php esc_html_e( get_post_meta( $request->ID , 'mwb_wallet_note' , true ), 'wallet-system-for-woocommerce' );
 								?></td>					
 								<!-- <td>Lorem ipsum dolor sit amet, </td> -->
 							</tr>
@@ -194,3 +190,32 @@ $wsfw_withdrawal_settings = apply_filters( 'wsfw_wallet_withdrawal_array', array
 		</table>
 	</div>
 </div>
+<script>
+jQuery(document).ready(function(){
+    var table = jQuery('#mwb-wpg-gen-table').DataTable();   //pay attention to capital D, which is mandatory to retrieve "api" datatables' object, as @Lionel said
+    jQuery('#search_in_table').keyup(function(){
+        table.search(jQuery(this).val()).draw() ;
+    });
+    jQuery('#filter_status').change(function () {
+		var rowCount = jQuery("#mwb-wpg-gen-table tbody tr").length;
+		var count = 0;
+		jQuery('#mwb-wpg-gen-table > tbody  > tr').each(function(index, tr) { 
+			var ColumnName = jQuery(tr).find('td:eq(3)').html();
+			console.log(tr);
+			console.log(ColumnName);
+			// if ( ColumnName == 'display: none;' ) {
+			// 	count++;
+			// }
+		});
+		// rowCount -= count;
+		// if ( rowCount == 0 || rowCount == 1 ) {
+		// 	$('.tablenav .displaying-num').html(rowCount + ' item');
+		// } else {
+		// 	$('.tablenav .displaying-num').html(rowCount + ' items');
+		// }
+        // table.draw();
+		console.log('gg');
+    });
+});
+
+</script>

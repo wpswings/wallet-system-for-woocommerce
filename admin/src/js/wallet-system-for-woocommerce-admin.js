@@ -141,6 +141,39 @@
 
 		});
 
+		// update wallet and status on changing status of wallet request
+		$(document).on( 'change', 'select#mwb-wpg-gen-table_status', function() {
+			var withdrawal_id = $(this).siblings('input[name=withdrawal_id]').val();
+			var user_id = $(this).siblings('input[name=user_id]').val();
+			var status = $(this).find(":selected").text();
+			$.ajax({
+				type: 'POST',
+				url: wsfw_admin_param.ajaxurl,
+				data: {
+					action: 'change_wallet_withdrawan_status',
+					withdrawal_id: withdrawal_id,
+					user_id: user_id,
+					status: status,
+				},
+				datatType: 'JSON',
+				
+				beforeSend: function(){
+					$(this).siblings('#overlay').show();
+				},
+				
+				complete: function(){
+					$(this).siblings('#overlay').hide();
+				},
+				success: function( response ) {
+					$( '.mwb-wpg-withdrawal-section-table' ).before('<div class="notice notice-' + response.msgType + ' is-dismissible mwb-errorr-8"><p>' + response.msg + '</p></div>');		
+				},
+
+			})
+			.fail(function ( response ) {
+				$( '.mwb-wpg-withdrawal-section-table' ).before('<div class="notice notice-error is-dismissible mwb-errorr-8"><p>An error occured !</p></div>');		
+			});
+		});
+
 	});
 
 	$(window).load(function(){

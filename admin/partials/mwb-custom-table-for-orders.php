@@ -90,29 +90,44 @@ if ( ! empty ( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_acti
         <script>
         $('.bulkactions').append('<input id="searchFrom" class="searchInput" type="text" placeholder="From d/m/y"/><input id="searchTo" class="searchInput" type="text" placeholder="To" >');
         $(".searchInput").on("input", function() {
-        var from = stringToDate($("#searchFrom").val());
-        var to = stringToDate($("#searchTo").val());
+            var from = stringToDate($("#searchFrom").val());
+            var to = stringToDate($("#searchTo").val());
 
-        $(".walletrechargeorders tr").each(function() {
-            var row = $(this);
-            var date = stringToDate(row.find("td").eq(3).text());
-            
-            //show all rows by default
-            var show = true;
+            $(".walletrechargeorders tr").each(function() {
+                var row = $(this);
+                var date = stringToDate(row.find("td").eq(3).text());
+                
+                //show all rows by default
+                var show = true;
 
-            //if from date is valid and row date is less than from date, hide the row
-            if (from && date < from)
-            show = false;
-            
-            //if to date is valid and row date is greater than to date, hide the row
-            if (to && date > to)
-            show = false;
+                //if from date is valid and row date is less than from date, hide the row
+                if (from && date < from)
+                show = false;
+                
+                //if to date is valid and row date is greater than to date, hide the row
+                if (to && date > to)
+                show = false;
 
-            if (show)
-            row.show();
-            else
-            row.hide();
-        });
+                if (show)
+                row.show();
+                else
+                row.hide();
+            });
+
+            var rowCount = $(".walletrechargeorders tbody tr").length;
+            var count = 0;
+            $('.walletrechargeorders > tbody  > tr').each(function(index, tr) { 
+                var ColumnName = $(tr).attr("style");
+                if ( ColumnName == 'display: none;' ) {
+                    count++;
+                }
+            });
+            rowCount -= count;
+            if ( rowCount == 0 || rowCount == 1 ) {
+                $('.tablenav .displaying-num').html(rowCount + ' item');
+            } else {
+                $('.tablenav .displaying-num').html(rowCount + ' items');
+            }
         });
 
         //parse entered date. return NaN if invalid
