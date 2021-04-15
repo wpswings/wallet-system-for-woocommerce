@@ -179,6 +179,7 @@ img {
 
 .mwb_wcb_content_template .wallet-tabs ul li a svg {
   fill: transparent !important;
+  margin: 0 auto;
 }
 
 .mwb_wcb_content_template .wallet-tabs ul li h3 {
@@ -306,11 +307,11 @@ img {
   text-align: left;
 }
 
-.mwb-wallet-transaction-container .mwb-wallet-field-table tbody .odd td{
+.mwb-wallet-transaction-container .mwb-wallet-field-table tbody .odd td {
   background-color: #f4f4f4;
 }
 
-.mwb-wallet-transaction-container .mwb-wallet-field-table tbody .even td{
+.mwb-wallet-transaction-container .mwb-wallet-field-table tbody .even td {
   background-color: #C8E5FC;
 }
 
