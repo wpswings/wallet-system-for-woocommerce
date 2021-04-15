@@ -152,7 +152,7 @@ $wallet_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) ).'wallet-transfer/';
 $withdrawal_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) ).'wallet-withdrawal/';
 $transaction_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) ).'wallet-transactions/';
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
-$product_id = get_option( 'PC_rechargeable_product_id', '' );
+$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 $user_id = get_current_user_id();
 $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 

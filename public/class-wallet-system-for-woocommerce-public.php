@@ -177,7 +177,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$userid = $order->user_id;
 		$payment_method = $order->payment_method;
 		$order_items = $order->get_items();
-		$wallet_id = get_option( 'PC_rechargeable_product_id', '' );
+		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount = get_user_meta( $userid, 'mwb_wallet', true );
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();
@@ -390,7 +390,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function show_message_addto_cart( $passed, $product_id ) {
-		$wallet_id = get_option( 'PC_rechargeable_product_id', '' );
+		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		if ( ! empty( $wallet_id)  ) {
 			if ( ! WC()->cart->is_empty() ) {
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
@@ -444,7 +444,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function after_remove_wallet_from_cart( $removed_cart_item_key, $cart ) {
 		$line_item = $cart->removed_cart_contents[ $removed_cart_item_key ];
 		$product_id = $line_item[ 'product_id' ];
-		$wallet_id = get_option( 'PC_rechargeable_product_id', '' );
+		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		if ( $wallet_id ) {
 			if ( $product_id == $wallet_id ) {
 				WC()->session->__unset( 'recharge_amount' );
@@ -455,7 +455,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 	public function change_order_type( $order_id ) {
         $order     = wc_get_order( $order_id );
-		$wallet_id = get_option( 'PC_rechargeable_product_id', '' );
+		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
         foreach ( $order->get_items() as $item ) {
             $product_id = $item->get_product_id();
             if ( isset( $product_id ) && ! empty( $product_id ) &&  $product_id == $wallet_id ) {

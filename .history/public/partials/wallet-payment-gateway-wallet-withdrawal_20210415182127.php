@@ -22,9 +22,9 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
         $args = array( 
             'numberposts' => -1,
             'post_type'	  => 'wallet_withdrawal', 
-            'orderby' 	  => 'ID',
+            'orderby' 	  => 'Id',
             'order' 	  => 'DESC', 
-            'post_status' => array( 'any' ),
+            'post_status' => 'pending'
         );
         $withdrawal_request = get_posts($args);
         ?>

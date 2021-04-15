@@ -226,7 +226,7 @@ class Wallet_System_For_Woocommerce {
 		// Saving tab settings.
 		//$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wsfw_admin_save_tab_settings' );
 
-		$enable = get_option( 'PC_enable', '' );
+		$enable = get_option( 'mwb_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 			$this->loader->add_filter( 'manage_users_columns', $wsfw_plugin_admin, 'wsfw_add_wallet_col_to_user_table' );
 			$this->loader->add_filter( 'manage_users_custom_column', $wsfw_plugin_admin, 'wsfw_add_user_wallet_col_data', 10, 3 );
@@ -287,7 +287,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_scripts' );
 		
-		$enable = get_option( 'PC_enable', '' );
+		$enable = get_option( 'mwb_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 
 			$this->loader->add_action( 'init', $wsfw_plugin_public, 'mwb_wsfw_wallet_register_endpoint' );
@@ -984,7 +984,7 @@ class Wallet_System_For_Woocommerce {
 	 */
 	public function insert_transaction_data_in_table( $transactiondata ) {
 		global $wpdb;
-        $table_name = $wpdb->prefix . 'PC_wallet_transaction';
+        $table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 
         //Check if table exists
         if( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) :

@@ -88,5 +88,3 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
     } ?>
 
 </div>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
