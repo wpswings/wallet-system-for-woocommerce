@@ -1,0 +1,610 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+/** added custom css */
+.wallet-amount input {
+	padding: 5px;
+}
+
+.mwb_wcb_wallet_balance_container {
+	background: #242424;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.mwb_wcb_wallet_balance_container::after {
+	display: block;
+	clear: both;
+	content: "";
+}
+
+.mwb_wcb_wallet_balance_container h4 {
+	max-width: 50%;
+	float: left;
+	margin: 0;
+	font-weight: normal;
+	font-size: 22px;
+	line-height: normal;
+	color: #fff;
+}
+
+.mwb_wcb_wallet_balance_container p {
+	max-width: 45%;
+	float: right;
+	font-size: 20px;
+	margin: 0;
+	line-height: normal;
+	color: #fff;
+}
+
+.mwb_wcb_body_template::after {
+	clear: both;
+	display: block;
+	content: "";
+}
+
+.mwb_wcb_content_template {
+	width: 100%;
+	text-align: center;
+	border: 1px solid #ddd;
+}
+
+.mwb_wcb_navigator_template {
+	width: 100%;
+	float: left;
+	margin-bottom: 20px;
+}
+
+.mwb-wcb-navigations ul {
+	padding: 0;
+	margin: 0;
+	background-color: #c9c9c9;
+}
+
+.mwb-wcb-navigations ul li {
+	list-style-type: none;
+	float: left;
+	position: relative;
+	padding: 10px 20px;
+}
+
+.mwb-wcb-navigations ul::after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
+.mwb_wcb_nav_tab.nav-tab:hover {
+	background: #9f9d9d;
+	border: 1px solid #9f9d9d;
+	border-bottom: 0;
+}
+
+.mwb-wcb-navigations ul li:hover .tool-tip {
+	display: block;
+	visibility: visible;
+	opacity: 1;
+}
+
+.tool-tip {
+	position: absolute;
+	bottom: -55px;
+	left: -35px;
+	padding: 10px;
+	background-color: #FFF9F9;
+	border-radius: 3px;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 200ms ease-in-out, visibility 0ms;
+	transform-origin: bottom center;
+	width: 145px;
+	z-index: 1;
+	color: #000;
+	font-size: 14px;
+	text-align: center;
+	box-shadow: 0 8px 13px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(213, 213, 213, 0.03);
+}
+
+.tool-tip::after {
+	border: 9px solid transparent;
+	border-bottom-color: transparent;
+	border-bottom-style: solid;
+	border-bottom-width: 10px;
+	border-bottom: 11px solid #fff;
+	position: absolute;
+	content: "";
+	left: 50%;
+	margin-left: -10px;
+	bottom: 100%;
+}
+
+.mwb_wcb_navigator_template .mwb-wcb-navigations img {
+	width: 100%;
+	max-width: 30px;
+	display: block;
+}
+
+.mwb_wcb_pagination_front_container {
+	margin-bottom: 20px;
+}
+
+.mwb_wcb_pagination_front_container .mwb_wcb_all_trans_front_page_limit {
+	display: inline-block;
+	width: 70px;
+	margin-left: 10px;
+}
+
+.mwb_wcb_pagination_front_container .mwb_wcb_all_trans_front_set_page_limit {
+	margin-left: 10px;
+}
+
+.mwb_wcb_main_tabs_template {
+	background: #f4f3f3;
+	/*padding: 10px 15px;*/
+}
+
+.mwb_wcb_content_template h2 {
+	font-size: 28px;
+	color: #000;
+}
+
+.mwb-wcb-navigations a {
+	text-decoration: none !important;
+}
+
+.mwb_wcb_wallet_topup_wrap {
+	padding-top: 8px;
+	padding-bottom: 30px;
+}
+
+#wallet_topup_add {
+	display: inline-block;
+	width: 100%;
+	max-width: 100px;
+	height: 40px;
+}
+
+#mwb_wallet_topup_add {
+	background: #242424;
+	padding: 0 30px;
+	color: #fff;
+	line-height: normal;
+	height: 40px;
+	font-weight: normal;
+	display: inline-block;
+	margin-left: 5px;
+	width: 100%;
+	max-width: 100px;
+}
+
+#mwb_wcb_all_trans_table caption {
+	caption-side: top;
+	font-size: 28px;
+	color: #000;
+	text-align: center;
+}
+
+#mwb_wcb_all_trans_table_wrapper {
+	width: 100%;
+	padding: 15px;
+	box-sizing: border-box;
+}
+
+#mwb_wcb_all_trans_table_wrapper:after {
+	display: block;
+	clear: both;
+	content: '';
+}
+
+#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table_length {
+	float: left;
+	width: 49%;
+	margin-right: 2%;
+	text-align: left;
+}
+
+#mwb_wcb_all_trans_table_length label {
+	color: #000;
+	font-size: 14px;
+	text-transform: capitalize;
+	font-weight: normal;
+	text-align: left;
+}
+
+#mwb_wcb_all_trans_table_length label select {
+	background-color: #fff;
+	width: 100%;
+	height: 40px;
+	box-shadow: none;
+	border: 1px solid #ddd;
+}
+
+#mwb_wcb_all_trans_table_length label select:focus {
+	outline: none;
+}
+
+#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table_filter {
+	float: left;
+	width: 49%;
+	text-align: left;
+}
+
+#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table_filter label {
+	color: #000;
+	font-size: 14px;
+	text-transform: capitalize;
+	font-weight: normal;
+}
+
+#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table_filter input {
+	margin-left: 0;
+	width: 100%;
+	background-color: #fff;
+	height: 40px;
+	box-shadow: none;
+	border: 1px solid #ddd;
+}
+
+#mwb_wcb_all_trans_table {
+	border: 1px solid #c8c8c8;
+}
+
+#mwb_wcb_all_trans_table thead {
+	background-color: #242424;
+	color: #fff;
+}
+
+#mwb_wcb_all_trans_table thead th {
+	font-weight: normal;
+	background-color: #242424;
+	color: #fff;
+}
+
+#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table tbody tr {
+	color: #000;
+}
+
+#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table tbody tr.even {
+	background: #f9f9f9;
+}
+
+#mwb_wcb_all_trans_table tfoot {
+	background-color: #000;
+	color: #fff;
+}
+
+#mwb_wcb_all_trans_table tfoot th {
+	font-weight: normal;
+	padding: 10px;
+	background-color: #242424;
+	color: #fff;
+}
+
+#mwb_wcb_all_trans_table_paginate #mwb_wcb_all_trans_table_previous {
+	color: #000 !important;
+}
+
+#mwb_wcb_all_trans_table_info {
+	color: #000;
+}
+
+#mwb_wcb_all_trans_table_paginate #mwb_wcb_all_trans_table_next {
+	color: #000 !important;
+}
+
+#mwb_wcb_all_trans_table_paginate .paginate_button {
+	color: #000 !important;
+}
+
+#mwb_wcb_all_trans_table_paginate .paginate_button:active {
+	color: #fff !important;
+}
+
+#mwb_wcb_add_wallet_credit label {
+	margin-bottom: 8px !important;
+	display: inline-block;
+}
+
+#mwb_wcb_add_wallet_credit #wallet_topup_add {
+	border: 1px solid #242424;
+	box-shadow: none;
+}
+
+#mwb_wcb_add_wallet_credit #wallet_topup_add:focus {
+	border: 0;
+}
+
+.mwb-wcb-navigations a:focus {
+	border: 0 !important;
+	outline-color: transparent;
+	color: #fff;
+}
+
+.mwb-wcb-navigations p {
+	margin: 0;
+	position: relative;
+	padding-right: 10px;
+}
+
+.mwb_wcb_nav_tab_a {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: block;
+	background: transparent;
+}
+
+.mwb_wcb_nav_tab_a:focus {
+	outline: none;
+}
+
+.mwb-wcb-navigations .logo {
+	width: 30px;
+	height: auto;
+}
+
+svg {
+	fill: red !important;
+}
+
+.mwb-wcb-navigations ul li.nav-tab-active {
+	background: #F4F3F3;
+	color: #000;
+	box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.2);
+	border: 1px solid #ddd;
+	border-bottom: 0;
+}
+
+.mwb-wcb-navigations .nav-tab-active p::after {
+	position: absolute;
+	content: "";
+	height: 8px;
+	width: 2px;
+	background: #fff;
+	right: 0;
+	transform: rotate(-52deg);
+	top: 6px;
+}
+
+.mwb-wcb-navigations .nav-tab-active p::before {
+	position: absolute;
+	content: "";
+	height: 7px;
+	width: 2px;
+	background: #fff;
+	right: 0;
+	transform: rotate(52deg);
+	top: 11px;
+}
+
+
+/*.mwb-wcb-navigations a.mwb_wcb_nav_tab:hover {
+    background-color: #eaeaed;
+    color: black;
+    border: 1px solid#ddd;
+    border-bottom: 0;
+}*/
+
+
+/*====================================
+=            table-design            =
+====================================*/
+
+.mwb-wallet-rTable {
+	display: block;
+	width: 100%;
+}
+
+.mwb-wallet-rTable .rTableHead {
+	color: #212529 !important;
+}
+
+.rTableHeading,
+.rTableBody,
+.rTableFoot,
+.rTableRow {
+	clear: both;
+}
+
+.rTableHead,
+.rTableFoot {
+	background-color: #DDD;
+	font-weight: bold;
+}
+
+.rTableCell,
+.rTableHead {
+	border: 1px solid #999999;
+	float: left;
+	overflow: hidden;
+	padding: 3px;
+	width: 24%;
+	font-size: 14px;
+}
+
+.mwb-wallet-rTable:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+
+.mwb-wallet-rTable .rTableRow::after {
+	display: block;
+	clear: both;
+	content: "";
+}
+
+.mwb_wcb_nav_tab.nav-tab i {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+
+/*=====  End of table-design  ======*/
+
+@media screen and (max-width:991px) and (min-width: 769px) {
+	#mwb_wcb_all_trans_table {
+		display: block;
+		border: 0;
+		padding: 10px 0;
+		margin-top: 5px;
+		overflow: auto;
+	}
+	main#main.site-main.mwb_wcb_wallet_container {
+		padding-right: 15px;
+	}
+}
+
+@media only screen and (max-width:767px) {
+	main#main.site-main.mwb_wcb_wallet_container {
+		padding-right: 15px;
+	}
+	#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table_filter {
+		margin-top: 0;
+	}
+	.mwb_wcb_wallet_display_wrapper {
+		margin-top: 15px;
+	}
+}
+
+@media only screen and (max-width: 580px) {
+	#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table_length {
+		width: 100%;
+		text-align: left;
+	}
+	#mwb_wcb_all_trans_table_wrapper #mwb_wcb_all_trans_table_filter {
+		width: 100%;
+		text-align: left;
+	}
+	#mwb_wcb_all_trans_table {
+		display: block;
+		border: 0;
+		padding: 10px 0;
+		margin-top: 5px;
+		overflow: auto;
+	}
+	#mwb_wcb_all_trans_table caption {
+		text-align: left;
+	}
+	.mwb_wcb_wallet_balance_container h4 {
+		font-size: 20px;
+	}
+}
+
+#mwb_wallet_transfer_form {
+	/* padding:10px 20px; */
+	text-align: left;
+}
+
+#mwb_wallet_transfer_form input,
+#mwb_wallet_transfer_form textarea {
+	border: 1px solid #9c27b0;
+}
+
+.mwb_wcb_content_template {
+	padding: 30px;
+}
+
+.mwb_wcb_content_template h2 {
+	color: #9c27b0;
+	margin-top: 10px;
+}
+
+#mwb_wallet_transfer_form textarea {
+	height: 50px;
+}
+
+#mwb_wallet_transfer_form input[type=submit] {
+	background: #242424;
+	color: white;
+	border: none;
+}
+
+.mwb_wcb_content_template li.active {
+	border: 1px solid #ccc;
+	border-bottom: none;
+	background: #9c27b0c7;
+	font-weight: 600;
+	color: white;
+}
+
+.mwb_wcb_content_template .content {
+	border: 1px solid #ccc;
+	padding: 20px 10px;
+	display: none;
+}
+
+@keyframes display-none-transition {
+	0% {
+		display: none;
+		opacity: 0;
+	}
+	1% {
+		display: block;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes display-none-transition {
+	0% {
+		display: none;
+		opacity: 0;
+	}
+	1% {
+		display: block;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.mwb_wcb_content_template .content-section .active {
+	display: block;
+	opacity: 1;
+}
+
+.mwb_wcb_content_template .wallet-tabs ul {
+	margin-bottom: 0px;
+	margin-left: 0px;
+	padding: 0;
+	text-align: left;
+	display: flex;
+}
+
+.mwb_wcb_content_template .wallet-tabs ul li {
+	list-style: none;
+	display: inline-block;
+	padding: 10px 15px;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+}
+
+.mwb_wcb_content_template .wallet-tabs ul li a img {
+	width: 30px;
+}
+
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--mwb-wallet a:before {
+	content: "\f555";
+}
+
+.mwb_wcb_content_template .error {
+	display: none;
+}
+
+#mwb_wallet_transfer_form .show-on-bank-transfer,
+#mwb_wallet_transfer_form .show-on-paypal {
+	display: none;
+}
+
+.mwb_wcb_content_template .dataTables_wrapper {
+	overflow-x: auto;
+}
