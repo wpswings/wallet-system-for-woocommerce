@@ -16,19 +16,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 global $wsfw_mwb_wsfw_obj;
 
-if ( isset( $_POST['wallet_topup_setting'] ) && ! empty( $_POST['wallet_topup_setting'] ) ) {
-	unset( $_POST['wallet_topup_setting'] );
+// if ( isset( $_POST['wallet_topup_setting'] ) && ! empty( $_POST['wallet_topup_setting'] ) ) {
+// 	unset( $_POST['wallet_topup_setting'] );
 	
-	foreach ( $_POST as $key => $value ) {
-		update_option( $key, $value );
-	}
-	if ( ! array_key_exists( 'wsfw_enable_wallet_recharge', $_POST ) ) {
-		update_option( 'wsfw_enable_wallet_recharge', '' );
-	}
-	$mwb_wsfw_error_text = esc_html__( 'Save settings.', 'wallet-system-for-woocommerce' );
-	$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
+// 	foreach ( $_POST as $key => $value ) {
+// 		update_option( $key, $value );
+// 	}
+// 	if ( ! array_key_exists( 'wsfw_enable_wallet_recharge', $_POST ) ) {
+// 		update_option( 'wsfw_enable_wallet_recharge', '' );
+// 	}
+// 	$mwb_wsfw_error_text = esc_html__( 'Save settings.', 'wallet-system-for-woocommerce' );
+// 	$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
 	
-}
+// }
 
 if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) {
 	unset( $_POST['import_wallets'] );
@@ -53,7 +53,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 			} else {
 				while ( ! feof( $file ) ) {
 					$user_data   = fgetcsv( $file );
-
+	
 					$id      = $user_data[0];
 					$balance = $user_data[1];
 					if ( 'User Id' == $id && 'Wallet Balance' == $balance ) {
@@ -77,7 +77,8 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 								'payment_method'   => 'Through importing Wallet',
 								'transaction_type' => $transaction_type,
 								'order_id'         => '',
-
+								'note'             => '',
+					
 							);
 							$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 							$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
@@ -102,8 +103,8 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 	}
 }
 
-if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
-	unset( $_POST['update_wallet'] );
+if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatewallet'] ) ) {
+	unset( $_POST['confirm_updatewallet'] );
 	$update = true;
 	if ( empty( $_POST['wsfw_wallet_amount_for_users'] ) ) {
 		$mwb_wsfw_error_text = esc_html__( 'Please enter any amount', 'wallet-system-for-woocommerce' );
@@ -148,21 +149,89 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 					'payment_method'   => 'Manually By Admin',
 					'transaction_type' => $transaction_type,
 					'order_id'         => '',
-
+					'note'             => '',
+		
 				);
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 				$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				
 			}
 		}
-
+	
 		if ( $result ) {
-			$mwb_wsfw_error_text = esc_html__( 'Updated wallet of users', 'wallet-system-for-woocommerce' );
-			$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
-		} else {
-			$mwb_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
-			$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'error' );
-		}
+            $mwb_wsfw_error_text = esc_html__( 'Updated wallet of users', 'wallet-system-for-woocommerce' );
+		    $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
+        } else {
+            $mwb_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+		    $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'error' );
+        }
+	}
+	
+}
+
+if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
+	unset( $_POST['update_wallet'] );
+	$update = true;
+	if ( empty( $_POST['mwb_wallet-edit-popup-input'] ) ) {
+		$msfw_wpg_error_text = esc_html__( 'Please enter any amount', 'wallet-system-for-woocommerce' );
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+		$update = false;
+	} 
+    if ( $_POST['mwb_wallet-edit-popup-input'] < 0 ) {
+		$msfw_wpg_error_text = esc_html__( 'Please enter amount in positive value.', 'wallet-system-for-woocommerce' );
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+		$update = false;
+	}
+	if ( empty( $_POST['action_type'] ) ) {
+		$msfw_wpg_error_text = esc_html__( 'Please select any action', 'wallet-system-for-woocommerce' );
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+		$update = false;
+	}
+    if ( empty( $_POST['user_id'] ) ) {
+		$msfw_wpg_error_text = esc_html__( 'User Id is not given', 'wallet-system-for-woocommerce' );
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+		$update = false;
+	}
+	if ( $update ) {
+		$updated_amount = sanitize_text_field( $_POST['mwb_wallet-edit-popup-input'] );
+		$wallet_action = sanitize_text_field( $_POST['action_type'] );
+        $user_id = sanitize_text_field( $_POST['user_id'] );
+        $wallet = get_user_meta( $user_id, 'mwb_wallet', true );
+
+        if ( 'credit' == $wallet_action ) { 
+            $wallet += $updated_amount;
+            $wallet = update_user_meta( $user_id, 'mwb_wallet', $wallet );
+            $transaction_type = 'Credited by admin';
+
+        } elseif ( 'debit' == $wallet_action ) { 
+            if ( $wallet < $updated_amount ) {
+                $wallet = 0;
+            } else {
+                $wallet -= $updated_amount;
+            }
+            $wallet = update_user_meta( $user_id, 'mwb_wallet', abs($wallet) );
+            $transaction_type = 'Debited by admin';
+            
+        }
+        $transaction_data = array(
+            'user_id'          => $user_id,
+            'amount'           => $updated_amount,
+            'payment_method'   => 'Manually By Admin',
+            'transaction_type' => $transaction_type,
+            'order_id'         => '',
+			'note'             => '',
+
+        );
+        $wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+        $result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+		if ( $result ) {
+            $msfw_wpg_error_text = esc_html__( 'Updated wallet of user', 'wallet-system-for-woocommerce' );
+		    $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'success' );
+        } else {
+            $msfw_wpg_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+		    $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+        }
+		
 	}
 	
 }
@@ -173,19 +242,14 @@ $wsfw_import_settings = apply_filters( 'wsfw_import_wallet_array', array() );
 
 
 ?>
-<!--  template file for admin settings. -->
-
+<div class="mwb-wpg-gen-section-form-container">
 <form action="" method="POST" class="mwb-wpg-gen-section-form">
 	<div class="wpg-secion-wrap">
-		<h3><?php esc_html_e( 'Wallet TopUp Setting' , 'wallet-system-for-woocommerce' ); ?></h3>
-		<?php
-		$wsfw_general_html = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_generate_html( $wsfw_wallet_topup_settings );
-		echo esc_html( $wsfw_general_html );
-		?>
+    <h3><?php esc_html_e( 'Credit/Debit amount from user\'s wallet' , 'wallet-system-for-woocommerce' ); ?></h3>
 	</div>
 </form>
 <div class="mwb-wpg-gen-section-form-wrapper">
-	<form action="" method="POST" class="mwb-wpg-gen-section-form" onsubmit="return confirm('Are you sure to update wallet of all users?');" >
+	<form action="" method="POST" class="mwb-wpg-gen-section-form" id="form_update_wallet"> 
 		<div class="wpg-secion-wrap">
 			<h3><?php esc_html_e( 'Edit wallet of all users at once' , 'wallet-system-for-woocommerce' ); ?></h3>
 			<?php
@@ -195,16 +259,16 @@ $wsfw_import_settings = apply_filters( 'wsfw_import_wallet_array', array() );
 		</div>
 		<div class="mwb_wallet-update--popupwrap">
 			<div class="mwb_wallet-update-popup">
-				<h3>Excepteur sint occaecat cupidatat non proident.</h3>
+				<h3><?php esc_html_e( 'Are you sure to update wallet of all users?' , 'wallet-system-for-woocommerce' ); ?></h3>
 				<div class="mwb_wallet-update-popup-btn">
-					<a href="#" class="mwb-btn mwb-btn__filled">Yes, I’m Sure</a>
-					<a href="#">Not now</a>
+					<input type="submit" class="mwb-btn mwb-btn__filled" name="confirm_updatewallet" id="confirm_updatewallet" value="<?php esc_html_e( 'Yes, I\'m Sure' , 'wallet-system-for-woocommerce' ); ?>" >
+					<a href="#" id="cancel_walletupdate" ><?php esc_html_e( 'Not now' , 'wallet-system-for-woocommerce' ); ?></a>
 				</div>
 			</div>
 		</div>
 	</form>
 
-	<button class="mdc-ripple-upgraded" id="export_user_wallet" > <img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/export.svg">
+	<button class="mdc-ripple-upgraded" id="export_user_wallet" > <img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/export.svg">
 	</button>
 
 	<form action="" method="POST" class="mwb-wpg-gen-section-form" enctype="multipart/form-data">
@@ -217,210 +281,88 @@ $wsfw_import_settings = apply_filters( 'wsfw_import_wallet_array', array() );
 		</div>
 	</form>
 </div>
-<div class="mwb_wallet-edit--popupwrap">
-	<div class="mwb_wallet-edit-popup">
-		<div class="mwb_wallet-edit-popup-content">
-			<div class="mwb_wallet-edit-popup-amount">
-				<div class="mwb_wallet-edit-popup-label">
-					<label for="mwb_wallet-edit-popup-input" class="mwb_wallet-edit-popup-input">Select Amount ($):</label>
-				</div>
-				<div class="mwb_wallet-edit-popup-control">
-					<input type="number" name="mwb_wallet-edit-popup-input" class="mwb_wallet-edit-popup-fill">
-				</div>
-			</div>
-			<div class="mwb_wallet-edit-popup-amount">
-				<div class="mwb_wallet-edit-popup-label">
-					<label for="mwb_wallet-edit-popup-card" class="mwb_wallet-edit-popup-card">Select Card:</label>
-				</div>
-				<div class="mwb_wallet-edit-popup-control">
-					<div class="mwb-form-select-card">
-						<input type="radio" id="debit" name="card" value="debit">
-						<label for="debit">Debit Card</label>
-					</div>
-					<div class="mwb-form-select-card">
-						<input type="radio" id="credit" name="card" value="credit">
-						<label for="credit">Credit Card</label>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="mwb_wallet-edit-popup-btn">
-			<a href="#" class="mwb-btn mwb-btn__filled">Update</a>
-		</div>
-	</div>
 </div>
 <div class="mwb-wpg-gen-section-table-wrap">
-	<h4>Wallet</h4>
+	<h4><?php esc_html_e( 'Wallet' , 'wallet-system-for-woocommerce' ); ?></h4>
 	<div class="mwb-wpg-gen-section-table-container">
 		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive" style="width:100%">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>Name</th>
-					<th>Email</th>
-					<th>Role</th>
-					<th>Amount</th>
-					<th>Actions</th>
+					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Name', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Email', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Role', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Actions', 'wallet-system-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>4</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>5</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>6</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>copy text</td>
-					<td>123userdemo@mysite.com</td>
-					<td>copy text</td>
-					<td>123456</td>
-					<td>
-						<span>
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/edit.svg">
-							<img src="http://localhost/wallet-system/wp-content/plugins/wallet-system-for-woocommerce/admin/image/eye.svg">
-						</span>
-					</td>
-				</tr>
+				<?php
+				$users = get_users();
+				$i = 1;
+				if ( ! empty( $users ) ) {
+					foreach( $users as $user ) {
+						$wallet_bal = get_user_meta( $user->ID, 'mwb_wallet', true );
+						?>
+						<tr>
+							<td><img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/eva_close-outline.svg"><?php echo $i;  ?></td>
+							<td><?php esc_html_e( $user->display_name, 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php esc_html_e( $user->user_email, 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php esc_html_e( $user->roles[0], 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php echo wc_price( $wallet_bal ); ?></td>
+							<td>
+								<span>
+									<a class="edit_wallet" data-userid="<?php echo $user->ID; ?>" href="" title="Edit Wallet" >
+										<img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/edit.svg">
+									</a>	
+									<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=mwb-user-wallet-transactions&id=' .$user->ID ); ?>" title="View Transactions" >
+										<img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/eye.svg">
+									</a>
+								</span>
+							</td>
+						</tr>
+						<?php
+						$i++;
+					}
+				}
+				?>
 			</tbody>
 		</table>
+	</div>
+</div>
+
+<div class="mwb_wallet-edit--popupwrap">
+	<div class="mwb_wallet-edit-popup">
+		<p><span id="close_wallet_form"><img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/cancel.svg"></span></p>
+		<form method="post">
+			<div class="mwb_wallet-edit-popup-content">
+				<div class="mwb_wallet-edit-popup-amount">
+					<div class="mwb_wallet-edit-popup-label">
+						<label for="mwb_wallet-edit-popup-input" class="mwb_wallet-edit-popup-input"><?php esc_html_e( 'Select Amount ('.get_woocommerce_currency_symbol(). '):', 'wallet-system-for-woocommerce' ); ?></label>
+					</div>
+					<div class="mwb_wallet-edit-popup-control">
+						<input type="number" name="mwb_wallet-edit-popup-input" class="mwb_wallet-edit-popup-fill">
+					</div>
+				</div>
+				<div class="mwb_wallet-edit-popup-amount">
+					<div class="mwb_wallet-edit-popup-label">
+						<label for="mwb_wallet-edit-popup-card" class="mwb_wallet-edit-popup-card"><?php esc_html_e( 'Select Action:', 'wallet-system-for-woocommerce' ); ?></label>
+					</div>
+					<div class="mwb_wallet-edit-popup-control">
+						<div class="mwb-form-select-card">
+							<input type="radio" id="debit" name="action_type" value="debit">
+							<label for="debit"><?php esc_html_e( 'Debit Wallet', 'wallet-system-for-woocommerce' ); ?></label>
+						</div>
+						<div class="mwb-form-select-card">
+							<input type="radio" id="credit" name="action_type" value="credit">
+							<label for="credit"><?php esc_html_e( 'Credit Wallet', 'wallet-system-for-woocommerce' ); ?></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mwb_wallet-edit-popup-btn">
+				<input type="submit" name="update_wallet" class="mwb-btn mwb-btn__filled" value="Update Wallet">
+			</div>
+		</form>
 	</div>
 </div>

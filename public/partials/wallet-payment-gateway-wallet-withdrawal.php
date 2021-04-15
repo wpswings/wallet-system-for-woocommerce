@@ -8,20 +8,17 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-$min = get_option( 'wallet_minimum_withdrawn_amount', 0 );
-//$max = get_option( 'wallet_maximum_withdrawn_amount', '' );
 $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 
 ?>
 
 
 <div class='content active'>
-    <h2><?php esc_html_e( 'Wallet Withdrawal Request', 'wallet-system-for-woocommerce' ); ?></h2>
     
     <?php
     $disable_withdrawal_request = get_user_meta( $user_id, 'disable_further_withdrawal_request', true );
     if ( $disable_withdrawal_request ) {
-        show_message_on_widthdrawal_requesting( 'Your wallet\'s withdrawal request is in pending.', 'woocommerce-info' ); 
+        show_message_on_form_submit( 'Your wallet\'s withdrawal request is in pending.', 'woocommerce-info' ); 
         $args = array( 
             'numberposts' => -1,
             'post_type'	  => 'wallet_withdrawal', 
@@ -34,9 +31,10 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
         <table>
             <thead>
                 <tr>
+                    <th><?php esc_html_e( 'ID', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
-                    <th><?php esc_html_e( 'Method', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
                 </tr>
             </thead>
@@ -46,11 +44,13 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
                     $request_id = $pending->ID;
                     $userid = get_post_meta( $request_id , 'wallet_user_id' , true );
                     if ( $userid == $user_id ) {
+                        $date = date_create($pending->post_date);
                         echo '<tr>
+                        <td>'. $request_id .'</td>
                         <td>'. wc_price( get_post_meta( $request_id , 'mwb_wallet_withdrawal_amount' , true ) ) .'</td>
-                        <td>'. get_post_meta( $request_id , 'withdrawal_request_status' , true ) .'</td>
-                        <td>'. get_post_meta( $request_id , 'wallet_payment_method' , true ) .'</td>
-                        <td>'. $pending->post_date .'</td>
+                        <td>'. $pending->post_status .'</td>
+                        <td>'. get_post_meta( $request_id , 'mwb_wallet_note' , true ) .'</td>
+                        <td>'. esc_html__( date_format( $date,"d/m/Y"), 'wallet-system-for-woocommerce' ) .'</td>
                         </tr>';
                     }
                 }
@@ -59,58 +59,30 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
             </tbody>
         </table>
     <?php 
-    } else { 
-    if ( $min > $wallet_bal )  {
-        show_message_on_widthdrawal_requesting( 'Your wallet amount is less than minimum amount of withdrawing money(' .wc_price( $min ).') from wallet.', 'woocommerce-error' ); 
-    } else { ?>
+    } else {
+        if( $wallet_bal > 0 ) { 
+        ?>
         <form method="post" action="" id="mwb_wallet_transfer_form">
             <p class="mwb-wallet-field-container form-row form-row-wide">
                 <label for="mwb_wallet_withdrawal_amount"><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></label>
-                <input type="number" step="0.01" min="<?php esc_attr_e( $min, 'wallet-system-for-woocommerce' ); ?>" max="<?php esc_attr_e( $wallet_bal, 'wallet-system-for-woocommerce' ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
-            </p>
-            <?php
-            if ( ! empty( $wallet_methods ) && is_array( $wallet_methods ) ) { ?>
-                <p class="mwb-wallet-field-container form-row form-row-wide">
-                    <label for="wallet_payment_method"><?php esc_html_e( 'Select Payment Method', 'wallet-system-for-woocommerce' ); ?></label>
-                    <select name="wallet_payment_method" id="wallet_payment_method" required="">
-                        <option value="Select method"><?php esc_html_e( 'Select method', 'wallet-system-for-woocommerce' ); ?></option>
-                <?php
-                    foreach ( $wallet_methods as $key => $method ) { ?>
-                        <option value="<?php esc_attr_e( $method['name'], 'wallet-system-for-woocommerce' ); ?>"><?php esc_html_e( $method['name'], 'wallet-system-for-woocommerce' ); ?></option>
-                    <?php } ?>
-                    </select>
-                </p>
-            
-            <?php } ?>
-
-            <p class="mwb-wallet-field-container form-row form-row-wide show-on-bank-transfer">
-                <label for="mwb_wallet_bank_account_name"><?php esc_html_e( 'Account Name', 'wallet-system-for-woocommerce' ); ?></label>
-                <input type="text" id="mwb_wallet_bank_account_name" name="mwb_wallet_bank_account_name" >
-            </p>
-            <p class="mwb-wallet-field-container form-row form-row-wide  show-on-bank-transfer">
-                <label for="mwb_wallet_bank_account_no"><?php esc_html_e( 'Bank Account No.', 'wallet-system-for-woocommerce' ); ?></label>
-                <input type="text" id="mwb_wallet_bank_account_no" name="mwb_wallet_bank_account_no" >
-            </p>
-            <p class="mwb-wallet-field-container form-row form-row-wide show-on-bank-transfer">
-                <label for="mwb_wallet_bank_sort_code"><?php esc_html_e( 'Sort Code', 'wallet-system-for-woocommerce' ); ?></label>
-                <input type="text" id="mwb_wallet_bank_sort_code" name="mwb_wallet_bank_sort_code" minlength="6" maxlength="6" pattern="[0-9]{6}" title="Code should be of 6 digits, Only numbers are allowed" >
+                <input type="number" step="0.01" min="0" max="<?php esc_attr_e( $wallet_bal, 'wallet-system-for-woocommerce' ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
             </p>
 
-            <p class="mwb-wallet-field-container form-row form-row-wide show-on-paypal">
-                <label for="mwb_wallet_paypal_email"><?php esc_html_e( 'PayPal Email', 'wallet-system-for-woocommerce' ); ?></label>
-                <input type="email" id="mwb_wallet_paypal_email" name="mwb_wallet_paypal_email" >
+            <p class="mwb-wallet-field-container form-row form-row-wide">
+                <label for="mwb_wallet_note"><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></label>
+                <textarea id="mwb_wallet_note" name="mwb_wallet_note" required></textarea>
             </p>
 
             <p class="error" style="color:red"></p>
 
             <p class="mwb-wallet-field-container form-row">
                 <input type="hidden" name="wallet_user_id" value="<?php esc_attr_e( $user_id, 'wallet-system-for-woocommerce' ); ?>">
-                <input type="submit" class="button" id="mwb_withdrawal_request" name="mwb_withdrawal_request" value="Request For Withdrawal" disabled >
+                <input type="submit" class="mwb-btn__filled button" id="mwb_withdrawal_request" name="mwb_withdrawal_request" value="Request For Withdrawal" >
             </p>
         </form>
-    <?php }
-    ?>
-    
-    <?php } ?>
+        <?php } else {
+            show_message_on_form_submit( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'woocommerce-error' );
+        } 
+    } ?>
 
 </div>

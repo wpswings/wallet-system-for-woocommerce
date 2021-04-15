@@ -73,6 +73,7 @@ class Wallet_System_For_Woocommerce_Activator {
 			transaction_type varchar(200) NULL,
 			payment_method varchar(50) NULL,
 			transaction_id varchar(50) NULL,
+			note varchar(500) Null,
 			date datetime,
 			PRIMARY KEY  (Id),
 			KEY user_id (user_id)

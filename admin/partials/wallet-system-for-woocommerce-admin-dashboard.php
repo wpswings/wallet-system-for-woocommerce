@@ -29,7 +29,7 @@ $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 	</div>
 </header>
 
-<main class="mwb-main mwb-bg-white mwb-r-8">
+<main class="mwb-main mwb-r-8">
 	<nav class="mwb-navbar">
 		<ul class="mwb-navbar__items">
 			<?php
@@ -71,3 +71,4 @@ $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 			?>
 		</div>
 	</section>
+</main>

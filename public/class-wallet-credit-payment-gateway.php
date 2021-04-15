@@ -170,6 +170,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
+						'note'             => '',
 					);
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
