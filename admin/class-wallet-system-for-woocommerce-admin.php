@@ -213,8 +213,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title' => __( 'Enable', 'wallet-system-for-woocommerce' ),
 				'type'  => 'radio-switch',
 				'description'  => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
-				'name'	=> 'PC_enable',
-				'id'    => 'PC_enable',
+				'name'	=> 'mwb_wsfw_enable',
+				'id'    => 'mwb_wsfw_enable',
 				'value' => 'on',
 				'class' => 'wsfw-radio-switch-class',
 				'options' => array(
@@ -250,8 +250,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title' => __( 'Refund to wallet', 'wallet-system-for-woocommerce' ),
 				'type'  => 'radio-switch',
 				'description'  => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
-				'name'	=> 'PC_allow_refund_to_wallet',
-				'id'    => 'PC_allow_refund_to_wallet',
+				'name'	=> 'mwb_wsfw_allow_refund_to_wallet',
+				'id'    => 'mwb_wsfw_allow_refund_to_wallet',
 				'value' => 'on',
 				'class' => 'wsfw-radio-switch-class',
 				'options' => array(
@@ -263,8 +263,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title' => __( 'Send email on wallet amount update to customers', 'wallet-system-for-woocommerce' ),
 				'type'  => 'radio-switch',
 				'description'  => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
-				'name'	=> 'PC_enable_email_notification_for_wallet_update',
-				'id'    => 'PC_enable_email_notification_for_wallet_update',
+				'name'	=> 'mwb_wsfw_enable_email_notification_for_wallet_update',
+				'id'    => 'mwb_wsfw_enable_email_notification_for_wallet_update',
 				'value' => '',
 				'class' => 'wsfw-radio-switch-class',
 				'options' => array(
@@ -441,7 +441,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'success' );
 				}
 
-				$enable = get_option( 'PC_enable', '' );
+				$enable = get_option( 'mwb_wsfw_enable', '' );
 				$wallet_payment_enable = get_option( 'woocommerce_mwb_wsfw_wallet_payment_gateway_settings' );
 				if ( isset( $enable ) && '' === $enable ) { 
 					if ( $wallet_payment_enable ) {
@@ -586,7 +586,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$userid = $order->user_id;
 		$order_items = $order->get_items();
 		$payment_method = $order->payment_method;
-		$wallet_id = get_option( 'PC_rechargeable_product_id', '' );
+		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount = get_user_meta( $userid, 'mwb_wallet', true );
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();

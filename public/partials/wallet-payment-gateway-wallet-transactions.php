@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <tbody>
                 <?php
                 global $wpdb;
-                $table_name = $wpdb->prefix . 'PC_wallet_transaction';
+                $table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
                 $transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id = $user_id ORDER BY Id DESC" );
                 if ( ! empty( $transactions ) && is_array($transactions ) ) {
                     $i = 1;

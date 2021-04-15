@@ -67,7 +67,7 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
         private function table_data() {      
             global $wpdb;
 
-            $table_name = $wpdb->prefix . 'PC_wallet_transaction';
+            $table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 
             $data=array();
 

@@ -58,13 +58,13 @@ class Wallet_System_For_Woocommerce_Activator {
 			$productdata->set_catalog_visibility( 'hidden' );
 			$productdata->save();
 
-			update_option( 'PC_rechargeable_product_id', $product_id );
+			update_option( 'mwb_wsfw_rechargeable_product_id', $product_id );
 
 		}
 
-		// create custom table named wp-db-prefix_PC_wallet_transaction
+		// create custom table named wp-db-prefix_mwb_wsfw_wallet_transaction
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'PC_wallet_transaction';
+		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 		$wpdb_collate = $wpdb->collate;
 		$sql = "CREATE TABLE {$table_name} (
 			Id bigint(20) unsigned NOT NULL auto_increment,

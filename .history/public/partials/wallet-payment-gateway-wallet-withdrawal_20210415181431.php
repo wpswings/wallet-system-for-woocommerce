@@ -22,44 +22,42 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
         $args = array( 
             'numberposts' => -1,
             'post_type'	  => 'wallet_withdrawal', 
-            'orderby' 	  => 'ID',
-            'order' 	  => 'DESC', 
-            'post_status' => array( 'any' ),
+            'orderby' 	  => 'date',
+            'order' 	  => 'ASC', 
+            'post_status' => 'pending'
         );
         $withdrawal_request = get_posts($args);
         ?>
-        <div class="mwb-wallet-transaction-container">
-            <table class="mwb-wallet-field-table dt-responsive" id="transactions_table" >
-                <thead>
-                    <tr>
-                        <th><?php esc_html_e( 'ID', 'wallet-system-for-woocommerce' ); ?></th>
-                        <th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
-                        <th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
-                        <th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
-                        <th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ( $withdrawal_request as $key => $pending ) {
-                        $request_id = $pending->ID;
-                        $userid = get_post_meta( $request_id , 'wallet_user_id' , true );
-                        if ( $userid == $user_id ) {
-                            $date = date_create($pending->post_date);
-                            echo '<tr>
-                            <td>'. $request_id .'</td>
-                            <td>'. wc_price( get_post_meta( $request_id , 'mwb_wallet_withdrawal_amount' , true ) ) .'</td>
-                            <td>'. $pending->post_status .'</td>
-                            <td>'. get_post_meta( $request_id , 'mwb_wallet_note' , true ) .'</td>
-                            <td>'. esc_html__( date_format( $date,"d/m/Y"), 'wallet-system-for-woocommerce' ) .'</td>
-                            </tr>';
-                        }
+        <table class="">
+            <thead>
+                <tr>
+                    <th><?php esc_html_e( 'ID', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ( $withdrawal_request as $key => $pending ) {
+                    $request_id = $pending->ID;
+                    $userid = get_post_meta( $request_id , 'wallet_user_id' , true );
+                    if ( $userid == $user_id ) {
+                        $date = date_create($pending->post_date);
+                        echo '<tr>
+                        <td>'. $request_id .'</td>
+                        <td>'. wc_price( get_post_meta( $request_id , 'mwb_wallet_withdrawal_amount' , true ) ) .'</td>
+                        <td>'. $pending->post_status .'</td>
+                        <td>'. get_post_meta( $request_id , 'mwb_wallet_note' , true ) .'</td>
+                        <td>'. esc_html__( date_format( $date,"d/m/Y"), 'wallet-system-for-woocommerce' ) .'</td>
+                        </tr>';
                     }
-                    ?>
-                
-                </tbody>
-            </table>
-        </div>
+                }
+                ?>
+            
+            </tbody>
+        </table>
     <?php 
     } else {
         if( $wallet_bal > 0 ) { 
@@ -88,5 +86,3 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
     } ?>
 
 </div>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>

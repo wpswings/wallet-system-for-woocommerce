@@ -29,9 +29,9 @@ class Wallet_System_For_Woocommerce_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function wallet_system_for_woocommerce_deactivate() {
-		$product_id = get_option( 'PC_rechargeable_product_id', '' );
+		$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		if ( ! empty( $product_id ) ) {
-			delete_option( 'PC_rechargeable_product_id' );
+			delete_option( 'mwb_wsfw_rechargeable_product_id' );
 			wp_delete_post( $product_id, true );
 		}
 	}
