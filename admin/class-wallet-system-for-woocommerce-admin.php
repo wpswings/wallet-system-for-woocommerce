@@ -138,7 +138,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			
 			add_submenu_page( '', 'Edit User Wallet',  '', 'edit_posts', 'mwb-user-wallet-transactions', array( $this, 'show_users_wallet_transactions' ) ); 
 			
-			add_submenu_page( 'mwb-plugins', 'Wallet Recharge Orders', 'Wallet Recharge Orders', 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) ); 
+			add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', 'Wallet Recharge Orders', 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) ); 
 			
 		}
 	}
@@ -166,7 +166,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_submenu_page( $menus = array() ) {
 		$menus[] = array(
-			'name'            => __( 'Settings', 'wallet-system-for-woocommerce' ),
+			'name'            => __( 'Wallet System', 'wallet-system-for-woocommerce' ),
 			'slug'            => 'wallet_system_for_woocommerce_menu',
 			'menu_link'       => 'wallet_system_for_woocommerce_menu',
 			'instance'        => $this,
@@ -1245,6 +1245,23 @@ class Wallet_System_For_Woocommerce_Admin {
 		});
 		</script>
 		<?php }
+
+		// Add orders count for custom order type wallet_shop_order
+		global $submenu;
+		foreach ( $submenu['woocommerce'] as $key => $menu_item ) {
+			if ( 0 === strpos( $menu_item[0], 'Wallet Recharge Orders' ) ) {
+				$wallet_orders = get_posts( array(
+					'numberposts' => -1,
+					'post_type'   => 'wallet_shop_order',
+					'post_status' => 'wc-processing',
+				) );
+				$order_count = count( $wallet_orders );
+				$submenu['woocommerce'][ $key ][0] .= ' <span class="awaiting-mod update-plugins count-' . esc_attr( $order_count ) . '"><span class="processing-count">' . number_format_i18n( $order_count ) . '</span></span>'; // WPCS: override ok.
+				break;
+			}
+
+		}
+
 
 	}
 

@@ -13,9 +13,9 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Wallet System for WooCommerce
- * Plugin URI:        https://makewebbetter.com/product/wallet-system-for-woocommerce/
+ * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
- * Version:           1.0.0
+ * Version:           2.0.0
  * Author:            makewebbetter
  * Author URI:        https://makewebbetter.com/
  * Text Domain:       wallet-system-for-woocommerce
@@ -46,7 +46,7 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '1.0.0' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.0.0' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://makewebbetter.com' );
@@ -166,8 +166,8 @@ if ( $activated ) {
 	function wallet_system_for_woocommerce_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 		if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
 			$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="mwb-info-img" alt="Demo image">'.__( 'Demo', 'wallet-system-for-woocommerce' ).'</a>';
-			$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="mwb-info-img" alt="documentation image">'.__( 'Documentation', 'wallet-system-for-woocommerce' ).'</a>';
-			$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="mwb-info-img" alt="support image">'.__( 'Support', 'wallet-system-for-woocommerce' ).'</a>';
+			$links_array[] = '<a href="https://docs.makewebbetter.com/wallet-system-for-woocommerce/" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="mwb-info-img" alt="documentation image">'.__( 'Documentation', 'wallet-system-for-woocommerce' ).'</a>';
+			$links_array[] = '<a href="https://makewebbetter.com/contact-us/" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="mwb-info-img" alt="support image">'.__( 'Support', 'wallet-system-for-woocommerce' ).'</a>';
 		}
 		return $links_array;
 	}
