@@ -365,11 +365,31 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 					
 			} else {
+				add_filter( 'woocommerce_add_cart_item_data', array( $this, 'add_wallet_topup_product_in_cart' ), 10, 2 );
 				// if no products in cart, add it
 				WC()->cart->add_to_cart( $wallet_recharge['productid'] );
+
+				// wp_safe_redirect( wc_get_checkout_url() );
+				// exit();
 			}
 			WC()->session->__unset( 'wallet_recharge' );
 		}
+	}
+
+	/**
+	 * Add credit amount to cart data.
+	 *
+	 * @param array $cart_item_data  cart data.
+	 * @param int   $product_id prduct id in cart.
+	 */
+	public function add_wallet_topup_product_in_cart( $cart_item_data, $product_id ) {
+		if (  WC()->session->__isset( 'recharge_amount' ) ) {
+			$wallet_recharge = WC()->session->get( 'recharge_amount' );
+			if ( isset( $wallet_recharge ) && ! empty( $wallet_recharge ) ) {
+				$cart_item_data['recharge_amount'] = $wallet_recharge;
+			}
+		}
+		return $cart_item_data;
 	}
 
 	/**
@@ -421,13 +441,10 @@ class Wallet_System_For_Woocommerce_Public {
 	public function mwb_update_price_cart( $cart_object ) {
 		$cart_items = $cart_object->cart_contents;
 		if (  WC()->session->__isset( 'recharge_amount' ) ) {
-			$wallet_recharge = WC()->session->get( 'recharge_amount' );
-			$price = $wallet_recharge;
-			
 			if ( ! empty( $cart_items ) ) {
 				foreach ( $cart_items as $key => $value ) {
-					$value['data']->set_price( $price );
-					//wc_delete_product_transients( $value['product_id'] );
+					$value['data']->set_price( $value['recharge_amount'] );
+					wc_delete_product_transients( $value['product_id'] );
 				}
 		  	}
 		}

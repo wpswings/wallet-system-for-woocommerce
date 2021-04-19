@@ -176,8 +176,8 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 									</form>
 								</td>
 								<td><?php echo wc_price( $withdrawal_amount ); ?></td>
-								<td><?php $date = date_create($request->post_date);
-								esc_html_e( date_format( $date,"d/m/Y"), 'wallet-system-for-woocommerce' );
+								<td><?php $date_format = get_option( 'date_format', 'm/d/Y' ); $date = date_create($request->post_date);
+								esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
 								?></td>					
 								<td><?php esc_html_e( get_post_meta( $request->ID , 'mwb_wallet_note' , true ), 'wallet-system-for-woocommerce' );
 								?></td>					

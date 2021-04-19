@@ -346,7 +346,44 @@ img {
 }
 
 .mwb-wallet-transaction-container .bottom {
-  display: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-top: 25px;
+}
+
+.mwb-wallet-transaction-container .bottom .dataTables_length {
+  font-family: "NunitoSans-SemiBold";
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+}
+
+.mwb-wallet-transaction-container .bottom .dataTables_length select {
+  margin: 0 25px;
+  min-width: 90px;
+  padding: 5px 30px 5px 15px !important;
+}
+
+.mwb-wallet-transaction-container .bottom .dataTables_info {
+  font-family: "NunitoSans-SemiBold";
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  margin-right: 5px;
+}
+
+.mwb-wallet-transaction-container .bottom .dataTables_paginate {
+  padding: 0;
+}
+
+.mwb-wallet-transaction-container .bottom .dataTables_paginate span .paginate_button {
+  display: none !important;
+}
+
+.mwb-wallet-transaction-container .bottom .dataTables_paginate .paginate_button:hover {
+  background: #ffffff;
+  border: 0;
 }
 
 /*=====  End of Transaction Section  ======*/

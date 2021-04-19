@@ -233,44 +233,6 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
             $failures = 0;
          
             switch ( $action ) {
-                  
-                // case 'mark-processing':
-                //     foreach ( $order_ids as $order_id ) {
-                //         $order      = wc_get_order( $order_id );
-                //         $order_note = 'Order Status changed by bulk edit:';
-                //         $status = $order->update_status( 'wc-processing', $order_note, true );
-                //         if ( $status ) {
-                //             $count++;
-                //         } else {
-                //             $failures++;
-                //         }
-                //     }
-                //     break;
-                // case 'mark_on-hold':
-                //     foreach ( $order_ids as $order_id ) {
-                //         $order      = wc_get_order( $order_id );
-                //         $order_note = 'Order Status changed by bulk edit:';
-                //         $status = $order->update_status( 'wc-on-hold', $order_note, true );
-                //         if ( $status ) {
-                //             $count++;
-                //         } else {
-                //             $failures++;
-                //         }
-                //     }
-                //     break;    
-                // case 'mark_completed':
-                //     foreach ( $order_ids as $order_id ) {
-                //         $order      = wc_get_order( $order_id );
-                //         $order_note = 'Order Status changed by bulk edit:';
-                //         $status = $order->update_status( 'wc-completed', $order_note, true );
-                //         if ( $status ) {
-                //             $count++;
-                //         } else {
-                //             $failures++;
-                //         }
-                //     }
-                //     break;   
-                
                 case 'trash':
                     foreach ( $order_ids as $order_id ) {
                         $order = wc_get_order( $order_id );

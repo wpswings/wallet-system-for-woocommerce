@@ -40,8 +40,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <td><?php echo wc_price( $transaction->amount ); ?></td>
                             <td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
                             <td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
-                            <td><?php $date = date_create($transaction->date);
-                            esc_html_e( date_format( $date,"Y/m/d"), 'wallet-system-for-woocommerce' );
+                            <td><?php $date_format = get_option( 'date_format', 'm/d/Y' ); $date = date_create($transaction->date);
+                            esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
                             ?></td>
                         </tr>
                         <?php

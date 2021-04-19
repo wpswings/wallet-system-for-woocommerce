@@ -489,3 +489,8 @@ select {
         display:none!important;
     }
  }
+
+ .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table .hide_date {
+     display:none;
+ }
+ 

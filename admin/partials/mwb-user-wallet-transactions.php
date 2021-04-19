@@ -56,6 +56,7 @@ $user = get_user_by( 'id', $user_id );
                     <th><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th class="hide_date" ><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -73,8 +74,11 @@ $user = get_user_by( 'id', $user_id );
                             <td><?php echo wc_price( $transaction->amount ); ?></td>
                             <td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
                             <td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
-                            <td><?php $date = date_create($transaction->date);
-                            esc_html_e( date_format( $date,"m/d/Y"), 'wallet-system-for-woocommerce' );
+                            <td><?php $date_format = get_option( 'date_format', 'm/d/Y' ); $date = date_create($transaction->date);
+                            esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
+                            ?></td>
+                            <td class="hide_date" ><?php $date = date_create($transaction->date);
+                            esc_html_e( date_format( $date, 'm/d/Y' ), 'wallet-system-for-woocommerce' );
                             ?></td>
                         </tr>
                         <?php

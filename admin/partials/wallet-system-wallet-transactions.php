@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 <div class="mwb-wpg-gen-section-table-wrap mwb-wpg-transcation-section-table">
-    <h4>Transactions</h4>
+    <h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
     <div class="mwb-wpg-gen-section-table-container">
         <table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive" style="width:100%">
             <thead>
@@ -53,6 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <th><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
                     <th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+                    <th class="hide_date" ><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -74,8 +75,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
                             <td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
                             <td><?php echo $transaction->Id;  ?></td>
-                            <td><?php $date = date_create($transaction->date);
-                            esc_html_e( date_format( $date,"m/d/Y"), 'wallet-system-for-woocommerce' );
+                            <td><?php $date_format = get_option( 'date_format', 'm/d/Y' ); $date = date_create($transaction->date);
+                            esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
+                            ?></td>
+                            <td class="hide_date" ><?php $date = date_create($transaction->date);
+                            esc_html_e( date_format( $date, 'm/d/Y' ), 'wallet-system-for-woocommerce' );
                             ?></td>
                         </tr>
                         <?php

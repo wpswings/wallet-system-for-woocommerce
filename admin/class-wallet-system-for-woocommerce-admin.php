@@ -585,9 +585,29 @@ class Wallet_System_For_Woocommerce_Admin {
 		$order  = wc_get_order( $order_id );
 		$userid = $order->user_id;
 		$order_items = $order->get_items();
+		$order_total = $order->get_total();
 		$payment_method = $order->payment_method;
 		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount = get_user_meta( $userid, 'mwb_wallet', true );
+
+		$allow_refund_to_wallet = get_option( 'mwb_wsfw_allow_refund_to_wallet', '' );
+		if ( isset( $allow_refund_to_wallet ) && 'on' === $allow_refund_to_wallet ) {
+			if ( 'refunded' === $new_status ) {
+				$walletamount += $order_total;
+				update_user_meta( $userid, 'mwb_wallet', $walletamount );
+				$transaction_type = 'Wallet credited through order refund <a href="' . admin_url('post.php?post='.$order_id.'&action=edit') . '" >#' . $order_id . '</a>';
+				$transaction_data = array(
+					'user_id'          => $userid,
+					'amount'           => $order_total,
+					'payment_method'   => 'Manually by admin',
+					'transaction_type' => htmlentities( $transaction_type ),
+					'order_id'         => $order_id,
+					'note'             => '',
+				);
+				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+			}
+		}
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();
 			$total = $item->get_total();
@@ -1136,6 +1156,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function custom_code_in_head() {
+		$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		echo '<style type="text/css">
 		.mwb_wallet_actions .wallet-manage::after {
 			font-family: Dashicons;
@@ -1215,6 +1236,10 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		.form-table td .error {
 			color:red;
+		}
+
+		.wp-list-table .type-product.post-' . $product_id .' {
+			display:none;
 		}
 		</style>
     	';
@@ -1345,6 +1370,5 @@ class Wallet_System_For_Woocommerce_Admin {
 			)
 		);
 	}
-
 
 }

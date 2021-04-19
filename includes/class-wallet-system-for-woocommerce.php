@@ -300,7 +300,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_cart_calculate_fees', $wsfw_plugin_public, 'wsfw_add_wallet_discount', 20 );
 			$this->loader->add_action( 'template_redirect', $wsfw_plugin_public, 'add_wallet_recharge_to_cart' );
 			$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $wsfw_plugin_public, 'show_message_addto_cart', 10, 2 );
-			$this->loader->add_action( 'woocommerce_before_calculate_totals', $wsfw_plugin_public, 'mwb_update_price_cart' );
+			$this->loader->add_action( 'woocommerce_before_calculate_totals', $wsfw_plugin_public, 'mwb_update_price_cart', 10, 1 );
 			$this->loader->add_action( 'woocommerce_cart_item_removed', $wsfw_plugin_public, 'after_remove_wallet_from_cart', 10, 2 );
 			$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_public, 'mwb_order_status_changed', 10, 3 ); 
 
@@ -414,10 +414,6 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_default_tabs['wallet-system-for-woocommerce-system-status'] = array(
 			'title'       => esc_html__( 'System Status', 'wallet-system-for-woocommerce' ),
 			'name'        => 'wallet-system-for-woocommerce-system-status',
-		);
-		$wsfw_default_tabs['wallet-system-for-woocommerce-template'] = array(
-			'title'       => esc_html__( 'Templates', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-for-woocommerce-template',
 		);
 		$wsfw_default_tabs['wallet-system-for-woocommerce-overview'] = array(
 			'title'       => esc_html__( 'Overview', 'wallet-system-for-woocommerce' ),

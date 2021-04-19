@@ -341,7 +341,7 @@ $wsfw_import_settings = apply_filters( 'wsfw_import_wallet_array', array() );
 						<label for="mwb_wallet-edit-popup-input" class="mwb_wallet-edit-popup-input"><?php esc_html_e( 'Select Amount ('.get_woocommerce_currency_symbol(). '):', 'wallet-system-for-woocommerce' ); ?></label>
 					</div>
 					<div class="mwb_wallet-edit-popup-control">
-						<input type="number" name="mwb_wallet-edit-popup-input" class="mwb_wallet-edit-popup-fill">
+						<input type="number" name="mwb_wallet-edit-popup-input" min="0" pattern="[0-9]" title="Only integer number" class="mwb_wallet-edit-popup-fill">
 					</div>
 				</div>
 				<div class="mwb_wallet-edit-popup-amount">
