@@ -168,13 +168,14 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 										<span class="approved" ><?php esc_html_e( 'approved', 'wallet-system-for-woocommerce' ); ?></span>
 										<?php 
 									} elseif ( 'rejected' === $withdrawal_status ) { ?>
-										<span class="rejected" ><?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></span>
-									<?php } else { ?> 
+										<span class="approved" ><?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></span>
+									<?php } else { ?>
+
 									<form action="" method="POST">
 										<select onchange="this.className=this.options[this.selectedIndex].className" name="mwb-wpg-gen-table_status" id="mwb-wpg-gen-table_status" aria-controls="mwb-wpg-gen-section-table" class="<?php esc_html_e( $request->post_status, 'wallet-system-for-woocommerce' ); ?>">
-											<option class="approved" value="approved" ><?php esc_html_e( 'approved', 'wallet-system-for-woocommerce' ); ?></option>
+											<option class="approved" value="approved" <?php selected( 'approved', $request->post_status, true); ?> ><?php esc_html_e( 'approved', 'wallet-system-for-woocommerce' ); ?></option>
 											<option class="pending" value="pending" <?php selected( 'pending', $request->post_status, true); ?> ><?php esc_html_e( 'pending', 'wallet-system-for-woocommerce' ); ?></option>
-											<option class="rejected" value="rejected" ><?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></option>
+											<option class="rejected" value="rejected" <?php selected( 'rejected', $request->post_status, true); ?> ><?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></option>
 										</select>
 										<input type="hidden" name="withdrawal_id" value="<?php esc_attr_e( $request->ID, 'wallet-system-for-woocommerce' ); ?>" />
 										<input type="hidden" name="user_id" value="<?php esc_attr_e( $user_id, 'wallet-system-for-woocommerce' ); ?>" />

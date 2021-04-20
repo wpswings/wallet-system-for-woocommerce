@@ -497,9 +497,9 @@ select {
     display: inline;
     color: #03dac5;
 }
-.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td span.rejected {
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td span.approved {
     display: inline;
-    color: #f32121;
+    color: #03dac5;
 }
 .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container #mwb-wpg-gen-table1 tbody td select {
     font-size:16px;

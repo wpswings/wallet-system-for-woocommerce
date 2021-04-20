@@ -491,15 +491,11 @@ select {
 }
 
 .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table .hide_date {
-    display:none;
-}
-.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td span.approved {
+     display:none;
+ }
+ .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td span.approved {
     display: inline;
     color: #03dac5;
-}
-.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td span.rejected {
-    display: inline;
-    color: #f32121;
 }
 .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container #mwb-wpg-gen-table1 tbody td select {
     font-size:16px;
