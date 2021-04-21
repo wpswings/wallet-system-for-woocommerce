@@ -45,7 +45,7 @@ class Wallet_System_For_Woocommerce_Activator {
 		$product = array(
 			'post_title'  => 'Rechargeable Wallet Product',
 			'post_type'   => 'product',
-			'post_status' => 'publish',
+			'post_status' => 'private',
 			'post_author' => 1,
 		);
 
