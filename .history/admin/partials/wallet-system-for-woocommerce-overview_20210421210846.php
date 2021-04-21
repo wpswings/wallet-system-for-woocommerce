@@ -1,3 +1,4 @@
+
 <div class="mwb-overview__wrapper">
     <div class="mwb-overview__banner">
         <img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/Wallet for WooCommerce_Banner.png" alt="Overview banner image">

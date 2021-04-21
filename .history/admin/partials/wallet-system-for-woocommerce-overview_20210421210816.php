@@ -1,3 +1,15 @@
+<?php
+echo '<pre>';
+$order = wc_get_order( 158 );
+// print_r();
+foreach ( $order->get_fees() as $item_fee ) {
+    $fee_name = $item_fee->get_name();
+    $fee_total = $item_fee->get_total(); 
+    echo $fee_name . '<br/>';
+    echo $fee_total . '<br/>';
+}
+die();
+?>
 <div class="mwb-overview__wrapper">
     <div class="mwb-overview__banner">
         <img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/Wallet for WooCommerce_Banner.png" alt="Overview banner image">
