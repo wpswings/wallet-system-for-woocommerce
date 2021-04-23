@@ -11,7 +11,7 @@
     "gulp-imagemin": "^6.2.0",
     "gulp-terser": "^1.2.0",
     "jquery": "^3.6.0",
-    "postcss": "^8.1.1",
+    "postcss": "^8.2.12",
     "postcss-combine-media-query": "^1.0.1"
   },
   "dependencies": {
