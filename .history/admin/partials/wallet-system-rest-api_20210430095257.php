@@ -148,7 +148,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' ===  $_GET['action'] ) ) {
 	</pre>', 'wallet-system-for-woocommerce' );
     ?>
     <h5><?php esc_html_e( 'Retrieve particular user wallet transactions', 'wallet-system-for-woocommerce' ); ?></h5> 
-    <p><?php esc_html_e( 'Retrieves all transactions related to wallet of user. HTTP request is:', 'wallet-system-for-woocommerce' ); ?></p>
+    <p><?php esc_html_e( 'Retrieves all transactions related to wallet. HTTP request is:', 'wallet-system-for-woocommerce' ); ?></p>
     <p><?php _e( '<strong><code>GET {home_url}/wp-json/wsfw-route/v1/wallet/transactions/&lt;id&gt;?consumer_key=XXXX&consumer_secret=XXXX</code></strong> where &lt;id&gt; is an user id of user.', 'wallet-system-for-woocommerce' ); ?><p>
     <p><?php esc_html_e( 'Example : https://www.example.com/wp-json/wsfw-route/v1/wallet/transactions/1?consumer_key=XXXX&consumer_secret=XXXX ', 'wallet-system-for-woocommerce' ); ?></p>
     <p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
