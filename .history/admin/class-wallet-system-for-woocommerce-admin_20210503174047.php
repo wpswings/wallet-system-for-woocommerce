@@ -1451,12 +1451,9 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		
 		// update wallet recharge enable or not
-		$mwb_topup_product = get_option( 'mwb_wcb_topup_product' );
-		if ( $mwb_topup_product ) {
-			$mwb_topup_product_enable = $mwb_topup_product['enable'];
-			update_option( 'wsfw_enable_wallet_recharge', $mwb_topup_product_enable );
-		}
-
+		$mwb_topup_product = get_option( 'mwb_wcb_topup_product', array() );
+		$mwb_topup_product_enable = $mwb_topup_product['enable'];
+		update_option( 'wsfw_enable_wallet_recharge', $mwb_topup_product_enable );
 
 		// create transcation table if not exist
 		global $wpdb;

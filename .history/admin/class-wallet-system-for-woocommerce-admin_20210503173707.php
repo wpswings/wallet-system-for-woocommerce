@@ -1434,7 +1434,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		// update wallet product id in optin table
 		$product_id = get_option( 'mwb_wcb_product_id' );
-		if ( $product_id ) {
+		if ( $product_id) ) {
 			update_option( 'mwb_wsfw_rechargeable_product_id', $product_id );
 
 			// update post title of wallet product
@@ -1443,20 +1443,17 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_update_post( $wallet_product );
 		}
 		
-		// update general settings of plugin
-		$wcb_general_values = get_option( 'mwb_wcb_general' );
-		if ( $wcb_general_values ) {
-			$mwb_wsfw_enable = $wcb_general_values['wenable'];
-			update_option( 'mwb_wsfw_enable', $mwb_wsfw_enable );
-		}
-		
-		// update wallet recharge enable or not
-		$mwb_topup_product = get_option( 'mwb_wcb_topup_product' );
-		if ( $mwb_topup_product ) {
-			$mwb_topup_product_enable = $mwb_topup_product['enable'];
-			update_option( 'wsfw_enable_wallet_recharge', $mwb_topup_product_enable );
-		}
 
+		
+
+		// update general settings of plugin
+		$wcb_general_values = get_option( 'mwb_wcb_general', array() );
+		$mwb_wsfw_enable = $wcb_general_values['wenable'];
+		update_option( 'mwb_wsfw_enable', $mwb_wsfw_enable );
+		// update wallet recharge enable or not
+		$mwb_topup_product = get_option( 'mwb_wcb_topup_product', array() );
+		$mwb_topup_product_enable = $mwb_topup_product['enable'];
+		update_option( 'wsfw_enable_wallet_recharge', $mwb_topup_product_enable );
 
 		// create transcation table if not exist
 		global $wpdb;
