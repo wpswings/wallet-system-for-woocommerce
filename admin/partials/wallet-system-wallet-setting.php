@@ -389,7 +389,6 @@ $wsfw_import_settings = apply_filters( 'wsfw_import_wallet_array', array() );
 							</td>
 						</tr>
 						<?php
-						$i++;
 					}
 				}
 				?>
