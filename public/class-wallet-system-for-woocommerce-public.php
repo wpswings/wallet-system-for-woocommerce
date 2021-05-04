@@ -424,7 +424,7 @@ class Wallet_System_For_Woocommerce_Public {
 				// if no products in cart, add it
 				WC()->cart->add_to_cart( $wallet_recharge['productid'] );
 
-				//wp_safe_redirect( wc_get_checkout_url() );
+				wp_safe_redirect( wc_get_checkout_url() );
 				
 			}
 			WC()->session->__unset( 'wallet_recharge' );
