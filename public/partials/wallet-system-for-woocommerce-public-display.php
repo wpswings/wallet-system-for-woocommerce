@@ -11,7 +11,8 @@
  * @subpackage Wallet_System_For_Woocommerce/public/partials
  */
 global $wp;
-$current_url = home_url( add_query_arg( array(), $wp->request ).'/' );
+$current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ?"https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+// $current_url = home_url( $_SERVER['REQUEST_URI'] );
 if ( isset( $_POST['mwb_recharge_wallet'] ) && ! empty( $_POST['mwb_recharge_wallet'] )) {
     
     unset( $_POST['mwb_recharge_wallet'] );
@@ -178,11 +179,13 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <?php
-$main_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) );
-$topup_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) ).'wallet-topup/';
-$wallet_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) ).'wallet-transfer/';
-$withdrawal_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) ).'wallet-withdrawal/';
-$transaction_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) ).'wallet-transactions/';
+$main_url = wc_get_endpoint_url( 'mwb-wallet' );
+
+$topup_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
+//$topup_url = esc_url( wc_get_endpoint_url( 'mwb-wallet' ) ).'wallet-topup/';
+$wallet_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
+$withdrawal_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
+$transaction_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 $user_id = get_current_user_id();
@@ -238,9 +241,10 @@ $wallet_tabs['wallet_transactions'] = array(
     'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH.'public/partials/wallet-payment-gateway-wallet-transactions.php',
 );
 $flag = false;
-if ( ( $current_url == $main_url )  ) {
+if ( $current_url == $main_url ) {
     $flag = true;
 }
+$wallet_keys = array_keys( $wallet_tabs );
 
 function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
     $wpg_notice  = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
@@ -260,14 +264,24 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 
                 <nav class="wallet-tabs">
                     <ul class='tabs'>
-                        
                         <?php
+                       
                         foreach ( $wallet_tabs as $key => $tab ) { 
-                            if ( $flag ) { ?>
-                                <li <?php  if (  $key == array_key_first ( $wallet_tabs ) ) { echo 'class="active"'; }  ?> ><a href="<?php esc_attr_e( $tab['url'], 'wallet-system-for-woocommerce' ); ?>"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><?php echo $tab['icon']; ?></svg></a><h3><?php esc_html_e( $tab['title'], 'wallet-system-for-woocommerce' ); ?></h3></li>
-                            <?php } else { ?>
-                                <li <?php  if ( $current_url ==  $tab['url'] ) { echo 'class="active"'; } ?> ><a href="<?php esc_attr_e( $tab['url'], 'wallet-system-for-woocommerce' ); ?>"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><?php echo $tab['icon']; ?></svg></a><h3><?php esc_html_e( $tab['title'], 'wallet-system-for-woocommerce' ); ?></h3></li>
-                            <?php }
+                            if ( $flag ) {
+                                if ( $key ==  $wallet_keys[0] ) {
+                                    $class = 'active';
+                                } else {
+                                    $class = '';
+                                }
+                                echo "<li class='{$class}' ><a href='{$tab["url"]}'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>{$tab['icon']}</svg></a><h3>{$tab['title']}</h3></li>";
+                            } else {
+                                if ( $current_url ==  $tab['url'] ) { 
+                                    $class = 'active';
+                                } else {
+                                    $class = '';
+                                }
+                                echo "<li class='{$class}' ><a href='{$tab["url"]}'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>{$tab['icon']}</svg></a><h3>{$tab['title']}</h3></li>";
+                            }
                         } ?>
                     </ul>
                 </nav>
@@ -277,9 +291,9 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
                 <?php
                 foreach ( $wallet_tabs as $key => $tab ) { 
                     if ( $flag ) {
-                        if (  $key == array_key_first ( $wallet_tabs ) ) {
+                        if ( $key ==  $wallet_keys[0] ) { 
                             include_once $tab['file-path'];
-                        } 
+                        }
                     } else { 
                         if ( $current_url ==  $tab['url'] ) {
                             include_once $tab['file-path'];
