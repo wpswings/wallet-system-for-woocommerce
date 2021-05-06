@@ -356,14 +356,15 @@ class Wallet_System_For_Woocommerce_Public {
 		if (  WC()->session->__isset( 'custom_fee' ) ) {
 			
 			$discount = (float) WC()->session->get( 'custom_fee' );
+			if ( $discount ) {
+				$fee = array(
+					'id' => 'via_wallet_partial_payment',
+					'name' => __('Via wallet', 'wallet-system-for-woocommerce'),
+					'amount' => (float) -1 * $discount,
+				);
+			}
 		}
-		if ( $discount ) {
-			$fee = array(
-				'id' => 'via_wallet_partial_payment',
-				'name' => __('Via wallet', 'wallet-system-for-woocommerce'),
-				'amount' => (float) -1 * $discount,
-			);
-		}
+		
 		
 		if ( $this->is_enable_wallet_partial_payment()  ) {
 			wc()->cart->fees_api()->add_fee($fee);
