@@ -278,7 +278,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
             wp_safe_redirect( add_query_arg( array(
                 'bulk_action' => $action,
 				'changed'     => $count,
-			),) );
+			) ) );
             exit;
             
         }
