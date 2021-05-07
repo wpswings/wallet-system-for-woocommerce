@@ -626,7 +626,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text = sprintf( "Hello %s,<br/>", $name );
-						$mail_text .= __( 'Wallet credited by '. wc_price( $amount ). ' through order refund.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet credited by '. wc_price( $order_total ). ' through order refund.', 'wallet-system-for-woocommerce' );
 						$to = $user->user_email;
 						$from = get_option( 'admin_email' );
 						$subject = "Wallet updating notification";

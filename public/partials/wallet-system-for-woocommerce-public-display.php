@@ -29,7 +29,7 @@ if ( isset( $_POST['mwb_recharge_wallet'] ) && ! empty( $_POST['mwb_recharge_wal
         $product_id = sanitize_text_field( $_POST['product_id'] );
         WC()->session->set( 'wallet_recharge', array( 'userid' => $user_id, 'rechargeamount' => $recharge_amount, 'productid' => $product_id ) );
         WC()->session->set( 'recharge_amount', $recharge_amount );
-        echo '<script>window.location.href = "' . home_url( '/cart/') . '";</script>';
+        echo '<script>window.location.href = "' . wc_get_cart_url() . '";</script>';
     }
     
 }
