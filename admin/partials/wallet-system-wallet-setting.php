@@ -33,7 +33,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 			$first_row   = fgetcsv( $file );
 			$id      = $first_row[0];
 			$balance = $first_row[1];
-			if ( 'User Id' != $id && 'Wallet Balance' != $balance ) {
+			if ( 'User Id' != $id || 'Wallet Balance' != $balance ) {
 				$mwb_wsfw_error_text = esc_html__( 'You have not selected correct file(fields are not matching)', 'wallet-system-for-woocommerce' );
 				$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $mwb_wsfw_error_text, 'error' );
 			} else {
@@ -41,9 +41,12 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 				$number_of_users = 0;
 				while ( ! feof( $file ) ) {
 					$user_data   = fgetcsv( $file );
-
-					$id      = $user_data[0];
-					$balance = $user_data[1];
+					if( is_array($user_data) ) {
+						$id      = $user_data[0];
+						$balance = $user_data[1];
+					}
+					// $id      = $user_data[0];
+					// $balance = $user_data[1];
 					if ( 'User Id' == $id && 'Wallet Balance' == $balance ) {
 						continue;
 					} else {
