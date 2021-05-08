@@ -294,7 +294,7 @@ class Wallet_System_For_Woocommerce {
 
 			$this->loader->add_action( 'init', $wsfw_plugin_public, 'mwb_wsfw_wallet_register_endpoint' );
 			$this->loader->add_action( 'query_vars', $wsfw_plugin_public, 'mwb_wsfw_wallet_query_var' );
-			$this->loader->add_action( 'woocommerce_account_mwb-wallet_endpoint', $wsfw_plugin_public, 'mwb_wsfw_display_wallet_endpoint_content' );
+			$this->loader->add_action( 'woocommerce_account_mwb-wallet_endpoint', $wsfw_plugin_public, 'mwb_wsfw_display_wallet_endpoint_content', 20 );
 			$this->loader->add_action( 'woocommerce_account_menu_items', $wsfw_plugin_public, 'mwb_wsfw_add_wallet_item' );
 			$this->loader->add_filter( 'woocommerce_available_payment_gateways', $wsfw_plugin_public, 'mwb_wsfw_restrict_payment_gateway', 10, 1 );
 			$this->loader->add_action( 'woocommerce_review_order_after_order_total', $wsfw_plugin_public, 'checkout_review_order_custom_field' );
