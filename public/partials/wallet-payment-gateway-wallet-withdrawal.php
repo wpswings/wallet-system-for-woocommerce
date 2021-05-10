@@ -14,12 +14,12 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 
 
 <div class='content active'>
-	
+
 	<?php
 	$disable_withdrawal_request = get_user_meta( $user_id, 'disable_further_withdrawal_request', true );
 	if ( $disable_withdrawal_request ) {
 		show_message_on_form_submit( 'Your wallet\'s withdrawal request is in pending.', 'woocommerce-info' );
-		$args = array(
+		$args               = array(
 			'numberposts' => -1,
 			'post_type'   => 'wallet_withdrawal',
 			'orderby'     => 'ID',
@@ -55,8 +55,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
                             </tr>';
 						}
 					}
-					?>
-				
+					?>	
 				</tbody>
 			</table>
 		</div>
@@ -75,7 +74,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 				<textarea id="mwb_wallet_note" name="mwb_wallet_note" required></textarea>
 			</p>
 
-			<p class="error" style="color:red"></p>
+			<p class="error"></p>
 
 			<p class="mwb-wallet-field-container form-row">
 				<input type="hidden" name="wallet_user_id" value="<?php esc_attr_e( $user_id, 'wallet-system-for-woocommerce' ); ?>">
@@ -91,4 +90,5 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 
 </div>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+<!-- including datatable jquery -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>

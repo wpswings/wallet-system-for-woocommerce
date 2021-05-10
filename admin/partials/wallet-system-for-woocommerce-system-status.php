@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 // Template for showing information about system status.
 global $wsfw_mwb_wsfw_obj;
-$wsfw_default_status = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_system_status();
+$wsfw_default_status    = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_system_status();
 $wsfw_wordpress_details = is_array( $wsfw_default_status['wp'] ) && ! empty( $wsfw_default_status['wp'] ) ? $wsfw_default_status['wp'] : array();
-$wsfw_php_details = is_array( $wsfw_default_status['php'] ) && ! empty( $wsfw_default_status['php'] ) ? $wsfw_default_status['php'] : array();
+$wsfw_php_details       = is_array( $wsfw_default_status['php'] ) && ! empty( $wsfw_default_status['php'] ) ? $wsfw_default_status['php'] : array();
 ?>
 <div class="mwb-wsfw-table-wrap">
 	<div class="mwb-col-wrap">

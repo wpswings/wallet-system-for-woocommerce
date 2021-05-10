@@ -24,7 +24,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 			<label for="mwb_wallet_transfer_amount"><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></label>
 			<input type="number" step="0.01" min="0" max="<?php esc_attr_e( $wallet_bal, 'wallet-system-for-woocommerce' ); ?>" id="mwb_wallet_transfer_amount" name="mwb_wallet_transfer_amount" required="">
 		</p>
-		<p class="error" style="color:red"></p>
+		<p class="error"></p>
 		<p class="mwb-wallet-field-container form-row form-row-wide">
 			<label for="mwb_wallet_transfer_note"><?php esc_html_e( 'What\'s this for', 'wallet-system-for-woocommerce' ); ?></label>
 			<textarea name="mwb_wallet_transfer_note"></textarea>

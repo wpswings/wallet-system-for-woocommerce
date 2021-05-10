@@ -49,10 +49,10 @@ $user = get_user_by( 'id', $user_id );
 	<?php
 	esc_html_e( 'Wallet Transactions: ' . $user->user_login . '(' . $user->user_email . ')', 'wallet-system-for-woocommerce' );
 	?>
-		<a style="text-decoration: none;" href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-wallet-setting' ) ); ?>"><span class="dashicons dashicons-editor-break" style="vertical-align: middle;"></span></a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-wallet-setting' ) ); ?>"><span class="dashicons dashicons-editor-break" ></span></a>
 	</h4>
 	<div class="mwb-wpg-gen-section-table-container">
-		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive" style="width:100%">
+		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
@@ -67,22 +67,22 @@ $user = get_user_by( 'id', $user_id );
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id = $user_id ORDER BY `Id` DESC" );
+				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
 						?>
 						<tr>
-							<td><img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/eva_close-outline.svg"><?php echo $i; ?></td>
-							<td><?php echo $transaction->Id; ?></td>
-							<td><?php echo wc_price( $transaction->amount ); ?></td>
+							<td><img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/eva_close-outline.svg"><?php esc_html_e( $i, 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php esc_html_e( $transaction->Id, 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php _e( wc_price( $transaction->amount ), 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
-							$date = date_create( $transaction->date );
+							$date        = date_create( $transaction->date );
 							esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
 							?>
 							</td>
@@ -102,6 +102,7 @@ $user = get_user_by( 'id', $user_id );
 		</table>
 	</div>
 </div>
+<!-- including datepicker jquery for input tag-->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
 
 <?php

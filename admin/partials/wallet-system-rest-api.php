@@ -20,12 +20,12 @@ if ( isset( $_POST['generate_api_key'] ) && ! empty( $_POST['generate_api_key'] 
 	unset( $_POST['generate_api_key'] );
 	$api_keys = array();
 	for ( $i = 0; $i < 2; $i++ ) {
-		$random = rand();
+		$random     = rand();
 		$api_keys[] = md5( $random );
 	}
 	$wallet_api_keys['consumer_key']    = $api_keys[0];
 	$wallet_api_keys['consumer_secret'] = $api_keys[1];
-	$result = update_option( 'mwb_wsfw_wallet_rest_api_keys', $wallet_api_keys );
+	$result                             = update_option( 'mwb_wsfw_wallet_rest_api_keys', $wallet_api_keys );
 	if ( $result ) {
 		$msfw_wpg_error_text = esc_html__( 'API Key generated successfully.', 'wallet-system-for-woocommerce' );
 		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'success' );
@@ -49,7 +49,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 }
 
 ?>
- <div class="mwb-wsfw-gen-section-form mwb-wsfw-wallet-system-rest-api"> 
+<div class="mwb-wsfw-gen-section-form mwb-wsfw-wallet-system-rest-api"> 
 	<h4><?php esc_html_e( 'REST API keys', 'wallet-system-for-woocommerce' ); ?></h4> 
 	<?php
 	$rest_api_keys = get_option( 'mwb_wsfw_wallet_rest_api_keys', '' );
@@ -60,7 +60,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 				<div class="mwb-form-group">
 					<div class="mwb-form-group__control">
 
-			<p><?php esc_html_e( 'REST API allows external apps to view and manage wallet. Access is granted only to those with valid API keys.', 'wallet-system-for-woocommerce' ); ?></p>
+						<p><?php esc_html_e( 'REST API allows external apps to view and manage wallet. Access is granted only to those with valid API keys.', 'wallet-system-for-woocommerce' ); ?></p>
 						<input type="submit" class="mwb-btn mwb-btn__filled" name="generate_api_key"  value="Generate API key">
 					</div>
 				</div>
@@ -148,7 +148,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<p><?php _e( '<strong><code>GET {home_url}/wp-json/wsfw-route/v1/wallet/&lt;id&gt;?consumer_key=XXXX&consumer_secret=XXXX</code></strong> where &lt;id&gt; is an user id of user.', 'wallet-system-for-woocommerce' ); ?><p>
 	<p><?php esc_html_e( 'Example : https://www.example.com/wp-json/wsfw-route/v1/wallet/1?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' ); ?> </p>
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
-	
+
 	<?php
 	_e(
 		'<pre>
@@ -210,7 +210,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 		'wallet-system-for-woocommerce'
 	);
 	?>
-		
+
 	</p>
 	<p><strong><?php esc_html_e( 'Request Parameters', 'wallet-system-for-woocommerce' ); ?></strong></p>
 	<table class="mwb-wsfw-rest-api-table">

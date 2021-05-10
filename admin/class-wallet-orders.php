@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 if ( ! class_exists( 'Wallet_Orders_List' ) ) {
@@ -24,8 +24,8 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 			parent::__construct(
 				array(
-					'singular' => __( 'Wallet Recharge Order', 'wallet_payment_gateway' ), // singular name of the listed records
-					'plural'   => __( 'Wallet Recharge Orders', 'wallet_payment_gateway' ), // plural name of the listed records
+					'singular' => __( 'Wallet Recharge Order', 'wallet_payment_gateway' ), // singular name of the listed records.
+					'plural'   => __( 'Wallet Recharge Orders', 'wallet_payment_gateway' ), // plural name of the listed records.
 					'ajax'     => false, // should this table support ajax?
 
 				)
@@ -37,7 +37,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		/**
 		 * Render the bulk edit checkbox
 		 *
-		 * @param array $item
+		 * @param array $item wp list item.
 		 *
 		 * @return string
 		 */
@@ -55,11 +55,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 */
 		public function get_columns() {
 			$columns = array(
-				'cb'      => '<input type="checkbox" />',
+				'cb'          => '<input type="checkbox" />',
 				'ID'          => __( 'Order', 'wallet_payment_gateway' ),
 				'status'      => __( 'Status', 'wallet_payment_gateway' ),
 				'order_total' => __( 'Total', 'wallet_payment_gateway' ),
-				'date1'        => __( 'Date1', 'wallet_payment_gateway' ),
+				'date1'       => __( 'Date1', 'wallet_payment_gateway' ),
 				'date'        => __( 'Date', 'wallet_payment_gateway' ),
 			);
 			return $columns;
@@ -72,8 +72,8 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 */
 		public function get_sortable_columns() {
 			$sortable = array(
-				'ID'   => array( 'ID', true ),
-				'date' => array( 'date', false ),
+				'ID'          => array( 'ID', true ),
+				'date'        => array( 'date', false ),
 				'order_total' => array( 'order_total', false ),
 			);
 			return $sortable;
@@ -86,36 +86,35 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 */
 		public function get_views() {
 			global $wpdb;
-			$views = array();
+			$views   = array();
 			$current = ( ! empty( $_REQUEST['post_status'] ) ? sanitize_text_field( $_REQUEST['post_status'] ) : 'all' );
 
 			$table_name = $wpdb->prefix . 'posts';
 			$rowcount = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE `post_type` = 'wallet_shop_order' AND ( NOT post_status = 'auto-draft' && NOT post_status = 'trash' )" );
 
-			// All link
-			$class = ( $current == 'all' ? ' class="current"' : '' );
+			// All link.
+			$class   = ( 'all' === $current ? ' class="current"' : '' );
 			$all_url = remove_query_arg( 'post_status' );
 			$all_url = remove_query_arg( array( 'paged', 'orderby', 'order', 'bulk_action', 'changed' ), $all_url );
-			$views['all'] = "<a href='{$all_url }' {$class} >All<span class='count'>($rowcount)</span></a>";
+			$views['all'] = "<a href='{$all_url}' {$class} >All<span class='count'>($rowcount)</span></a>";
 
 			$order_statuses = wc_get_order_statuses();
 			foreach ( $order_statuses as $key => $order_status ) {
-				$rowcount = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE `post_type` = 'wallet_shop_order' AND post_status = '$key'" );
+				$rowcount = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . $wpdb->prefix . 'posts WHERE post_type = "wallet_shop_order" AND post_status = %s', $key ) );
 				if ( $rowcount > 0 ) {
-					$url = add_query_arg( 'post_status', $key );
-					$url = remove_query_arg( array( 'paged', 'orderby', 'order', 'bulk_action', 'changed' ), $url );
-					$class = ( $current == $key ? ' class="current"' : '' );
+					$url           = add_query_arg( 'post_status', $key );
+					$url           = remove_query_arg( array( 'paged', 'orderby', 'order', 'bulk_action', 'changed' ), $url );
+					$class         = ( $current == $key ? ' class="current"' : '' );
 					$views[ $key ] = "<a href='{$url}' {$class} >$order_status<span class='count'>($rowcount)</span></a>";
 				}
 			}
 
-			// Trash link
-
-			$rowcount1 = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE `post_type` = 'wallet_shop_order' AND post_status = 'trash'" );
+			// Trash link.
+			$rowcount1 = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . $wpdb->prefix . 'posts WHERE post_type = "wallet_shop_order" AND post_status = %s', 'trash' ) );
 			if ( $rowcount1 > 0 ) {
-				$class = ( $current == 'trash' ? ' class="current"' : '' );
-				$all_url1 = add_query_arg( 'post_status', 'trash' );
-				$all_url1 = remove_query_arg( array( 'paged', 'orderby', 'order', 'bulk_action', 'changed' ), $all_url1 );
+				$class          = ( 'trash' === $current ? ' class="current"' : '' );
+				$all_url1       = add_query_arg( 'post_status', 'trash' );
+				$all_url1       = remove_query_arg( array( 'paged', 'orderby', 'order', 'bulk_action', 'changed' ), $all_url1 );
 				$views['trash'] = "<a href='{$all_url1}' {$class} >Trash<span class='count'>($rowcount1)</span></a>";
 			}
 
@@ -131,19 +130,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 			}
 		}
-		/**
-		 * Display the date filter
-		 */
-		public function custom_filter_date() {
-			echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-            <input id="searchFrom" class="searchInput" type="text" placeholder="From"/>
-            <input id="searchTo" class="searchInput" type="text" placeholder="To" >';
-		}
 
 		/**
 		 * Extract custom order type data from database
 		 *
-		 * @return void
+		 * @return array
 		 */
 		private function table_data() {
 			global $wpdb;
@@ -161,10 +152,10 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 				$search = trim( $search );
 
 				if ( isset( $post_status ) && ! empty( $post_status ) ) {
-					$query = "SELECT DISTINCT ID FROM $table_name INNER JOIN $wpdb->postmeta ON $table_name.ID = $wpdb->postmeta.post_id WHERE `post_type` = 'wallet_shop_order' AND `post_status` =  '$post_status' AND ( `ID` = '$search' OR ( ( `meta_key` = '_billing_first_name' OR `meta_key` = '_billing_last_name' OR `meta_key` = '_billing_address_1' OR `meta_key` = '_billing_address_2' OR `meta_key` = '_billing_city' OR `meta_key` = '_billing_postcode' OR `meta_key` = '_billing_country' OR `meta_key` = '_billing_state' OR `meta_key` = '_billing_company' OR `meta_key` = '_billing_email' OR `meta_key` = '_billing_phone' ) AND `meta_value` LIKE '%$search%' ) )";
+					$query  = "SELECT DISTINCT ID FROM $table_name INNER JOIN $wpdb->postmeta ON $table_name.ID = $wpdb->postmeta.post_id WHERE `post_type` = 'wallet_shop_order' AND `post_status` =  '$post_status' AND ( `ID` = '$search' OR ( ( `meta_key` = '_billing_first_name' OR `meta_key` = '_billing_last_name' OR `meta_key` = '_billing_address_1' OR `meta_key` = '_billing_address_2' OR `meta_key` = '_billing_city' OR `meta_key` = '_billing_postcode' OR `meta_key` = '_billing_country' OR `meta_key` = '_billing_state' OR `meta_key` = '_billing_company' OR `meta_key` = '_billing_email' OR `meta_key` = '_billing_phone' ) AND `meta_value` LIKE '%$search%' ) )";
 					$orders = $wpdb->get_results( $query );
 				} else {
-					$query = "SELECT DISTINCT ID FROM $table_name INNER JOIN $wpdb->postmeta ON $table_name.ID = $wpdb->postmeta.post_id WHERE `post_type` = 'wallet_shop_order' AND ( NOT `post_status` = 'auto-draft' && NOT `post_status` = 'trash' ) AND ( `ID` = '$search' OR ( ( `meta_key` = '_billing_first_name' OR `meta_key` = '_billing_last_name' OR `meta_key` = '_billing_address_1' OR `meta_key` = '_billing_address_2' OR `meta_key` = '_billing_city' OR `meta_key` = '_billing_postcode' OR `meta_key` = '_billing_country' OR `meta_key` = '_billing_state' OR `meta_key` = '_billing_company' OR `meta_key` = '_billing_email' OR `meta_key` = '_billing_phone' ) AND `meta_value` LIKE '%$search%' ) )";
+					$query  = "SELECT DISTINCT ID FROM $table_name INNER JOIN $wpdb->postmeta ON $table_name.ID = $wpdb->postmeta.post_id WHERE `post_type` = 'wallet_shop_order' AND ( NOT `post_status` = 'auto-draft' && NOT `post_status` = 'trash' ) AND ( `ID` = '$search' OR ( ( `meta_key` = '_billing_first_name' OR `meta_key` = '_billing_last_name' OR `meta_key` = '_billing_address_1' OR `meta_key` = '_billing_address_2' OR `meta_key` = '_billing_city' OR `meta_key` = '_billing_postcode' OR `meta_key` = '_billing_country' OR `meta_key` = '_billing_state' OR `meta_key` = '_billing_company' OR `meta_key` = '_billing_email' OR `meta_key` = '_billing_phone' ) AND `meta_value` LIKE '%$search%' ) )";
 					$orders = $wpdb->get_results( $query );
 				}
 			} else {
@@ -177,12 +168,12 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			if ( ! empty( $orders ) && is_array( $orders ) ) {
 				foreach ( $orders as $order ) {
 					$order_data = wc_get_order( $order->ID );
-					$data[] = array(
-						'ID' => $order->ID,
-						'status' => $order_data->get_status(),
+					$data[]     = array(
+						'ID'          => $order->ID,
+						'status'      => $order_data->get_status(),
 						'order_total' => $order_data->get_total(),
-						'date1' => $order_data->get_date_created(),
-						'date' => $order_data->get_date_created(),
+						'date1'       => $order_data->get_date_created(),
+						'date'        => $order_data->get_date_created(),
 					);
 				}
 			}
@@ -199,11 +190,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		public function get_bulk_actions() {
 			$actions = array();
 			$current = ( ! empty( $_REQUEST['post_status'] ) ? sanitize_text_field( $_REQUEST['post_status'] ) : 'all' );
-			// $actions = [
-			// 'mark-processing' => esc_html__( 'Change status to processing', 'wallet-system-for-woocommerce' ),
-			// 'mark_on-hold'    => esc_html__( 'Change status to on-hold', 'wallet-system-for-woocommerce' ),
-			// 'mark_completed'  => esc_html__( 'Change status to completed', 'wallet-system-for-woocommerce' ),
-			// ];
+
 			if ( 'trash' === $current ) {
 				$actions['untrash'] = esc_html__( 'Restore', 'wallet-system-for-woocommerce' );
 				$actions['delete']  = esc_html__( 'Delete permanently', 'wallet-system-for-woocommerce' );
@@ -219,9 +206,8 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 *
 		 * @return void
 		 */
-
 		public function process_bulk_action() {
-			$action      = $this->current_action();
+			$action    = $this->current_action();
 			$order_ids = isset( $_REQUEST['bulk-action'] ) ? wp_parse_id_list( wp_unslash( $_REQUEST['bulk-action'] ) ) : array();
 
 			if ( empty( $order_ids ) ) {
@@ -234,8 +220,8 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			switch ( $action ) {
 				case 'trash':
 					foreach ( $order_ids as $order_id ) {
-						$order = wc_get_order( $order_id );
-						$order_status  = $order->get_status();
+						$order        = wc_get_order( $order_id );
+						$order_status = $order->get_status();
 						update_post_meta( $order_id, 'wallet_order_status', $order_status );
 						if ( wp_trash_post( $order_id ) ) {
 							$count++;
@@ -247,8 +233,8 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 				case 'untrash':
 					foreach ( $order_ids as $order_id ) {
-						$order = wc_get_order( $order_id );
-						$order_status  = get_post_meta( $order_id, 'wallet_order_status', true );
+						$order        = wc_get_order( $order_id );
+						$order_status = get_post_meta( $order_id, 'wallet_order_status', true );
 						if ( $order_status ) {
 							$status = $order->update_status( $order_status );
 							delete_post_meta( $order_id, 'wallet_order_status' );
@@ -307,19 +293,18 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 			$totalitems = count( $data );
 
-			$perpage  = 10;
+			$perpage = 10;
 
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 
 			function usort_reorder( $a, $b ) {
 
-				$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'ID'; // If no sort, default to title
+				$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'ID'; // If no sort, default to title.
 
-				$order = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'desc'; // If no order, default to asc
+				$order = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'desc'; // If no order, default to asc.
 
-				// $result = strcmp($a[$orderby], $b[$orderby]); //Determine sort order
 				$result = ( $a[ $orderby ] < $b[ $orderby ] ) ? -1 : 1;
-				return ( $order === 'asc' ) ? $result : -$result; // Send final sort direction to usort
+				return ( 'asc' === $order ) ? $result : -$result; // Send final sort direction to usort.
 
 			}
 
@@ -327,9 +312,9 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 			$totalpages = ceil( $totalitems / $perpage );
 
-			$currentPage = $this->get_pagenum();
+			$current_page = $this->get_pagenum();
 
-			$data = array_slice( $data, ( ( $currentPage - 1 ) * $perpage ), $perpage );
+			$data = array_slice( $data, ( ( $current_page - 1 ) * $perpage ), $perpage );
 
 			$this->set_pagination_args(
 				array(
@@ -338,7 +323,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 					'total_pages' => $totalpages,
 
-					'per_page' => $perpage,
+					'per_page'    => $perpage,
 				)
 			);
 
@@ -349,23 +334,23 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		/**
 		 * Show data in default columns
 		 *
-		 * @param array  $item
-		 * @param string $column_name
-		 * @return void
+		 * @param array  $item table item.
+		 * @param string $column_name column name.
+		 * @return string
 		 */
 		public function column_default( $item, $column_name ) {
 
 			switch ( $column_name ) {
 
 				case 'ID':
-					$order = wc_get_order( $item[ $column_name ] );
+					$order      = wc_get_order( $item[ $column_name ] );
 					$first_name = $order->get_billing_first_name();
 					$last_name  = $order->get_billing_last_name();
 					if ( ! empty( $first_name ) || ! empty( $last_name ) ) {
-						$billing_name  = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
+						$billing_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
 					} else {
-						$user_id  = $order->get_customer_id();
-						$customer = new WC_Customer( $user_id );
+						$user_id      = $order->get_customer_id();
+						$customer     = new WC_Customer( $user_id );
 						$billing_name = $customer->get_username();
 					}
 					if ( isset( $_REQUEST['post_status'] ) && 'trash' == $_REQUEST['post_status'] ) {
@@ -379,7 +364,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 					return '<mark class="wallet-status order-status status-' . $item[ $column_name ] . '"><span>' . $item[ $column_name ] . '</span></mark>';
 					break;
 				case 'order_total':
-					return wc_price( $item[ $column_name ] );
+					return _e( wc_price( $item[ $column_name ] ), 'wallet-system-for-woocommerce' );
 					break;
 				case 'date1':
 					$date = date_create( $item[ $column_name ] );
@@ -387,20 +372,28 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 					break;
 				case 'date':
 					$date = date_create( $item[ $column_name ] );
-					// return date_format( $date, "M d, Y" );
 					$date_format = get_option( 'date_format', 'm/d/Y' );
 					return date_format( $date, $date_format );
 			}
 
 		}
 
-		/** Text displayed when no order data is available */
+		/**
+		 * Text displayed when no order data is available
+		 *
+		 * @return void
+		 */
 		public function no_items() {
 			_e( 'No order found.', 'sp' );
 		}
 
+		/**
+		 * Setup Hidden columns
+		 *
+		 * @return array
+		 */
 		public function get_hidden_columns() {
-			// Setup Hidden columns and return them
+			// Setup Hidden columns and return them.
 			return array();
 		}
 

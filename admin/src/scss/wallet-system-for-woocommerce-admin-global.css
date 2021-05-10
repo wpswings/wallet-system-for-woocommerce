@@ -574,3 +574,18 @@ select {
     border:solid 1px #cccccc;
     padding:10px 15px;
 }
+
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table {
+    width:100%!important
+}
+.mwb-wpg-gen-section-table-wrap h4 a {
+    text-decoration: none;
+}
+.mwb-wpg-gen-section-table-wrap h4 a span {
+    vertical-align: middle;
+}
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td #overlay {
+    display:none;
+    width:69px;
+    height:89px;
+}

@@ -9,6 +9,7 @@
  *
  * @package    Makewebbetter_Onboarding
  * @subpackage Makewebbetter_Onboarding/admin/onboarding
+ * 
  */
 global $wsfw_mwb_wsfw_obj;
 $wsfw_onboarding_form_fields = apply_filters( 'mwb_wsfw_on_boarding_form_fields', array() );

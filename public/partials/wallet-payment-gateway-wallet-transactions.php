@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class='content active'>
 	<div class="mwb-wallet-transaction-container">
-		<table class="mwb-wallet-field-table dt-responsive" id="transactions_table" style="width:100%">
+		<table class="mwb-wallet-field-table dt-responsive" id="transactions_table">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -27,17 +27,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id = $user_id ORDER BY Id DESC" );
+				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
 						$user = get_user_by( 'id', $transaction->user_id );
 						?>
 						<tr>
-							<td><?php echo $i; ?></td>
-							<td><?php echo $transaction->Id; ?></td>
-							<td><?php echo wc_price( $transaction->amount ); ?></td>
+							<td><?php esc_html_e( $i, 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php esc_html_e( $transaction->Id, 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php _e( wc_price( $transaction->amount ), 'wallet-system-for-woocommerce' ); ?></td>
 							<td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
 							<td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
 							<td>
@@ -60,12 +60,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+	<!-- including datatable jquery-->
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
-
-   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
-
-			
-
+	<!-- including regular expression jquery-->
+   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 	
+	<!-- removing the anchor tag href attibute using regular expression -->	
 	<script>
 	jQuery( "#transactions_table tr td" ).each(function( index ) {
 		var details = jQuery( this ).html();

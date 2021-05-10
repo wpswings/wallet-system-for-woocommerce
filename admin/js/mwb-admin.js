@@ -218,7 +218,6 @@ jQuery(document).ready(function() {
 	});
 
 	jQuery(document).on( 'click', '#update_wallet', function() {
-	//jQuery('#update_wallet').click(function(){
 		jQuery('.mwb_wallet-update--popupwrap').addClass('active');
 	});
 
@@ -256,7 +255,6 @@ jQuery(document).ready(function() {
     });
 
     jQuery('#filter_status').change(function () {
-		//var status = jQuery(this).find(":selected").text();
 		table.columns(3).search(jQuery(this).val()).draw() ;
     });
 

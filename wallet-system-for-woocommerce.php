@@ -16,13 +16,15 @@
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
  * Version:           2.0.0
- * Author:            makewebbetter
+ * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
  * Requires at least: 4.6
  * Tested up to:      4.9.5
+ * WC requires at least: 3.0.0
+ * WC tested up to:      5.2.0
  *
  * License:           GNU General Public License v3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -79,13 +81,13 @@ if ( $activated ) {
 		if ( is_array( $mwb_wsfw_active_plugin ) && ! empty( $mwb_wsfw_active_plugin ) ) {
 			$mwb_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
 				'plugin_name' => __( 'Wallet System for WooCommerce', 'wallet-system-for-woocommerce' ),
-				'active' => '1',
+				'active'      => '1',
 			);
 		} else {
 			$mwb_wsfw_active_plugin = array();
 			$mwb_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
 				'plugin_name' => __( 'Wallet System for WooCommerce', 'wallet-system-for-woocommerce' ),
-				'active' => '1',
+				'active'      => '1',
 			);
 		}
 		update_option( 'mwb_all_plugins_active', $mwb_wsfw_active_plugin );

@@ -142,7 +142,6 @@
 
 .mwb_wcb_main_tabs_template {
 	background: #f4f3f3;
-	/*padding: 10px 15px;*/
 }
 
 .mwb_wcb_content_template h2 {
@@ -381,15 +380,6 @@ svg {
 	top: 11px;
 }
 
-
-/*.mwb-wcb-navigations a.mwb_wcb_nav_tab:hover {
-    background-color: #eaeaed;
-    color: black;
-    border: 1px solid#ddd;
-    border-bottom: 0;
-}*/
-
-
 /*====================================
 =            table-design            =
 ====================================*/
@@ -499,7 +489,6 @@ svg {
 }
 
 #mwb_wallet_transfer_form {
-	/* padding:10px 20px; */
 	text-align: left;
 }
 
@@ -598,6 +587,7 @@ svg {
 
 .mwb_wcb_content_template .error {
 	display: none;
+	color:red;
 }
 
 #mwb_wallet_transfer_form .show-on-bank-transfer,
@@ -607,4 +597,7 @@ svg {
 
 .mwb_wcb_content_template .dataTables_wrapper {
 	overflow-x: auto;
+}
+.mwb-wallet-transaction-container .mwb-wallet-field-table {
+    width:100%;
 }

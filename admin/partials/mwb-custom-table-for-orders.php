@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/class-wallet-orders.php';
 $wallet_orders = new Wallet_Orders_List();
 
-// message on applying bulk action
+// message on applying bulk action.
 if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' !== $_REQUEST['bulk_action'] && 'untrash' !== $_REQUEST['bulk_action'] && 'delete' !== $_REQUEST['bulk_action'] ) ) {
 	$changed = $_REQUEST['changed'];
 	printf(
@@ -36,9 +36,9 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' === $_REQUEST['bulk_action
 		'<div id="message" class="updated notice is-dismissable"><p>' . _n(
 			'%d order moved to trash.',
 			'%d orders moved to trash.',
-			$changed
+			esc_html__( $changed, 'wallet-system-for-woocommerce' )
 		) . '</p></div>',
-		$changed
+		esc_html__( $changed, 'wallet-system-for-woocommerce' )
 	);
 }
 if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'untrash' === $_REQUEST['bulk_action'] ) ) {
@@ -69,9 +69,8 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 
 	<h1 class="wp-heading-inline"> <?php esc_html_e( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ); ?></h1>
 	<div id="wrapper" class="mwb_wcb_all_trans_container meta-box-sortables ui-sortable wallet_shop_order">
-		<?php // $wallet_orders->custom_filter_date(); ?>
 		<form action="" method="POST">
-		
+
 			<?php
 			$wallet_orders->display_header();
 			$wallet_orders->views();
@@ -82,11 +81,11 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 				$wallet_orders->prepare_items();
 			}
 			$wallet_orders->search_box( __( 'Search Order', 'wallet-system-for-woocommerce' ), 'search_id' );
-			// Table of elements
+			// Table of elements.
 			$wallet_orders->display();
 			?>
 		</form>
-		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+		<!-- including datepicker jquery in custom order wp list table -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
 
 

@@ -36,15 +36,14 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		}
 
 		/**
-		 * Returns user's wallet balance
+		 * Returns all user details
 		 *
-		 * @param int $user_id
 		 * @return array
 		 */
 		public function mwb_wsfw_get_users() {
 			$mwb_wsfw_rest_response = array();
-			$user_details = array();
-			$users = get_users( 'orderby=id' );
+			$user_details           = array();
+			$users                  = get_users( 'orderby=id' );
 			if ( ! empty( $users ) ) {
 				foreach ( $users as $user ) {
 					$wallet_bal     = get_user_meta( $user->ID, 'mwb_wallet', true );
@@ -66,7 +65,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		/**
 		 * Returns user's wallet balance
 		 *
-		 * @param int $user_id
+		 * @param int $user_id user id of user.
 		 * @return array
 		 */
 		public function get_wallet_balance( $user_id ) {
@@ -92,7 +91,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		/**
 		 * Edit user wallet( credit/debit )
 		 *
-		 * @param array $request
+		 * @param array $request containing all the value passes for updating wallet.
 		 * @return array
 		 */
 		public function update_wallet_balance( $request ) {
@@ -114,7 +113,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 					if ( 'credit' == $wallet_action ) {
 						$wallet += $updated_amount;
 						$update_wallet = update_user_meta( $user_id, 'mwb_wallet', $wallet );
-						$mail_message     = __( 'Your wallet has credited by ' . wc_price( $updated_amount ), 'wallet-system-for-woocommerce' );
+						$mail_message  = __( 'Your wallet has credited by ' . wc_price( $updated_amount ), 'wallet-system-for-woocommerce' );
 
 					} elseif ( 'debit' == $wallet_action ) {
 						if ( $wallet < $updated_amount ) {
@@ -123,23 +122,22 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 							$wallet -= $updated_amount;
 						}
 						$update_wallet = update_user_meta( $user_id, 'mwb_wallet', abs( $wallet ) );
-						$mail_message     = __( 'Your wallet has been debited by ' . wc_price( $updated_amount ), 'wallet-system-for-woocommerce' );
+						$mail_message  = __( 'Your wallet has been debited by ' . wc_price( $updated_amount ), 'wallet-system-for-woocommerce' );
 
 					}
 					if ( $update_wallet ) {
-						$wallet         = get_user_meta( $user_id, 'mwb_wallet', true );
+						$wallet            = get_user_meta( $user_id, 'mwb_wallet', true );
 						$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-							$name = $user->first_name . ' ' . $user->last_name;
-							$mail_text = sprintf( 'Hello %s,<br/>', $name );
+							$name       = $user->first_name . ' ' . $user->last_name;
+							$mail_text  = sprintf( 'Hello %s,<br/>', $name );
 							$mail_text .= $mail_message;
-							$to = $user->user_email;
-							$from = get_option( 'admin_email' );
-
-							$subject  = 'Wallet updating notification';
-							$headers  = 'MIME-Version: 1.0' . "\r\n";
-							$headers  .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-							$headers  .= 'From: ' . $from . "\r\n" .
+							$to         = $user->user_email;
+							$from       = get_option( 'admin_email' );
+							$subject    = 'Wallet updating notification';
+							$headers    = 'MIME-Version: 1.0' . "\r\n";
+							$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+							$headers   .= 'From: ' . $from . "\r\n" .
 								'Reply-To: ' . $to . "\r\n";
 
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
@@ -177,7 +175,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		/**
 		 * Returns user's all wallet transaction details
 		 *
-		 * @param int $user_id
+		 * @param int $user_id user id.
 		 * @return array
 		 */
 		public function get_user_wallet_transactions( $user_id ) {
@@ -187,8 +185,8 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 				$user = get_user_by( 'id', $user_id );
 				if ( $user ) {
 					global $wpdb;
-					$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-					$transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id = $user_id ORDER BY Id" );
+					$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+					$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE user_id = %s ORDER BY Id', $user_id ) );
 					if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 						$mwb_wsfw_rest_response['data'] = $transactions;
 					} else {

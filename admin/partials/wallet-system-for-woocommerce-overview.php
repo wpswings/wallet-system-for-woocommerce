@@ -1,3 +1,22 @@
+<?php
+/**
+ * Provide a admin area view for the plugin
+ *
+ * This file is used to show overview content
+ *
+ * @link       https://makewebbetter.com/
+ * @since      1.0.0
+ *
+ * @package    Wallet_System_For_Woocommerce
+ * @subpackage Wallet_System_For_Woocommerce/admin/partials
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+?>
+
 <div class="mwb-overview__wrapper">
 	<div class="mwb-overview__banner">
 		<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/Wallet for WooCommerce_Banner.png" alt="Overview banner image">

@@ -23,7 +23,7 @@
 class Wallet_System_AjaxHandler {
 
 	/**
-	 * construct.
+	 * Construct.
 	 *
 	 * @since    1.0.0
 	 */
@@ -35,14 +35,14 @@ class Wallet_System_AjaxHandler {
 
 	}
 
+	/**
+	 * Set the session when partial payment is enabled
+	 *
+	 * @return void
+	 */
 	public function calculate_amount_after_wallet() {
 		if ( is_user_logged_in() ) {
 
-			// if( isset($_POST['amount']) ){
-			// WC()->session->set( 'custom_fee', esc_attr( $_POST['amount'] ) );
-			// echo true;
-			// }
-			// exit();
 			$message = array();
 			if ( isset( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
 				WC()->session->set( 'is_wallet_partial_payment', 'true' );
@@ -52,9 +52,9 @@ class Wallet_System_AjaxHandler {
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( $_POST['wallet_amount'] );
 			$amount = empty( $_POST['amount'] ) ? 0 : sanitize_text_field( $_POST['amount'] );
 			if ( $wallet_amount >= $amount ) {
-				$wallet_amount -= $amount;
+				$wallet_amount     -= $amount;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
-				$message['price'] = wc_price( $amount );
+				$message['price']   = wc_price( $amount );
 				WC()->session->set( 'custom_fee', esc_attr( $_POST['amount'] ) );
 
 			} else {
@@ -66,6 +66,11 @@ class Wallet_System_AjaxHandler {
 	}
 
 
+	/**
+	 * Unset the session on disabling partial payment
+	 *
+	 * @return void
+	 */
 	public function unset_wallet_session() {
 		WC()->session->__unset( 'custom_fee' );
 		WC()->session->__unset( 'is_wallet_partial_payment' );

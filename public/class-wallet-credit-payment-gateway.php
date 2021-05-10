@@ -65,7 +65,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			$this->title        = $this->get_option( 'title' );
 			$this->description  = $this->get_option( 'description' );
 			$this->instructions = $this->get_option( 'instructions', $this->description );
-			$this->enabled = $this->get_option( 'enabled' );
+			$this->enabled      = $this->get_option( 'enabled' );
 
 			// Actions.
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -162,22 +162,22 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 				if ( $order_total <= $walletamount ) {
 
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-					$walletamount -= $order_total;
-					$update_wallet = update_user_meta( $customer_id, 'mwb_wallet', abs( $walletamount ) );
+					$walletamount          -= $order_total;
+					$update_wallet          = update_user_meta( $customer_id, 'mwb_wallet', abs( $walletamount ) );
 
 					if ( $update_wallet ) {
 						$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-							$user = get_user_by( 'id', $customer_id );
-							$name = $user->first_name . ' ' . $user->last_name;
-							$mail_text = sprintf( 'Hello %s,<br/>', $name );
+							$user       = get_user_by( 'id', $customer_id );
+							$name       = $user->first_name . ' ' . $user->last_name;
+							$mail_text  = sprintf( 'Hello %s,<br/>', $name );
 							$mail_text .= __( 'Wallet debited by ' . wc_price( $order_total ) . ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
-							$to = $user->user_email;
-							$from = get_option( 'admin_email' );
-							$subject = 'Wallet updating notification';
-							$headers = 'MIME-Version: 1.0' . "\r\n";
-							$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-							$headers .= 'From: ' . $from . "\r\n" .
+							$to         = $user->user_email;
+							$from       = get_option( 'admin_email' );
+							$subject    = 'Wallet updating notification';
+							$headers    = 'MIME-Version: 1.0' . "\r\n";
+							$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+							$headers   .= 'From: ' . $from . "\r\n" .
 								'Reply-To: ' . $to . "\r\n";
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 

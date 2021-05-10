@@ -44,7 +44,8 @@
             return new MDCSwitch(el);
         });
 
-        $('.mwb-password-hidden').click(function() {
+		// on clicking element change the input type password to text or vice-versa
+		$(document).on( 'click', '.mwb-password-hidden', function() {
             if ($('.mwb-form__password').attr('type') == 'text') {
                 $('.mwb-form__password').attr('type', 'password');
             } else {
@@ -89,7 +90,7 @@
 		
 			element.style.display = 'none';
 			document.body.appendChild(element);
-		
+			// automatically run the click event for anchor tag
 			element.click();
 		
 			document.body.removeChild(element);

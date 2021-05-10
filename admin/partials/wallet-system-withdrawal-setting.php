@@ -32,11 +32,11 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 	if ( $update ) {
 
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-		$updated_status = sanitize_text_field( $_POST['mwb-wpg-gen-table_status'] );
-		$withdrawal_id = sanitize_text_field( $_POST['withdrawal_id'] );
-		$user_id = sanitize_text_field( $_POST['user_id'] );
-		$withdrawal_request = get_post( $withdrawal_id );
-		$request_status = $withdrawal_request->post_status;
+		$updated_status         = sanitize_text_field( $_POST['mwb-wpg-gen-table_status'] );
+		$withdrawal_id          = sanitize_text_field( $_POST['withdrawal_id'] );
+		$user_id                = sanitize_text_field( $_POST['user_id'] );
+		$withdrawal_request     = get_post( $withdrawal_id );
+		$request_status         = $withdrawal_request->post_status;
 		if ( 'approved' === $updated_status ) {
 			$withdrawal_amount = get_post_meta( $withdrawal_id, 'mwb_wallet_withdrawal_amount', true );
 			if ( $user_id ) {
@@ -54,16 +54,16 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 
 					$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$user = get_user_by( 'id', $user_id );
-						$name = $user->first_name . ' ' . $user->last_name;
-						$mail_text = sprintf( 'Hello %s,<br/>', $name );
+						$user       = get_user_by( 'id', $user_id );
+						$name       = $user->first_name . ' ' . $user->last_name;
+						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
 						$mail_text .= __( wc_price( $withdrawal_amount ) . ' has been debited from wallet through your withdrawing request.', 'wallet-system-for-woocommerce' );
-						$to = $user->user_email;
-						$from = get_option( 'admin_email' );
-						$subject = 'Wallet updating notification';
-						$headers = 'MIME-Version: 1.0' . "\r\n";
-						$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$headers .= 'From: ' . $from . "\r\n" .
+						$to         = $user->user_email;
+						$from       = get_option( 'admin_email' );
+						$subject    = 'Wallet updating notification';
+						$headers    = 'MIME-Version: 1.0' . "\r\n";
+						$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 					}
@@ -146,7 +146,7 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 <div class="mwb-wpg-gen-section-table-wrap mwb-wpg-withdrawal-section-table">
 	<h4><?php esc_html_e( 'Withdrawal Requests', 'wallet-system-for-woocommerce' ); ?></h4>
 	<div class="mwb-wpg-gen-section-table-container demo">
-		<table id="mwb-wpg-gen-table1" class="mwb-wpg-gen-section-table dt-responsive" style="width:100%">
+		<table id="mwb-wpg-gen-table1" class="mwb-wpg-gen-section-table dt-responsive">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
@@ -157,7 +157,6 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 					<th><?php esc_html_e( 'Withdrawal Amount', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
-					<!-- <th>Note</th> -->
 				</tr>
 			</thead>
 			<tbody>
@@ -177,9 +176,9 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 						$user_id           = get_post_meta( $request->ID, 'wallet_user_id', true );
 						?>
 							<tr>
-								<td><img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/eva_close-outline.svg"><?php echo $i; ?></td>
-								<td><?php echo $request->ID; ?></td>
-								<td><?php echo $user_id; ?></td>
+								<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php esc_html_e( $i, 'wallet-system-for-woocommerce' ); ?></td>
+								<td><?php esc_html_e( $request->ID, 'wallet-system-for-woocommerce' ); ?></td>
+								<td><?php esc_html_e( $user_id, 'wallet-system-for-woocommerce' ); ?></td>
 								<td><?php esc_html_e( $request->post_status, 'wallet-system-for-woocommerce' ); ?></td>
 								<td>
 									<?php
@@ -200,19 +199,19 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 										</select>
 										<input type="hidden" name="withdrawal_id" value="<?php esc_attr_e( $request->ID, 'wallet-system-for-woocommerce' ); ?>" />
 										<input type="hidden" name="user_id" value="<?php esc_attr_e( $user_id, 'wallet-system-for-woocommerce' ); ?>" />
-										<div id="overlay" style="display:none;width:69px;height:89px;">
-											<img src='<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/loader.gif'; ?>' width="64" height="64" /><br>Loading..
+										<div id="overlay">
+											<img src='<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/loader.gif'; ?>' width="64" height="64" /><br>Loading..
 										</div>
 									</form>
 										<?php
 									}
 									?>
 								</td>
-								<td><?php echo wc_price( $withdrawal_amount ); ?></td>
+								<td><?php _e( wc_price( $withdrawal_amount ), 'wallet-system-for-woocommerce' ); ?></td>
 								<td>
 								<?php
 								$date_format = get_option( 'date_format', 'm/d/Y' );
-								$date = date_create( $request->post_date );
+								$date        = date_create( $request->post_date );
 								esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
 								?>
 								</td>					
@@ -220,15 +219,14 @@ if ( isset( $_POST['update_withdrawal_request'] ) && ! empty( $_POST['update_wit
 								<?php
 								esc_html_e( get_post_meta( $request->ID, 'mwb_wallet_note', true ), 'wallet-system-for-woocommerce' );
 								?>
-								</td>					
-								<!-- <td>Lorem ipsum dolor sit amet, </td> -->
+								</td>	
 							</tr>
 						<?php
 						$i++;
 					}
 				}
 				?>
-								
+
 			</tbody>
 		</table>
 	</div>

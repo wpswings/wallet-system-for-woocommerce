@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
@@ -24,8 +24,8 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 			parent::__construct(
 				array(
-					'singular' => __( 'User Wallet Transaction', 'wallet_payment_gateway' ), // singular name of the listed records
-					'plural'   => __( 'User Wallet Transactions', 'wallet_payment_gateway' ), // plural name of the listed records
+					'singular' => __( 'User Wallet Transaction', 'wallet_payment_gateway' ), // singular name of the listed records.
+					'plural'   => __( 'User Wallet Transactions', 'wallet_payment_gateway' ), // plural name of the listed records.
 					'ajax'     => false, // should this table support ajax?
 
 				)
@@ -66,7 +66,11 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 			return $sortable;
 		}
 
-
+		/**
+		 * Retrieves transaction data from database
+		 *
+		 * @return Array $data return transaction table data
+		 */
 		private function table_data() {
 			global $wpdb;
 
@@ -76,7 +80,7 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 			if ( isset( $_GET['s'] ) ) {
 
-				$search = $_GET['s'];
+				$search = sanitize_text_field( $_GET['s'] );
 
 				$search = trim( $search );
 
@@ -88,7 +92,7 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 			if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 				foreach ( $transactions as $transaction ) {
-					$user = get_user_by( 'id', $transaction->Id );
+					$user   = get_user_by( 'id', $transaction->Id );
 					$data[] = array(
 						'transaction_id' => $transaction->Id,
 						'name'           => $user->user_login,
@@ -105,6 +109,11 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 		}
 
+		/**
+		 * Show list table
+		 *
+		 * @return void
+		 */
 		public function prepare_items() {
 
 			global $wpdb;

@@ -73,7 +73,7 @@ class Wallet_System_For_Woocommerce_Common {
 			'wsfw_common_param',
 			array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'nonce' => wp_create_nonce( 'wp_rest' ),
+				'nonce'   => wp_create_nonce( 'wp_rest' ),
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );

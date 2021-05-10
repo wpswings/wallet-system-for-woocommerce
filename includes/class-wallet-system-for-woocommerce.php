@@ -97,7 +97,7 @@ class Wallet_System_For_Woocommerce {
 
 		$this->wallet_system_for_woocommerce_api_hooks();
 
-		// custom function for ajax
+		// custom function for ajax.
 		$this->wallet_system_for_woocommerce_ajax_hooks();
 
 	}
@@ -214,11 +214,10 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'mwb_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
 		$this->loader->add_filter( 'wsfw_template_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
-		// $this->loader->add_filter( 'wsfw_wallet_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_setting_page', 10 );
 		$this->loader->add_filter( 'wsfw_update_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_update_wallet_page', 10 );
-		// for importing wallet
+		// for importing wallet.
 		$this->loader->add_filter( 'wsfw_import_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_import_wallets_page', 10 );
-		// wallet withdrawal settings for user
+		// wallet withdrawal settings for user.
 		$this->loader->add_filter( 'wsfw_wallet_withdrawal_array', $wsfw_plugin_admin, 'wsfw_admin_withdrawal_setting_page', 10 );
 
 		$saved_older_keys = get_option( 'wsfw_saved_older_walletkeys', '' );
@@ -230,12 +229,10 @@ class Wallet_System_For_Woocommerce {
 		if ( isset( $enable ) && 'on' === $enable ) {
 			$this->loader->add_filter( 'manage_users_columns', $wsfw_plugin_admin, 'wsfw_add_wallet_col_to_user_table' );
 			$this->loader->add_filter( 'manage_users_custom_column', $wsfw_plugin_admin, 'wsfw_add_user_wallet_col_data', 10, 3 );
-			// add new custom post type Withdrawal for showing all withdrawal request of all users
-
-			// add custom columns to Wallet Withdrawal post type
+			// add custom columns to Wallet Withdrawal post type.
 			$this->loader->add_filter( 'manage_wallet_withdrawal_posts_columns', $wsfw_plugin_admin, 'wsfw_add_columns_to_withdrawal' );
 			$this->loader->add_action( 'manage_wallet_withdrawal_posts_custom_column', $wsfw_plugin_admin, 'wsfw_show_withdrawal_columns_data', 10, 2 );
-			// enable wallet withdrawal for user on status approved(publish)
+			// enable wallet withdrawal for user on status approved(publish).
 			$this->loader->add_action( 'admin_footer-post.php', $wsfw_plugin_admin, 'wsfw_append_wallet_status_list' );
 
 			$this->loader->add_action( 'show_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10, 1 );
@@ -388,40 +385,40 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_default_tabs = array();
 
 		$wsfw_default_tabs['wallet-system-for-woocommerce-general'] = array(
-			'title'       => esc_html__( 'General', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-for-woocommerce-general',
+			'title' => esc_html__( 'General', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-for-woocommerce-general',
 		);
 		$wsfw_default_tabs = apply_filters( 'mwb_wsfw_plugin_standard_admin_settings_tabs', $wsfw_default_tabs );
 
-		// added tab for importing wallet of users through button
+		// added tab for importing wallet of users through button.
 		$wsfw_default_tabs['wallet-system-wallet-setting'] = array(
-			'title'       => esc_html__( 'Wallet', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-wallet-setting',
+			'title' => esc_html__( 'Wallet', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-wallet-setting',
 		);
 
 		$wsfw_default_tabs['wallet-system-wallet-transactions'] = array(
-			'title'       => esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-wallet-transactions',
+			'title' => esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-wallet-transactions',
 		);
 
-		// added tab for wallet withdrawal settings
+		// added tab for wallet withdrawal settings.
 		$wsfw_default_tabs['wallet-system-withdrawal-setting'] = array(
-			'title'       => esc_html__( 'Withdrawal Request', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-withdrawal-setting',
+			'title' => esc_html__( 'Withdrawal Request', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-withdrawal-setting',
 		);
 
 		$wsfw_default_tabs['wallet-system-rest-api'] = array(
-			'title'       => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-rest-api',
+			'title' => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-rest-api',
 		);
 
 		$wsfw_default_tabs['wallet-system-for-woocommerce-system-status'] = array(
-			'title'       => esc_html__( 'System Status', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-for-woocommerce-system-status',
+			'title' => esc_html__( 'System Status', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-for-woocommerce-system-status',
 		);
-		$wsfw_default_tabs['wallet-system-for-woocommerce-overview'] = array(
-			'title'       => esc_html__( 'Overview', 'wallet-system-for-woocommerce' ),
-			'name'        => 'wallet-system-for-woocommerce-overview',
+		$wsfw_default_tabs['wallet-system-for-woocommerce-overview']      = array(
+			'title' => esc_html__( 'Overview', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-for-woocommerce-overview',
 		);
 
 		return $wsfw_default_tabs;
@@ -487,16 +484,16 @@ class Wallet_System_For_Woocommerce {
 
 
 	/**
-	 * Show wordpress and server info.
+	 * Show WordPress and server info.
 	 *
-	 * @return  Array $wsfw_system_data       returns array of all wordpress and server related information.
+	 * @return  Array $wsfw_system_data       returns array of all WordPress and server related information.
 	 * @since  1.0.0
 	 */
 	public function mwb_wsfw_plug_system_status() {
 		global $wpdb;
-		$wsfw_system_status = array();
+		$wsfw_system_status    = array();
 		$wsfw_wordpress_status = array();
-		$wsfw_system_data = array();
+		$wsfw_system_data      = array();
 
 		// Get the web server.
 		$wsfw_system_status['web_server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '';
@@ -583,11 +580,11 @@ class Wallet_System_For_Woocommerce {
 		// Get the PHP maximum execution time.
 		$wsfw_system_status['php_max_execution_time'] = function_exists( 'ini_get' ) ? ini_get( 'max_execution_time' ) : __( 'N/A (ini_get function does not exist)', 'wallet-system-for-woocommerce' );
 
-		// Get outgoing IP address.
+		// Get outgoing IP address, file_get_contents is used to get IP address
 		$wsfw_system_status['outgoing_ip'] = function_exists( 'file_get_contents' ) ? file_get_contents( 'http://ipecho.net/plain' ) : __( 'N/A (file_get_contents function does not exist)', 'wallet-system-for-woocommerce' );
 
 		$wsfw_system_data['php'] = $wsfw_system_status;
-		$wsfw_system_data['wp'] = $wsfw_wordpress_status;
+		$wsfw_system_data['wp']  = $wsfw_wordpress_status;
 
 		return $wsfw_system_data;
 	}
@@ -619,6 +616,7 @@ class Wallet_System_For_Woocommerce {
 										<span class="mdc-notched-outline__leading"></span>
 										<span class="mdc-notched-outline__notch">
 											<?php if ( 'number' != $wsfw_component['type'] ) { ?>
+												<!-- dynamic inline style will be added -->
 												<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?></span>
 											<?php } ?>
 										</span>
@@ -633,9 +631,6 @@ class Wallet_System_For_Woocommerce {
 									placeholder="<?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?>"
 									>
 								</label>
-								<!-- <div class="mdc-text-field-helper-line">
-									<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
-								</div> -->
 							</div>
 						</div>
 							<?php
@@ -818,15 +813,15 @@ class Wallet_System_For_Woocommerce {
 										<div class="mdc-switch__thumb-underlay">
 											<div class="mdc-switch__thumb"></div>
 											<input name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>" type="checkbox" id="<?php echo esc_html( $wsfw_component['id'] ); ?>" value="on" class="mdc-switch__native-control <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" role="switch" aria-checked="
-																	<?php
-																	if ( 'on' == $wsfw_component['value'] ) {
-																		echo 'true';
-																	} else {
-																		echo 'false';
-																	}
-																	?>
+												<?php
+												if ( 'on' == $wsfw_component['value'] ) {
+													echo 'true';
+												} else {
+													echo 'false';
+												}
+												?>
 											"
-											<?php // checked( $wsfw_component['value'], 'on' ); ?>
+											<?php // checked( $wsfw_component['value'], 'on' );. ?>
 											<?php checked( get_option( $wsfw_component['name'], '' ), 'on' ); ?>
 											>
 										</div>
@@ -867,6 +862,7 @@ class Wallet_System_For_Woocommerce {
 													<span class="mdc-notched-outline__leading"></span>
 													<span class="mdc-notched-outline__notch">
 														<?php if ( 'number' != $component['type'] ) { ?>
+															<!-- dynamic inline style will be added. -->
 															<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?></span>
 														<?php } ?>
 													</span>
@@ -959,7 +955,7 @@ class Wallet_System_For_Woocommerce {
 									</div>
 								</div>
 							</div>
-	
+
 							<?php
 							break;
 
@@ -976,7 +972,6 @@ class Wallet_System_For_Woocommerce {
 									/>
 								</div>
 							</div>
-	
 							<?php
 							break;
 
@@ -1004,17 +999,17 @@ class Wallet_System_For_Woocommerce {
 	/**
 	 * Insert transaction related data in custom table
 	 *
-	 * @param array $transactiondata
+	 * @param array $transactiondata contains data for transaction table.
 	 * @return void
 	 */
 	public function insert_transaction_data_in_table( $transactiondata ) {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 
-		// Check if table exists
+		// Check if table exists.
 		if ( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) :
 
-			// if not, create the table
+			// if not, create the table.
 			$sql = 'CREATE TABLE ' . $table_name . ' (
             (...)
             ) ENGINE=InnoDB;';
@@ -1039,23 +1034,17 @@ class Wallet_System_For_Woocommerce {
 	}
 
 	/**
-	 * USend mail to user on wallet update
+	 * Send mail to user on wallet update
 	 *
-	 * @param string $to
-	 * @param string $subject
-	 * @param string $mail_message
-	 * @param string $headers
-	 * @return string
+	 * @param string $to user email address.
+	 * @param string $subject subject for mail.
+	 * @param string $mail_message message for mail.
+	 * @param string $headers data to be send in header.
+	 * @return void
 	 */
 	public function send_mail_on_wallet_updation( $to, $subject, $mail_message, $headers ) {
-		// Here put your Validation and send mail
+		// Here put your Validation and send mail.
 		wp_mail( $to, $subject, $mail_message, $headers );
-		// if( $sent ) {
-		// echo 'message send';
-		// }//message sent!
-		// else  {
-		// echo 'message not send';
-		// }
 	}
 
 

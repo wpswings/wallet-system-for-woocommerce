@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="mwb-wpg-gen-section-table-wrap mwb-wpg-transcation-section-table">
 	<h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
 	<div class="mwb-wpg-gen-section-table-container">
-		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive mwb-wpg-gen-table-all-transaction" style="width:100%">
+		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive mwb-wpg-gen-table-all-transaction">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -62,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 				$transactions = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY `Id` DESC" );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
@@ -70,18 +70,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 						$user = get_user_by( 'id', $transaction->user_id );
 						?>
 						<tr>
-							<td><img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/eva_close-outline.svg"><?php echo $i; ?></td>
+							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php esc_html_e( $i, 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php esc_html_e( $user->display_name, 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php esc_html_e( $user->user_email, 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php esc_html_e( $user->roles[0], 'wallet-system-for-woocommerce' ); ?></td>
-							<td><?php echo wc_price( $transaction->amount ); ?></td>
+							<td><?php _e( wc_price( $transaction->amount ), 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
-							<td><?php echo $transaction->Id; ?></td>
+							<td><?php esc_html_e( $transaction->Id, 'wallet-system-for-woocommerce' ); ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
-							$date = date_create( $transaction->date );
+							$date        = date_create( $transaction->date );
 							esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
 							?>
 							</td>
@@ -103,7 +103,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</table>
 	</div>
 </div>
-
+<!-- including datepicker jquery for input tag-->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
 
 <?php
