@@ -27,7 +27,7 @@ $wsfw_onboarding_form_fields = apply_filters( 'mwb_wsfw_on_boarding_form_fields'
 					<p class="mwb-wsfw-on-boarding-desc"><?php esc_html_e( 'We love making new friends! Subscribe below and we promise to keep you up-to-date with our latest new plugins, updates, awesome deals and a few special offers.', 'wallet-system-for-woocommerce' ); ?></p>
 
 					<form action="#" method="post" class="mwb-wsfw-on-boarding-form">
-						<?php 
+						<?php
 						$wsfw_onboarding_html = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_generate_html( $wsfw_onboarding_form_fields );
 						echo esc_html( $wsfw_onboarding_html );
 						?>

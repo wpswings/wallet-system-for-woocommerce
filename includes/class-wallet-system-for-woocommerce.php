@@ -100,7 +100,6 @@ class Wallet_System_For_Woocommerce {
 		// custom function for ajax
 		$this->wallet_system_for_woocommerce_ajax_hooks();
 
-
 	}
 
 	/**
@@ -140,7 +139,7 @@ class Wallet_System_For_Woocommerce {
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wallet-system-for-woocommerce-admin.php';
 
 			// The class responsible for on-boarding steps for plugin.
-			if ( is_dir(  plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Wallet_System_For_Woocommerce_Onboarding_Steps' ) ) {
+			if ( is_dir( plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Wallet_System_For_Woocommerce_Onboarding_Steps' ) ) {
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-onboarding-steps.php';
 			}
 
@@ -160,7 +159,6 @@ class Wallet_System_For_Woocommerce {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-ajax-handler.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'package/rest-api/class-wallet-system-for-woocommerce-rest-api.php';
-
 
 		/**
 		 * This class responsible for defining common functionality
@@ -227,24 +225,24 @@ class Wallet_System_For_Woocommerce {
 		if ( isset( $saved_older_keys ) && 'true' !== $saved_older_keys ) {
 			$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wsfw_upgrade_completed', 10 );
 		}
-		
+
 		$enable = get_option( 'mwb_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 			$this->loader->add_filter( 'manage_users_columns', $wsfw_plugin_admin, 'wsfw_add_wallet_col_to_user_table' );
 			$this->loader->add_filter( 'manage_users_custom_column', $wsfw_plugin_admin, 'wsfw_add_user_wallet_col_data', 10, 3 );
 			// add new custom post type Withdrawal for showing all withdrawal request of all users
-			
+
 			// add custom columns to Wallet Withdrawal post type
 			$this->loader->add_filter( 'manage_wallet_withdrawal_posts_columns', $wsfw_plugin_admin, 'wsfw_add_columns_to_withdrawal' );
 			$this->loader->add_action( 'manage_wallet_withdrawal_posts_custom_column', $wsfw_plugin_admin, 'wsfw_show_withdrawal_columns_data', 10, 2 );
 			// enable wallet withdrawal for user on status approved(publish)
 			$this->loader->add_action( 'admin_footer-post.php', $wsfw_plugin_admin, 'wsfw_append_wallet_status_list' );
-		
-			$this->loader->add_action( 'show_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10 , 1 );
-			$this->loader->add_action( 'edit_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10, 1 );  
+
+			$this->loader->add_action( 'show_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10, 1 );
+			$this->loader->add_action( 'edit_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10, 1 );
 			$this->loader->add_action( 'personal_options_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 );
-			$this->loader->add_action( 'edit_user_profile_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 ); 
-			
+			$this->loader->add_action( 'edit_user_profile_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 );
+
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
 
 		}
@@ -254,7 +252,7 @@ class Wallet_System_For_Woocommerce {
 
 		$this->loader->add_filter( 'display_post_states', $wsfw_plugin_admin, 'display_archive_state' );
 		$this->loader->add_action( 'wp_ajax_export_users_wallet', $wsfw_plugin_admin, 'export_users_wallet' );
-		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 10, 3 ); 
+		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 10, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
 	}
 
@@ -288,7 +286,7 @@ class Wallet_System_For_Woocommerce {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_scripts' );
-		
+
 		$enable = get_option( 'mwb_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 
@@ -300,14 +298,14 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_review_order_after_order_total', $wsfw_plugin_public, 'checkout_review_order_custom_field' );
 			$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_public, 'remove_wallet_session', 10, 1 );
 			$this->loader->add_action( 'woocommerce_cart_calculate_fees', $wsfw_plugin_public, 'wsfw_add_wallet_discount', 20 );
-			$this->loader->add_filter('woocommerce_is_purchasable', $wsfw_plugin_public, 'mwb_wsfw_wallet_recharge_product_purchasable', 10, 2 );
+			$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_public, 'mwb_wsfw_wallet_recharge_product_purchasable', 10, 2 );
 			$this->loader->add_action( 'template_redirect', $wsfw_plugin_public, 'add_wallet_recharge_to_cart' );
 			$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $wsfw_plugin_public, 'show_message_addto_cart', 10, 2 );
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $wsfw_plugin_public, 'mwb_update_price_cart', 10, 1 );
 			$this->loader->add_action( 'woocommerce_cart_item_removed', $wsfw_plugin_public, 'after_remove_wallet_from_cart', 10, 2 );
-			$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_public, 'mwb_order_status_changed', 10, 3 ); 
+			$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_public, 'mwb_order_status_changed', 10, 3 );
 
-			$this->loader->add_action( 'woocommerce_thankyou',  $wsfw_plugin_public, 'change_order_type', 20 , 1 );
+			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'change_order_type', 20, 1 );
 
 		}
 
@@ -406,7 +404,6 @@ class Wallet_System_For_Woocommerce {
 			'name'        => 'wallet-system-wallet-transactions',
 		);
 
-
 		// added tab for wallet withdrawal settings
 		$wsfw_default_tabs['wallet-system-withdrawal-setting'] = array(
 			'title'       => esc_html__( 'Withdrawal Request', 'wallet-system-for-woocommerce' ),
@@ -466,19 +463,19 @@ class Wallet_System_For_Woocommerce {
 		switch ( $type ) {
 
 			case 'update':
-			$wsfw_classes .= 'updated is-dismissible';
-			break;
+				$wsfw_classes .= 'updated is-dismissible';
+				break;
 
 			case 'update-nag':
-			$wsfw_classes .= 'update-nag is-dismissible';
-			break;
+				$wsfw_classes .= 'update-nag is-dismissible';
+				break;
 
 			case 'success':
-			$wsfw_classes .= 'notice-success is-dismissible';
-			break;
+				$wsfw_classes .= 'notice-success is-dismissible';
+				break;
 
 			default:
-			$wsfw_classes .= 'notice-error is-dismissible';
+				$wsfw_classes .= 'notice-error is-dismissible';
 		}
 
 		$wsfw_notice  = '<div class="' . esc_attr( $wsfw_classes ) . ' mwb-errorr-8">';
@@ -604,15 +601,15 @@ class Wallet_System_For_Woocommerce {
 	public function mwb_wsfw_plug_generate_html( $wsfw_components = array() ) {
 		if ( is_array( $wsfw_components ) && ! empty( $wsfw_components ) ) {
 			foreach ( $wsfw_components as $wsfw_component ) {
-				if ( ! empty( $wsfw_component['type'] ) &&  ! empty( $wsfw_component['id'] ) ) {
+				if ( ! empty( $wsfw_component['type'] ) && ! empty( $wsfw_component['id'] ) ) {
 					switch ( $wsfw_component['type'] ) {
 
 						case 'hidden':
 						case 'number':
 						case 'email':
 						case 'text':
-						?>
-						<div class="mwb-form-group mwb-wsfw-<?php echo esc_attr($wsfw_component['type']); ?>">
+							?>
+						<div class="mwb-form-group mwb-wsfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
 							<div class="mwb-form-group__label">
 								<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 							</div>
@@ -641,11 +638,11 @@ class Wallet_System_For_Woocommerce {
 								</div> -->
 							</div>
 						</div>
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'password':
-						?>
+							?>
 						<div class="mwb-form-group">
 							<div class="mwb-form-group__label">
 								<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
@@ -673,11 +670,11 @@ class Wallet_System_For_Woocommerce {
 								</div>
 							</div>
 						</div>
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'textarea':
-						?>
+							?>
 						<div class="mwb-form-group">
 							<div class="mwb-form-group__label">
 								<label class="mwb-form-label" for="<?php echo esc_attr( $wsfw_component['id'] ); ?>"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
@@ -699,12 +696,12 @@ class Wallet_System_For_Woocommerce {
 							</div>
 						</div>
 
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'select':
 						case 'multiselect':
-						?>
+							?>
 						<div class="mwb-form-group">
 							<div class="mwb-form-group__label">
 								<label class="mwb-form-label" for="<?php echo esc_attr( $wsfw_component['id'] ); ?>"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
@@ -734,11 +731,11 @@ class Wallet_System_For_Woocommerce {
 							</div>
 						</div>
 
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'checkbox':
-						?>
+							?>
 						<div class="mwb-form-group">
 							<div class="mwb-form-group__label">
 								<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
@@ -767,11 +764,11 @@ class Wallet_System_For_Woocommerce {
 								</div>
 							</div>
 						</div>
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'radio':
-						?>
+							?>
 						<div class="mwb-form-group">
 							<div class="mwb-form-group__label">
 								<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
@@ -804,11 +801,11 @@ class Wallet_System_For_Woocommerce {
 								</div>
 							</div>
 						</div>
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'radio-switch':
-						?>
+							?>
 
 						<div class="mwb-form-group">
 							<div class="mwb-form-group__label">
@@ -820,20 +817,28 @@ class Wallet_System_For_Woocommerce {
 										<div class="mdc-switch__track"></div>
 										<div class="mdc-switch__thumb-underlay">
 											<div class="mdc-switch__thumb"></div>
-											<input name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>" type="checkbox" id="<?php echo esc_html( $wsfw_component['id'] ); ?>" value="on" class="mdc-switch__native-control <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" role="switch" aria-checked="<?php if ( 'on' == $wsfw_component['value'] ) echo 'true'; else echo 'false'; ?>"
+											<input name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>" type="checkbox" id="<?php echo esc_html( $wsfw_component['id'] ); ?>" value="on" class="mdc-switch__native-control <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" role="switch" aria-checked="
+																	<?php
+																	if ( 'on' == $wsfw_component['value'] ) {
+																		echo 'true';
+																	} else {
+																		echo 'false';
+																	}
+																	?>
+											"
 											<?php // checked( $wsfw_component['value'], 'on' ); ?>
-											<?php checked( get_option( $wsfw_component['name'], '' ) , 'on' ); ?>
+											<?php checked( get_option( $wsfw_component['name'], '' ), 'on' ); ?>
 											>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'button':
-						?>
+							?>
 						<div class="mwb-form-group">
 							<div class="mwb-form-group__label"></div>
 							<div class="mwb-form-group__control">
@@ -844,8 +849,8 @@ class Wallet_System_For_Woocommerce {
 							</div>
 						</div>
 
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'multi':
 							?>
@@ -901,7 +906,7 @@ class Wallet_System_For_Woocommerce {
 										id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
 										type="<?php echo esc_attr( $wsfw_component['type'] ); ?>"
 										value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
-										<?php echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max='. date( 'Y-m-d', strtotime( date( "Y-m-d", mktime() ) . " + 365 day" ) ) .' ' . 'min=' . date( "Y-m-d" ) . '' : '' ); ?>
+										<?php echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max=' . date( 'Y-m-d', strtotime( date( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' ' . 'min=' . date( 'Y-m-d' ) . '' : '' ); ?>
 										>
 									</label>
 									<div class="mdc-text-field-helper-line">
@@ -910,10 +915,10 @@ class Wallet_System_For_Woocommerce {
 								</div>
 							</div>
 							<?php
-						break;
+							break;
 
 						case 'submit':
-						?>
+							?>
 						<tr valign="top">
 							<td scope="row">
 								<input type="submit" class="mwb-btn mwb-btn__filled" 
@@ -924,8 +929,8 @@ class Wallet_System_For_Woocommerce {
 								/>
 							</td>
 						</tr>
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'oneline-radio':
 							?>
@@ -944,19 +949,19 @@ class Wallet_System_For_Woocommerce {
 												id="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 												name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 												value="<?php echo esc_attr( $wsfw_radio_key ); ?>"
-												<?php checked( get_option( $wsfw_component['name'], '' ) , $wsfw_radio_key ); ?> >
+												<?php checked( get_option( $wsfw_component['name'], '' ), $wsfw_radio_key ); ?> >
 												<label for="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"><?php echo esc_attr( $wsfw_radio_val ); ?></label>
 											</div>
 											<?php
 										}
 										?>
-										<!-- <label class="mdl-textfield__label" for="octane"><?php //echo esc_html( $wsfw_component['description'] ); ?><?php //echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label> -->
+										<!-- <label class="mdl-textfield__label" for="octane"><?php // echo esc_html( $wsfw_component['description'] ); ?><?php // echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label> -->
 									</div>
 								</div>
 							</div>
 	
-						<?php
-						break;
+							<?php
+							break;
 
 						case 'import_submit':
 							?>
@@ -972,11 +977,11 @@ class Wallet_System_For_Woocommerce {
 								</div>
 							</div>
 	
-						<?php
-						break;	
+							<?php
+							break;
 
 						default:
-						break;
+							break;
 					}
 				}
 			}
@@ -1004,33 +1009,33 @@ class Wallet_System_For_Woocommerce {
 	 */
 	public function insert_transaction_data_in_table( $transactiondata ) {
 		global $wpdb;
-        $table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 
-        //Check if table exists
-        if( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) :
+		// Check if table exists
+		if ( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) :
 
-            //if not, create the table   
-            $sql = "CREATE TABLE " . $table_name . " (
+			// if not, create the table
+			$sql = 'CREATE TABLE ' . $table_name . ' (
             (...)
-            ) ENGINE=InnoDB;";
+            ) ENGINE=InnoDB;';
 
-            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-            dbDelta($sql);
-        else:
-          
-            $insert = "INSERT INTO  " . $table_name . "
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			dbDelta( $sql );
+		else :
+
+			$insert = 'INSERT INTO  ' . $table_name . "
                 ( user_id, amount, transaction_type, payment_method, transaction_id, note, date ) 
-                VALUES ( '" . $transactiondata['user_id']. "' , '" . $transactiondata['amount'] . "', '" . $transactiondata['transaction_type'] . "', '". $transactiondata['payment_method'] . "', '". $transactiondata['order_id'] . "', '". $transactiondata['note'] . "', NOW() )";
+                VALUES ( '" . $transactiondata['user_id'] . "' , '" . $transactiondata['amount'] . "', '" . $transactiondata['transaction_type'] . "', '" . $transactiondata['payment_method'] . "', '" . $transactiondata['order_id'] . "', '" . $transactiondata['note'] . "', NOW() )";
 
-            $results = $wpdb->query( $insert );
+			$results = $wpdb->query( $insert );
 			$transaction_id = $wpdb->insert_id;
-			if ( $results ) { 
+			if ( $results ) {
 				return $transaction_id;
 			} else {
 				return false;
 			}
-         
-        endif;
+
+		endif;
 	}
 
 	/**
@@ -1043,13 +1048,13 @@ class Wallet_System_For_Woocommerce {
 	 * @return string
 	 */
 	public function send_mail_on_wallet_updation( $to, $subject, $mail_message, $headers ) {
-		//Here put your Validation and send mail
+		// Here put your Validation and send mail
 		wp_mail( $to, $subject, $mail_message, $headers );
 		// if( $sent ) {
-		// 	echo 'message send';
+		// echo 'message send';
 		// }//message sent!
 		// else  {
-		// 	echo 'message not send';
+		// echo 'message not send';
 		// }
 	}
 

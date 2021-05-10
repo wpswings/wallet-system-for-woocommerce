@@ -32,7 +32,7 @@ $wsfw_onboarding_form_deactivate = apply_filters( 'mwb_wsfw_deactivation_form_fi
 					<h3 class="mwb-wsfw-on-boarding-heading mdc-dialog__title"></h3>
 					<p class="mwb-wsfw-on-boarding-desc"><?php esc_html_e( 'May we have a little info about why you are deactivating?', 'wallet-system-for-woocommerce' ); ?></p>
 					<form action="#" method="post" class="mwb-wsfw-on-boarding-form">
-						<?php 
+						<?php
 						$wsfw_onboarding_deactive_html = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_generate_html( $wsfw_onboarding_form_deactivate );
 						echo esc_html( $wsfw_onboarding_deactive_html );
 						?>

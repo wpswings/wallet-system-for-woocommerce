@@ -162,18 +162,18 @@ if ( $activated ) {
 	 * @param array  $links_array array containing the links to plugin.
 	 * @param string $plugin_file_name plugin file name.
 	 * @return array
-	*/
+	 */
 	function wallet_system_for_woocommerce_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 		if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-			$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="mwb-info-img" alt="Demo image">'.__( 'Demo', 'wallet-system-for-woocommerce' ).'</a>';
-			$links_array[] = '<a href="https://docs.makewebbetter.com/wallet-system-for-woocommerce/" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="mwb-info-img" alt="documentation image">'.__( 'Documentation', 'wallet-system-for-woocommerce' ).'</a>';
-			$links_array[] = '<a href="https://makewebbetter.com/contact-us/" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="mwb-info-img" alt="support image">'.__( 'Support', 'wallet-system-for-woocommerce' ).'</a>';
+			$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="mwb-info-img" alt="Demo image">' . __( 'Demo', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://docs.makewebbetter.com/wallet-system-for-woocommerce/" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="mwb-info-img" alt="documentation image">' . __( 'Documentation', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://makewebbetter.com/contact-us/" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="mwb-info-img" alt="support image">' . __( 'Support', 'wallet-system-for-woocommerce' ) . '</a>';
 		}
 		return $links_array;
 	}
 	add_filter( 'plugin_row_meta', 'wallet_system_for_woocommerce_custom_settings_at_plugin_tab', 10, 2 );
 
-}  else {
+} else {
 	// To deactivate plugin if woocommerce is not installed.
 	add_action( 'admin_init', 'mwb_wsc_plugin_deactivate' );
 

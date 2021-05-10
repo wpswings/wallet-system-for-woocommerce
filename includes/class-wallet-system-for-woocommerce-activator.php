@@ -38,10 +38,9 @@ class Wallet_System_For_Woocommerce_Activator {
 			if ( empty( $wallet ) ) {
 				$wallet = update_user_meta( $user_id, 'mwb_wallet', 0 );
 			}
-			
 		}
 
-		// create product named as wallet topup 
+		// create product named as wallet topup
 		$product = array(
 			'post_title'   => 'Rechargeable Wallet Product',
 			'post_content' => 'This is the custom wallet topup product.',
@@ -83,10 +82,9 @@ class Wallet_System_For_Woocommerce_Activator {
 			KEY user_id (user_id)
 			)
 			COLLATE {$wpdb_collate}";
-	
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		dbDelta( $sql );
 
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
 
 	}
 
