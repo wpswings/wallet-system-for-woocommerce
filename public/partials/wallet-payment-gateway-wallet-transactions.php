@@ -27,8 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id = $user_id ORDER BY Id DESC" );
+				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
@@ -63,8 +63,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<!-- including datatable jquery-->
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 	<!-- including regular expression jquery-->
-   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
-			
+   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 	
 	<!-- removing the anchor tag href attibute using regular expression -->	
 	<script>
 	jQuery( "#transactions_table tr td" ).each(function( index ) {

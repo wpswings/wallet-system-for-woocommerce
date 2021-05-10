@@ -30,9 +30,9 @@ if ( isset( $_POST['mwb_recharge_wallet'] ) && ! empty( $_POST['mwb_recharge_wal
 		WC()->session->set(
 			'wallet_recharge',
 			array(
-				'userid' => $user_id,
+				'userid'         => $user_id,
 				'rechargeamount' => $recharge_amount,
-				'productid' => $product_id,
+				'productid'      => $product_id,
 			)
 		);
 		WC()->session->set( 'recharge_amount', $recharge_amount );
@@ -42,15 +42,15 @@ if ( isset( $_POST['mwb_recharge_wallet'] ) && ! empty( $_POST['mwb_recharge_wal
 if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_transfer'] ) ) {
 	unset( $_POST['mwb_proceed_transfer'] );
 	$update = true;
-	// check whether $_POST key 'current_user_id' is empty or not
+	// check whether $_POST key 'current_user_id' is empty or not.
 	if ( ! empty( $_POST['current_user_id'] ) ) {
 		$user_id = sanitize_text_field( $_POST['current_user_id'] );
 	}
 
-	$wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
+	$wallet_bal         = get_user_meta( $user_id, 'mwb_wallet', true );
 	$another_user_email = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( $_POST['mwb_wallet_transfer_user_email'] ) : '';
-	$transfer_note = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( $_POST['mwb_wallet_transfer_note'] ) : '';
-	$user = get_user_by( 'email', $another_user_email );
+	$transfer_note      = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( $_POST['mwb_wallet_transfer_note'] ) : '';
+	$user               = get_user_by( 'email', $another_user_email );
 	if ( $user ) {
 		$another_user_id = $user->ID;
 	} else {
@@ -65,30 +65,30 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		$update = false;
 	}
 	if ( $update ) {
-		$transfer_amount = sanitize_text_field( $_POST['mwb_wallet_transfer_amount'] );
-		$user_wallet_bal = get_user_meta( $another_user_id, 'mwb_wallet', true );
+		$transfer_amount  = sanitize_text_field( $_POST['mwb_wallet_transfer_amount'] );
+		$user_wallet_bal  = get_user_meta( $another_user_id, 'mwb_wallet', true );
 		$user_wallet_bal += $transfer_amount;
-		$returnid = update_user_meta( $another_user_id, 'mwb_wallet', $user_wallet_bal );
+		$returnid         = update_user_meta( $another_user_id, 'mwb_wallet', $user_wallet_bal );
 
 		if ( $returnid ) {
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-			$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
+			$send_email_enable      = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-				// first user
+				// first user.
 				$user1 = get_user_by( 'id', $another_user_id );
 				$name1 = $user1->first_name . ' ' . $user1->last_name;
 
 				$user2 = get_user_by( 'id', $user_id );
 				$name2 = $user2->first_name . ' ' . $user2->last_name;
 
-				$mail_text1 = sprintf( 'Hello %s,<br/>', $name1 );
+				$mail_text1  = sprintf( 'Hello %s,<br/>', $name1 );
 				$mail_text1 .= __( 'Wallet credited by ' . wc_price( $transfer_amount ) . ' through wallet transfer by ' . $name2, 'wallet-system-for-woocommerce' );
-				$to1 = $user1->user_email;
-				$from = get_option( 'admin_email' );
-				$subject = 'Wallet updating notification';
-				$headers1 = 'MIME-Version: 1.0' . "\r\n";
-				$headers1 .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-				$headers1 .= 'From: ' . $from . "\r\n" .
+				$to1         = $user1->user_email;
+				$from        = get_option( 'admin_email' );
+				$subject     = 'Wallet updating notification';
+				$headers1    = 'MIME-Version: 1.0' . "\r\n";
+				$headers1   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers1   .= 'From: ' . $from . "\r\n" .
 					'Reply-To: ' . $to1 . "\r\n";
 
 				$wallet_payment_gateway->send_mail_on_wallet_updation( $to1, $subject, $mail_text1, $headers1 );
@@ -113,12 +113,12 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 			if ( $update_user ) {
 
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-					$mail_text2 = sprintf( 'Hello %s,<br/>', $name2 );
+					$mail_text2  = sprintf( 'Hello %s,<br/>', $name2 );
 					$mail_text2 .= __( 'Wallet debited by ' . wc_price( $transfer_amount ) . ' through wallet transfer to ' . $name1, 'wallet-system-for-woocommerce' );
-					$to2 = $user2->user_email;
-					$headers2 = 'MIME-Version: 1.0' . "\r\n";
-					$headers2 .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-					$headers2 .= 'From: ' . $from . "\r\n" .
+					$to2         = $user2->user_email;
+					$headers2    = 'MIME-Version: 1.0' . "\r\n";
+					$headers2   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+					$headers2   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to2 . "\r\n";
 
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
@@ -148,13 +148,13 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawal_request'] ) ) {
 	unset( $_POST['mwb_withdrawal_request'] );
 	if ( ! empty( $_POST['wallet_user_id'] ) ) {
-		$user_id = sanitize_text_field( $_POST['wallet_user_id'] );
-		$user = get_user_by( 'id', $user_id );
-		$username  = $user->user_login;
+		$user_id  = sanitize_text_field( $_POST['wallet_user_id'] );
+		$user     = get_user_by( 'id', $user_id );
+		$username = $user->user_login;
 
 	}
 
-	$args = array(
+	$args          = array(
 		'post_title'  => $username,
 		'post_type'   => 'wallet_withdrawal',
 		'post_status' => 'pending',
@@ -179,16 +179,15 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <?php
-$main_url = wc_get_endpoint_url( 'mwb-wallet' );
-
-$topup_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
-$wallet_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
-$withdrawal_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
-$transaction_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
+$main_url               = wc_get_endpoint_url( 'mwb-wallet' );
+$topup_url              = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
+$wallet_url             = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
+$withdrawal_url         = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
+$transaction_url        = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
-$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
-$user_id = get_current_user_id();
-$wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
+$product_id             = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
+$user_id                = get_current_user_id();
+$wallet_bal             = get_user_meta( $user_id, 'mwb_wallet', true );
 
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
@@ -247,12 +246,12 @@ $wallet_keys = array_keys( $wallet_tabs );
 /**
  * Show message on form submit
  *
- * @param string $wpg_message message to be shown on form submission
- * @param string $type error type
+ * @param string $wpg_message message to be shown on form submission.
+ * @param string $type error type.
  * @return void
  */
 function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
-	$wpg_notice  = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
+	$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
 	echo wp_kses_post( $wpg_notice );
 }
 
@@ -261,7 +260,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 <div class="mwb_wcb_wallet_display_wrapper">
 	<div class="mwb_wcb_wallet_balance_container"> 
 		<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
-		<p><?php echo wc_price( $wallet_bal ); ?></p>
+		<p><?php _e( wc_price( $wallet_bal ), 'wallet-system-for-woocommerce' ); ?></p>
 	</div>
 	<div class="mwb_wcb_main_tabs_template">
 		<div class="mwb_wcb_body_template">
@@ -271,21 +270,21 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 					<ul class='tabs'>
 						<?php
 
-						foreach ( $wallet_tabs as $key => $tab ) {
+						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( $flag ) {
-								if ( $key == $wallet_keys[0] ) {
+								if ( $key === $wallet_keys[0] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo "<li class='{$class}' ><a href='{$tab["url"]}'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>{$tab['icon']}</svg></a><h3>{$tab['title']}</h3></li>";
+								echo "<li class='{$class}'><a href='{$wallet_tab["url"]}'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>{$wallet_tab['icon']}</svg></a><h3>{$wallet_tab['title']}</h3></li>";
 							} else {
-								if ( $current_url == $tab['url'] ) {
+								if ( $current_url === $wallet_tab['url'] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo "<li class='{$class}' ><a href='{$tab["url"]}'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>{$tab['icon']}</svg></a><h3>{$tab['title']}</h3></li>";
+								echo "<li class='{$class}'><a href='{$wallet_tab["url"]}'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>{$wallet_tab['icon']}</svg></a><h3>{$wallet_tab['title']}</h3></li>";
 							}
 						}
 						?>
@@ -295,19 +294,18 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				<div class='content-section'>
 
 				<?php
-				foreach ( $wallet_tabs as $key => $tab ) {
+				foreach ( $wallet_tabs as $key => $wallet_tab ) {
 					if ( $flag ) {
-						if ( $key == $wallet_keys[0] ) {
-							include_once $tab['file-path'];
+						if ( $key === $wallet_keys[0] ) {
+							include_once $wallet_tab['file-path'];
 						}
 					} else {
-						if ( $current_url == $tab['url'] ) {
-							include_once $tab['file-path'];
+						if ( $current_url === $wallet_tab['url'] ) {
+							include_once $wallet_tab['file-path'];
 						}
 					}
 				}
 				?>
-				 
 				</div>
 			</div>
 		</div>

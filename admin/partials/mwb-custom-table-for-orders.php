@@ -36,9 +36,9 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' === $_REQUEST['bulk_action
 		'<div id="message" class="updated notice is-dismissable"><p>' . _n(
 			'%d order moved to trash.',
 			'%d orders moved to trash.',
-			$changed
+			esc_html__( $changed, 'wallet-system-for-woocommerce' )
 		) . '</p></div>',
-		$changed
+		esc_html__( $changed, 'wallet-system-for-woocommerce' )
 	);
 }
 if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'untrash' === $_REQUEST['bulk_action'] ) ) {
@@ -70,7 +70,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 	<h1 class="wp-heading-inline"> <?php esc_html_e( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ); ?></h1>
 	<div id="wrapper" class="mwb_wcb_all_trans_container meta-box-sortables ui-sortable wallet_shop_order">
 		<form action="" method="POST">
-		
+
 			<?php
 			$wallet_orders->display_header();
 			$wallet_orders->views();

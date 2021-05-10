@@ -34,7 +34,7 @@ class Wallet_System_For_Woocommerce_Activator {
 		$users = get_users();
 		foreach ( $users as $user ) {
 			$user_id = $user->ID;
-			$wallet = get_user_meta( $user_id, 'mwb_wallet', true );
+			$wallet  = get_user_meta( $user_id, 'mwb_wallet', true );
 			if ( empty( $wallet ) ) {
 				$wallet = update_user_meta( $user_id, 'mwb_wallet', 0 );
 			}
@@ -67,9 +67,9 @@ class Wallet_System_For_Woocommerce_Activator {
 
 		// create custom table named wp-db-prefix_mwb_wsfw_wallet_transaction.
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+		$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 		$wpdb_collate = $wpdb->collate;
-		$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+		$sql          = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			Id bigint(20) unsigned NOT NULL auto_increment,
 			user_id bigint(20) unsigned NULL,
 			amount double,
@@ -83,7 +83,7 @@ class Wallet_System_For_Woocommerce_Activator {
 			)
 			COLLATE {$wpdb_collate}";
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
 
 	}

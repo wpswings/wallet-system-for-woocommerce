@@ -14,12 +14,12 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 
 
 <div class='content active'>
-	
+
 	<?php
 	$disable_withdrawal_request = get_user_meta( $user_id, 'disable_further_withdrawal_request', true );
 	if ( $disable_withdrawal_request ) {
 		show_message_on_form_submit( 'Your wallet\'s withdrawal request is in pending.', 'woocommerce-info' );
-		$args = array(
+		$args               = array(
 			'numberposts' => -1,
 			'post_type'   => 'wallet_withdrawal',
 			'orderby'     => 'ID',
@@ -55,8 +55,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
                             </tr>';
 						}
 					}
-					?>
-				
+					?>	
 				</tbody>
 			</table>
 		</div>

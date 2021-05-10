@@ -67,8 +67,8 @@ $user = get_user_by( 'id', $user_id );
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id = $user_id ORDER BY `Id` DESC" );
+				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
@@ -82,7 +82,7 @@ $user = get_user_by( 'id', $user_id );
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
-							$date = date_create( $transaction->date );
+							$date        = date_create( $transaction->date );
 							esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
 							?>
 							</td>

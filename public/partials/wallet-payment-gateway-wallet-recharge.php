@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<p class="error"></p>
 		<p class="mwb-wallet-field-container form-row">
 			<input type="hidden" name="user_id" value="<?php esc_attr_e( $user_id, 'wallet-system-for-woocommerce' ); ?>">
-			<input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+			<input type="hidden" name="product_id" value="<?php esc_attr_e( $product_id, 'wallet-system-for-woocommerce' ); ?>">
 			<input type="submit" class="mwb-btn__filled button" id="mwb_recharge_wallet" name="mwb_recharge_wallet" value="Proceed">
 		</p>
 	</form>

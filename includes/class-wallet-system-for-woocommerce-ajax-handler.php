@@ -52,9 +52,9 @@ class Wallet_System_AjaxHandler {
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( $_POST['wallet_amount'] );
 			$amount = empty( $_POST['amount'] ) ? 0 : sanitize_text_field( $_POST['amount'] );
 			if ( $wallet_amount >= $amount ) {
-				$wallet_amount -= $amount;
+				$wallet_amount     -= $amount;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
-				$message['price'] = wc_price( $amount );
+				$message['price']   = wc_price( $amount );
 				WC()->session->set( 'custom_fee', esc_attr( $_POST['amount'] ) );
 
 			} else {

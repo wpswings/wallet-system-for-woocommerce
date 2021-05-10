@@ -58,7 +58,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -106,8 +106,8 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 						'default' => 'view',
 					),
 				),
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'mwb_wsfw_users' ),
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'mwb_wsfw_users' ),
 				'permission_callback' => array( $this, 'mwb_wsfw_get_permission_check' ),
 			)
 		);
@@ -137,8 +137,8 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 							'default' => 'view',
 						),
 					),
-					'methods'  => WP_REST_Server::READABLE,
-					'callback' => array( $this, 'mwb_wsfw_user_wallet_balance' ),
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'mwb_wsfw_user_wallet_balance' ),
 					'permission_callback' => array( $this, 'mwb_wsfw_get_permission_check' ),
 				),
 				// Update wallet of user.
@@ -187,8 +187,8 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 							'type'        => 'integer',
 						),
 					),
-					'methods'  => WP_REST_Server::EDITABLE,
-					'callback' => array( $this, 'mwb_wsfw_edit_wallet_balance' ),
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'mwb_wsfw_edit_wallet_balance' ),
 					'permission_callback' => array( $this, 'mwb_wsfw_update_item_permissions_check' ),
 				),
 
@@ -220,8 +220,8 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 						'default' => 'view',
 					),
 				),
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'mwb_wsfw_user_wallet_transactions' ),
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'mwb_wsfw_user_wallet_transactions' ),
 				'permission_callback' => array( $this, 'mwb_wsfw_get_permission_check' ),
 			)
 		);
@@ -236,11 +236,11 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	 * @since    1.0.0
 	 */
 	public function mwb_wsfw_get_permission_check( $request ) {
-		$parameters = $request->get_params();
+		$parameters    = $request->get_params();
 		$rest_api_keys = get_option( 'mwb_wsfw_wallet_rest_api_keys', '' );
 		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {
-			$key     = $parameters['consumer_key'];
-			$secret  = $parameters['consumer_secret'];
+			$key    = $parameters['consumer_key'];
+			$secret = $parameters['consumer_secret'];
 			if ( $key == $rest_api_keys['consumer_key'] && $secret == $rest_api_keys['consumer_secret'] ) {
 				return true;
 			}
@@ -260,8 +260,8 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 		$data = json_decode( $request->get_body() );
 		$rest_api_keys = get_option( 'mwb_wsfw_wallet_rest_api_keys', '' );
 		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {
-			$key     = $data->consumer_key;
-			$secret  = $data->consumer_secret;
+			$key    = $data->consumer_key;
+			$secret = $data->consumer_secret;
 			if ( $key == $rest_api_keys['consumer_key'] && $secret == $rest_api_keys['consumer_secret'] ) {
 				return true;
 			}
@@ -278,7 +278,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	 */
 	public function mwb_wsfw_users( $request ) {
 		require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php';
-		$mwb_wsfw_api_obj = new Wallet_System_For_Woocommerce_Api_Process();
+		$mwb_wsfw_api_obj     = new Wallet_System_For_Woocommerce_Api_Process();
 		$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->mwb_wsfw_get_users();
 		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
 			unset( $mwb_wsfw_resultsdata['status'] );
@@ -297,8 +297,8 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	 */
 	public function mwb_wsfw_user_wallet_balance( $request ) {
 		require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php';
-		$mwb_wsfw_api_obj = new Wallet_System_For_Woocommerce_Api_Process();
-		$parameters = $request->get_params();
+		$mwb_wsfw_api_obj     = new Wallet_System_For_Woocommerce_Api_Process();
+		$parameters           = $request->get_params();
 		$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->get_wallet_balance( $parameters['id'] );
 		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
 			unset( $mwb_wsfw_resultsdata['status'] );
@@ -318,7 +318,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	public function mwb_wsfw_edit_wallet_balance( $request ) {
 		require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php';
 		$mwb_wsfw_api_obj = new Wallet_System_For_Woocommerce_Api_Process();
-		$parameters = $request->get_params();
+		$parameters       = $request->get_params();
 		if ( isset( $parameters['amount'] ) && ! empty( $parameters['amount'] ) ) {
 			$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->update_wallet_balance( $parameters );
 			if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
@@ -341,8 +341,8 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	 */
 	public function mwb_wsfw_user_wallet_transactions( $request ) {
 		require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php';
-		$mwb_wsfw_api_obj = new Wallet_System_For_Woocommerce_Api_Process();
-		$parameters = $request->get_params();
+		$mwb_wsfw_api_obj     = new Wallet_System_For_Woocommerce_Api_Process();
+		$parameters           = $request->get_params();
 		$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->get_user_wallet_transactions( $parameters['id'] );
 		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
 			unset( $mwb_wsfw_resultsdata['status'] );

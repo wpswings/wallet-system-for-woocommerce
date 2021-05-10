@@ -62,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 				$transactions = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY `Id` DESC" );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						$user = get_user_by( 'id', $transaction->user_id );
 						?>
 						<tr>
-							<td><img src="<?php echo WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL; ?>admin/image/eva_close-outline.svg"><?php esc_html_e( $i, 'wallet-system-for-woocommerce' ); ?></td>
+							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php esc_html_e( $i, 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php esc_html_e( $user->display_name, 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php esc_html_e( $user->user_email, 'wallet-system-for-woocommerce' ); ?></td>
 							<td><?php esc_html_e( $user->roles[0], 'wallet-system-for-woocommerce' ); ?></td>
@@ -81,7 +81,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
-							$date = date_create( $transaction->date );
+							$date        = date_create( $transaction->date );
 							esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
 							?>
 							</td>

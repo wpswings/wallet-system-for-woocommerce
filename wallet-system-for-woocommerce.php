@@ -81,13 +81,13 @@ if ( $activated ) {
 		if ( is_array( $mwb_wsfw_active_plugin ) && ! empty( $mwb_wsfw_active_plugin ) ) {
 			$mwb_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
 				'plugin_name' => __( 'Wallet System for WooCommerce', 'wallet-system-for-woocommerce' ),
-				'active' => '1',
+				'active'      => '1',
 			);
 		} else {
 			$mwb_wsfw_active_plugin = array();
 			$mwb_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
 				'plugin_name' => __( 'Wallet System for WooCommerce', 'wallet-system-for-woocommerce' ),
-				'active' => '1',
+				'active'      => '1',
 			);
 		}
 		update_option( 'mwb_all_plugins_active', $mwb_wsfw_active_plugin );
