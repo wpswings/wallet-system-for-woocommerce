@@ -63,18 +63,18 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	}
 
 	/**
-     * Endpoint namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'wsfw-route/v1';
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'wsfw-route/v1';
 
-    /**
-     * Route base.
-     *
-     * @var string
-     */
-    protected $base_url = '/wallet/';
+	/**
+	 * Route base.
+	 *
+	 * @var string
+	 */
+	protected $base_url = '/wallet/';
 
 	/**
 	 * Define endpoints for the plugin.
@@ -86,7 +86,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	 * @access   private
 	 */
 	public function mwb_wsfw_add_endpoint() {
-		// show all users
+		// Show all users.
 		register_rest_route(
 			$this->namespace,
 			$this->base_url . 'users',
@@ -111,7 +111,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 				'permission_callback' => array( $this, 'mwb_wsfw_get_permission_check' ),
 			)
 		);
-		// for getting particular user wallet details
+		// For getting particular user wallet details.
 		register_rest_route(
 			$this->namespace,
 			$this->base_url . '(?P<id>\d+)',
@@ -141,7 +141,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 					'callback' => array( $this, 'mwb_wsfw_user_wallet_balance' ),
 					'permission_callback' => array( $this, 'mwb_wsfw_get_permission_check' ),
 				),
-				// update wallet of user
+				// Update wallet of user.
 				array(
 					'args' => array(
 						'id' => array(
@@ -190,12 +190,12 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 					'methods'  => WP_REST_Server::EDITABLE,
 					'callback' => array( $this, 'mwb_wsfw_edit_wallet_balance' ),
 					'permission_callback' => array( $this, 'mwb_wsfw_update_item_permissions_check' ),
-				)
-				
+				),
+
 			)
 		);
 
-		// show transactions of particular user
+		// Show transactions of particular user.
 		register_rest_route(
 			$this->namespace,
 			$this->base_url . 'transactions/(?P<id>\d+)',
@@ -238,10 +238,10 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	public function mwb_wsfw_get_permission_check( $request ) {
 		$parameters = $request->get_params();
 		$rest_api_keys = get_option( 'mwb_wsfw_wallet_rest_api_keys', '' );
-    	if ( ! empty( $rest_api_keys )  && is_array( $rest_api_keys ) ){ 
+		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {
 			$key     = $parameters['consumer_key'];
 			$secret  = $parameters['consumer_secret'];
-			if( $key == $rest_api_keys['consumer_key'] && $secret == $rest_api_keys['consumer_secret'] ){
+			if ( $key == $rest_api_keys['consumer_key'] && $secret == $rest_api_keys['consumer_secret'] ) {
 				return true;
 			}
 			return new WP_Error( 'rest_forbidden', esc_html__( 'Sorry, your key details are incorrect.', 'wallet-system-for-woocommerce' ), array( 'status' => 401 ) );
@@ -249,14 +249,20 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 		return false;
 	}
 
+	/**
+	 * Begins validation process of api endpoint.
+	 *
+	 * @param Array $request All information related with the api request containing in this array.
+	 * @return  Boolean
+	 */
 	public function mwb_wsfw_update_item_permissions_check( $request ) {
 
 		$data = json_decode( $request->get_body() );
 		$rest_api_keys = get_option( 'mwb_wsfw_wallet_rest_api_keys', '' );
-    	if ( ! empty( $rest_api_keys )  && is_array( $rest_api_keys ) ){ 
+		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {
 			$key     = $data->consumer_key;
 			$secret  = $data->consumer_secret;
-			if( $key == $rest_api_keys['consumer_key'] && $secret == $rest_api_keys['consumer_secret'] ){
+			if ( $key == $rest_api_keys['consumer_key'] && $secret == $rest_api_keys['consumer_secret'] ) {
 				return true;
 			}
 			return new WP_Error( 'rest_forbidden', esc_html__( 'Sorry, your key details are incorrect.', 'wallet-system-for-woocommerce' ), array( 'status' => 401 ) );
@@ -267,7 +273,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	/**
 	 * Returns users details
 	 *
-	 * @param Array $request
+	 * @param Array $request All information related with the api request containing in this array.
 	 * @return Array
 	 */
 	public function mwb_wsfw_users( $request ) {
@@ -286,7 +292,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	/**
 	 * Returns user's current wallet balance
 	 *
-	 * @param Array $request
+	 * @param Array $request All information related with the api request containing in this array.
 	 * @return Array
 	 */
 	public function mwb_wsfw_user_wallet_balance( $request ) {
@@ -306,14 +312,14 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	/**
 	 * Edit user wallet( credit/debit )
 	 *
-	 * @param Array $request
+	 * @param Array $request All information related with the api request containing in this array.
 	 * @return Array
 	 */
 	public function mwb_wsfw_edit_wallet_balance( $request ) {
 		require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php';
 		$mwb_wsfw_api_obj = new Wallet_System_For_Woocommerce_Api_Process();
 		$parameters = $request->get_params();
-		if ( isset( $parameters['amount'] ) && ! empty( $parameters['amount'] ) ) { 
+		if ( isset( $parameters['amount'] ) && ! empty( $parameters['amount'] ) ) {
 			$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->update_wallet_balance( $parameters );
 			if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
 				unset( $mwb_wsfw_resultsdata['status'] );
@@ -330,7 +336,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	/**
 	 * Returns user's all wallet transaction details
 	 *
-	 * @param Array $request
+	 * @param Array $request All information related with the api request containing in this array.
 	 * @return Array
 	 */
 	public function mwb_wsfw_user_wallet_transactions( $request ) {
@@ -343,9 +349,9 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 			$mwb_wsfw_response = new WP_REST_Response( $mwb_wsfw_resultsdata['data'], 200 );
 		} else {
 			$mwb_wsfw_response = new WP_Error( $mwb_wsfw_resultsdata );
-		} 
+		}
 
 		return $mwb_wsfw_response;
 	}
-	 
+
 }

@@ -29,10 +29,12 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-//Delete cutom table after deactivation of the plugin.
+// Delete custom table after deactivation of the plugin.
 global $wpdb;
 $table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-$wpdb->query( "DROP TABLE IF EXISTS $table_name"  );
+if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+	$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+}
 $product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 wp_delete_post( $product_id, true );
 delete_option( 'mwb_wsfw_rechargeable_product_id' );

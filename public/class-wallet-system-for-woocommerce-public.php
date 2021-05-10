@@ -63,7 +63,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 		wp_enqueue_style( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/scss/wallet-system-for-woocommerce-public.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/mwb-public.min.css', array(), $this->version, 'all' );
-	
+
 	}
 
 	/**
@@ -74,7 +74,18 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_public_enqueue_scripts() {
 
 		wp_register_script( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-public.js', array( 'jquery' ), $this->version, false );
-		wp_localize_script( $this->plugin_name, 'wsfw_public_param', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ),'datatable_pagination_text' => __( 'Rows per page _MENU_', 'wallet-system-for-woocommerce' ), 'datatable_info' => __( '_START_ - _END_ of _TOTAL_', 'wallet-system-for-woocommerce' ), ) );
+		wp_localize_script(
+			$this->plugin_name,
+			'wsfw_public_param',
+			array(
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'datatable_pagination_text' => __( 'Rows per page _MENU_', 'wallet-system-for-woocommerce' ),
+				'datatable_info' => __(
+					'_START_ - _END_ of _TOTAL_',
+					'wallet-system-for-woocommerce'
+				),
+			)
+		);
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_script( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/mwb-public.min.js', array(), $this->version, 'all' );
 
@@ -88,15 +99,15 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function mwb_wsfw_restrict_payment_gateway( $available_gateways ) {
 		if ( isset( $available_gateways['mwb_wcb_wallet_payment_gateway'] ) ) {
-			
+
 			$mwb_cart_total = WC()->cart->total;
 			$user_id        = get_current_user_id();
 			$wallet_amount  = get_user_meta( $user_id, 'mwb_wallet', true );
-			
+
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
-			if (  WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
-				unset( $available_gateways['mwb_wcb_wallet_payment_gateway'] );	
+			if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
+				unset( $available_gateways['mwb_wcb_wallet_payment_gateway'] );
 			} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 				unset( $available_gateways['mwb_wcb_wallet_payment_gateway'] );
 				unset( $available_gateways['cod'] );
@@ -106,7 +117,7 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			} elseif ( isset( $wallet_amount ) && $wallet_amount <= 0 ) {
 				unset( $available_gateways['mwb_wcb_wallet_payment_gateway'] );
-			} 
+			}
 		}
 		return $available_gateways;
 	}
@@ -121,35 +132,33 @@ class Wallet_System_For_Woocommerce_Public {
 		$user_id        = get_current_user_id();
 		if ( $user_id ) {
 			$wallet_amount  = get_user_meta( $user_id, 'mwb_wallet', true );
-		
+
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $mwb_cart_total || $this->is_enable_wallet_partial_payment() ) {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
-					?>
+						?>
 					
 					<tr class="partial_payment">
-						<td><?php echo esc_html( 'Pay by wallet (', 'wallet-system-for-woocommerce' ). wc_price( $wallet_amount ) . ')'; ?></td>
+						<td><?php echo esc_html( 'Pay by wallet (' ) . wc_price( $wallet_amount ) . ')'; ?></td>
 						<td>
 							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
-								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ) ?> data-walletamount="<?php esc_html_e( $wallet_amount ); ?>" >
+								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php esc_html_e( $wallet_amount, 'wallet-system-for-woocommerce' ); ?>" >
 							</p>
 						</td>
 					</tr>
-				<?php }
-
+						<?php
+					}
 				}
 			}
-
-
 		}
-		
+
 	}
 
 	/**
 	 * Remove all session set during partial payment and wallet recharge
 	 *
-	 * @param int $order_id
+	 * @param int $order_id order id
 	 * @return void
 	 */
 	public function remove_wallet_session( $order_id ) {
@@ -157,9 +166,9 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( $customer_id > 0 ) {
 			$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
 
-			if (  WC()->session->__isset( 'custom_fee' ) ) {
+			if ( WC()->session->__isset( 'custom_fee' ) ) {
 				WC()->session->__unset( 'custom_fee' );
-				WC()->session->__unset( 'is_wallet_partial_payment' );	
+				WC()->session->__unset( 'is_wallet_partial_payment' );
 			}
 
 			if ( WC()->session->__isset( 'recharge_amount' ) ) {
@@ -172,9 +181,9 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Change wallet amount on order status change
 	 *
-	 * @param int $order_id
-	 * @param string $old_status
-	 * @param string $new_status
+	 * @param int    $order_id order id
+	 * @param string $old_status order old status
+	 * @param string $new_status order new status
 	 * @return void
 	 */
 	public function mwb_order_status_changed( $order_id, $old_status, $new_status ) {
@@ -191,30 +200,30 @@ class Wallet_System_For_Woocommerce_Public {
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();
 			$total = $item->get_total();
-			
-			if ( isset( $product_id ) && ! empty( $product_id ) &&  $product_id == $wallet_id ) {
+
+			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 
 				$order_status = array( 'pending', 'on-hold', 'processing' );
-				if ( in_array( $old_status, $order_status ) &&  'completed' == $new_status ) {
+				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount = $total;
 					$walletamount += $total;
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
-					
+
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$mail_text = sprintf( "Hello %s,<br/>", $name );
-						$mail_text .= __( 'Wallet credited by '. wc_price( $amount ). ' through wallet recharging.', 'wallet-system-for-woocommerce' );
+						$mail_text = sprintf( 'Hello %s,<br/>', $name );
+						$mail_text .= __( 'Wallet credited by ' . wc_price( $amount ) . ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to = $user->user_email;
 						$from = get_option( 'admin_email' );
-						$subject = "Wallet updating notification";
+						$subject = 'Wallet updating notification';
 						$headers = 'MIME-Version: 1.0' . "\r\n";
-            			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$headers .= 'From: '. $from . "\r\n" .
+						$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$headers .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-						
+
 					}
 
-					$transaction_type = 'Wallet credited through purchase <a href="' . admin_url('post.php?post='.$order_id.'&action=edit') . '" >#' . $order_id . '</a>';
+					$transaction_type = 'Wallet credited through purchase <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
@@ -223,20 +232,20 @@ class Wallet_System_For_Woocommerce_Public {
 						'order_id'         => $order_id,
 						'note'             => '',
 					);
-					
+
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 
 				}
 			}
 		}
-		
+
 		foreach ( $order->get_fees() as $item_fee ) {
 			$fee_name = $item_fee->get_name();
-			$fee_total = $item_fee->get_total(); 
+			$fee_total = $item_fee->get_total();
 			if ( 'Via wallet' == $fee_name ) {
 				$order_status = array( 'pending', 'on-hold' );
 				$payment_status = array( 'processing', 'completed' );
-				if ( in_array( $old_status, $order_status ) &&  in_array( $new_status, $payment_status ) ) {
+				if ( in_array( $old_status, $order_status ) && in_array( $new_status, $payment_status ) ) {
 					$fees = abs( $fee_total );
 					$amount = $fees;
 					if ( $walletamount < $fees ) {
@@ -247,20 +256,20 @@ class Wallet_System_For_Woocommerce_Public {
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$mail_text = sprintf( "Hello %s,<br/>", $name );
-						$mail_text .= __( 'Wallet debited by '. wc_price( $amount ). ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+						$mail_text = sprintf( 'Hello %s,<br/>', $name );
+						$mail_text .= __( 'Wallet debited by ' . wc_price( $amount ) . ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 						$to = $user->user_email;
 						$from = get_option( 'admin_email' );
-						$subject = "Wallet updating notification";
+						$subject = 'Wallet updating notification';
 						$headers = 'MIME-Version: 1.0' . "\r\n";
-            			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$headers .= 'From: '. $from . "\r\n" .
+						$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$headers .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-						
+
 					}
 
-					$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url('post.php?post='.$order_id.'&action=edit') . '" >#' . $order_id . '</a> as discount';
+					$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a> as discount';
 
 					$transaction_data = array(
 						'user_id'          => $userid,
@@ -269,17 +278,13 @@ class Wallet_System_For_Woocommerce_Public {
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
 						'note'             => '',
-			
+
 					);
 
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				}
 			}
 		}
-		
-		
-		 
-
 
 	}
 
@@ -295,7 +300,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$items['customer-logout'] = $logout;
 		return $items;
 	}
-	
+
 	/**
 	 *  Register new endpoint to use for My Account page.
 	 */
@@ -318,7 +323,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$vars[] = 'mwb-wallet';
 		return $vars;
 	}
-	
+
 	/**
 	 * Add content to the new endpoint.
 	 */
@@ -327,21 +332,23 @@ class Wallet_System_For_Woocommerce_Public {
 	}
 
 	/**
-     * Get WooCommerce cart total.
-     * @return number
-     */
-    public function get_mwbwallet_cart_total() {
+	 * Get WooCommerce cart total.
+	 *
+	 * @return number
+	 */
+	public function get_mwbwallet_cart_total() {
 		$mwb_cart_total = WC()->cart->total;
-        return $mwb_cart_total;
-    }
-	
+		return $mwb_cart_total;
+	}
+
 	/**
 	 * Check if enable partial payment.
+	 *
 	 * @return Boolean
 	 */
 	public function is_enable_wallet_partial_payment() {
 		$is_enable = false;
-		if ( is_user_logged_in() && ( ( ! is_null( wc()->session) && wc()->session->get( 'is_wallet_partial_payment', false ) ) ) ) {
+		if ( is_user_logged_in() && ( ( ! is_null( wc()->session ) && wc()->session->get( 'is_wallet_partial_payment', false ) ) ) ) {
 			$is_enable = true;
 		}
 		return $is_enable;
@@ -349,30 +356,30 @@ class Wallet_System_For_Woocommerce_Public {
 
 	/**
 	 * Add wallet amount as fee in cart during partial payment
+	 *
 	 * @return void
 	 */
-	public function wsfw_add_wallet_discount( ) {
-		
-		if (  WC()->session->__isset( 'custom_fee' ) ) {
-			
+	public function wsfw_add_wallet_discount() {
+
+		if ( WC()->session->__isset( 'custom_fee' ) ) {
+
 			$discount = (float) WC()->session->get( 'custom_fee' );
 			if ( $discount ) {
 				$fee = array(
 					'id' => 'via_wallet_partial_payment',
-					'name' => __('Via wallet', 'wallet-system-for-woocommerce'),
+					'name' => __( 'Via wallet', 'wallet-system-for-woocommerce' ),
 					'amount' => (float) -1 * $discount,
 				);
 			}
 		}
-		
-		
-		if ( $this->is_enable_wallet_partial_payment()  ) {
-			wc()->cart->fees_api()->add_fee($fee);
+
+		if ( $this->is_enable_wallet_partial_payment() ) {
+			wc()->cart->fees_api()->add_fee( $fee );
 		} else {
 			$all_fees = wc()->cart->fees_api()->get_fees();
-			if (isset($all_fees['via_wallet_partial_payment'])) {
-				unset($all_fees['via_wallet_partial_payment']);
-				wc()->cart->fees_api()->set_fees($all_fees);
+			if ( isset( $all_fees['via_wallet_partial_payment'] ) ) {
+				unset( $all_fees['via_wallet_partial_payment'] );
+				wc()->cart->fees_api()->set_fees( $all_fees );
 			}
 		}
 
@@ -380,8 +387,9 @@ class Wallet_System_For_Woocommerce_Public {
 
 	/**
 	 * Make rechargeable product purchasable
-	 * @param boolean $is_purchasable
-	 * @param WC_Product object $product
+	 *
+	 * @param boolean           $is_purchasable check product is purchasable or not
+	 * @param WC_Product object $product product object
 	 * @return boolean
 	 */
 	public function mwb_wsfw_wallet_recharge_product_purchasable( $is_purchasable, $product ) {
@@ -400,10 +408,10 @@ class Wallet_System_For_Woocommerce_Public {
 	 *
 	 * @return void
 	 */
-	public function add_wallet_recharge_to_cart(){
-		if (  WC()->session->__isset( 'wallet_recharge' ) ) {
+	public function add_wallet_recharge_to_cart() {
+		if ( WC()->session->__isset( 'wallet_recharge' ) ) {
 			$wallet_recharge = WC()->session->get( 'wallet_recharge' );
-			//check if product already in cart
+			// check if product already in cart.
 			if ( sizeof( WC()->cart->get_cart() ) > 0 ) {
 				$found = false;
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
@@ -411,22 +419,19 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( $_product->id == $wallet_recharge['productid'] ) {
 						$found = true;
 					}
-					
 				}
-				// if product not found, add it
+				// if product not found, add it.
 				if ( ! $found ) {
 					add_action( 'woocommerce_before_cart', array( $this, 'add_cart_custom_notice' ) );
 					WC()->session->__unset( 'recharge_amount' );
 				}
-					
 			} else {
-				//add_filter( 'woocommerce_add_cart_item_data', array( $this, 'add_wallet_topup_product_in_cart' ), 10, 2 );
 				WC()->cart->empty_cart();
-				// if no products in cart, add it
+				// if no products in cart, add it.
 				WC()->cart->add_to_cart( $wallet_recharge['productid'] );
 
 				wp_safe_redirect( wc_get_checkout_url() );
-				
+
 			}
 			WC()->session->__unset( 'wallet_recharge' );
 		}
@@ -439,7 +444,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @param int   $product_id prduct id in cart.
 	 */
 	public function add_wallet_topup_product_in_cart( $cart_item_data, $product_id ) {
-		if (  WC()->session->__isset( 'recharge_amount' ) ) {
+		if ( WC()->session->__isset( 'recharge_amount' ) ) {
 			$wallet_recharge = WC()->session->get( 'recharge_amount' );
 			if ( isset( $wallet_recharge ) && ! empty( $wallet_recharge ) ) {
 				$cart_item_data['recharge_amount'] = $wallet_recharge;
@@ -454,34 +459,42 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function add_cart_custom_notice() {
-		wc_print_notice( sprintf( '<span class="subscription-reminder">' .
-			__('Sorry we cannot recharge wallet with other products, either %s cart or recharge later when cart is empty', 'wallet-system-for-woocommerce') . '</span>',
-			__( 'empty', 'wallet-system-for-woocommerce')
-		), 'error' );
+		wc_print_notice(
+			sprintf(
+				'<span class="subscription-reminder">' .
+				__( 'Sorry we cannot recharge wallet with other products, either %s cart or recharge later when cart is empty', 'wallet-system-for-woocommerce' ) . '</span>',
+				__( 'empty', 'wallet-system-for-woocommerce' )
+			),
+			'error'
+		);
 	}
 
 	/**
 	 * Add notice on cart page if cart is already added with wallet topup
 	 *
-	 * @return void
+	 * @param boolean $passed  check product can be add to cart
+	 * @param int $product_id  product id.
+	 * @return boolean
 	 */
 	public function show_message_addto_cart( $passed, $product_id ) {
 		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
-		if ( ! empty( $wallet_id)  ) {
+		if ( ! empty( $wallet_id ) ) {
 			if ( ! WC()->cart->is_empty() ) {
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
 					$_product = $values['data'];
 					if ( $_product->id == $wallet_id ) {
 						$passed = false;
 
-						wc_add_notice( sprintf( '<span class="subscription-reminder">' .
-							__('Sorry you cannot buy this product since wallet topup is added to cart. If you want to buy this product, please first remove wallet topup from cart.', 'wallet-system-for-woocommerce') . '</span>',
-							__('empty', 'wallet-system-for-woocommerce')
-						), 'error' );
-
+						wc_add_notice(
+							sprintf(
+								'<span class="subscription-reminder">' .
+								__( 'Sorry you cannot buy this product since wallet topup is added to cart. If you want to buy this product, please first remove wallet topup from cart.', 'wallet-system-for-woocommerce' ) . '</span>',
+								__( 'empty', 'wallet-system-for-woocommerce' )
+							),
+							'error'
+						);
 
 					}
-					
 				}
 			}
 		}
@@ -491,63 +504,62 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Update wallet top price in cart and checkout page
 	 *
-	 * @param object $cart_object
+	 * @param object $cart_object cart object
 	 * @return void
 	 */
 	public function mwb_update_price_cart( $cart_object ) {
 		$cart_items = $cart_object->cart_contents;
-		if (  WC()->session->__isset( 'recharge_amount' ) ) {
+		if ( WC()->session->__isset( 'recharge_amount' ) ) {
 			$wallet_recharge = WC()->session->get( 'recharge_amount' );
 			$price = $wallet_recharge;
-			
+
 			if ( ! empty( $cart_items ) ) {
 				foreach ( $cart_items as $key => $value ) {
 					$value['data']->set_price( $price );
-					//wc_delete_product_transients( $value['product_id'] );
 				}
-		  	}
+			}
 		}
-		
+
 	}
 
 	/**
 	 * Unset session after wallet topup is removed from cart
 	 *
-	 * @param string $removed_cart_item_key
-	 * @param object $cart
+	 * @param string $removed_cart_item_key removed cart item key
+	 * @param object $cart cart object
 	 * @return void
 	 */
 	public function after_remove_wallet_from_cart( $removed_cart_item_key, $cart ) {
 		$line_item = $cart->removed_cart_contents[ $removed_cart_item_key ];
-		$product_id = $line_item[ 'product_id' ];
+		$product_id = $line_item['product_id'];
 		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		if ( $wallet_id ) {
 			if ( $product_id == $wallet_id ) {
 				WC()->session->__unset( 'recharge_amount' );
 			}
 		}
-		
+
 	}
 
 	/**
 	 * Change post type to wallet_shop_order if wallet is recharge during new order place
 	 *
-	 * @param int $order_id
+	 * @param int $order_id order id
 	 * @return void
 	 */
 	public function change_order_type( $order_id ) {
-        $order     = wc_get_order( $order_id );
+		$order     = wc_get_order( $order_id );
 		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
-        foreach ( $order->get_items() as $item ) {
-            $product_id = $item->get_product_id();
-            if ( isset( $product_id ) && ! empty( $product_id ) &&  $product_id == $wallet_id ) {
+		foreach ( $order->get_items() as $item ) {
+			$product_id = $item->get_product_id();
+			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 				$order_obj            = get_post( $order_id );
 				$order_obj->post_type = 'wallet_shop_order';
 				wp_update_post( $order_obj );
-            }
-        }
-    }
-	
+			}
+		}
+	}
+
 
 
 }

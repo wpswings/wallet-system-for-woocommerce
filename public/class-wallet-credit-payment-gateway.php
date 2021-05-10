@@ -60,7 +60,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			// Load the settings.
 			$this->init_form_fields();
 			$this->init_settings();
-			
+
 			// Define user set variables.
 			$this->title        = $this->get_option( 'title' );
 			$this->description  = $this->get_option( 'description' );
@@ -160,7 +160,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
 				if ( $order_total <= $walletamount ) {
-					
+
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 					$walletamount -= $order_total;
 					$update_wallet = update_user_meta( $customer_id, 'mwb_wallet', abs( $walletamount ) );
@@ -170,21 +170,21 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user = get_user_by( 'id', $customer_id );
 							$name = $user->first_name . ' ' . $user->last_name;
-							$mail_text = sprintf( "Hello %s,<br/>", $name );
-							$mail_text .= __( 'Wallet debited by '. wc_price( $order_total ). ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+							$mail_text = sprintf( 'Hello %s,<br/>', $name );
+							$mail_text .= __( 'Wallet debited by ' . wc_price( $order_total ) . ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 							$to = $user->user_email;
 							$from = get_option( 'admin_email' );
-							$subject = "Wallet updating notification";
+							$subject = 'Wallet updating notification';
 							$headers = 'MIME-Version: 1.0' . "\r\n";
-            				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-							$headers .= 'From: '. $from . "\r\n" .
+							$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+							$headers .= 'From: ' . $from . "\r\n" .
 								'Reply-To: ' . $to . "\r\n";
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-							
+
 						}
 					}
 
-					$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url('post.php?post='.$order_id.'&action=edit') . '" >#' . $order_id . '</a>';
+					$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $customer_id,
 						'amount'           => $order_total,
@@ -193,11 +193,9 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 						'order_id'         => $order_id,
 						'note'             => '',
 					);
-					
+
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				}
-
-				
 			}
 
 			// Mark as on-hold (we're awaiting the payment).
