@@ -91,8 +91,8 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 			$this->namespace,
 			$this->base_url . 'users',
 			array(
-				'args' => array(
-					'consumer_key' => array(
+				'args'                => array(
+					'consumer_key'    => array(
 						'description' => __( 'Merchant Consumer Key.', 'wallet-system-for-woocommerce' ),
 						'type'        => 'string',
 						'required'    => true,
@@ -102,7 +102,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 						'type'        => 'string',
 						'required'    => true,
 					),
-					'context' => array(
+					'context'         => array(
 						'default' => 'view',
 					),
 				),
@@ -117,13 +117,13 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 			$this->base_url . '(?P<id>\d+)',
 			array(
 				array(
-					'args' => array(
-						'id' => array(
+					'args'                => array(
+						'id'              => array(
 							'description' => __( 'Unique user id of user.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
-						'consumer_key' => array(
+						'consumer_key'    => array(
 							'description' => __( 'Merchant Consumer Key.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'string',
 							'required'    => true,
@@ -133,7 +133,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 							'type'        => 'string',
 							'required'    => true,
 						),
-						'context' => array(
+						'context'         => array(
 							'default' => 'view',
 						),
 					),
@@ -143,28 +143,28 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 				),
 				// Update wallet of user.
 				array(
-					'args' => array(
-						'id' => array(
+					'args'                => array(
+						'id'                 => array(
 							'description' => __( 'Unique user id of user.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
-						'consumer_key' => array(
+						'consumer_key'       => array(
 							'description' => __( 'Merchant Consumer Key.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
-						'consumer_secret' => array(
+						'consumer_secret'    => array(
 							'description' => __( 'Merchant Consumer Secret', 'wallet-system-for-woocommerce' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
-						'amount' => array(
+						'amount'             => array(
 							'description' => __( 'Wallet transaction amount.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'number',
 							'required'    => true,
 						),
-						'action' => array(
+						'action'             => array(
 							'type'        => 'string',
 							'description' => __( 'Wallet transaction type.', 'wallet-system-for-woocommerce' ),
 							'required'    => true,
@@ -174,15 +174,15 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 							'description' => __( 'Wallet transaction details.', 'wallet-system-for-woocommerce' ),
 							'required'    => true,
 						),
-						'payment_method' => array(
+						'payment_method'     => array(
 							'type'        => 'string',
 							'description' => __( 'Payment method used.', 'wallet-system-for-woocommerce' ),
 						),
-						'note' => array(
+						'note'               => array(
 							'description' => __( 'Note during wallet transfer.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'string',
 						),
-						'order_id' => array(
+						'order_id'           => array(
 							'description' => __( 'If wallet amount is deducted when wallet used as payment gateway.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'integer',
 						),
@@ -200,13 +200,13 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 			$this->namespace,
 			$this->base_url . 'transactions/(?P<id>\d+)',
 			array(
-				'args' => array(
-					'id' => array(
+				'args'                => array(
+					'id'              => array(
 						'description' => __( 'Unique user id of user.', 'wallet-system-for-woocommerce' ),
 						'type'        => 'integer',
 						'required'    => true,
 					),
-					'consumer_key' => array(
+					'consumer_key'    => array(
 						'description' => __( 'Merchant Consumer Key.', 'wallet-system-for-woocommerce' ),
 						'type'        => 'string',
 						'required'    => true,
@@ -216,7 +216,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 						'type'        => 'string',
 						'required'    => true,
 					),
-					'context' => array(
+					'context'         => array(
 						'default' => 'view',
 					),
 				),
@@ -241,7 +241,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {
 			$key    = $parameters['consumer_key'];
 			$secret = $parameters['consumer_secret'];
-			if ( $key == $rest_api_keys['consumer_key'] && $secret == $rest_api_keys['consumer_secret'] ) {
+			if ( $key === $rest_api_keys['consumer_key'] && $secret === $rest_api_keys['consumer_secret'] ) {
 				return true;
 			}
 			return new WP_Error( 'rest_forbidden', esc_html__( 'Sorry, your key details are incorrect.', 'wallet-system-for-woocommerce' ), array( 'status' => 401 ) );
@@ -262,7 +262,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {
 			$key    = $data->consumer_key;
 			$secret = $data->consumer_secret;
-			if ( $key == $rest_api_keys['consumer_key'] && $secret == $rest_api_keys['consumer_secret'] ) {
+			if ( $key === $rest_api_keys['consumer_key'] && $secret === $rest_api_keys['consumer_secret'] ) {
 				return true;
 			}
 			return new WP_Error( 'rest_forbidden', esc_html__( 'Sorry, your key details are incorrect.', 'wallet-system-for-woocommerce' ), array( 'status' => 401 ) );
@@ -280,7 +280,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 		require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php';
 		$mwb_wsfw_api_obj     = new Wallet_System_For_Woocommerce_Api_Process();
 		$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->mwb_wsfw_get_users();
-		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
+		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 === $mwb_wsfw_resultsdata['status'] ) {
 			unset( $mwb_wsfw_resultsdata['status'] );
 			$mwb_wsfw_response = new WP_REST_Response( $mwb_wsfw_resultsdata['data'], 200 );
 		} else {
@@ -300,7 +300,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 		$mwb_wsfw_api_obj     = new Wallet_System_For_Woocommerce_Api_Process();
 		$parameters           = $request->get_params();
 		$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->get_wallet_balance( $parameters['id'] );
-		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
+		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 === $mwb_wsfw_resultsdata['status'] ) {
 			unset( $mwb_wsfw_resultsdata['status'] );
 			$mwb_wsfw_response = new WP_REST_Response( $mwb_wsfw_resultsdata['data'], 200 );
 		} else {
@@ -321,7 +321,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 		$parameters       = $request->get_params();
 		if ( isset( $parameters['amount'] ) && ! empty( $parameters['amount'] ) ) {
 			$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->update_wallet_balance( $parameters );
-			if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
+			if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 === $mwb_wsfw_resultsdata['status'] ) {
 				unset( $mwb_wsfw_resultsdata['status'] );
 				$mwb_wsfw_response = new WP_REST_Response( $mwb_wsfw_resultsdata['data'], 200 );
 			} else {
@@ -344,7 +344,7 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 		$mwb_wsfw_api_obj     = new Wallet_System_For_Woocommerce_Api_Process();
 		$parameters           = $request->get_params();
 		$mwb_wsfw_resultsdata = $mwb_wsfw_api_obj->get_user_wallet_transactions( $parameters['id'] );
-		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 == $mwb_wsfw_resultsdata['status'] ) {
+		if ( is_array( $mwb_wsfw_resultsdata ) && isset( $mwb_wsfw_resultsdata['status'] ) && 200 === $mwb_wsfw_resultsdata['status'] ) {
 			unset( $mwb_wsfw_resultsdata['status'] );
 			$mwb_wsfw_response = new WP_REST_Response( $mwb_wsfw_resultsdata['data'], 200 );
 		} else {

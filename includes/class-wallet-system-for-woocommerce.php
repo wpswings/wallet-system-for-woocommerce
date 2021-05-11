@@ -580,7 +580,7 @@ class Wallet_System_For_Woocommerce {
 		// Get the PHP maximum execution time.
 		$wsfw_system_status['php_max_execution_time'] = function_exists( 'ini_get' ) ? ini_get( 'max_execution_time' ) : __( 'N/A (ini_get function does not exist)', 'wallet-system-for-woocommerce' );
 
-		// Get outgoing IP address, file_get_contents is used to get IP address
+		// Get outgoing IP address, file_get_contents is used to get IP address.
 		$wsfw_system_status['outgoing_ip'] = function_exists( 'file_get_contents' ) ? file_get_contents( 'http://ipecho.net/plain' ) : __( 'N/A (file_get_contents function does not exist)', 'wallet-system-for-woocommerce' );
 
 		$wsfw_system_data['php'] = $wsfw_system_status;
@@ -951,7 +951,6 @@ class Wallet_System_For_Woocommerce {
 											<?php
 										}
 										?>
-										<!-- <label class="mdl-textfield__label" for="octane"><?php // echo esc_html( $wsfw_component['description'] ); ?><?php // echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label> -->
 									</div>
 								</div>
 							</div>
@@ -1007,7 +1006,7 @@ class Wallet_System_For_Woocommerce {
 		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 
 		// Check if table exists.
-		if ( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) :
+		if ( $wpdb->get_var( 'show tables like "' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction"' ) != $table_name ) :
 
 			// if not, create the table.
 			$sql = 'CREATE TABLE ' . $table_name . ' (
@@ -1022,7 +1021,7 @@ class Wallet_System_For_Woocommerce {
                 ( user_id, amount, transaction_type, payment_method, transaction_id, note, date ) 
                 VALUES ( '" . $transactiondata['user_id'] . "' , '" . $transactiondata['amount'] . "', '" . $transactiondata['transaction_type'] . "', '" . $transactiondata['payment_method'] . "', '" . $transactiondata['order_id'] . "', '" . $transactiondata['note'] . "', NOW() )";
 
-			$results = $wpdb->query( $insert );
+			$results        = $wpdb->query( $insert );
 			$transaction_id = $wpdb->insert_id;
 			if ( $results ) {
 				return $transaction_id;

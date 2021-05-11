@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/class-wallet-orders.php';
+require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/class-wallet-orders-list.php';
 $wallet_orders = new Wallet_Orders_List();
 
 // message on applying bulk action.

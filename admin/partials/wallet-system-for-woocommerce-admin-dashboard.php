@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $wsfw_mwb_wsfw_obj;
-$wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_key( $_GET['wsfw_tab'] ) : 'wallet-system-for-woocommerce-general';
+$wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['wsfw_tab'] ) ) : 'wallet-system-for-woocommerce-general';
 $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 ?>
 <header>
@@ -53,21 +53,21 @@ $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 		</ul>
 	</nav>
 
-	<section class="mwb-section <?php esc_html_e( $wsfw_active_tab, 'wallet-system-for-woocommerce' ); ?>" >
+	<section class="mwb-section <?php echo esc_html( $wsfw_active_tab ); ?>" >
 		<div>
 			<?php
-				do_action( 'mwb_wsfw_before_general_settings_form' );
-						// if submenu is directly clicked on woocommerce.
-				if ( empty( $wsfw_active_tab ) ) {
-					$wsfw_active_tab = 'mwb_wsfw_plug_general';
-				}
+			do_action( 'mwb_wsfw_before_general_settings_form' );
+			// if submenu is directly clicked on woocommerce.
+			if ( empty( $wsfw_active_tab ) ) {
+				$wsfw_active_tab = 'mwb_wsfw_plug_general';
+			}
 
-				// look for the path based on the tab id in the admin templates.
-				$wsfw_tab_content_path = 'admin/partials/' . $wsfw_active_tab . '.php';
+			// look for the path based on the tab id in the admin templates.
+			$wsfw_tab_content_path = 'admin/partials/' . $wsfw_active_tab . '.php';
 
-				$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_load_template( $wsfw_tab_content_path );
+			$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_load_template( $wsfw_tab_content_path );
 
-				do_action( 'mwb_wsfw_after_general_settings_form' );
+			do_action( 'mwb_wsfw_after_general_settings_form' );
 			?>
 		</div>
 	</section>

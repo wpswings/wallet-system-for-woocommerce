@@ -131,9 +131,8 @@ class Wallet_System_For_Woocommerce_Public {
 		$mwb_cart_total = WC()->cart->total;
 		$user_id        = get_current_user_id();
 		if ( $user_id ) {
-			$wallet_amount  = get_user_meta( $user_id, 'mwb_wallet', true );
-
-			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
+			$wallet_amount = get_user_meta( $user_id, 'mwb_wallet', true );
+			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $mwb_cart_total || $this->is_enable_wallet_partial_payment() ) {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
@@ -142,7 +141,7 @@ class Wallet_System_For_Woocommerce_Public {
 						<td><?php echo esc_html( 'Pay by wallet (' ) . wc_price( $wallet_amount ) . ')'; ?></td>
 						<td>
 							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
-								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php esc_html_e( $wallet_amount, 'wallet-system-for-woocommerce' ); ?>" >
+								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
 							</p>
 						</td>
 					</tr>
@@ -204,13 +203,13 @@ class Wallet_System_For_Woocommerce_Public {
 
 				$order_status = array( 'pending', 'on-hold', 'processing' );
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
-					$amount       = $total;
+					$amount        = $total;
 					$walletamount += $total;
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
-						$mail_text .= __( 'Wallet credited by ' . wc_price( $amount ) . ' through wallet recharging.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
@@ -256,7 +255,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
-						$mail_text .= __( 'Wallet debited by ' . wc_price( $amount ) . ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
@@ -411,7 +410,7 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( WC()->session->__isset( 'wallet_recharge' ) ) {
 			$wallet_recharge = WC()->session->get( 'wallet_recharge' );
 			// check if product already in cart.
-			if ( sizeof( WC()->cart->get_cart() ) > 0 ) {
+			if ( count( WC()->cart->get_cart() ) > 0 ) {
 				$found = false;
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
 					$_product = $values['data'];
@@ -461,7 +460,7 @@ class Wallet_System_For_Woocommerce_Public {
 		wc_print_notice(
 			sprintf(
 				'<span class="subscription-reminder">' .
-				__( 'Sorry we cannot recharge wallet with other products, either %s cart or recharge later when cart is empty', 'wallet-system-for-woocommerce' ) . '</span>',
+				__( 'Sorry we cannot recharge wallet with other products, either empty cart or recharge later when cart is empty', 'wallet-system-for-woocommerce' ) . '</span>',
 				__( 'empty', 'wallet-system-for-woocommerce' )
 			),
 			'error'
