@@ -32,6 +32,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 			<table class="mwb-wallet-field-table dt-responsive" id="transactions_table" >
 				<thead>
 					<tr>
+						<th>#</th>
 						<th><?php esc_html_e( 'ID', 'wallet-system-for-woocommerce' ); ?></th>
 						<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
 						<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
@@ -41,21 +42,24 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 				</thead>
 				<tbody>
 					<?php
+					$i = 1;
 					foreach ( $withdrawal_request as $key => $pending ) {
 						$request_id = $pending->ID;
-						$userid = get_post_meta( $request_id, 'wallet_user_id', true );
+						$userid     = get_post_meta( $request_id, 'wallet_user_id', true );
 						if ( $userid == $user_id ) {
 							$date = date_create( $pending->post_date );
 							echo '<tr>
-                            <td>' . $request_id . '</td>
+							<td>' . esc_html( $i ) . '</td>
+                            <td>' . esc_html( $request_id ) . '</td>
                             <td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ) ) . '</td>
-                            <td>' . $pending->post_status . '</td>
-                            <td>' . get_post_meta( $request_id, 'mwb_wallet_note', true ) . '</td>
-                            <td>' . esc_html__( date_format( $date, 'd/m/Y' ), 'wallet-system-for-woocommerce' ) . '</td>
+                            <td>' . esc_html( $pending->post_status ) . '</td>
+                            <td>' . esc_html( get_post_meta( $request_id, 'mwb_wallet_note', true ) ) . '</td>
+                            <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
                             </tr>';
+							$i++;
 						}
 					}
-					?>	
+					?>
 				</tbody>
 			</table>
 		</div>
@@ -66,7 +70,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 		<form method="post" action="" id="mwb_wallet_transfer_form">
 			<p class="mwb-wallet-field-container form-row form-row-wide">
 				<label for="mwb_wallet_withdrawal_amount"><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></label>
-				<input type="number" step="0.01" min="0" max="<?php esc_attr_e( $wallet_bal, 'wallet-system-for-woocommerce' ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
+				<input type="number" step="0.01" min="0" max="<?php echo esc_attr( $wallet_bal ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
 			</p>
 
 			<p class="mwb-wallet-field-container form-row form-row-wide">
@@ -77,7 +81,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 			<p class="error"></p>
 
 			<p class="mwb-wallet-field-container form-row">
-				<input type="hidden" name="wallet_user_id" value="<?php esc_attr_e( $user_id, 'wallet-system-for-woocommerce' ); ?>">
+				<input type="hidden" name="wallet_user_id" value="<?php echo esc_attr( $user_id ); ?>">
 				<input type="submit" class="mwb-btn__filled button" id="mwb_withdrawal_request" name="mwb_withdrawal_request" value="Request For Withdrawal" >
 			</p>
 		</form>
@@ -89,6 +93,8 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 	?>
 
 </div>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-<!-- including datatable jquery -->
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+<?php
+// enqueue datatable css.
+wp_enqueue_style( 'datatable', 'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css', false, '1.10.24', 'all' );
+wp_enqueue_script( 'datatable', 'https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js', array(), '1.10.22', true );
+?>

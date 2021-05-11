@@ -17,8 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $wsfw_mwb_wsfw_obj;
 
 if ( isset( $_POST['wsfw_button_demo'] ) ) {
-	$wsfw_plugin_admin = new Wallet_System_For_Woocommerce_Admin( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
-	$wsfw_plugin_admin->wsfw_admin_save_tab_settings();
+	$nonce = ( isset( $_POST['updatenonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenonce'] ) ) : '';
+	if ( wp_verify_nonce( $nonce ) ) {
+		$wsfw_plugin_admin = new Wallet_System_For_Woocommerce_Admin( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
+		$wsfw_plugin_admin->wsfw_admin_save_tab_settings();
+	} else {
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( 'Failed security check', 'error' );
+	}
 }
 
 $wsfw_genaral_settings = apply_filters( 'wsfw_general_settings_array', array() );
@@ -30,5 +35,6 @@ $wsfw_genaral_settings = apply_filters( 'wsfw_general_settings_array', array() )
 		$wsfw_general_html = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_generate_html( $wsfw_genaral_settings );
 		echo esc_html( $wsfw_general_html );
 		?>
+		<input type="hidden" id="updatenonce" name="updatenonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 	</div>
 </form>

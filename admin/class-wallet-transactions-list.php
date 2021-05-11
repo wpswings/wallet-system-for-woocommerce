@@ -80,14 +80,16 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 			if ( isset( $_GET['s'] ) ) {
 
-				$search = sanitize_text_field( $_GET['s'] );
+				$search = sanitize_text_field( wp_unslash( $_GET['s'] ) );
 
 				$search = trim( $search );
 
+				//$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE `user_id` LIKE ' % %s % ' AND column_name_four = "value"', $post_status ) );
 				$transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id LIKE '%$search%' and column_name_four='value'" );
 
 			} else {
-				$transactions = $wpdb->get_results( "SELECT * FROM $table_name " );
+
+				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction' );
 			}
 
 			if ( ! empty( $transactions ) && is_array( $transactions ) ) {
@@ -153,9 +155,9 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 			$totalpages = ceil( $totalitems / $perpage );
 
-			$currentPage = $this->get_pagenum();
+			$current_page = $this->get_pagenum();
 
-			$data = array_slice( $data, ( ( $currentPage - 1 ) * $perpage ), $perpage );
+			$data = array_slice( $data, ( ( $current_page - 1 ) * $perpage ), $perpage );
 
 			$this->set_pagination_args(
 				array(

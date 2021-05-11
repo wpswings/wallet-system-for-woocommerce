@@ -481,7 +481,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 
 			rand() => array(
 				'id' => 'mwb-wsfw-deactivation-reason-text',
-				'title' => esc_html__( 'Let us know why you are deactivating ' . self::$mwb_wsfw_plugin_name_label . ' so we can improve the plugin', 'wallet-system-for-woocommerce' ),
+				'title'       => esc_html( 'Let us know why you are deactivating ' . self::$mwb_wsfw_plugin_name_label . ' so we can improve the plugin' ),
 				'type' => 'textarea',
 				'description' => '',
 				'name' => 'deactivation_reason_text',

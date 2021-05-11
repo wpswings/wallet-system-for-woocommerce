@@ -32,19 +32,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
-						$user = get_user_by( 'id', $transaction->user_id );
+						$user           = get_user_by( 'id', $transaction->user_id );
+						$transaction_id = $transaction->Id;
 						?>
 						<tr>
-							<td><?php esc_html_e( $i, 'wallet-system-for-woocommerce' ); ?></td>
-							<td><?php esc_html_e( $transaction->Id, 'wallet-system-for-woocommerce' ); ?></td>
-							<td><?php _e( wc_price( $transaction->amount ), 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php echo esc_html( $i ); ?></td>
+							<td><?php echo esc_html( $transaction_id ); ?></td>
+							<td><?php echo wc_price( $transaction->amount ); ?></td>
 							<td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
-							<td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php echo esc_html( $transaction->payment_method ); ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
-							$date = date_create( $transaction->date );
-							esc_html_e( date_format( $date, $date_format ), 'wallet-system-for-woocommerce' );
+							$date        = date_create( $transaction->date );
+							echo esc_html( date_format( $date, $date_format ) );
 							?>
 							</td>
 						</tr>
@@ -58,12 +59,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</table>
 	</div>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-	<!-- including datatable jquery-->
-	<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
-	<!-- including regular expression jquery-->
-   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 	
+	<?php
+	// enqueue datatable css.
+	wp_enqueue_style( 'datatable', 'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css', false, '1.10.24', 'all' );
+	wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css', false, '1.12.1', 'all' );
+	wp_enqueue_script( 'datatable', 'https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js', array(), '1.10.22', true );
+	// including regular expression jquery.
+	wp_enqueue_script( 'anchor-tag', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
+	?>
+
 	<!-- removing the anchor tag href attibute using regular expression -->	
 	<script>
 	jQuery( "#transactions_table tr td" ).each(function( index ) {
@@ -76,4 +80,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	});
 	</script>
 </div>   
-	
+
