@@ -84,8 +84,7 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 				$search = trim( $search );
 
-				//$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE `user_id` LIKE ' % %s % ' AND column_name_four = "value"', $post_status ) );
-				$transactions = $wpdb->get_results( "SELECT * FROM $table_name WHERE user_id LIKE '%$search%' and column_name_four='value'" );
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE `user_id` LIKE  %s  AND column_name_four = "value"', $search ) );
 
 			} else {
 
@@ -94,9 +93,9 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 			if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 				foreach ( $transactions as $transaction ) {
-					$user   = get_user_by( 'id', $transaction->Id );
+					$user   = get_user_by( 'id', $transaction->id );
 					$data[] = array(
-						'transaction_id' => $transaction->Id,
+						'transaction_id' => $transaction->id,
 						'name'           => $user->user_login,
 						'email'          => $user->user_email,
 						'amount'         => wc_price( $transaction->amount ),
@@ -139,19 +138,7 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 
-			function usort_reorder( $a, $b ) {
-
-				$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'Id'; // If no sort, default to title
-
-				$order = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'desc'; // If no order, default to asc
-
-				$result = strcmp( $a[ $orderby ], $b[ $orderby ] ); // Determine sort order
-
-				return ( $order === 'asc' ) ? $result : -$result; // Send final sort direction to usort
-
-			}
-
-			usort( $data, 'usort_reorder' );
+			usort( $data, array( $this, 'usort_reorder' ) );
 
 			$totalpages = ceil( $totalitems / $perpage );
 
@@ -166,13 +153,39 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 					'total_pages' => $totalpages,
 
-					'per_page' => $perpage,
+					'per_page'    => $perpage,
 				)
 			);
 
 			$this->items = $data;
 		}
 
+		/**
+		 * Undocumented function
+		 *
+		 * @param Array $a first order.
+		 * @param Array $b second order.
+		 * @return int
+		 */
+		public function usort_reorder( $a, $b ) {
+
+			$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'Id'; // If no sort, default to title.
+
+			$order   = ( ! empty( $_REQUEST['order'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'desc'; // If no order, default to asc.
+
+			$result = strcmp( $a[ $orderby ], $b[ $orderby ] ); // Determine sort order.
+
+			return ( 'asc' === $order ) ? $result : -$result; // Send final sort direction to usort.
+
+		}
+
+		/**
+		 * Show data in default columns
+		 *
+		 * @param array  $item table item.
+		 * @param string $column_name column name.
+		 * @return string
+		 */
 		public function column_default( $item, $column_name ) {
 
 			switch ( $column_name ) {
@@ -189,8 +202,13 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 		}
 
+		/**
+		 * Setup Hidden columns
+		 *
+		 * @return array
+		 */
 		public function get_hidden_columns() {
-			// Setup Hidden columns and return them
+			// Setup Hidden columns and return them.
 			return array();
 		}
 	}

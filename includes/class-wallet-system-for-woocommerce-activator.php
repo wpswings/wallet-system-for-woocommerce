@@ -70,7 +70,7 @@ class Wallet_System_For_Woocommerce_Activator {
 		$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 		$wpdb_collate = $wpdb->collate;
 		$sql          = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			Id bigint(20) unsigned NOT NULL auto_increment,
+			id bigint(20) unsigned NOT NULL auto_increment,
 			user_id bigint(20) unsigned NULL,
 			amount double,
 			transaction_type varchar(200) NULL,

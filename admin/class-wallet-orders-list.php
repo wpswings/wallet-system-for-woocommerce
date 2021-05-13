@@ -57,6 +57,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			$columns = array(
 				'cb'          => '<input type="checkbox" />',
 				'ID'          => __( 'Order', 'wallet_payment_gateway' ),
+				'user'        => __( 'User', 'wallet_payment_gateway' ),
 				'status'      => __( 'Status', 'wallet_payment_gateway' ),
 				'order_total' => __( 'Total', 'wallet_payment_gateway' ),
 				'date1'       => __( 'Date1', 'wallet_payment_gateway' ),
@@ -123,12 +124,8 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 * Display the table heading and search query, if any
 		 */
 		public function display_header() {
-			if ( isset( $_POST['s'] ) ) {
-				$nonce = ( isset( $_POST['_wpnonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
-				if ( wp_verify_nonce( $nonce ) ) {
-					echo '<span class="subtitle">' . sprintf( 'Search results for %s', sanitize_text_field( wp_unslash( $_POST['s'] ) ) ) . '</span>';
-				} else {
-					echo 'dd';}
+			if ( isset( $_REQUEST['s'] ) ) {
+				echo '<span class="subtitle">' . sprintf( 'Search results for %s', esc_html( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ) ) . '</span>';
 			}
 
 		}
@@ -147,19 +144,16 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 			$data = array();
 
-			if ( isset( $_POST['s'] ) ) {
+			if ( isset( $_REQUEST['s'] ) ) {
 
-				$search = sanitize_text_field( wp_unslash( $_POST['s'] ) );
+				$search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
 
 				$search = trim( $search );
 
 				if ( isset( $post_status ) && ! empty( $post_status ) ) {
-					$query  = "SELECT DISTINCT ID FROM $table_name INNER JOIN $wpdb->postmeta ON $table_name.ID = $wpdb->postmeta.post_id WHERE `post_type` = 'wallet_shop_order' AND `post_status` =  '$post_status' AND ( `ID` = '$search' OR ( ( `meta_key` = '_billing_first_name' OR `meta_key` = '_billing_last_name' OR `meta_key` = '_billing_address_1' OR `meta_key` = '_billing_address_2' OR `meta_key` = '_billing_city' OR `meta_key` = '_billing_postcode' OR `meta_key` = '_billing_country' OR `meta_key` = '_billing_state' OR `meta_key` = '_billing_company' OR `meta_key` = '_billing_email' OR `meta_key` = '_billing_phone' ) AND `meta_value` LIKE '%$search%' ) )";
-					$query1  = $wpdb->prepare( 'SELECT DISTINCT ID FROM ' . $wpdb->prefix . 'posts INNER JOIN ' . $wpdb->postmeta . ' ON ' . $wpdb->prefix . 'posts.ID = ' . $wpdb->postmeta . '.post_id WHERE `post_type` = "wallet_shop_order" AND `post_status` =  %1$s AND ( `ID` = %2$s OR ( ( `meta_key` = "_billing_first_name" OR `meta_key` = "_billing_last_name" OR `meta_key` = "_billing_address_1" OR `meta_key` = "_billing_address_2" OR `meta_key` = "_billing_city" OR `meta_key` = "_billing_postcode" OR `meta_key` = "_billing_country" OR `meta_key` = "_billing_state" OR `meta_key` = "_billing_company" OR `meta_key` = "_billing_email" OR `meta_key` = "_billing_phone" ) AND `meta_value` LIKE %3$s ) )', $post_status, $search, $search );
-					$orders = $wpdb->get_results( $query );
+					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT DISTINCT ID FROM ' . $wpdb->prefix . 'posts INNER JOIN ' . $wpdb->postmeta . ' ON ' . $wpdb->prefix . 'posts.ID = ' . $wpdb->postmeta . '.post_id WHERE `post_type` = "wallet_shop_order" AND `post_status` =  %s AND ( `ID` = %s OR ( ( `meta_key` = "_billing_first_name" OR `meta_key` = "_billing_last_name" OR `meta_key` = "_billing_address_1" OR `meta_key` = "_billing_address_2" OR `meta_key` = "_billing_city" OR `meta_key` = "_billing_postcode" OR `meta_key` = "_billing_country" OR `meta_key` = "_billing_state" OR `meta_key` = "_billing_company" OR `meta_key` = "_billing_email" OR `meta_key` = "_billing_phone" ) AND `meta_value` LIKE %s ) )', $post_status, $search, $search ) );
 				} else {
-					$query  = "SELECT DISTINCT ID FROM $table_name INNER JOIN $wpdb->postmeta ON $table_name.ID = $wpdb->postmeta.post_id WHERE `post_type` = 'wallet_shop_order' AND ( NOT `post_status` = 'auto-draft' && NOT `post_status` = 'trash' ) AND ( `ID` = '$search' OR ( ( `meta_key` = '_billing_first_name' OR `meta_key` = '_billing_last_name' OR `meta_key` = '_billing_address_1' OR `meta_key` = '_billing_address_2' OR `meta_key` = '_billing_city' OR `meta_key` = '_billing_postcode' OR `meta_key` = '_billing_country' OR `meta_key` = '_billing_state' OR `meta_key` = '_billing_company' OR `meta_key` = '_billing_email' OR `meta_key` = '_billing_phone' ) AND `meta_value` LIKE '%$search%' ) )";
-					$orders = $wpdb->get_results( $query );
+					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT DISTINCT ID FROM ' . $wpdb->prefix . 'posts INNER JOIN ' . $wpdb->postmeta . ' ON ' . $wpdb->prefix . 'posts.ID = ' . $wpdb->postmeta . '.post_id WHERE `post_type` = "wallet_shop_order" AND ( NOT `post_status` = "auto-draft" && NOT `post_status` = "trash" ) AND ( `ID` = %s OR ( ( `meta_key` = "_billing_first_name" OR `meta_key` = "_billing_last_name" OR `meta_key` = "_billing_address_1" OR `meta_key` = "_billing_address_2" OR `meta_key` = "_billing_city" OR `meta_key` = "_billing_postcode" OR `meta_key` = "_billing_country" OR `meta_key` = "_billing_state" OR `meta_key` = "_billing_company" OR `meta_key` = "_billing_email" OR `meta_key` = "_billing_phone" ) AND `meta_value` LIKE %s ) )', $search, $search ) );
 				}
 			} else {
 				if ( isset( $post_status ) && ! empty( $post_status ) ) {
@@ -171,8 +165,18 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			if ( ! empty( $orders ) && is_array( $orders ) ) {
 				foreach ( $orders as $order ) {
 					$order_data = wc_get_order( $order->ID );
-					$data[]     = array(
+					$first_name = $order_data->get_billing_first_name();
+					$last_name  = $order_data->get_billing_last_name();
+					if ( ! empty( $first_name ) || ! empty( $last_name ) ) {
+						$billing_name = $first_name . ' ' . $last_name;
+					} else {
+						$user_id      = $order_data->get_customer_id();
+						$customer     = new WC_Customer( $user_id );
+						$billing_name = $customer->get_username();
+					}
+					$data[] = array(
 						'ID'          => $order->ID,
+						'user'        => $billing_name,
 						'status'      => $order_data->get_status(),
 						'order_total' => $order_data->get_total(),
 						'date1'       => $order_data->get_date_created(),
@@ -299,19 +303,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			$perpage = 10;
 
 			$this->_column_headers = array( $columns, $hidden, $sortable );
-
-			function usort_reorder( $a, $b ) {
-
-				$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'ID'; // If no sort, default to title.
-
-				$order   = ( ! empty( $_REQUEST['order'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'desc'; // If no order, default to asc.
-
-				$result = ( $a[ $orderby ] < $b[ $orderby ] ) ? -1 : 1;
-				return ( 'asc' === $order ) ? $result : -$result; // Send final sort direction to usort.
-
-			}
-
-			usort( $data, 'usort_reorder' );
+			usort( $data, array( $this, 'usort_reorder' ) );
 
 			$totalpages = ceil( $totalitems / $perpage );
 
@@ -335,6 +327,25 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		}
 
 		/**
+		 * Compare the values of custom order table
+		 *
+		 * @param Array $a first item.
+		 * @param Array $b second item.
+		 * @return int
+		 */
+		public function usort_reorder( $a, $b ) {
+
+			$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'ID'; // If no sort, default to title.
+
+			$order   = ( ! empty( $_REQUEST['order'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'desc'; // If no order, default to asc.
+
+			$result = strnatcmp( $a[ $orderby ], $b[ $orderby ] ); // Determine sort order.
+
+			return ( 'asc' === $order ) ? $result : -$result; // Send final sort direction to usort.
+
+		}
+
+		/**
 		 * Show data in default columns
 		 *
 		 * @param array  $item table item.
@@ -346,22 +357,15 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			switch ( $column_name ) {
 
 				case 'ID':
-					$order      = wc_get_order( $item[ $column_name ] );
-					$first_name = $order->get_billing_first_name();
-					$last_name  = $order->get_billing_last_name();
-					if ( ! empty( $first_name ) || ! empty( $last_name ) ) {
-						$billing_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-					} else {
-						$user_id      = $order->get_customer_id();
-						$customer     = new WC_Customer( $user_id );
-						$billing_name = $customer->get_username();
-					}
 					if ( isset( $_REQUEST['post_status'] ) && 'trash' === sanitize_text_field( wp_unslash( $_REQUEST['post_status'] ) ) ) {
-						return '<strong>#' . $item[ $column_name ] . ' ' . $billing_name . '</strong>';
+						return '<strong>#' . $item[ $column_name ] . '</strong>';
 					} else {
 
-						return '<a href="' . admin_url( 'post.php?post=' . $item[ $column_name ] . ' &action=edit' ) . '" class="order-view"><strong>#' . $item[ $column_name ] . ' ' . $billing_name . '</strong></a>';
+						return '<a href="' . admin_url( 'post.php?post=' . $item[ $column_name ] . ' &action=edit' ) . '" class="order-view"><strong>#' . $item[ $column_name ] . '</strong></a>';
 					}
+					break;
+				case 'user':
+					return $item[ $column_name ];
 					break;
 				case 'status':
 					return '<mark class="wallet-status order-status status-' . $item[ $column_name ] . '"><span>' . $item[ $column_name ] . '</span></mark>';

@@ -37,4 +37,5 @@
     <rule ref="PHPCompatibility">
         <exclude-pattern>tests/</exclude-pattern>
     </rule>
+
 </ruleset>

@@ -77,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<td><?php echo wc_price( $transaction->amount ); ?></td>
 							<td><?php echo esc_html( $transaction->payment_method ); ?></td>
 							<td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
-							<td><?php echo esc_html( $transaction->Id ); ?></td>
+							<td><?php echo esc_html( $transaction->id ); ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );

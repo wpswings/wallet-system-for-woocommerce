@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<p class="mwb-wallet-field-container form-row">
 			<input type="hidden" name="user_id" value="<?php echo esc_attr( $user_id ); ?>">
 			<input type="hidden" name="product_id" value="<?php echo esc_attr( $product_id ); ?>">
+			<input type="hidden" id="verifynonce" name="verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 			<input type="submit" class="mwb-btn__filled button" id="mwb_recharge_wallet" name="mwb_recharge_wallet" value="Proceed">
 		</p>
 	</form>

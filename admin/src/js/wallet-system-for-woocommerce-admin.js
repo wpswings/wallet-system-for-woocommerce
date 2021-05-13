@@ -155,6 +155,7 @@
 				url: wsfw_admin_param.ajaxurl,
 				data: {
 					action: 'change_wallet_withdrawan_status',
+					nonce: wsfw_admin_param.nonce,
 					withdrawal_id: withdrawal_id,
 					user_id: user_id,
 					status: status,
