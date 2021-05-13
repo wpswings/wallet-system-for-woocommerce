@@ -79,6 +79,7 @@ class Wallet_System_For_Woocommerce_Public {
 			'wsfw_public_param',
 			array(
 				'ajaxurl'                   => admin_url( 'admin-ajax.php' ),
+				'nonce'                     => wp_create_nonce( 'ajax-nonce' ),
 				'datatable_pagination_text' => __( 'Rows per page _MENU_', 'wallet-system-for-woocommerce' ),
 				'datatable_info'            => __(
 					'_START_ - _END_ of _TOTAL_',
@@ -535,6 +536,10 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $product_id === $wallet_id ) {
 				WC()->session->__unset( 'recharge_amount' );
 			}
+		}
+		if ( WC()->session->__isset( 'custom_fee' ) ) {
+			WC()->session->__unset( 'custom_fee' );
+			WC()->session->__unset( 'is_wallet_partial_payment' );
 		}
 
 	}

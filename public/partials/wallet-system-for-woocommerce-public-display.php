@@ -9,34 +9,41 @@
  *
  * @package    Wallet_System_For_Woocommerce
  * @subpackage Wallet_System_For_Woocommerce/public/partials
- * 
  */
+
 global $wp;
-$current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+// phpcs:ignore
+$http_host   = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '';
+// phpcs:ignore
+$request_url = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
+$current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
 if ( isset( $_POST['mwb_recharge_wallet'] ) && ! empty( $_POST['mwb_recharge_wallet'] ) ) {
+	$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
+	if ( wp_verify_nonce( $nonce ) ) {
+		unset( $_POST['mwb_recharge_wallet'] );
 
-	unset( $_POST['mwb_recharge_wallet'] );
+		if ( empty( $_POST['mwb_wallet_recharge_amount'] ) ) {
+			show_message_on_form_submit( 'Please enter amount greater than 0', 'woocommerce-error' );
+		} else {
+			$recharge_amount = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_recharge_amount'] ) );
+			if ( ! empty( $_POST['user_id'] ) ) {
+				$user_id = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 
-
-	if ( empty( $_POST['mwb_wallet_recharge_amount'] ) ) {
-		show_message_on_form_submit( 'Please enter amount greater than 0', 'woocommerce-error' );
-	} else {
-		$recharge_amount = sanitize_text_field( $_POST['mwb_wallet_recharge_amount'] );
-		if ( ! empty( $_POST['user_id'] ) ) {
-			$user_id = sanitize_text_field( $_POST['user_id'] );
-
+			}
+			$product_id = ( isset( $_POST['product_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : '';
+			WC()->session->set(
+				'wallet_recharge',
+				array(
+					'userid'         => $user_id,
+					'rechargeamount' => $recharge_amount,
+					'productid'      => $product_id,
+				)
+			);
+			WC()->session->set( 'recharge_amount', $recharge_amount );
+			echo '<script>window.location.href = "' . esc_url( wc_get_cart_url() ) . '";</script>';
 		}
-		$product_id = sanitize_text_field( $_POST['product_id'] );
-		WC()->session->set(
-			'wallet_recharge',
-			array(
-				'userid'         => $user_id,
-				'rechargeamount' => $recharge_amount,
-				'productid'      => $product_id,
-			)
-		);
-		WC()->session->set( 'recharge_amount', $recharge_amount );
-		echo '<script>window.location.href = "' . wc_get_cart_url() . '";</script>';
+	} else {
+		show_message_on_form_submit( 'Failed security check', 'woocommerce-error' );
 	}
 }
 if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_transfer'] ) ) {
@@ -44,12 +51,12 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	$update = true;
 	// check whether $_POST key 'current_user_id' is empty or not.
 	if ( ! empty( $_POST['current_user_id'] ) ) {
-		$user_id = sanitize_text_field( $_POST['current_user_id'] );
+		$user_id = sanitize_text_field( wp_unslash( $_POST['current_user_id'] ) );
 	}
 
 	$wallet_bal         = get_user_meta( $user_id, 'mwb_wallet', true );
-	$another_user_email = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( $_POST['mwb_wallet_transfer_user_email'] ) : '';
-	$transfer_note      = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( $_POST['mwb_wallet_transfer_note'] ) : '';
+	$another_user_email = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
+	$transfer_note      = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 	$user               = get_user_by( 'email', $another_user_email );
 	if ( $user ) {
 		$another_user_id = $user->ID;
@@ -65,7 +72,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		$update = false;
 	}
 	if ( $update ) {
-		$transfer_amount  = sanitize_text_field( $_POST['mwb_wallet_transfer_amount'] );
+		$transfer_amount  = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
 		$user_wallet_bal  = get_user_meta( $another_user_id, 'mwb_wallet', true );
 		$user_wallet_bal += $transfer_amount;
 		$returnid         = update_user_meta( $another_user_id, 'mwb_wallet', $user_wallet_bal );
@@ -82,7 +89,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 				$name2 = $user2->first_name . ' ' . $user2->last_name;
 
 				$mail_text1  = sprintf( 'Hello %s,<br/>', $name1 );
-				$mail_text1 .= __( 'Wallet credited by ' . wc_price( $transfer_amount ) . ' through wallet transfer by ' . $name2, 'wallet-system-for-woocommerce' );
+				$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
 				$to1         = $user1->user_email;
 				$from        = get_option( 'admin_email' );
 				$subject     = 'Wallet updating notification';
@@ -114,7 +121,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$mail_text2  = sprintf( 'Hello %s,<br/>', $name2 );
-					$mail_text2 .= __( 'Wallet debited by ' . wc_price( $transfer_amount ) . ' through wallet transfer to ' . $name1, 'wallet-system-for-woocommerce' );
+					$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
 					$to2         = $user2->user_email;
 					$headers2    = 'MIME-Version: 1.0' . "\r\n";
 					$headers2   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -148,7 +155,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawal_request'] ) ) {
 	unset( $_POST['mwb_withdrawal_request'] );
 	if ( ! empty( $_POST['wallet_user_id'] ) ) {
-		$user_id  = sanitize_text_field( $_POST['wallet_user_id'] );
+		$user_id  = sanitize_text_field( wp_unslash( $_POST['wallet_user_id'] ) );
 		$user     = get_user_by( 'id', $user_id );
 		$username = $user->user_login;
 
@@ -170,7 +177,7 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
 			}
 		}
 		update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
-
+		// phpcs:ignore
 		echo '<script>window.location.href = "' . $current_url . '";</script>';
 	}
 }
@@ -260,7 +267,12 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 <div class="mwb_wcb_wallet_display_wrapper">
 	<div class="mwb_wcb_wallet_balance_container"> 
 		<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
-		<p><?php _e( wc_price( $wallet_bal ), 'wallet-system-for-woocommerce' ); ?></p>
+		<p>
+		<?php
+		// phpcs:ignore
+		echo wc_price( $wallet_bal );
+		?>
+		</p>
 	</div>
 	<div class="mwb_wcb_main_tabs_template">
 		<div class="mwb_wcb_body_template">
@@ -277,14 +289,14 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 								} else {
 									$class = '';
 								}
-								echo "<li class='{$class}'><a href='{$wallet_tab["url"]}'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>{$wallet_tab['icon']}</svg></a><h3>{$wallet_tab['title']}</h3></li>";
+								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo "<li class='{$class}'><a href='{$wallet_tab["url"]}'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>{$wallet_tab['icon']}</svg></a><h3>{$wallet_tab['title']}</h3></li>";
+								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
 							}
 						}
 						?>

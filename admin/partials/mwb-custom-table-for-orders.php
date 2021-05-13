@@ -20,47 +20,59 @@ $wallet_orders = new Wallet_Orders_List();
 
 // message on applying bulk action.
 if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' !== $_REQUEST['bulk_action'] && 'untrash' !== $_REQUEST['bulk_action'] && 'delete' !== $_REQUEST['bulk_action'] ) ) {
-	$changed = $_REQUEST['changed'];
+	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
-		'<div id="message" class="updated notice is-dismissable"><p>' . _n(
-			'%d order status changed.',
-			'%d order status changed.',
-			$changed
+		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
+			_n(
+				'%d order status changed.',
+				'%d orders status changed.',
+				esc_html( $changed ),
+				'wallet-system-for-woocommerce'
+			)
 		) . '</p></div>',
-		$changed
+		esc_html( $changed )
 	);
 }
 if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' === $_REQUEST['bulk_action'] ) ) {
-	$changed = $_REQUEST['changed'];
+	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
-		'<div id="message" class="updated notice is-dismissable"><p>' . _n(
-			'%d order moved to trash.',
-			'%d orders moved to trash.',
-			esc_html__( $changed, 'wallet-system-for-woocommerce' )
+		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
+			_n(
+				'%d order moved to trash.',
+				'%d orders moved to trash.',
+				esc_html( $changed ),
+				'wallet-system-for-woocommerce'
+			)
 		) . '</p></div>',
-		esc_html__( $changed, 'wallet-system-for-woocommerce' )
+		esc_html( $changed )
 	);
 }
 if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'untrash' === $_REQUEST['bulk_action'] ) ) {
-	$changed = $_REQUEST['changed'];
+	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
-		'<div id="message" class="updated notice is-dismissable"><p>' . _n(
-			'%d order restored from the Trash.',
-			'%d orders restored from the Trash.',
-			$changed
+		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
+			_n(
+				'%d order restored from the Trash.',
+				'%d orders restored from the Trash.',
+				esc_html( $changed ),
+				'wallet-system-for-woocommerce'
+			)
 		) . '</p></div>',
-		$changed
+		esc_html( $changed )
 	);
 }
 if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_action'] ) ) {
-	$changed = $_REQUEST['changed'];
+	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
-		'<div id="message" class="updated notice is-dismissable"><p>' . _n(
-			'%d order permanently deleted',
-			'%d orders permanently deleted',
-			$changed
+		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
+			_n(
+				'%d order permanently deleted.',
+				'%d orders permanently deleted.',
+				esc_html( $changed ),
+				'wallet-system-for-woocommerce'
+			)
 		) . '</p></div>',
-		$changed
+		esc_html( $changed )
 	);
 }
 
@@ -76,7 +88,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 			$wallet_orders->views();
 
 			if ( isset( $_GET['s'] ) ) {
-				$wallet_orders->prepare_items( $_GET['s'] );
+				$wallet_orders->prepare_items( sanitize_text_field( wp_unslash( $_GET['s'] ) ) );
 			} else {
 				$wallet_orders->prepare_items();
 			}
@@ -85,11 +97,10 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 			$wallet_orders->display();
 			?>
 		</form>
-		<!-- including datepicker jquery in custom order wp list table -->
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
-
 
 		<?php
+		// including datepicker jquery in custom order wp list table.
+		wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
 		wp_enqueue_script( 'mwb-admin-custom-orders', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-custom-orders.js', array( 'jquery' ), $this->version, false );
 		?>
 

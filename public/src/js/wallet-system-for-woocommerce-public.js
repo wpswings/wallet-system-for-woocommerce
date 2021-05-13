@@ -89,6 +89,7 @@
 				url: wsfw_public_param.ajaxurl,
 				data: {
 					action: 'calculate_amount_after_wallet',
+					nonce: wsfw_public_param.nonce, 
 					wallet_amount: wallet_amount,
 					amount: amount,
 					checked: checked,

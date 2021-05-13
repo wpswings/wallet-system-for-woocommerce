@@ -170,7 +170,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 							$user       = get_user_by( 'id', $customer_id );
 							$name       = $user->first_name . ' ' . $user->last_name;
 							$mail_text  = sprintf( 'Hello %s,<br/>', $name );
-							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total ) . __( ' from your wallet through purchasing', 'wallet-system-for-woocommerce' );
+							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 							$to         = $user->user_email;
 							$from       = get_option( 'admin_email' );
 							$subject    = 'Wallet updating notification';

@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
 						$user           = get_user_by( 'id', $transaction->user_id );
-						$transaction_id = $transaction->Id;
+						$transaction_id = $transaction->id;
 						?>
 						<tr>
 							<td><?php echo esc_html( $i ); ?></td>

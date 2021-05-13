@@ -157,7 +157,7 @@ class Wallet_System_For_Woocommerce {
 		 * The class responsible for handling ajax requests.
 		 */
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-ajax-handler.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-ajaxhandler.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'package/rest-api/class-wallet-system-for-woocommerce-rest-api.php';
 
 		/**
@@ -247,7 +247,6 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_withdrawal_post_type', 20 );
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_wallet_recharge_post_type', 30 );
 
-		$this->loader->add_filter( 'display_post_states', $wsfw_plugin_admin, 'display_archive_state' );
 		$this->loader->add_action( 'wp_ajax_export_users_wallet', $wsfw_plugin_admin, 'export_users_wallet' );
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 10, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
@@ -902,7 +901,10 @@ class Wallet_System_For_Woocommerce {
 										id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
 										type="<?php echo esc_attr( $wsfw_component['type'] ); ?>"
 										value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
-										<?php echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max=' . date( 'Y-m-d', strtotime( date( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' ' . 'min=' . date( 'Y-m-d' ) . '' : '' ); ?>
+										<?php
+										// phpcs:ignore
+										echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max=' . date( 'Y-m-d', strtotime( date( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' ' . 'min=' . date( 'Y-m-d' ) . '' : '' );
+										?>
 										>
 									</label>
 									<div class="mdc-text-field-helper-line">
@@ -999,7 +1001,7 @@ class Wallet_System_For_Woocommerce {
 	 * Insert transaction related data in custom table
 	 *
 	 * @param array $transactiondata contains data for transaction table.
-	 * @return void
+	 * @return string
 	 */
 	public function insert_transaction_data_in_table( $transactiondata ) {
 		global $wpdb;
@@ -1017,11 +1019,20 @@ class Wallet_System_For_Woocommerce {
 			dbDelta( $sql );
 		else :
 
-			$insert = 'INSERT INTO  ' . $table_name . "
-                ( user_id, amount, transaction_type, payment_method, transaction_id, note, date ) 
-                VALUES ( '" . $transactiondata['user_id'] . "' , '" . $transactiondata['amount'] . "', '" . $transactiondata['transaction_type'] . "', '" . $transactiondata['payment_method'] . "', '" . $transactiondata['order_id'] . "', '" . $transactiondata['note'] . "', NOW() )";
+			$insert_array = array(
+				'user_id'           => $transactiondata['user_id'],
+				'amount'            => $transactiondata['amount'],
+				'transaction_type'  => $transactiondata['transaction_type'],
+				'payment_method'    => $transactiondata['payment_method'],
+				'transaction_id'    => $transactiondata['order_id'],
+				'note'              => $transactiondata['note'],
+				'date'              => gmdate( 'Y-m-d H:i:s' ),
+			);
 
-			$results        = $wpdb->query( $insert );
+			$results = $wpdb->insert(
+				$table_name,
+				$insert_array
+			);
 			$transaction_id = $wpdb->insert_id;
 			if ( $results ) {
 				return $transaction_id;

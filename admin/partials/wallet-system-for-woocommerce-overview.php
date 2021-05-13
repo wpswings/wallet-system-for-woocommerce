@@ -39,7 +39,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<li><?php esc_html_e( 'View the wallet transaction history and wallet balance of your customers.', 'wallet-system-for-woocommerce' ); ?></li>
 				<li><?php esc_html_e( 'View all wallet recharge orders (top-up by customers) in a separate order list.', 'wallet-system-for-woocommerce' ); ?></li>
 				<li><?php esc_html_e( 'Allow your customers to transfer their wallet amount into other customers’ wallets.', 'wallet-system-for-woocommerce' ); ?></li>
-				<li><?php _e( 'Have compatibility with the <a href="https://wordpress.org/plugins/invoice-system-for-woocommerce/" target="blank" >Invoice System for WooCommerce</a>.', 'wallet-system-for-woocommerce' ); ?></li>
+				<li>
+				<?php
+				esc_html_e( 'Have compatibility with the ', 'wallet-system-for-woocommerce' );
+				echo '<a href="https://wordpress.org/plugins/invoice-system-for-woocommerce/" target="blank" >Invoice System for WooCommerce</a>.';
+				?>
+				</li>
 			</ul>
 		</div> 
 		<h2> <?php esc_html_e( 'The Free Plugin Benefits', 'wallet-system-for-woocommerce' ); ?></h2>

@@ -53,7 +53,7 @@ $wsfw_php_details       = is_array( $wsfw_default_status['php'] ) && ! empty( $w
 				<table class="mwb-wsfw-table mdc-data-table__table mwb-table" id="mwb-wsfw-sys">
 					<thead>
 						<tr>
-							<th class="mdc-data-table__header-cell"><?php esc_html_e( 'Sysytem Variables', 'wallet-system-for-woocommerce' ); ?></th>
+							<th class="mdc-data-table__header-cell"><?php esc_html_e( 'System Variables', 'wallet-system-for-woocommerce' ); ?></th>
 							<th class="mdc-data-table__header-cell"><?php esc_html_e( 'System Values', 'wallet-system-for-woocommerce' ); ?></th>
 						</tr>
 					</thead>
