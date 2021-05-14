@@ -174,11 +174,14 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 						$customer     = new WC_Customer( $user_id );
 						$billing_name = $customer->get_username();
 					}
-					$data[] = array(
+					$order_total = $order_data->get_total();
+
+					$order_total = wc_price( $order_total, array( 'currency' => $order_data->get_currency() ) );
+					$data[]      = array(
 						'ID'          => $order->ID,
 						'user'        => $billing_name,
 						'status'      => $order_data->get_status(),
-						'order_total' => $order_data->get_total(),
+						'order_total' => $order_total,
 						'date1'       => $order_data->get_date_created(),
 						'date'        => $order_data->get_date_created(),
 					);
@@ -371,7 +374,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 					return '<mark class="wallet-status order-status status-' . $item[ $column_name ] . '"><span>' . $item[ $column_name ] . '</span></mark>';
 					break;
 				case 'order_total':
-					return wc_price( $item[ $column_name ] );
+					return $item[ $column_name ];
 					break;
 				case 'date1':
 					$date = date_create( $item[ $column_name ] );
