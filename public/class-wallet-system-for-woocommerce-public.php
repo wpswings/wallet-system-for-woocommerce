@@ -570,4 +570,53 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 	}
 
+	/**
+	 * Remove billing fields from checkout page for wallet recharge.
+	 *
+	 * @param array $fields checkout fields.
+	 * @return array
+	 */
+	public function mwb_wsfw_remove_billing_from_checkout( $fields ) {
+		$wallet_product_id = get_option( 'mwb_wsfw_rechargeable_product_id' );
+		$only_virtual      = false;
+		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+			$_product = $cart_item['data'];
+			if ( $_product->is_virtual() && ( $_product->get_id() == $wallet_product_id ) ) {
+				$only_virtual = true;
+			}
+		}
+		if ( $only_virtual ) {
+			unset( $fields['billing'] );
+			add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
+			echo '<style type="text/css">
+			form.checkout .woocommerce-billing-fields h3 {
+				display:none;
+			}
+			</style>';
+		}
+		return $fields;
+
+	}
+
+	/**
+	 * Remove customer details from mail for wallet recharge.
+	 *
+	 * @param object $order order object.
+	 * @return void
+	 */
+	public function mwb_wsfw_remove_customer_details_in_emails( $order ) {
+		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
+		foreach ( $order->get_items() as $item ) {
+			$product_id = $item->get_product_id();
+			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
+				$mailer = WC()->mailer();
+				remove_action( 'woocommerce_email_customer_details', array( $mailer, 'customer_details' ), 10 );
+				remove_action( 'woocommerce_email_customer_details', array( $mailer, 'email_addresses' ), 20 );
+
+			}
+		}
+
+	}
+
+
 }

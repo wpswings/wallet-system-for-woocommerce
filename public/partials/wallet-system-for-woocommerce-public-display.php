@@ -216,7 +216,7 @@ if ( ! empty( $product_id ) && ! empty( $enable_wallet_recharge ) ) {
 }
 
 $wallet_tabs['wallet_transfer'] = array(
-	'title'     => 'Transfer',
+	'title'     => 'Wallet Transfer',
 	'url'       => $wallet_url,
 	'icon'      => '<rect x="2" y="12" width="32" height="15.5458" rx="1.5" stroke="#1D201F" stroke-width="2.5"/>
 <path d="M28 17V22M8 22V17" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -237,7 +237,7 @@ $wallet_tabs['wallet_withdrawal'] = array(
 	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-payment-gateway-wallet-withdrawal.php',
 );
 $wallet_tabs['wallet_transactions'] = array(
-	'title'     => 'Transaction',
+	'title'     => 'Transactions',
 	'url'       => $transaction_url,
 	'icon'      => '<path d="M2 7C2 4.23858 4.23858 2 7 2H23C25.7614 2 28 4.23858 28 7V28.6227C28 30.476 25.6972 31.3325 24.4861 29.9296L22.4665 27.5901C21.7195 26.7249 20.4005 26.6606 19.5729 27.4491L16.1765 30.6854C15.404 31.4215 14.1897 31.4215 13.4172 30.6854L10.067 27.4931C9.22232 26.6883 7.87085 26.7743 7.1351 27.6799L5.55223 29.628C4.36484 31.0894 2 30.2498 2 28.3668V7Z" stroke="#1D201F" stroke-width="2.5"/>
 <path d="M19 9.25C19.6904 9.25 20.25 8.69036 20.25 8C20.25 7.30964 19.6904 6.75 19 6.75V9.25ZM11 6.75C10.3096 6.75 9.75 7.30964 9.75 8C9.75 8.69036 10.3096 9.25 11 9.25V6.75ZM19 6.75H11V9.25H19V6.75Z" fill="#1D201F"/>

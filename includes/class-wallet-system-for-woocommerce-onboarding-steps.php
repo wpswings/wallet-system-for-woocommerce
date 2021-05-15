@@ -727,7 +727,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 		$response = wp_remote_post( $url, $request );
 		if ( is_wp_error( $response ) ) {
 			$status_code = 500;
-			$response    = esc_html__( 'Unexpected Error Occured', 'invoice-system-for-woocommerce' );
+			$response    = esc_html__( 'Unexpected Error Occured', 'wallet-system-for-woocommerce' );
 			$curl_errors = $response;
 		} else {
 			$response    = wp_remote_retrieve_body( $response );

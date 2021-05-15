@@ -241,6 +241,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'edit_user_profile_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 );
 
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
+			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_admin, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );
 
 		}
 
@@ -301,7 +302,9 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_cart_item_removed', $wsfw_plugin_public, 'after_remove_wallet_from_cart', 10, 2 );
 			$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_public, 'mwb_order_status_changed', 10, 3 );
 
+			$this->loader->add_filter( 'woocommerce_checkout_fields', $wsfw_plugin_public, 'mwb_wsfw_remove_billing_from_checkout' );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'change_order_type', 20, 1 );
+			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );
 
 		}
 

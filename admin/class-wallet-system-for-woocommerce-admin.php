@@ -612,7 +612,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		$order_total    = $order->get_total();
 		$payment_method = $order->payment_method;
 		$wallet_id      = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
-		$walletamount   = get_user_meta( $userid, 'mwb_wallet', true );
 
 		$user                   = get_user_by( 'id', $userid );
 		$name                   = $user->first_name . ' ' . $user->last_name;
@@ -668,9 +667,16 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 				$order_status = array( 'pending', 'on-hold', 'processing' );
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
-					$amount = $total;
+					$amount        = $total;
+					$wallet_userid = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
+					if ( $wallet_userid ) {
+						$update_wallet_userid = $wallet_userid;
+					} else {
+						$update_wallet_userid = $userid;
+					}
+					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
 					$walletamount += $total;
-					update_user_meta( $userid, 'mwb_wallet', $walletamount );
+					update_user_meta( $update_wallet_userid, 'mwb_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
 						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
@@ -687,7 +693,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					$transaction_type = 'Wallet credited through purchase <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
-						'user_id'          => $userid,
+						'user_id'          => $update_wallet_userid,
 						'amount'           => $amount,
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
@@ -717,7 +723,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
-						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() )) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
@@ -1524,6 +1530,26 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 
 		update_option( 'wsfw_saved_older_walletkeys', 'true' );
+	}
+
+	/**
+	 * Remove customer details from mail for wallet recharge.
+	 *
+	 * @param object $order order object.
+	 * @return void
+	 */
+	public function mwb_wsfw_remove_customer_details_in_emails( $order ) {
+		$wallet_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
+		foreach ( $order->get_items() as $item ) {
+			$product_id = $item->get_product_id();
+			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
+				$mailer = WC()->mailer();
+				remove_action( 'woocommerce_email_customer_details', array( $mailer, 'customer_details' ), 10 );
+				remove_action( 'woocommerce_email_customer_details', array( $mailer, 'email_addresses' ), 20 );
+
+			}
+		}
+
 	}
 
 }
