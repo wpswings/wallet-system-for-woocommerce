@@ -24,8 +24,8 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 			parent::__construct(
 				array(
-					'singular' => __( 'User Wallet Transaction', 'wallet_payment_gateway' ), // singular name of the listed records.
-					'plural'   => __( 'User Wallet Transactions', 'wallet_payment_gateway' ), // plural name of the listed records.
+					'singular' => __( 'User Wallet Transaction', 'wallet-system-for-woocommerce' ), // singular name of the listed records.
+					'plural'   => __( 'User Wallet Transactions', 'wallet-system-for-woocommerce' ), // plural name of the listed records.
 					'ajax'     => false, // should this table support ajax?
 
 				)
@@ -40,13 +40,13 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 		 */
 		public function get_columns() {
 			$columns = array(
-				'transaction_id' => __( 'Transaction ID', 'wallet_payment_gateway' ),
-				'name'           => __( 'Name', 'wallet_payment_gateway' ),
-				'email'          => __( 'Email', 'wallet_payment_gateway' ),
-				'amount'         => __( 'Amount', 'wallet_payment_gateway' ),
-				'action'         => __( 'Action', 'wallet_payment_gateway' ),
-				'method'         => __( 'Method', 'wallet_payment_gateway' ),
-				'date'           => __( 'Date', 'wallet_payment_gateway' ),
+				'transaction_id' => __( 'Transaction ID', 'wallet-system-for-woocommerce' ),
+				'name'           => __( 'Name', 'wallet-system-for-woocommerce' ),
+				'email'          => __( 'Email', 'wallet-system-for-woocommerce' ),
+				'amount'         => __( 'Amount', 'wallet-system-for-woocommerce' ),
+				'action'         => __( 'Action', 'wallet-system-for-woocommerce' ),
+				'method'         => __( 'Method', 'wallet-system-for-woocommerce' ),
+				'date'           => __( 'Date', 'wallet-system-for-woocommerce' ),
 			);
 			return $columns;
 		}

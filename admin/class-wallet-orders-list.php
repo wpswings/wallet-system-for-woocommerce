@@ -24,8 +24,8 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 			parent::__construct(
 				array(
-					'singular' => __( 'Wallet Recharge Order', 'wallet_payment_gateway' ), // singular name of the listed records.
-					'plural'   => __( 'Wallet Recharge Orders', 'wallet_payment_gateway' ), // plural name of the listed records.
+					'singular' => __( 'Wallet Recharge Order', 'wallet-system-for-woocommerce' ), // singular name of the listed records.
+					'plural'   => __( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ), // plural name of the listed records.
 					'ajax'     => false, // should this table support ajax?
 
 				)
@@ -56,12 +56,12 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		public function get_columns() {
 			$columns = array(
 				'cb'          => '<input type="checkbox" />',
-				'ID'          => __( 'Order', 'wallet_payment_gateway' ),
-				'user'        => __( 'User', 'wallet_payment_gateway' ),
-				'status'      => __( 'Status', 'wallet_payment_gateway' ),
-				'order_total' => __( 'Total', 'wallet_payment_gateway' ),
-				'date1'       => __( 'Date1', 'wallet_payment_gateway' ),
-				'date'        => __( 'Date', 'wallet_payment_gateway' ),
+				'ID'          => __( 'Order', 'wallet-system-for-woocommerce' ),
+				'user'        => __( 'User', 'wallet-system-for-woocommerce' ),
+				'status'      => __( 'Status', 'wallet-system-for-woocommerce' ),
+				'order_total' => __( 'Total', 'wallet-system-for-woocommerce' ),
+				'date1'       => __( 'Date1', 'wallet-system-for-woocommerce' ),
+				'date'        => __( 'Date', 'wallet-system-for-woocommerce' ),
 			);
 			return $columns;
 		}

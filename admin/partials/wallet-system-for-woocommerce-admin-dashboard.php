@@ -25,7 +25,7 @@ $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 		<h1 class="mwb-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $wsfw_mwb_wsfw_obj->wsfw_get_plugin_name() ) ) ); ?></h1>
 		<a href="https://docs.makewebbetter.com/wallet-system-for-woocommerce/" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
 		<span>|</span>
-		<a href="https://makewebbetter.com/contact-us/" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'invoice-system-for-woocommerce' ); ?></a>
+		<a href="https://makewebbetter.com/contact-us/" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
 	</div>
 </header>
 
