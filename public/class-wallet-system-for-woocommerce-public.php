@@ -205,13 +205,22 @@ class Wallet_System_For_Woocommerce_Public {
 				$order_status = array( 'pending', 'on-hold', 'processing' );
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount        = $total;
+					$wallet_userid = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
+					if ( $wallet_userid ) {
+						$update_wallet_userid = $wallet_userid;
+					} else {
+						$update_wallet_userid = $userid;
+					}
+					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
+					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $total;
-					update_user_meta( $userid, 'mwb_wallet', $walletamount );
+					update_user_meta( $update_wallet_userid, 'mwb_wallet', $walletamount );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
+						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+						$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
 						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
-						$to         = $user->user_email;
+						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
 						$headers    = 'MIME-Version: 1.0' . "\r\n";

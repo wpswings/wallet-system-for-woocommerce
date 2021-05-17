@@ -612,7 +612,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$order_total    = $order->get_total();
 		$payment_method = $order->payment_method;
 		$wallet_id      = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
-
+		$walletamount   = get_user_meta( $userid, 'mwb_wallet', true );
 		$user                   = get_user_by( 'id', $userid );
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -669,19 +669,20 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount        = $total;
 					$wallet_userid = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
-					if ( $wallet_userid ) { 
+					if ( $wallet_userid ) {
 						$update_wallet_userid = $wallet_userid;
-						
 					} else {
 						$update_wallet_userid = $userid;
 					}
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
+					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $total;
 					update_user_meta( $update_wallet_userid, 'mwb_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
+						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+						$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
 						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
-						$to         = $user->user_email;
+						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
@@ -720,7 +721,6 @@ class Wallet_System_For_Woocommerce_Admin {
 					} else {
 						$walletamount -= $fees;
 					}
-
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
