@@ -211,6 +211,7 @@ class Wallet_System_For_Woocommerce_Public {
 					} else {
 						$update_wallet_userid = $userid;
 					}
+					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $total;
@@ -238,7 +239,7 @@ class Wallet_System_For_Woocommerce_Public {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
-						'note'             => '',
+						'note'             => $transfer_note,
 					);
 
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
@@ -550,6 +551,7 @@ class Wallet_System_For_Woocommerce_Public {
 			WC()->session->__unset( 'custom_fee' );
 			WC()->session->__unset( 'is_wallet_partial_payment' );
 		}
+		do_action( 'mwb_wsfw_remove_value_from_session', $removed_cart_item_key );
 
 	}
 
