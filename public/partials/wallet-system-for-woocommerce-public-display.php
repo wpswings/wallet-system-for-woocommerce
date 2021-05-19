@@ -61,7 +61,9 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	if ( $user ) {
 		$another_user_id = $user->ID;
 	} else {
-		show_message_on_form_submit( 'Email Id does not exist.', 'woocommerce-error' );
+		$invitation_link = apply_filters( 'wsfw_add_invitation_link_message', '' );
+		show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
+
 		$update = false;
 	}
 	if ( empty( $_POST['mwb_wallet_transfer_amount'] ) ) {
@@ -143,6 +145,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 				$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				show_message_on_form_submit( 'Amount is transferred successfully', 'woocommerce-message' );
+
 			} else {
 				show_message_on_form_submit( 'Amount is not transferred', 'woocommerce-error' );
 			}
