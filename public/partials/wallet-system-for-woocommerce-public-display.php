@@ -102,7 +102,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 			}
 
-			$transaction_type = 'Wallet credited by user #' . $user_id . ' to user #' . $another_user_id;
+			$transaction_type     = 'Wallet credited by user #' . $user_id . ' to user #' . $another_user_id;
 			$wallet_transfer_data = array(
 				'user_id'          => $another_user_id,
 				'amount'           => $transfer_amount,

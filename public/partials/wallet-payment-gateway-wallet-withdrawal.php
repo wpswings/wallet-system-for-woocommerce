@@ -76,8 +76,13 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 			<p class="mwb-wallet-field-container form-row form-row-wide">
 				<label for="mwb_wallet_note"><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></label>
 				<textarea id="mwb_wallet_note" name="mwb_wallet_note" required></textarea>
+				<?php
+				$show_withdrawal_message = apply_filters( 'mwb_wsfw_show_withdrawal_message', '' );
+				if ( ! empty( $show_withdrawal_message ) ) {
+					echo '<span class="show-message" >' . $show_withdrawal_message . '</span>';
+				}
+				?>
 			</p>
-
 			<p class="error"></p>
 
 			<p class="mwb-wallet-field-container form-row">
