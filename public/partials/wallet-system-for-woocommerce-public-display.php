@@ -58,12 +58,17 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	$another_user_email = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
 	$transfer_note      = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 	$user               = get_user_by( 'email', $another_user_email );
+	$transfer_amount    = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
 	if ( $user ) {
 		$another_user_id = $user->ID;
 	} else {
 		$invitation_link = apply_filters( 'wsfw_add_invitation_link_message', '' );
+		if ( ! empty ( $invitation_link ) ) {
+			global $wp_session;
+			$wp_session['mwb_wallet_transfer_user_email'] = $another_user_email;
+			$wp_session['mwb_wallet_transfer_amount']     = $transfer_amount;
+		}
 		show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
-
 		$update = false;
 	}
 	if ( empty( $_POST['mwb_wallet_transfer_amount'] ) ) {
@@ -74,7 +79,6 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		$update = false;
 	}
 	if ( $update ) {
-		$transfer_amount  = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
 		$user_wallet_bal  = get_user_meta( $another_user_id, 'mwb_wallet', true );
 		$user_wallet_bal += $transfer_amount;
 		$returnid         = update_user_meta( $another_user_id, 'mwb_wallet', $user_wallet_bal );

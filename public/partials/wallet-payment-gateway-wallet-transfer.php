@@ -41,7 +41,18 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 		</p>
 	</form>
 		<?php
-		$show_additional_content = apply_filters( 'mwb_wsfw_show_additional_content', '' );
+		global $wp_session;
+		if ( ! empty( $wp_session['mwb_wallet_transfer_user_email'] ) ) {
+			$useremail = $wp_session['mwb_wallet_transfer_user_email'];
+		} else {
+			$useremail = '';
+		}
+		if ( ! empty( $wp_session['mwb_wallet_transfer_amount'] ) ) {
+			$transfer_amount = $wp_session['mwb_wallet_transfer_amount'];
+		} else {
+			$transfer_amount = 0;
+		}
+		$show_additional_content = apply_filters( 'mwb_wsfw_show_additional_content', '', $user_id, $useremail, $transfer_amount );
 		if ( ! empty( $show_additional_content ) ) {
 			echo $show_additional_content;
 		}
