@@ -230,11 +230,9 @@
 			$('.error').show();
 			$('.error').html('Enter amount greater than 0');
 			$('#mwb_recharge_wallet').prop('disabled', true);
-			console.log('disable');
 		} else {
 			$('.error').hide();
 			$('#mwb_recharge_wallet').prop('disabled', false);
-			console.log('enable');
 		}
 		
 	});

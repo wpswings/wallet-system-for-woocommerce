@@ -199,7 +199,7 @@ if ( $activated ) {
 		?>
 		<div class="error notice is-dismissible">
 			<p>
-				<?php esc_html_e( 'Woocommerce is not activated, Please activate Woocommerce first to install Wallet Payment Gateway for Woocommerce.', 'wallet-system-for-woocommerce' ); ?>
+				<?php esc_html_e( 'WooCommerce is not activated, Please activate WooCommerce first to install Wallet System For WooCommerce.', 'wallet-system-for-woocommerce' ); ?>
 			</p>
 		</div>
 		<?php
