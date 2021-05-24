@@ -170,7 +170,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 		if ( $this->mwb_wsfw_valid_page_screen_check() || $is_valid ) {
 			// comment the line of code Only when your plugin doesn't uses the Select2.
 			wp_enqueue_style( 'mwb-wsfw-onboarding-select2-style', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
-			
+
 			wp_enqueue_style( 'mwb-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
 			wp_enqueue_style( 'mwb-wsfw-meterial-css2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
 			wp_enqueue_style( 'mwb-wsfw-meterial-lite', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
@@ -253,7 +253,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 */
 	public function mwb_wsfw_skip_onboarding_popup() {
 
-	 $get_skipped_timstamp = update_option( 'mwb_wsfw_onboarding_data_skipped', time() );
+		$get_skipped_timstamp = update_option( 'mwb_wsfw_onboarding_data_skipped', time() );
 		echo json_encode( 'true' );
 		wp_die();
 	}
@@ -481,7 +481,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 
 			rand() => array(
 				'id' => 'mwb-wsfw-deactivation-reason-text',
-				'title' => esc_html__( 'Let us know why you are deactivating ' . self::$mwb_wsfw_plugin_name_label . ' so we can improve the plugin', 'wallet-system-for-woocommerce' ),
+				'title'       => esc_html( 'Let us know why you are deactivating ' . self::$mwb_wsfw_plugin_name_label . ' so we can improve the plugin' ),
 				'type' => 'textarea',
 				'description' => '',
 				'name' => 'deactivation_reason_text',
@@ -668,7 +668,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since       1.0.0
 	 */
 	protected function mwb_wsfw_hubwoo_submit_form( $form_data = array(), $action_type = 'onboarding' ) {
-		
+
 		if ( 'onboarding' == $action_type ) {
 			$form_id = self::$mwb_wsfw_onboarding_form_id;
 		} else {
@@ -691,7 +691,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 				),
 			)
 		);
-	
+
 		$response = $this->mwb_wsfw_hic_post( $url, $form_data, $headers );
 
 		if ( 200 == $response['status_code'] ) {
@@ -727,7 +727,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 		$response = wp_remote_post( $url, $request );
 		if ( is_wp_error( $response ) ) {
 			$status_code = 500;
-			$response    = esc_html__( 'Unexpected Error Occured', 'invoice-system-for-woocommerce' );
+			$response    = esc_html__( 'Unexpected Error Occured', 'wallet-system-for-woocommerce' );
 			$curl_errors = $response;
 		} else {
 			$response    = wp_remote_retrieve_body( $response );

@@ -1,5 +1,13 @@
 node_modules
 node_modules/*
+vendor
+vendor/*
+.vscode
+.vscode/*
+.history
+.history/*
+.github
+.github/*
 
 # ignore compiled files
 *.com

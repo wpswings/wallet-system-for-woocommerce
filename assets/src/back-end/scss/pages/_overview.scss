@@ -54,7 +54,8 @@
 
                     &:before {
                         color: #1a3365;
-                        content: "⚬";
+                        font-family:Dashicons;
+                        content: "\f15e";
                         font-size: $fs-xmedium;
                         font-weight: 400;
                         vertical-align: middle;

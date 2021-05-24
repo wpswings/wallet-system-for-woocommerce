@@ -17,19 +17,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $wsfw_mwb_wsfw_obj;
-$wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_key( $_GET['wsfw_tab'] ) : 'wallet-system-for-woocommerce-general';
+$wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['wsfw_tab'] ) ) : 'wallet-system-for-woocommerce-general';
 $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 ?>
 <header>
 	<div class="mwb-header-container mwb-bg-white mwb-r-8">
 		<h1 class="mwb-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $wsfw_mwb_wsfw_obj->wsfw_get_plugin_name() ) ) ); ?></h1>
-		<a href="https://docs.makewebbetter.com/" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
+		<a href="https://docs.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org-backend&utm_medium=MWB-docORG-backend&utm_campaign=MWB-backend" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
 		<span>|</span>
-		<a href="https://makewebbetter.com/contact-us/" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'invoice-system-for-woocommerce' ); ?></a>
+		<a href="https://makewebbetter.com/contact-us/" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
 	</div>
 </header>
 
-<main class="mwb-main mwb-bg-white mwb-r-8">
+<main class="mwb-main mwb-r-8">
 	<nav class="mwb-navbar">
 		<ul class="mwb-navbar__items">
 			<?php
@@ -53,21 +53,22 @@ $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 		</ul>
 	</nav>
 
-	<section class="mwb-section">
+	<section class="mwb-section <?php echo esc_html( $wsfw_active_tab ); ?>" >
 		<div>
-			<?php 
-				do_action( 'mwb_wsfw_before_general_settings_form' );
-						// if submenu is directly clicked on woocommerce.
-				if ( empty( $wsfw_active_tab ) ) {
-					$wsfw_active_tab = 'mwb_wsfw_plug_general';
-				}
+			<?php
+			do_action( 'mwb_wsfw_before_general_settings_form' );
+			// if submenu is directly clicked on woocommerce.
+			if ( empty( $wsfw_active_tab ) ) {
+				$wsfw_active_tab = 'mwb_wsfw_plug_general';
+			}
 
-						// look for the path based on the tab id in the admin templates.
-				$wsfw_tab_content_path = 'admin/partials/' . $wsfw_active_tab . '.php';
+			// look for the path based on the tab id in the admin templates.
+			$wsfw_tab_content_path = 'admin/partials/' . $wsfw_active_tab . '.php';
 
-				$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_load_template( $wsfw_tab_content_path );
+			$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_load_template( $wsfw_tab_content_path );
 
-				do_action( 'mwb_wsfw_after_general_settings_form' ); 
+			do_action( 'mwb_wsfw_after_general_settings_form' );
 			?>
 		</div>
 	</section>
+</main>
