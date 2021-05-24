@@ -8,6 +8,19 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+$wsfw_min_max_value = apply_filters( 'wsfw_min_max_value_for_wallet_recharge', array() );
+if ( is_array( $wsfw_min_max_value ) ) {
+	if ( ! empty( $wsfw_min_max_value['min_value'] ) ) {
+		$min_value = $wsfw_min_max_value['min_value'];
+	} else {
+		$min_value = 0;
+	}
+	if ( ! empty( $wsfw_min_max_value['max_value'] ) ) {
+		$max_value = $wsfw_min_max_value['max_value'];
+	} else {
+		$max_value = '';
+	}
+}
 
 ?>
 
@@ -15,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<form method="post" action="" id="mwb_wallet_transfer_form">
 		<p class="mwb-wallet-field-container form-row form-row-wide">
 			<label for="mwb_wallet_recharge_amount"><?php echo esc_html__( 'Enter Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol() ) . '):'; ?></label>
-			<input type="number" id="mwb_wallet_recharge" step="0.01" min="0" name="mwb_wallet_recharge_amount" required="">
+			<input type="number" id="mwb_wallet_recharge" step="0.01" min="<?php echo esc_attr( $min_value ); ?>" max="<?php echo esc_attr( $max_value ); ?>" name="mwb_wallet_recharge_amount" required="">
 		</p>
 		<p class="error"></p>
 		<p class="mwb-wallet-field-container form-row">

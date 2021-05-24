@@ -259,14 +259,14 @@ class Wallet_System_For_Woocommerce_Admin {
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
 			),
-
-			array(
-				'type'        => 'submit',
-				'name'        => 'wsfw_button_demo',
-				'id'          => 'wsfw_button_demo',
-				'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
-				'class'       => 'wsfw-button-class',
-			),
+		);
+		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
+		$wsfw_settings_general[] = array(
+			'type'        => 'submit',
+			'name'        => 'wsfw_button_demo',
+			'id'          => 'wsfw_button_demo',
+			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wsfw-button-class',
 		);
 		return $wsfw_settings_general;
 	}
@@ -674,6 +674,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					} else {
 						$update_wallet_userid = $userid;
 					}
+					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $total;
@@ -700,7 +701,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
-						'note'             => '',
+						'note'             => $transfer_note,
 					);
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				}

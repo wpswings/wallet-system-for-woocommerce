@@ -14,7 +14,24 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 ?>
 
 <div class='content active'>
-	<?php if ( $wallet_bal > 0 ) { ?>
+	<?php
+	if ( $wallet_bal > 0 ) {
+		global $wp_session;
+		if ( ! empty( $wp_session['mwb_wallet_transfer_user_email'] ) ) {
+			$useremail = $wp_session['mwb_wallet_transfer_user_email'];
+		} else {
+			$useremail = '';
+		}
+		if ( ! empty( $wp_session['mwb_wallet_transfer_amount'] ) ) {
+			$transfer_amount = $wp_session['mwb_wallet_transfer_amount'];
+		} else {
+			$transfer_amount = 0;
+		}
+		$show_additional_content = apply_filters( 'mwb_wsfw_show_additional_content', '', $user_id, $useremail, $transfer_amount );
+		if ( ! empty( $show_additional_content ) ) {
+			echo $show_additional_content;
+		}
+		?>
 	<form method="post" action="" id="mwb_wallet_transfer_form">
 		<p class="mwb-wallet-field-container form-row form-row-wide">
 			<label for="mwb_wallet_transfer_user_email"><?php esc_html_e( 'Transfer to :', 'wallet-system-for-woocommerce' ); ?></label>
@@ -29,6 +46,12 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 			<label for="mwb_wallet_transfer_note"><?php esc_html_e( 'What\'s this for', 'wallet-system-for-woocommerce' ); ?></label>
 			<textarea name="mwb_wallet_transfer_note"></textarea>
 		</p>
+		<?php
+		$show_additional_form_content = apply_filters( 'mwb_wsfw_show_additional_form_content', '' );
+		if ( ! empty( $show_additional_form_content ) ) {
+			echo $show_additional_form_content;
+		}
+		?>
 		<p class="mwb-wallet-field-container form-row">
 			<input type="hidden" name="current_user_id" value="<?php echo esc_attr( $user_id ); ?>">
 			<input type="submit" class="mwb-btn__filled button" id="mwb_proceed_transfer" name="mwb_proceed_transfer" value="Proceed">
