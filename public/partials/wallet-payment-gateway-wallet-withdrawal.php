@@ -69,10 +69,10 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 			?>
 		<form method="post" action="" id="mwb_wallet_transfer_form">
 			<p class="mwb-wallet-field-container form-row form-row-wide">
-				<label for="mwb_wallet_withdrawal_amount"><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></label>
-				<input type="number" step="0.01" min="0" max="<?php echo esc_attr( $wallet_bal ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
+				<label for="mwb_wallet_withdrawal_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol() ) . ')'; ?></label>
+				<input type="number" step="0.01" min="0" data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
 			</p>
-
+			<p class="error"></p>
 			<p class="mwb-wallet-field-container form-row form-row-wide">
 				<label for="mwb_wallet_note"><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></label>
 				<textarea id="mwb_wallet_note" name="mwb_wallet_note" required></textarea>
@@ -83,8 +83,6 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 				}
 				?>
 			</p>
-			<p class="error"></p>
-
 			<p class="mwb-wallet-field-container form-row">
 				<input type="hidden" name="wallet_user_id" value="<?php echo esc_attr( $user_id ); ?>">
 				<input type="submit" class="mwb-btn__filled button" id="mwb_withdrawal_request" name="mwb_withdrawal_request" value="Request For Withdrawal" >
