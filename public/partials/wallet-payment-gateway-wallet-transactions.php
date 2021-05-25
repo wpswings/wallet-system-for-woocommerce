@@ -40,7 +40,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<td><?php echo esc_html( $transaction_id ); ?></td>
 							<td><?php echo wc_price( $transaction->amount ); ?></td>
 							<td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
-							<td><?php echo esc_html( $transaction->payment_method ); ?></td>
+							<td>
+							<?php
+							$payment_methods = WC()->payment_gateways->payment_gateways();
+							foreach ( $payment_methods as $key => $payment_method ) {
+								if ( $key == $transaction->payment_method ) {
+									$method = esc_html__( 'Online Payment', 'wallet-system-for-woocommerce' );
+								} else {
+									$method = esc_html( $transaction->payment_method );
+								}
+								break;
+							}
+							echo $method;
+							?>
+							</td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );

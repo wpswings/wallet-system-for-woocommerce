@@ -110,6 +110,9 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_gen_tab_enable'       => get_option( 'mwb_wsfw_enable' ),
 					'datatable_pagination_text' => __( 'Rows per page _MENU_', 'wallet-system-for-woocommerce' ),
 					'datatable_info'            => __( '_START_ - _END_ of _TOTAL_', 'wallet-system-for-woocommerce' ),
+					'wsfw_ajax_error'           => __( 'An error occured!', 'woocommerce-wallet-system' ),
+					'wsfw_amount_error'         => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
+					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
 				)
 			);
 

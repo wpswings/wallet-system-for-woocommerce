@@ -78,7 +78,7 @@
 
 			})
 			.fail(function ( response ) {
-				$( '#export_user_wallet' ).after('<span style="color:red;" >An error occured!</span>');		
+				$( '#export_user_wallet' ).after('<span style="color:red;" >' + wsfw_admin_param.wsfw_ajax_error + '</span>');		
 			});
 		});
 
@@ -105,7 +105,7 @@
 				$('#update_wallet').prop('disabled', false);
 			} else if ( amount <= 0 ) {
 				console.log(amount);
-				$(this).parent().after('<p class="error">Enter amount greater than 0</p>');
+				$(this).parent().after('<p class="error">' + wsfw_admin_param.wsfw_amount_error + '</p>');
 				$('.error').show();
 
 				$('#update_wallet').prop('disabled', true);
@@ -174,7 +174,7 @@
 
 			})
 			.fail(function ( response ) {
-				$( '.mwb-wpg-withdrawal-section-table' ).before('<div class="notice notice-error is-dismissible mwb-errorr-8"><p>An error occured !</p></div>');		
+				$( '.mwb-wpg-withdrawal-section-table' ).before('<div class="notice notice-error is-dismissible mwb-errorr-8"><p>' + wsfw_admin_param.wsfw_ajax_error + '</p></div>');		
 				loader.hide();
 			});
 		});
@@ -204,7 +204,7 @@
 			var numericReg = /^\d*[0-9](|.\d*[0-9]|,\d*[0-9])?$/;
 			if(!numericReg.test(inputVal)) {
 				$('.error').show();
-				$('.error').html('Enter amount greater than 0');
+				$('.error').html(wsfw_admin_param.wsfw_amount_error);
 			}
 		});
 
