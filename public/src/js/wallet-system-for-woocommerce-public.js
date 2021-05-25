@@ -228,6 +228,8 @@
 		var amount = $(this).val();
 		var minamount = $(this).data('min');
 		var maxamount = $(this).data('max');
+		minamount = parseInt(minamount);
+		maxamount = parseInt(maxamount);
 		if ( amount <= 0 ) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_amount_error);
