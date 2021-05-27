@@ -542,7 +542,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$product_id = $line_item['product_id'];
 		$wallet_id  = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		if ( $wallet_id ) {
-			if ( $product_id === $wallet_id ) {
+			if ( $product_id == $wallet_id ) {
 				WC()->session->__unset( 'recharge_amount' );
 			}
 		}
