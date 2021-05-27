@@ -8,6 +8,8 @@ vendor/*
 .history/*
 .github
 .github/*
+.assets
+.assets/*
 
 # ignore compiled files
 *.com
