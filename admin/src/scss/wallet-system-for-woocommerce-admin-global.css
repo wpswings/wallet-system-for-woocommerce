@@ -589,9 +589,3 @@ select {
     width:69px;
     height:89px;
 }
-.mdc-text-field+.mdc-text-field-helper-line {
-    display: none;
-}
-.mwb-wsfw-gen-section-form .mwb-wsfw-text .mdc-text-field-helper-line, .mwb-wpg-gen-section-form-container .mwb-isfw-file  .mdc-text-field-helper-line {
-    display: block;
-}

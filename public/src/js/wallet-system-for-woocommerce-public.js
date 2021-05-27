@@ -36,7 +36,7 @@
 
 				$( '#partial_payment_wallet' ).on( 'click', function() {
 					if ( $('#partial_payment_wallet:checked').val() == 'enable' ) {
-						$( '.partial_payment' ).after('<tr class="partial_amount" ><td colspan="2"><p class="ajax_msg"></p><div class="discount_box"><p class="wallet-amount">' + wsfw_public_param.wsfw_partial_payment_msg + '</p><p class="wallet-amount form-row form-row-first"><input type="number" class="input-text" name="wallet_amount" id="wallet_amount"></p><p class="form-row form-row-last"><button type="button" class="button" id="apply_wallet" name="apply_wallet" value="Apply coupon">' + wsfw_public_param.wsfw_apply_wallet_msg + '</button></p></div></td></tr>');
+						$( '.partial_payment' ).after('<tr class="partial_amount" ><td colspan="2"><p class="ajax_msg"></p><div class="discount_box"><p class="wallet-amount">Amount want to use from wallet</p><p class="wallet-amount form-row form-row-first"><input type="number" class="input-text" name="wallet_amount" id="wallet_amount" placeholder="Amount want to use from wallet"></p><p class="form-row form-row-last"><button type="button" class="button" id="apply_wallet" name="apply_wallet" value="Apply coupon">Apply wallet</button></p></div></td></tr>');
 						
 					} else {
 						$( '.partial_amount' ).remove();
@@ -70,7 +70,7 @@
 					}
 	
 				}) .fail(function ( response ) {
-					$( '.ajax_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+					$( '.ajax_msg' ).html('<span style="color:red;" >An error occured!</span>');		
 				});
 			}
 			
@@ -111,7 +111,7 @@
 
 			})
 			.fail(function ( response ) {
-				$( '.ajax_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+				$( '.ajax_msg' ).html('<span style="color:red;" >An error occured!</span>');		
 			});
 
 		});
@@ -225,56 +225,38 @@
 	});
 
 	$(document).on( 'blur','#mwb_wallet_recharge', function(){
-		var amount = $(this).val();
-		var minamount = $(this).data('min');
-		var maxamount = $(this).data('max');
-		minamount = parseInt(minamount);
-		maxamount = parseInt(maxamount);
+		var amount = $('#mwb_wallet_recharge').val();
 		if ( amount <= 0 ) {
 			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_amount_error);
+			$('.error').html('Enter amount greater than 0');
 			$('#mwb_recharge_wallet').prop('disabled', true);
-		} else if ( amount > maxamount ) {
-			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_recharge_maxamount_error + maxamount);
-			$('#mwb_recharge_wallet').prop('disabled', true);
-		} else if ( amount < minamount) {
-			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_recharge_minamount_error + minamount);
-			$('#mwb_recharge_wallet').prop('disabled', true);
+			console.log('disable');
 		} else {
 			$('.error').hide();
 			$('#mwb_recharge_wallet').prop('disabled', false);
+			console.log('enable');
 		}
+		
 	});
 
 	$(document).on( 'blur','#mwb_wallet_transfer_amount', function(){
-		var amount = $(this).val();
-		var maxamount = $(this).data('max');
+		var amount = $('#mwb_wallet_transfer_amount').val();
 		if ( amount <= 0 ) {
 			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_amount_error);
-			$('#mwb_proceed_transfer').prop('disabled', true);
-		} else if ( amount > maxamount ) {
-			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_transfer_amount_error);
+			$('.error').html('Enter amount greater than 0');
 			$('#mwb_proceed_transfer').prop('disabled', true);
 		} else {
 			$('.error').hide();
 			$('#mwb_proceed_transfer').prop('disabled', false);
 		}
+		
 	});
 
 	$(document).on( 'blur','#mwb_wallet_withdrawal_amount', function(){
-		var amount = $(this).val();
-		var maxamount = $(this).data('max');
+		var amount = $('#mwb_wallet_withdrawal_amount').val();
 		if ( amount <= 0 ) {
 			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_amount_error);
-			$('#mwb_withdrawal_request').prop('disabled', true);
-		} else if ( amount > maxamount ) {
-			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
+			$('.error').html('Enter amount greater than 0');
 			$('#mwb_withdrawal_request').prop('disabled', true);
 		} else {
 			$('.error').hide();

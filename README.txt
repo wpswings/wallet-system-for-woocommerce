@@ -90,15 +90,9 @@ The customers can transfer their wallet amount into other customers’ wallets. 
 
 **4.** Merchant can use a widget to show customers their wallet amount upon login. 
 
-**5.** Merchant can send cashback money to customers’ wallet account. Customers can later request withdrawal of their wallet amount.  
+**5.** Merchant can send cashback money to customers’ wallet account. Customers can later request withdrawal of their wallet amount.
 
-**6.** Cashback direct into the source payment gateway. 
-
-**7.** Link Wallet System for WooCommerce to various global wallets like Paytm, Paypal, etc.
-
-**8.** Wallet System for WooCommerce will provide integration with speech recognition software like Alexa, Siri, Google action, etc.
-
-**9.** Customers can send Invitations to their friends to join the Wallet System. 
+**6.** Customers can send Invitations to their friends to join the Wallet System. 
 
 == SUPPORT ==
 

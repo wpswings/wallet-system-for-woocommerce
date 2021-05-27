@@ -85,14 +85,6 @@ class Wallet_System_For_Woocommerce_Public {
 					'_START_ - _END_ of _TOTAL_',
 					'wallet-system-for-woocommerce'
 				),
-				'wsfw_ajax_error'               => __( 'An error occured!', 'woocommerce-wallet-system' ),
-				'wsfw_amount_error'             => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
-				'wsfw_partial_payment_msg'      => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
-				'wsfw_apply_wallet_msg'         => __( 'Apply wallet', 'wallet-system-for-woocommerce' ),
-				'wsfw_transfer_amount_error'    => __( 'Transfer amount should be less than or equal to wallet balance.', 'wallet-system-for-woocommerce' ),
-				'wsfw_withdrawal_amount_error'  => __( 'Withdrawal amount should be less than or equal to wallet balance.', 'wallet-system-for-woocommerce' ),
-				'wsfw_recharge_minamount_error' => __( 'Recharge amount should be greater than or equal to ', 'wallet-system-for-woocommerce' ),
-				'wsfw_recharge_maxamount_error' => __( 'Recharge amount should be less than or equal to ', 'wallet-system-for-woocommerce' ),
 			)
 		);
 		wp_enqueue_script( $this->plugin_name );
@@ -219,7 +211,6 @@ class Wallet_System_For_Woocommerce_Public {
 					} else {
 						$update_wallet_userid = $userid;
 					}
-					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $total;
@@ -247,7 +238,7 @@ class Wallet_System_For_Woocommerce_Public {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
-						'note'             => $transfer_note,
+						'note'             => '',
 					);
 
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
@@ -551,7 +542,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$product_id = $line_item['product_id'];
 		$wallet_id  = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		if ( $wallet_id ) {
-			if ( $product_id == $wallet_id ) {
+			if ( $product_id === $wallet_id ) {
 				WC()->session->__unset( 'recharge_amount' );
 			}
 		}
@@ -559,7 +550,6 @@ class Wallet_System_For_Woocommerce_Public {
 			WC()->session->__unset( 'custom_fee' );
 			WC()->session->__unset( 'is_wallet_partial_payment' );
 		}
-		do_action( 'mwb_wsfw_remove_value_from_session', $removed_cart_item_key );
 
 	}
 
