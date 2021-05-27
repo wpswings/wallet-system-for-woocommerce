@@ -507,7 +507,7 @@ svg {
 }
 
 #mwb_wallet_transfer_form textarea {
-	height: 50px;
+	height: 70px;
 }
 
 #mwb_wallet_transfer_form input[type=submit] {
@@ -601,3 +601,33 @@ svg {
 .mwb-wallet-transaction-container .mwb-wallet-field-table {
     width:100%;
 }
+.woocommerce-error, .woocommerce-info, .woocommerce-message {
+    margin-bottom: 2.617924em;
+    background-color: #0f834d;
+    margin-left: 0;
+    border-radius: 2px;
+    color: #fff;
+	text-align: left;
+    clear: both;
+    border-left: .6180469716em solid rgba(0,0,0,.15);
+    padding: 1em 2em 1em 3.5em;
+    position: relative;
+    list-style: none outside;
+}
+.woocommerce-error a:hover, .woocommerce-info a:hover, .woocommerce-message a:hover {
+    color:white;
+    text-decoration:none;
+}
+.woocommerce-error {
+    background-color: #e2401c !important;
+    padding: 16px 32px 16px 55px !important;
+}
+.woocommerce-message {
+    background-color: #0f834d;
+    color: #fff;
+    margin: 0 auto 50px;
+}
+.woocommerce-info {
+    background-color: #3d9cd2;
+}
+

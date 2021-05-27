@@ -62,7 +62,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 		?>
 		<form action="" method="POST" > 
 			<div class="wpg-secion-wrap">
-				<div class="mwb-form-group">
+				<div class="mwb-form-group mwb-form-group2">
 					<div class="mwb-form-group__control">
 
 						<p><?php esc_html_e( 'REST API allows external apps to view and manage wallet. Access is granted only to those with valid API keys.', 'wallet-system-for-woocommerce' ); ?></p>
