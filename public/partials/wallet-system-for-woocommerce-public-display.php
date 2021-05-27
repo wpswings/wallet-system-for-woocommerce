@@ -100,7 +100,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 				$from        = get_option( 'admin_email' );
 				$subject     = 'Wallet updating notification';
 				$headers1    = 'MIME-Version: 1.0' . "\r\n";
-				$headers1   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers1   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 				$headers1   .= 'From: ' . $from . "\r\n" .
 					'Reply-To: ' . $to1 . "\r\n";
 
@@ -130,7 +130,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 					$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
 					$to2         = $user2->user_email;
 					$headers2    = 'MIME-Version: 1.0' . "\r\n";
-					$headers2   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+					$headers2   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers2   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to2 . "\r\n";
 

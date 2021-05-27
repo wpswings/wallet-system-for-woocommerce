@@ -540,7 +540,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$from       = get_option( 'admin_email' );
 					$subject    = 'Wallet updating notification';
 					$headers    = 'MIME-Version: 1.0' . "\r\n";
-					$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to . "\r\n";
 
@@ -644,7 +644,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
@@ -690,7 +690,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
@@ -733,7 +733,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
@@ -921,7 +921,7 @@ class Wallet_System_For_Woocommerce_Admin {
 							$from       = get_option( 'admin_email' );
 							$subject    = 'Wallet updating notification';
 							$headers    = 'MIME-Version: 1.0' . "\r\n";
-							$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 							$headers   .= 'From: ' . $from . "\r\n" .
 								'Reply-To: ' . $to . "\r\n";
 
@@ -1170,7 +1170,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$from       = get_option( 'admin_email' );
 					$subject    = 'Wallet updating notification';
 					$headers    = 'MIME-Version: 1.0' . "\r\n";
-					$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to . "\r\n";
 

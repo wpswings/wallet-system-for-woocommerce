@@ -78,7 +78,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 									$from       = get_option( 'admin_email' );
 									$subject    = 'Wallet updating notification';
 									$headers    = 'MIME-Version: 1.0' . "\r\n";
-									$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+									$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 									$headers   .= 'From: ' . $from . "\r\n" .
 										'Reply-To: ' . $to . "\r\n";
 
@@ -176,7 +176,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					$from       = get_option( 'admin_email' );
 					$subject    = 'Wallet updating notification';
 					$headers    = 'MIME-Version: 1.0' . "\r\n";
-					$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to . "\r\n";
 
@@ -268,7 +268,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				$from       = get_option( 'admin_email' );
 				$subject    = 'Wallet updating notification';
 				$headers    = 'MIME-Version: 1.0' . "\r\n";
-				$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 				$headers   .= 'From: ' . $from . "\r\n" .
 					'Reply-To: ' . $to . "\r\n";
 
