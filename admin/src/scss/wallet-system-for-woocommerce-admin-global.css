@@ -595,3 +595,10 @@ select {
 .mwb-wsfw-gen-section-form .mwb-wsfw-text .mdc-text-field-helper-line, .mwb-wpg-gen-section-form-container .mwb-isfw-file  .mdc-text-field-helper-line {
     display: block;
 }
+.mwb-form-group2 {
+    padding-top: 10px!important;
+}
+.mwb-form-group2 input {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
