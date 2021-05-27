@@ -171,8 +171,6 @@ class Wallet_System_For_Woocommerce_Public {
 	public function remove_wallet_session( $order_id ) {
 		$customer_id = get_current_user_id();
 		if ( $customer_id > 0 ) {
-			$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
-
 			if ( WC()->session->__isset( 'custom_fee' ) ) {
 				WC()->session->__unset( 'custom_fee' );
 				WC()->session->__unset( 'is_wallet_partial_payment' );
@@ -193,10 +191,11 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @param string $new_status order new status.
 	 * @return void
 	 */
-	public function mwb_order_status_changed( $order_id, $old_status, $new_status ) {
-		$order                  = wc_get_order( $order_id );
+	public function mwb_order_status_changed( $order ) {
+		$order_id               = $order->get_id();
 		$userid                 = $order->user_id;
 		$payment_method         = $order->payment_method;
+		$new_status             = $order->get_status();
 		$order_items            = $order->get_items();
 		$wallet_id              = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount           = get_user_meta( $userid, 'mwb_wallet', true );
@@ -210,8 +209,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 
-				$order_status = array( 'pending', 'on-hold', 'processing' );
-				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
+				if ( 'completed' == $new_status ) {
 					$amount        = $total;
 					$wallet_userid = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
 					if ( $wallet_userid ) {
@@ -231,9 +229,9 @@ class Wallet_System_For_Woocommerce_Public {
 						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
-						$subject    = 'Wallet updating notification';
+						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
@@ -260,9 +258,8 @@ class Wallet_System_For_Woocommerce_Public {
 			$fee_name  = $item_fee->get_name();
 			$fee_total = $item_fee->get_total();
 			if ( 'Via wallet' === $fee_name ) {
-				$order_status   = array( 'pending', 'on-hold' );
 				$payment_status = array( 'processing', 'completed' );
-				if ( in_array( $old_status, $order_status ) && in_array( $new_status, $payment_status ) ) {
+				if ( in_array( $new_status, $payment_status ) ) {
 					$fees   = abs( $fee_total );
 					$amount = $fees;
 					if ( $walletamount < $fees ) {
@@ -279,7 +276,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$from       = get_option( 'admin_email' );
 						$subject    = 'Wallet updating notification';
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
@@ -587,6 +584,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 			}
 		}
+		$this->mwb_order_status_changed( $order );
 	}
 
 	/**
