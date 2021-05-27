@@ -186,9 +186,7 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Change wallet amount on order status change
 	 *
-	 * @param int    $order_id order id.
-	 * @param string $old_status order old status.
-	 * @param string $new_status order new status.
+	 * @param object $order object.
 	 * @return void
 	 */
 	public function mwb_order_status_changed( $order ) {
