@@ -130,11 +130,11 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 						$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$name       = $user->first_name . ' ' . $user->last_name;
-							$mail_text  = sprintf( 'Hello %s,<br/>', $name );
+							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 							$mail_text .= $mail_message;
 							$to         = $user->user_email;
 							$from       = get_option( 'admin_email' );
-							$subject    = 'Wallet updating notification';
+							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 							$headers    = 'MIME-Version: 1.0' . "\r\n";
 							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 							$headers   .= 'From: ' . $from . "\r\n" .

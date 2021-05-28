@@ -94,11 +94,11 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 				$user2 = get_user_by( 'id', $user_id );
 				$name2 = $user2->first_name . ' ' . $user2->last_name;
 
-				$mail_text1  = sprintf( 'Hello %s,<br/>', $name1 );
+				$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 				$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
 				$to1         = $user1->user_email;
 				$from        = get_option( 'admin_email' );
-				$subject     = 'Wallet updating notification';
+				$subject     = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 				$headers1    = 'MIME-Version: 1.0' . "\r\n";
 				$headers1   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 				$headers1   .= 'From: ' . $from . "\r\n" .
@@ -126,7 +126,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 			if ( $update_user ) {
 
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-					$mail_text2  = sprintf( 'Hello %s,<br/>', $name2 );
+					$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 					$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
 					$to2         = $user2->user_email;
 					$headers2    = 'MIME-Version: 1.0' . "\r\n";
