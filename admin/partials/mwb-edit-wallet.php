@@ -78,7 +78,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 
 				$subject  = 'Wallet updating notification';
 				$headers  = 'MIME-Version: 1.0' . "\r\n";
-				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 				$headers .= 'From: ' . $from . "\r\n" .
 					'Reply-To: ' . $to . "\r\n";
 
