@@ -530,6 +530,7 @@ svg {
 @keyframes display-none-transition {
 	0% {
 		display: none;
+		opacity: 0;
 	}
 	1% {
 		display: block;
