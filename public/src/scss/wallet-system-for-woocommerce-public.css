@@ -4,6 +4,9 @@
  */
 
 /** added custom css */
+a:focus, button:focus, .button.alt:focus, input:focus, textarea:focus, input[type="button"]:focus, input[type="reset"]:focus, input[type="submit"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="url"]:focus, input[type="password"]:focus, input[type="search"]:focus {
+	outline:none!important;
+}
 .wallet-amount input {
 	padding: 5px;
 }
@@ -12,12 +15,6 @@
 	background: #242424;
 	padding: 10px;
 	margin-bottom: 20px;
-}
-
-.mwb_wcb_wallet_balance_container::after {
-	display: block;
-	clear: both;
-	content: "";
 }
 
 .mwb_wcb_wallet_balance_container h4 {
@@ -580,9 +577,22 @@ svg {
 .mwb_wcb_content_template .wallet-tabs ul li a img {
 	width: 30px;
 }
-
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--mwb-wallet a {
+    position: relative;
+	width: 100%;
+    display: block;
+    text-decoration: none!important;
+	max-width: 150px;
+}
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--mwb-wallet a:after {
+    content: "\f318";
+    font-family: 'dashicons';
+    padding-left: 5px;
+    position: absolute;
+    right: 0;
+}
 .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--mwb-wallet a:before {
-	content: "\f555";
+	display:none;
 }
 
 .mwb_wcb_content_template .error {
@@ -631,3 +641,15 @@ svg {
     background-color: #3d9cd2;
 }
 
+.mwb_wcb_wallet_balance_container {
+    background: #242424;
+    padding: 10px 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+.mwb_wcb_wallet_balance_container h4 {
+    margin: 0!important;
+}
