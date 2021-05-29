@@ -98,8 +98,6 @@ class Wallet_System_For_Woocommerce_Public {
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_script( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/mwb-public.min.js', array(), $this->version, 'all' );
 
-		wp_register_script( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/mwb-test.js', array( 'jquery' ), $this->version, false );
-
 	}
 
 
