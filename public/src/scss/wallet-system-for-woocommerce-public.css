@@ -14,12 +14,6 @@
 	margin-bottom: 20px;
 }
 
-.mwb_wcb_wallet_balance_container::after {
-	display: block;
-	clear: both;
-	content: "";
-}
-
 .mwb_wcb_wallet_balance_container h4 {
 	max-width: 50%;
 	float: left;
@@ -631,3 +625,15 @@ svg {
     background-color: #3d9cd2;
 }
 
+.mwb_wcb_wallet_balance_container {
+    background: #242424;
+    padding: 10px 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+.mwb_wcb_wallet_balance_container h4 {
+    margin: 0!important;
+}

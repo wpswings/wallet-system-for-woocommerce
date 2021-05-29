@@ -4,38 +4,60 @@
  * and use $c prefix.
  * use lowercase for color code and variable name 
  * i.e $c-black: #000000; */
-/*==========================================================
-=            Typography Variable and Declaration            =
-============================================================*/
+/*===================================
+=            FONT-FAMILY            =
+===================================*/
+
 @font-face {
-  font-family: 'NunitoSans-ExtraBold';
-  src: url("../fonts/nunito-sans/NunitoSans-ExtraBold.ttf");
-  font-style: bold;
-  font-display: swap;
+    font-family: 'NunitoSans-Black';
+    src: url('../fonts/nunito-sans/NunitoSans-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: 'NunitoSans-SemiBold';
-  src: url("../fonts/nunito-sans/NunitoSans-SemiBold.ttf");
-  font-style: bold;
-  font-display: swap;
+    font-family: 'NunitoSans-ExtraBold';
+    src: url('../fonts/nunito-sans/NunitoSans-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: 'NunitoSans-Bold';
-  src: url("../fonts/nunito-sans/NunitoSans-Bold.ttf");
-  font-style: bold;
-  font-display: swap;
+    font-family: 'NunitoSans-Bold';
+    src: url('../fonts/nunito-sans/NunitoSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: 'NunitoSans-Regular';
-  src: url("../fonts/nunito-sans/NunitoSans-Regular.ttf");
-  font-style: normal;
-  font-display: swap;
+    font-family: 'NunitoSans-SemiBold';
+    src: url('../fonts/nunito-sans/NunitoSans-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
 }
 
-/*----------  Font Family Variable  ----------*/
+@font-face {
+    font-family: 'NunitoSans-Light';
+    src: url('../fonts/nunito-sans/NunitoSans-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'NunitoSans-Regular';
+    src: url('../fonts/nunito-sans/NunitoSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/*=====  End of FONT-FAMILY  ======*/
 /*----------  Font Size Variable  ----------*/
 /*=====  End of Typography Variable and Declaration  ======*/
 /* Placeholders */
@@ -76,17 +98,8 @@ a:hover, a:active, a:focus {
   box-shadow: none;
 }
 
-p {
-  font-size: 16px;
-}
-
 ul {
   margin: 0;
-}
-
-img {
-  display: block;
-  width: 100%;
 }
 
 .mwb-info-img {
