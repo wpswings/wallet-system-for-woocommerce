@@ -10,6 +10,7 @@ jQuery.fn.dataTable.ext.search.push(
         return false;
     }
 );
+
 jQuery(document).ready(function(){
     var table1 = jQuery('#mwb-wpg-gen-table').DataTable();   //pay attention to capital D, which is mandatory to retrieve "api" datatables' object, as @Lionel said
     jQuery('#search_in_table').keyup(function(){
@@ -23,5 +24,4 @@ jQuery(document).ready(function(){
     jQuery('#min, #max').change(function () {
         table1.draw();
     });
-
 });
