@@ -51,7 +51,7 @@ $user = get_user_by( 'id', $user_id );
 		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-wallet-setting' ) ); ?>"><span class="dashicons dashicons-editor-break" ></span></a>
 	</h4>
 	<div class="mwb-wpg-gen-section-table-container">
-		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive">
+		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table mwb-wpg-user-transaction-table dt-responsive">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
