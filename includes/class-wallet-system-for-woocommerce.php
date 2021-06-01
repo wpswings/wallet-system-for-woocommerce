@@ -385,11 +385,9 @@ class Wallet_System_For_Woocommerce {
 	public function mwb_wsfw_plug_default_tabs() {
 
 		$wsfw_default_tabs = array();
-		//$base_path         = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/';
 		$wsfw_default_tabs['wallet-system-for-woocommerce-general'] = array(
 			'title' => esc_html__( 'General', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-general',
-			//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-general.php',
 		);
 		$wsfw_default_tabs = apply_filters( 'mwb_wsfw_plugin_standard_admin_settings_tabs', $wsfw_default_tabs );
 
@@ -397,13 +395,11 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_default_tabs['wallet-system-wallet-setting'] = array(
 			'title' => esc_html__( 'Wallet', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-wallet-setting',
-			//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-general.php',
 		);
 
 		$wsfw_default_tabs['wallet-system-wallet-transactions'] = array(
 			'title' => esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-wallet-transactions',
-			//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-general.php',
 		);
 
 		// added tab for wallet withdrawal settings.

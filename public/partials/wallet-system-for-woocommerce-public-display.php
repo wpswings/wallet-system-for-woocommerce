@@ -63,7 +63,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		$another_user_id = $user->ID;
 	} else {
 		$invitation_link = apply_filters( 'wsfw_add_invitation_link_message', '' );
-		if ( ! empty ( $invitation_link ) ) {
+		if ( ! empty( $invitation_link ) ) {
 			global $wp_session;
 			$wp_session['mwb_wallet_transfer_user_email'] = $another_user_email;
 			$wp_session['mwb_wallet_transfer_amount']     = $transfer_amount;
