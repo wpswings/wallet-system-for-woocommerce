@@ -57,7 +57,6 @@
 		$(document).on( 'click','#partial_payment_wallet', function(){ 
 			var checked = $( '#partial_payment_wallet' ).is(':checked');
 			if ( ! checked ) {
-				console.log(checked);
 				$.ajax({
 					type: 'POST',
 					url: wsfw_public_param.ajaxurl,
@@ -81,9 +80,6 @@
 			var wallet_amount = $( '#partial_payment_wallet' ).data('walletamount');
 			var amount = $( '#wallet_amount' ).val();
 			var checked = $( '#partial_payment_wallet' ).is(':checked');
-			console.log(wallet_amount);
-			console.log(amount);
-			console.log(checked);
 
 			$.ajax({
 				type: 'POST',
@@ -98,10 +94,7 @@
 				},
 				dataType: 'JSON',
 				success: function( response ) {
-				
-					
-					if ( response.message !== 'Please enter amount less than or equal to wallet balance' ) {
-						console.log('update cart');
+					if ( response.status == true ) {
 						$( '.ajax_msg' ).html(response.message);
 						$(document.body).trigger('update_checkout');
 					} else {
@@ -116,112 +109,6 @@
 			});
 
 		});
-		$('.mwb-wallet-userselect2').select2({
-
-			ajax: {
-				url: wsfw_public_param.ajaxurl,
-				dataType: 'json',
-				delay: 200,
-				data: function(params){
-
-					return{
-
-						email: params.term,
-
-						action: 'mwb_search_for_user'
-					};
-				},
-
-				processResults: function(data){
-					var users = [];
-					if(data)
-					{
-						$.each(data, function(index,text){
-
-							text[2] += '(' + text[1] + ')';
-
-							users.push({id:text[0], text:text[2]});
-						});
-					}
-
-					return{
-
-						results: users
-					};
-				},
-				cache:true
-			},
-
-			minimumInputLength: 4
-		});
-
-		$(document).on( 'click','#wallet_payment_method', function() {
-			
-			var method = $(this).val();
-			console.log(method);
-			if ( method == 'Bank Transfer' ) {
-				$('.show-on-bank-transfer').show();
-				$('.show-on-paypal').hide();
-				$('.error').hide();
-			} else if ( method == 'PayPal' ) {
-				$('.show-on-paypal').show();
-				$('.show-on-bank-transfer').hide();
-				$('.error').hide();
-			} else {
-				$('.show-on-bank-transfer').hide();
-				$('.show-on-paypal').hide();
-				$('.error').hide();
-				$('#mwb_withdrawal_request').prop('disabled', true);
-			}
-
-		});
-
-		$('#mwb_wallet_paypal_email').blur(function() {
-			var email = $(this).val();
-			if ( email == '' ) {
-				$('.error').show();
-				$('.error').html('Please enter an email id');
-				$('#mwb_withdrawal_request').prop('disabled', true);
-			} else {
-				$('.error').hide();
-				$('#mwb_withdrawal_request').prop('disabled', false);
-			}
-		});
-
-		$('#mwb_wallet_bank_account_name').blur(function() {
-			var accountname = $(this).val();
-			if ( accountname == '' ) {
-				$('.error').show();
-				$('.error').html('Please enter your account name');
-				$('#mwb_withdrawal_request').prop('disabled', true);
-			} else {
-				$('.error').hide();
-				$('#mwb_withdrawal_request').prop('disabled', false);
-			}
-		});
-		$('#mwb_wallet_bank_account_no').blur(function() {
-			var accountno = $(this).val();
-			if ( accountno == '' ) {
-				$('.error').show();
-				$('.error').html('Please enter your account number');
-				$('#mwb_withdrawal_request').prop('disabled', true);
-			} else {
-				$('.error').hide();
-				$('#mwb_withdrawal_request').prop('disabled', false);
-			}
-		});
-		$('#mwb_wallet_bank_sort_code').blur(function() {
-			var sortcode = $(this).val();
-			if ( sortcode == '' ) {
-				$('.error').show();
-				$('.error').html('Please enter sort code');
-				$('#mwb_withdrawal_request').prop('disabled', true);
-			} else {
-				$('.error').hide();
-				$('#mwb_withdrawal_request').prop('disabled', false);
-			}
-		});
-
 
 	});
 

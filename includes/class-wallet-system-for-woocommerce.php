@@ -281,12 +281,10 @@ class Wallet_System_For_Woocommerce {
 
 		$wsfw_plugin_public = new Wallet_System_For_Woocommerce_Public( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_scripts' );
-
 		$enable = get_option( 'mwb_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
-
+			$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_styles' );
+			$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_scripts' );
 			$this->loader->add_action( 'init', $wsfw_plugin_public, 'mwb_wsfw_wallet_register_endpoint' );
 			$this->loader->add_action( 'query_vars', $wsfw_plugin_public, 'mwb_wsfw_wallet_query_var' );
 			$this->loader->add_action( 'woocommerce_account_mwb-wallet_endpoint', $wsfw_plugin_public, 'mwb_wsfw_display_wallet_endpoint_content', 20 );
@@ -300,8 +298,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $wsfw_plugin_public, 'show_message_addto_cart', 10, 2 );
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $wsfw_plugin_public, 'mwb_update_price_cart', 10, 1 );
 			$this->loader->add_action( 'woocommerce_cart_item_removed', $wsfw_plugin_public, 'after_remove_wallet_from_cart', 10, 2 );
-			//$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_public, 'mwb_order_status_changed', 10, 3 );
-
+			
 			$this->loader->add_filter( 'woocommerce_checkout_fields', $wsfw_plugin_public, 'mwb_wsfw_remove_billing_from_checkout' );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'change_order_type', 20, 1 );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );

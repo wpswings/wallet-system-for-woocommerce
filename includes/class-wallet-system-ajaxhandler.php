@@ -53,15 +53,16 @@ class Wallet_System_AjaxHandler {
 			$amount = empty( $_POST['amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['amount'] ) );
 			if ( $wallet_amount >= $amount ) {
 				$wallet_amount     -= $amount;
+				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
 				$message['price']   = wc_price( $amount );
 				WC()->session->set( 'custom_fee', $amount );
 
 			} else {
+				$message['status']  = false;
 				$message['message'] = esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' );
 			}
 			wp_send_json( $message );
-			wp_die();
 		}
 	}
 
