@@ -64,7 +64,6 @@
 				},
 				datatType: 'JSON',
 				success: function( response ) {
-					console.log(response);
 					var filename = 'users_wallet.csv';
 					let csvContent = "data:text/csv;charset=utf-8,";
 					response.forEach(function(rowArray) {
@@ -104,7 +103,6 @@
 				$('.error').hide();
 				$('#update_wallet').prop('disabled', false);
 			} else if ( amount <= 0 ) {
-				console.log(amount);
 				$(this).parent().after('<p class="error">' + wsfw_admin_param.wsfw_amount_error + '</p>');
 				$('.error').show();
 
