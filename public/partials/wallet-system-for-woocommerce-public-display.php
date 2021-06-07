@@ -218,7 +218,7 @@ if ( ! empty( $product_id ) && ! empty( $enable_wallet_recharge ) ) {
 <path d="M9.75 25.3333C9.75 24.643 9.19036 24.0833 8.5 24.0833C7.80964 24.0833 7.25 24.643 7.25 25.3333H9.75ZM7.25 29.6666C7.25 30.357 7.80964 30.9166 8.5 30.9166C9.19036 30.9166 9.75 30.357 9.75 29.6666H7.25ZM7.25 25.3333V29.6666H9.75V25.3333H7.25Z" fill="#1D201F"/>
 <path d="M10.6666 28.75C11.357 28.75 11.9166 28.1904 11.9166 27.5C11.9166 26.8096 11.357 26.25 10.6666 26.25L10.6666 28.75ZM6.33329 26.25C5.64294 26.25 5.08329 26.8096 5.08329 27.5C5.08329 28.1904 5.64294 28.75 6.33329 28.75L6.33329 26.25ZM10.6666 26.25L6.33329 26.25L6.33329 28.75L10.6666 28.75L10.6666 26.25Z" fill="#1D201F"/>
 <path d="M34 18.0001V26.0001H26C24.9391 26.0001 23.9217 25.5786 23.1716 24.8285C22.4214 24.0783 22 23.0609 22 22.0001C22 20.9392 22.4214 19.9218 23.1716 19.1716C23.9217 18.4215 24.9391 18.0001 26 18.0001H34Z" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
-		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-payment-gateway-wallet-recharge.php',
+		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-recharge.php',
 	);
 }
 
@@ -230,7 +230,7 @@ $wallet_tabs['wallet_transfer'] = array(
 <circle cx="18.1246" cy="19.5" r="3.5" stroke="#1D201F" stroke-width="2.5"/>
 <path d="M14.2556 34.1923L12.0164 31.9204L24.1429 31.9204" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M21.7444 5.80768L23.9836 8.0796L11.8571 8.0796" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
-	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-payment-gateway-wallet-transfer.php',
+	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transfer.php',
 );
 
 $wallet_tabs['wallet_withdrawal'] = array(
@@ -241,7 +241,7 @@ $wallet_tabs['wallet_withdrawal'] = array(
 <path d="M20.6086 25.8043L15.3913 25.8043" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <circle cx="18" cy="15.4996" r="3.65217" transform="rotate(90 18 15.4996)" stroke="#1D201F" stroke-width="2.5"/>
 <path d="M25 13H32C33.1046 13 34 12.1046 34 11V4C34 2.89543 33.1046 2 32 2H4C2.89543 2 2 2.89543 2 4V11C2 12.1046 2.89543 13 4 13H10" stroke="#1D201F" stroke-width="2.5"/>',
-	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-payment-gateway-wallet-withdrawal.php',
+	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php',
 );
 $wallet_tabs['wallet_transactions'] = array(
 	'title'     => 'Transactions',
@@ -250,7 +250,7 @@ $wallet_tabs['wallet_transactions'] = array(
 <path d="M19 9.25C19.6904 9.25 20.25 8.69036 20.25 8C20.25 7.30964 19.6904 6.75 19 6.75V9.25ZM11 6.75C10.3096 6.75 9.75 7.30964 9.75 8C9.75 8.69036 10.3096 9.25 11 9.25V6.75ZM19 6.75H11V9.25H19V6.75Z" fill="#1D201F"/>
 <path d="M23 15.25C23.6904 15.25 24.25 14.6904 24.25 14C24.25 13.3096 23.6904 12.75 23 12.75V15.25ZM7 12.75C6.30964 12.75 5.75 13.3096 5.75 14C5.75 14.6904 6.30964 15.25 7 15.25V12.75ZM23 12.75H7V15.25H23V12.75Z" fill="#1D201F"/>
 <path d="M21 21.25C21.6904 21.25 22.25 20.6904 22.25 20C22.25 19.3096 21.6904 18.75 21 18.75V21.25ZM9 18.75C8.30964 18.75 7.75 19.3096 7.75 20C7.75 20.6904 8.30964 21.25 9 21.25V18.75ZM21 18.75H9V21.25H21V18.75Z" fill="#1D201F"/>',
-	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-payment-gateway-wallet-transactions.php',
+	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transactions.php',
 );
 $flag = false;
 if ( $current_url == $main_url ) {
