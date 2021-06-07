@@ -2,7 +2,7 @@
 /**
  * Exit if accessed directly
  *
- * @package wallet-payment-gateway
+ * @package Wallet_System_For_Woocommerce
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

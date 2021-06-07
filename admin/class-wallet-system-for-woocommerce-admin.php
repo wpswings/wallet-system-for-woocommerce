@@ -610,10 +610,10 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_order_status_changed_admin( $order_id, $old_status, $new_status ) {
 		$order          = wc_get_order( $order_id );
-		$userid         = $order->user_id;
+		$userid         = $order->get_user_id();
 		$order_items    = $order->get_items();
 		$order_total    = $order->get_total();
-		$payment_method = $order->payment_method;
+		$payment_method = $order->get_payment_method();
 		$wallet_id      = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount   = get_user_meta( $userid, 'mwb_wallet', true );
 		$user                   = get_user_by( 'id', $userid );
