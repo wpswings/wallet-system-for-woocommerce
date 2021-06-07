@@ -401,25 +401,6 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 
-	// /**
-	//  * Make rechargeable product purchasable
-	//  *
-	//  * @param boolean           $is_purchasable check product is purchasable or not.
-	//  * @param WC_Product object $product product object.
-	//  * @return boolean
-	//  */
-	// public function mwb_wsfw_wallet_recharge_product_purchasable( $is_purchasable, $product ) {
-	// 	//die('ggg');
-	// 	$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
-	// 	if ( ! empty( $product_id ) ) {
-	// 		if ( $product_id == $product->get_id() ) {
-	// 			$is_purchasable = true;
-	// 		}
-	// 	}
-	// 	return $is_purchasable;
-	// }
-
-
 	/**
 	 * Add wallet topup to cart
 	 *
@@ -530,29 +511,25 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_recharge = WC()->session->get( 'recharge_amount' );
 			$price           = $wallet_recharge;
 
-			if ( class_exists( 'Mwb_Multi_Currency_Switcher_For_Woocommerce_Common' ) ) {
-				$mmcsfw_plugin_common = new Mwb_Multi_Currency_Switcher_For_Woocommerce_Common( '', '' );
-				if ( WC()->session->__isset( 'currenct_currency' ) ) {
-					$currency = WC()->session->get( 'currenct_currency' );
-				}
-				$currenct_currency = $currency;
-				if ( method_exists( $mmcsfw_plugin_common, 'mmcsfw_admin_fetch_currency_rates_for_wallet' ) ) {
-					$amount = $mmcsfw_plugin_common->mmcsfw_admin_fetch_currency_rates_for_wallet( $currenct_currency );
-					$price  = floatval( $price ) * floatval( $amount );
-				}
-			} else {
-				$price = floatval( $price );
-			}
-			//echo $price;
-			// print_r(WC()->session);
-			// echo $currency;
-			//echo $amount;
-			// echo $price;
-			//die('dd');
+
+			$wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $price );
+
+			// if ( class_exists( 'Mwb_Multi_Currency_Switcher_For_Woocommerce_Common' ) ) {
+			// 	$mmcsfw_plugin_common = new Mwb_Multi_Currency_Switcher_For_Woocommerce_Common( '', '' );
+			// 	if ( WC()->session->__isset( 'currenct_currency' ) ) {
+			// 		$currency = WC()->session->get( 'currenct_currency' );
+			// 	}
+			// 	$currenct_currency = $currency;
+			// 	if ( method_exists( $mmcsfw_plugin_common, 'mmcsfw_admin_fetch_currency_rates_for_wallet' ) ) {
+			// 		$amount = $mmcsfw_plugin_common->mmcsfw_admin_fetch_currency_rates_for_wallet( $currenct_currency );
+			// 		$price  = floatval( $price ) * floatval( $amount );
+			// 	}
+			// } else {
+			// 	$price = floatval( $price );
+			// }
 			if ( ! empty( $cart_items ) ) {
 				foreach ( $cart_items as $key => $value ) {
-					//$value['data']->set_price( floatval( $price ) * floatval( $amount ) );
-					$value['data']->set_price( $price );
+					$value['data']->set_price( $wallet_bal );
 				}
 			}
 		}

@@ -276,26 +276,8 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
 		<p>
 		<?php
-		// phpcs:ignore
-		if ( class_exists( 'Mwb_Multi_Currency_Switcher_For_Woocommerce_Common' ) ) {
-			$mmcsfw_plugin_common = new Mwb_Multi_Currency_Switcher_For_Woocommerce_Common( '', '' );
-			if ( method_exists( $mmcsfw_plugin_common, 'mmcsfw_get_currenct_currency' ) ) {
-				
-				$amount = $mmcsfw_plugin_common->mmcsfw_admin_fetch_currency_rates_for_wallet( get_woocommerce_currency() );
-				echo wc_price( floatval( $wallet_bal ) * floatval( $amount ) );
-
-				if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
-					$pagename = trim( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/' );
-				}
-				if ( $pagename == 'my-account/mwb-wallet' || $pagename == 'my-account/mwb-wallet/wallet-topup' ) {
-					$currency = $mmcsfw_plugin_common->mmcsfw_get_currenct_currency();
-					WC()->session->set( 'currenct_currency', $currency );
-				}				
-
-			}
-		} else {
-			echo wc_price( $wallet_bal );
-		}
+		$wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
+		echo wc_price( $wallet_bal );
 		?>
 		</p>
 	</div>

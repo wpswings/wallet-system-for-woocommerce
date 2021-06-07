@@ -88,7 +88,6 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @return boolean
 	 */
 	public function mwb_wsfw_wallet_recharge_product_purchasable( $is_purchasable, $product ) {
-		//die('ggg');
 		$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		if ( ! empty( $product_id ) ) {
 			if ( $product_id == $product->get_id() ) {
