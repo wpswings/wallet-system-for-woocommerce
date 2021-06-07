@@ -78,4 +78,24 @@ class Wallet_System_For_Woocommerce_Common {
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );
 	}
+
+
+	/**
+	 * Make rechargeable product purchasable
+	 *
+	 * @param boolean           $is_purchasable check product is purchasable or not.
+	 * @param WC_Product object $product product object.
+	 * @return boolean
+	 */
+	public function mwb_wsfw_wallet_recharge_product_purchasable( $is_purchasable, $product ) {
+		//die('ggg');
+		$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
+		if ( ! empty( $product_id ) ) {
+			if ( $product_id == $product->get_id() ) {
+				$is_purchasable = true;
+			}
+		}
+		return $is_purchasable;
+	}
+	
 }

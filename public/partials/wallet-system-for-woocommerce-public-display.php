@@ -277,7 +277,25 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<p>
 		<?php
 		// phpcs:ignore
-		echo wc_price( $wallet_bal );
+		if ( class_exists( 'Mwb_Multi_Currency_Switcher_For_Woocommerce_Common' ) ) {
+			$mmcsfw_plugin_common = new Mwb_Multi_Currency_Switcher_For_Woocommerce_Common( '', '' );
+			if ( method_exists( $mmcsfw_plugin_common, 'mmcsfw_get_currenct_currency' ) ) {
+				
+				$amount = $mmcsfw_plugin_common->mmcsfw_admin_fetch_currency_rates_for_wallet( get_woocommerce_currency() );
+				echo wc_price( floatval( $wallet_bal ) * floatval( $amount ) );
+
+				if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
+					$pagename = trim( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/' );
+				}
+				if ( $pagename == 'my-account/mwb-wallet' || $pagename == 'my-account/mwb-wallet/wallet-topup' ) {
+					$currency = $mmcsfw_plugin_common->mmcsfw_get_currenct_currency();
+					WC()->session->set( 'currenct_currency', $currency );
+				}				
+
+			}
+		} else {
+			echo wc_price( $wallet_bal );
+		}
 		?>
 		</p>
 	</div>
@@ -288,7 +306,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				<nav class="wallet-tabs">
 					<ul class='tabs'>
 						<?php
-
+						
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {

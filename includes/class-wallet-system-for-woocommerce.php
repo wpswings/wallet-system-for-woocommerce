@@ -268,6 +268,8 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_styles' );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_scripts' );
+
+		$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_common, 'mwb_wsfw_wallet_recharge_product_purchasable', 1, 2 );
 	}
 
 	/**
@@ -293,7 +295,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_review_order_after_order_total', $wsfw_plugin_public, 'checkout_review_order_custom_field' );
 			$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_public, 'remove_wallet_session', 10, 1 );
 			$this->loader->add_action( 'woocommerce_cart_calculate_fees', $wsfw_plugin_public, 'wsfw_add_wallet_discount', 20 );
-			$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_public, 'mwb_wsfw_wallet_recharge_product_purchasable', 10, 2 );
+			//$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_public, 'mwb_wsfw_wallet_recharge_product_purchasable', 1, 2 );
 			$this->loader->add_action( 'template_redirect', $wsfw_plugin_public, 'add_wallet_recharge_to_cart' );
 			$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $wsfw_plugin_public, 'show_message_addto_cart', 10, 2 );
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $wsfw_plugin_public, 'mwb_update_price_cart', 10, 1 );
