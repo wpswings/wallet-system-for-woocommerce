@@ -195,8 +195,8 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function mwb_order_status_changed( $order ) {
 		$order_id               = $order->get_id();
-		$userid                 = $order->user_id;
-		$payment_method         = $order->payment_method;
+		$userid                 = $order->get_user_id();
+		$payment_method         = $order->get_payment_method();
 		$new_status             = $order->get_status();
 		$order_items            = $order->get_items();
 		$wallet_id              = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
@@ -430,9 +430,9 @@ class Wallet_System_For_Woocommerce_Public {
 			// check if product already in cart.
 			if ( count( WC()->cart->get_cart() ) > 0 ) {
 				$found = false;
-				foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
-					$_product = $values['data'];
-					if ( $_product->id == $wallet_recharge['productid'] ) {
+				foreach ( WC()->cart->get_cart() as $cart_item ) {
+					$product_in_cart = $cart_item['product_id'];
+					if ( $product_in_cart == $wallet_recharge['productid'] ) {
 						$found = true;
 					}
 				}
@@ -605,7 +605,17 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		if ( $only_virtual ) {
-			unset( $fields['billing'] );
+			unset($fields['billing']['billing_first_name']);
+			unset($fields['billing']['billing_last_name']);
+			unset($fields['billing']['billing_address_1']);
+			unset($fields['billing']['billing_address_2']);
+			unset($fields['billing']['billing_city']);
+			unset($fields['billing']['billing_postcode']);
+			unset($fields['billing']['billing_country']);
+			unset($fields['billing']['billing_state']);
+			unset($fields['billing']['billing_company']);
+			unset($fields['billing']['billing_phone']);
+			unset($fields['billing']['billing_email']);
 			add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
 			echo '<style type="text/css">
 			form.checkout .woocommerce-billing-fields h3 {
