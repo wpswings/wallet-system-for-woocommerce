@@ -59,6 +59,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	$transfer_note      = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 	$user               = get_user_by( 'email', $another_user_email );
 	$transfer_amount    = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
+	$wallet_transfer_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $transfer_amount );
 	if ( $user ) {
 		$another_user_id = $user->ID;
 	} else {
@@ -66,7 +67,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		if ( ! empty( $invitation_link ) ) {
 			global $wp_session;
 			$wp_session['mwb_wallet_transfer_user_email'] = $another_user_email;
-			$wp_session['mwb_wallet_transfer_amount']     = $transfer_amount;
+			$wp_session['mwb_wallet_transfer_amount']     = $wallet_transfer_amount;
 		}
 		show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
 		$update = false;
@@ -80,7 +81,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	}
 	if ( $update ) {
 		$user_wallet_bal  = get_user_meta( $another_user_id, 'mwb_wallet', true );
-		$user_wallet_bal += $transfer_amount;
+		$user_wallet_bal += $wallet_transfer_amount;
 		$returnid         = update_user_meta( $another_user_id, 'mwb_wallet', $user_wallet_bal );
 
 		if ( $returnid ) {
@@ -121,7 +122,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 			$wallet_payment_gateway->insert_transaction_data_in_table( $wallet_transfer_data );
 
-			$wallet_bal -= $transfer_amount;
+			$wallet_bal -= $wallet_transfer_amount;
 			$update_user = update_user_meta( $user_id, 'mwb_wallet', abs( $wallet_bal ) );
 			if ( $update_user ) {
 
@@ -179,8 +180,12 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
 		foreach ( $_POST as $key => $value ) {
 			if ( ! empty( $value ) ) {
 				$value = sanitize_text_field( $value );
-				update_post_meta( $withdrawal_id, $key, $value );
-
+				if ( 'mwb_wallet_withdrawal_amount' === $key ) {
+					$withdrawal_bal = apply_filters( 'mwb_wsfw_convert_to_base_price', $value );
+					update_post_meta( $withdrawal_id, $key, $withdrawal_bal );
+				} else {
+					update_post_meta( $withdrawal_id, $key, $value );
+				}
 			}
 		}
 		update_user_meta( $user_id, 'disable_further_withdrawal_request', true );

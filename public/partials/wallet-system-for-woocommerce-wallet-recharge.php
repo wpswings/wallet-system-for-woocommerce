@@ -12,11 +12,13 @@ $wsfw_min_max_value = apply_filters( 'wsfw_min_max_value_for_wallet_recharge', a
 if ( is_array( $wsfw_min_max_value ) ) {
 	if ( ! empty( $wsfw_min_max_value['min_value'] ) ) {
 		$min_value = $wsfw_min_max_value['min_value'];
+		$min_value = apply_filters( 'mwb_wsfw_show_converted_price', $min_value );
 	} else {
 		$min_value = 0;
 	}
 	if ( ! empty( $wsfw_min_max_value['max_value'] ) ) {
 		$max_value = $wsfw_min_max_value['max_value'];
+		$max_value = apply_filters( 'mwb_wsfw_show_converted_price', $max_value );
 	} else {
 		$max_value = '';
 	}

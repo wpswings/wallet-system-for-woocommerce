@@ -116,9 +116,10 @@ class Wallet_System_For_Woocommerce_Public {
 			$mwb_cart_total = WC()->cart->total;
 			$user_id        = get_current_user_id();
 			$wallet_amount  = get_user_meta( $user_id, 'mwb_wallet', true );
+			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
-			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
-
+			$wallet_amount  = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_amount );
+			
 			if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
 				unset( $available_gateways['mwb_wcb_wallet_payment_gateway'] );
 			} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
@@ -146,6 +147,9 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( $user_id ) {
 			$wallet_amount = get_user_meta( $user_id, 'mwb_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
+
+			$wallet_amount = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_amount );
+
 			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $mwb_cart_total || $this->is_enable_wallet_partial_payment() ) {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
@@ -511,25 +515,11 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_recharge = WC()->session->get( 'recharge_amount' );
 			$price           = $wallet_recharge;
 
-
-			$wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $price );
-
-			// if ( class_exists( 'Mwb_Multi_Currency_Switcher_For_Woocommerce_Common' ) ) {
-			// 	$mmcsfw_plugin_common = new Mwb_Multi_Currency_Switcher_For_Woocommerce_Common( '', '' );
-			// 	if ( WC()->session->__isset( 'currenct_currency' ) ) {
-			// 		$currency = WC()->session->get( 'currenct_currency' );
-			// 	}
-			// 	$currenct_currency = $currency;
-			// 	if ( method_exists( $mmcsfw_plugin_common, 'mmcsfw_admin_fetch_currency_rates_for_wallet' ) ) {
-			// 		$amount = $mmcsfw_plugin_common->mmcsfw_admin_fetch_currency_rates_for_wallet( $currenct_currency );
-			// 		$price  = floatval( $price ) * floatval( $amount );
-			// 	}
-			// } else {
-			// 	$price = floatval( $price );
-			// }
+			$recharge_amount = apply_filters( 'mwb_wsfw_convert_price_on_cart', $price );
+			
 			if ( ! empty( $cart_items ) ) {
 				foreach ( $cart_items as $key => $value ) {
-					$value['data']->set_price( $wallet_bal );
+					$value['data']->set_price( $recharge_amount );
 				}
 			}
 		}
