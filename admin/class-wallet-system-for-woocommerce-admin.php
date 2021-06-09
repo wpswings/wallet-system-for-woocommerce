@@ -1038,6 +1038,25 @@ class Wallet_System_For_Woocommerce_Admin {
 			)
 		);
 
+		// Check transaction table is updated with new field or not.
+		$updated_transaction_table = get_option( 'mwb_wsfw_updated_transaction_table' );
+		if ( ! $updated_transaction_table ) {
+			global $wpdb;
+			$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+			if ( $wpdb->get_var( 'show tables like "' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction"' ) == $table_name ) {
+				$column = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = 'currency' ", DB_NAME, $table_name ) );
+			
+				if ( empty( $column ) ) {
+					$alter_table = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction ADD currency varchar( 20 ) NULL' );
+					if ( $alter_table ) {
+						$currency = get_woocommerce_currency();
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction SET currency = %s', $currency ) );
+						update_option( 'mwb_wsfw_updated_transaction_table', 'true' );
+					}
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -1490,6 +1509,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				id bigint(20) unsigned NOT NULL auto_increment,
 				user_id bigint(20) unsigned NULL,
 				amount double,
+				currency varchar( 20 ) NOT NULL,
 				transaction_type varchar(200) NULL,
 				payment_method varchar(50) NULL,
 				transaction_id varchar(50) NULL,
@@ -1516,6 +1536,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'id'                => $user_transaction->transaction_id,
 						'user_id'           => $user_transaction->user_id,
 						'amount'            => $user_transaction->amount,
+						'currency'          => $user_transaction->currency,
 						'transaction_type'  => $user_transaction->details,
 						'payment_method'    => '',
 						'transaction_id'    => '',

@@ -216,8 +216,9 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 
 				if ( 'completed' == $new_status ) {
-					$amount        = $total;
-					$wallet_userid = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
+					$amount          = $total;
+					$credited_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $amount );
+					$wallet_userid   = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
 					if ( $wallet_userid ) {
 						$update_wallet_userid = $wallet_userid;
 					} else {
@@ -226,7 +227,7 @@ class Wallet_System_For_Woocommerce_Public {
 					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
-					$walletamount += $total;
+					$walletamount += $credited_amount;
 					update_user_meta( $update_wallet_userid, 'mwb_wallet', $walletamount );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
@@ -248,6 +249,7 @@ class Wallet_System_For_Woocommerce_Public {
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
+						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
@@ -268,10 +270,11 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( in_array( $new_status, $payment_status ) ) {
 					$fees   = abs( $fee_total );
 					$amount = $fees;
-					if ( $walletamount < $fees ) {
+					$debited_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $fees );
+					if ( $walletamount < $debited_amount ) {
 						$walletamount = 0;
 					} else {
-						$walletamount -= $fees;
+						$walletamount -= $debited_amount;
 					}
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 
@@ -294,6 +297,7 @@ class Wallet_System_For_Woocommerce_Public {
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
+						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,

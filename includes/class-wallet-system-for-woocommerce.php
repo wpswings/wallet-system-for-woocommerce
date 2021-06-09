@@ -1027,6 +1027,7 @@ class Wallet_System_For_Woocommerce {
 			$insert_array = array(
 				'user_id'           => $transactiondata['user_id'],
 				'amount'            => $transactiondata['amount'],
+				'currency'          => $transactiondata['currency'],
 				'transaction_type'  => $transactiondata['transaction_type'],
 				'payment_method'    => $transactiondata['payment_method'],
 				'transaction_id'    => $transactiondata['order_id'],
