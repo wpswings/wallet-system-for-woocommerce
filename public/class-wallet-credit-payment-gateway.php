@@ -76,40 +76,37 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 		 */
 		public function init_form_fields() {
 
-			$this->form_fields = apply_filters(
-				'cashback_wallet_gateway_form_fields',
-				array(
-					'enabled'      => array(
-						'title'   => __( 'Enable/Disable', 'wallet-system-for-woocommerce' ),
-						'type'    => 'checkbox',
-						'label'   => __( 'Enable Wallet Payment', 'wallet-system-for-woocommerce' ),
-						'default' => 'yes',
-					),
+			$this->form_fields = array(
+				'enabled'      => array(
+					'title'   => __( 'Enable/Disable', 'wallet-system-for-woocommerce' ),
+					'type'    => 'checkbox',
+					'label'   => __( 'Enable Wallet Payment', 'wallet-system-for-woocommerce' ),
+					'default' => 'yes',
+				),
 
-					'title'        => array(
-						'title'       => __( 'Title', 'wallet-system-for-woocommerce' ),
-						'type'        => 'text',
-						'description' => __( 'This controls the title for the payment method the customer sees during checkout.', 'wallet-system-for-woocommerce' ),
-						'default'     => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
-						'desc_tip'    => true,
-					),
+				'title'        => array(
+					'title'       => __( 'Title', 'wallet-system-for-woocommerce' ),
+					'type'        => 'text',
+					'description' => __( 'This controls the title for the payment method the customer sees during checkout.', 'wallet-system-for-woocommerce' ),
+					'default'     => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
+					'desc_tip'    => true,
+				),
 
-					'description'  => array(
-						'title'       => __( 'Description', 'wallet-system-for-woocommerce' ),
-						'type'        => 'textarea',
-						'description' => __( 'Payment method description that the customer will see on your checkout.', 'wallet-system-for-woocommerce' ),
-						'default'     => __( 'Your amount is deducted from your wallet.', 'wallet-system-for-woocommerce' ),
-						'desc_tip'    => true,
-					),
+				'description'  => array(
+					'title'       => __( 'Description', 'wallet-system-for-woocommerce' ),
+					'type'        => 'textarea',
+					'description' => __( 'Payment method description that the customer will see on your checkout.', 'wallet-system-for-woocommerce' ),
+					'default'     => __( 'Your amount is deducted from your wallet.', 'wallet-system-for-woocommerce' ),
+					'desc_tip'    => true,
+				),
 
-					'instructions' => array(
-						'title'       => __( 'Instructions', 'wallet-system-for-woocommerce' ),
-						'type'        => 'textarea',
-						'description' => __( 'Instructions that will be added to the thank you page and emails.', 'wallet-system-for-woocommerce' ),
-						'default'     => '',
-						'desc_tip'    => true,
-					),
-				)
+				'instructions' => array(
+					'title'       => __( 'Instructions', 'wallet-system-for-woocommerce' ),
+					'type'        => 'textarea',
+					'description' => __( 'Instructions that will be added to the thank you page and emails.', 'wallet-system-for-woocommerce' ),
+					'default'     => '',
+					'desc_tip'    => true,
+				),
 			);
 		}
 
