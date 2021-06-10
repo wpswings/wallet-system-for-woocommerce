@@ -634,12 +634,22 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 
 				if ( $allow_refund ) {
-					$walletamount += $order_total;
+					$amount = $order_total;
+					foreach ( $order->get_fees() as $item_fee ) {
+						$fee_name  = $item_fee->get_name();
+						$fee_total = $item_fee->get_total();
+						if ( 'Via wallet' === $fee_name ) {
+							$fees   = abs( $fee_total );
+							$amount += $fees;
+							break;
+						}
+					}
+					$walletamount += $amount;
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total, array( 'currency' => $order->get_currency() ) ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -654,7 +664,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_type = 'Wallet credited through order refund <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $userid,
-						'amount'           => $order_total,
+						'amount'           => $amount,
 						'payment_method'   => 'Manually by admin',
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
