@@ -34,6 +34,11 @@ class Wallet_System_For_Woocommerce_Deactivator {
 			delete_option( 'mwb_wsfw_rechargeable_product_id' );
 			wp_delete_post( $product_id, true );
 		}
+		$wallet_payment_enable = get_option( 'woocommerce_mwb_wcb_wallet_payment_gateway_settings' );
+		if ( $wallet_payment_enable ) {
+			$wallet_payment_enable['enabled'] = 'no';
+			update_option( 'woocommerce_mwb_wcb_wallet_payment_gateway_settings', $wallet_payment_enable );
+		}
 	}
 
 }
