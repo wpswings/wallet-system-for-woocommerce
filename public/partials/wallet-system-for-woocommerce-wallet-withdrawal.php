@@ -52,7 +52,7 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 							echo '<tr>
 							<td>' . esc_html( $i ) . '</td>
                             <td>' . esc_html( $request_id ) . '</td>
-                            <td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ) ) . '</td>
+                            <td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ), array( 'currency' => get_woocommerce_currency() ) ) . '</td>
                             <td>' . esc_html( $pending->post_status ) . '</td>
                             <td>' . esc_html( get_post_meta( $request_id, 'mwb_wallet_note', true ) ) . '</td>
                             <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>

@@ -88,6 +88,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			$transaction_data = array(
 				'user_id'          => $user_id,
 				'amount'           => $updated_amount,
+				'currency'         => get_woocommerce_currency(),
 				'payment_method'   => 'Manually By Admin',
 				'transaction_type' => $transaction_type,
 				'order_id'         => '',

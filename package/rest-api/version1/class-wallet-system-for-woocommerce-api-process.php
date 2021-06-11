@@ -146,6 +146,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 						$transaction_data = array(
 							'user_id'          => $user_id,
 							'amount'           => $updated_amount,
+							'currency'         => get_woocommerce_currency(),
 							'payment_method'   => $payment_method,
 							'transaction_type' => $transaction_detail,
 							'order_id'         => $order_id,

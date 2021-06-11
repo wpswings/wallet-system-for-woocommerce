@@ -303,7 +303,6 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_checkout_fields', $wsfw_plugin_public, 'mwb_wsfw_remove_billing_from_checkout' );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'change_order_type', 20, 1 );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );
-
 		}
 
 	}

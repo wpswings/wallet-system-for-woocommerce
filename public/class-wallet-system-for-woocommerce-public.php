@@ -519,11 +519,10 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_recharge = WC()->session->get( 'recharge_amount' );
 			$price           = $wallet_recharge;
 
-			$recharge_amount = apply_filters( 'mwb_wsfw_convert_price_on_cart', $price );
 			
 			if ( ! empty( $cart_items ) ) {
 				foreach ( $cart_items as $key => $value ) {
-					$value['data']->set_price( $recharge_amount );
+					$value['data']->set_price( $price );
 				}
 			}
 		}

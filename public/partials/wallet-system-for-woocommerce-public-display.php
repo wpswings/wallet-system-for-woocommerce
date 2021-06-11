@@ -12,6 +12,7 @@
  */
 
 global $wp;
+$current_currency = apply_filters( 'mwb_wsfw_get_current_currency', get_woocommerce_currency() );
 // phpcs:ignore
 $http_host   = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '';
 // phpcs:ignore
@@ -26,6 +27,7 @@ if ( isset( $_POST['mwb_recharge_wallet'] ) && ! empty( $_POST['mwb_recharge_wal
 			show_message_on_form_submit( 'Please enter amount greater than 0', 'woocommerce-error' );
 		} else {
 			$recharge_amount = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_recharge_amount'] ) );
+			$recharge_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $recharge_amount );
 			if ( ! empty( $_POST['user_id'] ) ) {
 				$user_id = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 
@@ -75,7 +77,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	if ( empty( $_POST['mwb_wallet_transfer_amount'] ) ) {
 		show_message_on_form_submit( 'Please enter amount greater than 0', 'woocommerce-error' );
 		$update = false;
-	} elseif ( $wallet_bal < $_POST['mwb_wallet_transfer_amount'] ) {
+	} elseif ( $wallet_bal < $wallet_transfer_amount ) {
 		show_message_on_form_submit( 'Please enter amount less than or equal to wallet balance', 'woocommerce-error' );
 		$update = false;
 	}
@@ -96,7 +98,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 				$name2 = $user2->first_name . ' ' . $user2->last_name;
 
 				$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-				$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
+				$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
 				$to1         = $user1->user_email;
 				$from        = get_option( 'admin_email' );
 				$subject     = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -113,6 +115,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 			$wallet_transfer_data = array(
 				'user_id'          => $another_user_id,
 				'amount'           => $transfer_amount,
+				'currency'         => $current_currency,
 				'payment_method'   => 'Wallet Transfer',
 				'transaction_type' => $transaction_type,
 				'order_id'         => '',
@@ -128,7 +131,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-					$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
+					$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
 					$to2         = $user2->user_email;
 					$headers2    = 'MIME-Version: 1.0' . "\r\n";
 					$headers2   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
@@ -141,6 +144,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $transfer_amount,
+					'currency'         => $current_currency,
 					'payment_method'   => 'Wallet Transfer',
 					'transaction_type' => $transaction_type,
 					'order_id'         => '',

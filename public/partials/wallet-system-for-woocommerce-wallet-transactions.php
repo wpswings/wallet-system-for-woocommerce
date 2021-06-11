@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<tr>
 							<td><?php echo esc_html( $i ); ?></td>
 							<td><?php echo esc_html( $transaction_id ); ?></td>
-							<td><?php echo wc_price( $transaction->amount ); ?></td>
+							<td><?php echo wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ); ?></td>
 							<td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
 							<td>
 							<?php
