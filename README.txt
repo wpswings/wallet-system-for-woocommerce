@@ -5,8 +5,8 @@ Tags: digital wallet, credit, refund, user wallet, woocommerce wallet, wallet
 Requires at least: 4.6
 Tested up to: 5.7.2
 WC requires at least: 3.0.0
-WC tested up to: 5.2.0
-Stable tag: 2.0.0
+WC tested up to: 5.4.1
+Stable tag: 2.0.2
 Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -84,15 +84,13 @@ The customers can transfer their wallet amount into other customers’ wallets. 
 
 **1.** Merchant can limit the minimum/maximum value that customers add to their Wallet. 
 
-**2.** Customers can make withdrawal requests to merchants and/or can withdraw by providing their details. 
+**2.** Customers can make withdrawal requests to merchants by providing their details. 
 
 **3.** Customers can generate QR codes for their wallet account to receive payment from other wallet users. 
 
 **4.** Merchant can use a widget to show customers their wallet amount upon login. 
 
-**5.** Merchant can send cashback money to customers’ wallet account. Customers can later request withdrawal of their wallet amount.
-
-**6.** Customers can send Invitations to their friends to join the Wallet System. 
+**5.** Customers can send Invitations to their friends to join the Wallet System. 
 
 == SUPPORT ==
 
@@ -115,7 +113,7 @@ The manual installation method involves downloading our Wallet System For WooCom
 
 Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
 
-== FAQs ==
+== Frequently Asked Questions ==
 
 = Where can I view the list of all Wallet transactions? = 
 
@@ -131,6 +129,15 @@ We provide integration with popular local payment gateways. But if you want inte
 Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG&utm_campaign=wallet-kb-ORG) for more detailed [documentation](https://docs.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-doc).
 
 == Changelog ==
+
+= 2.0.2 - RELEASED ON 12 June 2021 =
+
+* Fix: The error coming due to plugin javascript file in shop and cart page
+* Fix: Wallet payment gateway error
+
+= 2.0.1 - RELEASED ON 27 May 2021 =
+
+* FIX: Minor Bug and Issues Fixes.
 
 = 2.0.0 - RELEASED ON 20 May 2021 =
 
@@ -165,13 +172,7 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 == Upgrade Notice ==
 
-= 2.0.0 =
-* New: Customers can pay using their wallet as a discount if the wallet amount is less than the actual order amount,
-* New: Customers can transfer wallet amount to another user.
-* New: Merchants can set email notifications to users on their wallet updation(credit/debit)
-* New: Merchant can add/subtract a certain amount on all user at one click(Bulk operations)
-* New: Merchant can update wallet of all users at once using CSV file(wallet import)
-* New: Merchant can allow refund of orders to the wallet.
-* New: Customers can file a request to withdraw the amount from their wallets and transfer it into their bank accounts or other payment apps. 
-* New: Have REST API to access and manage wallets
-* FIX: Minor Bug and Issues Fixes.
+= 2.0.2 =
+
+* Fix: The error coming due to plugin javascript file in shop and cart page
+* Fix: Wallet payment gateway error
