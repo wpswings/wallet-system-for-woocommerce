@@ -22,7 +22,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 	 * @since      1.0.0
 	 * @package    Hydroshop_Api_Management
 	 * @subpackage Hydroshop_Api_Management/includes
-	 * @author     MakeWebBetter <makewebbetter.com>
+	 * @author     makewebbetter <webmaster@makewebbetter.com>
 	 */
 	class Wallet_System_For_Woocommerce_Api_Process {
 
