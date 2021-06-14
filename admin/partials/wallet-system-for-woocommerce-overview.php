@@ -32,6 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				);
 				?>
 			</p>
+			<div class="mwb-wsfsw-iframe-box">
+				<iframe src="https://www.youtube.com/embed/pyAxFDBcLDA" title="Wallet System For Woocommerce" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
 			<h3><?php esc_html_e( 'With our Wallet System for WooCommerce, You Can:', 'wallet-system-for-woocommerce' ); ?></h3>
 			<ul class="mwb-overview__features">
 				<li><?php esc_html_e( 'Add or remove funds to the wallets of your customers in bulk', 'wallet-system-for-woocommerce' ); ?></li>
