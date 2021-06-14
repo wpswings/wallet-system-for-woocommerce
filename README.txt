@@ -25,6 +25,8 @@ The application of the Wallet System for WooCommerce will improve the overall us
 
 Wallet System for WooCommerce increases the ease and security of the payment process. It benefits both customers and the merchant. 
 
+[youtube https://www.youtube.com/watch?v=pyAxFDBcLDA]
+
 == WHAT’S INCLUDED IN OUR FREE WALLET SYSTEM FOR WOOCOMMERCE PLUGIN ==
 
 **1.** Customers can top up funds into their WooCommerce wallets using any payment method allowed by the merchant. 

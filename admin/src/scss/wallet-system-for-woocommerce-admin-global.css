@@ -587,3 +587,16 @@ select {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.mwb-overview__wrapper .mwb-wsfsw-iframe-box {
+    text-align:center;
+}
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description iframe {
+    width:560px;
+    height:315px;
+    margin:30px auto 20px;
+}
+@media screen and (max-width:700px) {
+    .mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description iframe {
+        width:100%;
+    } 
+}
