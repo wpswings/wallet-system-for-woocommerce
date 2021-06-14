@@ -25,6 +25,8 @@ The application of the Wallet System for WooCommerce will improve the overall us
 
 Wallet System for WooCommerce increases the ease and security of the payment process. It benefits both customers and the merchant. 
 
+[youtube https://www.youtube.com/watch?v=pyAxFDBcLDA]
+
 == WHAT’S INCLUDED IN OUR FREE WALLET SYSTEM FOR WOOCOMMERCE PLUGIN ==
 
 **1.** Customers can top up funds into their WooCommerce wallets using any payment method allowed by the merchant. 
@@ -132,7 +134,7 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 = 2.0.2 - RELEASED ON 12 June 2021 =
 
-* Fix: The error coming due to plugin javascript file in shop and cart page
+* Fix: The error coming due to plugin JavaScript file in shop and cart page
 * Fix: Wallet payment gateway error
 
 = 2.0.1 - RELEASED ON 27 May 2021 =
@@ -143,9 +145,9 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 * New: Customers can pay using their wallet as a discount if the wallet amount is less than the actual order amount,
 * New: Customers can transfer wallet amount to another user.
-* New: Merchants can set email notifications to users on their wallet updation(credit/debit)
-* New: Merchant can add/subtract a certain amount on all user at one click(Bulk operations)
-* New: Merchant can update wallet of all users at once using CSV file(wallet import)
+* New: Merchants can set email notifications to users on their wallet update (credit/debit)
+* New: Merchant can add/subtract a certain amount on all user at one click (Bulk operations)
+* New: Merchant can update wallet of all users at once using CSV file (wallet import)
 * New: Merchant can allow refund of orders to the wallet.
 * New: Customers can file a request to withdraw the amount from their wallets and transfer it into their bank accounts or other payment apps. 
 * New: Have REST API to access and manage wallets
@@ -161,18 +163,18 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 2. Credit/debit amount from users wallet
 3. Update wallet
 4. Check wallet transaction
-5. Withdrawl request form
+5. Withdrawal request form
 6. Generate Rest API
 7. Rest API keys
 8. Check system status
 9. Add balance
 10. Wallet transfer
-11. Wallet withdrawl request
+11. Wallet withdrawal request
 12. Wallet transaction history check
 
 == Upgrade Notice ==
 
 = 2.0.2 =
 
-* Fix: The error coming due to plugin javascript file in shop and cart page
+* Fix: The error coming due to plugin JavaScript file in shop and cart page
 * Fix: Wallet payment gateway error
