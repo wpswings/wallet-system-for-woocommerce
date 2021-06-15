@@ -110,6 +110,9 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_gen_tab_enable'       => get_option( 'mwb_wsfw_enable' ),
 					'datatable_pagination_text' => __( 'Rows per page _MENU_', 'wallet-system-for-woocommerce' ),
 					'datatable_info'            => __( '_START_ - _END_ of _TOTAL_', 'wallet-system-for-woocommerce' ),
+					'wsfw_ajax_error'           => __( 'An error occured!', 'woocommerce-wallet-system' ),
+					'wsfw_amount_error'         => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
+					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
 				)
 			);
 
@@ -259,14 +262,14 @@ class Wallet_System_For_Woocommerce_Admin {
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
 			),
-
-			array(
-				'type'        => 'submit',
-				'name'        => 'wsfw_button_demo',
-				'id'          => 'wsfw_button_demo',
-				'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
-				'class'       => 'wsfw-button-class',
-			),
+		);
+		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
+		$wsfw_settings_general[] = array(
+			'type'        => 'submit',
+			'name'        => 'wsfw_button_demo',
+			'id'          => 'wsfw_button_demo',
+			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wsfw-button-class',
 		);
 		return $wsfw_settings_general;
 	}
@@ -531,11 +534,11 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$user       = get_user_by( 'id', $user_id );
 					$name       = $user->first_name . ' ' . $user->last_name;
-					$mail_text  = sprintf( 'Hello %s,<br/>', $name );
+					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 					$mail_text .= $mail_message;
 					$to         = $user->user_email;
 					$from       = get_option( 'admin_email' );
-					$subject    = 'Wallet updating notification';
+					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 					$headers    = 'MIME-Version: 1.0' . "\r\n";
 					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .
@@ -607,10 +610,10 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_order_status_changed_admin( $order_id, $old_status, $new_status ) {
 		$order          = wc_get_order( $order_id );
-		$userid         = $order->user_id;
+		$userid         = $order->get_user_id();
 		$order_items    = $order->get_items();
 		$order_total    = $order->get_total();
-		$payment_method = $order->payment_method;
+		$payment_method = $order->get_payment_method();
 		$wallet_id      = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount   = get_user_meta( $userid, 'mwb_wallet', true );
 		$user                   = get_user_by( 'id', $userid );
@@ -631,15 +634,25 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 
 				if ( $allow_refund ) {
-					$walletamount += $order_total;
+					$amount = $order_total;
+					foreach ( $order->get_fees() as $item_fee ) {
+						$fee_name  = $item_fee->get_name();
+						$fee_total = $item_fee->get_total();
+						if ( 'Via wallet' === $fee_name ) {
+							$fees   = abs( $fee_total );
+							$amount += $fees;
+							break;
+						}
+					}
+					$walletamount += $amount;
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
-						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total, array( 'currency' => $order->get_currency() ) ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );
+						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
-						$subject    = 'Wallet updating notification';
+						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
 						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
@@ -651,7 +664,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_type = 'Wallet credited through order refund <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $userid,
-						'amount'           => $order_total,
+						'amount'           => $amount,
 						'payment_method'   => 'Manually by admin',
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
@@ -674,6 +687,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					} else {
 						$update_wallet_userid = $userid;
 					}
+					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $total;
@@ -684,7 +698,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
-						$subject    = 'Wallet updating notification';
+						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
 						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
@@ -700,7 +714,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
-						'note'             => '',
+						'note'             => $transfer_note,
 					);
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				}
@@ -723,11 +737,11 @@ class Wallet_System_For_Woocommerce_Admin {
 					}
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$mail_text  = sprintf( 'Hello %s,<br/>', $name );
+						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
-						$subject    = 'Wallet updating notification';
+						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 						$headers    = 'MIME-Version: 1.0' . "\r\n";
 						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
@@ -911,11 +925,11 @@ class Wallet_System_For_Woocommerce_Admin {
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user       = get_user_by( 'id', $user_id );
 							$name       = $user->first_name . ' ' . $user->last_name;
-							$mail_text  = sprintf( 'Hello %s,<br/>', $name );
+							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 							$mail_text .= wc_price( $withdrawal_amount ) . __( ' has been debited from wallet through your withdrawing request.', 'wallet-system-for-woocommerce' );
 							$to         = $user->user_email;
 							$from       = get_option( 'admin_email' );
-							$subject    = 'Wallet updating notification';
+							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 							$headers    = 'MIME-Version: 1.0' . "\r\n";
 							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 							$headers   .= 'From: ' . $from . "\r\n" .
@@ -1160,11 +1174,11 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$user       = get_user_by( 'id', $user_id );
 					$name       = $user->first_name . ' ' . $user->last_name;
-					$mail_text  = sprintf( 'Hello %s,<br/>', $name );
+					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 					$mail_text .= wc_price( $withdrawal_amount ) . __( 'has been debited from wallet through user withdrawing request.', 'wallet-system-for-woocommerce' );
 					$to         = $user->user_email;
 					$from       = get_option( 'admin_email' );
-					$subject    = 'Wallet updating notification';
+					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 					$headers    = 'MIME-Version: 1.0' . "\r\n";
 					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .

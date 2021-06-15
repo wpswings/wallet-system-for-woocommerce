@@ -281,12 +281,10 @@ class Wallet_System_For_Woocommerce {
 
 		$wsfw_plugin_public = new Wallet_System_For_Woocommerce_Public( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_scripts' );
-
 		$enable = get_option( 'mwb_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
-
+			$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_styles' );
+			$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_public, 'wsfw_public_enqueue_scripts' );
 			$this->loader->add_action( 'init', $wsfw_plugin_public, 'mwb_wsfw_wallet_register_endpoint' );
 			$this->loader->add_action( 'query_vars', $wsfw_plugin_public, 'mwb_wsfw_wallet_query_var' );
 			$this->loader->add_action( 'woocommerce_account_mwb-wallet_endpoint', $wsfw_plugin_public, 'mwb_wsfw_display_wallet_endpoint_content', 20 );
@@ -300,7 +298,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $wsfw_plugin_public, 'show_message_addto_cart', 10, 2 );
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $wsfw_plugin_public, 'mwb_update_price_cart', 10, 1 );
 			$this->loader->add_action( 'woocommerce_cart_item_removed', $wsfw_plugin_public, 'after_remove_wallet_from_cart', 10, 2 );
-
+			
 			$this->loader->add_filter( 'woocommerce_checkout_fields', $wsfw_plugin_public, 'mwb_wsfw_remove_billing_from_checkout' );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'change_order_type', 20, 1 );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );
@@ -384,7 +382,6 @@ class Wallet_System_For_Woocommerce {
 	public function mwb_wsfw_plug_default_tabs() {
 
 		$wsfw_default_tabs = array();
-
 		$wsfw_default_tabs['wallet-system-for-woocommerce-general'] = array(
 			'title' => esc_html__( 'General', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-general',
@@ -422,6 +419,8 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'wallet-system-for-woocommerce-overview',
 		);
 
+		$wsfw_default_tabs = apply_filters( 'mwb_wsfw_plug_extra_tabs', $wsfw_default_tabs );
+
 		return $wsfw_default_tabs;
 	}
 
@@ -435,7 +434,7 @@ class Wallet_System_For_Woocommerce {
 	public function mwb_wsfw_plug_load_template( $path, $params = array() ) {
 
 		$wsfw_file_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . $path;
-
+		$wsfw_file_path = apply_filters( 'mwb_wsfw_template_path', $wsfw_file_path );
 		if ( file_exists( $wsfw_file_path ) ) {
 
 			include $wsfw_file_path;
@@ -582,7 +581,10 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_system_status['php_max_execution_time'] = function_exists( 'ini_get' ) ? ini_get( 'max_execution_time' ) : __( 'N/A (ini_get function does not exist)', 'wallet-system-for-woocommerce' );
 
 		// Get outgoing IP address, file_get_contents is used to get IP address.
-		$wsfw_system_status['outgoing_ip'] = function_exists( 'file_get_contents' ) ? file_get_contents( 'http://ipecho.net/plain' ) : __( 'N/A (file_get_contents function does not exist)', 'wallet-system-for-woocommerce' );
+		$apiUrl                            = 'http://ipecho.net/plain';
+		$api_response                      = wp_remote_get( $apiUrl );
+		$responseBody                      = wp_remote_retrieve_body( $api_response );
+		$wsfw_system_status['outgoing_ip'] = $responseBody;
 
 		$wsfw_system_data['php'] = $wsfw_system_status;
 		$wsfw_system_data['wp']  = $wsfw_wordpress_status;
@@ -632,6 +634,9 @@ class Wallet_System_For_Woocommerce {
 									placeholder="<?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?>"
 									>
 								</label>
+								<div class="mdc-text-field-helper-line">
+									<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+								</div>
 							</div>
 						</div>
 							<?php

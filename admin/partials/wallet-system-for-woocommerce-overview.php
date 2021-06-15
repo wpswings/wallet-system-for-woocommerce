@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<div class="mwb-overview__content">
 		<div class="mwb-overview__content-description">
-			<h2><?php echo esc_html_e( 'What is Wallet System for WooCommerce Plugin? ', 'wallet-system-for-woocommerce' ); ?></h2>
+			<h2><?php esc_html_e( 'What is Wallet System for WooCommerce Plugin? ', 'wallet-system-for-woocommerce' ); ?></h2>
 			<p>
 				<?php
 				esc_html_e(
@@ -32,6 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				);
 				?>
 			</p>
+			<div class="mwb-wsfsw-iframe-box">
+				<iframe src="https://www.youtube.com/embed/pyAxFDBcLDA" title="Wallet System For Woocommerce" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
 			<h3><?php esc_html_e( 'With our Wallet System for WooCommerce, You Can:', 'wallet-system-for-woocommerce' ); ?></h3>
 			<ul class="mwb-overview__features">
 				<li><?php esc_html_e( 'Add or remove funds to the wallets of your customers in bulk', 'wallet-system-for-woocommerce' ); ?></li>
@@ -55,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/Icons_Top-up_Payment_methods.jpg' ); ?>" alt="Top-up Payment methods">
 					</div>
 					<div class="mwb-overview__keywords-text">
-						<h3 class="mwb-overview__keywords-heading"><?php echo esc_html_e( 'Top-up Payment methods', 'wallet-system-for-woocommerce' ); ?></h3>
+						<h3 class="mwb-overview__keywords-heading"><?php esc_html_e( 'Top-up Payment methods', 'wallet-system-for-woocommerce' ); ?></h3>
 						<p class="mwb-overview__keywords-description">
 							<?php
 							esc_html_e(
@@ -73,8 +76,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/Icons_Wallet_Transaction_History_for_Customers.jpg' ); ?>" alt="Wallet Transaction">
 					</div>
 					<div class="mwb-overview__keywords-text">
-						<h3 class="mwb-overview__keywords-heading"><?php echo esc_html_e( 'Wallet Transaction History for Customers', 'wallet-system-for-woocommerce' ); ?></h3>
-						<p class="mwb-overview__keywords-description"><?php echo esc_html_e( 'The wallet system is secure and transparent. Customers can see their transactions made using the wallet. The transaction list contains debit and credit details. It allows your customers to track their spending and helps them check if any unauthorized transactions are made from their wallets. The wallet system is secure and transparent.', 'wallet-system-for-woocommerce' ); ?></p>
+						<h3 class="mwb-overview__keywords-heading"><?php esc_html_e( 'Wallet Transaction History for Customers', 'wallet-system-for-woocommerce' ); ?></h3>
+						<p class="mwb-overview__keywords-description"><?php esc_html_e( 'The wallet system is secure and transparent. Customers can see their transactions made using the wallet. The transaction list contains debit and credit details. It allows your customers to track their spending and helps them check if any unauthorized transactions are made from their wallets. The wallet system is secure and transparent.', 'wallet-system-for-woocommerce' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -84,10 +87,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/Icons_Wallet_as_Payment_Method.jpg' ); ?>" alt="Wallet as a Payment Method">
 					</div>
 					<div class="mwb-overview__keywords-text">
-						<h3 class="mwb-overview__keywords-heading"><?php echo esc_html_e( 'Wallet as a Payment Method', 'wallet-system-for-woocommerce' ); ?></h3>
+						<h3 class="mwb-overview__keywords-heading"><?php esc_html_e( 'Wallet as a Payment Method', 'wallet-system-for-woocommerce' ); ?></h3>
 						<p class="mwb-overview__keywords-description">
 							<?php
-							echo esc_html_e(
+							esc_html_e(
 								'Your Customers’ Wallet will work as a payment method only if the wallet amount is greater than the total order value. It will show in the payment method selection. It provides your customers a smooth shopping experience and reminds them to keep their wallets topped up.',
 								'wallet-system-for-woocommerce'
 							);
@@ -102,7 +105,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/Icons_Wallet_as_Discount.jpg' ); ?>" alt="Wallet as a Discount">
 					</div>
 					<div class="mwb-overview__keywords-text">
-						<h3 class="mwb-overview__keywords-heading"><?php echo esc_html_e( 'Wallet as a Discount', 'wallet-system-for-woocommerce' ); ?></h3>
+						<h3 class="mwb-overview__keywords-heading"><?php esc_html_e( 'Wallet as a Discount', 'wallet-system-for-woocommerce' ); ?></h3>
 						<p class="mwb-overview__keywords-description">
 							<?php
 							esc_html_e(
@@ -112,7 +115,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 							?>
 						</p>
 					</div>
-					<a href="https://makewebbetter.com/contact-us/" title=""></a>
 				</div>
 			</div>
 			<div class="mwb-overview__keywords-item">
@@ -121,10 +123,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/Icons_Wallet_Amount_Withdrawal.jpg' ); ?>" alt="Wallet Amount Withdrawal">
 					</div>
 					<div class="mwb-overview__keywords-text">
-						<h3 class="mwb-overview__keywords-heading"><?php echo esc_html_e( 'Wallet Amount Withdrawal', 'wallet-system-for-woocommerce' ); ?></h3>
+						<h3 class="mwb-overview__keywords-heading"><?php esc_html_e( 'Wallet Amount Withdrawal', 'wallet-system-for-woocommerce' ); ?></h3>
 						<p class="mwb-overview__keywords-description">
 							<?php
-							echo esc_html_e(
+							esc_html_e(
 								'Customers can withdraw their wallet amount into their bank account. They have to file a withdrawal request and provide you their account details.',
 								'wallet-system-for-woocommerce'
 							);
@@ -134,5 +136,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 			</div>
 		</div>
+		<?php
+		$additional_content = apply_filters( 'mwb_wsfw_overview_additional_content', '' );
+		?>
 	</div>
 </div>

@@ -76,40 +76,37 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 		 */
 		public function init_form_fields() {
 
-			$this->form_fields = apply_filters(
-				'cashback_wallet_gateway_form_fields',
-				array(
-					'enabled'      => array(
-						'title'   => __( 'Enable/Disable', 'wallet-system-for-woocommerce' ),
-						'type'    => 'checkbox',
-						'label'   => __( 'Enable Wallet Payment', 'wallet-system-for-woocommerce' ),
-						'default' => 'yes',
-					),
+			$this->form_fields = array(
+				'enabled'      => array(
+					'title'   => __( 'Enable/Disable', 'wallet-system-for-woocommerce' ),
+					'type'    => 'checkbox',
+					'label'   => __( 'Enable Wallet Payment', 'wallet-system-for-woocommerce' ),
+					'default' => 'yes',
+				),
 
-					'title'        => array(
-						'title'       => __( 'Title', 'wallet-system-for-woocommerce' ),
-						'type'        => 'text',
-						'description' => __( 'This controls the title for the payment method the customer sees during checkout.', 'wallet-system-for-woocommerce' ),
-						'default'     => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
-						'desc_tip'    => true,
-					),
+				'title'        => array(
+					'title'       => __( 'Title', 'wallet-system-for-woocommerce' ),
+					'type'        => 'text',
+					'description' => __( 'This controls the title for the payment method the customer sees during checkout.', 'wallet-system-for-woocommerce' ),
+					'default'     => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
+					'desc_tip'    => true,
+				),
 
-					'description'  => array(
-						'title'       => __( 'Description', 'wallet-system-for-woocommerce' ),
-						'type'        => 'textarea',
-						'description' => __( 'Payment method description that the customer will see on your checkout.', 'wallet-system-for-woocommerce' ),
-						'default'     => __( 'Your amount is deducted from your wallet.', 'wallet-system-for-woocommerce' ),
-						'desc_tip'    => true,
-					),
+				'description'  => array(
+					'title'       => __( 'Description', 'wallet-system-for-woocommerce' ),
+					'type'        => 'textarea',
+					'description' => __( 'Payment method description that the customer will see on your checkout.', 'wallet-system-for-woocommerce' ),
+					'default'     => __( 'Your amount is deducted from your wallet.', 'wallet-system-for-woocommerce' ),
+					'desc_tip'    => true,
+				),
 
-					'instructions' => array(
-						'title'       => __( 'Instructions', 'wallet-system-for-woocommerce' ),
-						'type'        => 'textarea',
-						'description' => __( 'Instructions that will be added to the thank you page and emails.', 'wallet-system-for-woocommerce' ),
-						'default'     => '',
-						'desc_tip'    => true,
-					),
-				)
+				'instructions' => array(
+					'title'       => __( 'Instructions', 'wallet-system-for-woocommerce' ),
+					'type'        => 'textarea',
+					'description' => __( 'Instructions that will be added to the thank you page and emails.', 'wallet-system-for-woocommerce' ),
+					'default'     => '',
+					'desc_tip'    => true,
+				),
 			);
 		}
 
@@ -169,11 +166,11 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user       = get_user_by( 'id', $customer_id );
 							$name       = $user->first_name . ' ' . $user->last_name;
-							$mail_text  = sprintf( 'Hello %s,<br/>', $name );
+							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 							$to         = $user->user_email;
 							$from       = get_option( 'admin_email' );
-							$subject    = 'Wallet updating notification';
+							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 							$headers    = 'MIME-Version: 1.0' . "\r\n";
 							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 							$headers   .= 'From: ' . $from . "\r\n" .

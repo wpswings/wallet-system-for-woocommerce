@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Wallet System for WooCommerce 2.0.0\n"
-"POT-Creation-Date: 2021-05-15 14:43+0530\n"
-"PO-Revision-Date: 2021-05-15 14:43+0530\n"
+"Project-Id-Version: Wallet System for WooCommerce 2.0.2\n"
+"POT-Creation-Date: 2021-06-14 19:22+0530\n"
+"PO-Revision-Date: 2021-06-14 19:22+0530\n"
 "Last-Translator: \n"
 "Language-Team: MakeWebBetter\n"
 "Language: en_US\n"
@@ -40,7 +40,7 @@ msgstr ""
 #: admin/class-wallet-orders-list.php:61
 #: admin/class-wallet-system-for-woocommerce-admin.php:1083
 #: admin/partials/wallet-system-withdrawal-setting.php:61
-#: public/partials/wallet-payment-gateway-wallet-withdrawal.php:38
+#: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:38
 msgid "Status"
 msgstr ""
 
@@ -59,8 +59,8 @@ msgstr ""
 #: admin/partials/mwb-user-wallet-transactions.php:63
 #: admin/partials/wallet-system-wallet-transactions.php:58
 #: admin/partials/wallet-system-withdrawal-setting.php:63
-#: public/partials/wallet-payment-gateway-wallet-transactions.php:24
-#: public/partials/wallet-payment-gateway-wallet-withdrawal.php:40
+#: public/partials/wallet-system-for-woocommerce-wallet-transactions.php:24
+#: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:40
 msgid "Date"
 msgstr ""
 
@@ -274,10 +274,10 @@ msgstr ""
 #: admin/partials/mwb-user-wallet-transactions.php:59
 #: admin/partials/wallet-system-wallet-setting.php:371
 #: admin/partials/wallet-system-wallet-transactions.php:54
-#: public/partials/wallet-payment-gateway-wallet-transactions.php:21
-#: public/partials/wallet-payment-gateway-wallet-transfer.php:24
-#: public/partials/wallet-payment-gateway-wallet-withdrawal.php:37
-#: public/partials/wallet-payment-gateway-wallet-withdrawal.php:72
+#: public/partials/wallet-system-for-woocommerce-wallet-transactions.php:21
+#: public/partials/wallet-system-for-woocommerce-wallet-transfer.php:24
+#: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:37
+#: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:72
 msgid "Amount"
 msgstr ""
 
@@ -592,7 +592,7 @@ msgid "Name"
 msgstr ""
 
 #: admin/class-wallet-transactions-list.php:48
-#: public/partials/wallet-payment-gateway-wallet-transactions.php:23
+#: public/partials/wallet-system-for-woocommerce-wallet-transactions.php:23
 msgid "Method"
 msgstr ""
 
@@ -672,7 +672,7 @@ msgstr ""
 
 #: admin/partials/mwb-user-wallet-transactions.php:61
 #: admin/partials/wallet-system-wallet-transactions.php:56
-#: public/partials/wallet-payment-gateway-wallet-transactions.php:22
+#: public/partials/wallet-system-for-woocommerce-wallet-transactions.php:22
 msgid "Details"
 msgstr ""
 
@@ -1219,7 +1219,7 @@ msgid "Wallet"
 msgstr ""
 
 #: admin/partials/wallet-system-wallet-setting.php:367
-#: public/partials/wallet-payment-gateway-wallet-withdrawal.php:36
+#: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:36
 msgid "ID"
 msgstr ""
 
@@ -1294,8 +1294,8 @@ msgid "Withdrawal Amount"
 msgstr ""
 
 #: admin/partials/wallet-system-withdrawal-setting.php:64
-#: public/partials/wallet-payment-gateway-wallet-withdrawal.php:39
-#: public/partials/wallet-payment-gateway-wallet-withdrawal.php:77
+#: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:39
+#: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:77
 msgid "Note"
 msgstr ""
 
@@ -1603,19 +1603,19 @@ msgid ""
 "you want to buy this product, please first remove wallet topup from cart."
 msgstr ""
 
-#: public/partials/wallet-payment-gateway-wallet-recharge.php:17
+#: public/partials/wallet-system-for-woocommerce-wallet-recharge.php:17
 msgid "Enter Amount ("
 msgstr ""
 
-#: public/partials/wallet-payment-gateway-wallet-transactions.php:20
+#: public/partials/wallet-system-for-woocommerce-wallet-transactions.php:20
 msgid "Transaction Id"
 msgstr ""
 
-#: public/partials/wallet-payment-gateway-wallet-transfer.php:20
+#: public/partials/wallet-system-for-woocommerce-wallet-transfer.php:20
 msgid "Transfer to :"
 msgstr ""
 
-#: public/partials/wallet-payment-gateway-wallet-transfer.php:29
+#: public/partials/wallet-system-for-woocommerce-wallet-transfer.php:29
 msgid "What's this for"
 msgstr ""
 

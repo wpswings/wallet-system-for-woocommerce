@@ -19,7 +19,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $wsfw_mwb_wsfw_obj;
 $wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['wsfw_tab'] ) ) : 'wallet-system-for-woocommerce-general';
 $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
+$show_additional_section = apply_filters( 'mwb_wsfw_show_additional_section', '' );
+$wallet_payment_enable = get_option( 'woocommerce_mwb_wcb_wallet_payment_gateway_settings' );
+if ( ! $wallet_payment_enable || $wallet_payment_enable['enabled'] == 'no' ) {
+	?>
+	<div class="mwb-header-container mwb-bg-white mwb-r-8">
+		<h1 class="mwb-header-title">
+			<p>
+				<?php printf( esc_html__( 'Please configure your Wallet Payment Gateway settings.', 'wallet-system-for-woocommerce' ) ); ?>
+			</p>
+		</h1>
+	</div>
+	<?php
+}
+
 ?>
+
 <header>
 	<div class="mwb-header-container mwb-bg-white mwb-r-8">
 		<h1 class="mwb-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $wsfw_mwb_wsfw_obj->wsfw_get_plugin_name() ) ) ); ?></h1>
@@ -63,8 +78,8 @@ $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 			}
 
 			// look for the path based on the tab id in the admin templates.
-			$wsfw_tab_content_path = 'admin/partials/' . $wsfw_active_tab . '.php';
 
+			$wsfw_tab_content_path = 'admin/partials/' . $wsfw_active_tab . '.php';
 			$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_load_template( $wsfw_tab_content_path );
 
 			do_action( 'mwb_wsfw_after_general_settings_form' );

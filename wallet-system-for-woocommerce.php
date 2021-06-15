@@ -15,7 +15,7 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
- * Version:           2.0.1
+ * Version:           2.0.2
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/?utm_source=MWB-wallet-backend&utm_medium=MWB-wallet-ORG-backend&utm_campaign=MWB-backend
  * Text Domain:       wallet-system-for-woocommerce
@@ -24,7 +24,7 @@
  * Requires at least: 4.6
  * Tested up to:      5.7.2
  * WC requires at least: 3.0.0
- * WC tested up to:      5.2.0
+ * WC tested up to:      5.4.1
  *
  * License:           GNU General Public License v3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,7 +48,7 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.0.1' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.0.2' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://makewebbetter.com' );
@@ -199,7 +199,7 @@ if ( $activated ) {
 		?>
 		<div class="error notice is-dismissible">
 			<p>
-				<?php esc_html_e( 'Woocommerce is not activated, Please activate Woocommerce first to install Wallet System For WooCommerce.', 'wallet-system-for-woocommerce' ); ?>
+				<?php esc_html_e( 'WooCommerce is not activated, Please activate WooCommerce first to install Wallet System For WooCommerce.', 'wallet-system-for-woocommerce' ); ?>
 			</p>
 		</div>
 		<?php
