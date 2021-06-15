@@ -39,7 +39,7 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 			<input type="email" class="mwb-wallet-userselect" id="mwb_wallet_transfer_user_email" name="mwb_wallet_transfer_user_email" required="">
 		</p>
 		<p class="mwb-wallet-field-container form-row form-row-wide">
-			<label for="mwb_wallet_transfer_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol() ) . ')'; ?></label>
+			<label for="mwb_wallet_transfer_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . ')'; ?></label>
 			<input type="number" step="0.01" min="0" data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="mwb_wallet_transfer_amount" name="mwb_wallet_transfer_amount" required="">
 		</p>
 		<p class="error"></p>
