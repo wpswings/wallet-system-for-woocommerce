@@ -615,6 +615,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$order_items    = $order->get_items();
 		$order_total    = $order->get_total();
 		$payment_method = $order->get_payment_method();
+		$order_currency = $order->get_currency();
 		$wallet_id      = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount   = get_user_meta( $userid, 'mwb_wallet', true );
 		$user                   = get_user_by( 'id', $userid );
@@ -645,7 +646,7 @@ class Wallet_System_For_Woocommerce_Admin {
 							break;
 						}
 					}
-					$credited_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $amount );
+					$credited_amount = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $amount, $order_currency );
 					$walletamount   += $credited_amount;
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 
@@ -668,7 +669,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'user_id'          => $userid,
 						'amount'           => $amount,
 						'currency'         => $order->get_currency(),
-						'payment_method'   => 'Manually by admin',
+						'payment_method'   => 'Manually by admin through refund',
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
 						'note'             => '',
@@ -684,7 +685,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$order_status = array( 'pending', 'on-hold', 'processing' );
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount        = $total;
-					$credited_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $amount );
+					$credited_amount = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $amount, $order_currency );
 					$wallet_userid = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
 					if ( $wallet_userid ) {
 						$update_wallet_userid = $wallet_userid;
@@ -735,7 +736,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( in_array( $old_status, $order_status ) && in_array( $new_status, $payment_status ) ) {
 					$fees   = abs( $fee_total );
 					$amount = $fees;
-					$debited_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $fees );
+					$debited_amount = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $fees, $order_currency );
 					if ( $walletamount < $debited_amount ) {
 						$walletamount = 0;
 					} else {
