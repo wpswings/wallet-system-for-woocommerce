@@ -111,7 +111,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 		self::$mwb_wsfw_store_name = get_bloginfo( 'name' );
 		self::$mwb_wsfw_store_url = home_url();
 		self::$mwb_wsfw_plugin_name = 'wallet-system-for-woocommerce';
-		self::$mwb_wsfw_plugin_name_label = 'MWB STANDARD PLUGIN';
+		self::$mwb_wsfw_plugin_name_label = 'Wallet System For WooCommerce';
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'mwb_wsfw_onboarding_enqueue_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'mwb_wsfw_onboarding_enqueue_scripts' ) );

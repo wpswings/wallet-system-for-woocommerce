@@ -155,7 +155,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			}
 			$debited_amount   = apply_filters( 'mwb_wsfw_convert_to_base_price', $order_total );
 			$current_currency = apply_filters( 'mwb_wsfw_get_current_currency', $order->get_currency() );
-			$customer_id = get_current_user_id();
+			$customer_id      = get_current_user_id();
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
 				if ( $debited_amount <= $walletamount ) {
