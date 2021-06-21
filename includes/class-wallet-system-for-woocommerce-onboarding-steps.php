@@ -418,7 +418,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 				'type' => 'hidden',
 				'placeholder' => '',
 				'name' => 'org_plugin_name',
-				'value' => self::$mwb_wsfw_plugin_name,
+				'value' => self::$mwb_wsfw_plugin_name_label,
 				'required' => '',
 				'class' => '',
 			),
@@ -534,7 +534,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 				'type' => 'hidden',
 				'placeholder' => '',
 				'name' => 'org_plugin_name',
-				'value' => '',
+				'value' => self::$mwb_wsfw_plugin_name_label,
 				'required' => '',
 				'class' => '',
 			),
@@ -713,7 +713,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @param   array  $headers    data that must be included in header for request.
 	 */
 	private function mwb_wsfw_hic_post( $endpoint, $post_params, $headers ) {
-		$url      = $this->mwb_isfw_base_url . $endpoint;
+		$url      = $this->mwb_wsfw_base_url . $endpoint;
 		$request  = array(
 			'method'      => 'POST',
 			'timeout'     => 45,

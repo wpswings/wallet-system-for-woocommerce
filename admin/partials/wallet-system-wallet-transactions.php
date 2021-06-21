@@ -68,12 +68,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
 						$user = get_user_by( 'id', $transaction->user_id );
+						if ( $user ) {
+							$display_name = $user->display_name;
+							$useremail    = $user->user_email;
+							$user_role    = $user->roles[0];
+						} else {
+							$display_name = '';
+							$useremail    = '';
+							$user_role    = '';
+						}
 						?>
 						<tr>
 							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
-							<td><?php echo esc_html( $user->display_name ); ?></td>
-							<td><?php echo esc_html( $user->user_email ); ?></td>
-							<td><?php echo esc_html( $user->roles[0] ); ?></td>
+							<td><?php echo esc_html( $display_name ); ?></td>
+							<td><?php echo esc_html( $useremail ); ?></td>
+							<td><?php echo esc_html( $user_role ); ?></td>
 							<td><?php echo wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ); ?></td>
 							<td><?php echo esc_html( $transaction->payment_method ); ?></td>
 							<td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
