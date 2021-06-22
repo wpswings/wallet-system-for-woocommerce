@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.0.0';
+			$this->version = '2.0.3';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -268,6 +268,8 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_styles' );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_scripts' );
+
+		$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_common, 'mwb_wsfw_wallet_recharge_product_purchasable', 1, 2 );
 	}
 
 	/**
@@ -293,7 +295,6 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_review_order_after_order_total', $wsfw_plugin_public, 'checkout_review_order_custom_field' );
 			$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_public, 'remove_wallet_session', 10, 1 );
 			$this->loader->add_action( 'woocommerce_cart_calculate_fees', $wsfw_plugin_public, 'wsfw_add_wallet_discount', 20 );
-			$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_public, 'mwb_wsfw_wallet_recharge_product_purchasable', 10, 2 );
 			$this->loader->add_action( 'template_redirect', $wsfw_plugin_public, 'add_wallet_recharge_to_cart' );
 			$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $wsfw_plugin_public, 'show_message_addto_cart', 10, 2 );
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $wsfw_plugin_public, 'mwb_update_price_cart', 10, 1 );
@@ -302,7 +303,6 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_checkout_fields', $wsfw_plugin_public, 'mwb_wsfw_remove_billing_from_checkout' );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'change_order_type', 20, 1 );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );
-
 		}
 
 	}
@@ -855,7 +855,7 @@ class Wallet_System_For_Woocommerce {
 
 						case 'multi':
 							?>
-							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
+							<div class="mwb-form-group mwb-wsfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
 								<div class="mwb-form-group__label">
 									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 									</div>
@@ -896,7 +896,7 @@ class Wallet_System_For_Woocommerce {
 						case 'date':
 						case 'file':
 							?>
-							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
+							<div class="mwb-form-group mwb-wsfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
 								<div class="mwb-form-group__label">
 									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 								</div>
@@ -1029,6 +1029,7 @@ class Wallet_System_For_Woocommerce {
 			$insert_array = array(
 				'user_id'           => $transactiondata['user_id'],
 				'amount'            => $transactiondata['amount'],
+				'currency'          => $transactiondata['currency'],
 				'transaction_type'  => $transactiondata['transaction_type'],
 				'payment_method'    => $transactiondata['payment_method'],
 				'transaction_id'    => $transactiondata['order_id'],

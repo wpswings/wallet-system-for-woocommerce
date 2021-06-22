@@ -549,6 +549,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $wallet_amount,
+					'currency'         => get_woocommerce_currency(),
 					'payment_method'   => 'Manually By Admin',
 					'transaction_type' => $transaction_type,
 					'order_id'         => '',
@@ -614,6 +615,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$order_items    = $order->get_items();
 		$order_total    = $order->get_total();
 		$payment_method = $order->get_payment_method();
+		$order_currency = $order->get_currency();
 		$wallet_id      = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount   = get_user_meta( $userid, 'mwb_wallet', true );
 		$user                   = get_user_by( 'id', $userid );
@@ -644,7 +646,8 @@ class Wallet_System_For_Woocommerce_Admin {
 							break;
 						}
 					}
-					$walletamount += $amount;
+					$credited_amount = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $amount, $order_currency );
+					$walletamount   += $credited_amount;
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
@@ -665,7 +668,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
-						'payment_method'   => 'Manually by admin',
+						'currency'         => $order->get_currency(),
+						'payment_method'   => 'Manually by admin through refund',
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
 						'note'             => '',
@@ -681,6 +685,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$order_status = array( 'pending', 'on-hold', 'processing' );
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount        = $total;
+					$credited_amount = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $amount, $order_currency );
 					$wallet_userid = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
 					if ( $wallet_userid ) {
 						$update_wallet_userid = $wallet_userid;
@@ -690,7 +695,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
-					$walletamount += $total;
+					$walletamount += $credited_amount;
 					update_user_meta( $update_wallet_userid, 'mwb_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
@@ -711,6 +716,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_data = array(
 						'user_id'          => $update_wallet_userid,
 						'amount'           => $amount,
+						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
@@ -730,10 +736,11 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( in_array( $old_status, $order_status ) && in_array( $new_status, $payment_status ) ) {
 					$fees   = abs( $fee_total );
 					$amount = $fees;
-					if ( $walletamount < $fees ) {
+					$debited_amount = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $fees, $order_currency );
+					if ( $walletamount < $debited_amount ) {
 						$walletamount = 0;
 					} else {
-						$walletamount -= $fees;
+						$walletamount -= $debited_amount;
 					}
 					update_user_meta( $userid, 'mwb_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
@@ -753,6 +760,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
+						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
@@ -942,6 +950,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_data = array(
 						'user_id'          => $user_id,
 						'amount'           => $withdrawal_amount,
+						'currency'         => get_woocommerce_currency(),
 						'payment_method'   => 'Manually By Admin',
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $withdrawal_id,
@@ -1047,6 +1056,25 @@ class Wallet_System_For_Woocommerce_Admin {
 				'show_in_admin_status_list' => true,
 			)
 		);
+
+		// Check transaction table is updated with new field or not.
+		$updated_transaction_table = get_option( 'mwb_wsfw_updated_transaction_table' );
+		if ( ! $updated_transaction_table ) {
+			global $wpdb;
+			$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+			if ( $wpdb->get_var( 'show tables like "' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction"' ) == $table_name ) {
+				$column = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = 'currency' ", DB_NAME, $table_name ) );
+			
+				if ( empty( $column ) ) {
+					$alter_table = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction ADD currency varchar( 20 ) NULL' );
+					if ( $alter_table ) {
+						$currency = get_woocommerce_currency();
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction SET currency = %s', $currency ) );
+						update_option( 'mwb_wsfw_updated_transaction_table', 'true' );
+					}
+				}
+			}
+		}
 
 	}
 
@@ -1191,6 +1219,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $withdrawal_amount,
+					'currency'         => get_woocommerce_currency(),
 					'payment_method'   => $payment_method,
 					'transaction_type' => htmlentities( $transaction_type ),
 					'order_id'         => $post_id,
@@ -1500,6 +1529,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				id bigint(20) unsigned NOT NULL auto_increment,
 				user_id bigint(20) unsigned NULL,
 				amount double,
+				currency varchar( 20 ) NOT NULL,
 				transaction_type varchar(200) NULL,
 				payment_method varchar(50) NULL,
 				transaction_id varchar(50) NULL,
@@ -1526,6 +1556,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'id'                => $user_transaction->transaction_id,
 						'user_id'           => $user_transaction->user_id,
 						'amount'            => $user_transaction->amount,
+						'currency'          => $user_transaction->currency,
 						'transaction_type'  => $user_transaction->details,
 						'payment_method'    => '',
 						'transaction_id'    => '',

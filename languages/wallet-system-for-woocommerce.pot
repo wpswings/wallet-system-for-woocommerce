@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Wallet System for WooCommerce 2.0.2\n"
-"POT-Creation-Date: 2021-06-14 19:22+0530\n"
+"Project-Id-Version: Wallet System for WooCommerce 2.0.3\n"
+"POT-Creation-Date: 2021-06-22 13:54+0530\n"
 "PO-Revision-Date: 2021-05-15 14:43+0530\n"
 "Last-Translator: \n"
 "Language-Team: MakeWebBetter\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;"
-"esc_html__;esc_html_e;esc_html_x\n"
+"esc_html__;esc_html_e;esc_html_x;esc_html\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/class-wallet-orders-list.php:27

@@ -89,6 +89,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 							$transaction_data = array(
 								'user_id'          => $user_id,
 								'amount'           => $net_balance,
+								'currency'         => get_woocommerce_currency(),
 								'payment_method'   => 'Through importing Wallet',
 								'transaction_type' => $transaction_type,
 								'order_id'         => '',
@@ -186,6 +187,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $updated_amount,
+					'currency'         => get_woocommerce_currency(),
 					'payment_method'   => 'Manually By Admin',
 					'transaction_type' => $transaction_type,
 					'order_id'         => '',
@@ -278,6 +280,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			$transaction_data = array(
 				'user_id'          => $user_id,
 				'amount'           => $updated_amount,
+				'currency'         => get_woocommerce_currency(),
 				'payment_method'   => 'Manually By Admin',
 				'transaction_type' => $transaction_type,
 				'order_id'         => '',

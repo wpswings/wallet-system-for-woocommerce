@@ -117,6 +117,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			$customer_id = get_current_user_id();
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
+				$walletamount = apply_filters( 'mwb_wsfw_show_converted_price', $walletamount );
 				return '<b>' . __( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wc_price( $walletamount ) . ']</b>';
 			}
 		}
@@ -152,13 +153,15 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			if ( $order_total < 0 ) {
 				$order_total = 0;
 			}
-			$customer_id = get_current_user_id();
+			$debited_amount   = apply_filters( 'mwb_wsfw_convert_to_base_price', $order_total );
+			$current_currency = apply_filters( 'mwb_wsfw_get_current_currency', $order->get_currency() );
+			$customer_id      = get_current_user_id();
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
-				if ( $order_total <= $walletamount ) {
+				if ( $debited_amount <= $walletamount ) {
 
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-					$walletamount          -= $order_total;
+					$walletamount          -= $debited_amount;
 					$update_wallet          = update_user_meta( $customer_id, 'mwb_wallet', abs( $walletamount ) );
 
 					if ( $update_wallet ) {
@@ -167,7 +170,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 							$user       = get_user_by( 'id', $customer_id );
 							$name       = $user->first_name . ' ' . $user->last_name;
 							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total, array( 'currency' => $current_currency ) ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 							$to         = $user->user_email;
 							$from       = get_option( 'admin_email' );
 							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -184,6 +187,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 					$transaction_data = array(
 						'user_id'          => $customer_id,
 						'amount'           => $order_total,
+						'currency'         => $current_currency,
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,

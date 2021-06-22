@@ -73,6 +73,7 @@ class Wallet_System_For_Woocommerce_Activator {
 			id bigint(20) unsigned NOT NULL auto_increment,
 			user_id bigint(20) unsigned NULL,
 			amount double,
+			currency varchar( 20 ) NOT NULL,
 			transaction_type varchar(200) NULL,
 			payment_method varchar(50) NULL,
 			transaction_id varchar(50) NULL,

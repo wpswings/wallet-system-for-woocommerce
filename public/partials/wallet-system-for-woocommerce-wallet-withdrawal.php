@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
+$wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 
 ?>
 
@@ -51,7 +52,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 							echo '<tr>
 							<td>' . esc_html( $i ) . '</td>
                             <td>' . esc_html( $request_id ) . '</td>
-                            <td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ) ) . '</td>
+                            <td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ), array( 'currency' => get_woocommerce_currency() ) ) . '</td>
                             <td>' . esc_html( $pending->post_status ) . '</td>
                             <td>' . esc_html( get_post_meta( $request_id, 'mwb_wallet_note', true ) ) . '</td>
                             <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
@@ -69,7 +70,7 @@ $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
 			?>
 		<form method="post" action="" id="mwb_wallet_transfer_form">
 			<p class="mwb-wallet-field-container form-row form-row-wide">
-				<label for="mwb_wallet_withdrawal_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol() ) . ')'; ?></label>
+				<label for="mwb_wallet_withdrawal_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . ')'; ?></label>
 				<input type="number" step="0.01" min="0" data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="mwb_wallet_withdrawal_amount" name="mwb_wallet_withdrawal_amount" required="">
 			</p>
 			<p class="error"></p>
