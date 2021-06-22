@@ -16,7 +16,7 @@ $wsfw_onboarding_form_fields = apply_filters( 'mwb_wsfw_on_boarding_form_fields'
 ?>
 
 <?php if ( ! empty( $wsfw_onboarding_form_fields ) ) : ?>
-	<div class="mdc-dialog mdc-dialog--scrollable">
+	<div class="mwb-wsfw-dialog mdc-dialog mdc-dialog--scrollable">
 		<div class="mwb-wsfw-on-boarding-wrapper-background mdc-dialog__container">
 			<div class="mwb-wsfw-on-boarding-wrapper mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
 				<div class="mdc-dialog__content">

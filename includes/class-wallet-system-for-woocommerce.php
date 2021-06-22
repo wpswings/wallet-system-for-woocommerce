@@ -855,7 +855,7 @@ class Wallet_System_For_Woocommerce {
 
 						case 'multi':
 							?>
-							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
+							<div class="mwb-form-group mwb-wsfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
 								<div class="mwb-form-group__label">
 									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 									</div>
@@ -896,7 +896,7 @@ class Wallet_System_For_Woocommerce {
 						case 'date':
 						case 'file':
 							?>
-							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
+							<div class="mwb-form-group mwb-wsfw-<?php echo esc_attr( $wsfw_component['type'] ); ?>">
 								<div class="mwb-form-group__label">
 									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 								</div>
