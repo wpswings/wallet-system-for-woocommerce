@@ -58,6 +58,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<h4><?php esc_html_e( 'REST API keys', 'wallet-system-for-woocommerce' ); ?></h4> 
 	<?php
 	$rest_api_keys = get_option( 'mwb_wsfw_wallet_rest_api_keys', '' );
+	$store_url     = site_url();
 	if ( empty( $rest_api_keys ) || ! is_array( $rest_api_keys ) ) {
 		?>
 		<form action="" method="POST" > 
@@ -106,8 +107,13 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	echo '{home_url}/wp-json/wsfw-route/v1/wallet/';
 	?>
 	</p>
-	<p><?php esc_html_e( 'Example : https://www.example.com/wp-json/wsfw-route/v1/wallet/ ', 'wallet-system-for-woocommerce' ); ?></p>
-
+	<p>
+	<?php
+	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
+	echo esc_html( $store_url );
+	esc_html_e('/wp-json/wsfw-route/v1/wallet/ ', 'wallet-system-for-woocommerce' );
+	?>
+	</p>
 	<h5><?php esc_html_e( 'Authentication', 'wallet-system-for-woocommerce' ); ?></h5> 
 	<p>
 	<?php
@@ -134,10 +140,16 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 		'wallet-system-for-woocommerce'
 	);
 	?>
-	<h5><?php esc_html_e( 'Retrieve Users', 'wallet-system-for-woocommerce' ); ?></h5> 
-	<p><?php esc_html_e( 'Retrieves all the users with their details. HTTP request is:', 'wallet-system-for-woocommerce' ); ?></p>
+	<h5><?php esc_html_e( 'Retrieve Wallet Of All Users', 'wallet-system-for-woocommerce' ); ?></h5> 
+	<p><?php esc_html_e( 'Retrieves wallet of all the users with their details. HTTP request is:', 'wallet-system-for-woocommerce' ); ?></p>
 	<p><?php echo '<strong><code>GET {home_url}/wp-json/wsfw-route/v1/wallet/users?consumer_key=XXXX&consumer_secret=XXXX</code></strong>' . esc_html__( ' where &lt;id&gt; is an user id of user.', 'wallet-system-for-woocommerce' ); ?><p>
-	<p><?php esc_html_e( 'Example : https://www.example.com/wp-json/wsfw-route/v1/wallet/users?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' ); ?> </p>
+	<p>
+	<?php
+	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
+	echo esc_html( $store_url );
+	esc_html_e('/wp-json/wsfw-route/v1/wallet/users?consumer_key=XXXX&consumer_secret=XXXX ', 'wallet-system-for-woocommerce' );
+	?>
+	</p>
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
 	<?php
 	// phpcs:ignore
@@ -165,9 +177,15 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	);
 	?>
 	<h5><?php esc_html_e( 'Retrieve particular user wallet amount', 'wallet-system-for-woocommerce' ); ?></h5> 
-	<p><?php esc_html_e( 'Retrieves wallet balance of an existing contact. HTTP request is:', 'wallet-system-for-woocommerce' ); ?></p>
+	<p><?php esc_html_e( 'Retrieves wallet balance of an existing user. HTTP request is:', 'wallet-system-for-woocommerce' ); ?></p>
 	<p><?php echo '<strong><code>GET {home_url}/wp-json/wsfw-route/v1/wallet/&lt;id&gt;?consumer_key=XXXX&consumer_secret=XXXX</code></strong>' . esc_html__( ' where &lt;id&gt; is an user id of user.', 'wallet-system-for-woocommerce' ); ?><p>
-	<p><?php esc_html_e( 'Example : https://www.example.com/wp-json/wsfw-route/v1/wallet/1?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' ); ?> </p>
+	<p>
+	<?php
+	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
+	echo esc_html( $store_url );
+	esc_html_e('/wp-json/wsfw-route/v1/wallet/1?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' );
+	?>
+	</p>
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
 
 	<?php
@@ -183,7 +201,13 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<h5><?php esc_html_e( 'Retrieve particular user wallet transactions', 'wallet-system-for-woocommerce' ); ?></h5> 
 	<p><?php esc_html_e( 'Retrieves all transactions related to wallet of user. HTTP request is:', 'wallet-system-for-woocommerce' ); ?></p>
 	<p><?php echo '<strong><code>GET {home_url}/wp-json/wsfw-route/v1/wallet/transactions/&lt;id&gt;?consumer_key=XXXX&consumer_secret=XXXX</code></strong>' . esc_html__( ' where &lt;id&gt; is an user id of user.', 'wallet-system-for-woocommerce' ); ?><p>
-	<p><?php esc_html_e( 'Example : https://www.example.com/wp-json/wsfw-route/v1/wallet/transactions/1?consumer_key=XXXX&consumer_secret=XXXX ', 'wallet-system-for-woocommerce' ); ?></p>
+	<p>
+	<?php
+	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
+	echo esc_html( $store_url );
+	esc_html_e('/wp-json/wsfw-route/v1/wallet/transactions/1?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' );
+	?>
+	</p>
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
 	<?php
 	// phpcs:ignore
@@ -221,14 +245,20 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<p><?php echo '<strong><code>PUT {home_url}/wp-json/wsfw-route/v1/wallet/&lt;id&gt;</code></strong>' . esc_html__( ' where &lt;id&gt; is an user id of user.', 'wallet-system-for-woocommerce' ); ?></p>
 	<p><?php echo '<strong>' . esc_html__( 'Required Headers', 'wallet-system-for-woocommerce' ) . '</strong>'; ?></p>
 	<p><?php echo '<code>Content-Type: application/json</code>'; ?></p>
-	<p><?php esc_html_e( 'Example : https://www.example.com/wp-json/wsfw-route/v1/wallet/1', 'wallet-system-for-woocommerce' ); ?></p>
+	<p>
+	<?php
+	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
+	echo esc_html( $store_url );
+	esc_html_e('/wp-json/wsfw-route/v1/wallet/1', 'wallet-system-for-woocommerce' );
+	?>
+	</p>
 	<p>
 	<?php
 	// phpcs:ignore
 	_e(
 		"<pre>
 
-    curl -X PUT -d 'amount=29&action=credit' 'https://www.example.com/wp-json/wsfw-route/v1/wallet/1' \
+    curl -X PUT -d 'amount=29&action=credit' '$store_url/wp-json/wsfw-route/v1/wallet/1' \
     --header 'Content-Type: application/json'
 	</pre>",
 		'wallet-system-for-woocommerce'
