@@ -97,7 +97,7 @@ class Wallet_System_For_Woocommerce_Public {
 		);
 		wp_enqueue_script( $this->plugin_name );
 		global $wp_query;
-		$is_endpoint = isset( $wp_query->query_vars[ 'mwb-wallet' ] ) ? $wp_query->query_vars[ 'mwb-wallet' ] : '';
+		$is_endpoint = isset( $wp_query->query_vars['mwb-wallet'] ) ? $wp_query->query_vars['mwb-wallet'] : '';
 		if ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) && is_account_page() ) {
 			wp_enqueue_script( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/mwb-public.min.js', array(), $this->version, 'all' );
 		}
@@ -594,17 +594,17 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		if ( $only_virtual ) {
-			unset($fields['billing']['billing_first_name']);
-			unset($fields['billing']['billing_last_name']);
-			unset($fields['billing']['billing_address_1']);
-			unset($fields['billing']['billing_address_2']);
-			unset($fields['billing']['billing_city']);
-			unset($fields['billing']['billing_postcode']);
-			unset($fields['billing']['billing_country']);
-			unset($fields['billing']['billing_state']);
-			unset($fields['billing']['billing_company']);
-			unset($fields['billing']['billing_phone']);
-			unset($fields['billing']['billing_email']);
+			unset( $fields['billing']['billing_first_name'] );
+			unset( $fields['billing']['billing_last_name'] );
+			unset( $fields['billing']['billing_address_1'] );
+			unset( $fields['billing']['billing_address_2'] );
+			unset( $fields['billing']['billing_city'] );
+			unset( $fields['billing']['billing_postcode'] );
+			unset( $fields['billing']['billing_country'] );
+			unset( $fields['billing']['billing_state'] );
+			unset( $fields['billing']['billing_company'] );
+			unset( $fields['billing']['billing_phone'] );
+			unset( $fields['billing']['billing_email'] );
 			add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
 			echo '<style type="text/css">
 			form.checkout .woocommerce-billing-fields h3 {
