@@ -19,7 +19,7 @@ if ( empty( $pagenow ) || 'plugins.php' != $pagenow ) {
 $wsfw_onboarding_form_deactivate = apply_filters( 'mwb_wsfw_deactivation_form_fields', array() );
 ?>
 <?php if ( ! empty( $wsfw_onboarding_form_deactivate ) ) : ?>
-	<div class="mdc-dialog mdc-dialog--scrollable">
+	<div class="mwb-wsfw-dialog mdc-dialog mdc-dialog--scrollable">
 		<div class="mwb-wsfw-on-boarding-wrapper-background mdc-dialog__container">
 			<div class="mwb-wsfw-on-boarding-wrapper mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
 				<div class="mdc-dialog__content">
@@ -41,7 +41,7 @@ $wsfw_onboarding_form_deactivate = apply_filters( 'mwb_wsfw_deactivation_form_fi
 								<input type="submit" class="mwb-wsfw-on-boarding-submit mwb-on-boarding-verify mdc-button mdc-button--raised" value="Send Us">
 							</div>
 							<div class="mwb-wsfw-on-boarding-form-no_thanks">
-								<a href="#" class="mwb-deactivation-no_thanks mdc-button"><?php esc_html_e( 'Skip and Deactivate Now', 'wallet-system-for-woocommerce' ); ?></a>
+								<a href="#" class="mwb-wsfw-deactivation-no_thanks mdc-button"><?php esc_html_e( 'Skip and Deactivate Now', 'wallet-system-for-woocommerce' ); ?></a>
 							</div>
 						</div>
 					</form>

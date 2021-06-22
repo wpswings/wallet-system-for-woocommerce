@@ -14,8 +14,8 @@ jQuery(document).ready(function($) {
     });
 
     var dialog = "";
-    if( $('.mdc-dialog').length > 0 ){
-        dialog = mdc.dialog.MDCDialog.attachTo(document.querySelector('.mdc-dialog'));
+    if( $('.mwb-wsfw-dialog').length > 0 ){
+        dialog = mdc.dialog.MDCDialog.attachTo(document.querySelector('.mwb-wsfw-dialog'));
     }
 
     /*if device is mobile*/
@@ -60,7 +60,7 @@ jQuery(document).ready(function($) {
     });
 
     /* Skip and deactivate. */
-    jQuery(document).on('click', '.mwb-deactivation-no_thanks', function(e) {
+    jQuery(document).on('click', '.mwb-wsfw-deactivation-no_thanks', function(e) {
 
         window.location.replace(deactivate_url);
         mwb_wsfw_hide_onboard_popup();
@@ -89,7 +89,6 @@ jQuery(document).ready(function($) {
 
         e.preventDefault();
         var form_data = JSON.stringify(jQuery('form.mwb-wsfw-on-boarding-form').serializeArray());
-
         jQuery.ajax({
             type: 'post',
             dataType: 'json',
@@ -132,7 +131,6 @@ jQuery(document).ready(function($) {
         for (var i = all_slugs.length - 1; i >= 0; i--) {
 
             jQuery(document).on('click', '#deactivate-' + all_slugs[i], function(e) {
-
                 e.preventDefault();
                 deactivate_url = jQuery(this).attr('href');
                 plugin_name = jQuery(this).attr('aria-label');
