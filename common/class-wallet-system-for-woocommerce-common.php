@@ -96,5 +96,5 @@ class Wallet_System_For_Woocommerce_Common {
 		}
 		return $is_purchasable;
 	}
-	
+
 }
