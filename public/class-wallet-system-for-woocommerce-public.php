@@ -490,7 +490,7 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! WC()->cart->is_empty() ) {
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
 					$_product = $values['data'];
-					if ( $_product->id == $wallet_id ) {
+					if ( $_product->get_id() == $wallet_id ) {
 						$passed = false;
 
 						wc_add_notice(
