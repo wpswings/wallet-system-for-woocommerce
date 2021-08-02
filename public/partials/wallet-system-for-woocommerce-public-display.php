@@ -56,11 +56,11 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		$user_id = sanitize_text_field( wp_unslash( $_POST['current_user_id'] ) );
 	}
 
-	$wallet_bal         = get_user_meta( $user_id, 'mwb_wallet', true );
-	$another_user_email = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
-	$transfer_note      = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
-	$user               = get_user_by( 'email', $another_user_email );
-	$transfer_amount    = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
+	$wallet_bal             = get_user_meta( $user_id, 'mwb_wallet', true );
+	$another_user_email     = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
+	$transfer_note          = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
+	$user                   = get_user_by( 'email', $another_user_email );
+	$transfer_amount        = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
 	$wallet_transfer_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $transfer_amount );
 	if ( $user ) {
 		$another_user_id = $user->ID;

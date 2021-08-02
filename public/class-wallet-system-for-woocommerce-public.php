@@ -63,7 +63,9 @@ class Wallet_System_For_Woocommerce_Public {
 
 		wp_enqueue_style( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/scss/wallet-system-for-woocommerce-public.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/mwb-public.min.css', array(), $this->version, 'all' );
-
+		if ( is_account_page()  ) {
+			wp_enqueue_style('dashicons');
+		}
 	}
 
 	/**
@@ -488,7 +490,7 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! WC()->cart->is_empty() ) {
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
 					$_product = $values['data'];
-					if ( $_product->id == $wallet_id ) {
+					if ( $_product->get_id() == $wallet_id ) {
 						$passed = false;
 
 						wc_add_notice(

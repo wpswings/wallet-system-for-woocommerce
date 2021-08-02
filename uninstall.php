@@ -31,6 +31,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 // Delete custom table after deactivation of the plugin.
 global $wpdb;
+$table_name = $wpdb->prefix . 'mwb_woo_' . $slug . '_log';
 if ( $wpdb->get_var( 'show tables like "' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction"' ) == $table_name ) {
 	$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction' );
 }

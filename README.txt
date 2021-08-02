@@ -3,10 +3,10 @@ Contributors: MakeWebBetter
 Donate link: https://makewebbetter.com/
 Tags: digital wallet, credit, refund, user wallet, woocommerce wallet, wallet
 Requires at least: 4.6
-Tested up to: 5.7.2
+Tested up to: 5.8
 WC requires at least: 3.0.0
-WC tested up to: 5.4.1
-Stable tag: 2.0.3
+WC tested up to: 5.5.2
+Stable tag: 2.0.4
 Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,7 +15,7 @@ Wallet System for WooCommerce is digital wallet, helps registered customers purc
 
 == Description ==
 
-***Streamline Money Matters with a Digital Wallet System*** 
+***STREAMLINE MONEY MATTERS WITH A DIGITAL WALLET SYSTEM FOR WOOCOMMERCE. ADD CREDIT AMOUNT AND REFUND IN YOUR ECOMMERCE WALLETS INSTANTLY.*** 
 
 Wallet System for WooCommerce is a digital wallet plugin. It helps the merchant implement a digital wallet system on their WooCommerce store. And allows customers to perform eCommerce transactions using the wallet system.
 
@@ -53,7 +53,10 @@ Wallet System for WooCommerce increases the ease and security of the payment pro
 
 **12.** Customers can make withdrawal requests to merchants by providing their details. 
 
-**13.** It’s compatible with our Invoice System for WooCommerce. 
+**13.** It’s compatible with our [Invoice System for WooCommerce](https://wordpress.org/plugins/invoice-system-for-woocommerce/).
+
+**14.** It’s compatible with our [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/).
+ 
 
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
@@ -80,7 +83,7 @@ The customers’ wallet transactions history contains entries for wallet recharg
 **6. Wallet Amount Transfer**
 The customers can transfer their wallet amount into other customers’ wallets. It will help the merchants to increase the user interaction on their WooCommerce store and result in an increase in the wallet user base. 
 
-[**Free demo of Wallet System for WooCommerce**](https://demo.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-demo)
+[**Free Demo of Wallet System for WooCommerce**](https://demo.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-demo)
 
 == WHAT PREMIUM VERSION OF WOOCOMMERCE  WALLET SYSTEM OFFERS == 
 
@@ -139,6 +142,11 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 == Changelog ==
 
+= 2.0.4 - RELEASED ON 2 August 2021 =
+
+* FIX: the warning coming when adding wallet recharge to cart.
+* NEW: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/) plugin regarding debiting the wallet amount.
+
 = 2.0.3 - RELEASED ON 22 June 2021 =
 
 * FIX: Minor Fixes.
@@ -185,6 +193,7 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 == Upgrade Notice ==
 
-= 2.0.3 - RELEASED ON 22 June 2021 =
+= 2.0.4 - RELEASED ON 2 August 2021 =
 
-* FIX: Minor Fixes.
+* FIX: the warning coming when adding wallet recharge to cart.
+* NEW: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/) plugin regarding debiting the wallet amount.

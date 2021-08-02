@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.0.3';
+			$this->version = '2.0.4';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -153,6 +153,8 @@ class Wallet_System_For_Woocommerce {
 
 		}
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-dependency.php';
+
 		/**
 		 * The class responsible for handling ajax requests.
 		 */
@@ -170,6 +172,8 @@ class Wallet_System_For_Woocommerce {
 		 * The class responsible for creating the wallet payment method.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wallet-credit-payment-gateway.php';
+
+
 
 		$this->loader = new Wallet_System_For_Woocommerce_Loader();
 
@@ -270,6 +274,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_scripts' );
 
 		$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_common, 'mwb_wsfw_wallet_recharge_product_purchasable', 1, 2 );
+
 	}
 
 	/**
@@ -1027,17 +1032,17 @@ class Wallet_System_For_Woocommerce {
 		else :
 
 			$insert_array = array(
-				'user_id'           => $transactiondata['user_id'],
-				'amount'            => $transactiondata['amount'],
-				'currency'          => $transactiondata['currency'],
-				'transaction_type'  => $transactiondata['transaction_type'],
-				'payment_method'    => $transactiondata['payment_method'],
-				'transaction_id'    => $transactiondata['order_id'],
-				'note'              => $transactiondata['note'],
-				'date'              => gmdate( 'Y-m-d H:i:s' ),
+				'user_id'          => $transactiondata['user_id'],
+				'amount'           => $transactiondata['amount'],
+				'currency'         => $transactiondata['currency'],
+				'transaction_type' => $transactiondata['transaction_type'],
+				'payment_method'   => $transactiondata['payment_method'],
+				'transaction_id'   => $transactiondata['order_id'],
+				'note'             => $transactiondata['note'],
+				'date'             => gmdate( 'Y-m-d H:i:s' ),
 			);
 
-			$results = $wpdb->insert(
+			$results        = $wpdb->insert(
 				$table_name,
 				$insert_array
 			);
@@ -1064,6 +1069,5 @@ class Wallet_System_For_Woocommerce {
 		// Here put your Validation and send mail.
 		wp_mail( $to, $subject, $mail_message, $headers );
 	}
-
 
 }
