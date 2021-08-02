@@ -42,7 +42,7 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 					$order = wc_get_order( $order_id );
 					if ( $order ) {
 						$payment_method = $order->get_payment_method();
-						if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method ) {
+						if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method || 'wallet' === $payment_method ) {
 							$payment_method = 'Wallet Payment';
 						}
 						$currency         = $order->get_currency();
@@ -76,6 +76,9 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 						'Reply-To: ' . $to . "\r\n";
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 				}
+				return true;
+			} else {
+				return false;
 			}
 		}
 
