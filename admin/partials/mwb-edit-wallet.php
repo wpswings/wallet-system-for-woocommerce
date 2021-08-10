@@ -50,7 +50,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			$wallet_action  = sanitize_text_field( wp_unslash( $_POST['action_type'] ) );
 			$user_id        = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 			$wallet         = get_user_meta( $user_id, 'mwb_wallet', true );
-
+			$wallet         = ( ! empty( $wallet ) ) ? $wallet : 0;
 			if ( 'credit' === $wallet_action ) {
 				$wallet          += $updated_amount;
 				$wallet           = update_user_meta( $user_id, 'mwb_wallet', $wallet );

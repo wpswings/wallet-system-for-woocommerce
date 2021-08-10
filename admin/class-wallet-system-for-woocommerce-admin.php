@@ -1598,4 +1598,153 @@ class Wallet_System_For_Woocommerce_Admin {
 
 	}
 
+	/**
+	 * Add wallet amount as fee during subscription renewal.
+	 *
+	 * @param object $mwb_new_order new order.
+	 * @param int    $subscription_id subscription id.
+	 * @return void
+	 */
+	public function mwb_sfw_renewal_order_creation( $mwb_new_order, $subscription_id ) {
+		$mwb_sfw_use_wallet = get_option( 'mwb_sfw_enable_wallet_on_renewal_order', '' );
+		if ( 'on' == $mwb_sfw_use_wallet ) {
+			$amount_type_for_wallet = get_option( 'mwb_sfw_amount_type_wallet_for_renewal_order', '' );
+			$amount_deduct_from_wallet = get_option( 'mwb_sfw_amount_deduct_from_wallet_during_renewal_order', 0 );
+			
+			$fee = new WC_Order_Item_Fee();
+			$fee->set_name( __( 'Via wallet', 'wallet-system-for-woocommerce' ) );
+			$user_id       = $mwb_new_order->get_user_id();
+			$walletbalance = get_user_meta( $user_id, 'mwb_wallet', true );
+			$currency      = $mwb_new_order->get_currency();
+			if ( ! empty( $walletbalance ) && false !== $walletbalance ) {
+				if ( ! empty( $amount_deduct_from_wallet ) ) {
+					if ( 'fix' === $amount_type_for_wallet ) {
+						if ( $amount_deduct_from_wallet >= $walletbalance ) {
+							$amount_deduct = $walletbalance;
+						} else {
+							$amount_deduct = $amount_deduct_from_wallet;
+						}
+					} elseif ( 'percentage' === $amount_type_for_wallet ) {
+						$converted_price = floatval( ( $walletbalance * $amount_deduct_from_wallet ) / 100 );
+						if ( $converted_price >= $walletbalance ) {
+							$amount_deduct = $walletbalance;
+						} else {
+							$amount_deduct = $converted_price;
+						}
+					}
+					if ( ! empty( $amount_deduct ) ) {
+						$order_total       = $mwb_new_order->get_total();
+						$order_total       = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $order_total, $currency );
+						$walletamount      = 0;
+						$remaining_balance = 0;
+						if ( $order_total >= $amount_deduct ) {
+							$walletamount      = $amount_deduct;
+							$remaining_balance = abs( $walletbalance - $amount_deduct );
+						} else {
+							$walletamount      = $order_total;
+							$remaining_balance = abs( $walletbalance - $walletamount );
+						}
+						$fee->set_amount( -1 * $walletamount );
+						$fee->set_total( -1 * $walletamount );
+						$mwb_new_order->add_item( $fee );
+						$mwb_new_order->calculate_totals();
+						$order_id               = $mwb_new_order->save();
+						$update_wallet          = update_user_meta( $user_id, 'mwb_wallet', $remaining_balance );
+						$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+						$send_email_enable      = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
+						if ( $update_wallet ) {
+							$payment_method   = esc_html__( 'Automatically', 'wallet-system-for-woocommerce' );
+							$transaction_type = esc_html__( 'Wallet is dedited through subscription renewal', 'wallet-system-for-woocommerce' );
+							if ( ! empty( $order_id ) ) {
+								$order = wc_get_order( $order_id );
+								if ( $order ) {
+									$payment_method = $order->get_payment_method();
+									if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method ) {
+										$payment_method = 'Wallet Payment';
+									}
+									$transaction_type = 'Wallet debited through subscription renewal <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+								} else {
+									$order_id = '';
+								}
+							}
+							$transaction_data = array(
+								'user_id'          => $user_id,
+								'amount'           => $walletamount,
+								'currency'         => $currency,
+								'payment_method'   => $payment_method,
+								'transaction_type' => htmlentities( $transaction_type ),
+								'order_id'         => $order_id,
+								'note'             => '',
+							);
+							$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+			
+							if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+								$user       = get_user_by( 'id', $user_id );
+								$name       = $user->first_name . ' ' . $user->last_name;
+								$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
+								$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $walletamount, array( 'currency' => $currency ) ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
+								$to         = $user->user_email;
+								$from       = get_option( 'admin_email' );
+								$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+								$headers    = 'MIME-Version: 1.0' . "\r\n";
+								$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+								$headers   .= 'From: ' . $from . "\r\n" .
+									'Reply-To: ' . $to . "\r\n";
+								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * WooCommerce Wallet System general seetings..
+	 *
+	 * @since    1.0.0
+	 * @param array $wsfw_settings_general Settings fields.
+	 */
+	public function mwb_wsfw_extra_settings_sfw( $wsfw_settings_general ) {
+		if ( is_array( $wsfw_settings_general ) && ! empty( $wsfw_settings_general ) ) {
+			$wsfw_settings_general[] = array(
+				'title'       => __( 'Enable to use wallet amount on renewal order', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to use wallet amount on renewal order', 'wallet-system-for-woocommerce' ),
+				'name'        => 'mwb_sfw_enable_wallet_on_renewal_order',
+				'id'          => 'mwb_sfw_enable_wallet_on_renewal_order',
+				'value'       => 'on',
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			);
+			$wsfw_settings_general[] = array(
+				'title'       => __( 'Apply amount type(Depending on order total)', 'woocommerce-wallet-system' ),
+				'type'        => 'select',
+				'description' => __( 'Apply amount type', 'woocommerce-wallet-system' ),
+				'name'        => 'mwb_sfw_amount_type_wallet_for_renewal_order',
+				'id'          => 'mwb_sfw_amount_type_wallet_for_renewal_order',
+				'value'       => get_option( 'mwb_sfw_amount_type_wallet_for_renewal_order', '' ),
+				'class'       => 'wpg-number-class',
+				'options'     => array(
+					'fix'        => __( 'Fix', 'wallet-system-for-woocommerce' ),
+					'percentage' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+				),
+			);
+			$wsfw_settings_general[] = array(
+				'title'       => __( 'Enter the amount/percentage to be deducted  from wallet during order renewal( ', 'woocommerce-wallet-system' ) . get_woocommerce_currency_symbol() . ' )',
+				'type'        => 'number',
+				'description' => __( 'Enter the amount/percentage to be deducted  from wallet during order renewal.', 'woocommerce-wallet-system' ),
+				'name'        => 'mwb_sfw_amount_deduct_from_wallet_during_renewal_order',
+				'id'          => 'mwb_sfw_amount_deduct_from_wallet_during_renewal_order',
+				'value'       => get_option( 'mwb_sfw_amount_deduct_from_wallet_during_renewal_order', '' ),
+				'class'       => 'wpg-number-class',
+			);
+		}
+		return $wsfw_settings_general;
+	}
+
 }

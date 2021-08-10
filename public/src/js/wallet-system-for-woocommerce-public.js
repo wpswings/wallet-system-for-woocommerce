@@ -80,7 +80,6 @@
 			var wallet_amount = $( '#partial_payment_wallet' ).data('walletamount');
 			var amount = $( '#wallet_amount' ).val();
 			var checked = $( '#partial_payment_wallet' ).is(':checked');
-
 			$.ajax({
 				type: 'POST',
 				url: wsfw_public_param.ajaxurl,
@@ -100,6 +99,20 @@
 					} else {
 						$( '.ajax_msg' ).html(response.message);
 						$( '.woocommerce-checkout-review-order-table .order-total' ).siblings('.fee').remove();
+						$.ajax({
+							type: 'POST',
+							url: wsfw_public_param.ajaxurl,
+							data: {
+								action: 'unset_wallet_session',
+			
+							},
+							success: function( response ) {
+								$(document.body).trigger('update_checkout');
+							}
+			
+						}) .fail(function ( response ) {
+							$( '.ajax_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+						});
 					}
 				}
 

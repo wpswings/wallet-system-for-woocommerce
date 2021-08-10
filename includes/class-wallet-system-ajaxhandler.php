@@ -51,6 +51,11 @@ class Wallet_System_AjaxHandler {
 			}
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['wallet_amount'] ) );
 			$amount = empty( $_POST['amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['amount'] ) );
+			if ( $amount == '' || $amount <= 0 ) {
+				$message['status']  = false;
+				$message['message'] = esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' );
+				wp_send_json( $message );
+			}
 			if ( $wallet_amount >= $amount ) {
 				$wallet_amount     -= $amount;
 				$message['status']  = true;

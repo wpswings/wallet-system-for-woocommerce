@@ -166,6 +166,29 @@ class Wallet_System_For_Woocommerce_Public {
 					</tr>
 						<?php
 					}
+				} elseif ( $wallet_amount >= $mwb_cart_total ) {
+					$mwb_has_subscription = false;
+
+					foreach ( WC()->cart->get_cart_contents() as $key => $values ) {
+						if ( function_exists( 'mwb_sfw_check_product_is_subscription' ) ) {
+							if ( mwb_sfw_check_product_is_subscription( $values['data'] ) ) {
+								$mwb_has_subscription = true;
+								break;
+							}
+						}
+					}
+					if ( $mwb_has_subscription ) {
+						?>	
+					<tr class="partial_payment">
+						<td><?php echo esc_html( 'Pay by wallet (' ) . wc_price( $wallet_amount ) . ')'; ?></td>
+						<td>
+							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
+								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
+							</p>
+						</td>
+					</tr>
+						<?php
+					}
 				}
 			}
 		}
