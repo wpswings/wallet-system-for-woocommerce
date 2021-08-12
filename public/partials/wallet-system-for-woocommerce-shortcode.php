@@ -209,11 +209,21 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <?php
-$main_url               = wc_get_endpoint_url( 'mwb-wallet' );
-$topup_url              = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
-$wallet_url             = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
-$withdrawal_url         = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
-$transaction_url        = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
+$page_id  = get_the_ID();
+$page_url = get_permalink( $page_id );
+if ( get_option('permalink_structure') ) {
+	$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
+	$topup_url       = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
+	$wallet_url      = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
+	$withdrawal_url  = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
+	$transaction_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
+} else {
+	$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
+	$topup_url       = add_query_arg( 'mwb-wallet', 'wallet-topup', $page_url );
+	$wallet_url      = add_query_arg( 'mwb-wallet', 'wallet-transfer', $page_url );
+	$withdrawal_url  = add_query_arg( 'mwb-wallet', 'wallet-withdrawal', $page_url );
+	$transaction_url = add_query_arg( 'mwb-wallet', 'wallet-transactions', $page_url );
+}
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 $user_id                = get_current_user_id();
@@ -269,7 +279,7 @@ $wallet_tabs['wallet_transactions'] = array(
 	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transactions.php',
 );
 $flag = false;
-if ( $current_url == $main_url ) {
+if ( ( $current_url == $main_url ) || ( $current_url == $page_url ) ) {
 	$flag = true;
 }
 $wallet_keys = array_keys( $wallet_tabs );
@@ -346,4 +356,3 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		</div>
 	</div>
 </div>
-

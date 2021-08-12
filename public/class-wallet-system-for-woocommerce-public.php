@@ -100,7 +100,7 @@ class Wallet_System_For_Woocommerce_Public {
 		wp_enqueue_script( $this->plugin_name );
 		global $wp_query;
 		$is_endpoint = isset( $wp_query->query_vars['mwb-wallet'] ) ? $wp_query->query_vars['mwb-wallet'] : '';
-		if ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) && is_account_page() ) {
+		if ( ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) && is_account_page() ) || ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) ) ) {
 			wp_enqueue_script( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/mwb-public.min.js', array(), $this->version, 'all' );
 		}
 
@@ -361,6 +361,9 @@ class Wallet_System_For_Woocommerce_Public {
 		add_rewrite_endpoint( 'wallet-withdrawal', EP_PERMALINK | EP_PAGES );
 		add_rewrite_endpoint( 'wallet-transactions', EP_PERMALINK | EP_PAGES );
 		$wp_rewrite->flush_rules();
+
+		add_shortcode( 'mwb-wallet', array( $this, 'mwb_wsfw_show_wallet' ) );
+
 	}
 
 	/**
@@ -378,6 +381,27 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function mwb_wsfw_display_wallet_endpoint_content() {
 		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-public-display.php';
+	}
+
+	/**
+	 * Show the wallet through shortcode.
+	 */
+	public function mwb_wsfw_show_wallet() {
+		ob_start();
+		if ( ! is_user_logged_in() ) {
+			echo '<div class="woocommerce">';
+			wc_get_template('myaccount/form-login.php');
+			echo '</div>';
+		} else {
+			if ( class_exists( 'Woocommerce_Wallet_System_Public' ) ) {
+				$wallet_class = new Woocommerce_Wallet_System_Public( 'woocommerce-wallet-system', '1.0.1' );
+				if ( method_exists( $wallet_class, 'mwb_wws_display_wallet_endpoint_content' ) ) {
+					$wallet_class->mwb_wws_display_wallet_endpoint_content();
+				}
+			}
+			include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-shortcode.php';
+		}
+		return ob_get_clean();
 	}
 
 	/**

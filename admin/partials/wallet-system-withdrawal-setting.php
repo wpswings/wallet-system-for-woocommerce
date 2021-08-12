@@ -71,7 +71,7 @@ global $wsfw_mwb_wsfw_obj;
 					'posts_per_page' => -1,
 					'order'          => 'DESC',
 					'orderby'        => 'ID',
-					'post_status'    => array( 'approved', 'pending', 'rejected' ),
+					'post_status'    => array( 'approved', 'pending1', 'rejected' ),
 				);
 				$withdrawal_requests = get_posts( $args );
 				$i                   = 1;
@@ -99,7 +99,7 @@ global $wsfw_mwb_wsfw_obj;
 									<form action="" method="POST">
 										<select onchange="this.className=this.options[this.selectedIndex].className" name="mwb-wpg-gen-table_status" id="mwb-wpg-gen-table_status" aria-controls="mwb-wpg-gen-section-table" class="<?php echo esc_attr( $request->post_status ); ?>">
 											<option class="approved" value="approved" >&nbsp;&nbsp;<?php esc_html_e( 'approved', 'wallet-system-for-woocommerce' ); ?></option>
-											<option class="pending" value="pending" <?php selected( 'pending', $request->post_status, true ); ?> disabled  >&nbsp;&nbsp;<?php esc_html_e( 'pending', 'wallet-system-for-woocommerce' ); ?></option>
+											<option class="pending1" value="pending1" <?php selected( 'pending1', $request->post_status, true ); ?> disabled  >&nbsp;&nbsp;<?php esc_html_e( 'pending', 'wallet-system-for-woocommerce' ); ?></option>
 											<option class="rejected" value="rejected" >&nbsp;&nbsp;<?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></option>
 										</select>
 										<input type="hidden" name="withdrawal_id" value="<?php echo esc_attr( $request->ID ); ?>" />

@@ -50,11 +50,16 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 						$userid     = get_post_meta( $request_id, 'wallet_user_id', true );
 						if ( $userid == $user_id ) {
 							$date = date_create( $pending->post_date );
+							if ( 'pending1' === $pending->post_status ) {
+								$withdrawal_status = 'pending';
+							} else {
+								$withdrawal_status = $pending->post_status;
+							}
 							echo '<tr>
 							<td>' . esc_html( $i ) . '</td>
                             <td>' . esc_html( $request_id ) . '</td>
                             <td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ), array( 'currency' => get_woocommerce_currency() ) ) . '</td>
-                            <td>' . esc_html( $pending->post_status ) . '</td>
+                            <td>' . esc_html( $withdrawal_status ) . '</td>
                             <td>' . esc_html( get_post_meta( $request_id, 'mwb_wallet_note', true ) ) . '</td>
                             <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
                             </tr>';

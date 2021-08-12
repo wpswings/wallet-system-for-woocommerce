@@ -1043,6 +1043,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'label'                     => _x( 'Approved', 'wallet-system-for-woocommerce' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'label_count'               => _n_noop( 'Approved <span class="count">(%s)</span>', 'Approved <span class="count">(%s)</span>' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 			)
@@ -1054,6 +1055,17 @@ class Wallet_System_For_Woocommerce_Admin {
 				'label'                     => _x( 'Rejected', 'wallet-system-for-woocommerce' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'label_count'               => _n_noop( 'Rejected <span class="count">(%s)</span>', 'Rejected <span class="count">(%s)</span>' ),
+				'show_in_admin_all_list'    => true,
+				'show_in_admin_status_list' => true,
+			)
+		);
+		register_post_status(
+			'pending1',
+			array(
+				'label'                     => _x( 'Pending', 'wallet-system-for-woocommerce' ),
+				'public'                    => true,
+				'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 			)
