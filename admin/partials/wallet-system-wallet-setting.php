@@ -145,7 +145,8 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 			$number_of_users = 0;
 			foreach ( $users as $user ) {
 				$user_id = $user->ID;
-				$wallet = get_user_meta( $user_id, 'mwb_wallet', true );
+				$wallet  = get_user_meta( $user_id, 'mwb_wallet', true );
+				$wallet  = ( ! empty( $wallet ) ) ? $wallet : 0;
 				if ( 'credit' === $wallet_option ) {
 					$wallet          += $wallet_amount;
 					$updated_wallet   = update_user_meta( $user_id, 'mwb_wallet', $wallet );
@@ -243,7 +244,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			$wallet_action          = sanitize_text_field( wp_unslash( $_POST['action_type'] ) );
 			$user_id                = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 			$wallet                 = get_user_meta( $user_id, 'mwb_wallet', true );
-
+			$wallet                 = ( ! empty( $wallet ) ) ? $wallet : 0;
 			if ( 'credit' === $wallet_action ) {
 				$wallet          += $updated_amount;
 				$updated_wallet   = update_user_meta( $user_id, 'mwb_wallet', $wallet );

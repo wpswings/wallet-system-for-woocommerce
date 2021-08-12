@@ -57,6 +57,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	}
 
 	$wallet_bal             = get_user_meta( $user_id, 'mwb_wallet', true );
+	$wallet_bal             = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 	$another_user_email     = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
 	$transfer_note          = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 	$user                   = get_user_by( 'email', $another_user_email );
@@ -83,6 +84,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	}
 	if ( $update ) {
 		$user_wallet_bal  = get_user_meta( $another_user_id, 'mwb_wallet', true );
+		$user_wallet_bal  = ( ! empty( $user_wallet_bal ) ) ? $user_wallet_bal : 0;
 		$user_wallet_bal += $wallet_transfer_amount;
 		$returnid         = update_user_meta( $another_user_id, 'mwb_wallet', $user_wallet_bal );
 

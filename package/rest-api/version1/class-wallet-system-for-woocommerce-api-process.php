@@ -109,7 +109,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 					$note                   = ! empty( $request['note'] ) ? sanitize_text_field( $request['note'] ) : '';
 					$order_id               = ! empty( $request['order_id'] ) ? sanitize_text_field( $request['order_id'] ) : '';
 					$wallet                 = get_user_meta( $user_id, 'mwb_wallet', true );
-
+					$wallet                 = empty( $wallet ) ? 0 : $wallet;
 					if ( 'credit' === $wallet_action ) {
 						$wallet       += $updated_amount;
 						$update_wallet = update_user_meta( $user_id, 'mwb_wallet', $wallet );

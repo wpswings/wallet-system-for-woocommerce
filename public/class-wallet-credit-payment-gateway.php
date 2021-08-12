@@ -121,6 +121,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			$customer_id = get_current_user_id();
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
+				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'mwb_wsfw_show_converted_price', $walletamount );
 				return '<b>' . __( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wc_price( $walletamount ) . ']</b>';
 			}
@@ -162,6 +163,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			$customer_id      = get_current_user_id();
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
+				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				if ( $debited_amount <= $walletamount ) {
 
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();

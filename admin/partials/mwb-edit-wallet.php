@@ -115,7 +115,7 @@ if ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) {
 }
 $user       = get_user_by( 'id', $user_id );
 $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
-
+$wallet_bal = empty( $wallet_bal ) ? 0 : $wallet_bal;
 ?>
 <div class="wrap edit-user-wallet">
 	<h2>

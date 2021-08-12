@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
+$wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 
 ?>

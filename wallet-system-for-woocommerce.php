@@ -76,9 +76,9 @@ if ( $activated ) {
 	 * The code that runs during plugin activation.
 	 * This action is documented in includes/class-wallet-system-for-woocommerce-activator.php
 	 */
-	function activate_wallet_system_for_woocommerce() {
+	function activate_wallet_system_for_woocommerce( $network_wide ) {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-activator.php';
-		Wallet_System_For_Woocommerce_Activator::wallet_system_for_woocommerce_activate();
+		Wallet_System_For_Woocommerce_Activator::wallet_system_for_woocommerce_activate( $network_wide );
 		$mwb_wsfw_active_plugin = get_option( 'mwb_all_plugins_active', false );
 		if ( is_array( $mwb_wsfw_active_plugin ) && ! empty( $mwb_wsfw_active_plugin ) ) {
 			$mwb_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
@@ -122,6 +122,38 @@ if ( $activated ) {
 	 */
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce.php';
 
+	/**
+	 * Creating table whenever a new blog is created
+	 *
+	 * @param object $new_site New site object.
+	 * @return void
+	 */
+	function mwb_wsfw_on_create_blog( $new_site ) {
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		}
+		if ( is_plugin_active_for_network( 'wallet-system-for-woocommerce/wallet-system-for-woocommerce.php' ) ) {
+			$blog_id = $new_site->blog_id;
+			switch_to_blog( $blog_id );
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-activator.php';
+			Wallet_System_For_Woocommerce_Activator::create_table_and_product();
+			restore_current_blog();
+		}
+	}
+	add_action( 'wp_initialize_site', 'mwb_wsfw_on_create_blog', 900 );
+
+	/**
+	 * Deleting the table whenever a blog is deleted.
+	 *
+	 * @param array $tables tables.
+	 * @return array
+	 */
+	function mwb_wsfw_on_delete_blog( $tables ) {
+		global $wpdb;
+		$tables[] = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+		return $tables;
+	}
+	add_filter( 'wpmu_drop_tables', 'mwb_wsfw_on_delete_blog' );
 
 	/**
 	 * Begins execution of the plugin.
@@ -207,4 +239,3 @@ if ( $activated ) {
 		<?php
 	}
 }
-

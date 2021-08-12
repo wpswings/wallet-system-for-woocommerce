@@ -514,7 +514,8 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 			if ( $update ) {
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-				$mwb_wallet = get_user_meta( $user_id, 'mwb_wallet', true );
+				$mwb_wallet             = get_user_meta( $user_id, 'mwb_wallet', true );
+				$mwb_wallet             = ( ! empty( $mwb_wallet ) ) ? $mwb_wallet : 0;
 				if ( 'credit' === $action ) {
 					$mwb_wallet       = floatval( $mwb_wallet ) + floatval( $wallet_amount );
 					$transaction_type = esc_html__( 'Credited by admin', 'wallet-system-for-woocommerce' );
@@ -618,6 +619,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$order_currency = $order->get_currency();
 		$wallet_id      = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount   = get_user_meta( $userid, 'mwb_wallet', true );
+		$walletamount   = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
