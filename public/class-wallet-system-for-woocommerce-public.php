@@ -393,12 +393,6 @@ class Wallet_System_For_Woocommerce_Public {
 			wc_get_template('myaccount/form-login.php');
 			echo '</div>';
 		} else {
-			if ( class_exists( 'Woocommerce_Wallet_System_Public' ) ) {
-				$wallet_class = new Woocommerce_Wallet_System_Public( 'woocommerce-wallet-system', '1.0.1' );
-				if ( method_exists( $wallet_class, 'mwb_wws_display_wallet_endpoint_content' ) ) {
-					$wallet_class->mwb_wws_display_wallet_endpoint_content();
-				}
-			}
 			include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-shortcode.php';
 		}
 		return ob_get_clean();
