@@ -25,7 +25,7 @@
  * @subpackage Wallet_System_For_Woocommerce/package/rest-api/version1
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
-class Wallet_System_For_Woocommerce_Rest_Api {
+class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 
 	/**
 	 * The unique identifier of this plugin.
@@ -116,13 +116,15 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 			$this->namespace,
 			$this->base_url . '(?P<id>\d+)',
 			array(
+				'args' => array(
+					'id' => array(
+						'description' => __( 'Unique user id of user.', 'wallet-system-for-woocommerce' ),
+						'type'        => 'integer',
+						'required'    => true,
+					),
+				),
 				array(
 					'args'                => array(
-						'id'              => array(
-							'description' => __( 'Unique user id of user.', 'wallet-system-for-woocommerce' ),
-							'type'        => 'integer',
-							'required'    => true,
-						),
 						'consumer_key'    => array(
 							'description' => __( 'Merchant Consumer Key.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'string',
@@ -141,14 +143,23 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 					'callback'            => array( $this, 'mwb_wsfw_user_wallet_balance' ),
 					'permission_callback' => array( $this, 'mwb_wsfw_get_permission_check' ),
 				),
+			)
+		);
+		
+		register_rest_route(
+			$this->namespace,
+			$this->base_url . '(?P<id>[\d]+)',
+			array(
+				'args' => array(
+					'id' => array(
+						'description' => __( 'Unique user id of user.', 'wallet-system-for-woocommerce' ),
+						'type'        => 'integer',
+						'required'    => true,
+					),
+				),
 				// Update wallet of user.
 				array(
 					'args'                => array(
-						'id'                 => array(
-							'description' => __( 'Unique user id of user.', 'wallet-system-for-woocommerce' ),
-							'type'        => 'integer',
-							'required'    => true,
-						),
 						'consumer_key'       => array(
 							'description' => __( 'Merchant Consumer Key.', 'wallet-system-for-woocommerce' ),
 							'type'        => 'string',
@@ -256,7 +267,6 @@ class Wallet_System_For_Woocommerce_Rest_Api {
 	 * @return  Boolean
 	 */
 	public function mwb_wsfw_update_item_permissions_check( $request ) {
-
 		$data = json_decode( $request->get_body() );
 		$rest_api_keys = get_option( 'mwb_wsfw_wallet_rest_api_keys', '' );
 		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {

@@ -11,6 +11,19 @@
  * @subpackage Wallet_System_For_Woocommerce/public/partials
  */
 
+if ( ! function_exists( 'show_message_on_form_submit' ) ) {
+	/**
+	 * Show message on form submit
+	 *
+	 * @param string $wpg_message message to be shown on form submission.
+	 * @param string $type error type.
+	 * @return void
+	 */
+	function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
+		$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
+		echo wp_kses_post( $wpg_notice );
+	}
+}
 global $wp;
 $current_currency = apply_filters( 'mwb_wsfw_get_current_currency', get_woocommerce_currency() );
 // phpcs:ignore
@@ -211,19 +224,19 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
 <?php
 $page_id  = get_the_ID();
 $page_url = get_permalink( $page_id );
-if ( get_option('permalink_structure') ) {
-	$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
-	$topup_url       = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
-	$wallet_url      = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
-	$withdrawal_url  = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
-	$transaction_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
-} else {
+// if ( get_option('permalink_structure') ) {
+// 	$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
+// 	$topup_url       = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
+// 	$wallet_url      = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
+// 	$withdrawal_url  = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
+// 	$transaction_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
+// } else {
 	$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
 	$topup_url       = add_query_arg( 'mwb-wallet', 'wallet-topup', $page_url );
 	$wallet_url      = add_query_arg( 'mwb-wallet', 'wallet-transfer', $page_url );
 	$withdrawal_url  = add_query_arg( 'mwb-wallet', 'wallet-withdrawal', $page_url );
 	$transaction_url = add_query_arg( 'mwb-wallet', 'wallet-transactions', $page_url );
-}
+//}
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 $user_id                = get_current_user_id();
@@ -283,17 +296,7 @@ if ( ( $current_url == $main_url ) || ( $current_url == $page_url ) ) {
 	$flag = true;
 }
 $wallet_keys = array_keys( $wallet_tabs );
-/**
- * Show message on form submit
- *
- * @param string $wpg_message message to be shown on form submission.
- * @param string $type error type.
- * @return void
- */
-function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
-	$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
-	echo wp_kses_post( $wpg_notice );
-}
+
 
 ?>
 

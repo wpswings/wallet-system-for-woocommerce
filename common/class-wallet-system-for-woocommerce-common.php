@@ -97,4 +97,17 @@ class Wallet_System_For_Woocommerce_Common {
 		return $is_purchasable;
 	}
 
+	public function mwb_wsfw_wallet_shortcodes() {
+		add_shortcode( 'MWB_WALLET_RECHARGE', array( $this, 'mwb_wsfw_show_wallat_recharge' ) );
+		//add_shortcode( 'mwb-wallet', array( $this, 'mwb_wsfw_show_wallet' ) );
+		//add_shortcode( 'mwb-wallet', array( $this, 'mwb_wsfw_show_wallet' ) );
+		//add_shortcode( 'mwb-wallet', array( $this, 'mwb_wsfw_show_wallet' ) );
+	}
+
+	public function mwb_wsfw_show_wallat_recharge() {
+		ob_start();
+		require WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-recharge.php';
+		return ob_get_clean();
+	}
+
 }
