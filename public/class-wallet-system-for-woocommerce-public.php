@@ -66,6 +66,11 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( is_account_page()  ) {
 			wp_enqueue_style('dashicons');
 		}
+		global $wp_query;
+		$is_endpoint = isset( $wp_query->query_vars['mwb-wallet'] ) ? $wp_query->query_vars['mwb-wallet'] : '';
+		if ( ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) && is_account_page() ) || ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) ) ) {
+			wp_enqueue_style( 'mwb-datatable', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/css/jquery.dataTables.min.css', array(), $this->version, 'all' );
+		}
 	}
 
 	/**
@@ -101,6 +106,7 @@ class Wallet_System_For_Woocommerce_Public {
 		global $wp_query;
 		$is_endpoint = isset( $wp_query->query_vars['mwb-wallet'] ) ? $wp_query->query_vars['mwb-wallet'] : '';
 		if ( ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) && is_account_page() ) || ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) ) ) {
+			wp_enqueue_script( 'mwb-datatable', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/js/jquery.dataTables.min.js', array(), $this->version, true );
 			wp_enqueue_script( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/mwb-public.min.js', array(), $this->version, 'all' );
 		}
 

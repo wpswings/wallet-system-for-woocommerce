@@ -8,19 +8,40 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-$wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
-$wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
-$wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 
-?>
+$current_currency = apply_filters( 'mwb_wsfw_get_current_currency', get_woocommerce_currency() );
+$user_id          = get_current_user_id();
+$wallet_bal       = get_user_meta( $user_id, 'mwb_wallet', true );
+$wallet_bal       = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
+$wallet_bal       = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
+// phpcs:ignore
+$http_host   = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '';
+// phpcs:ignore
+$request_url = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
+$current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
 
+if ( ! function_exists( 'show_message_on_wallet_form_submit' ) ) {
+	/**
+	 * Show message on form submit
+	 *
+	 * @param string $wpg_message message to be shown on form submission.
+	 * @param string $type error type.
+	 * @return void
+	 */
+	function show_message_on_wallet_form_submit( $wpg_message, $type = 'error' ) {
+		$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
+		echo wp_kses_post( $wpg_notice );
+	}
+}
 
-<div class='content active'>
-
+if ( wc_post_content_has_shortcode( 'MWB_WITHDRAWAL_REQUEST' ) ) {
+	?>
+	<div class='content mwb_wallet_shortcodes'>
+	<h3><?php echo esc_html__( 'Wallet Withdrawal Request', 'wallet-system-for-woocommerce' ); ?></h3>
 	<?php
 	$disable_withdrawal_request = get_user_meta( $user_id, 'disable_further_withdrawal_request', true );
 	if ( $disable_withdrawal_request ) {
-		show_message_on_form_submit( 'Your wallet\'s withdrawal request is in pending.', 'woocommerce-info' );
+		show_message_on_wallet_form_submit( 'Your wallet\'s withdrawal request is in pending.', 'woocommerce-info' );
 		$args               = array(
 			'numberposts' => -1,
 			'post_type'   => 'wallet_withdrawal',
@@ -57,12 +78,12 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 							}
 							echo '<tr>
 							<td>' . esc_html( $i ) . '</td>
-                            <td>' . esc_html( $request_id ) . '</td>
-                            <td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ), array( 'currency' => get_woocommerce_currency() ) ) . '</td>
-                            <td>' . esc_html( $withdrawal_status ) . '</td>
-                            <td>' . esc_html( get_post_meta( $request_id, 'mwb_wallet_note', true ) ) . '</td>
-                            <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
-                            </tr>';
+							<td>' . esc_html( $request_id ) . '</td>
+							<td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ), array( 'currency' => get_woocommerce_currency() ) ) . '</td>
+							<td>' . esc_html( $withdrawal_status ) . '</td>
+							<td>' . esc_html( get_post_meta( $request_id, 'mwb_wallet_note', true ) ) . '</td>
+							<td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
+							</tr>';
 							$i++;
 						}
 					}
@@ -97,9 +118,14 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 		</form>
 			<?php
 		} else {
-			show_message_on_form_submit( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'woocommerce-error' );
+		show_message_on_wallet_form_submit( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'woocommerce-error' );
 		}
 	}
 	?>
 
 </div>
+	<?php
+	wp_enqueue_style( 'mwb-datatable', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/css/jquery.dataTables.min.css', array(), $this->version, 'all' );
+	wp_enqueue_script( 'mwb-datatable', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/js/jquery.dataTables.min.js', array(), $this->version, true );
+	wp_enqueue_script( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/mwb-public.min.js', array(), $this->version, 'all' );
+}

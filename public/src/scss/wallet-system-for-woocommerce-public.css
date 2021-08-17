@@ -616,25 +616,25 @@ svg {
     background-color: #0f834d;
     margin-left: 0;
     border-radius: 2px;
-    color: #fff;
+    color: #fff!important;
 	text-align: left;
     clear: both;
-    border-left: .6180469716em solid rgba(0,0,0,.15);
+    border-left: .6180469716em solid rgba(0,0,0,.15)!important;
     padding: 1em 2em 1em 3.5em;
     position: relative;
     list-style: none outside;
 }
 .woocommerce-error a:hover, .woocommerce-info a:hover, .woocommerce-message a:hover {
-    color:white;
+    color:white!important;
     text-decoration:none;
 }
 .woocommerce-error {
     background-color: #e2401c !important;
     padding: 16px 32px 16px 55px !important;
+	border-top-color: #b81c23!important;
 }
 .woocommerce-message {
     background-color: #0f834d;
-    color: #fff;
     margin: 0 auto 50px;
 }
 .woocommerce-info {

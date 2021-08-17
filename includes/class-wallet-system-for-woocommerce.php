@@ -287,6 +287,7 @@ class Wallet_System_For_Woocommerce {
 		$enable = get_option( 'mwb_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 			$this->loader->add_action( 'plugins_loaded', $wsfw_plugin_common, 'mwb_wsfw_wallet_shortcodes' );
+			$this->loader->add_action( 'template_redirect', $wsfw_plugin_common, 'mwb_wsfw_save_wallet_public_shortcode' );
 		}
 	}
 

@@ -1630,34 +1630,37 @@ class Wallet_System_For_Woocommerce_Admin {
 			$user_id       = $mwb_new_order->get_user_id();
 			$walletbalance = get_user_meta( $user_id, 'mwb_wallet', true );
 			$currency      = $mwb_new_order->get_currency();
-			if ( ! empty( $walletbalance ) && false !== $walletbalance ) {
-				if ( ! empty( $amount_deduct_from_wallet ) ) {
-					if ( 'fix' === $amount_type_for_wallet ) {
-						if ( $amount_deduct_from_wallet >= $walletbalance ) {
-							$amount_deduct = $walletbalance;
-						} else {
-							$amount_deduct = $amount_deduct_from_wallet;
-						}
-					} elseif ( 'percentage' === $amount_type_for_wallet ) {
-						$converted_price = floatval( ( $walletbalance * $amount_deduct_from_wallet ) / 100 );
-						if ( $converted_price >= $walletbalance ) {
-							$amount_deduct = $walletbalance;
-						} else {
-							$amount_deduct = $converted_price;
-						}
+
+			if ( ! empty( $amount_deduct_from_wallet ) ) {
+				$order_total = $mwb_new_order->get_total();
+				$order_total = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $order_total, $currency );
+				if ( 'fix' === $amount_type_for_wallet ) {
+					if ( $amount_deduct_from_wallet >= $order_total ) {
+						$amount_deduct = $order_total;
+					} else {
+						$amount_deduct = $amount_deduct_from_wallet;
 					}
-					if ( ! empty( $amount_deduct ) ) {
-						$order_total       = $mwb_new_order->get_total();
-						$order_total       = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $order_total, $currency );
+				} elseif ( 'percentage' === $amount_type_for_wallet ) {
+					$converted_price = floatval( ( $order_total * $amount_deduct_from_wallet ) / 100 );
+					if ( $converted_price >= $order_total ) {
+						$amount_deduct = $order_total;
+					} else {
+						$amount_deduct = $converted_price;
+					}
+				}
+				if ( ! empty( $amount_deduct ) ) {
+					if ( ! empty( $walletbalance ) && false !== $walletbalance ) {
 						$walletamount      = 0;
 						$remaining_balance = 0;
-						if ( $order_total >= $amount_deduct ) {
+
+						if ( $walletbalance >= $amount_deduct ) {
 							$walletamount      = $amount_deduct;
 							$remaining_balance = abs( $walletbalance - $amount_deduct );
 						} else {
-							$walletamount      = $order_total;
+							$walletamount      = $walletbalance;
 							$remaining_balance = abs( $walletbalance - $walletamount );
 						}
+	
 						$fee->set_amount( -1 * $walletamount );
 						$fee->set_total( -1 * $walletamount );
 						$mwb_new_order->add_item( $fee );

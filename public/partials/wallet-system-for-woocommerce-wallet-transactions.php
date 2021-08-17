@@ -73,12 +73,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 
 	<?php
-	// enqueue datatable css.
-	wp_enqueue_style( 'datatable', 'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css', false, '1.10.24', 'all' );
-	wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css', false, '1.12.1', 'all' );
-	wp_enqueue_script( 'datatable', 'https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js', array(), '1.10.22', true );
 	// including regular expression jquery.
-	wp_enqueue_script( 'anchor-tag', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
+	wp_enqueue_script( 'anchor-tag', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-anchor.js', array(), $this->version, 'all' );
 	?>
 
 	<!-- removing the anchor tag href attibute using regular expression -->	
