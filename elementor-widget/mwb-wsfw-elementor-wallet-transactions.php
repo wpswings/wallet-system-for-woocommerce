@@ -15,7 +15,7 @@ $user_id = get_current_user_id();
 if ( wc_post_content_has_shortcode( 'MWB_WALLET_TRANSACTIONS' ) ) {
 	?>
 	<div class='content mwb_wallet_shortcodes'>
-	<h3><?php echo esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ); ?></h3>
+		<h3><?php echo esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ); ?></h3>
 		<div class="mwb-wallet-transaction-container">
 			<table class="mwb-wallet-field-table dt-responsive" id="transactions_table">
 				<thead>
