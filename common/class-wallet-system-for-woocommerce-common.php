@@ -188,7 +188,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @param string $type error type.
 	 * @return void
 	 */
-	public function show_message_on_wallet_form_submit( $wpg_message, $type = 'error' ) {
+	public function show_message_on_wallet_form_submit( $wpg_message, $type = 'woocommerce-error' ) {
 		$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
 		echo wp_kses_post( $wpg_notice );
 	}
@@ -204,7 +204,7 @@ class Wallet_System_For_Woocommerce_Common {
 			if ( wp_verify_nonce( $nonce ) ) {
 				unset( $_POST['mwb_recharge_wallet'] );
 				if ( empty( $_POST['mwb_wallet_recharge_amount'] ) ) {
-					wc_add_notice( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'error' );
+					$this->show_message_on_wallet_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 				} else {
 					$recharge_amount = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_recharge_amount'] ) );
 					$recharge_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $recharge_amount );
@@ -225,7 +225,7 @@ class Wallet_System_For_Woocommerce_Common {
 					exit();
 				}
 			} else {
-				wc_add_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
+				$this->show_message_on_wallet_form_submit( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			}
 		}
 		if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawal_request'] ) ) {
@@ -291,14 +291,14 @@ class Wallet_System_For_Woocommerce_Common {
 					$wp_session['mwb_wallet_transfer_user_email'] = $another_user_email;
 					$wp_session['mwb_wallet_transfer_amount']     = $wallet_transfer_amount;
 				}
-				wc_add_notice( esc_html__( 'Email Id does not exist. ', 'wallet-system-for-woocommerce' ) . $invitation_link, 'error' );
+				$this->show_message_on_wallet_form_submit( esc_html__( 'Email Id does not exist. ', 'wallet-system-for-woocommerce' ) . $invitation_link, 'woocommerce-error' );
 				$update = false;
 			}
 			if ( empty( $_POST['mwb_wallet_transfer_amount'] ) ) {
-				wc_add_notice( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'error' );
+				$this->show_message_on_wallet_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 				$update = false;
 			} elseif ( $wallet_bal < $wallet_transfer_amount ) {
-				wc_add_notice( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'error' );
+				$this->show_message_on_wallet_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 				$update = false;
 			}
 			if ( $update ) {
@@ -372,12 +372,12 @@ class Wallet_System_For_Woocommerce_Common {
 						);
 
 						$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-						wc_add_notice( esc_html__( 'Amount is transferred successfully', 'wallet-system-for-woocommerce' ), 'success' );
+						$this->show_message_on_wallet_form_submit( esc_html__( 'Amount is transferred successfully', 'wallet-system-for-woocommerce' ), 'woocommerce-message' );
 					} else {
-						wc_add_notice( esc_html__( 'Amount is not transferred', 'wallet-system-for-woocommerce' ), 'error' );
+						$this->show_message_on_wallet_form_submit( esc_html__( 'Amount is not transferred', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 					}
 				} else {
-					wc_add_notice( esc_html__( 'No user found.', 'wallet-system-for-woocommerce' ), 'error' );
+					$this->show_message_on_wallet_form_submit( esc_html__( 'No user found.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 				}
 			}
 		}

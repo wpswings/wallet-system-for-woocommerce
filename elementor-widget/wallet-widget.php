@@ -37,7 +37,7 @@ class Wallet_Widget extends Widget_Base {
 	 * @return string
 	 */
 	public function get_icon() {
-		return 'fa fa-credit-card';
+		return 'eicon-tabs';
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Wallet_Widget extends Widget_Base {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$this->start_controls_section(
 			'section_title',
@@ -95,7 +95,7 @@ class Wallet_Widget extends Widget_Base {
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
-		echo  "$settings[select_wallet_snippet]";	
+		echo  "$settings[select_wallet_snippet]";
 	}
 
 }

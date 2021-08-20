@@ -634,11 +634,11 @@ svg {
 	border-top-color: #b81c23!important;
 }
 .woocommerce-message {
-    background-color: #0f834d;
+    background-color: #0f834d!important;
     margin: 0 auto 50px;
 }
 .woocommerce-info {
-    background-color: #3d9cd2;
+    background-color: #3d9cd2!important;
 }
 
 .mwb_wcb_wallet_balance_container {
