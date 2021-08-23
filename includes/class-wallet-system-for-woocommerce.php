@@ -257,13 +257,14 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_export_users_wallet', $wsfw_plugin_admin, 'export_users_wallet' );
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 10, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
-	
-		$mwb_sfw_enable_plugin = get_option( 'mwb_sfw_enable_plugin', '' );
-		if ( 'on' == $mwb_sfw_enable_plugin ) {
-			$this->loader->add_filter( 'wsfw_general_extra_settings_array', $wsfw_plugin_admin, 'mwb_wsfw_extra_settings_sfw', 30, 1 );
-			$this->loader->add_action( 'mwb_sfw_renewal_order_creation', $wsfw_plugin_admin, 'mwb_sfw_renewal_order_creation', 10, 2 );
+
+		if ( function_exists( 'mwb_sfw_check_plugin_enable' ) ) {
+			if ( mwb_sfw_check_plugin_enable() ) {
+				$this->loader->add_filter( 'wsfw_general_extra_settings_array', $wsfw_plugin_admin, 'mwb_wsfw_extra_settings_sfw', 30, 1 );
+				$this->loader->add_action( 'mwb_sfw_renewal_order_creation', $wsfw_plugin_admin, 'mwb_sfw_renewal_order_creation', 10, 2 );
+			}
 		}
-	
+
 	}
 
 
