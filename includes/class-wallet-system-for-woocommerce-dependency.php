@@ -43,10 +43,10 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 					if ( $order ) {
 						$payment_method = $order->get_payment_method();
 						if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method || 'wallet' === $payment_method ) {
-							$payment_method = 'Wallet Payment';
+							$payment_method = esc_html__( 'Wallet Payment', 'wallet-system-for-woocommerce' );
 						}
 						$currency         = $order->get_currency();
-						$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+						$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					} else {
 						$order_id = '';
 					}

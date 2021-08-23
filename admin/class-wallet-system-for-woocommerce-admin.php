@@ -448,7 +448,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					}
 				}
 			} else {
-				$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( 'Failed security check', 'error' );
+				$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 			}
 		}
 	}
@@ -551,7 +551,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'user_id'          => $user_id,
 					'amount'           => $wallet_amount,
 					'currency'         => get_woocommerce_currency(),
-					'payment_method'   => 'Manually By Admin',
+					'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => $transaction_type,
 					'order_id'         => '',
 					'note'             => '',
@@ -640,9 +640,10 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( $allow_refund ) {
 					$amount = $order_total;
 					foreach ( $order->get_fees() as $item_fee ) {
-						$fee_name  = $item_fee->get_name();
-						$fee_total = $item_fee->get_total();
-						if ( 'Via wallet' === $fee_name ) {
+						$fee_name    = $item_fee->get_name();
+						$fee_total   = $item_fee->get_total();
+						$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
+						if ( $wallet_name === $fee_name ) {
 							$fees   = abs( $fee_total );
 							$amount += $fees;
 							break;
@@ -666,12 +667,12 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					}
 
-					$transaction_type = 'Wallet credited through order refund <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = esc_html__( 'Wallet credited through order refund ', 'wallet-system-for-woocommerce' )  . '<a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
 						'currency'         => $order->get_currency(),
-						'payment_method'   => 'Manually by admin through refund',
+						'payment_method'   => esc_html__( 'Manually by admin through refund', 'wallet-system-for-woocommerce' ),
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
 						'note'             => '',
@@ -714,7 +715,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					}
 
-					$transaction_type = 'Wallet credited through purchase <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = __( 'Wallet credited through purchase ', 'wallet-system-for-woocommerce' ) .' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $update_wallet_userid,
 						'amount'           => $amount,
@@ -732,7 +733,8 @@ class Wallet_System_For_Woocommerce_Admin {
 		foreach ( $order->get_fees() as $item_fee ) {
 			$fee_name  = $item_fee->get_name();
 			$fee_total = $item_fee->get_total();
-			if ( 'Via wallet' === $fee_name ) {
+			$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
+			if ( $wallet_name === $fee_name ) {
 				$order_status   = array( 'pending', 'on-hold' );
 				$payment_status = array( 'processing', 'completed' );
 				if ( in_array( $old_status, $order_status ) && in_array( $new_status, $payment_status ) ) {
@@ -758,7 +760,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
 					}
-					$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) .' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
@@ -948,12 +950,12 @@ class Wallet_System_For_Woocommerce_Admin {
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 						}
 					}
-					$transaction_type = 'Wallet debited through user withdrawing request <a href="#" >#' . $withdrawal_id . '</a>';
+					$transaction_type = __( 'Wallet debited through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $withdrawal_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $user_id,
 						'amount'           => $withdrawal_amount,
 						'currency'         => get_woocommerce_currency(),
-						'payment_method'   => 'Manually By Admin',
+						'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $withdrawal_id,
 						'note'             => '',
@@ -989,10 +991,10 @@ class Wallet_System_For_Woocommerce_Admin {
 					);
 				};
 			}
-			if ( 'pending' === $updated_status ) {
+			if ( 'pending1' === $updated_status ) {
 				$withdrawal_amount = get_post_meta( $withdrawal_id, 'mwb_wallet_withdrawal_amount', true );
 				if ( $user_id ) {
-					$withdrawal_request->post_status = 'pending';
+					$withdrawal_request->post_status = 'pending1';
 					wp_update_post( $withdrawal_request );
 					$mwb_wsfw_error_text = esc_html__( 'Wallet withdrawan request status is changed to pending for user #', 'wallet-system-for-woocommerce' ) . $user_id;
 					$message             = array(
@@ -1026,7 +1028,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'not_found'          => __( 'Not Found Withdrawal Request', 'wallet-system-for-woocommerce' ),
 					'not_found_in_trash' => __( 'Not found in Trash', 'wallet-system-for-woocommerce' ),
 				),
-				'description'     => 'Merchant can see all withdrawal request of users',
+				'description'     => __( 'Merchant can see all withdrawal request of users', 'wallet-system-for-woocommerce' ),
 				'supports'        => array( 'title', 'custom-fields' ),
 				'public'          => true,
 				'rewrite'         => array( 'slug' => 'wallet_withdrawal' ),
@@ -1229,7 +1231,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 				}
 
-				$transaction_type = 'Wallet debited through user withdrawing request <a href="#" >#' . $post_id . '</a>';
+				$transaction_type = __( 'Wallet debited through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $post_id . '</a>';
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $withdrawal_amount,
@@ -1445,8 +1447,8 @@ class Wallet_System_For_Woocommerce_Admin {
 						'name'               => __( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ),
 						'singular_name'      => __( 'Wallet Recharge Order', 'wallet-system-for-woocommerce' ),
 						'all_items'          => __( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ),
-						'add_new_item'        => __( 'Add New Order', 'wallet-system-for-woocommerce' ),
-						'add_new'             => __( 'Add Order', 'wallet-system-for-woocommerce' ),
+						'add_new_item'       => __( 'Add New Order', 'wallet-system-for-woocommerce' ),
+						'add_new'            => __( 'Add Order', 'wallet-system-for-woocommerce' ),
 						'view_item'          => __( 'View Wallet Recharge Order', 'wallet-system-for-woocommerce' ),
 						'edit_item'          => __( 'Edit Wallet Recharge Order', 'wallet-system-for-woocommerce' ),
 						'update_item'        => __( 'Update Order', 'wallet-system-for-woocommerce' ),
@@ -1677,9 +1679,9 @@ class Wallet_System_For_Woocommerce_Admin {
 								if ( $order ) {
 									$payment_method = $order->get_payment_method();
 									if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method ) {
-										$payment_method = 'Wallet Payment';
+										$payment_method = esc_html__( 'Wallet Payment', 'wallet-system-for-woocommerce' );
 									}
-									$transaction_type = 'Wallet debited through subscription renewal <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+									$transaction_type = __( 'Wallet debited through subscription renewal ', 'wallet-system-for-woocommerce' ) . '<a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 								} else {
 									$order_id = '';
 								}

@@ -24,7 +24,7 @@ if ( isset( $_POST['mwb_recharge_wallet'] ) && ! empty( $_POST['mwb_recharge_wal
 		unset( $_POST['mwb_recharge_wallet'] );
 
 		if ( empty( $_POST['mwb_wallet_recharge_amount'] ) ) {
-			show_message_on_form_submit( 'Please enter amount greater than 0', 'woocommerce-error' );
+			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		} else {
 			$recharge_amount = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_recharge_amount'] ) );
 			$recharge_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $recharge_amount );
@@ -45,7 +45,7 @@ if ( isset( $_POST['mwb_recharge_wallet'] ) && ! empty( $_POST['mwb_recharge_wal
 			echo '<script>window.location.href = "' . esc_url( wc_get_cart_url() ) . '";</script>';
 		}
 	} else {
-		show_message_on_form_submit( 'Failed security check', 'woocommerce-error' );
+		show_message_on_form_submit( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 	}
 }
 if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_transfer'] ) ) {
@@ -76,10 +76,10 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		$update = false;
 	}
 	if ( empty( $_POST['mwb_wallet_transfer_amount'] ) ) {
-		show_message_on_form_submit( 'Please enter amount greater than 0', 'woocommerce-error' );
+		show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		$update = false;
 	} elseif ( $wallet_bal < $wallet_transfer_amount ) {
-		show_message_on_form_submit( 'Please enter amount less than or equal to wallet balance', 'woocommerce-error' );
+		show_message_on_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		$update = false;
 	}
 	if ( $update ) {
@@ -113,12 +113,12 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 			}
 
-			$transaction_type     = 'Wallet credited by user #' . $user_id . ' to user #' . $another_user_id;
+			$transaction_type     = __( 'Wallet credited by user #', 'wallet-system-for-woocommerce' ) . $user_id . __( ' to user #', 'wallet-system-for-woocommerce' ) . $another_user_id;
 			$wallet_transfer_data = array(
 				'user_id'          => $another_user_id,
 				'amount'           => $transfer_amount,
 				'currency'         => $current_currency,
-				'payment_method'   => 'Wallet Transfer',
+				'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 				'transaction_type' => $transaction_type,
 				'order_id'         => '',
 				'note'             => $transfer_note,
@@ -142,12 +142,13 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
 				}
-				$transaction_type = 'Wallet debited from user #' . $user_id . ' wallet, transferred to user #' . $another_user_id;
+
+				$transaction_type = __( 'Wallet debited from user #', 'wallet-system-for-woocommerce' ) . $user_id . __( ' wallet, transferred to user #', 'wallet-system-for-woocommerce' ) . $another_user_id;
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $transfer_amount,
 					'currency'         => $current_currency,
-					'payment_method'   => 'Wallet Transfer',
+					'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => $transaction_type,
 					'order_id'         => '',
 					'note'             => $transfer_note,
@@ -155,13 +156,13 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 				);
 
 				$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-				show_message_on_form_submit( 'Amount is transferred successfully', 'woocommerce-message' );
+				show_message_on_form_submit( esc_html__( 'Amount is transferred successfully', 'wallet-system-for-woocommerce' ), 'woocommerce-message' );
 
 			} else {
-				show_message_on_form_submit( 'Amount is not transferred', 'woocommerce-error' );
+				show_message_on_form_submit( esc_html__( 'Amount is not transferred', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			}
 		} else {
-			show_message_on_form_submit( 'No user  found.', 'woocommerce-error' );
+			show_message_on_form_submit( esc_html__( 'No user found.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		}
 	}
 }
@@ -227,7 +228,7 @@ $wallet_tabs = array();
 
 if ( ! empty( $product_id ) && ! empty( $enable_wallet_recharge ) ) {
 	$wallet_tabs['wallet_recharge'] = array(
-		'title'     => 'Add Balance',
+		'title'     => esc_html__( 'Add Balance', 'wallet-system-for-woocommerce' ),
 		'url'       => $topup_url,
 		'icon'      => '<path d="M28 10V4C28 3.46957 27.7893 2.96086 27.4142 2.58579C27.0391 2.21071 26.5304 2 26 2H6C4.93913 2 3.92172 2.42143 3.17157 3.17157C2.42143 3.92172 2 4.93913 2 6M2 6C2 7.06087 2.42143 8.07828 3.17157 8.82843C3.92172 9.57857 4.93913 10 6 10H30C30.5304 10 31.0391 10.2107 31.4142 10.5858C31.7893 10.9609 32 11.4696 32 12V18M2 6V27.5M32 26V32C32 32.5304 31.7893 33.0391 31.4142 33.4142C31.0391 33.7893 30.5304 34 30 34H8" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <circle cx="8.5" cy="27.5" r="6.5" stroke="#1D201F" stroke-width="2.5"/>
@@ -239,7 +240,7 @@ if ( ! empty( $product_id ) && ! empty( $enable_wallet_recharge ) ) {
 }
 
 $wallet_tabs['wallet_transfer'] = array(
-	'title'     => 'Wallet Transfer',
+	'title'     => esc_html__( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 	'url'       => $wallet_url,
 	'icon'      => '<rect x="2" y="12" width="32" height="15.5458" rx="1.5" stroke="#1D201F" stroke-width="2.5"/>
 <path d="M28 17V22M8 22V17" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -250,7 +251,7 @@ $wallet_tabs['wallet_transfer'] = array(
 );
 
 $wallet_tabs['wallet_withdrawal'] = array(
-	'title'     => 'Wallet Withdrawal Request',
+	'title'     => esc_html__( 'Wallet Withdrawal Request', 'wallet-system-for-woocommerce' ),
 	'url'       => $withdrawal_url,
 	'icon'      => '<path d="M25.826 6.5L25.826 30.5652C25.826 31.3936 25.1545 32.0652 24.326 32.0652L11.1044 32.0652C10.2759 32.0652 9.60437 31.3936 9.60437 30.5652L9.60437 6.5" stroke="#1D201F" stroke-width="2.5"/>
 <path d="M6 5.77173C5.30964 5.77173 4.75 6.33137 4.75 7.02173C4.75 7.71208 5.30964 8.27173 6 8.27173V5.77173ZM30 8.27173C30.6904 8.27173 31.25 7.71208 31.25 7.02173C31.25 6.33137 30.6904 5.77173 30 5.77173V8.27173ZM6 8.27173H30V5.77173H6V8.27173Z" fill="#1D201F"/>
@@ -260,7 +261,7 @@ $wallet_tabs['wallet_withdrawal'] = array(
 	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php',
 );
 $wallet_tabs['wallet_transactions'] = array(
-	'title'     => 'Transactions',
+	'title'     => esc_html__( 'Transactions', 'wallet-system-for-woocommerce' ),
 	'url'       => $transaction_url,
 	'icon'      => '<path d="M2 7C2 4.23858 4.23858 2 7 2H23C25.7614 2 28 4.23858 28 7V28.6227C28 30.476 25.6972 31.3325 24.4861 29.9296L22.4665 27.5901C21.7195 26.7249 20.4005 26.6606 19.5729 27.4491L16.1765 30.6854C15.404 31.4215 14.1897 31.4215 13.4172 30.6854L10.067 27.4931C9.22232 26.6883 7.87085 26.7743 7.1351 27.6799L5.55223 29.628C4.36484 31.0894 2 30.2498 2 28.3668V7Z" stroke="#1D201F" stroke-width="2.5"/>
 <path d="M19 9.25C19.6904 9.25 20.25 8.69036 20.25 8C20.25 7.30964 19.6904 6.75 19 6.75V9.25ZM11 6.75C10.3096 6.75 9.75 7.30964 9.75 8C9.75 8.69036 10.3096 9.25 11 9.25V6.75ZM19 6.75H11V9.25H19V6.75Z" fill="#1D201F"/>

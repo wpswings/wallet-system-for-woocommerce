@@ -127,7 +127,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
 			$wallet_amount  = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_amount );
-			
+
 			if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
 				unset( $available_gateways['mwb_wcb_wallet_payment_gateway'] );
 			} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
@@ -163,7 +163,7 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 						?>	
 					<tr class="partial_payment">
-						<td><?php echo esc_html( 'Pay by wallet (' ) . wc_price( $wallet_amount ) . ')'; ?></td>
+						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount ) . ')'; ?></td>
 						<td>
 							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
 								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
@@ -186,7 +186,7 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( $mwb_has_subscription ) {
 						?>	
 					<tr class="partial_payment">
-						<td><?php echo esc_html( 'Pay by wallet (' ) . wc_price( $wallet_amount ) . ')'; ?></td>
+						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount ) . ')'; ?></td>
 						<td>
 							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
 								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
@@ -275,8 +275,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
 					}
-
-					$transaction_type = 'Wallet credited through purchase <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = __( 'Wallet credited through purchase ', 'wallet-system-for-woocommerce' ) .' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
@@ -294,9 +293,10 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 
 		foreach ( $order->get_fees() as $item_fee ) {
-			$fee_name  = $item_fee->get_name();
-			$fee_total = $item_fee->get_total();
-			if ( 'Via wallet' === $fee_name ) {
+			$fee_name    = $item_fee->get_name();
+			$fee_total   = $item_fee->get_total();
+			$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
+			if ( $wallet_name === $fee_name ) {
 				$payment_status = array( 'processing', 'completed' );
 				if ( in_array( $new_status, $payment_status ) ) {
 					$fees   = abs( $fee_total );
@@ -323,7 +323,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 					}
 
-					$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a> as discount';
+					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) .' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
 
 					$transaction_data = array(
 						'user_id'          => $userid,

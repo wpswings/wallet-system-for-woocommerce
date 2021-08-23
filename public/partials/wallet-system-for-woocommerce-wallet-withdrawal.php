@@ -20,7 +20,7 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 	<?php
 	$disable_withdrawal_request = get_user_meta( $user_id, 'disable_further_withdrawal_request', true );
 	if ( $disable_withdrawal_request ) {
-		show_message_on_form_submit( 'Your wallet\'s withdrawal request is in pending.', 'woocommerce-info' );
+		show_message_on_form_submit( esc_html__( 'Your wallet\'s withdrawal request is in pending.', 'wallet-system-for-woocommerce' ), 'woocommerce-info' );
 		$args               = array(
 			'numberposts' => -1,
 			'post_type'   => 'wallet_withdrawal',
@@ -51,7 +51,7 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 						if ( $userid == $user_id ) {
 							$date = date_create( $pending->post_date );
 							if ( 'pending1' === $pending->post_status ) {
-								$withdrawal_status = 'pending';
+								$withdrawal_status = esc_html__( 'pending', 'wallet-system-for-woocommerce' );
 							} else {
 								$withdrawal_status = $pending->post_status;
 							}
@@ -93,12 +93,12 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 			</p>
 			<p class="mwb-wallet-field-container form-row">
 				<input type="hidden" name="wallet_user_id" value="<?php echo esc_attr( $user_id ); ?>">
-				<input type="submit" class="mwb-btn__filled button" id="mwb_withdrawal_request" name="mwb_withdrawal_request" value="Request For Withdrawal" >
+				<input type="submit" class="mwb-btn__filled button" id="mwb_withdrawal_request" name="mwb_withdrawal_request" value="<?php esc_html_e( 'Request For Withdrawal', 'wallet-system-for-woocommerce' ); ?>" >
 			</p>
 		</form>
 			<?php
 		} else {
-			show_message_on_form_submit( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'woocommerce-error' );
+			show_message_on_wallet_form_submit( esc_html__( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		}
 	}
 	?>

@@ -74,12 +74,12 @@ if ( wc_post_content_has_shortcode( 'MWB_WALLET_TRANSFER' ) ) {
 			?>
 			<p class="mwb-wallet-field-container form-row">
 				<input type="hidden" name="current_user_id" value="<?php echo esc_attr( $user_id ); ?>">
-				<input type="submit" class="mwb-btn__filled button" id="mwb_proceed_transfer" name="mwb_proceed_transfer" value="Proceed">
+				<input type="submit" class="mwb-btn__filled button" id="mwb_proceed_transfer" name="mwb_proceed_transfer" value="<?php esc_html_e( 'Proceed', 'wallet-system-for-woocommerce' ); ?>">
 			</p>
 		</form>
 			<?php
 		} else {
-			show_message_on_wallet_form_submit( 'Your wallet amount is 0, you cannot transfer money.', 'woocommerce-error' );
+			show_message_on_wallet_form_submit( esc_html__( 'Your wallet amount is 0, you cannot transfer money.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		}
 		?>
 	</div>

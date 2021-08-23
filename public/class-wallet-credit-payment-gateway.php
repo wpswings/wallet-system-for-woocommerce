@@ -152,7 +152,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			$order       = wc_get_order( $order_id );
 			$payment_method = $order->payment_method;
 			if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method ) {
-				$payment_method = 'Wallet Payment';
+				$payment_method = esc_html__( 'Wallet Payment', 'wallet-system-for-woocommerce' );
 			}
 			$order_total = $order->get_total();
 			if ( $order_total < 0 ) {
@@ -189,7 +189,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 						}
 					}
 
-					$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $customer_id,
 						'amount'           => $order_total,

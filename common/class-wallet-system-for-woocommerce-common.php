@@ -129,7 +129,7 @@ class Wallet_System_For_Woocommerce_Common {
 	public function mwb_wsfw_elementor_wallet_recharge() {
 		ob_start();
 		if ( ! is_user_logged_in() ) {
-			$this->show_message_for_guest_user( 'You are not logged in, please log in first for recharging the wallet.', 'woocommerce-error' );
+			$this->show_message_for_guest_user( esc_html__( 'You are not logged in, please log in first for recharging the wallet.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		} else {
 			include WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'elementor-widget/mwb-wsfw-elementor-wallet-recharge.php';
 		}
@@ -144,7 +144,7 @@ class Wallet_System_For_Woocommerce_Common {
 	public function mwb_wsfw_elementor_wallet_transfer() {
 		ob_start();
 		if ( ! is_user_logged_in() ) {
-			$this->show_message_for_guest_user( 'You are not logged in, please log in first for transferring the wallet amount.', 'woocommerce-error' );
+			$this->show_message_for_guest_user( esc_html__( 'You are not logged in, please log in first for transferring the wallet amount.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		} else {
 			include WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'elementor-widget/mwb-wsfw-elementor-wallet-transfer.php';
 		}
@@ -159,7 +159,7 @@ class Wallet_System_For_Woocommerce_Common {
 	public function mwb_wsfw_elementor_wallet_withdrawal() {
 		ob_start();
 		if ( ! is_user_logged_in() ) {
-			$this->show_message_for_guest_user( 'You are not logged in, please log in first for requesting wallet withdrawal.', 'woocommerce-error' );
+			$this->show_message_for_guest_user( esc_html__( 'You are not logged in, please log in first for requesting wallet withdrawal.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		} else {
 			include WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'elementor-widget/mwb-wsfw-elementor-wallet-withdrawal.php';
 		}
@@ -174,7 +174,7 @@ class Wallet_System_For_Woocommerce_Common {
 	public function mwb_wsfw_elementor_wallet_transactions() {
 		ob_start();
 		if ( ! is_user_logged_in() ) {
-			$this->show_message_for_guest_user( 'You are not logged in, please log in first to see wallet transactions.', 'woocommerce-error' );
+			$this->show_message_for_guest_user( esc_html__( 'You are not logged in, please log in first to see wallet transactions.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		} else {
 			include WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'elementor-widget/mwb-wsfw-elementor-wallet-transactions.php';
 		}
@@ -330,13 +330,12 @@ class Wallet_System_For_Woocommerce_Common {
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to1, $subject, $mail_text1, $headers1 );
 
 					}
-
-					$transaction_type     = 'Wallet credited by user #' . $user_id . ' to user #' . $another_user_id;
+					$transaction_type     = __( 'Wallet credited by user #', 'wallet-system-for-woocommerce' ) . $user_id . __( ' to user #', 'wallet-system-for-woocommerce' ) . $another_user_id;
 					$wallet_transfer_data = array(
 						'user_id'          => $another_user_id,
 						'amount'           => $transfer_amount,
 						'currency'         => $current_currency,
-						'payment_method'   => 'Wallet Transfer',
+						'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 						'transaction_type' => $transaction_type,
 						'order_id'         => '',
 						'note'             => $transfer_note,	
@@ -359,12 +358,12 @@ class Wallet_System_For_Woocommerce_Common {
 
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
 						}
-						$transaction_type = 'Wallet debited from user #' . $user_id . ' wallet, transferred to user #' . $another_user_id;
+						$transaction_type = __( 'Wallet debited from user #', 'wallet-system-for-woocommerce' ) . $user_id . __( ' wallet, transferred to user #', 'wallet-system-for-woocommerce' ) . $another_user_id;
 						$transaction_data = array(
 							'user_id'          => $user_id,
 							'amount'           => $transfer_amount,
 							'currency'         => $current_currency,
-							'payment_method'   => 'Wallet Transfer',
+							'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 							'transaction_type' => $transaction_type,
 							'order_id'         => '',
 							'note'             => $transfer_note,
