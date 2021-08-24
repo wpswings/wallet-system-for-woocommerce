@@ -41,9 +41,9 @@ $allowed_html = array(
 						?>
 						<tr>
 							<td><?php echo esc_html( $i ); ?></td>
-							<td><?php echo esc_html( $transaction_id ); ?></td>
+							<td><?php echo $transaction_id; ?></td>
 							<td><?php echo wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ); ?></td>
-							<td class="details" ><?php wp_kses( _e( html_entity_decode( $transaction->transaction_type ), 'wallet-system-for-woocommerce' ), $allowed_html ); _e( html_entity_decode( $transaction->transaction_type ), 'wallet-system-for-woocommerce' ); ?></td>
+							<td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
 							<td>
 							<?php
 							$payment_methods = WC()->payment_gateways->payment_gateways();
@@ -51,7 +51,7 @@ $allowed_html = array(
 								if ( $key == $transaction->payment_method ) {
 									$method = esc_html__( 'Online Payment', 'wallet-system-for-woocommerce' );
 								} else {
-									$method = esc_html__( $transaction->payment_method, 'wallet-system-for-woocommerce' );
+									$method = $transaction->payment_method;
 								}
 								break;
 							}

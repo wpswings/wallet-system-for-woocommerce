@@ -74,10 +74,10 @@ $user = get_user_by( 'id', $user_id );
 						?>
 						<tr>
 							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
-							<td><?php echo esc_html( $transaction->id ); ?></td>
+							<td><?php echo $transaction->id; ?></td>
 							<td><?php echo wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ); ?></td>
-							<td><?php esc_html_e( $transaction->payment_method, 'wallet-system-for-woocommerce' ); ?></td>
-							<td><?php _e( html_entity_decode( $transaction->transaction_type ), 'wallet-system-for-woocommerce' ); ?></td>
+							<td><?php echo $transaction->payment_method; ?></td>
+							<td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
