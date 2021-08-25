@@ -236,6 +236,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$order_items            = $order->get_items();
 		$wallet_id              = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		$walletamount           = get_user_meta( $userid, 'mwb_wallet', true );
+		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -257,6 +258,7 @@ class Wallet_System_For_Woocommerce_Public {
 					}
 					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
+					$walletamount  = empty( $walletamount ) ? 0 : $walletamount;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $credited_amount;
 					update_user_meta( $update_wallet_userid, 'mwb_wallet', $walletamount );

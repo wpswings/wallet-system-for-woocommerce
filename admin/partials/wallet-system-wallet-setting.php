@@ -52,6 +52,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 						if ( $user ) {
 
 							$current_balance = get_user_meta( $user_id, 'mwb_wallet', true );
+							$current_balance = ( ! empty( $current_balance ) ) ? $current_balance : 0;
 							if ( $current_balance < $balance ) {
 								$net_balance = $balance - $current_balance;
 								$transaction_type = esc_html__( 'Wallet credited during importing wallet', 'wallet-system-for-woocommerce' );

@@ -178,6 +178,14 @@ class Wallet_System_For_Woocommerce {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'elementor-widget/class-elementor-wallet-widget.php';
 
+		$enable = get_option( 'mwb_wsfw_enable', '' );
+		if ( isset( $enable ) && 'on' === $enable ) {
+			if ( class_exists( 'WCMp' ) ) {
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wallet.php';
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php';
+			}
+		}
+
 		$this->loader = new Wallet_System_For_Woocommerce_Loader();
 
 	}

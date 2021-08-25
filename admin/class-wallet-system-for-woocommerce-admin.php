@@ -697,6 +697,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					}
 					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'mwb_wallet', true );
+					$walletamount  = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $credited_amount;
 					update_user_meta( $update_wallet_userid, 'mwb_wallet', $walletamount );
@@ -922,6 +923,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$withdrawal_amount = get_post_meta( $withdrawal_id, 'mwb_wallet_withdrawal_amount', true );
 				if ( $user_id ) {
 					$walletamount = get_user_meta( $user_id, 'mwb_wallet', true );
+					$walletamount = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					if ( $walletamount < $withdrawal_amount ) {
 						$walletamount = 0;
 					} else {
@@ -1206,6 +1208,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			$payment_method = get_post_meta( $post_id, 'wallet_payment_method', true );
 			if ( $user_id ) {
 				$walletamount = get_user_meta( $user_id, 'mwb_wallet', true );
+				$walletamount = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 				if ( $walletamount < $withdrawal_amount ) {
 					$walletamount = 0;
 				} else {
