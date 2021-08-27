@@ -76,7 +76,7 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 				return false;
 			}
 			if ( $this->transaction_mode != 'admin' ) {
-				/* handel thesold time */
+				/* handle thesold time */
 				$threshold_time = isset( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold_time'] : 0;
 				if ( $threshold_time > 0 ) {
 					foreach ( $this->commissions as $index => $commission ) {
@@ -85,9 +85,9 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 						}
 					}
 				}
-				/* handel thesold amount */
+				/* handle thesold amount */
 				$thesold_amount = isset( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold'] : 0;
-				if ( $this->get_transaction_total() > $thesold_amount ) {
+				if ( $this->mwb_get_transaction_total() > $thesold_amount ) {
 					return true;
 				} else {
 					$this->message[] = array(
@@ -101,24 +101,47 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 		}
 
 		/**
+		 * Get total transaction amount.
+		 *
+		 * @return float
+		 */
+		public function mwb_get_transaction_total() {
+			$transaction_total = 0;
+			$order_currency    = get_woocommerce_currency();
+			if ( is_array( $this->commissions ) ) {
+				foreach ( $this->commissions as $commission ) {
+					$commission_id       = $commission;
+					$commission_order_id = get_post_meta( $commission_id, '_commission_order_id', true );
+					if ( ! empty( $commission_order_id ) ) {
+						$order = wc_get_order( $commission_order_id );
+						if ( $order ) {
+							$order_currency = $order->get_currency();
+						}
+					}
+					$commission_amount = WCMp_Commission::commission_totals( $commission, 'edit' );
+					$credited_amount    = apply_filters( 'mwb_wsfw_common_update_wallet_to_base_price', $commission_amount, $order_currency );
+					$transaction_total += (float) $credited_amount;
+				}
+			}
+			return $transaction_total;
+		}
+
+
+		/**
 		 * Process the wallet.
 		 *
 		 * @return boolean
 		 */
 		private function process_wallet_payment() {
-			$amount_to_pay   = round( $this->get_transaction_total() - $this->transfer_charge( $this->transaction_mode ) - $this->gateway_charge(), 2 );
-			$for_commissions = implode( ',', $this->commissions );
-			$credited_amount = apply_filters( 'mwb_wsfw_update_wallet_to_base_price', $amount_to_pay, $this->currency );
+			$amount_to_pay   = round( $this->mwb_get_transaction_total() - $this->transfer_charge( $this->transaction_mode ) - $this->mwb_gateway_charge(), 2 );
 			$vendor_id       = $this->vendor->id;
-			echo $credited_amount;
-			echo $this->currency;
-			die;
+			$for_commissions = implode( ',', $this->commissions );
 			if ( $vendor_id > 0 ) {
 				$walletamount = get_user_meta( $vendor_id, 'mwb_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-				$walletamount          += $credited_amount;
+				$walletamount          += $amount_to_pay;
 				$update_wallet          = update_user_meta( $vendor_id, 'mwb_wallet', abs( $walletamount ) );
 
 				if ( $update_wallet ) {
@@ -149,13 +172,89 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 						'note'             => '',
 					);
 
-					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-					return true;
-				} else {
-					return false;
+					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );	
 				}
+				return true;
 			}
 			return false;
+		}
+
+		/**
+		 * Order amount.
+		 *
+		 * @return array
+		 */
+		public function mwb_vendor_wise_order_total() {
+			$vendor_wise_order_total = array();
+			$order_currency          = get_woocommerce_currency();
+			if ( is_array( $this->commissions ) ) {
+				foreach ( $this->commissions as $commission ) {
+					$order_id      = get_post_meta( $commission, '_commission_order_id', true );
+					$order_charges = wcmp_get_vendor_specific_order_charge( $order_id );
+					$order         = wc_get_order( $order_id );
+					if ( $order ) {
+						$order_currency = $order->get_currency();
+					}
+					$order_total                          = apply_filters( 'mwb_wsfw_common_update_wallet_to_base_price', $order_charges['order_total'], $order_currency );
+					$vendor_total                         = apply_filters( 'mwb_wsfw_common_update_wallet_to_base_price', $order_charges[ $this->vendor->id ], $order_currency );
+					$vendor_wise_order_total[ $order_id ] = array(
+						'order_total'     => $order_total,
+						'vendor_total'    => $vendor_total,
+						'order_marchants' => $order_charges['order_marchants'],
+					);
+				}
+			}
+			return $vendor_wise_order_total;
+		}
+
+		/**
+		 * Return gateway charges.
+		 *
+		 * @return float
+		 */
+		public function mwb_gateway_charge() {
+			$gateway_charge           = 0;
+			$is_enable_gateway_charge = get_wcmp_vendor_settings( 'payment_gateway_charge', 'payment' );
+			$order_totals             = $this->mwb_vendor_wise_order_total();
+			if ( $is_enable_gateway_charge == 'Enable' ) {
+				$payment_gateway_charge_type = get_wcmp_vendor_settings('payment_gateway_charge_type', 'payment', '', 'percent');
+				$gateway_charge_amount       = floatval( get_wcmp_vendor_settings( "gateway_charge_{$this->payment_gateway}", 'payment' ) );
+				$carrier                     = get_wcmp_vendor_settings('gateway_charges_cost_carrier', 'payment', '', 'vendor');
+				if ( $gateway_charge_amount ) {
+					foreach ( $order_totals as $order_id => $details ) {
+						$order_gateway_charge = 0;
+						$vendor_ratio         = ( $details['vendor_total'] / $details['order_total'] );
+						if ( 'percent' === $payment_gateway_charge_type ) {
+							$parcentize_charges   = ( $details['order_total'] * $gateway_charge_amount ) / 100;
+							$order_gateway_charge = ($vendor_ratio) ? $vendor_ratio * $parcentize_charges : $parcentize_charges;
+						} elseif ( 'fixed_with_percentage' === $payment_gateway_charge_type ) {
+							$gateway_fixed_charge_amount = floatval( get_wcmp_vendor_settings( "gateway_charge_fixed_with_{$this->payment_gateway}", 'payment' ) );
+							$parcentize_charges          = ( ( $details['order_total'] * $gateway_charge_amount ) / 100 );
+							$fixed_charges               = floatval( $gateway_fixed_charge_amount ) / count( $details['order_marchants'] );
+							$order_gateway_charge        = ( $vendor_ratio ) ? ( $vendor_ratio * $parcentize_charges ) + $fixed_charges : ( $parcentize_charges + $fixed_charges );
+						} else {
+							$fixed_charges        = floatval( $gateway_charge_amount ) / count( $details['order_marchants'] );
+							$order_gateway_charge = $fixed_charges;
+						}
+						$gateway_charge += $order_gateway_charge;
+					}
+					if ( 'separate' === $carrier ) {
+						if ( 'percent' === $payment_gateway_charge_type ) {
+							$gateway_charge = ( $this->mwb_get_transaction_total() * $gateway_charge_amount ) / 100;
+						} elseif ( 'fixed_with_percentage' === $payment_gateway_charge_type ) {
+							$gateway_fixed_charge_amount = floatval( get_wcmp_vendor_settings( "gateway_charge_fixed_with_{$this->payment_gateway}", 'payment' ) );
+							$gateway_charge              = ( ( $this->mwb_get_transaction_total() * $gateway_charge_amount ) / 100 ) + floatval( $gateway_fixed_charge_amount );
+						} else {
+							$gateway_charge = floatval( $gateway_charge_amount );
+						}
+					}
+					if ( 'admin' === $carrier ) {
+						$gateway_charge = 0;
+					}
+					return $gateway_charge;
+				}
+			}
+
 		}
 
 	}
