@@ -449,7 +449,9 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 
 		if ( $this->is_enable_wallet_partial_payment() ) {
-			wc()->cart->fees_api()->add_fee( $fee );
+			if ( ! empty( $fee ) ) {
+				wc()->cart->fees_api()->add_fee( $fee );
+			}
 		} else {
 			$all_fees = wc()->cart->fees_api()->get_fees();
 			if ( isset( $all_fees['via_wallet_partial_payment'] ) ) {

@@ -222,7 +222,12 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <?php
-$page_id  = get_the_ID();
+$page_id = get_the_ID();
+if ( function_exists( 'is_shop' ) ) {
+	if ( is_shop() ) {
+		$page_id = wc_get_page_id( 'shop' );
+	}
+}
 $page_url = get_permalink( $page_id );
 // if ( get_option('permalink_structure') ) {
 // 	$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
@@ -316,8 +321,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 
 				<nav class="wallet-tabs">
 					<ul class='tabs'>
-						<?php
-						
+						<?php	
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
