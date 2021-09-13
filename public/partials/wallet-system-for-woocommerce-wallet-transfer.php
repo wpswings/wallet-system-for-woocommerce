@@ -61,7 +61,7 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 	</form>
 		<?php
 	} else {
-		show_message_on_wallet_form_submit( esc_html__( 'Your wallet amount is 0, you cannot transfer money.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		show_message_on_form_submit( esc_html__( 'Your wallet amount is 0, you cannot transfer money.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 	}
 	?>
 </div>
