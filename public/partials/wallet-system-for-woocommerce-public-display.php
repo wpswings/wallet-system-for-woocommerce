@@ -269,6 +269,7 @@ $wallet_tabs['wallet_transactions'] = array(
 <path d="M21 21.25C21.6904 21.25 22.25 20.6904 22.25 20C22.25 19.3096 21.6904 18.75 21 18.75V21.25ZM9 18.75C8.30964 18.75 7.75 19.3096 7.75 20C7.75 20.6904 8.30964 21.25 9 21.25V18.75ZM21 18.75H9V21.25H21V18.75Z" fill="#1D201F"/>',
 	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transactions.php',
 );
+$wallet_tabs = apply_filters( 'mwb_wsfw_add_wallet_tabs', $wallet_tabs );
 $flag = false;
 if ( $current_url == $main_url ) {
 	$flag = true;

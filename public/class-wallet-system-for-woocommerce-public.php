@@ -368,6 +368,7 @@ class Wallet_System_For_Woocommerce_Public {
 		add_rewrite_endpoint( 'wallet-transfer', EP_PERMALINK | EP_PAGES );
 		add_rewrite_endpoint( 'wallet-withdrawal', EP_PERMALINK | EP_PAGES );
 		add_rewrite_endpoint( 'wallet-transactions', EP_PERMALINK | EP_PAGES );
+		do_action( 'mwb_wsfw_add_wallet_register_endpoint' );
 		$wp_rewrite->flush_rules();
 
 		add_shortcode( 'mwb-wallet', array( $this, 'mwb_wsfw_show_wallet' ) );
