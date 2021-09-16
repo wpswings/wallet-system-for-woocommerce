@@ -223,7 +223,12 @@ $wallet_bal             = get_user_meta( $user_id, 'mwb_wallet', true );
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
 }
-
+$logged_in_user = wp_get_current_user();
+if ( ! empty( $logged_in_user ) ) {
+	$current_user_email = $logged_in_user->user_email ? $logged_in_user->user_email : '';
+} else {
+	$current_user_email = '';
+}
 $wallet_tabs = array();
 
 if ( ! empty( $product_id ) && ! empty( $enable_wallet_recharge ) ) {

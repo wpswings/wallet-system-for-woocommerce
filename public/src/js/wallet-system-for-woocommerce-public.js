@@ -149,6 +149,19 @@
 		}
 	});
 
+	$(document).on( 'blur','#mwb_wallet_transfer_user_email', function(){
+		var user_email = $(this).val();
+		var current_email = $( this ).data('current-email');
+		if ( user_email == current_email ) {
+			$('.transfer-error').show();
+			$('.transfer-error').html(wsfw_public_param.wsfw_wallet_transfer);
+			$('#mwb_proceed_transfer').prop('disabled', true);
+		} else {
+			$('.transfer-error').hide();
+			$('#mwb_proceed_transfer').prop('disabled', false);
+		}
+	});
+
 	$(document).on( 'blur','#mwb_wallet_transfer_amount', function(){
 		var amount = $(this).val();
 		var maxamount = $(this).data('max');

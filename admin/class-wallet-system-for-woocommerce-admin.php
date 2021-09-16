@@ -110,7 +110,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_gen_tab_enable'       => get_option( 'mwb_wsfw_enable' ),
 					'datatable_pagination_text' => __( 'Rows per page _MENU_', 'wallet-system-for-woocommerce' ),
 					'datatable_info'            => __( '_START_ - _END_ of _TOTAL_', 'wallet-system-for-woocommerce' ),
-					'wsfw_ajax_error'           => __( 'An error occured!', 'woocommerce-wallet-system' ),
+					'wsfw_ajax_error'           => __( 'An error occured!', 'wallet-system-for-woocommerce' ),
 					'wsfw_amount_error'         => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
 					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
 				)
@@ -1744,9 +1744,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			);
 			$wsfw_settings_general[] = array(
-				'title'       => __( 'Apply amount type(Depending on order total)', 'woocommerce-wallet-system' ),
+				'title'       => __( 'Apply amount type(Depending on order total)', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
-				'description' => __( 'Apply amount type', 'woocommerce-wallet-system' ),
+				'description' => __( 'Apply amount type', 'wallet-system-for-woocommerce' ),
 				'name'        => 'mwb_sfw_amount_type_wallet_for_renewal_order',
 				'id'          => 'mwb_sfw_amount_type_wallet_for_renewal_order',
 				'value'       => get_option( 'mwb_sfw_amount_type_wallet_for_renewal_order', '' ),
@@ -1757,9 +1757,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			);
 			$wsfw_settings_general[] = array(
-				'title'       => __( 'Enter the amount/percentage to be deducted  from wallet during order renewal( ', 'woocommerce-wallet-system' ) . get_woocommerce_currency_symbol() . ' )',
+				'title'       => __( 'Enter the amount/percentage to be deducted  from wallet during order renewal( ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . ' )',
 				'type'        => 'number',
-				'description' => __( 'Enter the amount/percentage to be deducted  from wallet during order renewal.', 'woocommerce-wallet-system' ),
+				'description' => __( 'Enter the amount/percentage to be deducted  from wallet during order renewal.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'mwb_sfw_amount_deduct_from_wallet_during_renewal_order',
 				'id'          => 'mwb_sfw_amount_deduct_from_wallet_during_renewal_order',
 				'value'       => get_option( 'mwb_sfw_amount_deduct_from_wallet_during_renewal_order', '' ),

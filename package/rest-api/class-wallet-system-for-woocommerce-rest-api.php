@@ -145,7 +145,7 @@ class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 				),
 			)
 		);
-		
+
 		register_rest_route(
 			$this->namespace,
 			$this->base_url . '(?P<id>[\d]+)',

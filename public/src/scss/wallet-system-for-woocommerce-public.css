@@ -595,7 +595,7 @@ svg {
 	display:none;
 }
 
-.mwb_wcb_content_template .error {
+.mwb_wcb_content_template .error, .mwb_wcb_content_template .transfer-error, .mwb_wallet_shortcodes .transfer-error {
 	display: none;
 	color:red;
 }

@@ -11,6 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $current_currency = apply_filters( 'mwb_wsfw_get_current_currency', get_woocommerce_currency() );
 $user_id          = get_current_user_id();
+$logged_in_user   = wp_get_current_user();
+if ( ! empty( $logged_in_user ) ) {
+	$current_user_email = $logged_in_user->user_email ? $logged_in_user->user_email : '';
+} else {
+	$current_user_email = '';
+}
 $wallet_bal       = get_user_meta( $user_id, 'mwb_wallet', true );
 $wallet_bal       = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal       = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
@@ -55,8 +61,9 @@ if ( wc_post_content_has_shortcode( 'MWB_WALLET_TRANSFER' ) ) {
 		<form method="post" action="" id="mwb_wallet_transfer_form">
 			<p class="mwb-wallet-field-container form-row form-row-wide">
 				<label for="mwb_wallet_transfer_user_email"><?php esc_html_e( 'Transfer to', 'wallet-system-for-woocommerce' ); ?></label>
-				<input type="email" class="mwb-wallet-userselect" id="mwb_wallet_transfer_user_email" name="mwb_wallet_transfer_user_email" required="">
+				<input type="email" class="mwb-wallet-userselect" id="mwb_wallet_transfer_user_email" name="mwb_wallet_transfer_user_email" data-current-email="<?php echo esc_attr( $current_user_email ); ?>" required="">
 			</p>
+			<p class="transfer-error"></p>
 			<p class="mwb-wallet-field-container form-row form-row-wide">
 				<label for="mwb_wallet_transfer_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . ')'; ?></label>
 				<input type="number" step="0.01" min="0" data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="mwb_wallet_transfer_amount" name="mwb_wallet_transfer_amount" required="">
