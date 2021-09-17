@@ -277,6 +277,7 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 			$wallet_bal             = get_user_meta( $user_id, 'mwb_wallet', true );
 			$wallet_bal             = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
+			$mwb_current_user_email = ! empty( $_POST['mwb_current_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_current_user_email'] ) ) : '';
 			$another_user_email     = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
 			$transfer_note          = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 			$user                   = get_user_by( 'email', $another_user_email );
@@ -299,6 +300,9 @@ class Wallet_System_For_Woocommerce_Common {
 				$update = false;
 			} elseif ( $wallet_bal < $wallet_transfer_amount ) {
 				$this->show_message_on_wallet_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+				$update = false;
+			} elseif ( $another_user_email == $mwb_current_user_email ) {
+				$this->show_message_on_wallet_form_submit( esc_html__( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 				$update = false;
 			}
 			if ( $update ) {

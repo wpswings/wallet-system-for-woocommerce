@@ -81,6 +81,7 @@ if ( wc_post_content_has_shortcode( 'MWB_WALLET_TRANSFER' ) ) {
 			?>
 			<p class="mwb-wallet-field-container form-row">
 				<input type="hidden" name="current_user_id" value="<?php echo esc_attr( $user_id ); ?>">
+				<input type="hidden" name="mwb_current_user_email" value="<?php echo esc_attr( $current_user_email ); ?>">
 				<input type="submit" class="mwb-btn__filled button" id="mwb_proceed_transfer" name="mwb_proceed_transfer" value="<?php esc_html_e( 'Proceed', 'wallet-system-for-woocommerce' ); ?>">
 			</p>
 		</form>

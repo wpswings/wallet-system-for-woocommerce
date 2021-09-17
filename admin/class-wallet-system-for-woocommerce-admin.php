@@ -131,7 +131,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_options_page() {
 		global $submenu;
 		if ( empty( $GLOBALS['admin_page_hooks']['mwb-plugins'] ) ) {
-			add_menu_page( __( 'MakeWebBetter', 'wallet-system-for-woocommerce' ), __( 'MakeWebBetter', 'wallet-system-for-woocommerce' ), 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/images/MWB_Grey-01.svg', 15 );
+			add_menu_page( 'MakeWebBetter', 'MakeWebBetter', 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/images/MWB_Grey-01.svg', 15 );
 			$wsfw_menus = apply_filters( 'mwb_add_plugins_menus_array', array() );
 			if ( is_array( $wsfw_menus ) && ! empty( $wsfw_menus ) ) {
 				foreach ( $wsfw_menus as $wsfw_key => $wsfw_value ) {

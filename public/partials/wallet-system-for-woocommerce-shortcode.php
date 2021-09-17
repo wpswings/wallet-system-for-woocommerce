@@ -25,6 +25,12 @@ if ( ! function_exists( 'show_message_on_form_submit' ) ) {
 	}
 }
 global $wp;
+$logged_in_user = wp_get_current_user();
+if ( ! empty( $logged_in_user ) ) {
+	$current_user_email = $logged_in_user->user_email ? $logged_in_user->user_email : '';
+} else {
+	$current_user_email = '';
+}
 $current_currency = apply_filters( 'mwb_wsfw_get_current_currency', get_woocommerce_currency() );
 // phpcs:ignore
 $http_host   = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '';
@@ -71,6 +77,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 	$wallet_bal             = get_user_meta( $user_id, 'mwb_wallet', true );
 	$wallet_bal             = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
+	$mwb_current_user_email = ! empty( $_POST['mwb_current_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_current_user_email'] ) ) : '';
 	$another_user_email     = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
 	$transfer_note          = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 	$user                   = get_user_by( 'email', $another_user_email );
@@ -93,6 +100,9 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		$update = false;
 	} elseif ( $wallet_bal < $wallet_transfer_amount ) {
 		show_message_on_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		$update = false;
+	} elseif ( $another_user_email == $mwb_current_user_email ) {
+		show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		$update = false;
 	}
 	if ( $update ) {
@@ -249,12 +259,6 @@ $wallet_bal             = get_user_meta( $user_id, 'mwb_wallet', true );
 
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
-}
-$logged_in_user = wp_get_current_user();
-if ( ! empty( $logged_in_user ) ) {
-	$current_user_email = $logged_in_user->user_email ? $logged_in_user->user_email : '';
-} else {
-	$current_user_email = '';
 }
 
 $wallet_tabs = array();
