@@ -1,16 +1,28 @@
 <?php
+/**
+ * Exit if accessed directly
+ *
+ * @package Wallet_System_For_Woocommerce
+ */
+
 if ( ! class_exists( 'Elementor_Wallet_Widget' ) ) {
 	/**
 	 * Create wallet order list
 	 */
 	class Elementor_Wallet_Widget {
 
+		/**
+		 * Instance of the class.
+		 *
+		 * @var     object  $instance  Instance of the class.
+		 * @since   1.0.0
+		 */
 		protected static $instance = null;
 
 		/**
-		 * GEt instance of wallet class.
+		 * Get instance of wallet class.
 		 *
-		 * @return void
+		 * @return Elementor_Wallet_Widget - Main instance.
 		 */
 		public static function get_instance() {
 			if ( ! isset( static::$instance ) ) {
@@ -24,7 +36,7 @@ if ( ! class_exists( 'Elementor_Wallet_Widget' ) ) {
 		 * Initialize the class and set its properties.
 		 */
 		protected function __construct() {
-			require_once 'wallet-widget.php';
+			require_once 'class-wallet-widget.php';
 			add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widgets' ) );
 		}
 

@@ -63,8 +63,8 @@ class Wallet_System_For_Woocommerce_Public {
 
 		wp_enqueue_style( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/scss/wallet-system-for-woocommerce-public.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'mwb-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/mwb-public.min.css', array(), $this->version, 'all' );
-		if ( is_account_page()  ) {
-			wp_enqueue_style('dashicons');
+		if ( is_account_page() ) {
+			wp_enqueue_style( 'dashicons' );
 		}
 		global $wp_query;
 		$is_endpoint = isset( $wp_query->query_vars['mwb-wallet'] ) ? $wp_query->query_vars['mwb-wallet'] : '';
@@ -278,7 +278,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
 					}
-					$transaction_type = __( 'Wallet credited through purchase ', 'wallet-system-for-woocommerce' ) .' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = __( 'Wallet credited through purchase ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
@@ -326,7 +326,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 					}
 
-					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) .' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
+					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
 
 					$transaction_data = array(
 						'user_id'          => $userid,
@@ -400,7 +400,7 @@ class Wallet_System_For_Woocommerce_Public {
 		ob_start();
 		if ( ! is_user_logged_in() ) {
 			echo '<div class="woocommerce">';
-			wc_get_template('myaccount/form-login.php');
+			wc_get_template( 'myaccount/form-login.php' );
 			echo '</div>';
 		} else {
 			include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-shortcode.php';

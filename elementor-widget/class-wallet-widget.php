@@ -1,4 +1,10 @@
 <?php
+/**
+ * Exit if accessed directly
+ *
+ * @package Wallet_System_For_Woocommerce
+ */
+
 namespace Elementor;
 
 if ( ! class_exists( 'Widget_Base' ) ) {
@@ -95,7 +101,7 @@ class Wallet_Widget extends Widget_Base {
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
-		echo  "$settings[select_wallet_snippet]";
+		echo "$settings[select_wallet_snippet]";
 	}
 
 }

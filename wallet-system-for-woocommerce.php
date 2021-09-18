@@ -24,7 +24,7 @@
  * Requires at least: 4.6
  * Tested up to:      5.8
  * WC requires at least: 3.0.0
- * WC tested up to:      5.5.2
+ * WC tested up to:      5.6.0
  *
  * License:           GNU General Public License v3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -72,9 +72,13 @@ if ( $activated ) {
 			define( $key, $value );
 		}
 	}
+
 	/**
 	 * The code that runs during plugin activation.
 	 * This action is documented in includes/class-wallet-system-for-woocommerce-activator.php
+	 *
+	 * @param boolean $network_wide networkwide activate.
+	 * @return void
 	 */
 	function activate_wallet_system_for_woocommerce( $network_wide ) {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-activator.php';
@@ -211,25 +215,25 @@ if ( $activated ) {
 
 } else {
 	// To deactivate plugin if woocommerce is not installed.
-	add_action( 'admin_init', 'mwb_wsc_plugin_deactivate' );
+	add_action( 'admin_init', 'mwb_wsfw_plugin_deactivate' );
 
 	/**
 	 * Call Admin notices
 	 *
-	 * @name mwb_wsc_plugin_deactivate()
+	 * @name mwb_wsfw_plugin_deactivate()
 	 */
-	function mwb_wsc_plugin_deactivate() {
+	function mwb_wsfw_plugin_deactivate() {
 		deactivate_plugins( plugin_basename( __FILE__ ), true );
 		unset( $_GET['activate'] );
-		add_action( 'admin_notices', 'mwb_wsc_plugin_error_notice' );
+		add_action( 'admin_notices', 'mwb_wsfw_plugin_error_notice' );
 	}
 
 	/**
 	 * Show warning message if woocommerce is not install
 	 *
-	 * @name mwb_wsc_plugin_error_notice()
+	 * @name mwb_wsfw_plugin_error_notice()
 	 */
-	function mwb_wsc_plugin_error_notice() {
+	function mwb_wsfw_plugin_error_notice() {
 		?>
 		<div class="error notice is-dismissible">
 			<p>

@@ -21,7 +21,7 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 	 * @param int $user_id user id.
 	 * @param int $amount amount.
 	 * @param int $order_id order id.
-	 * @return void
+	 * @return boolean
 	 */
 	function mwb_wsfw_update_user_wallet_balance( $user_id, $amount, $order_id = '' ) {
 		$wallet_balance = get_user_meta( $user_id, 'mwb_wallet', true );

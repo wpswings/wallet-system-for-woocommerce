@@ -6,7 +6,7 @@
  * @since      1.0.0
  *
  * @package    Wallet_System_For_Woocommerce
- * @subpackage Wallet_System_For_Woocommerce/includes
+ * @subpackage Wallet_System_For_Woocommerce/package/rest-api/version1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,8 +20,8 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 	 * This is used to define the functions and data manipulation for custom endpoints.
 	 *
 	 * @since      1.0.0
-	 * @package    Hydroshop_Api_Management
-	 * @subpackage Hydroshop_Api_Management/includes
+	 * @package    Wallet_System_For_Woocommerce
+	 * @subpackage Wallet_System_For_Woocommerce/package/rest-api/version1
 	 * @author     makewebbetter <webmaster@makewebbetter.com>
 	 */
 	class Wallet_System_For_Woocommerce_Api_Process {

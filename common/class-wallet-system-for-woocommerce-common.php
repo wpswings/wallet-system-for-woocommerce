@@ -281,7 +281,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$another_user_email     = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
 			$transfer_note          = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 			$user                   = get_user_by( 'email', $another_user_email );
-			$transfer_amount        = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
+			$transfer_amount        = ! empty( $_POST['mwb_wallet_transfer_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) ) : 0;
 			$wallet_transfer_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $transfer_amount );
 			if ( $user ) {
 				$another_user_id = $user->ID;
@@ -309,7 +309,7 @@ class Wallet_System_For_Woocommerce_Common {
 				$user_wallet_bal  = get_user_meta( $another_user_id, 'mwb_wallet', true );
 				$user_wallet_bal  = ( ! empty( $user_wallet_bal ) ) ? $user_wallet_bal : 0;
 				$user_wallet_bal += $wallet_transfer_amount;
-				$returnid         = update_user_meta( $another_user_id, 'mwb_wallet', $user_wallet_bal );	
+				$returnid         = update_user_meta( $another_user_id, 'mwb_wallet', $user_wallet_bal );
 				if ( $returnid ) {
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 					$send_email_enable      = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
@@ -342,7 +342,7 @@ class Wallet_System_For_Woocommerce_Common {
 						'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 						'transaction_type' => $transaction_type,
 						'order_id'         => '',
-						'note'             => $transfer_note,	
+						'note'             => $transfer_note,
 					);
 
 					$wallet_payment_gateway->insert_transaction_data_in_table( $wallet_transfer_data );

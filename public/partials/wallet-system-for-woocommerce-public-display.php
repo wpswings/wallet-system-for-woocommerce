@@ -68,7 +68,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	$another_user_email     = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
 	$transfer_note          = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 	$user                   = get_user_by( 'email', $another_user_email );
-	$transfer_amount        = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
+	$transfer_amount        = ! empty( $_POST['mwb_wallet_transfer_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) ) : 0;
 	$wallet_transfer_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $transfer_amount );
 	if ( $user ) {
 		$another_user_id = $user->ID;
@@ -316,7 +316,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				<nav class="wallet-tabs">
 					<ul class='tabs'>
 						<?php
-						
+
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {

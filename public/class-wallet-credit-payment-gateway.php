@@ -41,7 +41,7 @@ add_filter( 'woocommerce_payment_gateways', 'mwb_wsfw_wallet_gateway', 10, 1 );
  * @class Cashback_Wallet_Gateway
  * @extends WC_Payment_Gateway
  * @version 1.0.0
- * @package WooCommerce/Classes/Payment
+ * @package Wallet_System_For_Woocommerce
  */
 function mwb_wsfw_wallet_payment_gateway_init() {
 

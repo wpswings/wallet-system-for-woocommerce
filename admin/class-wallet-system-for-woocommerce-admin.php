@@ -73,7 +73,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			wp_enqueue_style( $this->plugin_name . '-admin-global', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/scss/wallet-system-for-woocommerce-admin-global.css', array( 'mwb-wsfw-meterial-icons-css' ), time(), 'all' );
 
-			wp_enqueue_style( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/scss/wallet-system-for-woocommerce-admin.scss', array(), $this->version, 'all' );
 			wp_enqueue_style( 'mwb-admin-min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/mwb-admin.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'mwb-datatable-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/css/jquery.dataTables.min.css', array(), $this->version, 'all' );
 
@@ -667,7 +666,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					}
 
-					$transaction_type = esc_html__( 'Wallet credited through order refund ', 'wallet-system-for-woocommerce' )  . '<a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = esc_html__( 'Wallet credited through order refund ', 'wallet-system-for-woocommerce' ) . '<a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
@@ -716,7 +715,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					}
 
-					$transaction_type = __( 'Wallet credited through purchase ', 'wallet-system-for-woocommerce' ) .' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = __( 'Wallet credited through purchase ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $update_wallet_userid,
 						'amount'           => $amount,
@@ -761,7 +760,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
 					}
-					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) .' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
+					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
 					$transaction_data = array(
 						'user_id'          => $userid,
 						'amount'           => $amount,
@@ -1082,7 +1081,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 			if ( $wpdb->get_var( 'show tables like "' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction"' ) == $table_name ) {
 				$column = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = 'currency' ", DB_NAME, $table_name ) );
-			
+
 				if ( empty( $column ) ) {
 					$alter_table = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction ADD currency varchar( 20 ) NULL' );
 					if ( $alter_table ) {
@@ -1629,7 +1628,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( 'on' == $mwb_sfw_use_wallet ) {
 			$amount_type_for_wallet = get_option( 'mwb_sfw_amount_type_wallet_for_renewal_order', '' );
 			$amount_deduct_from_wallet = get_option( 'mwb_sfw_amount_deduct_from_wallet_during_renewal_order', 0 );
-			
+
 			$fee = new WC_Order_Item_Fee();
 			$fee->set_name( __( 'Via wallet', 'wallet-system-for-woocommerce' ) );
 			$user_id       = $mwb_new_order->get_user_id();
@@ -1665,7 +1664,7 @@ class Wallet_System_For_Woocommerce_Admin {
 							$walletamount      = $walletbalance;
 							$remaining_balance = abs( $walletbalance - $walletamount );
 						}
-	
+
 						$fee->set_amount( -1 * $walletamount );
 						$fee->set_total( -1 * $walletamount );
 						$mwb_new_order->add_item( $fee );
@@ -1699,7 +1698,7 @@ class Wallet_System_For_Woocommerce_Admin {
 								'note'             => '',
 							);
 							$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-			
+
 							if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 								$user       = get_user_by( 'id', $user_id );
 								$name       = $user->first_name . ' ' . $user->last_name;

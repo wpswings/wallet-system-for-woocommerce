@@ -15,9 +15,29 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 	 */
 	class WCMp_Gateway_Mwb_Wallet extends WCMp_Payment_Gateway {
 
+		/**
+		 * Payment gateway id.
+		 *
+		 * @var string
+		 */
 		public $id;
+		/**
+		 * Message on payment through wallet.
+		 *
+		 * @var array
+		 */
 		public $message = array();
+		/**
+		 * Payment gateway title.
+		 *
+		 * @var string
+		 */
 		public $gateway_title;
+		/**
+		 * Payment gateway.
+		 *
+		 * @var string
+		 */
 		public $payment_gateway;
 
 		/**
@@ -172,7 +192,7 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 						'note'             => '',
 					);
 
-					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );	
+					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				}
 				return true;
 			}
@@ -217,16 +237,16 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 			$is_enable_gateway_charge = get_wcmp_vendor_settings( 'payment_gateway_charge', 'payment' );
 			$order_totals             = $this->mwb_vendor_wise_order_total();
 			if ( $is_enable_gateway_charge == 'Enable' ) {
-				$payment_gateway_charge_type = get_wcmp_vendor_settings('payment_gateway_charge_type', 'payment', '', 'percent');
+				$payment_gateway_charge_type = get_wcmp_vendor_settings( 'payment_gateway_charge_type', 'payment', '', 'percent' );
 				$gateway_charge_amount       = floatval( get_wcmp_vendor_settings( "gateway_charge_{$this->payment_gateway}", 'payment' ) );
-				$carrier                     = get_wcmp_vendor_settings('gateway_charges_cost_carrier', 'payment', '', 'vendor');
+				$carrier                     = get_wcmp_vendor_settings( 'gateway_charges_cost_carrier', 'payment', '', 'vendor' );
 				if ( $gateway_charge_amount ) {
 					foreach ( $order_totals as $order_id => $details ) {
 						$order_gateway_charge = 0;
 						$vendor_ratio         = ( $details['vendor_total'] / $details['order_total'] );
 						if ( 'percent' === $payment_gateway_charge_type ) {
 							$parcentize_charges   = ( $details['order_total'] * $gateway_charge_amount ) / 100;
-							$order_gateway_charge = ($vendor_ratio) ? $vendor_ratio * $parcentize_charges : $parcentize_charges;
+							$order_gateway_charge = ( $vendor_ratio ) ? $vendor_ratio * $parcentize_charges : $parcentize_charges;
 						} elseif ( 'fixed_with_percentage' === $payment_gateway_charge_type ) {
 							$gateway_fixed_charge_amount = floatval( get_wcmp_vendor_settings( "gateway_charge_fixed_with_{$this->payment_gateway}", 'payment' ) );
 							$parcentize_charges          = ( ( $details['order_total'] * $gateway_charge_amount ) / 100 );

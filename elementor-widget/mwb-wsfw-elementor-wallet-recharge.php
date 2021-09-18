@@ -43,7 +43,7 @@ if ( wc_post_content_has_shortcode( 'MWB_WALLET_RECHARGE' ) ) {
 				<p class="mwb-wallet-field-container form-row">
 					<input type="hidden" name="user_id" value="' . esc_attr( $user_id ) . '">
 					<input type="hidden" name="product_id" value="' . esc_attr( $product_id ) . '">
-					<input type="hidden" id="verifynonce" name="verifynonce" value="' . esc_attr( wp_create_nonce() ) .'" />
+					<input type="hidden" id="verifynonce" name="verifynonce" value="' . esc_attr( wp_create_nonce() ) . '" />
 					<input type="submit" class="mwb-btn__filled button" id="mwb_recharge_wallet" name="mwb_recharge_wallet" value="' . esc_html__( 'Proceed', 'wallet-system-for-woocommerce' ) . '">
 				</p>
 			</form>

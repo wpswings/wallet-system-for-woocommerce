@@ -22,11 +22,11 @@
 class Wallet_System_For_Woocommerce_Activator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+	 * Activation function.
 	 *
 	 * @since    1.0.0
+	 * @param boolean $network_wide networkwide activate.
+	 * @return void
 	 */
 	public static function wallet_system_for_woocommerce_activate( $network_wide ) {
 		global $wpdb;

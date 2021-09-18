@@ -81,7 +81,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 	$another_user_email     = ! empty( $_POST['mwb_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_user_email'] ) ) : '';
 	$transfer_note          = ! empty( $_POST['mwb_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_note'] ) ) : '';
 	$user                   = get_user_by( 'email', $another_user_email );
-	$transfer_amount        = sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) );
+	$transfer_amount        = ! empty( $_POST['mwb_wallet_transfer_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_wallet_transfer_amount'] ) ) : 0;
 	$wallet_transfer_amount = apply_filters( 'mwb_wsfw_convert_to_base_price', $transfer_amount );
 	if ( $user ) {
 		$another_user_id = $user->ID;
@@ -239,19 +239,13 @@ if ( function_exists( 'is_shop' ) ) {
 	}
 }
 $page_url = get_permalink( $page_id );
-// if ( get_option('permalink_structure') ) {
-// 	$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
-// 	$topup_url       = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
-// 	$wallet_url      = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
-// 	$withdrawal_url  = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
-// 	$transaction_url = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
-// } else {
-	$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
-	$topup_url       = add_query_arg( 'mwb-wallet', 'wallet-topup', $page_url );
-	$wallet_url      = add_query_arg( 'mwb-wallet', 'wallet-transfer', $page_url );
-	$withdrawal_url  = add_query_arg( 'mwb-wallet', 'wallet-withdrawal', $page_url );
-	$transaction_url = add_query_arg( 'mwb-wallet', 'wallet-transactions', $page_url );
-//}
+
+$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
+$topup_url       = add_query_arg( 'mwb-wallet', 'wallet-topup', $page_url );
+$wallet_url      = add_query_arg( 'mwb-wallet', 'wallet-transfer', $page_url );
+$withdrawal_url  = add_query_arg( 'mwb-wallet', 'wallet-withdrawal', $page_url );
+$transaction_url = add_query_arg( 'mwb-wallet', 'wallet-transactions', $page_url );
+
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 $user_id                = get_current_user_id();
@@ -331,7 +325,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 
 				<nav class="wallet-tabs">
 					<ul class='tabs'>
-						<?php	
+						<?php
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {

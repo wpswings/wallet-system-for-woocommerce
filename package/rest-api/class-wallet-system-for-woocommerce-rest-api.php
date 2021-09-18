@@ -8,7 +8,7 @@
  * @since      1.0.0
  *
  * @package    Wallet_System_For_Woocommerce
- * @subpackage Wallet_System_For_Woocommerce/package/rest-api/version1
+ * @subpackage Wallet_System_For_Woocommerce/package/rest-api
  */
 
 /**
@@ -22,7 +22,7 @@
  *
  * @since      1.0.0
  * @package    Wallet_System_For_Woocommerce
- * @subpackage Wallet_System_For_Woocommerce/package/rest-api/version1
+ * @subpackage Wallet_System_For_Woocommerce/package/rest-api
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
 class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
