@@ -173,11 +173,6 @@ class Wallet_System_For_Woocommerce {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wallet-credit-payment-gateway.php';
 
-		/**
-		 * The class responsible for creating wallet widget for elementor.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'elementor-widget/class-elementor-wallet-widget.php';
-
 		$enable = get_option( 'mwb_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 			if ( class_exists( 'WCMp' ) ) {
@@ -293,11 +288,6 @@ class Wallet_System_For_Woocommerce {
 
 		$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_common, 'mwb_wsfw_wallet_recharge_product_purchasable', 1, 2 );
 
-		$enable = get_option( 'mwb_wsfw_enable', '' );
-		if ( isset( $enable ) && 'on' === $enable ) {
-			$this->loader->add_action( 'plugins_loaded', $wsfw_plugin_common, 'mwb_wsfw_wallet_shortcodes' );
-			$this->loader->add_action( 'init', $wsfw_plugin_common, 'mwb_wsfw_save_wallet_public_shortcode' );
-		}
 	}
 
 	/**
