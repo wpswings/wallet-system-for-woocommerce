@@ -525,7 +525,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					} else {
 						$mwb_wallet = floatval( $mwb_wallet ) - floatval( $wallet_amount );
 					}
-					$transaction_type = esc_html__( 'Dedited by admin', 'wallet-system-for-woocommerce' );
+					$transaction_type = esc_html__( 'Debited by admin', 'wallet-system-for-woocommerce' );
 					$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 				}
 				update_user_meta( $user_id, 'mwb_wallet', abs( $mwb_wallet ) );
@@ -1675,7 +1675,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$send_email_enable      = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
 						if ( $update_wallet ) {
 							$payment_method   = esc_html__( 'Automatically', 'wallet-system-for-woocommerce' );
-							$transaction_type = esc_html__( 'Wallet is dedited through subscription renewal', 'wallet-system-for-woocommerce' );
+							$transaction_type = esc_html__( 'Wallet is debited through subscription renewal', 'wallet-system-for-woocommerce' );
 							if ( ! empty( $order_id ) ) {
 								$order = wc_get_order( $order_id );
 								if ( $order ) {

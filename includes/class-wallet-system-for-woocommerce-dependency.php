@@ -37,7 +37,7 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 			if ( $update_wallet ) {
 				$payment_method   = esc_html__( 'Manually done', 'wallet-system-for-woocommerce' );
 				$currency         = get_woocommerce_currency();
-				$transaction_type = esc_html__( 'Wallet is dedited', 'wallet-system-for-woocommerce' );
+				$transaction_type = esc_html__( 'Wallet is debited', 'wallet-system-for-woocommerce' );
 				if ( ! empty( $order_id ) ) {
 					$order = wc_get_order( $order_id );
 					if ( $order ) {
