@@ -22,7 +22,7 @@ if ( isset( $_POST['wsfw_button_demo'] ) ) {
 		$wsfw_plugin_admin = new Wallet_System_For_Woocommerce_Admin( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
 		$wsfw_plugin_admin->wsfw_admin_save_tab_settings();
 	} else {
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( 'Failed security check', 'error' );
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 	}
 }
 

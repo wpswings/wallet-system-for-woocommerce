@@ -10,10 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Make sure WooCommerce is active.
-
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+$active_plugins = (array) get_option( 'active_plugins', array() );
+if ( is_multisite() ) {
+	$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+}
+if ( ! ( array_key_exists( 'woocommerce/woocommerce.php', $active_plugins ) || in_array( 'woocommerce/woocommerce.php', $active_plugins ) ) ) {
 	return;
 }
+
 /**
  * Add the gateway to WC Available Gateways
  *
@@ -37,7 +41,7 @@ add_filter( 'woocommerce_payment_gateways', 'mwb_wsfw_wallet_gateway', 10, 1 );
  * @class Cashback_Wallet_Gateway
  * @extends WC_Payment_Gateway
  * @version 1.0.0
- * @package WooCommerce/Classes/Payment
+ * @package Wallet_System_For_Woocommerce
  */
 function mwb_wsfw_wallet_payment_gateway_init() {
 
@@ -117,6 +121,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			$customer_id = get_current_user_id();
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
+				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'mwb_wsfw_show_converted_price', $walletamount );
 				return '<b>' . __( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wc_price( $walletamount ) . ']</b>';
 			}
@@ -147,7 +152,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			$order       = wc_get_order( $order_id );
 			$payment_method = $order->payment_method;
 			if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method ) {
-				$payment_method = 'Wallet Payment';
+				$payment_method = esc_html__( 'Wallet Payment', 'wallet-system-for-woocommerce' );
 			}
 			$order_total = $order->get_total();
 			if ( $order_total < 0 ) {
@@ -158,6 +163,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 			$customer_id      = get_current_user_id();
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
+				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				if ( $debited_amount <= $walletamount ) {
 
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -183,7 +189,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 						}
 					}
 
-					$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $customer_id,
 						'amount'           => $order_total,

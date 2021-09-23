@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 $wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
+$wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 
 ?>
@@ -19,7 +20,7 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 	<?php
 	$disable_withdrawal_request = get_user_meta( $user_id, 'disable_further_withdrawal_request', true );
 	if ( $disable_withdrawal_request ) {
-		show_message_on_form_submit( 'Your wallet\'s withdrawal request is in pending.', 'woocommerce-info' );
+		show_message_on_form_submit( esc_html__( 'Your wallet\'s withdrawal request is in pending.', 'wallet-system-for-woocommerce' ), 'woocommerce-info' );
 		$args               = array(
 			'numberposts' => -1,
 			'post_type'   => 'wallet_withdrawal',
@@ -49,11 +50,17 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 						$userid     = get_post_meta( $request_id, 'wallet_user_id', true );
 						if ( $userid == $user_id ) {
 							$date = date_create( $pending->post_date );
+							if ( 'pending1' === $pending->post_status ) {
+								$withdrawal_status = esc_html__( 'pending', 'wallet-system-for-woocommerce' );
+							} else {
+								$withdrawal_status = $pending->post_status;
+							}
+							$withdrawal_balance = apply_filters( 'mwb_wsfw_show_converted_price', get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ) );
 							echo '<tr>
 							<td>' . esc_html( $i ) . '</td>
                             <td>' . esc_html( $request_id ) . '</td>
-                            <td>' . wc_price( get_post_meta( $request_id, 'mwb_wallet_withdrawal_amount', true ), array( 'currency' => get_woocommerce_currency() ) ) . '</td>
-                            <td>' . esc_html( $pending->post_status ) . '</td>
+                            <td>' . wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) . '</td>
+                            <td>' . esc_html( $withdrawal_status ) . '</td>
                             <td>' . esc_html( get_post_meta( $request_id, 'mwb_wallet_note', true ) ) . '</td>
                             <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
                             </tr>';
@@ -86,19 +93,14 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 			</p>
 			<p class="mwb-wallet-field-container form-row">
 				<input type="hidden" name="wallet_user_id" value="<?php echo esc_attr( $user_id ); ?>">
-				<input type="submit" class="mwb-btn__filled button" id="mwb_withdrawal_request" name="mwb_withdrawal_request" value="Request For Withdrawal" >
+				<input type="submit" class="mwb-btn__filled button" id="mwb_withdrawal_request" name="mwb_withdrawal_request" value="<?php esc_html_e( 'Request For Withdrawal', 'wallet-system-for-woocommerce' ); ?>" >
 			</p>
 		</form>
 			<?php
 		} else {
-			show_message_on_form_submit( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'woocommerce-error' );
+			show_message_on_form_submit( esc_html__( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		}
 	}
 	?>
 
 </div>
-<?php
-// enqueue datatable css.
-wp_enqueue_style( 'datatable', 'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css', false, '1.10.24', 'all' );
-wp_enqueue_script( 'datatable', 'https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js', array(), '1.10.22', true );
-?>

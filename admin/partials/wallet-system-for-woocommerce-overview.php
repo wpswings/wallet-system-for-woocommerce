@@ -48,6 +48,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 				echo '<a href="https://wordpress.org/plugins/invoice-system-for-woocommerce/" target="blank" >Invoice System for WooCommerce</a>.';
 				?>
 				</li>
+				<li>
+				<?php
+				esc_html_e( 'Compatible with ', 'wallet-system-for-woocommerce' );
+				echo '<a href="https://wordpress.org/plugins/subscriptions-for-woocommerce/" target="blank" >Subscriptions For WooCommerce</a> plugin.';
+				?>
+				</li>
+				<li><?php esc_html_e( 'Compatible with the WPML plugin.', 'wallet-system-for-woocommerce' ); ?></li>
+				<li><?php esc_html_e( 'Supports WordPress multisite network.', 'wallet-system-for-woocommerce' ); ?></li>
+				<li>
+				<?php
+				esc_html_e( 'Use the shortcode ', 'wallet-system-for-woocommerce' );
+				echo '<strong>[mwb-wallet]</strong>';
+				esc_html_e( ' to display the user wallet on any page.', 'wallet-system-for-woocommerce' );
+				?>
+				</li>
 			</ul>
 		</div> 
 		<h2> <?php esc_html_e( 'The Free Plugin Benefits', 'wallet-system-for-woocommerce' ); ?></h2>

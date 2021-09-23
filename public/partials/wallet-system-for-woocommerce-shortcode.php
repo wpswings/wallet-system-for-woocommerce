@@ -11,6 +11,19 @@
  * @subpackage Wallet_System_For_Woocommerce/public/partials
  */
 
+if ( ! function_exists( 'show_message_on_form_submit' ) ) {
+	/**
+	 * Show message on form submit
+	 *
+	 * @param string $wpg_message message to be shown on form submission.
+	 * @param string $type error type.
+	 * @return void
+	 */
+	function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
+		$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
+		echo wp_kses_post( $wpg_notice );
+	}
+}
 global $wp;
 $logged_in_user = wp_get_current_user();
 if ( ! empty( $logged_in_user ) ) {
@@ -123,7 +136,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 			}
 
-			$transaction_type     = __( 'Wallet credited by user #', 'wallet-system-for-woocommerce' ) . $user_id . __( ' to user #', 'wallet-system-for-woocommerce' ) . $another_user_id;
+			$transaction_type     = 'Wallet credited by user #' . $user_id . ' to user #' . $another_user_id;
 			$wallet_transfer_data = array(
 				'user_id'          => $another_user_id,
 				'amount'           => $transfer_amount,
@@ -152,8 +165,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
 				}
-
-				$transaction_type = __( 'Wallet debited from user #', 'wallet-system-for-woocommerce' ) . $user_id . __( ' wallet, transferred to user #', 'wallet-system-for-woocommerce' ) . $another_user_id;
+				$transaction_type = 'Wallet debited from user #' . $user_id . ' wallet, transferred to user #' . $another_user_id;
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $transfer_amount,
@@ -220,11 +232,20 @@ if ( isset( $_POST['mwb_withdrawal_request'] ) && ! empty( $_POST['mwb_withdrawa
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <?php
-$main_url               = wc_get_endpoint_url( 'mwb-wallet' );
-$topup_url              = wc_get_endpoint_url( 'mwb-wallet', 'wallet-topup' );
-$wallet_url             = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transfer' );
-$withdrawal_url         = wc_get_endpoint_url( 'mwb-wallet', 'wallet-withdrawal' );
-$transaction_url        = wc_get_endpoint_url( 'mwb-wallet', 'wallet-transactions' );
+$page_id = get_the_ID();
+if ( function_exists( 'is_shop' ) ) {
+	if ( is_shop() ) {
+		$page_id = wc_get_page_id( 'shop' );
+	}
+}
+$page_url = get_permalink( $page_id );
+
+$main_url        = wc_get_endpoint_url( 'mwb-wallet' );
+$topup_url       = add_query_arg( 'mwb-wallet', 'wallet-topup', $page_url );
+$wallet_url      = add_query_arg( 'mwb-wallet', 'wallet-transfer', $page_url );
+$withdrawal_url  = add_query_arg( 'mwb-wallet', 'wallet-withdrawal', $page_url );
+$transaction_url = add_query_arg( 'mwb-wallet', 'wallet-transactions', $page_url );
+
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 $user_id                = get_current_user_id();
@@ -279,23 +300,12 @@ $wallet_tabs['wallet_transactions'] = array(
 <path d="M21 21.25C21.6904 21.25 22.25 20.6904 22.25 20C22.25 19.3096 21.6904 18.75 21 18.75V21.25ZM9 18.75C8.30964 18.75 7.75 19.3096 7.75 20C7.75 20.6904 8.30964 21.25 9 21.25V18.75ZM21 18.75H9V21.25H21V18.75Z" fill="#1D201F"/>',
 	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transactions.php',
 );
-$wallet_tabs = apply_filters( 'mwb_wsfw_add_wallet_tabs', $wallet_tabs );
 $flag = false;
-if ( $current_url == $main_url ) {
+if ( ( $current_url == $main_url ) || ( $current_url == $page_url ) ) {
 	$flag = true;
 }
 $wallet_keys = array_keys( $wallet_tabs );
-/**
- * Show message on form submit
- *
- * @param string $wpg_message message to be shown on form submission.
- * @param string $type error type.
- * @return void
- */
-function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
-	$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
-	echo wp_kses_post( $wpg_notice );
-}
+
 
 ?>
 
@@ -316,7 +326,6 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				<nav class="wallet-tabs">
 					<ul class='tabs'>
 						<?php
-
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
@@ -358,4 +367,3 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		</div>
 	</div>
 </div>
-

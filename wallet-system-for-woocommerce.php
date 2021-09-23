@@ -15,16 +15,16 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
- * Version:           2.0.4
+ * Version:           2.1.0
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/?utm_source=MWB-wallet-backend&utm_medium=MWB-wallet-ORG-backend&utm_campaign=MWB-backend
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
  * Requires at least: 4.6
- * Tested up to:      5.7.2
+ * Tested up to:      5.8
  * WC requires at least: 3.0.0
- * WC tested up to:      5.4.1
+ * WC tested up to:      5.6.0
  *
  * License:           GNU General Public License v3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -34,12 +34,14 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-
+$active_plugins = (array) get_option( 'active_plugins', array() );
+if ( is_multisite() ) {
+	$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+}
 $activated = true;
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+if ( ! ( array_key_exists( 'woocommerce/woocommerce.php', $active_plugins ) || in_array( 'woocommerce/woocommerce.php', $active_plugins ) ) ) {
 	$activated = false;
 }
-
 if ( $activated ) {
 	/**
 	 * Define plugin constants.
@@ -48,7 +50,7 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.0.4' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.1.0' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://makewebbetter.com' );
@@ -70,13 +72,17 @@ if ( $activated ) {
 			define( $key, $value );
 		}
 	}
+
 	/**
 	 * The code that runs during plugin activation.
 	 * This action is documented in includes/class-wallet-system-for-woocommerce-activator.php
+	 *
+	 * @param boolean $network_wide networkwide activate.
+	 * @return void
 	 */
-	function activate_wallet_system_for_woocommerce() {
+	function activate_wallet_system_for_woocommerce( $network_wide ) {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-activator.php';
-		Wallet_System_For_Woocommerce_Activator::wallet_system_for_woocommerce_activate();
+		Wallet_System_For_Woocommerce_Activator::wallet_system_for_woocommerce_activate( $network_wide );
 		$mwb_wsfw_active_plugin = get_option( 'mwb_all_plugins_active', false );
 		if ( is_array( $mwb_wsfw_active_plugin ) && ! empty( $mwb_wsfw_active_plugin ) ) {
 			$mwb_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
@@ -120,6 +126,38 @@ if ( $activated ) {
 	 */
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce.php';
 
+	/**
+	 * Creating table whenever a new blog is created
+	 *
+	 * @param object $new_site New site object.
+	 * @return void
+	 */
+	function mwb_wsfw_on_create_blog( $new_site ) {
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		}
+		if ( is_plugin_active_for_network( 'wallet-system-for-woocommerce/wallet-system-for-woocommerce.php' ) ) {
+			$blog_id = $new_site->blog_id;
+			switch_to_blog( $blog_id );
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-activator.php';
+			Wallet_System_For_Woocommerce_Activator::create_table_and_product();
+			restore_current_blog();
+		}
+	}
+	add_action( 'wp_initialize_site', 'mwb_wsfw_on_create_blog', 900 );
+
+	/**
+	 * Deleting the table whenever a blog is deleted.
+	 *
+	 * @param array $tables tables.
+	 * @return array
+	 */
+	function mwb_wsfw_on_delete_blog( $tables ) {
+		global $wpdb;
+		$tables[] = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+		return $tables;
+	}
+	add_filter( 'wpmu_drop_tables', 'mwb_wsfw_on_delete_blog' );
 
 	/**
 	 * Begins execution of the plugin.
@@ -177,25 +215,25 @@ if ( $activated ) {
 
 } else {
 	// To deactivate plugin if woocommerce is not installed.
-	add_action( 'admin_init', 'mwb_wsc_plugin_deactivate' );
+	add_action( 'admin_init', 'mwb_wsfw_plugin_deactivate' );
 
 	/**
 	 * Call Admin notices
 	 *
-	 * @name mwb_wsc_plugin_deactivate()
+	 * @name mwb_wsfw_plugin_deactivate()
 	 */
-	function mwb_wsc_plugin_deactivate() {
+	function mwb_wsfw_plugin_deactivate() {
 		deactivate_plugins( plugin_basename( __FILE__ ), true );
 		unset( $_GET['activate'] );
-		add_action( 'admin_notices', 'mwb_wsc_plugin_error_notice' );
+		add_action( 'admin_notices', 'mwb_wsfw_plugin_error_notice' );
 	}
 
 	/**
 	 * Show warning message if woocommerce is not install
 	 *
-	 * @name mwb_wsc_plugin_error_notice()
+	 * @name mwb_wsfw_plugin_error_notice()
 	 */
-	function mwb_wsc_plugin_error_notice() {
+	function mwb_wsfw_plugin_error_notice() {
 		?>
 		<div class="error notice is-dismissible">
 			<p>
@@ -205,4 +243,3 @@ if ( $activated ) {
 		<?php
 	}
 }
-

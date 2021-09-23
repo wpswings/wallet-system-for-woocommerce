@@ -7,8 +7,8 @@
  * @link       https://makewebbetter.com
  * @since      1.0.0
  *
- * @package    Makewebbetter_Onboarding
- * @subpackage Makewebbetter_Onboarding/admin/onboarding
+ * @package    Wallet_System_For_Woocommerce
+ * @subpackage Wallet_System_For_Woocommerce/onboarding/templates
  */
 
 global $wsfw_mwb_wsfw_obj;

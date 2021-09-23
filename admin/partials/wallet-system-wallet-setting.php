@@ -52,16 +52,17 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 						if ( $user ) {
 
 							$current_balance = get_user_meta( $user_id, 'mwb_wallet', true );
+							$current_balance = ( ! empty( $current_balance ) ) ? $current_balance : 0;
 							if ( $current_balance < $balance ) {
 								$net_balance = $balance - $current_balance;
-								$transaction_type = 'Wallet credited during importing wallet';
+								$transaction_type = esc_html__( 'Wallet credited during importing wallet', 'wallet-system-for-woocommerce' );
 								$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $net_balance );
 							} elseif ( $current_balance == $balance ) {
 								$net_balance      = 0;
-								$transaction_type = 'No money is added/deducted from wallet';
+								$transaction_type = esc_html__( 'No money is added/deducted from wallet', 'wallet-system-for-woocommerce' );
 							} else {
 								$net_balance = $current_balance - $balance;
-								$transaction_type = 'Wallet debited during importing wallet';
+								$transaction_type = esc_html__( 'Wallet debited during importing wallet', 'wallet-system-for-woocommerce' );
 								$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $net_balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 							}
 							$updated_wallet = update_user_meta( $user_id, 'mwb_wallet', $balance );
@@ -90,7 +91,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 								'user_id'          => $user_id,
 								'amount'           => $net_balance,
 								'currency'         => get_woocommerce_currency(),
-								'payment_method'   => 'Through importing Wallet',
+								'payment_method'   => esc_html__( 'Through importing Wallet', 'wallet-system-for-woocommerce' ),
 								'transaction_type' => $transaction_type,
 								'order_id'         => '',
 								'note'             => '',
@@ -145,11 +146,12 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 			$number_of_users = 0;
 			foreach ( $users as $user ) {
 				$user_id = $user->ID;
-				$wallet = get_user_meta( $user_id, 'mwb_wallet', true );
+				$wallet  = get_user_meta( $user_id, 'mwb_wallet', true );
+				$wallet  = ( ! empty( $wallet ) ) ? $wallet : 0;
 				if ( 'credit' === $wallet_option ) {
 					$wallet          += $wallet_amount;
 					$updated_wallet   = update_user_meta( $user_id, 'mwb_wallet', $wallet );
-					$transaction_type = 'Credited by admin';
+					$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
 					$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
 				} elseif ( 'debit' === $wallet_option ) {
 					if ( $wallet < $wallet_amount ) {
@@ -159,7 +161,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					}
 
 					$updated_wallet   = update_user_meta( $user_id, 'mwb_wallet', abs( $wallet ) );
-					$transaction_type = 'Debited by admin';
+					$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 					$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 				}
 
@@ -188,7 +190,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					'user_id'          => $user_id,
 					'amount'           => $updated_amount,
 					'currency'         => get_woocommerce_currency(),
-					'payment_method'   => 'Manually By Admin',
+					'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => $transaction_type,
 					'order_id'         => '',
 					'note'             => '',
@@ -243,11 +245,11 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			$wallet_action          = sanitize_text_field( wp_unslash( $_POST['action_type'] ) );
 			$user_id                = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 			$wallet                 = get_user_meta( $user_id, 'mwb_wallet', true );
-
+			$wallet                 = ( ! empty( $wallet ) ) ? $wallet : 0;
 			if ( 'credit' === $wallet_action ) {
 				$wallet          += $updated_amount;
 				$updated_wallet   = update_user_meta( $user_id, 'mwb_wallet', $wallet );
-				$transaction_type = 'Credited by admin';
+				$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
 				$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
 			} elseif ( 'debit' === $wallet_action ) {
 				if ( $wallet < $updated_amount ) {
@@ -256,7 +258,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 					$wallet -= $updated_amount;
 				}
 				$updated_wallet   = update_user_meta( $user_id, 'mwb_wallet', abs( $wallet ) );
-				$transaction_type = 'Debited by admin';
+				$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 			}
 
@@ -281,7 +283,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				'user_id'          => $user_id,
 				'amount'           => $updated_amount,
 				'currency'         => get_woocommerce_currency(),
-				'payment_method'   => 'Manually By Admin',
+				'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
 				'transaction_type' => $transaction_type,
 				'order_id'         => '',
 				'note'             => '',
@@ -298,7 +300,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			}
 		}
 	} else {
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( 'Failed security check', 'error' );
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 	}
 }
 
@@ -442,7 +444,7 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 			</div>
 			<div class="mwb_wallet-edit-popup-btn">
 				<input type="hidden" id="user_update_nonce" name="user_update_nonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
-				<input type="submit" name="update_wallet" class="mwb-btn mwb-btn__filled" value="Update Wallet">
+				<input type="submit" name="update_wallet" class="mwb-btn mwb-btn__filled" value="<?php esc_html_e( 'Update Wallet', 'wallet-system-for-woocommerce' ); ?>">
 			</div>
 		</form>
 	</div>

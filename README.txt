@@ -5,13 +5,13 @@ Tags: digital wallet, credit, refund, user wallet, woocommerce wallet, wallet
 Requires at least: 4.6
 Tested up to: 5.8
 WC requires at least: 3.0.0
-WC tested up to: 5.5.2
-Stable tag: 2.0.4
+WC tested up to: 5.6.0
+Stable tag: 2.1.0
 Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Wallet System for WooCommerce is digital wallet, helps registered customers purchase your products using wallet amount.
+Wallet System for WooCommerce is a digital wallet plugin. Using wallet amounts, registered customers can purchase WooCommerce products. 
 
 == Description ==
 
@@ -53,10 +53,17 @@ Wallet System for WooCommerce increases the ease and security of the payment pro
 
 **12.** Customers can make withdrawal requests to merchants by providing their details. 
 
-**13.** It’s compatible with our [Invoice System for WooCommerce](https://wordpress.org/plugins/invoice-system-for-woocommerce/).
+**13.** Compatible with [Invoice System for WooCommerce](https://wordpress.org/plugins/invoice-system-for-woocommerce/).
 
-**14.** It’s compatible with our [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/).
- 
+**14.** Compatible with [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/).
+
+**15.** Compatible with [Subscriptions For WooCommerce](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
+
+**16.** Compatible with the WPML plugin.
+
+**17.** Supports WordPress multisite network. 
+
+**18.** Use the shortcode [mwb-wallet] to display the user wallet on any page. 
 
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
@@ -83,11 +90,14 @@ The customers’ wallet transactions history contains entries for wallet recharg
 **6. Wallet Amount Transfer**
 The customers can transfer their wallet amount into other customers’ wallets. It will help the merchants to increase the user interaction on their WooCommerce store and result in an increase in the wallet user base. 
 
+**7. Compatibility with Subscriptions for Woocommerce**
+The WooCommerce Wallet is compatible with Subscriptions for WooCommerce plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
+
 [**Free Demo of Wallet System for WooCommerce**](https://demo.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-demo)
 
 == WHAT PREMIUM VERSION OF WOOCOMMERCE  WALLET SYSTEM OFFERS == 
 
-**1.** Merchant can limit the minimum/maximum value that customers add to their Wallet. 
+**1.** Merchant can limit the minimum/maximum value that customers add to their Wallets. 
 
 **2.** Customers can make withdrawal requests to merchants by providing their details. 
 
@@ -96,6 +106,8 @@ The customers can transfer their wallet amount into other customers’ wallets. 
 **4.** Merchant can use a widget to show customers their wallet amount upon login. 
 
 **5.** Customers can send Invitations to their friends to join the Wallet System. 
+
+**6.**  Supports the Elementor page builder.
 
 *Make a smart move with Premium Version of [WooCommerce Wallet System](https://makewebbetter.com/product/woocommerce-wallet-system/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-wallet-pro)*
 
@@ -106,7 +118,7 @@ The customers can transfer their wallet amount into other customers’ wallets. 
 
 == SUPPORT ==
 
-If you need support or have any question then kindly use our online chat window [here](https://makewebbetter.com/?utm_source=MWB-wallet-org&utm_medium=MWB-org-page&utm_campaign=MWB-wallet-org) or  connect with us then [**Generate a Ticket**](https://makewebbetter.com/submit-query/)
+If you need support or have any questions then kindly use our online chat window [here](https://makewebbetter.com/?utm_source=MWB-wallet-org&utm_medium=MWB-org-page&utm_campaign=MWB-wallet-org) or  connect with us then [**Generate a Ticket**](https://makewebbetter.com/submit-query/)
 
 
 == Installation ==
@@ -119,7 +131,7 @@ In the search field type "Wallet System For WooCommerce" and click Search Plugin
 
 = Manual installation =
 
-The manual installation method involves downloading our Wallet System For WooCommerce and uploading it to your webserver via your favorite FTP application. The WordPress contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
+The manual installation method involves downloading our Wallet System For WooCommerce and uploading it to your webserver via your favourite FTP application. The WordPress contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
 
 = Updating =
 
@@ -130,17 +142,65 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 = Where can I view the list of all Wallet transactions? = 
 
 Follow these steps to see the Wallet transaction list:
-From the Admin menu, go to MakeWebBetter > Wallet System.
+From the *Admin menu, go to MakeWebBetter > Wallet System*.
 Navigate to the Wallet Transactions tab. There you can view the transaction list.
 
 = Can I integrate the Wallet System for WooCommerce with local payment gateways? = 
 
-We provide integration with popular local payment gateways. But if you want integration with a specific payment gateway, please contact us. 
+We provide integration with popular local payment gateways. But if you want integration with a specific payment gateway, please [contact us](https://makewebbetter.com/contact-us/?utm_source=MWB-wallet-org&utm_medium=MWB-org-faq&utm_campaign=MWB-wallet-org). 
+
+= Can we recharge the wallet from the frontend or without an admin dashboard? =
+Yes, we can recharge the wallet from the frontend for this, please go to the *my-account page >> wallet >> add balance*.
+
+= Can we refund the order on the plugin wallet? =
+Yes, the admin can refund the order on the plugin wallet. For this we have provided a setting name as a refund to the wallet, please enable this setting from the general tab.
+
+= Can the admin update the wallet amount of all the users at once? =
+Yes, for this we have provided a functionality through which the admin can add the (credit/debit)wallet of all users at once.
+
+= Can we update the wallet amount of users individually? =
+Yes, the admin can update the wallet amount individually. For this please go to the plugin setting >> wallet(Here all the users are listed you can change it accordingly).
+
+= Can the admin check all the wallet transactions of their users? =
+Yes, the admin can check all the transactions of their users, for this go to the *plugin setting >> wallet transaction >> from here admin can check all the transactions*.
+
+= Can a customer share their wallet amount with another person? =
+Yes, for this please go to the *my-account page >> wallet >> click on transfer* and then from here they can transfer the amount to the other person.
+
+= Is there any shortcode for the wallet system for WooCommerce? =
+Yes, Admin can use shortcode mwb-wallet for using all the functionalities of the Wallet System for WooCommerce.
+
+= Does this plugin Support WordPress Multisite networks? =
+Yes, the plugin supports WordPress Multisite Network
 
 = My question is not listed? =
 Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG&utm_campaign=wallet-kb-ORG) for more detailed [documentation](https://docs.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-doc).
 
+
+== Screenshots ==
+
+1. Wallet general setting
+2. Credit/debit amount from the users wallet
+3. Update wallet
+4. Check wallet transaction
+5. Withdrawal request form
+6. Generate Rest API
+7. Rest API keys
+8. Check system status
+9. Add balance
+10. Wallet transfer
+11. Wallet withdrawal request
+12. Wallet transaction history check
+13. WPML Compatible
+
 == Changelog ==
+
+= 2.1.0 - RELEASED ON 22 September 2021 =
+
+* New: Shortcode mwb-wallet which will display user wallet on a page
+* New: Support WordPress Multisite Network
+* New: Compatible with our [Subscriptions For WooCommerce plugin](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
+* New: Compatible with WPML plugin
 
 = 2.0.4 - RELEASED ON 2 August 2021 =
 
@@ -165,7 +225,7 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 * New: Customers can pay using their wallet as a discount if the wallet amount is less than the actual order amount,
 * New: Customers can transfer wallet amount to another user.
 * New: Merchants can set email notifications to users on their wallet update (credit/debit)
-* New: Merchant can add/subtract a certain amount on all user at one click (Bulk operations)
+* New: Merchant can add/subtract a certain amount on all users at one click (Bulk operations)
 * New: Merchant can update wallet of all users at once using CSV file (wallet import)
 * New: Merchant can allow refund of orders to the wallet.
 * New: Customers can file a request to withdraw the amount from their wallets and transfer it into their bank accounts or other payment apps. 
@@ -176,24 +236,11 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 * First version
 
-== Screenshots ==
-
-1. Wallet general setting
-2. Credit/debit amount from users wallet
-3. Update wallet
-4. Check wallet transaction
-5. Withdrawal request form
-6. Generate Rest API
-7. Rest API keys
-8. Check system status
-9. Add balance
-10. Wallet transfer
-11. Wallet withdrawal request
-12. Wallet transaction history check
-
 == Upgrade Notice ==
 
-= 2.0.4 - RELEASED ON 2 August 2021 =
+= 2.1.0 - RELEASED ON 22 September 2021 =
 
-* FIX: the warning coming when adding wallet recharge to cart.
-* NEW: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/) plugin regarding debiting the wallet amount.
+* New: Shortcode mwb-wallet which will display user wallet on a page
+* New: Support WordPress Multisite Network
+* New: Compatible with our [Subscriptions For WooCommerce plugin](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
+* New: Compatible with WPML plugin

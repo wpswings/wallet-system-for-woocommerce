@@ -461,7 +461,7 @@ select {
     color: #03dac5 !important;
 }
   
-.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select.pending {
+.mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select.pending, .mwb-wpg-gen-section-table-wrap .mwb-wpg-gen-section-table-container .mwb-wpg-gen-section-table tbody td select.pending1 {
     color: #fdb51a !important;
 }
   

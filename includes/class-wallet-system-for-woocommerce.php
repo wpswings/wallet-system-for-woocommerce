@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.0.4';
+			$this->version = '2.1.0';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -173,7 +173,13 @@ class Wallet_System_For_Woocommerce {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wallet-credit-payment-gateway.php';
 
-
+		$enable = get_option( 'mwb_wsfw_enable', '' );
+		if ( isset( $enable ) && 'on' === $enable ) {
+			if ( class_exists( 'WCMp' ) ) {
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wcmp-gateway-mwb-wallet.php';
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php';
+			}
+		}
 
 		$this->loader = new Wallet_System_For_Woocommerce_Loader();
 
@@ -246,7 +252,6 @@ class Wallet_System_For_Woocommerce {
 
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_admin, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );
-
 		}
 
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_withdrawal_post_type', 20 );
@@ -255,6 +260,14 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_export_users_wallet', $wsfw_plugin_admin, 'export_users_wallet' );
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 10, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
+
+		if ( function_exists( 'mwb_sfw_check_plugin_enable' ) ) {
+			if ( mwb_sfw_check_plugin_enable() ) {
+				$this->loader->add_filter( 'wsfw_general_extra_settings_array', $wsfw_plugin_admin, 'mwb_wsfw_extra_settings_sfw', 30, 1 );
+				$this->loader->add_action( 'mwb_sfw_renewal_order_creation', $wsfw_plugin_admin, 'mwb_sfw_renewal_order_creation', 10, 2 );
+			}
+		}
+
 	}
 
 
@@ -304,7 +317,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $wsfw_plugin_public, 'show_message_addto_cart', 10, 2 );
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $wsfw_plugin_public, 'mwb_update_price_cart', 10, 1 );
 			$this->loader->add_action( 'woocommerce_cart_item_removed', $wsfw_plugin_public, 'after_remove_wallet_from_cart', 10, 2 );
-			
+
 			$this->loader->add_filter( 'woocommerce_checkout_fields', $wsfw_plugin_public, 'mwb_wsfw_remove_billing_from_checkout' );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'change_order_type', 20, 1 );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );

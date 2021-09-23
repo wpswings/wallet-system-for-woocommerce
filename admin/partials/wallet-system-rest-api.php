@@ -36,7 +36,7 @@ if ( isset( $_POST['generate_api_key'] ) && ! empty( $_POST['generate_api_key'] 
 			$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
 		}
 	} else {
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( 'Failed security check', 'error' );
+		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 	}
 }
 
@@ -111,7 +111,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<?php
 	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
 	echo esc_html( $store_url );
-	esc_html_e('/wp-json/wsfw-route/v1/wallet/ ', 'wallet-system-for-woocommerce' );
+	esc_html_e( '/wp-json/wsfw-route/v1/wallet/ ', 'wallet-system-for-woocommerce' );
 	?>
 	</p>
 	<h5><?php esc_html_e( 'Authentication', 'wallet-system-for-woocommerce' ); ?></h5> 
@@ -147,7 +147,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<?php
 	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
 	echo esc_html( $store_url );
-	esc_html_e('/wp-json/wsfw-route/v1/wallet/users?consumer_key=XXXX&consumer_secret=XXXX ', 'wallet-system-for-woocommerce' );
+	esc_html_e( '/wp-json/wsfw-route/v1/wallet/users?consumer_key=XXXX&consumer_secret=XXXX ', 'wallet-system-for-woocommerce' );
 	?>
 	</p>
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
@@ -183,7 +183,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<?php
 	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
 	echo esc_html( $store_url );
-	esc_html_e('/wp-json/wsfw-route/v1/wallet/1?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' );
+	esc_html_e( '/wp-json/wsfw-route/v1/wallet/1?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' );
 	?>
 	</p>
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
@@ -205,7 +205,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<?php
 	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
 	echo esc_html( $store_url );
-	esc_html_e('/wp-json/wsfw-route/v1/wallet/transactions/1?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' );
+	esc_html_e( '/wp-json/wsfw-route/v1/wallet/transactions/1?consumer_key=XXXX&consumer_secret=XXXX', 'wallet-system-for-woocommerce' );
 	?>
 	</p>
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
@@ -249,7 +249,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<?php
 	esc_html_e( 'Example : ', 'wallet-system-for-woocommerce' );
 	echo esc_html( $store_url );
-	esc_html_e('/wp-json/wsfw-route/v1/wallet/1', 'wallet-system-for-woocommerce' );
+	esc_html_e( '/wp-json/wsfw-route/v1/wallet/1', 'wallet-system-for-woocommerce' );
 	?>
 	</p>
 	<p>

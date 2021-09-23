@@ -21,7 +21,7 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 	 * @param int $user_id user id.
 	 * @param int $amount amount.
 	 * @param int $order_id order id.
-	 * @return void
+	 * @return boolean
 	 */
 	function mwb_wsfw_update_user_wallet_balance( $user_id, $amount, $order_id = '' ) {
 		$wallet_balance = get_user_meta( $user_id, 'mwb_wallet', true );
@@ -37,16 +37,16 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 			if ( $update_wallet ) {
 				$payment_method   = esc_html__( 'Manually done', 'wallet-system-for-woocommerce' );
 				$currency         = get_woocommerce_currency();
-				$transaction_type = esc_html__( 'Wallet is dedited', 'wallet-system-for-woocommerce' );
+				$transaction_type = esc_html__( 'Wallet is debited', 'wallet-system-for-woocommerce' );
 				if ( ! empty( $order_id ) ) {
 					$order = wc_get_order( $order_id );
 					if ( $order ) {
 						$payment_method = $order->get_payment_method();
 						if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method || 'wallet' === $payment_method ) {
-							$payment_method = 'Wallet Payment';
+							$payment_method = esc_html__( 'Wallet Payment', 'wallet-system-for-woocommerce' );
 						}
 						$currency         = $order->get_currency();
-						$transaction_type = 'Wallet debited through purchasing <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+						$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					} else {
 						$order_id = '';
 					}

@@ -8,7 +8,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
+$allowed_html = array(
+	'a' => array(
+		'href' => array(),
+	),
+);
 ?>
 
 <div class='content active'>
@@ -37,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						?>
 						<tr>
 							<td><?php echo esc_html( $i ); ?></td>
-							<td><?php echo esc_html( $transaction_id ); ?></td>
+							<td><?php echo $transaction_id; ?></td>
 							<td><?php echo wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ); ?></td>
 							<td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
 							<td>
@@ -47,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								if ( $key == $transaction->payment_method ) {
 									$method = esc_html__( 'Online Payment', 'wallet-system-for-woocommerce' );
 								} else {
-									$method = esc_html( $transaction->payment_method );
+									$method = $transaction->payment_method;
 								}
 								break;
 							}
@@ -73,12 +77,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 
 	<?php
-	// enqueue datatable css.
-	wp_enqueue_style( 'datatable', 'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css', false, '1.10.24', 'all' );
-	wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css', false, '1.12.1', 'all' );
-	wp_enqueue_script( 'datatable', 'https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js', array(), '1.10.22', true );
 	// including regular expression jquery.
-	wp_enqueue_script( 'anchor-tag', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
+	wp_enqueue_script( 'anchor-tag', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-anchor.js', array(), $this->version, 'all' );
 	?>
 
 	<!-- removing the anchor tag href attibute using regular expression -->	
