@@ -157,43 +157,48 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 			$vendor_id       = $this->vendor->id;
 			$for_commissions = implode( ',', $this->commissions );
 			if ( $vendor_id > 0 ) {
+
+				if ( $amount_to_pay < 0 ) {
+					$amount_to_pay = 0;
+				}
+
 				$walletamount = get_user_meta( $vendor_id, 'mwb_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-				$walletamount          += $amount_to_pay;
-				$update_wallet          = update_user_meta( $vendor_id, 'mwb_wallet', abs( $walletamount ) );
 
-				if ( $update_wallet ) {
-					$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
-					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$user       = get_user_by( 'id', $vendor_id );
-						$name       = $user->first_name . ' ' . $user->last_name;
-						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-						$mail_text .= __( 'Wallet credited through Commission by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount_to_pay, array( 'currency' => $this->currency ) );
-						$to         = $user->user_email;
-						$from       = get_option( 'admin_email' );
-						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-						$headers   .= 'From: ' . $from . "\r\n" .
-							'Reply-To: ' . $to . "\r\n";
-						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+				$walletamount += $amount_to_pay;
+				update_user_meta( $vendor_id, 'mwb_wallet', abs( $walletamount ) );
 
-					}
-					$transaction_type = __( 'Wallet credited through Commission received from commission id ', 'wallet-system-for-woocommerce' ) . $for_commissions;
-					$transaction_data = array(
-						'user_id'          => $vendor_id,
-						'amount'           => $amount_to_pay,
-						'currency'         => $this->currency,
-						'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
-						'transaction_type' => $transaction_type,
-						'order_id'         => $for_commissions,
-						'note'             => '',
-					);
+				$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
+				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+					$user       = get_user_by( 'id', $vendor_id );
+					$name       = $user->first_name . ' ' . $user->last_name;
+					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
+					$mail_text .= __( 'Wallet credited through Commission by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount_to_pay, array( 'currency' => $this->currency ) );
+					$to         = $user->user_email;
+					$from       = get_option( 'admin_email' );
+					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+					$headers    = 'MIME-Version: 1.0' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+					$headers   .= 'From: ' . $from . "\r\n" .
+						'Reply-To: ' . $to . "\r\n";
+					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
-					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				}
+				$transaction_type = __( 'Wallet credited through Commission received from commission id ', 'wallet-system-for-woocommerce' ) . $for_commissions;
+				$transaction_data = array(
+					'user_id'          => $vendor_id,
+					'amount'           => $amount_to_pay,
+					'currency'         => $this->currency,
+					'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
+					'transaction_type' => $transaction_type,
+					'order_id'         => $for_commissions,
+					'note'             => '',
+				);
+
+				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
 				return true;
 			}
 			return false;
