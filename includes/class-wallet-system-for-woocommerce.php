@@ -599,10 +599,10 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_system_status['php_max_execution_time'] = function_exists( 'ini_get' ) ? ini_get( 'max_execution_time' ) : __( 'N/A (ini_get function does not exist)', 'wallet-system-for-woocommerce' );
 
 		// Get outgoing IP address, file_get_contents is used to get IP address.
-		$apiUrl                            = 'http://ipecho.net/plain';
-		$api_response                      = wp_remote_get( $apiUrl );
-		$responseBody                      = wp_remote_retrieve_body( $api_response );
-		$wsfw_system_status['outgoing_ip'] = $responseBody;
+		$api_url                           = 'http://ipecho.net/plain';
+		$api_response                      = wp_remote_get( $api_url );
+		$response_body                     = wp_remote_retrieve_body( $api_response );
+		$wsfw_system_status['outgoing_ip'] = $response_body;
 
 		$wsfw_system_data['php'] = $wsfw_system_status;
 		$wsfw_system_data['wp']  = $wsfw_wordpress_status;
