@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-500%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.6.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-500%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.8.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
 # Wallet System for WooCommerce
 ![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png)
 * Contributors: MakeWebBetter
@@ -58,6 +58,8 @@ Wallet System for WooCommerce increases the ease and security of the payment pro
 
 **18.** Use the shortcode [mwb-wallet] to display the user wallet on any page. 
 
+**19.** Compatibility with Multivendor Marketplace Solution for WooCommerce
+
 ## PLUGIN MEETS YOUR REQUIREMENT, SO 
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
 
@@ -86,6 +88,9 @@ The customers can transfer their wallet amount into other customers’ wallets. 
 **7. Compatibility with Subscriptions for WooCommerce**
 The WooCommerce Wallet is compatible with [Subscriptions for WooCommerce](https://wordpress.org/plugins/subscriptions-for-woocommerce/) plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
 
+**8. Compatibility with Multivendor Marketplace Solution for WooCommerce**
+The Wallet System for WooCommerce is compatible with Multivendor Marketplace Solution for WooCommerce plugin. You will be able to select wallet as a payment method to get sale commissions from your vendors. 
+
 [**Free Demo of Wallet System for WooCommerce**](https://demo.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-git&utm_medium=MWB-git-Page&utm_campaign=MWB-demo)
 
 == WHAT PREMIUM VERSION OF WOOCOMMERCE  WALLET SYSTEM OFFERS == 
@@ -104,16 +109,19 @@ The WooCommerce Wallet is compatible with [Subscriptions for WooCommerce](https:
 
 *Make a smart move with Premium Version of [WooCommerce Wallet System](https://makewebbetter.com/product/woocommerce-wallet-system/?utm_source=MWB-wallet-git&utm_medium=MWB-GIT-Page&utm_campaign=MWB-wallet-pro)*
 
-
 ## LIVE DEMO OF PREMIUM VERSION 
 
 * [**WooCommerce Wallet System Frontend demo**](https://demo.makewebbetter.com/woocommerce-wallet-system/?utm_source=MWB-wallet-git&utm_medium=MWB-GIT-Page&utm_campaign=MWB-wallet-frontend_demo)
 * [**WooCommerce Wallet System Backend demo**](https://demo.makewebbetter.com/woocommerce-wallet-system/get-your-personal-demo/?utm_source=MWB-wallet-git&utm_medium=MWB-GIT-Page&utm_campaign=MWB-wallet-backend_demo)
 
-
 ### **SUPPORT**
 
 If you need support or have any question then kindly use our online chat window [here](https://makewebbetter.com/?utm_source=MWB-wallet-github&utm_medium=MWB-github-page&utm_campaign=MWB-wallet-git) or connect with us then [**Generate a Ticket**](https://makewebbetter.com/submit-query/?utm_source=MWB-wallet-github&utm_medium=MWB-github-page&utm_campaign=MWB-wallet-git)
+If our documentation doesn’t contain the solution to your problem, you can visit the [MakeWebBetter Forums](https://forums.makewebbetter.com/?utm_source=MWB-wallet-git&utm_medium=MWB-git-page&utm_campaign=MWB-wallet-git) with your question.
+
+### CONTRIBUTE AND TRANSLATE
+
+Wallet System For WooCommerce is translated into multiple languages Dutch, Russian, Spanish and many more. Help localize Wallet System For WooCommerce even further by adding your locale Language. [**Click Here**](https://translate.wordpress.org/projects/wp-plugins/wallet-system-for-woocommerce/)
 
 
 ### **MORE ABOUT MAKEWEBBETTER**
