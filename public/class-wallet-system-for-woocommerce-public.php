@@ -101,6 +101,7 @@ class Wallet_System_For_Woocommerce_Public {
 				'wsfw_recharge_minamount_error' => __( 'Recharge amount should be greater than or equal to ', 'wallet-system-for-woocommerce' ),
 				'wsfw_recharge_maxamount_error' => __( 'Recharge amount should be less than or equal to ', 'wallet-system-for-woocommerce' ),
 				'wsfw_wallet_transfer'          => __( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ),
+				'wsfw_unset_amount'             => __( 'Wallet Amount Removed', 'wallet-system-for-woocommerce' ),
 			)
 		);
 		wp_enqueue_script( $this->plugin_name );
@@ -154,6 +155,8 @@ class Wallet_System_For_Woocommerce_Public {
 		$mwb_cart_total = WC()->cart->total;
 		$user_id        = get_current_user_id();
 		if ( $user_id ) {
+			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options' );
+
 			$wallet_amount = get_user_meta( $user_id, 'mwb_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
@@ -166,9 +169,22 @@ class Wallet_System_For_Woocommerce_Public {
 					<tr class="partial_payment">
 						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount ) . ')'; ?></td>
 						<td>
+							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { ?>
 							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
 								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
 							</p>
+							<?php
+							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) { ?>
+							<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field">
+								<input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
+							</p>
+							<?php
+							} ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span id="mwb_wallet_show_total_msg"></span>
 						</td>
 					</tr>
 						<?php
@@ -189,9 +205,22 @@ class Wallet_System_For_Woocommerce_Public {
 					<tr class="partial_payment">
 						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount ) . ')'; ?></td>
 						<td>
+							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { ?>
 							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
 								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
 							</p>
+							<?php
+							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) { ?>
+							<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field">
+								<input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
+							</p>
+							<?php
+							} ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span id="mwb_wallet_show_total_msg"></span>
 						</td>
 					</tr>
 						<?php

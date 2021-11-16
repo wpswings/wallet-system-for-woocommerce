@@ -313,14 +313,14 @@ class Wallet_System_For_Woocommerce_Common {
 				if ( $returnid ) {
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 					$send_email_enable      = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
+					// first user.
+					$user1 = get_user_by( 'id', $another_user_id );
+					$name1 = $user1->first_name . ' ' . $user1->last_name;
+
+					$user2 = get_user_by( 'id', $user_id );
+					$name2 = $user2->first_name . ' ' . $user2->last_name;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						// first user.
-						$user1 = get_user_by( 'id', $another_user_id );
-						$name1 = $user1->first_name . ' ' . $user1->last_name;
-
-						$user2 = get_user_by( 'id', $user_id );
-						$name2 = $user2->first_name . ' ' . $user2->last_name;
-
+						
 						$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 						$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
 						$to1         = $user1->user_email;
@@ -334,7 +334,7 @@ class Wallet_System_For_Woocommerce_Common {
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to1, $subject, $mail_text1, $headers1 );
 
 					}
-					$transaction_type     = __( 'Wallet credited by user #', 'wallet-system-for-woocommerce' ) . $user_id . __( ' to user #', 'wallet-system-for-woocommerce' ) . $another_user_id;
+					$transaction_type     = __( 'Wallet credited by user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 					$wallet_transfer_data = array(
 						'user_id'          => $another_user_id,
 						'amount'           => $transfer_amount,
@@ -362,7 +362,7 @@ class Wallet_System_For_Woocommerce_Common {
 
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
 						}
-						$transaction_type = __( 'Wallet debited from user #', 'wallet-system-for-woocommerce' ) . $user_id . __( ' wallet, transferred to user #', 'wallet-system-for-woocommerce' ) . $another_user_id;
+						$transaction_type = __( 'Wallet debited from user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' wallet, transferred to user #', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 						$transaction_data = array(
 							'user_id'          => $user_id,
 							'amount'           => $transfer_amount,

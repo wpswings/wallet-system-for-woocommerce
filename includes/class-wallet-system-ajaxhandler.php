@@ -32,6 +32,7 @@ class Wallet_System_AjaxHandler {
 		add_action( 'wp_ajax_calculate_amount_after_wallet', array( &$this, 'calculate_amount_after_wallet' ) );
 		add_action( 'wp_ajax_mwb_search_for_user', array( &$this, 'mwb_search_for_user' ) );
 		add_action( 'wp_ajax_unset_wallet_session', array( &$this, 'unset_wallet_session' ) );
+		add_action( 'wp_ajax_calculate_amount_total_after_wallet', array( &$this, 'calculate_amount_total_after_wallet' ) );
 
 	}
 
@@ -71,6 +72,36 @@ class Wallet_System_AjaxHandler {
 		}
 	}
 
+	/**
+	 * This function is used to Pay total payment throught partial payment method.
+	 *
+	 * @return void
+	 */
+	public function calculate_amount_total_after_wallet() {
+		if ( is_user_logged_in() ) {
+			check_ajax_referer( 'ajax-nonce', 'nonce' );
+			$message = array();
+
+			if ( isset( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
+				WC()->session->set( 'is_wallet_partial_payment', 'true' );
+			} else {
+				WC()->session->set( 'is_wallet_partial_payment', 'false' );
+			}
+
+			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['wallet_amount'] ) );
+
+			if ( ! empty( $wallet_amount ) ) {
+				$message['status']  = true;
+				$message['message'] = esc_html__( 'Wallet amount used successfully: ', 'wallet-system-for-woocommerce' );
+				WC()->session->set( 'custom_fee', $wallet_amount );
+			} else {
+				$message['status']  = false;
+				$message['message'] = esc_html__( 'Wallet amount is empty: ', 'wallet-system-for-woocommerce' );
+			}
+			wp_send_json( $message );
+			wp_die();
+		}
+	}
 
 	/**
 	 * Unset the session on disabling partial payment

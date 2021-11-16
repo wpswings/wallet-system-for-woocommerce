@@ -261,6 +261,20 @@ class Wallet_System_For_Woocommerce_Admin {
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
 			),
+			array(
+				'title'       => __( 'Select Partial Payment Option', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'name'        => 'wsfw_wallet_partial_payment_method_options',
+				'description' => __( 'This is select field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wsfw_wallet_partial_payment_method_options',
+				'value'       => get_option( 'wsfw_wallet_partial_payment_method_options' ),
+				'class'       => 'wsfw-select-class',
+				'options'     => array(
+					''    => __( 'Select option', 'wallet-system-for-woocommerce' ),
+					'total_pay'   => __( 'Total Wallet Amount', 'wallet-system-for-woocommerce' ),
+					'manual_pay'  => __( 'Manual Wallet Amount', 'wallet-system-for-woocommerce' ),
+				),
+			),
 		);
 		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
 		$wsfw_settings_general[] = array(
