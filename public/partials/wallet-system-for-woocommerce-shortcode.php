@@ -136,7 +136,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 			}
 
-			$transaction_type     = 'Wallet credited by user ' . $user2->user_email . ' to user ' . $user1->user_email;
+			$transaction_type     = __( 'Wallet credited by user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 			$wallet_transfer_data = array(
 				'user_id'          => $another_user_id,
 				'amount'           => $transfer_amount,
@@ -165,7 +165,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
 				}
-				$transaction_type = 'Wallet debited from user ' . $user2->user_email . ' wallet, transferred to user ' . $user1->user_email;
+				$transaction_type = __( 'Wallet debited from user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' wallet, transferred to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $transfer_amount,

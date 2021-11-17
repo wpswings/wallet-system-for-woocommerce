@@ -362,7 +362,7 @@ class Wallet_System_For_Woocommerce_Common {
 
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
 						}
-						$transaction_type = __( 'Wallet debited from user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' wallet, transferred to user #', 'wallet-system-for-woocommerce' ) . $user1->user_email;
+						$transaction_type = __( 'Wallet debited from user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' wallet, transferred to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 						$transaction_data = array(
 							'user_id'          => $user_id,
 							'amount'           => $transfer_amount,
