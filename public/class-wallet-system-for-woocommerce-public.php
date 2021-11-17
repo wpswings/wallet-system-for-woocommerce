@@ -155,7 +155,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$mwb_cart_total = WC()->cart->total;
 		$user_id        = get_current_user_id();
 		if ( $user_id ) {
-			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options' );
+			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
 
 			$wallet_amount = get_user_meta( $user_id, 'mwb_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
