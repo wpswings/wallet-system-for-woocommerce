@@ -100,7 +100,7 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 				$threshold_time = isset( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold_time'] : 0;
 				if ( $threshold_time > 0 ) {
 					foreach ( $this->commissions as $index => $commission ) {
-						if ( intval( ( date( 'U' ) - get_the_date( 'U', $commission ) ) / ( 3600 * 24 ) ) < $threshold_time ) {
+						if ( intval( ( gmdate( 'U' ) - get_the_date( 'U', $commission ) ) / ( 3600 * 24 ) ) < $threshold_time ) {
 							unset( $this->commissions[ $index ] );
 						}
 					}
@@ -241,7 +241,7 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 			$gateway_charge           = 0;
 			$is_enable_gateway_charge = get_wcmp_vendor_settings( 'payment_gateway_charge', 'payment' );
 			$order_totals             = $this->mwb_vendor_wise_order_total();
-			if ( $is_enable_gateway_charge == 'Enable' ) {
+			if ( 'Enable' == $is_enable_gateway_charge ) {
 				$payment_gateway_charge_type = get_wcmp_vendor_settings( 'payment_gateway_charge_type', 'payment', '', 'percent' );
 				$gateway_charge_amount       = floatval( get_wcmp_vendor_settings( "gateway_charge_{$this->payment_gateway}", 'payment' ) );
 				$carrier                     = get_wcmp_vendor_settings( 'gateway_charges_cost_carrier', 'payment', '', 'vendor' );

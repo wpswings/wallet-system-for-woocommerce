@@ -480,7 +480,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		<h2>
 		<?php
 		esc_html_e( 'Wallet Balance: ', 'wallet-system-for-woocommerce' );
-		echo wc_price( $wallet_bal );
+		echo wp_kses_post( wc_price( $wallet_bal ) );
 		?>
 		</h2>
 		<table class="form-table">
@@ -1189,7 +1189,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			case 'withdrawal_amount':
 				$withdrawal_amount = get_post_meta( $post_id, 'mwb_wallet_withdrawal_amount', true );
 				if ( $withdrawal_amount ) {
-					echo wc_price( $withdrawal_amount );
+					echo wp_kses_post( wc_price( $withdrawal_amount ) );
 				}
 				break;
 			case 'payment_method':

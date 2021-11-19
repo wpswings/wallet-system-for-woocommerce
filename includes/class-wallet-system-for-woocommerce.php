@@ -588,7 +588,7 @@ class Wallet_System_For_Woocommerce {
 		// Get CPU usage.
 		// Check to see if system is Windows, if so then use an alternative since sys_getloadavg() won't work.
 		if ( stristr( PHP_OS, 'win' ) ) {
-			$wsfw_system_status['is_windows'] = true;
+			$wsfw_system_status['is_windows']        = true;
 			$wsfw_system_status['windows_cpu_usage'] = function_exists( 'exec' ) ? @exec( 'wmic cpu get loadpercentage /all' ) : __( 'N/A (make sure exec is enabled)', 'wallet-system-for-woocommerce' );
 		}
 
@@ -928,7 +928,7 @@ class Wallet_System_For_Woocommerce {
 										value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
 										<?php
 										// phpcs:ignore
-										echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max=' . date( 'Y-m-d', strtotime( date( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' ' . 'min=' . date( 'Y-m-d' ) . '' : '' );
+										echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max=' . gmdate( 'Y-m-d', strtotime( gmdate( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . 'min=' . gmdate( 'Y-m-d' ) . '' : '' );
 										?>
 										>
 									</label>

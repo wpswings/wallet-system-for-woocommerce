@@ -127,7 +127,7 @@ $wallet_bal = empty( $wallet_bal ) ? 0 : $wallet_bal;
 	<p>
 	<?php
 	esc_html_e( 'Current wallet balance: ', 'wallet-system-for-woocommerce' );
-	echo wc_price( $wallet_bal );
+	echo wp_kses_post( wc_price( $wallet_bal ) );
 	?>
 	</p>
 	<form method="post">

@@ -167,7 +167,7 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 						?>	
 					<tr class="partial_payment">
-						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount ) . ')'; ?></td>
+						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wp_kses_post( wc_price( $wallet_amount ) ) . ')'; ?></td>
 						<td>
 							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { ?>
 							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
@@ -203,7 +203,7 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( $mwb_has_subscription ) {
 						?>	
 					<tr class="partial_payment">
-						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount ) . ')'; ?></td>
+						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wp_kses_post( wc_price( $wallet_amount ) ) . ')'; ?></td>
 						<td>
 							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { ?>
 							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">

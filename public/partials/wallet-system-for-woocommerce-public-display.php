@@ -305,7 +305,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<p>
 		<?php
 		$wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
-		echo wc_price( $wallet_bal, array( 'currency' => $current_currency ) );
+		echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
 		?>
 		</p>
 	</div>
