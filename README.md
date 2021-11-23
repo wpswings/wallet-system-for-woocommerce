@@ -93,7 +93,7 @@ The Wallet System for WooCommerce is compatible with Multivendor Marketplace Sol
 
 [**Free Demo of Wallet System for WooCommerce**](https://demo.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-git&utm_medium=MWB-git-Page&utm_campaign=MWB-demo)
 
-== WHAT PREMIUM VERSION OF WOOCOMMERCE  WALLET SYSTEM OFFERS == 
+**WHAT PREMIUM VERSION OF WOOCOMMERCE  WALLET SYSTEM OFFERS**
 
 **1.** Merchant can limit the minimum/maximum value that customers add to their Wallet. 
 
