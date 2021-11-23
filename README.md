@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-500%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.8.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-700%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.8.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
 # Wallet System for WooCommerce
 ![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png)
 * Contributors: MakeWebBetter
