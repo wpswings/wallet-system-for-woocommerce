@@ -76,8 +76,8 @@ $user = get_user_by( 'id', $user_id );
 							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
 							<td><?php echo esc_html( $transaction->id ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
-							<td><?php echo $transaction->payment_method; ?></td>
-							<td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
+							<td><?php echo $transaction->payment_method; // phpcs:ignore ?></td>
+							<td><?php echo html_entity_decode( $transaction->transaction_type ); // phpcs:ignore ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );

@@ -84,8 +84,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<td><?php echo esc_html( $useremail ); ?></td>
 							<td><?php echo esc_html( $user_role ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
-							<td><?php echo $transaction->payment_method; ?></td>
-							<td><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
+							<td><?php echo $transaction->payment_method; // phpcs:ignore ?></td>
+							<td><?php echo html_entity_decode( $transaction->transaction_type ); // phpcs:ignore ?></td>
 							<td><?php echo esc_html( $transaction->id ); ?></td>
 							<td>
 							<?php

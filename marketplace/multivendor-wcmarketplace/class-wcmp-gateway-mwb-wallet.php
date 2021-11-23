@@ -87,7 +87,7 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 		 * @return boolean
 		 */
 		public function validate_request() {
-			global $WCMp;
+			global $WCMp; // phpcs:ignore
 			if ( $this->enabled != 'Enable' ) {
 				$this->message[] = array(
 					'message' => __( 'Invalid payment method', 'wallet-system-for-woocommerce' ),
@@ -95,9 +95,10 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 				);
 				return false;
 			}
+			// phpcs:ignore
 			if ( $this->transaction_mode != 'admin' ) {
 				/* handle thesold time */
-				$threshold_time = isset( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold_time'] : 0;
+				$threshold_time = isset( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold_time'] : 0; // phpcs:ignore
 				if ( $threshold_time > 0 ) {
 					foreach ( $this->commissions as $index => $commission ) {
 						if ( intval( ( gmdate( 'U' ) - get_the_date( 'U', $commission ) ) / ( 3600 * 24 ) ) < $threshold_time ) {
@@ -106,12 +107,12 @@ if ( ! class_exists( 'WCMp_Gateway_Mwb_Wallet' ) && class_exists( 'WCMp_Payment_
 					}
 				}
 				/* handle thesold amount */
-				$thesold_amount = isset( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold'] : 0;
+				$thesold_amount = isset( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold'] : 0; // phpcs:ignore
 				if ( $this->mwb_get_transaction_total() > $thesold_amount ) {
 					return true;
 				} else {
 					$this->message[] = array(
-						'message' => __( 'Minimum threshold amount for commission withdrawal is ' . $thesold_amount, 'wallet-system-for-woocommerce' ),
+						'message' => __( 'Minimum threshold amount for commission withdrawal is ' . $thesold_amount, 'wallet-system-for-woocommerce' ), // phpcs:ignore
 						'type'    => 'error',
 					);
 					return false;

@@ -260,8 +260,8 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 				}
 				update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
-				$http_host   = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '';
-				$request_url = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
+				$http_host   = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : ''; // phpcs:ignore
+				$request_url = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : ''; // phpcs:ignore
 				$current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
 				wp_safe_redirect( $current_url );
 				exit();

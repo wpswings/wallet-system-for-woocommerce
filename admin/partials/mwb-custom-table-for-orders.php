@@ -23,6 +23,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' !== $_REQUEST['bulk_action
 	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
 		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
+			// phpcs:ignore
 			_n(
 				'%d order status changed.',
 				'%d orders status changed.',
@@ -37,6 +38,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' === $_REQUEST['bulk_action
 	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
 		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
+			// phpcs:ignore
 			_n(
 				'%d order moved to trash.',
 				'%d orders moved to trash.',
@@ -51,6 +53,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'untrash' === $_REQUEST['bulk_acti
 	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
 		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
+			// phpcs:ignore
 			_n(
 				'%d order restored from the Trash.',
 				'%d orders restored from the Trash.',
@@ -65,6 +68,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
 		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
+			// phpcs:ignore
 			_n(
 				'%d order permanently deleted.',
 				'%d orders permanently deleted.',

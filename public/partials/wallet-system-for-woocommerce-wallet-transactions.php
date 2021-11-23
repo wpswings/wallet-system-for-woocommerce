@@ -43,7 +43,7 @@ $allowed_html = array(
 							<td><?php echo esc_html( $i ); ?></td>
 							<td><?php echo esc_html( $transaction_id ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
-							<td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); ?></td>
+							<td class="details" ><?php echo html_entity_decode( $transaction->transaction_type ); // phpcs:ignore ?></td>
 							<td>
 							<?php
 							$payment_methods = WC()->payment_gateways->payment_gateways();

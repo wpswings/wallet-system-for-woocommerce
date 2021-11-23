@@ -324,14 +324,14 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 								} else {
 									$class = '';
 								}
-								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>'; // phpcs:ignore
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>'; // phpcs:ignore
 							}
 						}
 						?>
