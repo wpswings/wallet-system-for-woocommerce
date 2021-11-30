@@ -112,7 +112,7 @@ global $wsfw_mwb_wsfw_obj;
 									}
 									?>
 								</td>
-								<td><?php echo wc_price( $withdrawal_amount ); ?></td>
+								<td><?php echo wp_kses_post( wc_price( $withdrawal_amount ) ); ?></td>
 								<td>
 								<?php
 								$date_format = get_option( 'date_format', 'm/d/Y' );

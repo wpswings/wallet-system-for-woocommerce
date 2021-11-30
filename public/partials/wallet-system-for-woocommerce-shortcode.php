@@ -114,13 +114,13 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 		if ( $returnid ) {
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 			$send_email_enable      = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
-			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-				// first user.
-				$user1 = get_user_by( 'id', $another_user_id );
-				$name1 = $user1->first_name . ' ' . $user1->last_name;
+			// first user.
+			$user1 = get_user_by( 'id', $another_user_id );
+			$name1 = $user1->first_name . ' ' . $user1->last_name;
 
-				$user2 = get_user_by( 'id', $user_id );
-				$name2 = $user2->first_name . ' ' . $user2->last_name;
+			$user2 = get_user_by( 'id', $user_id );
+			$name2 = $user2->first_name . ' ' . $user2->last_name;
+			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 
 				$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 				$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
@@ -136,7 +136,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 			}
 
-			$transaction_type     = 'Wallet credited by user #' . $user_id . ' to user #' . $another_user_id;
+			$transaction_type     = __( 'Wallet credited by user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 			$wallet_transfer_data = array(
 				'user_id'          => $another_user_id,
 				'amount'           => $transfer_amount,
@@ -165,7 +165,7 @@ if ( isset( $_POST['mwb_proceed_transfer'] ) && ! empty( $_POST['mwb_proceed_tra
 
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
 				}
-				$transaction_type = 'Wallet debited from user #' . $user_id . ' wallet, transferred to user #' . $another_user_id;
+				$transaction_type = __( 'Wallet debited from user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' wallet, transferred to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $transfer_amount,
@@ -315,7 +315,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 		<p>
 		<?php
 		$wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
-		echo wc_price( $wallet_bal, array( 'currency' => $current_currency ) );
+		echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
 		?>
 		</p>
 	</div>
@@ -333,14 +333,14 @@ $wallet_keys = array_keys( $wallet_tabs );
 								} else {
 									$class = '';
 								}
-								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>'; // phpcs:ignore
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . $wallet_tab['icon'] . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>'; // phpcs:ignore
 							}
 						}
 						?>

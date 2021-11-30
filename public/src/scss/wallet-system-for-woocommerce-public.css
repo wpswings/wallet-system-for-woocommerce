@@ -11,6 +11,9 @@ a:focus, button:focus, .button.alt:focus, input:focus, textarea:focus, input[typ
 	padding: 5px;
 }
 
+#mwb_wallet_show_total_msg{
+	display: none;
+}
 .mwb_wcb_wallet_balance_container {
 	background: #242424;
 	padding: 10px;

@@ -2,12 +2,12 @@
 Contributors: MakeWebBetter
 Donate link: https://makewebbetter.com/
 Tags: digital wallet, credit, refund, user wallet, woocommerce wallet, wallet
-Requires at least: 4.6
-Tested up to: 5.8.1
-WC requires at least: 3.0.0
-WC tested up to: 5.8.0
-Stable tag: 2.1.1
-Requires PHP: 5.6
+Requires at least: 5.1.0
+Tested up to: 5.8.2
+WC requires at least: 4.6
+WC tested up to: 5.9.0
+Stable tag: 2.1.2
+Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -65,6 +65,12 @@ Wallet System for WooCommerce increases the ease and security of the payment pro
 
 **18.** Use the shortcode [mwb-wallet] to display the user wallet on any page. 
 
+**19.** Compatibility with Multivendor Marketplace Solution for WooCommerce
+
+**20.** Pay total or partial Wallet amount to buy products. 
+
+**21.** The email ids of both the debtor and creditor are shown in the transactions table to customers.
+
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
 
@@ -90,8 +96,14 @@ The customers’ wallet transactions history contains entries for wallet recharg
 **6. Wallet Amount Transfer**
 The customers can transfer their wallet amount into other customers’ wallets. It will help the merchants to increase the user interaction on their WooCommerce store and result in an increase in the wallet user base. 
 
-**7. Compatibility with Subscriptions for Woocommerce**
-The WooCommerce Wallet is compatible with Subscriptions for WooCommerce plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
+**7. Compatibility with Subscriptions for WooCommerce**
+The WooCommerce Wallet is compatible with [Subscriptions for WooCommerce](https://wordpress.org/plugins/subscriptions-for-woocommerce/) plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
+
+**8.  Compatibility with Multivendor Marketplace Solution for WooCommerce**
+The Wallet System for WooCommerce is compatible with Multivendor Marketplace Solution for WooCommerce plugin. You will be able to select wallet as a payment method for your vendors to receive the sales commission. 
+
+**9. Select Partial Payment Option**
+Costumers can use their WooCommerce wallet balance to pay for products in two different ways: Total Wallet Amount and Manual Wallet Amount. They can use the whole wallet balance while making a purchase. Or manually select to pay a partial payment of their choice. 
 
 [**Free Demo of Wallet System for WooCommerce**](https://demo.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-demo)
 
@@ -120,6 +132,11 @@ The WooCommerce Wallet is compatible with Subscriptions for WooCommerce plugin. 
 
 If you need support or have any questions then kindly use our online chat window [here](https://makewebbetter.com/?utm_source=MWB-wallet-org&utm_medium=MWB-org-page&utm_campaign=MWB-wallet-org) or  connect with us then [**Generate a Ticket**](https://makewebbetter.com/submit-query/)
 
+If our documentation doesn’t contain the solution to your problem, you can visit the [MakeWebBetter Forums](https://forums.makewebbetter.com/?utm_source=MWB-wallet-org&utm_medium=MWB-org-page&utm_campaign=MWB-wallet-org) with your question.
+
+== CONTRIBUTE AND TRANSLATE ==
+
+Wallet System For WooCommerce is translated into multiple languages Dutch, Russian, Spanish and many more. Help localize Wallet System For WooCommerce even further by adding your locale Language. [**Click Here**](https://translate.wordpress.org/projects/wp-plugins/wallet-system-for-woocommerce/)
 
 == Installation ==
 
@@ -192,10 +209,24 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 11. Wallet withdrawal request
 12. Wallet transaction history check
 13. WPML Compatible
+14. How and when to pay
+15. WCMp Payment Setting
+16. Store Setting
 
 == Changelog ==
 
-= 2.1.0 - RELEASED ON 22 September 2021 =
+= 2.1.2 - RELEASED ON 29 November 2021 =
+
+* New: Partial Payment Option
+* New: Updated all transaction table
+* Fix: Minor Fixes.
+
+= 2.1.1 - RELEASED ON 2 November 2021 =
+
+* New: Supports Multivendor Marketplace Solution for WooCommerce
+* Fix: Minor Fixes.
+
+= 2.1.0 - RELEASED ON 23 September 2021 =
 
 * New: Shortcode mwb-wallet which will display user wallet on a page
 * New: Support WordPress Multisite Network
@@ -204,12 +235,12 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 = 2.0.4 - RELEASED ON 2 August 2021 =
 
-* FIX: the warning coming when adding wallet recharge to cart.
-* NEW: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/) plugin regarding debiting the wallet amount.
+* Fix: the warning comes when adding wallet recharge to cart.
+* New: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/) plugin regarding debiting the wallet amount.
 
 = 2.0.3 - RELEASED ON 22 June 2021 =
 
-* FIX: Minor Fixes.
+* Fix: Minor Fixes.
 
 = 2.0.2 - RELEASED ON 15 June 2021 =
 
@@ -218,7 +249,7 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 = 2.0.1 - RELEASED ON 27 May 2021 =
 
-* FIX: Minor Bug and Issues Fixes.
+* Fix: Minor Bug and Issues Fixes.
 
 = 2.0.0 - RELEASED ON 20 May 2021 =
 
@@ -230,7 +261,7 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 * New: Merchant can allow refund of orders to the wallet.
 * New: Customers can file a request to withdraw the amount from their wallets and transfer it into their bank accounts or other payment apps. 
 * New: Have REST API to access and manage wallets
-* FIX: Minor Bug and Issues Fixes.
+* Fix: Minor Bug and Issues Fixes.
 
 = 1.0.0 =
 
@@ -238,9 +269,8 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 == Upgrade Notice ==
 
-= 2.1.0 - RELEASED ON 22 September 2021 =
+= 2.1.2 - RELEASED ON 29 November 2021 =
 
-* New: Shortcode mwb-wallet which will display user wallet on a page
-* New: Support WordPress Multisite Network
-* New: Compatible with our [Subscriptions For WooCommerce plugin](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
-* New: Compatible with WPML plugin
+* New: Partial Payment Option
+* New: Updated all transaction table
+* Fix: Minor Fixes.

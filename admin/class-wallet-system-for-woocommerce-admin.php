@@ -261,6 +261,20 @@ class Wallet_System_For_Woocommerce_Admin {
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
 			),
+			array(
+				'title'       => __( 'Select Partial Payment Option', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'name'        => 'wsfw_wallet_partial_payment_method_options',
+				'description' => __( 'This is select field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wsfw_wallet_partial_payment_method_options',
+				'value'       => get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' ),
+				'class'       => 'wsfw-select-class',
+				'options'     => array(
+					''    => __( 'Select option', 'wallet-system-for-woocommerce' ),
+					'total_pay'   => __( 'Total Wallet Amount', 'wallet-system-for-woocommerce' ),
+					'manual_pay'  => __( 'Manual Wallet Amount', 'wallet-system-for-woocommerce' ),
+				),
+			),
 		);
 		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
 		$wsfw_settings_general[] = array(
@@ -466,7 +480,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		<h2>
 		<?php
 		esc_html_e( 'Wallet Balance: ', 'wallet-system-for-woocommerce' );
-		echo wc_price( $wallet_bal );
+		echo wp_kses_post( wc_price( $wallet_bal ) );
 		?>
 		</h2>
 		<table class="form-table">
@@ -1046,7 +1060,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'label'                     => _x( 'Approved', 'wallet-system-for-woocommerce' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
-				'label_count'               => _n_noop( 'Approved <span class="count">(%s)</span>', 'Approved <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Approved <span class="count">(%s)</span>', 'Approved <span class="count">(%s)</span>' ), // phpcs:ignore
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 			)
@@ -1058,7 +1072,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'label'                     => _x( 'Rejected', 'wallet-system-for-woocommerce' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
-				'label_count'               => _n_noop( 'Rejected <span class="count">(%s)</span>', 'Rejected <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Rejected <span class="count">(%s)</span>', 'Rejected <span class="count">(%s)</span>' ), // phpcs:ignore
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 			)
@@ -1068,7 +1082,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'label'                     => _x( 'Pending', 'wallet-system-for-woocommerce' ),
 				'public'                    => true,
-				'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ), // phpcs:ignore
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 			)
@@ -1175,7 +1189,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			case 'withdrawal_amount':
 				$withdrawal_amount = get_post_meta( $post_id, 'mwb_wallet_withdrawal_amount', true );
 				if ( $withdrawal_amount ) {
-					echo wc_price( $withdrawal_amount );
+					echo wp_kses_post( wc_price( $withdrawal_amount ) );
 				}
 				break;
 			case 'payment_method':

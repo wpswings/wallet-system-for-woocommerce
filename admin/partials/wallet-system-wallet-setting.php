@@ -389,7 +389,7 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 							<td><?php echo esc_html( $user->display_name ); ?></td>
 							<td><?php echo esc_html( $user->user_email ); ?></td>
 							<td><?php echo esc_html( $user->roles[0] ); ?></td>
-							<td><?php echo wc_price( $wallet_bal ); ?></td>
+							<td><?php echo wp_kses_post( wc_price( $wallet_bal ) ); ?></td>
 							<td>
 								<span>
 									<a class="edit_wallet" data-userid="<?php echo esc_attr( $user->ID ); ?>" href="" title="Edit Wallet" >

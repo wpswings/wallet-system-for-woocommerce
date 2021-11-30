@@ -34,6 +34,7 @@
 			$( 'body' )
 			.on( 'updated_checkout', function() {
 
+				// Manually partial payment.
 				$( '#partial_payment_wallet' ).on( 'click', function() {
 					if ( $('#partial_payment_wallet:checked').val() == 'enable' ) {
 						if ($('.partial_amount').length === 0) {
@@ -44,17 +45,76 @@
 						$( '.woocommerce-checkout-review-order-table .fee' ).remove();
 						
 						$(document.body).trigger('update_checkout');
-
 					}
 					
 				});
 
-			});
+				// Totally partial payment.
+				$( '#partial_total_payment_wallet' ).on('click', function(){
+					if ( $('#partial_total_payment_wallet:checked').val() == 'total_enable' ) {
+						$('#mwb_wallet_show_total_msg').show();
 
+						var wallet_amount = $( '#partial_total_payment_wallet' ).data('walletamount');
+						var amount        = $( '#wallet_amount' ).val();
+						var checked       = $( '#partial_total_payment_wallet' ).is(':checked');
+						$.ajax({
+							type: 'POST',
+							url: wsfw_public_param.ajaxurl,
+							data: {
+								action: 'calculate_amount_total_after_wallet',
+								nonce: wsfw_public_param.nonce, 
+								wallet_amount: wallet_amount,
+								amount: amount,
+								checked: checked,
+
+							},
+							dataType: 'JSON',
+							success: function( response ) {
+								if ( response.status == true ) {
+									$('#mwb_wallet_show_total_msg').css('color', 'green');
+									$( '#mwb_wallet_show_total_msg' ).html(response.message);
+									setTimeout(function(){
+										$(document.body).trigger('update_checkout');
+									 }, 1000);
+								} else {
+									$('#mwb_wallet_show_total_msg').css('color', 'red');
+									$( '#mwb_wallet_show_total_msg' ).html(response.message);
+									$( '.woocommerce-checkout-review-order-table .order-total' ).siblings('.fee').remove();
+									$.ajax({
+										type: 'POST',
+										url: wsfw_public_param.ajaxurl,
+										data: {
+											action: 'unset_wallet_session',
+						
+										},
+										success: function( response ) {
+											$('#mwb_wallet_show_total_msg').css('color', 'red');
+											$('#mwb_wallet_show_total_msg').html(wsfw_public_param.wsfw_unset_amount);
+											setTimeout(function(){
+												$(document.body).trigger('update_checkout');
+											 }, 1000);
+										}
+						
+									}) .fail(function ( response ) {
+										$( '#mwb_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+									});
+								}
+							}
+
+						})
+						.fail(function ( response ) {
+							$( '#mwb_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+						});
+
+					}
+				});
+
+			});
 			
 		});
 		
-		$(document).on( 'click','#partial_payment_wallet', function(){ 
+		// Unset manually amount in partial payment.
+		$(document).on( 'click','#partial_payment_wallet', function(){
 			var checked = $( '#partial_payment_wallet' ).is(':checked');
 			if ( ! checked ) {
 				$.ajax({
@@ -71,6 +131,36 @@
 	
 				}) .fail(function ( response ) {
 					$( '.ajax_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+				});
+			}
+			
+		});
+
+		// Unset totally amount in partial payment.
+		$(document).on( 'click','#partial_total_payment_wallet', function(){
+			var checked = $( '#partial_total_payment_wallet' ).is(':checked');
+			if ( ! checked ) {
+				$.ajax({
+					type: 'POST',
+					url: wsfw_public_param.ajaxurl,
+					data: {
+						action: 'unset_wallet_session',
+						checked: checked,
+	
+					},
+					success: function( response ) {
+						$('#mwb_wallet_show_total_msg').show();
+						$('#mwb_wallet_show_total_msg').css('color', 'red');
+						$('#mwb_wallet_show_total_msg').html(wsfw_public_param.wsfw_unset_amount);
+						setTimeout(function(){
+							$(document.body).trigger('update_checkout');
+						 }, 1000);
+					}
+	
+				}) .fail(function ( response ) {
+					$('#mwb_wallet_show_total_msg').show();
+					$('#mwb_wallet_show_total_msg').css('color', 'red');
+					$( '#mwb_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
 				});
 			}
 			

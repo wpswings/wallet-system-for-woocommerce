@@ -59,7 +59,7 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 							echo '<tr>
 							<td>' . esc_html( $i ) . '</td>
                             <td>' . esc_html( $request_id ) . '</td>
-                            <td>' . wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) . '</td>
+                            <td>' . wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) . '</td>
                             <td>' . esc_html( $withdrawal_status ) . '</td>
                             <td>' . esc_html( get_post_meta( $request_id, 'mwb_wallet_note', true ) ) . '</td>
                             <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
@@ -87,7 +87,7 @@ $wallet_bal = apply_filters( 'mwb_wsfw_show_converted_price', $wallet_bal );
 				<?php
 				$show_withdrawal_message = apply_filters( 'mwb_wsfw_show_withdrawal_message', '' );
 				if ( ! empty( $show_withdrawal_message ) ) {
-					echo '<span class="show-message" >' . $show_withdrawal_message . '</span>';
+					echo '<span class="show-message" >' . wp_kses_post( $show_withdrawal_message ) . '</span>';
 				}
 				?>
 			</p>

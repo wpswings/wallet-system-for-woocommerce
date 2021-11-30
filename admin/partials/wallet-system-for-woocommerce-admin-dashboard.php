@@ -21,6 +21,7 @@ $wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_text_field( wp_unslas
 $wsfw_default_tabs = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_default_tabs();
 $show_additional_section = apply_filters( 'mwb_wsfw_show_additional_section', '' );
 $wallet_payment_enable = get_option( 'woocommerce_mwb_wcb_wallet_payment_gateway_settings' );
+// phpcs:ignore
 if ( ! $wallet_payment_enable || $wallet_payment_enable['enabled'] == 'no' ) {
 	?>
 	<div class="mwb-header-container mwb-bg-white mwb-r-8">
