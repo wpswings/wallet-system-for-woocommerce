@@ -1,5 +1,5 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-700%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.8.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
-# Wallet System for WooCommerce
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-700%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.9.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
+# Wallet System for WooCommerce - Create an In-store Digital Wallet, Recharge User Wallets & View Transition History
 ![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png)
 * Contributors: MakeWebBetter
 * Author URI: [https://makewebbetter.com/](https://makewebbetter.com/?utm_source=MWB-wallet-git&utm_medium=MWB-git&utm_campaign=git)
@@ -60,6 +60,10 @@ Wallet System for WooCommerce increases the ease and security of the payment pro
 
 **19.** Compatibility with Multivendor Marketplace Solution for WooCommerce
 
+**20.** Pay total or partial Wallet amount to buy products. 
+
+**21.** The email ids of both the debtor and creditor are shown in the transactions table to customers.
+
 ## PLUGIN MEETS YOUR REQUIREMENT, SO 
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
 
@@ -90,6 +94,9 @@ The WooCommerce Wallet is compatible with [Subscriptions for WooCommerce](https:
 
 **8. Compatibility with Multivendor Marketplace Solution for WooCommerce**
 The Wallet System for WooCommerce is compatible with Multivendor Marketplace Solution for WooCommerce plugin. You will be able to select wallet as a payment method to get sale commissions from your vendors. 
+
+**9. Select Partial Payment Option**
+Costumers can use their WooCommerce wallet balance to pay for products in two different ways: Total Wallet Amount and Manual Wallet Amount. They can use the whole wallet balance while making a purchase. Or manually select to pay a partial payment of their choice. 
 
 [**Free Demo of Wallet System for WooCommerce**](https://demo.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-git&utm_medium=MWB-git-Page&utm_campaign=MWB-demo)
 
