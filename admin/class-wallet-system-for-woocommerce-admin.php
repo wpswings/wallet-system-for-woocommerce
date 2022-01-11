@@ -157,7 +157,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 	}
 
-
 	/**
 	 * Wallet System for WooCommerce wsfw_admin_submenu_page.
 	 *
