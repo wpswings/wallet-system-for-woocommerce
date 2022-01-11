@@ -339,7 +339,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 					'startups'              => 'Startups',
 					'restaurant'            => 'Restaurant',
 					'fitness'               => 'Fitness',
-					'jewelry'               => 'Jewelry',
+					'jewellery'             => 'jewellery',
 					'beauty'                => 'Beauty',
 					'celebrity'             => 'Celebrity',
 					'gaming'                => 'Gaming',
@@ -777,7 +777,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	public function mwb_wsfw_valid_page_screen_check() {
 		$mwb_wsfw_screen = get_current_screen();
 		$mwb_wsfw_is_flag = false;
-		if ( isset( $mwb_wsfw_screen->id ) && 'makewebbetter_page_wallet_system_for_woocommerce_menu' == $mwb_wsfw_screen->id ) {
+		if ( isset( $mwb_wsfw_screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $mwb_wsfw_screen->id ) {
 			$mwb_wsfw_is_flag = true;
 		}
 

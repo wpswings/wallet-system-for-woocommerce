@@ -253,7 +253,8 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_admin, 'mwb_wsfw_remove_customer_details_in_emails', 5, 1 );
 		}
-
+	
+	
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_withdrawal_post_type', 20 );
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_wallet_recharge_post_type', 30 );
 

@@ -16,7 +16,7 @@
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
  * Version:           2.1.2
- * Author:            MakeWebBetter
+ * Author:            WP Swings
  * Author URI:        https://makewebbetter.com/?utm_source=MWB-wallet-backend&utm_medium=MWB-wallet-ORG-backend&utm_campaign=MWB-backend
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
@@ -126,6 +126,72 @@ if ( $activated ) {
 	 * admin-specific hooks, and public-facing site hooks.
 	 */
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce.php';
+
+	// Upgrade notice.
+add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'mwb_wsfw_upgrade_notice', 0, 3 );
+
+/**
+* Displays notice to upgrade to membership pro.
+*
+* @param string $plugin_file Path to the plugin file relative to the plugins directory.
+* @param array $plugin_data An array of plugin data.
+* @param string $status Status filter currently applied to the plugin list.
+*/
+function mwb_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
+
+?>
+
+<tr class="plugin-update-tr active notice-warning notice-alt">
+	<td colspan="4" class="plugin-update colspanchange">
+		<div class="notice notice-error inline update-message notice-alt">
+			<div class='ppec-notice-title ppec-notice-section'>
+				<p><strong>IMPORTANT NOTICE-</strong></p>
+			</div>
+			<div class='ppec-notice-content ppec-notice-section'>
+				<p>From this update[here]onwards, the plugin and its support will be handled by WP Swings. WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.</p>
+				<p>Please connect with us for all setup, support, and update related queries without hesitation.</p>
+			</div>
+			
+		</div>
+	</td>
+</tr>
+
+<?php
+
+}// Upgrade notice.
+
+add_action( 'admin_notices', 'mwb_wsfw_plugin_upgrade_notice', 20 );
+
+/**
+* Displays notice to upgrade for Wallet.
+*
+* @param string $plugin_file Path to the plugin file relative to the plugins directory.
+* @param array $plugin_data An array of plugin data.
+* @param string $status Status filter currently applied to the plugin list.
+*/
+function mwb_wsfw_plugin_upgrade_notice() {
+	$screen = get_current_screen();
+	if (isset($screen->id) && 'wp-swings_page_wallet_system_for_woocommerce_menu' === $screen->id ) {
+		?>
+		
+		<tr class="plugin-update-tr active notice-warning notice-alt">
+			<td colspan="4" class="plugin-update colspanchange">
+				<div class="notice notice-error inline update-message notice-alt">
+					<div class='ppec-notice-title ppec-notice-section'>
+						<p><strong>IMPORTANT NOTICE-</strong></p>
+					</div>
+					<div class='ppec-notice-content ppec-notice-section'>
+						<p>From this update[here]onwards, the plugin and its support will be handled by WP Swings. WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.</p>
+						<p>Please connect with us for all setup, support, and update related queries without hesitation.</p>
+					</div>
+				</div>
+			</td>
+		</tr>
+		
+		<?php
+		}
+	}
+
 
 	/**
 	 * Creating table whenever a new blog is created

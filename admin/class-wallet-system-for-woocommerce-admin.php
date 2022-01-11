@@ -61,7 +61,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'makewebbetter_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
 
 			wp_enqueue_style( 'mwb-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
 
@@ -90,7 +90,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$screen = get_current_screen();
 
-		if ( isset( $screen->id ) && 'makewebbetter_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
 			wp_enqueue_script( 'mwb-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'mwb-wsfw-metarial-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -130,7 +130,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_options_page() {
 		global $submenu;
 		if ( empty( $GLOBALS['admin_page_hooks']['mwb-plugins'] ) ) {
-			add_menu_page( 'MakeWebBetter', 'MakeWebBetter', 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/images/MWB_Grey-01.svg', 15 );
+			add_menu_page( 'WP Swings', 'WP Swings', 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/images/MWB_Grey-01.svg', 15 );
 			$wsfw_menus = apply_filters( 'mwb_add_plugins_menus_array', array() );
 			if ( is_array( $wsfw_menus ) && ! empty( $wsfw_menus ) ) {
 				foreach ( $wsfw_menus as $wsfw_key => $wsfw_value ) {
@@ -1336,6 +1336,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function custom_code_in_head() {
+
 		$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
 		// custom css for accessing outside the plugin.
 		echo '<style type="text/css">
