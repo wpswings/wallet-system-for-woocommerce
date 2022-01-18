@@ -17,7 +17,7 @@
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
  * Version:           2.1.2
  * Author:            WP Swings
- * Author URI:        https://makewebbetter.com/?utm_source=MWB-wallet-backend&utm_medium=MWB-wallet-ORG-backend&utm_campaign=MWB-backend
+ * Author URI:        https://wpswings.com/?utm_source=MWB-wallet-backend&utm_medium=MWB-wallet-ORG-backend&utm_campaign=MWB-backend
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
@@ -200,7 +200,6 @@ function mwb_wsfw_plugin_upgrade_notice() {
 		}
 	}
 
-
 	/**
 	 * Creating table whenever a new blog is created
 	 *
@@ -252,7 +251,6 @@ function mwb_wsfw_plugin_upgrade_notice() {
 
 	}
 	run_wallet_system_for_woocommerce();
-
 
 	// Add settings link on plugin page.
 	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wallet_system_for_woocommerce_settings_link' );

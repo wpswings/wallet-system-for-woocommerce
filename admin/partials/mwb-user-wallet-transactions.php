@@ -40,7 +40,6 @@ $user = get_user_by( 'id', $user_id );
 			</tbody>
 		</table>
 
-
 </div>
 
 <div class="mwb-wpg-gen-section-table-wrap mwb-wpg-transcation-section-table">
