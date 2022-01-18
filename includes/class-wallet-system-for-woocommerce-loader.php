@@ -18,7 +18,7 @@
  *
  * @package    Wallet_System_For_Woocommerce
  * @subpackage Wallet_System_For_Woocommerce/includes
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Wallet_System_For_Woocommerce_Loader {
 

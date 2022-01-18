@@ -14,7 +14,7 @@
  *
  * @package     wallet_system_for_woocommerce
  * @subpackage  wallet_system_for_woocommerce/includes
- * @author      makewebbetter <webmaster@makewebbetter.com>
+ * @author      WP Swings <webmaster@wpswings.com>
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

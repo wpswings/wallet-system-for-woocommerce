@@ -15,7 +15,7 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
- * Version:           2.1.2
+ * Version:           2.1.3
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=MWB-wallet-backend&utm_medium=MWB-wallet-ORG-backend&utm_campaign=MWB-backend
  * Text Domain:       wallet-system-for-woocommerce
@@ -51,10 +51,10 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.1.2' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.1.3' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://makewebbetter.com' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_ITEM_REFERENCE', 'Wallet System for WooCommerce' );
 	}
 
@@ -147,7 +147,7 @@ function mwb_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 				<p><strong>IMPORTANT NOTICE:</strong></p>
 			</div>
 			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update [here] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 				Please connect with us for all setup, support, and update related queries without hesitation.</p>
 			</div>
 		</div>
@@ -184,7 +184,7 @@ function mwb_wsfw_plugin_upgrade_notice() {
 				<p><strong>IMPORTANT NOTICE:</strong></p>
 			</div>
 			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update [here] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 				Please connect with us for all setup, support, and update related queries without hesitation.</p>
 			</div>
 		</div>
