@@ -17,7 +17,7 @@
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
  * Version:           2.1.3
  * Author:            WP Swings
- * Author URI:        https://wpswings.com/?utm_source=MWB-wallet-backend&utm_medium=MWB-wallet-ORG-backend&utm_campaign=MWB-backend
+ * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-pro-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
@@ -278,9 +278,9 @@ function mwb_wsfw_plugin_upgrade_notice() {
 	 */
 	function wallet_system_for_woocommerce_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 		if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-			$links_array[] = '<a href="https://demo.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org-backend&utm_medium=MWB-demoORG-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="mwb-info-img" alt="Demo image">' . __( 'Demo', 'wallet-system-for-woocommerce' ) . '</a>';
-			$links_array[] = '<a href="https://docs.makewebbetter.com/wallet-system-for-woocommerce/?utm_source=MWB-wallet-org-backend&utm_medium=MWB-docORG-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="mwb-info-img" alt="documentation image">' . __( 'Documentation', 'wallet-system-for-woocommerce' ) . '</a>';
-			$links_array[] = '<a href="https://makewebbetter.com/submit-query/" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="mwb-info-img" alt="support image">' . __( 'Support', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-pro-backend&utm_campaign=demo" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="mwb-info-img" alt="Demo image">' . __( 'Demo', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-pro-backend&utm_campaign=doc" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="mwb-info-img" alt="documentation image">' . __( 'Documentation', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-support&utm_medium=wallet-pro-backend&utm_campaign=support" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="mwb-info-img" alt="support image">' . __( 'Support', 'wallet-system-for-woocommerce' ) . '</a>';
 		}
 		return $links_array;
 	}
