@@ -39,7 +39,7 @@ if ( ! $wallet_payment_enable || $wallet_payment_enable['enabled'] == 'no' ) {
 <header>
 	<div class="mwb-header-container mwb-bg-white mwb-r-8">
 		<h1 class="mwb-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $wsfw_mwb_wsfw_obj->wsfw_get_plugin_name() ) ) ); ?></h1>
-		<a href="https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-pro-backend&utm_campaign=doc" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
+		<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
 		<span>|</span>
 		<a href="https://wpswings.com/contact-us/" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
 	</div>
