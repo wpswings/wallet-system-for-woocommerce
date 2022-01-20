@@ -49,7 +49,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Portal id.
 	 */
-	private static $mwb_wsfw_portal_id = '6493626';
+	private static $mwb_wsfw_portal_id = '25444144';
 
 	/**
 	 * Form id of hubspot api for wallet-system-for-woocommerce.
@@ -57,7 +57,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Form id.
 	 */
-	private static $mwb_wsfw_onboarding_form_id = 'd94dcb10-c9c1-4155-a9ad-35354f2c3b52';
+	private static $mwb_wsfw_onboarding_form_id = '2a2fe23c-0024-43f5-9473-cbfefdb06fe2';
 
 	/**
 	 * Form id of hubspot api for wallet-system-for-woocommerce.
@@ -65,7 +65,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Form id.
 	 */
-	private static $mwb_wsfw_deactivation_form_id = '329ffc7a-0e8c-4e11-8b41-960815c31f8d';
+	private static $mwb_wsfw_deactivation_form_id = '67feecaa-9a93-4fda-8f85-f73168da2672';
 
 	/**
 	 * Define some variables for wallet-system-for-woocommerce.
