@@ -25,7 +25,14 @@ The application of the Wallet System for WooCommerce will improve the overall us
 
 The Wallet System for WooCommerce increases the ease and security of the payment process. It benefits both customers and the merchant. 
 
-[youtube Wallet System For WooCommerce: Credit, Debit and Refund System for Free
+>**IMPORTANT NOTICE:**
+
+>_**From this update Version 2.1.3 onwards, the Wallet System for WooCommerce and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-org-page&utm_campaign=official).**_
+
+>_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us) for all setup, support, and update related queries without hesitation.**_
+
+
+[https://www.youtube.com/watch?v=pyAxFDBcLDA]
 
 == WHAT’S INCLUDED IN OUR FREE WALLET SYSTEM FOR WOOCOMMERCE PLUGIN ==
 
@@ -105,6 +112,7 @@ The Wallet System for WooCommerce is compatible with the Multi-Vendor Marketplac
 Customers can use their WooCommerce wallet balance to pay for products in two different ways: Total Wallet Amount and Manual Wallet Amount. They can use the whole wallet balance while making a purchase. Or manually select to pay a partial payment of their choice. 
 
 [**Free Demo of Wallet System for WooCommerce**](https://demo.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-page&utm_campaign=free-demo-wallet)
+[**WP Swings Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-kb&utm_medium=wallet-org-page&utm_campaign=wallet-kb)
 
 == WHAT PREMIUM VERSION OF WOOCOMMERCE  WALLET SYSTEM OFFERS == 
 
@@ -120,7 +128,7 @@ Customers can use their WooCommerce wallet balance to pay for products in two di
 
 **6.**  Supports the Elementor page builder.
 
-*Make a smart move with Premium Version of [Wallet System for WooCommerce](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-page&utm_campaign=wallet-pro)*
+*Make a smart move with Premium Version of [Wallet System for WooCommerce Pro](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-page&utm_campaign=wallet-pro)*
 
 == LIVE DEMO OF PREMIUM VERSION ==
 
@@ -217,7 +225,7 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 
 = 2.1.3 - RELEASED ON 20 January 2022 =
 
-* New: Notice display of current version for WP Swings.
+* New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official ).
 * New: Minor Bug fixes
 * New: Compatible with latest WP and WC 
 
@@ -277,7 +285,6 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 
 = 2.1.3 - RELEASED ON 20 January 2022 =
 
-* New: Notice display of current version for WP Swings.
+* New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official ).
 * New: Minor Bug fixes
 * New: Compatible with latest WP and WC 
-
