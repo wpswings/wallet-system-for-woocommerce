@@ -17,7 +17,7 @@
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
  * Version:           2.1.3
  * Author:            WP Swings
- * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend&utm_campaign=official
+ * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
