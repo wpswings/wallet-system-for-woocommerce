@@ -127,18 +127,20 @@ if ( $activated ) {
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce.php';
 
 	// Upgrade notice.
-add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'mwb_wsfw_upgrade_notice', 0, 3 );
+	add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'mwb_wsfw_upgrade_notice', 0, 3 );
 
-/**
-* Displays notice to upgrade to membership pro.
-*
-* @param string $plugin_file Path to the plugin file relative to the plugins directory.
-* @param array $plugin_data An array of plugin data.
-* @param string $status Status filter currently applied to the plugin list.
-*/
-function mwb_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 
-?>
+	/**
+	 * Undocumented function
+	 *
+	 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+	 * @param array  $plugin_data An array of plugin data.
+	 * @param string $status Status filter currently applied to the plugin list.
+	 * @return void
+	 */
+	function mwb_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
+
+		?>
 
 <tr class="plugin-update-tr active notice-warning notice-alt">
 	<td colspan="4" class="plugin-update colspanchange">
@@ -159,23 +161,22 @@ function mwb_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 	}
 </style>
 
-<?php
+		<?php
 
-}// Upgrade notice.
+	}//end mwb_wsfw_upgrade_notice()
 
-add_action( 'admin_notices', 'mwb_wsfw_plugin_upgrade_notice', 20 );
+	add_action( 'admin_notices', 'mwb_wsfw_plugin_upgrade_notice', 20 );
 
-/**
-* Displays notice to upgrade for Wallet.
-*
-* @param string $plugin_file Path to the plugin file relative to the plugins directory.
-* @param array $plugin_data An array of plugin data.
-* @param string $status Status filter currently applied to the plugin list.
-*/
-function mwb_wsfw_plugin_upgrade_notice() {
-	$screen = get_current_screen();
-	if (isset($screen->id) && 'wp-swings_page_wallet_system_for_woocommerce_menu' === $screen->id ) {
-		?>
+
+	/**
+	 * Displays notice to upgrade for Wallet.
+	 *
+	 * @return void
+	 */
+	function mwb_wsfw_plugin_upgrade_notice() {
+		$screen = get_current_screen();
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' === $screen->id ) {
+			?>
 		
 		<tr class="plugin-update-tr active notice-warning notice-alt">
 	<td colspan="4" class="plugin-update colspanchange">
@@ -196,7 +197,7 @@ function mwb_wsfw_plugin_upgrade_notice() {
 	}
 </style>
 		
-		<?php
+			<?php
 		}
 	}
 
