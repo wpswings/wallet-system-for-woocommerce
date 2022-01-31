@@ -4,7 +4,7 @@
  *
  * This file is used to create rest api for viewing and managing wallet
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Wallet_System_For_Woocommerce
