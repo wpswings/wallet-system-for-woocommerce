@@ -370,7 +370,6 @@ class Wallet_System_For_Woocommerce_Public {
 						'transaction_type' => htmlentities( $transaction_type ),
 						'order_id'         => $order_id,
 						'note'             => '',
-
 					);
 
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );

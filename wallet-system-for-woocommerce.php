@@ -279,7 +279,7 @@ if ( $activated ) {
 	 */
 	function wallet_system_for_woocommerce_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 		if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-			$links_array[] = '<a href="https://demo.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-backend&utm_campaign=wallet-demo" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="mwb-info-img" alt="Demo image">' . __( 'Demo', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-backend&utm_campaign=wallet-demo" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="mwb-info-img" alt="Demo image">' . __( 'Demo', 'wallet-system-for-woocommerce' ) . '</a>';
 			$links_array[] = '<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="mwb-info-img" alt="documentation image">' . __( 'Documentation', 'wallet-system-for-woocommerce' ) . '</a>';
 			$links_array[] = '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-wallet-query&utm_medium=wallet-org-backend&utm_campaign=submit-query" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="mwb-info-img" alt="support image">' . __( 'Support', 'wallet-system-for-woocommerce' ) . '</a>';
 		}
