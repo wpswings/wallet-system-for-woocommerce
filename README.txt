@@ -111,7 +111,7 @@ The Wallet System for WooCommerce is compatible with the Multi-Vendor Marketplac
 **9. Select Partial Payment Option**
 Customers can use their WooCommerce wallet balance to pay for products in two different ways: Total Wallet Amount and Manual Wallet Amount. They can use the whole wallet balance while making a purchase. Or manually select to pay a partial payment of their choice. 
 
-[**Free Demo of Wallet System for WooCommerce**](https://demo.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-page&utm_campaign=free-demo-wallet)
+[**Free Demo of Wallet System for WooCommerce**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-page&utm_campaign=free-demo-wallet)
 [**WP Swings Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-kb&utm_medium=wallet-org-page&utm_campaign=wallet-kb)
 
 == WHAT PREMIUM VERSION OF WOOCOMMERCE  WALLET SYSTEM OFFERS == 
