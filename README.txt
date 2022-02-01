@@ -3,9 +3,9 @@ Contributors: WP Swings
 Donate link: https://wpswings.com/
 Tags: digital wallet, credit, refund, user wallet, woocommerce wallet, wallet
 Requires at least: 5.1.0
-Tested up to: 5.8.3
+Tested up to: 5.9
 WC requires at least: 4.6
-WC tested up to: 6.1.0
+WC tested up to: 6.1.1
 Stable tag: 2.1.3
 Requires PHP: 7.2
 License: GPLv3 or later 
@@ -223,7 +223,7 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 
 == Changelog ==
 
-= 2.1.3 - RELEASED ON 20 January 2022 =
+= 2.1.3 - RELEASED ON 2 february 2022 =
 
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official ).
 * New: Minor Bug fixes
@@ -283,7 +283,7 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 
 == Upgrade Notice ==
 
-= 2.1.3 - RELEASED ON 20 January 2022 =
+= 2.1.3 - RELEASED ON 2 February 2022 =
 
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official ).
 * New: Minor Bug fixes
