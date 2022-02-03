@@ -32,7 +32,7 @@ The Wallet System for WooCommerce increases the ease and security of the payment
 >_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us) for all setup, support, and update related queries without hesitation.**_
 
 
-[https://www.youtube.com/watch?v=pyAxFDBcLDA]
+[youtube https://www.youtube.com/watch?v=pyAxFDBcLDA]
 
 == WHAT’S INCLUDED IN OUR FREE WALLET SYSTEM FOR WOOCOMMERCE PLUGIN ==
 
@@ -76,6 +76,7 @@ The Wallet System for WooCommerce increases the ease and security of the payment
 
 **19.** The email ids of both the debtor and creditor are shown in the transactions table to customers.
 
+**20.**Compatibility with [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/) Solution for WooCommerce.
 
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
@@ -113,9 +114,9 @@ Customers can use their WooCommerce wallet balance to pay for products in two di
 
 Visit [**Wallet System for WooCommerce Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-doc) and learn more about the features and working of the plugin.
 
-Check out [**WP Swings Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-kb&utm_medium=wallet-org-page&utm_campaign=wallet-kb)
+Check out [**Wallet System For WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-kb&utm_medium=wallet-org-page&utm_campaign=wallet-kb)
 
-== LIVE DEMO OF PREMIUM VERSION ==
+== LIVE DEMO OF WALLET SYSTEM PLUGIN ==
 
 * [**WooCommerce Wallet System Frontend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-frontend-demo&utm_medium=wallet-org-page&utm_campaign=wallet-frontend-demo )
 
