@@ -2,7 +2,7 @@
 /**
  * The common functionality of the plugin.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Wallet_System_For_Woocommerce
@@ -18,7 +18,7 @@
  *
  * @package    Wallet_System_For_Woocommerce
  * @subpackage Wallet_System_For_Woocommerce/common
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Wallet_System_For_Woocommerce_Common {
 	/**
@@ -320,7 +320,7 @@ class Wallet_System_For_Woocommerce_Common {
 					$user2 = get_user_by( 'id', $user_id );
 					$name2 = $user2->first_name . ' ' . $user2->last_name;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						
+
 						$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 						$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
 						$to1         = $user1->user_email;

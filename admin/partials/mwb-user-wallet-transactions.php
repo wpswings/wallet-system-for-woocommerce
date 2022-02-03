@@ -4,7 +4,7 @@
  *
  * This file is used for showing user's wallet transactions
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Wallet_System_For_Woocommerce
@@ -39,7 +39,6 @@ $user = get_user_by( 'id', $user_id );
 				</tr>
 			</tbody>
 		</table>
-
 
 </div>
 

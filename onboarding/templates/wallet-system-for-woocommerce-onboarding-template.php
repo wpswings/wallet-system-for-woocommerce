@@ -4,7 +4,7 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       https://makewebbetter.com
+ * @link       https://wpswings.com
  * @since      1.0.0
  *
  * @package    Wallet_System_For_Woocommerce
@@ -24,7 +24,7 @@ $wsfw_onboarding_form_fields = apply_filters( 'mwb_wsfw_on_boarding_form_fields'
 						<a href="#"><span class="wsfw-close-form material-icons mwb-wsfw-close-icon mdc-dialog__button" data-mdc-dialog-action="close">clear</span></a>
 					</div>
 
-					<h3 class="mwb-wsfw-on-boarding-heading mdc-dialog__title"><?php esc_html_e( 'Welcome to MakeWebBetter', 'wallet-system-for-woocommerce' ); ?> </h3>
+					<h3 class="mwb-wsfw-on-boarding-heading mdc-dialog__title"><?php esc_html_e( 'Welcome to WP Swings', 'wallet-system-for-woocommerce' ); ?> </h3>
 					<p class="mwb-wsfw-on-boarding-desc"><?php esc_html_e( 'We love making new friends! Subscribe below and we promise to keep you up-to-date with our latest new plugins, updates, awesome deals and a few special offers.', 'wallet-system-for-woocommerce' ); ?></p>
 
 					<form action="#" method="post" class="mwb-wsfw-on-boarding-form">

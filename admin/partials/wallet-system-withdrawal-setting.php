@@ -4,7 +4,7 @@
  *
  * This file is used for showing wallet withdrawal setting
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Wallet_System_For_Woocommerce

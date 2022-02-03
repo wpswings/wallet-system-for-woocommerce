@@ -5,7 +5,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Wallet_System_For_Woocommerce
@@ -24,7 +24,7 @@
  * @since      1.0.0
  * @package    Wallet_System_For_Woocommerce
  * @subpackage Wallet_System_For_Woocommerce/includes
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Wallet_System_For_Woocommerce {
 
@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.1.2';
+			$this->version = '2.1.3';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
