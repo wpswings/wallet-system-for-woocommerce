@@ -55,7 +55,7 @@ The application of the Wallet System for WooCommerce will improve the overall us
 
 11. Compatible with [Invoice System for WooCommerce](https://wordpress.org/plugins/invoice-system-for-woocommerce/).
 
-12. Compatible with [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/wpswings-point-of-sale-pos-for-woocommerce/).
+12. Compatible with [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/).
 
 13. Compatible with [Subscriptions for WooCommerce.](https://wordpress.org/plugins/subscriptions-for-woocommerce/)
 
@@ -76,7 +76,7 @@ Check out [**Wallet System Plugin Knowledge Base**](https://support.wpswings.com
 
 * [**WooCommerce Wallet System Frontend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-frontend-demo&utm_medium=wallet-github-page&utm_campaign=wallet-frontend-demo)
 
-* [**WooCommerce Wallet System Backend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-backend-demo&utm_medium=wallet-github-page&utm_campaign=wallet-backend-demo)
+* [**WooCommerce Wallet System Backend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/get-your-personal-demo/?utm_source=wpswings-wallet-backend-demo&utm_medium=wallet-github-page&utm_campaign=wallet-backend-demo)
 
 
 
@@ -145,5 +145,7 @@ Wallet System For WooCommerce is translated into multiple languages Dutch, Russi
 - [**Tweet us on @WP Swings**](https://twitter.com/wpswings)
 - [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings)
 - [**Subscribe To Our YouTube Channel**](https://www.youtube.com/channel/UC7nYNf0JETOwW3GOD_EW2Ag)
-- [**Follow Our SlideShare**](https://www.slideshare.net/wpswings)
+
+
+
 
