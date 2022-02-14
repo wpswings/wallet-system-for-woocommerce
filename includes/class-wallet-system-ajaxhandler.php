@@ -30,7 +30,7 @@ class Wallet_System_AjaxHandler {
 	public function __construct() {
 
 		add_action( 'wp_ajax_calculate_amount_after_wallet', array( &$this, 'calculate_amount_after_wallet' ) );
-		add_action( 'wp_ajax_mwb_search_for_user', array( &$this, 'mwb_search_for_user' ) );
+		add_action( 'wp_ajax_wps_search_for_user', array( &$this, 'wps_search_for_user' ) );
 		add_action( 'wp_ajax_unset_wallet_session', array( &$this, 'unset_wallet_session' ) );
 		add_action( 'wp_ajax_calculate_amount_total_after_wallet', array( &$this, 'calculate_amount_total_after_wallet' ) );
 
@@ -120,7 +120,7 @@ class Wallet_System_AjaxHandler {
 	 *
 	 * @return void
 	 */
-	public function mwb_search_for_user() {
+	public function wps_search_for_user() {
 		$return = array();
 		$email  = ( isset( $_GET['email'] ) ) ? sanitize_text_field( wp_unslash( $_GET['email'] ) ) : '';
 		$users  = get_users( array( 'fields' => array( 'user_email', 'ID', 'user_login' ) ) );

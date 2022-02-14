@@ -59,7 +59,7 @@ The Wallet System for WooCommerce increases the ease and security of the payment
 
 **11.**Compatible with [Invoice System for WooCommerce](https://wordpress.org/plugins/invoice-system-for-woocommerce/ ).
 
-**12.**.  Compatible with [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/ ).
+**12.**.  Compatible with [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/wps-point-of-sale-pos-for-woocommerce/ ).
 
 **13.** Compatible with [Subscriptions for WooCommerce](https://wordpress.org/plugins/subscriptions-for-woocommerce/ ).
 
@@ -68,7 +68,7 @@ The Wallet System for WooCommerce increases the ease and security of the payment
 
 **15.**Supports WordPress multisite network. 
 
-**16.**Use the shortcode [mwb-wallet] to display the user wallet on any page. 
+**16.**Use the shortcode [wps-wallet] to display the user wallet on any page. 
 
 **17.**  Compatibility with Multi Vendor Marketplace Solution for WooCommerce
 
@@ -199,7 +199,7 @@ Yes, the admin can check all the transactions of their users, for this go to the
 Yes, for this please go to the *my-account page >> wallet >> click on transfer* and then from here they can transfer the amount to the other person.
 
 = Is there any shortcode for the wallet system for WooCommerce? =
-Yes, Admin can shortcode mwb-wallet for using all the functionalities of the Wallet System for WooCommerce.
+Yes, Admin can shortcode wps-wallet for using all the functionalities of the Wallet System for WooCommerce.
 
 = Does this plugin Support WordPress Multisite networks? =
 Yes, the plugin supports WordPress Multisite Network
@@ -250,7 +250,7 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 
 = 2.1.0 - RELEASED ON 23 September 2021 =
 
-* New: Shortcode mwb-wallet which will display user wallet on a page
+* New: Shortcode wps-wallet which will display user wallet on a page
 * New: Support WordPress Multisite Network
 * New: Compatible with our [Subscriptions For WooCommerce plugin](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
 * New: Compatible with WPML plugin
@@ -258,7 +258,7 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 = 2.0.4 - RELEASED ON 2 August 2021 =
 
 * Fix: the warning comes when adding wallet recharge to cart.
-* New: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/ ) plugin regarding debiting the wallet amount.
+* New: Added a function for [WooCommerce POS](https://wordpress.org/plugins/wps-point-of-sale-pos-for-woocommerce/ ) plugin regarding debiting the wallet amount.
 
 = 2.0.3 - RELEASED ON 22 June 2021 =
 

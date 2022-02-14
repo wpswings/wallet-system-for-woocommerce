@@ -18,9 +18,9 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Wcmp' ) ) {
 		 * Constructor for class.
 		 */
 		public function __construct() {
-			add_filter( 'automatic_payment_method', array( $this, 'mwb_wsfw_add_wallet_payment_method' ) );
-			add_filter( 'wcmp_vendor_payment_mode', array( $this, 'mwb_wsfw_add_vendor_payment_mode' ) );
-			add_filter( 'wcmp_payment_gateways', array( $this, 'mwb_wsfw_add_wallet_payment_gateway' ) );
+			add_filter( 'automatic_payment_method', array( $this, 'wps_wsfw_add_wallet_payment_method' ) );
+			add_filter( 'wcmp_vendor_payment_mode', array( $this, 'wps_wsfw_add_vendor_payment_mode' ) );
+			add_filter( 'wcmp_payment_gateways', array( $this, 'wps_wsfw_add_wallet_payment_gateway' ) );
 		}
 
 		/**
@@ -30,9 +30,9 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Wcmp' ) ) {
 		 * @param  array $payment_methods payment methods.
 		 * @return array
 		 */
-		public function mwb_wsfw_add_wallet_payment_method( $payment_methods ) {
+		public function wps_wsfw_add_wallet_payment_method( $payment_methods ) {
 			if ( is_array( $payment_methods ) ) {
-				$payment_methods['mwb_wallet'] = __( 'Wallet', 'wallet-system-for-woocommerce' );
+				$payment_methods['wps_wallet'] = __( 'Wallet', 'wallet-system-for-woocommerce' );
 			}
 			return $payment_methods;
 		}
@@ -44,11 +44,11 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Wcmp' ) ) {
 		 * @param  array $vendor_payment_methods vendor payment methods.
 		 * @return array
 		 */
-		public function mwb_wsfw_add_vendor_payment_mode( $vendor_payment_methods ) {
+		public function wps_wsfw_add_vendor_payment_mode( $vendor_payment_methods ) {
 			if ( is_array( $vendor_payment_methods ) ) {
 				$payment_admin_settings = get_option( 'wcmp_payment_settings_name' );
-				if ( isset( $payment_admin_settings['payment_method_mwb_wallet'] ) && 'Enable' === $payment_admin_settings['payment_method_mwb_wallet'] ) {
-					$vendor_payment_methods['mwb_wallet'] = __( 'Wallet', 'wallet-system-for-woocommerce' );
+				if ( isset( $payment_admin_settings['payment_method_wps_wallet'] ) && 'Enable' === $payment_admin_settings['payment_method_wps_wallet'] ) {
+					$vendor_payment_methods['wps_wallet'] = __( 'Wallet', 'wallet-system-for-woocommerce' );
 				}
 			}
 			return $vendor_payment_methods;
@@ -61,9 +61,9 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Wcmp' ) ) {
 		 * @param  array $load_gateways payment gateways.
 		 * @return array
 		 */
-		public function mwb_wsfw_add_wallet_payment_gateway( $load_gateways ) {
+		public function wps_wsfw_add_wallet_payment_gateway( $load_gateways ) {
 			if ( is_array( $load_gateways ) ) {
-				$load_gateways[] = 'WCMp_Gateway_Mwb_Wallet';
+				$load_gateways[] = 'WCMp_Gateway_Wps_Wallet';
 			}
 			return $load_gateways;
 		}

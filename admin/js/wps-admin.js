@@ -201,7 +201,7 @@ d.isPlainObject(c)?c:{})}});return i});
 jQuery(document).ready(function() {
 	var datatable_pagination_text = wsfw_admin_param.datatable_pagination_text;
 	var datatable_info            = wsfw_admin_param.datatable_info	;
-	jQuery('#mwb-wpg-gen-table').DataTable({
+	jQuery('#wps-wpg-gen-table').DataTable({
 
     	"dom": '<"">tr<"bottom"lip>', //extentions position
         "ordering": true, // enable ordering
@@ -218,10 +218,10 @@ jQuery(document).ready(function() {
 	});
 
 	jQuery(document).on( 'click', '#update_wallet', function() {
-		jQuery('.mwb_wallet-update--popupwrap').addClass('active');
+		jQuery('.wps_wallet-update--popupwrap').addClass('active');
 	});
 
-	var table = jQuery('#mwb-wpg-gen-table1').DataTable({
+	var table = jQuery('#wps-wpg-gen-table1').DataTable({
       	order: [],
 		dom:'<"">tr<"bottom"lip>',
 		ordering:!0,

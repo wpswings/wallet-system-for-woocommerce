@@ -74,7 +74,7 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 		private function table_data() {
 			global $wpdb;
 
-			$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+			$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 
 			$data = array();
 
@@ -84,11 +84,11 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 
 				$search = trim( $search );
 
-				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE `user_id` LIKE  %s  AND column_name_four = "value"', $search ) );
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction WHERE `user_id` LIKE  %s  AND column_name_four = "value"', $search ) );
 
 			} else {
 
-				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction' );
+				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction' );
 			}
 
 			if ( ! empty( $transactions ) && is_array( $transactions ) ) {

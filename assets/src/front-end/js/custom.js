@@ -1,7 +1,7 @@
 jQuery(document).ready(function() {
 	var datatable_pagination_text = wsfw_public_param.datatable_pagination_text;
 	var datatable_info            = wsfw_public_param.datatable_info;
-	jQuery('.mwb-wallet-field-table').DataTable({   	 	
+	jQuery('.wps-wallet-field-table').DataTable({   	 	
         "dom": '<"">tr<"bottom"lip>', //extentions position
         "ordering": true, // enable ordering
         responsive: true,

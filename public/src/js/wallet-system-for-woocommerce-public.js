@@ -52,7 +52,7 @@
 				// Totally partial payment.
 				$( '#partial_total_payment_wallet' ).on('click', function(){
 					if ( $('#partial_total_payment_wallet:checked').val() == 'total_enable' ) {
-						$('#mwb_wallet_show_total_msg').show();
+						$('#wps_wallet_show_total_msg').show();
 
 						var wallet_amount = $( '#partial_total_payment_wallet' ).data('walletamount');
 						var amount        = $( '#wallet_amount' ).val();
@@ -71,14 +71,14 @@
 							dataType: 'JSON',
 							success: function( response ) {
 								if ( response.status == true ) {
-									$('#mwb_wallet_show_total_msg').css('color', 'green');
-									$( '#mwb_wallet_show_total_msg' ).html(response.message);
+									$('#wps_wallet_show_total_msg').css('color', 'green');
+									$( '#wps_wallet_show_total_msg' ).html(response.message);
 									setTimeout(function(){
 										$(document.body).trigger('update_checkout');
 									 }, 1000);
 								} else {
-									$('#mwb_wallet_show_total_msg').css('color', 'red');
-									$( '#mwb_wallet_show_total_msg' ).html(response.message);
+									$('#wps_wallet_show_total_msg').css('color', 'red');
+									$( '#wps_wallet_show_total_msg' ).html(response.message);
 									$( '.woocommerce-checkout-review-order-table .order-total' ).siblings('.fee').remove();
 									$.ajax({
 										type: 'POST',
@@ -88,22 +88,22 @@
 						
 										},
 										success: function( response ) {
-											$('#mwb_wallet_show_total_msg').css('color', 'red');
-											$('#mwb_wallet_show_total_msg').html(wsfw_public_param.wsfw_unset_amount);
+											$('#wps_wallet_show_total_msg').css('color', 'red');
+											$('#wps_wallet_show_total_msg').html(wsfw_public_param.wsfw_unset_amount);
 											setTimeout(function(){
 												$(document.body).trigger('update_checkout');
 											 }, 1000);
 										}
 						
 									}) .fail(function ( response ) {
-										$( '#mwb_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+										$( '#wps_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
 									});
 								}
 							}
 
 						})
 						.fail(function ( response ) {
-							$( '#mwb_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+							$( '#wps_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
 						});
 
 					}
@@ -149,18 +149,18 @@
 	
 					},
 					success: function( response ) {
-						$('#mwb_wallet_show_total_msg').show();
-						$('#mwb_wallet_show_total_msg').css('color', 'red');
-						$('#mwb_wallet_show_total_msg').html(wsfw_public_param.wsfw_unset_amount);
+						$('#wps_wallet_show_total_msg').show();
+						$('#wps_wallet_show_total_msg').css('color', 'red');
+						$('#wps_wallet_show_total_msg').html(wsfw_public_param.wsfw_unset_amount);
 						setTimeout(function(){
 							$(document.body).trigger('update_checkout');
 						 }, 1000);
 					}
 	
 				}) .fail(function ( response ) {
-					$('#mwb_wallet_show_total_msg').show();
-					$('#mwb_wallet_show_total_msg').css('color', 'red');
-					$( '#mwb_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+					$('#wps_wallet_show_total_msg').show();
+					$('#wps_wallet_show_total_msg').css('color', 'red');
+					$( '#wps_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
 				});
 			}
 			
@@ -215,7 +215,7 @@
 
 	});
 
-	$(document).on( 'blur','#mwb_wallet_recharge', function(){
+	$(document).on( 'blur','#wps_wallet_recharge', function(){
 		var amount = $(this).val();
 		var minamount = $(this).data('min');
 		var maxamount = $(this).data('max');
@@ -224,65 +224,65 @@
 		if ( amount <= 0 ) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_amount_error);
-			$('#mwb_recharge_wallet').prop('disabled', true);
+			$('#wps_recharge_wallet').prop('disabled', true);
 		} else if ( amount > maxamount ) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_recharge_maxamount_error + maxamount);
-			$('#mwb_recharge_wallet').prop('disabled', true);
+			$('#wps_recharge_wallet').prop('disabled', true);
 		} else if ( amount < minamount) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_recharge_minamount_error + minamount);
-			$('#mwb_recharge_wallet').prop('disabled', true);
+			$('#wps_recharge_wallet').prop('disabled', true);
 		} else {
 			$('.error').hide();
-			$('#mwb_recharge_wallet').prop('disabled', false);
+			$('#wps_recharge_wallet').prop('disabled', false);
 		}
 	});
 
-	$(document).on( 'blur','#mwb_wallet_transfer_user_email', function(){
+	$(document).on( 'blur','#wps_wallet_transfer_user_email', function(){
 		var user_email = $(this).val();
 		var current_email = $( this ).data('current-email');
 		if ( user_email == current_email ) {
 			$('.transfer-error').show();
 			$('.transfer-error').html(wsfw_public_param.wsfw_wallet_transfer);
-			$('#mwb_proceed_transfer').prop('disabled', true);
+			$('#wps_proceed_transfer').prop('disabled', true);
 		} else {
 			$('.transfer-error').hide();
-			$('#mwb_proceed_transfer').prop('disabled', false);
+			$('#wps_proceed_transfer').prop('disabled', false);
 		}
 	});
 
-	$(document).on( 'blur','#mwb_wallet_transfer_amount', function(){
+	$(document).on( 'blur','#wps_wallet_transfer_amount', function(){
 		var amount = $(this).val();
 		var maxamount = $(this).data('max');
 		if ( amount <= 0 ) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_amount_error);
-			$('#mwb_proceed_transfer').prop('disabled', true);
+			$('#wps_proceed_transfer').prop('disabled', true);
 		} else if ( amount > maxamount ) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_transfer_amount_error);
-			$('#mwb_proceed_transfer').prop('disabled', true);
+			$('#wps_proceed_transfer').prop('disabled', true);
 		} else {
 			$('.error').hide();
-			$('#mwb_proceed_transfer').prop('disabled', false);
+			$('#wps_proceed_transfer').prop('disabled', false);
 		}
 	});
 
-	$(document).on( 'blur','#mwb_wallet_withdrawal_amount', function(){
+	$(document).on( 'blur','#wps_wallet_withdrawal_amount', function(){
 		var amount = $(this).val();
 		var maxamount = $(this).data('max');
 		if ( amount <= 0 ) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_amount_error);
-			$('#mwb_withdrawal_request').prop('disabled', true);
+			$('#wps_withdrawal_request').prop('disabled', true);
 		} else if ( amount > maxamount ) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
-			$('#mwb_withdrawal_request').prop('disabled', true);
+			$('#wps_withdrawal_request').prop('disabled', true);
 		} else {
 			$('.error').hide();
-			$('#mwb_withdrawal_request').prop('disabled', false);
+			$('#wps_withdrawal_request').prop('disabled', false);
 		}
 		
 	});

@@ -21,7 +21,7 @@ $user = get_user_by( 'id', $user_id );
 
 ?>
 
-<div class="mwb-wpg-transcation-section-search">
+<div class="wps-wpg-transcation-section-search">
 	<table>
 			<tbody>
 				<tr>
@@ -42,15 +42,15 @@ $user = get_user_by( 'id', $user_id );
 
 </div>
 
-<div class="mwb-wpg-gen-section-table-wrap mwb-wpg-transcation-section-table">
+<div class="wps-wpg-gen-section-table-wrap wps-wpg-transcation-section-table">
 	<h4>
 	<?php
 	echo esc_html__( 'Wallet Transactions: ', 'wallet-system-for-woocommerce' ) . esc_html( $user->user_login ) . '(' . esc_html( $user->user_email ) . ')';
 	?>
 		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-wallet-setting' ) ); ?>"><span class="dashicons dashicons-editor-break" ></span></a>
 	</h4>
-	<div class="mwb-wpg-gen-section-table-container">
-		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table mwb-wpg-user-transaction-table dt-responsive">
+	<div class="wps-wpg-gen-section-table-container">
+		<table id="wps-wpg-gen-table" class="wps-wpg-gen-section-table wps-wpg-user-transaction-table dt-responsive">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
@@ -65,8 +65,8 @@ $user = get_user_by( 'id', $user_id );
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
+				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
@@ -103,5 +103,5 @@ $user = get_user_by( 'id', $user_id );
 <?php
 // enqueue datepicker js.
 wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
-wp_enqueue_script( 'mwb-admin-user-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-user-transaction-table.js', array( 'jquery' ), $this->version, false );
+wp_enqueue_script( 'wps-admin-user-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-user-transaction-table.js', array( 'jquery' ), $this->version, false );
 ?>

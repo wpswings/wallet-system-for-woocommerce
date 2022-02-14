@@ -26,11 +26,11 @@ if ( ! ( array_key_exists( 'woocommerce/woocommerce.php', $active_plugins ) || i
  * @param array $gateways all available WC gateways.
  * @return array $gateways all WC gateways + Wallet gateway
  */
-function mwb_wsfw_wallet_gateway( $gateways ) {
+function wps_wsfw_wallet_gateway( $gateways ) {
 	$gateways[] = 'Wallet_Credit_Payment_Gateway';
 	return $gateways;
 }
-add_filter( 'woocommerce_payment_gateways', 'mwb_wsfw_wallet_gateway', 10, 1 );
+add_filter( 'woocommerce_payment_gateways', 'wps_wsfw_wallet_gateway', 10, 1 );
 
 /**
  * Wallet Payment Gateway
@@ -43,7 +43,7 @@ add_filter( 'woocommerce_payment_gateways', 'mwb_wsfw_wallet_gateway', 10, 1 );
  * @version 1.0.0
  * @package Wallet_System_For_Woocommerce
  */
-function mwb_wsfw_wallet_payment_gateway_init() {
+function wps_wsfw_wallet_payment_gateway_init() {
 
 	/**
 	 * Class to create wallet payment gateway.
@@ -54,7 +54,7 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 		 */
 		public function __construct() {
 
-			$this->id                 = 'mwb_wcb_wallet_payment_gateway';
+			$this->id                 = 'wps_wcb_wallet_payment_gateway';
 			$this->icon               = apply_filters( 'woocommerce_wallet_gateway_icon', '' );
 			$this->has_fields         = false;
 			$this->method_title       = __( 'Wallet Payment', 'wallet-system-for-woocommerce' );
@@ -120,9 +120,9 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 		public function get_icon() {
 			$customer_id = get_current_user_id();
 			if ( $customer_id > 0 ) {
-				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
+				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
-				$walletamount = apply_filters( 'mwb_wsfw_show_converted_price', $walletamount );
+				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
 				return '<b>' . __( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wc_price( $walletamount ) . ']</b>';
 			}
 		}
@@ -151,27 +151,27 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 
 			$order       = wc_get_order( $order_id );
 			$payment_method = $order->payment_method;
-			if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method ) {
+			if ( 'wps_wcb_wallet_payment_gateway' === $payment_method ) {
 				$payment_method = esc_html__( 'Wallet Payment', 'wallet-system-for-woocommerce' );
 			}
 			$order_total = $order->get_total();
 			if ( $order_total < 0 ) {
 				$order_total = 0;
 			}
-			$debited_amount   = apply_filters( 'mwb_wsfw_convert_to_base_price', $order_total );
-			$current_currency = apply_filters( 'mwb_wsfw_get_current_currency', $order->get_currency() );
+			$debited_amount   = apply_filters( 'wps_wsfw_convert_to_base_price', $order_total );
+			$current_currency = apply_filters( 'wps_wsfw_get_current_currency', $order->get_currency() );
 			$customer_id      = get_current_user_id();
 			if ( $customer_id > 0 ) {
-				$walletamount = get_user_meta( $customer_id, 'mwb_wallet', true );
+				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				if ( $debited_amount <= $walletamount ) {
 
 					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 					$walletamount          -= $debited_amount;
-					$update_wallet          = update_user_meta( $customer_id, 'mwb_wallet', abs( $walletamount ) );
+					$update_wallet          = update_user_meta( $customer_id, 'wps_wallet', abs( $walletamount ) );
 
 					if ( $update_wallet ) {
-						$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
+						$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user       = get_user_by( 'id', $customer_id );
 							$name       = $user->first_name . ' ' . $user->last_name;
@@ -221,4 +221,4 @@ function mwb_wsfw_wallet_payment_gateway_init() {
 		}
 	}
 }
-add_action( 'plugins_loaded', 'mwb_wsfw_wallet_payment_gateway_init' );
+add_action( 'plugins_loaded', 'wps_wsfw_wallet_payment_gateway_init' );

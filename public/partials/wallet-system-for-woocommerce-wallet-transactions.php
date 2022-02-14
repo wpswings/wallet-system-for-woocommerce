@@ -16,8 +16,8 @@ $allowed_html = array(
 ?>
 
 <div class='content active'>
-	<div class="mwb-wallet-transaction-container">
-		<table class="mwb-wallet-field-table dt-responsive" id="transactions_table">
+	<div class="wps-wallet-transaction-container">
+		<table class="wps-wallet-field-table dt-responsive" id="transactions_table">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -31,8 +31,8 @@ $allowed_html = array(
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
+				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {

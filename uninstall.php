@@ -31,14 +31,14 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 // Delete custom table after deactivation of the plugin.
 global $wpdb;
-$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-if ( $wpdb->get_var( 'show tables like "' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction"' ) == $table_name ) {
-	$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction' );
+$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+if ( $wpdb->get_var( 'show tables like "' . $wpdb->prefix . 'wps_wsfw_wallet_transaction"' ) == $table_name ) {
+	$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction' );
 }
-$product_id = get_option( 'mwb_wsfw_rechargeable_product_id', '' );
+$product_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 wp_delete_post( $product_id, true );
-delete_option( 'mwb_wsfw_rechargeable_product_id' );
-delete_option( 'mwb_wsfw_enable' );
+delete_option( 'wps_wsfw_rechargeable_product_id' );
+delete_option( 'wps_wsfw_enable' );
 delete_option( 'wsfw_enable_wallet_recharge' );
-delete_option( 'mwb_wsfw_allow_refund_to_wallet' );
-delete_option( 'mwb_wsfw_enable_email_notification_for_wallet_update' );
+delete_option( 'wps_wsfw_allow_refund_to_wallet' );
+delete_option( 'wps_wsfw_enable_email_notification_for_wallet_update' );

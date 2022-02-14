@@ -6,11 +6,11 @@
 /*====================================
 =            Tabs Section            =
 ====================================*/
-.mwb_wcb_content_template {
+.wps_wcb_content_template {
 	background: $c-white;
 	border: 0;
 }
-.mwb_wcb_content_template {
+.wps_wcb_content_template {
 	.wallet-tabs {
 		ul {
 			display: flex;
@@ -87,12 +87,12 @@
 /*====================================
 =      Add Balance Section            =
 ====================================*/
-.mwb_wcb_content_template {
+.wps_wcb_content_template {
 	.content {
 		border: 0;
 		margin-top: 60px;
 
-		#mwb_wallet_transfer_form {
+		#wps_wallet_transfer_form {
 			margin: 0 auto;
 			max-width: 360px;
 
@@ -114,11 +114,11 @@
 				opacity: 0.8;
 			}
 
-			.mwb-wallet-field-container {
+			.wps-wallet-field-container {
 				text-align: center;
 				margin-bottom: 35px;
 
-				.mwb-btn__filled {
+				.wps-btn__filled {
 					background: $c-doger-blue;
 					border-radius: 10px;
 					border: 0;
@@ -138,10 +138,10 @@
 /*====================================
 =      Transfer Section            =
 ====================================*/
-#mwb_wallet_transfer_form {
+#wps_wallet_transfer_form {
 	text-align: center;
 
-	.mwb-btn__filled {
+	.wps-btn__filled {
 		background: $c-doger-blue !important;
 		border-radius: 10px !important;
 		border: 0 !important;
@@ -160,12 +160,12 @@
 =      Transaction Section            =
 ====================================*/
 
-.mwb-wallet-transaction-container {
+.wps-wallet-transaction-container {
 	border: 0;
 	border-radius: 5px;
 	margin-bottom: 55px;
 
-	.mwb-wallet-field-table {
+	.wps-wallet-field-table {
 		border-collapse: collapse;
 		border-radius: 5px;
 		border-bottom: 0 !important;
@@ -227,7 +227,7 @@
 					flex-wrap: wrap;
 					justify-content: flex-end;
 
-					@include media(mwb-tablet) { 
+					@include media(wps-tablet) { 
 						justify-content: flex-start;
 					}
 

@@ -8,17 +8,17 @@
 /*====================================
 =            Tabs Section            =
 ====================================*/
-.mwb-navbar{
+.wps-navbar{
 	background: $c-white;
 	border-bottom: 0;
 	border-radius: 10px;
 	padding: 10px 30px 30px;
 	margin: 15px 15px 8px 0;
 
-	.mwb-navbar__items {
+	.wps-navbar__items {
 		border-bottom: 1px solid $c-gunsmoke;
 
-		.mwb-link {
+		.wps-link {
 			color: $c-outer-space;
 
 			&.active {
@@ -33,24 +33,24 @@
 /*=======================================
 =            General section            =
 =======================================*/
-.mwb-wsfw-gen-section-form {
+.wps-wsfw-gen-section-form {
 	background: $c-white;
 	border-radius: 10px;
 	padding: 10px 30px 30px;
 	margin: 15px 15px 8px 0;
 
-	.mwb-form-group {
+	.wps-form-group {
 		display: flex;
 		flex-wrap: wrap;
 		margin: 0 -15px 35px;
 		padding-top: 30px;
 
-		.mwb-form-group__label {
+		.wps-form-group__label {
 			flex: 0 0 20%;
 			max-width: 20%;
 			padding: 0 15px;
 
-			.mwb-form-label {
+			.wps-form-label {
 				font-family: $ff-nunitosans-s;
 				font-size: $fs-normal;
 				line-height: 24px;
@@ -58,7 +58,7 @@
 			}
 		}
 
-		.mwb-form-group__control {
+		.wps-form-group__control {
 			flex: 0 0 80%;
 			max-width: 80%;
 			padding: 0 15px;
@@ -72,7 +72,7 @@
 /*======================================
 =            Wallet Section            =
 ======================================*/
-.mwb-wpg-gen-section-form-container {
+.wps-wpg-gen-section-form-container {
 	background: $c-white;
 	border-radius: 10px;
 	padding: 10px 30px 30px;
@@ -89,16 +89,16 @@
 		padding-bottom: 15px;
 	}
 
-	.mwb-form-group {
+	.wps-form-group {
 		margin: 0 0 35px;
 
-		.mwb-form-group__label {		
+		.wps-form-group__label {		
 			align-self: center;
 			flex: 0 0 20%;
 			max-width: 20%;
 			padding: 0 15px;
 
-			.mwb-form-label {
+			.wps-form-label {
 				color: $c-outer-space;
 				font-family: $ff-nunitosans-e;
 				font-size: $fs-normal;
@@ -108,7 +108,7 @@
 			}
 		}
 
-		.mwb-form-group__control {
+		.wps-form-group__control {
 			flex: 0 0 80%;
 			max-width: 80%;
 			padding: 0 15px;
@@ -123,7 +123,7 @@
 				}
 			}
 
-			.mwb-form-select {
+			.wps-form-select {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-between;
@@ -157,19 +157,19 @@
 	}	
 }
 
-.mwb-wpg-gen-section-form-wrapper {
+.wps-wpg-gen-section-form-wrapper {
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
 	justify-content: space-between;
 
-	.mwb-wpg-gen-section-form {
+	.wps-wpg-gen-section-form {
 		flex: 0 0 calc(50% - 20px);
 		border: 1px solid $c-silver;
 		border-radius: 5px;
 		padding: 15px;
 
-		@include media(mwb-tablet) { 
+		@include media(wps-tablet) { 
 			flex: 0 0 100%;
 		}
 
@@ -178,17 +178,17 @@
 			padding: 0 0 0 15px;
 		}
 
-		.mwb-form-group .mwb-form-group__label {
+		.wps-form-group .wps-form-group__label {
 			flex: 0 0 40%;
 			max-width: 40%;
 		}
 
-		.mwb-form-group__control {
+		.wps-form-group__control {
 			flex: 0 0 60%;
 			max-width: 60%;
 		}	
 
-		.mwb_wallet-update--popupwrap {
+		.wps_wallet-update--popupwrap {
 			bottom: 0;
 			display: block;
 			display: none;
@@ -208,7 +208,7 @@
 				background: rgba(121, 121, 121, 0.8);
 			}
 
-			.mwb_wallet-update-popup {
+			.wps_wallet-update-popup {
 				background: $c-white;
 				border-radius: 5px;
 				left: 0;
@@ -226,7 +226,7 @@
 					margin-bottom: 30px;
 				}
 
-				.mwb-btn {
+				.wps-btn {
 					color: $c-white;
 				}
 
@@ -248,7 +248,7 @@
 	}
 }
 
-.mwb_wallet-edit--popupwrap {
+.wps_wallet-edit--popupwrap {
 	bottom: 0;
 	display: block;
 	display: none;
@@ -268,7 +268,7 @@
 		width: 100%;
 	}
 
-	.mwb_wallet-edit-popup {
+	.wps_wallet-edit-popup {
 		background: $c-white;
 		border-radius: 5px;
 		left: 0;
@@ -282,12 +282,12 @@
 		transform: translateY(-50%);
 		z-index: 455;
 
-		.mwb_wallet-edit-popup-amount {
+		.wps_wallet-edit-popup-amount {
 			display: flex;
 			flex-wrap: wrap;
 			margin-bottom: 30px;
 
-			.mwb_wallet-edit-popup-control {
+			.wps_wallet-edit-popup-control {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-between;
@@ -310,7 +310,7 @@
 			width: 15px;
 		}
 
-		.mwb_wallet-edit-popup-label {
+		.wps_wallet-edit-popup-label {
 			min-width: 220px;
 			text-align: left;
 
@@ -325,7 +325,7 @@
 	}
 }
 
-.mwb-wpg-gen-section-table-wrap {
+.wps-wpg-gen-section-table-wrap {
 	background: $c-white;
 	border-radius: 10px;
 	padding: 10px 30px 30px;
@@ -340,12 +340,12 @@
 		margin-bottom: 15px;
 	}
 
-	.mwb-wpg-gen-section-table-container {
+	.wps-wpg-gen-section-table-container {
 		border: 1px solid $c-silver;
 		border-radius: 5px;
 		margin-bottom: 55px;
 
-		.mwb-wpg-gen-section-table {
+		.wps-wpg-gen-section-table {
 			border-collapse: collapse;
 			border-bottom: 0 !important;
 
@@ -403,7 +403,7 @@
 						flex-wrap: wrap;
 						justify-content: flex-end;
 
-						@include media(mwb-tablet) { 
+						@include media(wps-tablet) { 
 							justify-content: flex-start;
 						}
 
@@ -470,9 +470,9 @@
 =            Withdrawal Section            =
 ==========================================*/
 
-.mwb-wpg-gen-section-table-wrap {
-	.mwb-wpg-gen-section-table-container {
-		.mwb-wpg-gen-section-table {
+.wps-wpg-gen-section-table-wrap {
+	.wps-wpg-gen-section-table-container {
+		.wps-wpg-gen-section-table {
 			thead {
 				th {
 					&:last-child {
@@ -509,7 +509,7 @@
 	}
 }
 
-.mwb-wpg-withdrawal-section-search {
+.wps-wpg-withdrawal-section-search {
 	background: $c-white;
 	border-radius: 10px;
 	margin: 15px 15px 8px 0;
@@ -555,10 +555,10 @@
 /*==========================================
 =            Transaction Section            =
 ==========================================*/
-.mwb-section {
+.wps-section {
 	padding: 0;
 
-	.mwb-wpg-transcation-section-search {
+	.wps-wpg-transcation-section-search {
 		background: $c-white;
 		border-radius: 10px;
 		margin: 15px 15px 8px 0;
@@ -572,7 +572,7 @@
 				flex-wrap: wrap;
 				justify-content: flex-end;
 
-				@include media (mwb-desktop) { 
+				@include media (wps-desktop) { 
 					justify-content: flex-start; 
 				}
 
@@ -607,14 +607,14 @@
 						align-items: center;
 						width: 58%;
 
-						@include media (mwb-desktop) { 
+						@include media (wps-desktop) { 
 							width: auto; 
 						}
 
 						input {
 							width: 340px;
 
-							@include media (mwb-desktop) { 
+							@include media (wps-desktop) { 
 								width: auto; 
 							}
 						}
@@ -624,7 +624,7 @@
 		}
 	}
 
-	.mwb-wpg-transcation-section-table {
+	.wps-wpg-transcation-section-table {
 		background: $c-white;
 		border-radius: 10px;
 		margin: 15px 15px 8px 0;

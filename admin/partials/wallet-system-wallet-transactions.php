@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div class="mwb-wpg-transcation-section-search">
+<div class="wps-wpg-transcation-section-search">
 
 	<table>
 			<tbody>
@@ -41,10 +41,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 
 
-<div class="mwb-wpg-gen-section-table-wrap mwb-wpg-transcation-section-table">
+<div class="wps-wpg-gen-section-table-wrap wps-wpg-transcation-section-table">
 	<h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
-	<div class="mwb-wpg-gen-section-table-container">
-		<table id="mwb-wpg-gen-table" class="mwb-wpg-gen-section-table dt-responsive mwb-wpg-gen-table-all-transaction">
+	<div class="wps-wpg-gen-section-table-container">
+		<table id="wps-wpg-gen-table" class="wps-wpg-gen-section-table dt-responsive wps-wpg-gen-table-all-transaction">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -62,8 +62,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<tbody>
 				<?php
 				global $wpdb;
-				$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction ORDER BY Id DESC' );
+				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
@@ -116,5 +116,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php
 // including datepicker jquery for input tag.
 wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
-wp_enqueue_script( 'mwb-admin-all-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-all-transaction-table.js', array( 'jquery' ), $this->version, false );
+wp_enqueue_script( 'wps-admin-all-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-all-transaction-table.js', array( 'jquery' ), $this->version, false );
 ?>

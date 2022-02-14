@@ -41,7 +41,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string base url of API.
 	 */
-	private $mwb_wsfw_base_url = 'https://api.hsforms.com/';
+	private $wps_wsfw_base_url = 'https://api.hsforms.com/';
 
 	/**
 	 * Portal id of hubspot api for wallet-system-for-woocommerce.
@@ -49,7 +49,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Portal id.
 	 */
-	private static $mwb_wsfw_portal_id = '25444144';
+	private static $wps_wsfw_portal_id = '25444144';
 
 	/**
 	 * Form id of hubspot api for wallet-system-for-woocommerce.
@@ -57,7 +57,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Form id.
 	 */
-	private static $mwb_wsfw_onboarding_form_id = '2a2fe23c-0024-43f5-9473-cbfefdb06fe2';
+	private static $wps_wsfw_onboarding_form_id = '2a2fe23c-0024-43f5-9473-cbfefdb06fe2';
 
 	/**
 	 * Form id of hubspot api for wallet-system-for-woocommerce.
@@ -65,39 +65,39 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Form id.
 	 */
-	private static $mwb_wsfw_deactivation_form_id = '67feecaa-9a93-4fda-8f85-f73168da2672';
+	private static $wps_wsfw_deactivation_form_id = '67feecaa-9a93-4fda-8f85-f73168da2672';
 
 	/**
 	 * Define some variables for wallet-system-for-woocommerce.
 	 *
 	 * @since 1.0.0
-	 * @var string $mwb_wsfw_plugin_name plugin name.
+	 * @var string $wps_wsfw_plugin_name plugin name.
 	 */
-	private static $mwb_wsfw_plugin_name;
+	private static $wps_wsfw_plugin_name;
 
 	/**
 	 * Define some variables for wallet-system-for-woocommerce.
 	 *
 	 * @since 1.0.0
-	 * @var string $mwb_wsfw_plugin_name_label plugin name text.
+	 * @var string $wps_wsfw_plugin_name_label plugin name text.
 	 */
-	private static $mwb_wsfw_plugin_name_label;
+	private static $wps_wsfw_plugin_name_label;
 
 	/**
 	 * Define some variables for wallet-system-for-woocommerce.
 	 *
-	 * @var string $mwb_wsfw_store_name store name.
+	 * @var string $wps_wsfw_store_name store name.
 	 * @since 1.0.0
 	 */
-	private static $mwb_wsfw_store_name;
+	private static $wps_wsfw_store_name;
 
 	/**
 	 * Define some variables for wallet-system-for-woocommerce.
 	 *
 	 * @since 1.0.0
-	 * @var string $mwb_wsfw_store_url store url.
+	 * @var string $wps_wsfw_store_url store url.
 	 */
-	private static $mwb_wsfw_store_url;
+	private static $wps_wsfw_store_url;
 
 	/**
 	 * Define the onboarding functionality of the plugin.
@@ -108,26 +108,26 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		self::$mwb_wsfw_store_name = get_bloginfo( 'name' );
-		self::$mwb_wsfw_store_url = home_url();
-		self::$mwb_wsfw_plugin_name = 'wallet-system-for-woocommerce';
-		self::$mwb_wsfw_plugin_name_label = 'Wallet System For WooCommerce';
+		self::$wps_wsfw_store_name = get_bloginfo( 'name' );
+		self::$wps_wsfw_store_url = home_url();
+		self::$wps_wsfw_plugin_name = 'wallet-system-for-woocommerce';
+		self::$wps_wsfw_plugin_name_label = 'Wallet System For WooCommerce';
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'mwb_wsfw_onboarding_enqueue_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'mwb_wsfw_onboarding_enqueue_scripts' ) );
-		add_action( 'admin_footer', array( $this, 'mwb_wsfw_add_onboarding_popup_screen' ) );
-		add_action( 'admin_footer', array( $this, 'mwb_wsfw_add_deactivation_popup_screen' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'wps_wsfw_onboarding_enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'wps_wsfw_onboarding_enqueue_scripts' ) );
+		add_action( 'admin_footer', array( $this, 'wps_wsfw_add_onboarding_popup_screen' ) );
+		add_action( 'admin_footer', array( $this, 'wps_wsfw_add_deactivation_popup_screen' ) );
 
-		add_filter( 'mwb_wsfw_on_boarding_form_fields', array( $this, 'mwb_wsfw_add_on_boarding_form_fields' ) );
-		add_filter( 'mwb_wsfw_deactivation_form_fields', array( $this, 'mwb_wsfw_add_deactivation_form_fields' ) );
+		add_filter( 'wps_wsfw_on_boarding_form_fields', array( $this, 'wps_wsfw_add_on_boarding_form_fields' ) );
+		add_filter( 'wps_wsfw_deactivation_form_fields', array( $this, 'wps_wsfw_add_deactivation_form_fields' ) );
 
 		// Ajax to send data.
-		add_action( 'wp_ajax_mwb_wsfw_send_onboarding_data', array( $this, 'mwb_wsfw_send_onboarding_data' ) );
-		add_action( 'wp_ajax_nopriv_mwb_wsfw_send_onboarding_data', array( $this, 'mwb_wsfw_send_onboarding_data' ) );
+		add_action( 'wp_ajax_wps_wsfw_send_onboarding_data', array( $this, 'wps_wsfw_send_onboarding_data' ) );
+		add_action( 'wp_ajax_nopriv_wps_wsfw_send_onboarding_data', array( $this, 'wps_wsfw_send_onboarding_data' ) );
 
 		// Ajax to Skip popup.
-		add_action( 'wp_ajax_wsfw_skip_onboarding_popup', array( $this, 'mwb_wsfw_skip_onboarding_popup' ) );
-		add_action( 'wp_ajax_nopriv_wsfw_skip_onboarding_popup', array( $this, 'mwb_wsfw_skip_onboarding_popup' ) );
+		add_action( 'wp_ajax_wsfw_skip_onboarding_popup', array( $this, 'wps_wsfw_skip_onboarding_popup' ) );
+		add_action( 'wp_ajax_nopriv_wsfw_skip_onboarding_popup', array( $this, 'wps_wsfw_skip_onboarding_popup' ) );
 
 	}
 
@@ -161,22 +161,22 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * between the defined hooks and the functions defined in this
 	 * class.
 	 */
-	public function mwb_wsfw_onboarding_enqueue_styles() {
+	public function wps_wsfw_onboarding_enqueue_styles() {
 		global $pagenow;
 		$is_valid = false;
 		if ( ! $is_valid && 'plugins.php' == $pagenow ) {
 			$is_valid = true;
 		}
-		if ( $this->mwb_wsfw_valid_page_screen_check() || $is_valid ) {
+		if ( $this->wps_wsfw_valid_page_screen_check() || $is_valid ) {
 			// comment the line of code Only when your plugin doesn't uses the Select2.
-			wp_enqueue_style( 'mwb-wsfw-onboarding-select2-style', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-wsfw-onboarding-select2-style', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
 
-			wp_enqueue_style( 'mwb-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'mwb-wsfw-meterial-css2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'mwb-wsfw-meterial-lite', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'mwb-wsfw-meterial-icons-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/icon.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-wsfw-meterial-css2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-wsfw-meterial-lite', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-wsfw-meterial-icons-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/icon.css', array(), time(), 'all' );
 
-			wp_enqueue_style( 'mwb-wsfw-onboarding-style', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'onboarding/css/wallet-system-for-woocommerce-onboarding.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-wsfw-onboarding-style', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'onboarding/css/wallet-system-for-woocommerce-onboarding.css', array(), time(), 'all' );
 
 		}
 	}
@@ -192,31 +192,31 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * between the defined hooks and the functions defined in this
 	 * class.
 	 */
-	public function mwb_wsfw_onboarding_enqueue_scripts() {
+	public function wps_wsfw_onboarding_enqueue_scripts() {
 		global $pagenow;
 		$is_valid = false;
 		if ( ! $is_valid && 'plugins.php' == $pagenow ) {
 			$is_valid = true;
 		}
-		if ( $this->mwb_wsfw_valid_page_screen_check() || $is_valid ) {
+		if ( $this->wps_wsfw_valid_page_screen_check() || $is_valid ) {
 
-			wp_enqueue_script( 'mwb-wsfw-onboarding-select2-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), '1.0.0', false );
+			wp_enqueue_script( 'wps-wsfw-onboarding-select2-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), '1.0.0', false );
 
-			wp_enqueue_script( 'mwb-wsfw-metarial-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
-			wp_enqueue_script( 'mwb-wsfw-metarial-js2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), time(), false );
-			wp_enqueue_script( 'mwb-wsfw-metarial-lite', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-wsfw-metarial-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-wsfw-metarial-js2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-wsfw-metarial-lite', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), time(), false );
 
-			wp_enqueue_script( 'mwb-wsfw-onboarding-scripts', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'onboarding/js/wallet-system-for-woocommerce-onboarding.js', array( 'jquery', 'mwb-wsfw-onboarding-select2-js', 'mwb-wsfw-metarial-js', 'mwb-wsfw-metarial-js2', 'mwb-wsfw-metarial-lite' ), time(), true );
+			wp_enqueue_script( 'wps-wsfw-onboarding-scripts', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'onboarding/js/wallet-system-for-woocommerce-onboarding.js', array( 'jquery', 'wps-wsfw-onboarding-select2-js', 'wps-wsfw-metarial-js', 'wps-wsfw-metarial-js2', 'wps-wsfw-metarial-lite' ), time(), true );
 
 			$wsfw_current_slug = ! empty( explode( '/', plugin_basename( __FILE__ ) ) ) ? explode( '/', plugin_basename( __FILE__ ) )[0] : '';
 			wp_localize_script(
-				'mwb-wsfw-onboarding-scripts',
-				'mwb_wsfw_onboarding',
+				'wps-wsfw-onboarding-scripts',
+				'wps_wsfw_onboarding',
 				array(
 					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-					'wsfw_auth_nonce'    => wp_create_nonce( 'mwb_wsfw_onboarding_nonce' ),
+					'wsfw_auth_nonce'    => wp_create_nonce( 'wps_wsfw_onboarding_nonce' ),
 					'wsfw_current_screen'    => $pagenow,
-					'wsfw_current_supported_slug'    => apply_filters( 'mwb_wsfw_deactivation_supported_slug', array( $wsfw_current_slug ) ),
+					'wsfw_current_supported_slug'    => apply_filters( 'wps_wsfw_deactivation_supported_slug', array( $wsfw_current_slug ) ),
 				)
 			);
 		}
@@ -227,8 +227,8 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_add_onboarding_popup_screen() {
-		if ( $this->mwb_wsfw_valid_page_screen_check() && $this->mwb_wsfw_show_onboarding_popup_check() ) {
+	public function wps_wsfw_add_onboarding_popup_screen() {
+		if ( $this->wps_wsfw_valid_page_screen_check() && $this->wps_wsfw_show_onboarding_popup_check() ) {
 			require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'onboarding/templates/wallet-system-for-woocommerce-onboarding-template.php';
 		}
 	}
@@ -238,7 +238,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_add_deactivation_popup_screen() {
+	public function wps_wsfw_add_deactivation_popup_screen() {
 
 		global $pagenow;
 		if ( ! empty( $pagenow ) && 'plugins.php' == $pagenow ) {
@@ -251,9 +251,9 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_skip_onboarding_popup() {
+	public function wps_wsfw_skip_onboarding_popup() {
 
-		$get_skipped_timstamp = update_option( 'mwb_wsfw_onboarding_data_skipped', time() );
+		$get_skipped_timstamp = update_option( 'wps_wsfw_onboarding_data_skipped', time() );
 		echo json_encode( 'true' );
 		wp_die();
 	}
@@ -264,7 +264,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_add_on_boarding_form_fields() {
+	public function wps_wsfw_add_on_boarding_form_fields() {
 
 		$current_user = wp_get_current_user();
 		if ( ! empty( $current_user ) ) {
@@ -296,7 +296,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			 */
 
 			rand() => array(
-				'id' => 'mwb-wsfw-monthly-revenue',
+				'id' => 'wps-wsfw-monthly-revenue',
 				'title' => esc_html__( 'What is your monthly revenue?', 'wallet-system-for-woocommerce' ),
 				'type' => 'radio',
 				'description' => '',
@@ -315,7 +315,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			),
 
 			rand() => array(
-				'id' => 'mwb_wsfw_industry_type',
+				'id' => 'wps_wsfw_industry_type',
 				'title' => esc_html__( 'What industry defines your business?', 'wallet-system-for-woocommerce' ),
 				'type' => 'select',
 				'name' => 'industry_type_',
@@ -352,7 +352,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-onboard-email',
+				'id' => 'wps-wsfw-onboard-email',
 				'title' => esc_html__( 'What is the best email address to contact you?', 'wallet-system-for-woocommerce' ),
 				'type' => 'email',
 				'description' => '',
@@ -364,7 +364,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-onboard-number',
+				'id' => 'wps-wsfw-onboard-number',
 				'title' => esc_html__( 'What is your contact number?', 'wallet-system-for-woocommerce' ),
 				'type' => 'text',
 				'description' => '',
@@ -376,49 +376,49 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-store-name',
+				'id' => 'wps-wsfw-store-name',
 				'title' => '',
 				'description' => '',
 				'type' => 'hidden',
 				'name' => 'company',
 				'placeholder' => '',
-				'value' => self::$mwb_wsfw_store_name,
+				'value' => self::$wps_wsfw_store_name,
 				'required' => '',
 				'class' => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-store-url',
+				'id' => 'wps-wsfw-store-url',
 				'title' => '',
 				'description' => '',
 				'type' => 'hidden',
 				'name' => 'website',
 				'placeholder' => '',
-				'value' => self::$mwb_wsfw_store_url,
+				'value' => self::$wps_wsfw_store_url,
 				'required' => '',
 				'class' => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-show-counter',
+				'id' => 'wps-wsfw-show-counter',
 				'title' => '',
 				'description' => '',
 				'type' => 'hidden',
 				'placeholder' => '',
-				'name' => 'mwb-wsfw-show-counter',
-				'value' => get_option( 'mwb_wsfw_onboarding_data_sent', 'not-sent' ),
+				'name' => 'wps-wsfw-show-counter',
+				'value' => get_option( 'wps_wsfw_onboarding_data_sent', 'not-sent' ),
 				'required' => '',
 				'class' => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-plugin-name',
+				'id' => 'wps-wsfw-plugin-name',
 				'title' => '',
 				'description' => '',
 				'type' => 'hidden',
 				'placeholder' => '',
 				'name' => 'org_plugin_name',
-				'value' => self::$mwb_wsfw_plugin_name_label,
+				'value' => self::$wps_wsfw_plugin_name_label,
 				'required' => '',
 				'class' => '',
 			),
@@ -433,7 +433,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_add_deactivation_form_fields() {
+	public function wps_wsfw_add_deactivation_form_fields() {
 
 		$current_user = wp_get_current_user();
 		if ( ! empty( $current_user ) ) {
@@ -459,7 +459,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			 */
 
 			rand() => array(
-				'id' => 'mwb-wsfw-deactivation-reason',
+				'id' => 'wps-wsfw-deactivation-reason',
 				'title' => '',
 				'description' => '',
 				'type' => 'radio',
@@ -480,19 +480,19 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-deactivation-reason-text',
-				'title'       => esc_html( 'Let us know why you are deactivating ' . self::$mwb_wsfw_plugin_name_label . ' so we can improve the plugin' ),
+				'id' => 'wps-wsfw-deactivation-reason-text',
+				'title'       => esc_html( 'Let us know why you are deactivating ' . self::$wps_wsfw_plugin_name_label . ' so we can improve the plugin' ),
 				'type' => 'textarea',
 				'description' => '',
 				'name' => 'deactivation_reason_text',
 				'placeholder' => esc_html__( 'Reason', 'wallet-system-for-woocommerce' ),
 				'value' => '',
 				'required' => '',
-				'class' => 'mwb-keep-hidden',
+				'class' => 'wps-keep-hidden',
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-admin-email',
+				'id' => 'wps-wsfw-admin-email',
 				'title' => '',
 				'description' => '',
 				'type' => 'hidden',
@@ -504,37 +504,37 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-store-name',
+				'id' => 'wps-wsfw-store-name',
 				'title' => '',
 				'description' => '',
 				'type' => 'hidden',
 				'placeholder' => '',
 				'name' => 'company',
-				'value' => self::$mwb_wsfw_store_name,
+				'value' => self::$wps_wsfw_store_name,
 				'required' => '',
 				'class' => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-store-url',
+				'id' => 'wps-wsfw-store-url',
 				'title' => '',
 				'description' => '',
 				'type' => 'hidden',
 				'name' => 'website',
 				'placeholder' => '',
-				'value' => self::$mwb_wsfw_store_url,
+				'value' => self::$wps_wsfw_store_url,
 				'required' => '',
 				'class' => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-wsfw-plugin-name',
+				'id' => 'wps-wsfw-plugin-name',
 				'title' => '',
 				'description' => '',
 				'type' => 'hidden',
 				'placeholder' => '',
 				'name' => 'org_plugin_name',
-				'value' => self::$mwb_wsfw_plugin_name_label,
+				'value' => self::$wps_wsfw_plugin_name_label,
 				'required' => '',
 				'class' => '',
 			),
@@ -549,9 +549,9 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_send_onboarding_data() {
+	public function wps_wsfw_send_onboarding_data() {
 
-		check_ajax_referer( 'mwb_wsfw_onboarding_nonce', 'nonce' );
+		check_ajax_referer( 'wps_wsfw_onboarding_nonce', 'nonce' );
 
 		$posted_data = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : '';
 		$form_data   = json_decode( $posted_data );
@@ -563,7 +563,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 
 			foreach ( $form_data as $key => $input ) {
 
-				if ( 'mwb-wsfw-show-counter' == $input->name ) {
+				if ( 'wps-wsfw-show-counter' == $input->name ) {
 					continue;
 				}
 
@@ -614,9 +614,9 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 
 			if ( ! empty( $formatted_data ) && is_array( $formatted_data ) ) {
 
-				unset( $formatted_data['mwb-wsfw-show-counter'] );
+				unset( $formatted_data['wps-wsfw-show-counter'] );
 
-				$result = $this->mwb_wsfw_handle_form_submission_for_hubspot( $formatted_data, $action_type );
+				$result = $this->wps_wsfw_handle_form_submission_for_hubspot( $formatted_data, $action_type );
 			}
 		} catch ( Exception $e ) {
 
@@ -625,7 +625,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 		}
 
 		if ( ! empty( $action_type ) && 'onboarding' == $action_type ) {
-			 $get_skipped_timstamp = update_option( 'mwb_wsfw_onboarding_data_sent', 'sent' );
+			 $get_skipped_timstamp = update_option( 'wps_wsfw_onboarding_data_sent', 'sent' );
 		}
 
 		echo json_encode( $formatted_data );
@@ -640,7 +640,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @param      string $action_type      Type of action.
 	 * @since    1.0.0
 	 */
-	protected function mwb_wsfw_handle_form_submission_for_hubspot( $submission = false, $action_type = 'onboarding' ) {
+	protected function wps_wsfw_handle_form_submission_for_hubspot( $submission = false, $action_type = 'onboarding' ) {
 
 		if ( 'onboarding' == $action_type ) {
 			array_push(
@@ -652,7 +652,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			);
 		}
 
-		$result = $this->mwb_wsfw_hubwoo_submit_form( $submission, $action_type );
+		$result = $this->wps_wsfw_hubwoo_submit_form( $submission, $action_type );
 
 		if ( true == $result['success'] ) {
 			return true;
@@ -669,15 +669,15 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @param      string $action_type    type of action.
 	 * @since       1.0.0
 	 */
-	protected function mwb_wsfw_hubwoo_submit_form( $form_data = array(), $action_type = 'onboarding' ) {
+	protected function wps_wsfw_hubwoo_submit_form( $form_data = array(), $action_type = 'onboarding' ) {
 
 		if ( 'onboarding' == $action_type ) {
-			$form_id = self::$mwb_wsfw_onboarding_form_id;
+			$form_id = self::$wps_wsfw_onboarding_form_id;
 		} else {
-			$form_id = self::$mwb_wsfw_deactivation_form_id;
+			$form_id = self::$wps_wsfw_deactivation_form_id;
 		}
 
-		$url = 'submissions/v3/integration/submit/' . self::$mwb_wsfw_portal_id . '/' . $form_id;
+		$url = 'submissions/v3/integration/submit/' . self::$wps_wsfw_portal_id . '/' . $form_id;
 
 		$headers = 'Content-Type: application/json';
 
@@ -685,14 +685,14 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 			array(
 				'fields' => $form_data,
 				'context'  => array(
-					'pageUri' => self::$mwb_wsfw_store_url,
-					'pageName' => self::$mwb_wsfw_store_name,
-					'ipAddress' => $this->mwb_wsfw_get_client_ip(),
+					'pageUri' => self::$wps_wsfw_store_url,
+					'pageName' => self::$wps_wsfw_store_name,
+					'ipAddress' => $this->wps_wsfw_get_client_ip(),
 				),
 			)
 		);
 
-		$response = $this->mwb_wsfw_hic_post( $url, $form_data, $headers );
+		$response = $this->wps_wsfw_hic_post( $url, $form_data, $headers );
 
 		if ( 200 == $response['status_code'] ) {
 			$result = json_decode( $response['response'], true );
@@ -712,8 +712,8 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @param   array  $post_params    form data that need to be send.
 	 * @param   array  $headers    data that must be included in header for request.
 	 */
-	private function mwb_wsfw_hic_post( $endpoint, $post_params, $headers ) {
-		$url      = $this->mwb_wsfw_base_url . $endpoint;
+	private function wps_wsfw_hic_post( $endpoint, $post_params, $headers ) {
+		$url      = $this->wps_wsfw_base_url . $endpoint;
 		$request  = array(
 			'method'      => 'POST',
 			'timeout'     => 45,
@@ -747,7 +747,7 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_get_client_ip() {
+	public function wps_wsfw_get_client_ip() {
 		$ipaddress = '';
 		if ( getenv( 'HTTP_CLIENT_IP' ) ) {
 			$ipaddress = getenv( 'HTTP_CLIENT_IP' );
@@ -772,14 +772,14 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_valid_page_screen_check() {
-		$mwb_wsfw_screen = get_current_screen();
-		$mwb_wsfw_is_flag = false;
-		if ( isset( $mwb_wsfw_screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $mwb_wsfw_screen->id ) {
-			$mwb_wsfw_is_flag = true;
+	public function wps_wsfw_valid_page_screen_check() {
+		$wps_wsfw_screen = get_current_screen();
+		$wps_wsfw_is_flag = false;
+		if ( isset( $wps_wsfw_screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $wps_wsfw_screen->id ) {
+			$wps_wsfw_is_flag = true;
 		}
 
-		return $mwb_wsfw_is_flag;
+		return $wps_wsfw_is_flag;
 	}
 
 	/**
@@ -787,25 +787,25 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_wsfw_show_onboarding_popup_check() {
+	public function wps_wsfw_show_onboarding_popup_check() {
 
-		$mwb_wsfw_is_already_sent = get_option( 'mwb_wsfw_onboarding_data_sent', false );
+		$wps_wsfw_is_already_sent = get_option( 'wps_wsfw_onboarding_data_sent', false );
 
 		// Already submitted the data.
-		if ( ! empty( $mwb_wsfw_is_already_sent ) && 'sent' == $mwb_wsfw_is_already_sent ) {
+		if ( ! empty( $wps_wsfw_is_already_sent ) && 'sent' == $wps_wsfw_is_already_sent ) {
 			return false;
 		}
 
-		$mwb_wsfw_get_skipped_timstamp = get_option( 'mwb_wsfw_onboarding_data_skipped', false );
-		if ( ! empty( $mwb_wsfw_get_skipped_timstamp ) ) {
+		$wps_wsfw_get_skipped_timstamp = get_option( 'wps_wsfw_onboarding_data_skipped', false );
+		if ( ! empty( $wps_wsfw_get_skipped_timstamp ) ) {
 
-			$mwb_wsfw_next_show = strtotime( '+2 days', $mwb_wsfw_get_skipped_timstamp );
+			$wps_wsfw_next_show = strtotime( '+2 days', $wps_wsfw_get_skipped_timstamp );
 
-			$mwb_wsfw_current_time = time();
+			$wps_wsfw_current_time = time();
 
-			$mwb_wsfw_time_diff = $mwb_wsfw_next_show - $mwb_wsfw_current_time;
+			$wps_wsfw_time_diff = $wps_wsfw_next_show - $wps_wsfw_current_time;
 
-			if ( 0 < $mwb_wsfw_time_diff ) {
+			if ( 0 < $wps_wsfw_time_diff ) {
 				return false;
 			}
 		}

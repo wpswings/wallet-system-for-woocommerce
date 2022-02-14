@@ -15,16 +15,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // Template for showing information about system status.
-global $wsfw_mwb_wsfw_obj;
-$wsfw_default_status    = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_system_status();
+global $wsfw_wps_wsfw_obj;
+$wsfw_default_status    = $wsfw_wps_wsfw_obj->wps_wsfw_plug_system_status();
 $wsfw_wordpress_details = is_array( $wsfw_default_status['wp'] ) && ! empty( $wsfw_default_status['wp'] ) ? $wsfw_default_status['wp'] : array();
 $wsfw_php_details       = is_array( $wsfw_default_status['php'] ) && ! empty( $wsfw_default_status['php'] ) ? $wsfw_default_status['php'] : array();
 ?>
-<div class="mwb-wsfw-table-wrap">
-	<div class="mwb-col-wrap">
-		<div id="mwb-wsfw-table-inner-container" class="table-responsive mdc-data-table">
+<div class="wps-wsfw-table-wrap">
+	<div class="wps-col-wrap">
+		<div id="wps-wsfw-table-inner-container" class="table-responsive mdc-data-table">
 			<div class="mdc-data-table__table-container">
-				<table class="mwb-wsfw-table mdc-data-table__table mwb-table" id="mwb-wsfw-wp">
+				<table class="wps-wsfw-table mdc-data-table__table wps-table" id="wps-wsfw-wp">
 					<thead>
 						<tr>
 							<th class="mdc-data-table__header-cell"><?php esc_html_e( 'WP Variables', 'wallet-system-for-woocommerce' ); ?></th>
@@ -47,10 +47,10 @@ $wsfw_php_details       = is_array( $wsfw_default_status['php'] ) && ! empty( $w
 			</div>
 		</div>
 	</div>
-	<div class="mwb-col-wrap">
-		<div id="mwb-wsfw-table-inner-container" class="table-responsive mdc-data-table">
+	<div class="wps-col-wrap">
+		<div id="wps-wsfw-table-inner-container" class="table-responsive mdc-data-table">
 			<div class="mdc-data-table__table-container">
-				<table class="mwb-wsfw-table mdc-data-table__table mwb-table" id="mwb-wsfw-sys">
+				<table class="wps-wsfw-table mdc-data-table__table wps-table" id="wps-wsfw-sys">
 					<thead>
 						<tr>
 							<th class="mdc-data-table__header-cell"><?php esc_html_e( 'System Variables', 'wallet-system-for-woocommerce' ); ?></th>
