@@ -15,14 +15,14 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
- * Version:           2.1.3
+ * Version:           2.1.4
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
  * WC Requires at least: 4.6
- * WC tested up to: 6.1.1
+ * WC tested up to: 6.2
  * WP Requires at least: 5.1.0
  * WP tested up to: 5.9
  * Requires PHP: 7.2 or Higher
@@ -51,7 +51,7 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.1.3' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.1.4' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -149,7 +149,7 @@ if ( $activated ) {
 				<p><strong>IMPORTANT NOTICE:</strong></p>
 			</div>
 			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+				<p>From this update <strong>Version 2.1.4</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 				Please connect with us for all setup, support, and update related queries without hesitation.</p>
 			</div>
 		</div>
@@ -185,7 +185,7 @@ if ( $activated ) {
 				<p><strong>IMPORTANT NOTICE:</strong></p>
 			</div>
 			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+				<p>From this update <strong>Version 2.1.4</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 				Please connect with us for all setup, support, and update related queries without hesitation.</p>
 			</div>
 		</div>
