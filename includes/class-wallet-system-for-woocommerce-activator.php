@@ -165,10 +165,7 @@ class Wallet_System_For_Woocommerce_Activator {
 				$user_id       = $user->ID;
 				$wallet_amount = get_user_meta( $user_id, 'mwb_wallet', true );
 				if ( ! empty( $wallet_amount ) ) {
-					$updated_wallet = update_user_meta( $user_id, 'wps_wallet', $wallet_amount );
-					if ( $updated_wallet ) {
-						delete_user_meta( $user_id, 'mwb_wallet' );
-					}
+					update_user_meta( $user_id, 'wps_wallet', $wallet_amount );
 				}
 			}
 		}
