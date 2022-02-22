@@ -172,7 +172,7 @@ class Wallet_System_For_Woocommerce_Activator {
 	}
 
 	/**
-	 * Undocumented function
+	 * Upgrade update options.
 	 *
 	 * @return void
 	 */
