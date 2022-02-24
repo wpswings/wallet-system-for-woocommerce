@@ -22,7 +22,7 @@
  * Domain Path:       /languages
  *
  * WC Requires at least: 4.6
- * WC tested up to: 6.2
+ * WC tested up to: 6.2.1
  * WP Requires at least: 5.1.0
  * WP tested up to: 5.9
  * Requires PHP: 7.2 or Higher
@@ -219,6 +219,7 @@ if ( $activated ) {
 			Wallet_System_For_Woocommerce_Activator::wsfw_upgrade_wp_postmeta();
 			Wallet_System_For_Woocommerce_Activator::wsfw_upgrade_wp_usermeta();
 			Wallet_System_For_Woocommerce_Activator::wsfw_upgrade_wp_options();
+			Wallet_System_For_Woocommerce_Activator::wsfw_rename_custom_table();
 			restore_current_blog();
 		}
 	}
