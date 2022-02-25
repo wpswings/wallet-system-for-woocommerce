@@ -36,18 +36,10 @@ class Wallet_System_For_Woocommerce_Activator {
 			foreach ( $blog_ids as $blog_id ) {
 				switch_to_blog( $blog_id );
 				self::create_table_and_product();
-				self::wsfw_upgrade_wp_postmeta();
-				self::wsfw_upgrade_wp_usermeta();
-				self::wsfw_upgrade_wp_options();
-				self::wsfw_rename_custom_table();
 				restore_current_blog();
 			}
 		} else {
 			self::create_table_and_product();
-			self::wsfw_upgrade_wp_postmeta();
-			self::wsfw_upgrade_wp_usermeta();
-			self::wsfw_upgrade_wp_options();
-			self::wsfw_rename_custom_table();
 		}
 	}
 
@@ -59,11 +51,13 @@ class Wallet_System_For_Woocommerce_Activator {
 	public static function create_table_and_product() {
 		// create wallet metakey in usermeta of users.
 		$users = get_users();
-		foreach ( $users as $user ) {
-			$user_id = $user->ID;
-			$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
-			if ( empty( $wallet ) ) {
-				$wallet = update_user_meta( $user_id, 'wps_wallet', 0 );
+		if ( ! empty( $users ) && is_array( $users ) ) {
+			foreach ( $users as $user ) {
+				$user_id = $user->ID;
+				$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
+				if ( empty( $wallet ) ) {
+					$wallet = update_user_meta( $user_id, 'wps_wallet', 0 );
+				}
 			}
 		}
 		// create product named as wallet topup.
@@ -97,7 +91,6 @@ class Wallet_System_For_Woocommerce_Activator {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 		$query      = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
-
 		if ( $wpdb->get_var( $query ) != $table_name ) {
 			$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 			$wpdb_collate = $wpdb->collate;
@@ -118,112 +111,6 @@ class Wallet_System_For_Woocommerce_Activator {
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			dbDelta( $sql );
-		}
-	}
-
-	/**
-	 * Update post meta keys.
-	 *
-	 * @return void
-	 */
-	public static function wsfw_upgrade_wp_postmeta() {
-
-		$post_meta_keys = array(
-			'mwb_wallet_withdrawal_amount',
-			'mwb_wallet_note',
-		);
-
-		foreach ( $post_meta_keys as $key => $meta_keys ) {
-			$products = get_posts(
-				array(
-					'numberposts' => -1,
-					'post_status' => 'approved',
-					'fields'      => 'ids', // return only ids.
-					'meta_key'    => $meta_keys, //phpcs:ignore
-					'post_type'   => 'wallet_withdrawal',
-					'order'       => 'ASC',
-				)
-			);
-
-			if ( ! empty( $products ) && is_array( $products ) ) {
-				foreach ( $products as $k => $product_id ) {
-					$value   = get_post_meta( $product_id, $meta_keys, true );
-					$new_key = str_replace( 'mwb_', 'wps_', $meta_keys );
-
-					if ( ! empty( get_post_meta( $product_id, $new_key, true ) ) ) {
-						continue;
-					}
-					update_post_meta( $product_id, $new_key, $value );
-				}
-			}
-		}
-	}
-
-	/**
-	 * Upgrade user meta.
-	 *
-	 * @return void
-	 */
-	public static function wsfw_upgrade_wp_usermeta() {
-
-		$all_users = get_users();
-		if ( ! empty( $all_users ) && is_array( $all_users ) ) {
-			foreach ( $all_users as $user ) {
-				$user_id       = $user->ID;
-				$wallet_amount = get_user_meta( $user_id, 'mwb_wallet', true );
-				if ( ! empty( $wallet_amount ) ) {
-					update_user_meta( $user_id, 'wps_wallet', $wallet_amount );
-				}
-			}
-		}
-	}
-
-	/**
-	 * Upgrade update options.
-	 *
-	 * @return void
-	 */
-	public static function wsfw_upgrade_wp_options() {
-		$wp_options = array(
-			'mwb_all_plugins_active'                                 => '',
-			'mwb_wsfw_rechargeable_product_id'                       => '',
-			'mwb_wsfw_enable'                                        => '',
-			'mwb_wsfw_allow_refund_to_wallet'                        => '',
-			'mwb_wsfw_enable_email_notification_for_wallet_update'   => '',
-			'mwb_wsfw_wallet_rest_api_keys'                          => '',
-			'mwb_wsfw_onboarding_data_sent'                          => '',
-			'mwb_wsfw_onboarding_data_skipped'                       => '',
-			'mwb_wsfw_updated_transaction_table'                     => '',
-			'mwb_sfw_enable_wallet_on_renewal_order'		         => '',
-			'mwb_sfw_amount_type_wallet_for_renewal_order'           => '',
-			'mwb_sfw_amount_deduct_from_wallet_during_renewal_order' => '',
-		);
-
-		foreach ( $wp_options as $key => $value ) {
-			$new_key = str_replace( 'mwb_', 'wps_', $key );
-			if ( ! empty( get_option( $new_key ) ) ) {
-				continue;
-			}
-			$new_value = get_option( $key, $value );
-			update_option( $new_key, $new_value );
-		}
-	}
-
-	/**
-	 * Rename custom table.ALTER TABLE old_table_name RENAME TO new_table_name;
-	 *
-	 * @return void
-	 */
-	public static function wsfw_rename_custom_table() {
-		global $wpdb;
-		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-		$query      = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
-
-		if ( $wpdb->get_var( $query ) == $table_name ) {
-			$old_table = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-			$new_table = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-			$sql       = "ALTER TABLE `$old_table` RENAME TO `$new_table`";
-			$rename_ok = $wpdb->query( $sql ); // @codingStandardsIgnoreLine.
 		}
 	}
 

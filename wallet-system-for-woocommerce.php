@@ -216,10 +216,6 @@ if ( $activated ) {
 			switch_to_blog( $blog_id );
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-activator.php';
 			Wallet_System_For_Woocommerce_Activator::create_table_and_product();
-			Wallet_System_For_Woocommerce_Activator::wsfw_upgrade_wp_postmeta();
-			Wallet_System_For_Woocommerce_Activator::wsfw_upgrade_wp_usermeta();
-			Wallet_System_For_Woocommerce_Activator::wsfw_upgrade_wp_options();
-			Wallet_System_For_Woocommerce_Activator::wsfw_rename_custom_table();
 			restore_current_blog();
 		}
 	}

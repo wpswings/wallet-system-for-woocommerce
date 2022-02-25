@@ -220,6 +220,9 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'admin_menu', $wsfw_plugin_admin, 'wsfw_options_page' );
 		$this->loader->add_action( 'admin_menu', $wsfw_plugin_admin, 'wps_wsfw_remove_default_submenu', 50 );
 
+		// This can be use to migrate db keys.
+		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wsfw_db_migrate_key' );
+
 		// All admin actions and filters after License Validation goes here.
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
 		$this->loader->add_filter( 'wsfw_template_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
