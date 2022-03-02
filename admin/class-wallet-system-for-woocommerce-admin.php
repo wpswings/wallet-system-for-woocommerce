@@ -1794,6 +1794,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		self::wsfw_upgrade_wp_options();
 		self::wsfw_rename_custom_table();
 		self::wsfw_replace_mwb_to_wps_in_shortcodes();
+		self::wsfw_remove_pro_menus();
 	}
 
 	/**
@@ -1962,6 +1963,15 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 			update_option( 'wsfw_replace_mwb_to_wps_in_shortcodes_check', 'done' );
 		}
+	}
+
+	/**
+	 * This function is used to remove pro plugin menus.
+	 *
+	 * @return void
+	 */
+	public static function wsfw_remove_pro_menus() {
+		remove_menu_page( 'mwb-plugins' );
 	}
 
 	/** End of Mgration code */
