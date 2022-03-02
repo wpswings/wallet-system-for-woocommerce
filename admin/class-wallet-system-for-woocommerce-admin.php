@@ -1793,6 +1793,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		self::wsfw_upgrade_wp_usermeta();
 		self::wsfw_upgrade_wp_options();
 		self::wsfw_rename_custom_table();
+		self::wsfw_replace_mwb_to_wps_in_shortcodes();
 	}
 
 	/**
@@ -1911,6 +1912,55 @@ class Wallet_System_For_Woocommerce_Admin {
 				$rename_ok = $wpdb->query( $sql ); // @codingStandardsIgnoreLine.
 			}
 			update_option( 'wsfw_rename_custom_table_check', 'done' );
+		}
+	}
+
+	/**
+	 * This function is used to upgrade shortcode.
+	 *
+	 * @return void
+	 */
+	public static function wsfw_replace_mwb_to_wps_in_shortcodes() {
+		$wsfw_replace_mwb_to_wps_in_shortcodes_check = get_option( 'wsfw_replace_mwb_to_wps_in_shortcodes_check', 'not_done' );
+		if ( 'not_done' === $wsfw_replace_mwb_to_wps_in_shortcodes_check ) {
+			$all_post_ids = get_posts(
+				array(
+					'post_type'      => 'post',
+					'posts_per_page' => -1,
+					'post_status'    => 'publish',
+					'fields'         => 'ids',
+				)
+			);
+
+			$all_page_ids = get_posts(
+				array(
+					'post_type'      => 'page',
+					'posts_per_page' => -1,
+					'post_status'    => 'publish',
+					'fields'         => 'ids',
+				)
+			);
+
+			$result = array_merge( $all_post_ids, $all_page_ids );
+			if ( ! empty( $result ) && is_array( $result ) ) {
+
+				foreach ( $result as $id ) {
+						$post    = get_post( $id );
+						$content = $post->post_content;
+						$array   = explode( ' ', $content );
+
+					foreach ( $array as $key => $val ) {
+						$html     = str_replace( 'MWB_', 'WPS_', $content );
+						$html_two = str_replace( 'mwb-', 'wps-', $html );
+						$my_post  = array(
+							'ID'           => $id,
+							'post_content' => $html_two,
+						);
+						wp_update_post( $my_post );
+					}
+				}
+			}
+			update_option( 'wsfw_replace_mwb_to_wps_in_shortcodes_check', 'done' );
 		}
 	}
 
