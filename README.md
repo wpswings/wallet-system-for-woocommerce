@@ -128,7 +128,7 @@ Customers can use their WooCommerce wallet balance to pay for products in two di
 Make a smart move with Premium Version of  Get [**Wallet System For WooCommerce Pro**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-github-page&utm_campaign=wallet-pro)
 
 ## DOCUMENTATION OF PREMIUM VERSION
-Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-org-doc ) and learn more about the features and working of the plugin.
+Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-github-page&utm_campaign=wallet-org-doc ) and learn more about the features and working of the plugin.
 
 ### **SUPPORT**
 
