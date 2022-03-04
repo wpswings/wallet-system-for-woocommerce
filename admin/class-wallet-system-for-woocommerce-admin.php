@@ -1971,7 +1971,9 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public static function wsfw_remove_pro_menus() {
-		remove_menu_page( 'mwb-plugins' );
+		if ( ! empty( $GLOBALS['admin_page_hooks']['mwb-plugins'] ) ) {
+			remove_menu_page( 'mwb-plugins' );
+		}
 	}
 
 	/** End of Mgration code */

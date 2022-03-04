@@ -35,6 +35,18 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+
+include_once ABSPATH . 'wp-admin/includes/plugin.php';
+if ( is_plugin_active( 'woocommerce-wallet-system/woocommerce-wallet-system.php' ) ) {
+	$plug = get_plugins();
+	if ( isset( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php'] ) ) {
+		if ( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php']['Version'] < '1.0.5' ) {
+			unset( $_GET['activate'] );
+			deactivate_plugins( plugin_basename( 'woocommerce-wallet-system/woocommerce-wallet-system.php' ) );
+		}
+	}
+}
+
 $active_plugins = (array) get_option( 'active_plugins', array() );
 if ( is_multisite() ) {
 	$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
@@ -141,28 +153,25 @@ if ( $activated ) {
 	function wps_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 
 		?>
-
-<tr class="plugin-update-tr active notice-warning notice-alt">
-	<td colspan="4" class="plugin-update colspanchange">
-		<div class="notice notice-success inline update-message notice-alt">
-			<div class='wps-notice-title wps-notice-section'>
-				<p><strong>IMPORTANT NOTICE:</strong></p>
-			</div>
-			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update <strong>Version 2.1.4</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
-				Please connect with us for all setup, support, and update related queries without hesitation.</p>
-			</div>
-		</div>
-	</td>
-</tr>
-<style>
-	.wps-notice-section > p:before {
-		content: none;
-	}
-</style>
-
+		<tr class="plugin-update-tr active notice-warning notice-alt">
+			<td colspan="4" class="plugin-update colspanchange">
+				<div class="notice notice-success inline update-message notice-alt">
+					<div class='wps-notice-title wps-notice-section'>
+						<p><strong>IMPORTANT NOTICE:</strong></p>
+					</div>
+					<div class='wps-notice-content wps-notice-section'>
+						<p>From this update <strong>Version 2.1.4</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+						Please connect with us for all setup, support, and update related queries without hesitation.</p>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<style>
+			.wps-notice-section > p:before {
+				content: none;
+			}
+		</style>
 		<?php
-
 	}//end wps_wsfw_upgrade_notice()
 
 	add_action( 'admin_notices', 'wps_wsfw_plugin_upgrade_notice', 20 );
