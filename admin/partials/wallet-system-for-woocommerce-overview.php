@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="wps-overview__wrapper">
 	<div class="wps-overview__banner">
-		<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/Wallet for WooCommerce_Banner.png" alt="Overview banner image">
+		<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/org-banner.jpg" alt="Overview banner image">
 	</div>
 	<div class="wps-overview__content">
 		<div class="wps-overview__content-description">
