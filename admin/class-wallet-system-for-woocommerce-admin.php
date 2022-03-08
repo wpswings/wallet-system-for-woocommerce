@@ -977,7 +977,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 					if ( $result ) {
-						$wps_wsfw_error_text = esc_html__( 'Wallet withdrawan request is approved for user #', 'wallet-system-for-woocommerce' ) . $user_id;
+						$wps_wsfw_error_text = esc_html__( 'Wallet withdrawal request is approved for user #', 'wallet-system-for-woocommerce' ) . $user_id;
 						$message             = array(
 							'msg'     => $wps_wsfw_error_text,
 							'msgType' => 'success',
@@ -997,7 +997,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$withdrawal_request->post_status = 'rejected';
 					wp_update_post( $withdrawal_request );
 					delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
-					$wps_wsfw_error_text = esc_html__( 'Wallet withdrawan request is rejected for user #', 'wallet-system-for-woocommerce' ) . $user_id;
+					$wps_wsfw_error_text = esc_html__( 'Wallet withdrawal request is rejected for user #', 'wallet-system-for-woocommerce' ) . $user_id;
 					$message             = array(
 						'msg'     => $wps_wsfw_error_text,
 						'msgType' => 'success',
@@ -1009,7 +1009,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( $user_id ) {
 					$withdrawal_request->post_status = 'pending1';
 					wp_update_post( $withdrawal_request );
-					$wps_wsfw_error_text = esc_html__( 'Wallet withdrawan request status is changed to pending for user #', 'wallet-system-for-woocommerce' ) . $user_id;
+					$wps_wsfw_error_text = esc_html__( 'Wallet withdrawal request status is changed to pending for user #', 'wallet-system-for-woocommerce' ) . $user_id;
 					$message             = array(
 						'msg'     => $wps_wsfw_error_text,
 						'msgType' => 'success',

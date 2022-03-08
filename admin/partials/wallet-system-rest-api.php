@@ -103,7 +103,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<h4><?php esc_html_e( 'REST API details', 'wallet-system-for-woocommerce' ); ?></h4>
 	<p>
 	<?php
-	echo '<strong>' . esc_html__( 'Base Url for accesing customer wallet : ', 'wallet-system-for-woocommerce' ) . '</strong>';
+	echo '<strong>' . esc_html__( 'Base Url for accessing customer wallet : ', 'wallet-system-for-woocommerce' ) . '</strong>';
 	echo '{home_url}/wp-json/wsfw-route/v1/wallet/';
 	?>
 	</p>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wallet System For WooCommerce 2.1.3\n"
 "POT-Creation-Date: 2022-01-31 12:21+0530\n"
-"PO-Revision-Date: 2022-03-08 06:07+0000\n"
+"PO-Revision-Date: 2022-03-08 06:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: English (United States)\n"
 "Language: en_US\n"
@@ -2106,7 +2106,7 @@ msgstr ""
 
 #: wallet-system-for-woocommerce.php:89 wallet-system-for-woocommerce.php:95
 msgid "Wallet System for WooCommerce"
-msgstr ""
+msgstr "Test"
 
 #: wallet-system-for-woocommerce.php:268
 msgid "Settings"
