@@ -24,7 +24,7 @@
  * WC Requires at least: 4.6
  * WC tested up to: 6.2.1
  * WP Requires at least: 5.1.0
- * WP tested up to: 5.9
+ * WP tested up to: 5.9.1
  * Requires PHP: 7.2 or Higher
  *
  * License:           GNU General Public License v3.0
@@ -206,6 +206,22 @@ if ( $activated ) {
 	}
 </style>
 		
+			<?php
+		}
+		wps_wsfw_show_deactivation_notice_for_pro();
+	}
+
+	/**
+	 * This function is used to show deactivation notice.
+	 *
+	 * @return void
+	 */
+	function wps_wsfw_show_deactivation_notice_for_pro() {
+		if ( ! is_plugin_active( 'wallet-system-for-woocommerce-pro/wallet-system-for-woocommerce-pro.php' ) ) {
+			?>
+				<div class="notice notice-error is-dismissible">
+					<p><strong><?php esc_html_e( 'Version 1.0.5 of Wallet System for WooCommerce Pro ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not available on your system! Please Update ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'wallet-system-for-woocommerce' ); ?></p>
+				</div>
 			<?php
 		}
 	}
