@@ -1,4 +1,4 @@
-[![BuildStatus](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-800%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.9-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.1.1-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
+[![BuildStatus](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-900%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.9-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.2.1-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # Wallet System for WooCommerce – Create an In-store Digital Wallet, Recharge User Wallets & View Transition History
 ![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png?rev=2671995)
 * Contributors: WP Swings
@@ -10,20 +10,20 @@
 
 # Description 
 
-**STREAMLINE MONEY MATTERS WITH A DIGITAL WALLET SYSTEM FOR WOOCOMMERCE. ADD CREDIT AMOUNT AND REFUND IN YOUR ECOMMERCE WALLETS INSTANTLY.**
+**STREAMLINE AND SPEED UP TRANSACTIONS WITH A DIGITAL SYSTEM FOR WOOCOMMERCE. ADD OR REMOVE BALANCE IN BULK, SEND REFUNDS, AND VIEW TRANSACTION HISTORY OF ALL WALLET USERS.**
 
 
 [**Wallet System for WooCommerce**](https://wordpress.org/plugins/wallet-system-for-woocommerce/) is a digital wallet plugin. It helps the merchant implement a digital wallet system on their WooCommerce store. And allows customers to perform eCommerce transactions using the wallet system.
 
-The customers can add money to their WooCommerce wallet through the available payment methods. And also, see the list of transactions made using the wallet money. The merchant can manage the customers’ wallets and change the wallet amount.
-The application of the Wallet System for WooCommerce will improve the overall user experience. It will speed up the checkout process as the customers will make transitions without entering their transaction details each time. The Wallet System for WooCommerce increases the ease and security of the payment process. It benefits both customers and the merchant.
+The customers can add money to their WooCommerce wallet through the available wallet payment methods. And also, see the list of transactions made using the wallet money. The merchant can manage the customers’ wallets and change the wallet amount.
+The application of the WooCommerce Wallet will improve the overall user experience. It will speed up the checkout process as the customers will make transitions without entering their transaction details each time. The WooCommerce Wallet System increases the ease and security of the payment process. It benefits both customers and the merchant.
 
 
 >**IMPORTANT NOTICE:**
 
->_**From this update Version 2.1.3 onwards, the Wallet System for WooCommerce and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-org-page&utm_campaign=official).**_
+>_**From this update Version 2.1.3 onwards, the Wallet System for WooCommerce and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-github-page&utm_campaign=official).**_
 
->_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us) for all setup, support, and update related queries without hesitation.**_
+>_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-github-page&utm_campaign=contact-us) for all setup, support, and update related queries without hesitation.**_
 
 [**Wallet System for WooCommerce: Credit, Debit and Refund System for Free**](https://youtu.be/pyAxFDBcLDA)
 
@@ -53,20 +53,16 @@ The application of the Wallet System for WooCommerce will improve the overall us
 
 10. Customers can make withdrawal requests to merchants by providing their details.
 
-11. Compatible with [Invoice System for WooCommerce](https://wordpress.org/plugins/invoice-system-for-woocommerce/).
+12. Compatible with [Subscriptions for WooCommerce.](https://wordpress.org/plugins/subscriptions-for-woocommerce/)
 
-12. Compatible with [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/wpswings-point-of-sale-pos-for-woocommerce/).
+13. Compatible with the WPML plugin.
 
-13. Compatible with [Subscriptions for WooCommerce.](https://wordpress.org/plugins/subscriptions-for-woocommerce/)
+14. Supports WordPress multisite network.
+15. Use the shortcode [wpswings-wallet] to display the user wallet on any page.
+16. Compatibility with [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/) Solution for WooCommerce.
+17. Pay a total or partial Wallet amount to buy products. 
 
-14. Compatible with the WPML plugin.
-
-15. Supports WordPress multisite network.
-16. Use the shortcode [wpswings-wallet] to display the user wallet on any page.
-17. Compatibility with [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/) Solution for WooCommerce.
-18. Pay a total or partial Wallet amount to buy products. 
-
-19. The email ids of both the debtor and creditor are shown in the transactions table to customers.
+18. The email ids of both the debtor and creditor are shown in the transactions table to customers.
 
 Visit [**Wallet System for WooCommerce Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-github-page&utm_campaign=wallet-doc) and learn more about the features and working of the plugin.
 
@@ -76,7 +72,7 @@ Check out [**Wallet System Plugin Knowledge Base**](https://support.wpswings.com
 
 * [**WooCommerce Wallet System Frontend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-frontend-demo&utm_medium=wallet-github-page&utm_campaign=wallet-frontend-demo)
 
-* [**WooCommerce Wallet System Backend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-backend-demo&utm_medium=wallet-github-page&utm_campaign=wallet-backend-demo)
+* [**WooCommerce Wallet System Backend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/get-your-personal-demo/?utm_source=wpswings-wallet-backend-demo&utm_medium=wallet-github-page&utm_campaign=wallet-backend-demo)
 
 
 
@@ -128,7 +124,7 @@ Customers can use their WooCommerce wallet balance to pay for products in two di
 Make a smart move with Premium Version of  Get [**Wallet System For WooCommerce Pro**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-github-page&utm_campaign=wallet-pro)
 
 ## DOCUMENTATION OF PREMIUM VERSION
-Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-org-doc ) and learn more about the features and working of the plugin.
+Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-github-page&utm_campaign=wallet-org-doc ) and learn more about the features and working of the plugin.
 
 ### **SUPPORT**
 
@@ -145,5 +141,7 @@ Wallet System For WooCommerce is translated into multiple languages Dutch, Russi
 - [**Tweet us on @WP Swings**](https://twitter.com/wpswings)
 - [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings)
 - [**Subscribe To Our YouTube Channel**](https://www.youtube.com/channel/UC7nYNf0JETOwW3GOD_EW2Ag)
-- [**Follow Our SlideShare**](https://www.slideshare.net/wpswings)
+
+
+
 
