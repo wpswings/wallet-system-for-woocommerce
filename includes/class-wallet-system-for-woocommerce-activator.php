@@ -51,15 +51,17 @@ class Wallet_System_For_Woocommerce_Activator {
 	public static function create_table_and_product() {
 		// create wallet metakey in usermeta of users.
 		$users = get_users();
-		foreach ( $users as $user ) {
-			$user_id = $user->ID;
-			$wallet  = get_user_meta( $user_id, 'mwb_wallet', true );
-			if ( empty( $wallet ) ) {
-				$wallet = update_user_meta( $user_id, 'mwb_wallet', 0 );
+		if ( ! empty( $users ) && is_array( $users ) ) {
+			foreach ( $users as $user ) {
+				$user_id = $user->ID;
+				$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
+				if ( empty( $wallet ) ) {
+					$wallet = update_user_meta( $user_id, 'wps_wallet', 0 );
+				}
 			}
 		}
 		// create product named as wallet topup.
-		if ( ! wc_get_product( get_option( 'mwb_wsfw_rechargeable_product_id' ) ) ) {
+		if ( ! wc_get_product( get_option( 'wps_wsfw_rechargeable_product_id' ) ) ) {
 			$product = array(
 				'post_title'   => 'Rechargeable Wallet Product',
 				'post_content' => 'This is the custom wallet topup product.',
@@ -80,32 +82,36 @@ class Wallet_System_For_Woocommerce_Activator {
 				$productdata->set_catalog_visibility( 'hidden' );
 				$productdata->save();
 
-				update_option( 'mwb_wsfw_rechargeable_product_id', $product_id );
+				update_option( 'wps_wsfw_rechargeable_product_id', $product_id );
 
 			}
 		}
 
-		// create custom table named wp-db-prefix_mwb_wsfw_wallet_transaction.
+		// create custom table named wp-db-prefix_wps_wsfw_wallet_transaction.
 		global $wpdb;
-		$table_name   = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-		$wpdb_collate = $wpdb->collate;
-		$sql          = "CREATE TABLE IF NOT EXISTS {$table_name} (
-			id bigint(20) unsigned NOT NULL auto_increment,
-			user_id bigint(20) unsigned NULL,
-			amount double,
-			currency varchar( 20 ) NOT NULL,
-			transaction_type varchar(200) NULL,
-			payment_method varchar(50) NULL,
-			transaction_id varchar(50) NULL,
-			note varchar(500) Null,
-			date datetime,
-			PRIMARY KEY  (Id),
-			KEY user_id (user_id)
-			)
-			COLLATE {$wpdb_collate}";
+		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+		$query      = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
+		if ( $wpdb->get_var( $query ) != $table_name ) {
+			$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+			$wpdb_collate = $wpdb->collate;
+			$sql          = "CREATE TABLE IF NOT EXISTS {$table_name} (
+				id bigint(20) unsigned NOT NULL auto_increment,
+				user_id bigint(20) unsigned NULL,
+				amount double,
+				currency varchar( 20 ) NOT NULL,
+				transaction_type varchar(200) NULL,
+				payment_method varchar(50) NULL,
+				transaction_id varchar(50) NULL,
+				note varchar(500) Null,
+				date datetime,
+				PRIMARY KEY  (Id),
+				KEY user_id (user_id)
+				)
+				COLLATE {$wpdb_collate}";
 
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $sql );
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			dbDelta( $sql );
+		}
 	}
 
 }

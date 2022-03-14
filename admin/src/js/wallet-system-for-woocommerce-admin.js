@@ -45,11 +45,11 @@
         });
 
 		// on clicking element change the input type password to text or vice-versa
-		$(document).on( 'click', '.mwb-password-hidden', function() {
-            if ($('.mwb-form__password').attr('type') == 'text') {
-                $('.mwb-form__password').attr('type', 'password');
+		$(document).on( 'click', '.wps-password-hidden', function() {
+            if ($('.wps-form__password').attr('type') == 'text') {
+                $('.wps-form__password').attr('type', 'password');
             } else {
-                $('.mwb-form__password').attr('type', 'text');
+                $('.wps-form__password').attr('type', 'text');
             }
         });
 
@@ -116,33 +116,33 @@
 		});
 		$(document).on( 'click', '#update_wallet', function(e) {
 			e.preventDefault(e);
-			$('.mwb_wallet-update--popupwrap').show();
+			$('.wps_wallet-update--popupwrap').show();
 		});
 		$(document).on("click", "#confirm_updatewallet", function(){
-			$('.mwb_wallet-update--popupwrap').hide();
+			$('.wps_wallet-update--popupwrap').hide();
 		});
 	
 		$(document).on("click", "#cancel_walletupdate", function(){
-			$('.mwb_wallet-update--popupwrap').hide();
+			$('.wps_wallet-update--popupwrap').hide();
 		});
 
 		$(document).on("click", ".edit_wallet", function(e){
 			e.preventDefault(e);
 			var userid = $(this).attr('data-userid');
-			$('.mwb_wallet-edit--popupwrap').show();
-			$('.mwb_wallet-edit--popupwrap').find('.mwb_wallet-edit-popup-btn').before('<input class="userid" type="hidden" name="user_id" value="'+userid+'">');
+			$('.wps_wallet-edit--popupwrap').show();
+			$('.wps_wallet-edit--popupwrap').find('.wps_wallet-edit-popup-btn').before('<input class="userid" type="hidden" name="user_id" value="'+userid+'">');
 		});
 
 		$(document).on("click", "#close_wallet_form", function(e){
-			$('.mwb_wallet-edit-popup-fill').val('');
+			$('.wps_wallet-edit-popup-fill').val('');
 			$('.error').html('');
-			$('.mwb_wallet-edit--popupwrap').find('.userid').remove();
-			$('.mwb_wallet-edit--popupwrap').hide();
+			$('.wps_wallet-edit--popupwrap').find('.userid').remove();
+			$('.wps_wallet-edit--popupwrap').hide();
 
 		});
 
 		// update wallet and status on changing status of wallet request
-		$(document).on( 'change', 'select#mwb-wpg-gen-table_status', function() {
+		$(document).on( 'change', 'select#wps-wpg-gen-table_status', function() {
 			var withdrawal_id = $(this).siblings('input[name=withdrawal_id]').val();
 			var user_id = $(this).siblings('input[name=user_id]').val();
 			var status = $(this).find(":selected").val();
@@ -161,7 +161,7 @@
 				},
 				datatType: 'JSON',
 				success: function( response ) {
-					$( '.mwb-wpg-withdrawal-section-table' ).before('<div class="notice notice-' + response.msgType + ' is-dismissible mwb-errorr-8"><p>' + response.msg + '</p></div>');		
+					$( '.wps-wpg-withdrawal-section-table' ).before('<div class="notice notice-' + response.msgType + ' is-dismissible wps-errorr-8"><p>' + response.msg + '</p></div>');		
 					loader.hide();
 					setTimeout(function () {
 						location.reload();
@@ -172,7 +172,7 @@
 
 			})
 			.fail(function ( response ) {
-				$( '.mwb-wpg-withdrawal-section-table' ).before('<div class="notice notice-error is-dismissible mwb-errorr-8"><p>' + wsfw_admin_param.wsfw_ajax_error + '</p></div>');		
+				$( '.wps-wpg-withdrawal-section-table' ).before('<div class="notice notice-error is-dismissible wps-errorr-8"><p>' + wsfw_admin_param.wsfw_ajax_error + '</p></div>');		
 				loader.hide();
 			});
 		});
@@ -181,7 +181,7 @@
 
 
 		$('#search_in_table').keyup(function(){
-			var table = $('#mwb-wpg-gen-table').DataTable();
+			var table = $('#wps-wpg-gen-table').DataTable();
 			table.search($(this).val()).draw() ;
 		});
 
@@ -190,12 +190,12 @@
 			$('#min').val('');
 			$('#max').val('');
 			$('#filter_status').prop('selectedIndex',0);
-			var table = $('.mwb-wpg-gen-section-table').DataTable();
+			var table = $('.wps-wpg-gen-section-table').DataTable();
 			table.search( '' ).columns().search( '' ).draw();
 
 		});
 
-		$('#mwb_wallet-edit-popup-input').keyup(function() {
+		$('#wps_wallet-edit-popup-input').keyup(function() {
 			$('.error').hide();
 			$('span.error-keyup-1').hide();
 			var inputVal = $(this).val();
@@ -211,8 +211,8 @@
 
 	$(window).load(function(){
 		// add select2 for multiselect.
-		if( $(document).find('.mwb-defaut-multiselect').length > 0 ) {
-			$(document).find('.mwb-defaut-multiselect').select2();
+		if( $(document).find('.wps-defaut-multiselect').length > 0 ) {
+			$(document).find('.wps-defaut-multiselect').select2();
 		}
 	});
 

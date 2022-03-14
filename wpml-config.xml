@@ -1,6 +1,6 @@
 <wpml-config>
     <custom-fields>
-        <custom-field action="translate">mwb_wallet_note</custom-field>
+        <custom-field action="translate">wps_wallet_note</custom-field>
         <custom-field action="translate">transaction_type</custom-field>
         <custom-field action="translate">payment_method</custom-field>
         <custom-field action="translate">note</custom-field>

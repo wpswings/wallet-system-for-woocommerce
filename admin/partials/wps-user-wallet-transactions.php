@@ -2,7 +2,7 @@
 /**
  * Provide a admin area view for the plugin
  *
- * This file is used to show wallet transactions.
+ * This file is used for showing user's wallet transactions
  *
  * @link       https://wpswings.com/
  * @since      1.0.0
@@ -14,19 +14,22 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+if ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) {
+	$user_id = sanitize_text_field( wp_unslash( $_GET['id'] ) );
+}
+$user = get_user_by( 'id', $user_id );
 
 ?>
 
 <div class="wps-wpg-transcation-section-search">
-
 	<table>
 			<tbody>
 				<tr>
-					<th><?php esc_html_e( 'Search', 'wallet-system-for-woocommerce' ); ?></td>
+					<th><?php esc_html_e( 'Search', 'wallet-system-for-woocommerce' ); ?></th>
 					<td><input type="text" id="search_in_table" placeholder="Enter your Keyword"></td>
 				</tr>
 				<tr>
-					<td><input name="min" id="min" type="text" placeholder="From"  autocomplete="off"></td>
+					<td><input name="min" id="min" type="text" placeholder="From" autocomplete="off"></td>
 				</tr>
 				<tr>
 					<td><input name="max" id="max" type="text" placeholder="To" autocomplete="off"></td>
@@ -37,56 +40,43 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</tbody>
 		</table>
 
-
 </div>
 
-
 <div class="wps-wpg-gen-section-table-wrap wps-wpg-transcation-section-table">
-	<h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
+	<h4>
+	<?php
+	echo esc_html__( 'Wallet Transactions: ', 'wallet-system-for-woocommerce' ) . esc_html( $user->user_login ) . '(' . esc_html( $user->user_email ) . ')';
+	?>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-wallet-setting' ) ); ?>"><span class="dashicons dashicons-editor-break" ></span></a>
+	</h4>
 	<div class="wps-wpg-gen-section-table-container">
-		<table id="wps-wpg-gen-table" class="wps-wpg-gen-section-table dt-responsive wps-wpg-gen-table-all-transaction">
+		<table id="wps-wpg-gen-table" class="wps-wpg-gen-section-table wps-wpg-user-transaction-table dt-responsive">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th><?php esc_html_e( 'Name', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Email', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Role', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Details', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
-					<th class="hide_date" ><?php esc_html_e( 'Date1', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class="hide_date" ><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php
 				global $wpdb;
 				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
+				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
-						$user = get_user_by( 'id', $transaction->user_id );
-						if ( $user ) {
-							$display_name = $user->display_name;
-							$useremail    = $user->user_email;
-							$user_role    = $user->roles[0];
-						} else {
-							$display_name = '';
-							$useremail    = '';
-							$user_role    = '';
-						}
 						?>
 						<tr>
 							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
-							<td><?php echo esc_html( $display_name ); ?></td>
-							<td><?php echo esc_html( $useremail ); ?></td>
-							<td><?php echo esc_html( $user_role ); ?></td>
+							<td><?php echo esc_html( $transaction->id ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td><?php echo $transaction->payment_method; // phpcs:ignore ?></td>
 							<td><?php echo html_entity_decode( $transaction->transaction_type ); // phpcs:ignore ?></td>
-							<td><?php echo esc_html( $transaction->id ); ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
@@ -105,16 +95,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 						$i++;
 					}
 				}
-
 				?>
-			
 			</tbody>
 		</table>
 	</div>
 </div>
-
 <?php
-// including datepicker jquery for input tag.
+// enqueue datepicker js.
 wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
-wp_enqueue_script( 'wps-admin-all-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-all-transaction-table.js', array( 'jquery' ), $this->version, false );
+wp_enqueue_script( 'wps-admin-user-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-user-transaction-table.js', array( 'jquery' ), $this->version, false );
 ?>

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Check if function exists.
-if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
+if ( ! function_exists( 'wps_wsfw_update_user_wallet_balance' ) ) {
 	/**
 	 * Update the user's wallet balance.
 	 *
@@ -23,17 +23,17 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 	 * @param int $order_id order id.
 	 * @return boolean
 	 */
-	function mwb_wsfw_update_user_wallet_balance( $user_id, $amount, $order_id = '' ) {
-		$wallet_balance = get_user_meta( $user_id, 'mwb_wallet', true );
+	function wps_wsfw_update_user_wallet_balance( $user_id, $amount, $order_id = '' ) {
+		$wallet_balance = get_user_meta( $user_id, 'wps_wallet', true );
 		if ( ! empty( $wallet_balance ) ) {
 			if ( $wallet_balance < $amount ) {
 				$wallet_balance = 0;
 			} else {
 				$wallet_balance -= $amount;
 			}
-			$update_wallet          = update_user_meta( $user_id, 'mwb_wallet', $wallet_balance );
+			$update_wallet          = update_user_meta( $user_id, 'wps_wallet', $wallet_balance );
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-			$send_email_enable      = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
+			$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 			if ( $update_wallet ) {
 				$payment_method   = esc_html__( 'Manually done', 'wallet-system-for-woocommerce' );
 				$currency         = get_woocommerce_currency();
@@ -42,7 +42,7 @@ if ( ! function_exists( 'mwb_wsfw_update_user_wallet_balance' ) ) {
 					$order = wc_get_order( $order_id );
 					if ( $order ) {
 						$payment_method = $order->get_payment_method();
-						if ( 'mwb_wcb_wallet_payment_gateway' === $payment_method || 'wallet' === $payment_method ) {
+						if ( 'wps_wcb_wallet_payment_gateway' === $payment_method || 'wallet' === $payment_method ) {
 							$payment_method = esc_html__( 'Wallet Payment', 'wallet-system-for-woocommerce' );
 						}
 						$currency         = $order->get_currency();

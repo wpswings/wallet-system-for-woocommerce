@@ -1,12 +1,12 @@
-=== Wallet System For WooCommerce - Create an In-store Digital Wallet, Recharge User Wallets & View Transition History ===
+=== Wallet System for WooCommerce - Create an In-store Digital Wallet, Recharge User Wallets & View Transition History ===
 Contributors: WP Swings
 Donate link: https://wpswings.com/
 Tags: digital wallet, credit, refund, user wallet, woocommerce wallet, wallet
 Requires at least: 5.1.0
-Tested up to: 5.9
+Tested up to: 5.9.2
 WC requires at least: 4.6
-WC tested up to: 6.1.1
-Stable tag: 2.1.3
+WC tested up to: 6.3.1
+Stable tag: 2.1.4
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,19 +15,19 @@ Wallet System for WooCommerce is a digital wallet plugin. Using wallet amounts, 
 
 == Description ==
 
-***STREAMLINE MONEY MATTERS WITH A DIGITAL WALLET SYSTEM FOR WOOCOMMERCE. ADD CREDIT AMOUNT AND REFUND IN YOUR ECOMMERCE WALLETS INSTANTLY.*** 
+***STREAMLINE AND SPEED UP TRANSACTIONS WITH A DIGITAL SYSTEM FOR WOOCOMMERCE. ADD OR REMOVE BALANCE IN BULK, SEND REFUNDS, AND VIEW TRANSACTION HISTORY OF ALL WALLET USERS.*** 
 
-Wallet System for WooCommerce is a digital wallet plugin. It helps the merchant implement a digital wallet system on their WooCommerce store. And allows customers to perform eCommerce transactions using the wallet system.
+Wallet System for WooCommerce is a digital wallet plugin. It helps the merchant implement a digital wallet system on their WooCommerce store. And allows customers to perform Digital payments using the wallet system.
 
 The customers can add money to their WooCommerce wallet through the available payment methods. And also, see the list of transactions made using the wallet money. The merchant can manage the customers’ wallets and change the wallet amount. 
 
-The application of the Wallet System for WooCommerce will improve the overall user experience. It will speed up the checkout process as the customers will make transitions without entering their transaction details each time. 
+The application of the WooCommerce Wallet plugin will improve the overall user experience. It will speed up the checkout process as the customers will make transitions without entering their transaction details each time. 
 
-The Wallet System for WooCommerce increases the ease and security of the payment process. It benefits both customers and the merchant. 
+The WooCommerce Wallet System increases the ease and security of the payment process. It benefits both customers and the merchant. 
 
 >**IMPORTANT NOTICE:**
 
->_**From this update Version 2.1.3 onwards, the Wallet System for WooCommerce and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-org-page&utm_campaign=official ).**_
+>_**From this update Version 2.1.4 onwards, the Wallet System for WooCommerce and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-org-page&utm_campaign=official ).**_
 
 >_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us) for all setup, support, and update related queries without hesitation.**_
 
@@ -36,7 +36,7 @@ The Wallet System for WooCommerce increases the ease and security of the payment
 
 == WHAT’S INCLUDED IN OUR FREE WALLET SYSTEM FOR WOOCOMMERCE PLUGIN ==
 
-**1.** Customers can top up funds into their WooCommerce wallets using any payment method allowed by the merchant. 
+**1.** Customers can top up funds into their WooCommerce payment wallets using any payment method allowed by the merchant. 
 
 **2.** Customers can see their transactions made using the wallet (credit/debit). 
 
@@ -53,30 +53,26 @@ The Wallet System for WooCommerce increases the ease and security of the payment
 **8.**  If the WooCommerce wallet amount is less than the order total, it will appear in the order details section during checkout and customers can use it to get discounts.
 
  
-**9.**  Merchants can see all wallet recharge orders (top-up by customers) in a separate order list in the WooCommerce section. 
+**9.**  Merchants can see all wallet recharge orders (wallet top-up by customers) in a separate order list in the WooCommerce section. 
 
 **10.**Customers can make withdrawal requests to merchants by providing their details.
 
-**11.**Compatible with [Invoice System for WooCommerce](https://wordpress.org/plugins/invoice-system-for-woocommerce/ ).
-
-**12.**.  Compatible with [POS (Point of Sale) for WooCommerce](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/ ).
-
-**13.** Compatible with [Subscriptions for WooCommerce](https://wordpress.org/plugins/subscriptions-for-woocommerce/ ).
+**11.** Compatible with [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/ ).
 
 
-**14.**Compatible with the WPML plugin.
+**12.**Compatible with the WPML plugin.
 
-**15.**Supports WordPress multisite network. 
+**13.**Supports WordPress multisite network. 
 
-**16.**Use the shortcode [mwb-wallet] to display the user wallet on any page. 
+**14.**Use the shortcode [wps-wallet] to display the user wallet on any page. 
 
-**17.**  Compatibility with Multi Vendor Marketplace Solution for WooCommerce
+**15.**  Compatibility with Multi Vendor Marketplace Solution for WooCommerce
 
-**18.** Pay a total or partial Wallet amount to buy products. 
+**16.** Pay a total or partial Wallet amount to buy products. 
 
-**19.** The email ids of both the debtor and creditor are shown in the transactions table to customers.
+**17.** The email ids of both the debtor and creditor are shown in the transactions table to customers.
 
-**20.**Compatibility with [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/) Solution for WooCommerce.
+**18.**Compatibility with [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/) Solution for WooCommerce.
 
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
@@ -92,7 +88,7 @@ Customers can add balance to their wallets using the available payment methods o
 Customers can file a withdrawal request to withdraw their wallet balance into their bank account or other payment applications. The merchant has the power to approve or reject these requests, but they have to address each request individually. 
 
 **3. Email Notifications**
-The Merchant can allow customers to review email notifications on the wallet recharge, the wallet credit, and the deduction of the wallet balance. It will update your customers about their wallets. 
+The Merchant can allow customers to review email notifications on the wallet recharge, the woocommerce customer  credit, and the deduction of the wallet balance. It will update your customers about their wallets. 
 
 **4. Flexible Payment Option**
 Customers can use their Wallets as a payment option if the wallet balance is higher than the total cart value. They can use it as a discount coupon when the wallet balance is lower than the total cart value. 
@@ -104,7 +100,7 @@ The customers’ wallet transactions history contains entries for wallet recharg
 The customers can transfer their wallet amount into other customers’ wallets. It will help the merchants to increase the user interaction on their WooCommerce store and result in an increase in the wallet user base. 
 
 **7. Compatibility with Subscriptions for WooCommerce**
-The WooCommerce Wallet is compatible with the [Subscriptions for WooCommerce](https://wordpress.org/plugins/subscriptions-for-woocommerce/) plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
+The WooCommerce Wallet is compatible with the [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
 
 **8.  Compatibility with Multi-Vendor Marketplace Solution for WooCommerce**
 The Wallet System for WooCommerce is compatible with the Multi-Vendor Marketplace Solution for the WooCommerce plugin. You will be able to select a wallet as a payment method for your vendors to receive the sales commission. 
@@ -143,7 +139,7 @@ Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswing
 
 == SUPPORT ==
 
-If you need support or have any questions then kindly use our online chat window [here](https://wpswings.com/?utm_source=wpswings-site&utm_medium=wallet-org-page&utm_campaign=wallet-org ) or  connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-wallet-ticket&utm_medium=wallet-org-page&utm_campaign=generate-ticket )
+If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-site&utm_medium=wallet-org-page&utm_campaign=wallet-org) or  connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-wallet-ticket&utm_medium=wallet-org-page&utm_campaign=generate-ticket )
 
 
 
@@ -162,7 +158,7 @@ In the search field type "Wallet System for WooCommerce" and click Search Plugin
 
 = Manual installation =
 
-The manual installation method involves downloading our Wallet System for WooCommerce and uploading it to your web server via your favourite FTP application. The WordPress contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
+The manual installation method involves downloading our Wallet System for WooCommerce and uploading it to your web server via your favorite FTP application. The WordPress contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
 
 = Updating =
 
@@ -199,13 +195,13 @@ Yes, the admin can check all the transactions of their users, for this go to the
 Yes, for this please go to the *my-account page >> wallet >> click on transfer* and then from here they can transfer the amount to the other person.
 
 = Is there any shortcode for the wallet system for WooCommerce? =
-Yes, Admin can shortcode mwb-wallet for using all the functionalities of the Wallet System for WooCommerce.
+Yes, Admin can shortcode wps-wallet for using all the functionalities of the Wallet System for WooCommerce.
 
 = Does this plugin Support WordPress Multisite networks? =
 Yes, the plugin supports WordPress Multisite Network
 
 = My question is not listed? =
-For more detail Please visit [WP Swings Knowledge base](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-kb&utm_medium=wallet-org-page&utm_campaign=wallet-kb ) for more detailed [documentation](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-doc ). 
+For more detail Please visit [**WP Swings Knowledge base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-kb&utm_medium=wallet-org-page&utm_campaign=wallet-kb) for more detailed [**Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-doc ). 
 
 
 == Screenshots ==
@@ -222,13 +218,19 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 10. Wallet transfer
 11. Wallet withdrawal request
 12. Wallet transaction history check
-13  WCMp commission wallet
+13. WCMp commission wallet
 14. WCMp Payment Setting
 15. How and when to pay
 16. WPML Compatible
 17. Store Setting
 
 == Changelog ==
+
+= 2.1.4 - RELEASED ON 11 March 2022 =
+
+* New :  Some substantial changes across different areas of the plugin.
+* New : Minor Bug Fixes
+* New : Compatible with latest WP and WC
 
 = 2.1.3 - RELEASED ON 3 february 2022 =
 
@@ -250,7 +252,7 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 
 = 2.1.0 - RELEASED ON 23 September 2021 =
 
-* New: Shortcode mwb-wallet which will display user wallet on a page
+* New: Shortcode wps-wallet which will display user wallet on a page
 * New: Support WordPress Multisite Network
 * New: Compatible with our [Subscriptions For WooCommerce plugin](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
 * New: Compatible with WPML plugin
@@ -258,7 +260,7 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 = 2.0.4 - RELEASED ON 2 August 2021 =
 
 * Fix: the warning comes when adding wallet recharge to cart.
-* New: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/ ) plugin regarding debiting the wallet amount.
+* New: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/) plugin regarding debiting the wallet amount.
 
 = 2.0.3 - RELEASED ON 22 June 2021 =
 
@@ -291,10 +293,9 @@ For more detail Please visit [WP Swings Knowledge base](https://support.wpswings
 
 == Upgrade Notice ==
 
-= 2.1.3 - RELEASED ON 3 February 2022 =
+= 2.1.4 - RELEASED ON 11 March 2022 =
 
-* New: Change author from MakeWebBetter to WP Swings
-* New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official).
-* New: Minor Bug fixes
-* New: Compatible with latest WP and WC 
+* New :  Some substantial changes across different areas of the plugin.
+* New : Minor Bug Fixes
+* New : Compatible with latest WP and WC
 

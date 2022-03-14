@@ -14,7 +14,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-global $wsfw_mwb_wsfw_obj;
+global $wsfw_wps_wsfw_obj;
 
 if ( isset( $_POST['generate_api_key'] ) && ! empty( $_POST['generate_api_key'] ) ) {
 	$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
@@ -27,48 +27,48 @@ if ( isset( $_POST['generate_api_key'] ) && ! empty( $_POST['generate_api_key'] 
 		}
 		$wallet_api_keys['consumer_key']    = $api_keys[0];
 		$wallet_api_keys['consumer_secret'] = $api_keys[1];
-		$result                             = update_option( 'mwb_wsfw_wallet_rest_api_keys', $wallet_api_keys );
+		$result                             = update_option( 'wps_wsfw_wallet_rest_api_keys', $wallet_api_keys );
 		if ( $result ) {
 			$msfw_wpg_error_text = esc_html__( 'API Key generated successfully.', 'wallet-system-for-woocommerce' );
-			$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'success' );
+			$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'success' );
 		} else {
 			$msfw_wpg_error_text = esc_html__( 'API Key is not created', 'wallet-system-for-woocommerce' );
-			$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+			$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
 		}
 	} else {
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
+		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 	}
 }
 
 if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
-	$result = delete_option( 'mwb_wsfw_wallet_rest_api_keys' );
+	$result = delete_option( 'wps_wsfw_wallet_rest_api_keys' );
 	if ( $result ) {
 		wp_safe_redirect( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-rest-api&wsfw_tab=wallet-system-rest-api' ) );
 		$msfw_wpg_error_text = esc_html__( 'API Key deleted successfully.', 'wallet-system-for-woocommerce' );
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'success' );
+		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'success' );
 	} else {
 		wp_safe_redirect( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-rest-api&wsfw_tab=wallet-system-rest-api' ) );
 		$msfw_wpg_error_text = esc_html__( 'API Key is not deleted', 'wallet-system-for-woocommerce' );
-		$wsfw_mwb_wsfw_obj->mwb_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
+		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
 	}
 }
 
 ?>
-<div class="mwb-wsfw-gen-section-form mwb-wsfw-wallet-system-rest-api"> 
+<div class="wps-wsfw-gen-section-form wps-wsfw-wallet-system-rest-api"> 
 	<h4><?php esc_html_e( 'REST API keys', 'wallet-system-for-woocommerce' ); ?></h4> 
 	<?php
-	$rest_api_keys = get_option( 'mwb_wsfw_wallet_rest_api_keys', '' );
+	$rest_api_keys = get_option( 'wps_wsfw_wallet_rest_api_keys', '' );
 	$store_url     = site_url();
 	if ( empty( $rest_api_keys ) || ! is_array( $rest_api_keys ) ) {
 		?>
 		<form action="" method="POST" > 
 			<div class="wpg-secion-wrap">
-				<div class="mwb-form-group mwb-form-group2">
-					<div class="mwb-form-group__control">
+				<div class="wps-form-group wps-form-group2">
+					<div class="wps-form-group__control">
 
 						<p><?php esc_html_e( 'REST API allows external apps to view and manage wallet. Access is granted only to those with valid API keys.', 'wallet-system-for-woocommerce' ); ?></p>
 						<input type="hidden" id="verifynonce" name="verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
-						<input type="submit" class="mwb-btn mwb-btn__filled" name="generate_api_key"  value="Generate API key">
+						<input type="submit" class="wps-btn wps-btn__filled" name="generate_api_key"  value="Generate API key">
 					</div>
 				</div>
 			</div>
@@ -96,14 +96,14 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 				</tr>
 			</tbody>
 		</table>
-		<p><a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-rest-api' ) ); ?>&action=delete_api_keys" class="mwb-btn mwb-btn__filled delete_keys" ><?php esc_html_e( 'Delete API Keys', 'wallet-system-for-woocommerce' ); ?></a></p>
+		<p><a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-rest-api' ) ); ?>&action=delete_api_keys" class="wps-btn wps-btn__filled delete_keys" ><?php esc_html_e( 'Delete API Keys', 'wallet-system-for-woocommerce' ); ?></a></p>
 		<?php
 	}
 	?>
 	<h4><?php esc_html_e( 'REST API details', 'wallet-system-for-woocommerce' ); ?></h4>
 	<p>
 	<?php
-	echo '<strong>' . esc_html__( 'Base Url for accesing customer wallet : ', 'wallet-system-for-woocommerce' ) . '</strong>';
+	echo '<strong>' . esc_html__( 'Base Url for accessing customer wallet : ', 'wallet-system-for-woocommerce' ) . '</strong>';
 	echo '{home_url}/wp-json/wsfw-route/v1/wallet/';
 	?>
 	</p>
@@ -267,7 +267,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 
 	</p>
 	<p><strong><?php esc_html_e( 'Request Parameters', 'wallet-system-for-woocommerce' ); ?></strong></p>
-	<table class="mwb-wsfw-rest-api-table">
+	<table class="wps-wsfw-rest-api-table">
 		<thead>
 			<tr>
 				<th><?php esc_html_e( 'Parameter', 'wallet-system-for-woocommerce' ); ?></th>

@@ -40,13 +40,13 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		 *
 		 * @return array
 		 */
-		public function mwb_wsfw_get_users() {
-			$mwb_wsfw_rest_response = array();
+		public function wps_wsfw_get_users() {
+			$wps_wsfw_rest_response = array();
 			$user_details           = array();
 			$users                  = get_users( 'orderby=id' );
 			if ( ! empty( $users ) ) {
 				foreach ( $users as $user ) {
-					$wallet_bal     = get_user_meta( $user->ID, 'mwb_wallet', true );
+					$wallet_bal     = get_user_meta( $user->ID, 'wps_wallet', true );
 					$user_details[] = array(
 						'user_id'        => $user->ID,
 						'user_name'      => esc_html( $user->display_name ),
@@ -55,11 +55,11 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 						'wallet_balance' => $wallet_bal,
 					);
 				}
-				$mwb_wsfw_rest_response['data'] = $user_details;
+				$wps_wsfw_rest_response['data'] = $user_details;
 			}
-			$mwb_wsfw_rest_response['status'] = 200;
+			$wps_wsfw_rest_response['status'] = 200;
 
-			return $mwb_wsfw_rest_response;
+			return $wps_wsfw_rest_response;
 		}
 
 		/**
@@ -69,23 +69,23 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		 * @return array
 		 */
 		public function get_wallet_balance( $user_id ) {
-			$mwb_wsfw_rest_response = array();
+			$wps_wsfw_rest_response = array();
 
 			if ( ! empty( $user_id ) ) {
 				$user = get_user_by( 'id', $user_id );
 				if ( $user ) {
-					$wallet_bal = get_user_meta( $user_id, 'mwb_wallet', true );
+					$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
 					if ( empty( $wallet_bal ) ) {
 						$wallet_bal = '0.00';
 					}
-					$mwb_wsfw_rest_response['data'] = $wallet_bal;
+					$wps_wsfw_rest_response['data'] = $wallet_bal;
 				} else {
-					$mwb_wsfw_rest_response['data'] = esc_html__( 'User does not exist', 'wallet-system-for-woocommerce' );
+					$wps_wsfw_rest_response['data'] = esc_html__( 'User does not exist', 'wallet-system-for-woocommerce' );
 				}
 			}
-			$mwb_wsfw_rest_response['status'] = 200;
+			$wps_wsfw_rest_response['status'] = 200;
 
-			return $mwb_wsfw_rest_response;
+			return $wps_wsfw_rest_response;
 		}
 
 		/**
@@ -95,7 +95,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		 * @return array
 		 */
 		public function update_wallet_balance( $request ) {
-			$mwb_wsfw_rest_response = array();
+			$wps_wsfw_rest_response = array();
 
 			$user_id = $request['id'];
 			if ( ! empty( $user_id ) ) {
@@ -108,11 +108,11 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 					$payment_method         = ! empty( $request['payment_method'] ) ? sanitize_text_field( $request['payment_method'] ) : '';
 					$note                   = ! empty( $request['note'] ) ? sanitize_text_field( $request['note'] ) : '';
 					$order_id               = ! empty( $request['order_id'] ) ? sanitize_text_field( $request['order_id'] ) : '';
-					$wallet                 = get_user_meta( $user_id, 'mwb_wallet', true );
+					$wallet                 = get_user_meta( $user_id, 'wps_wallet', true );
 					$wallet                 = empty( $wallet ) ? 0 : $wallet;
 					if ( 'credit' === $wallet_action ) {
 						$wallet       += $updated_amount;
-						$update_wallet = update_user_meta( $user_id, 'mwb_wallet', $wallet );
+						$update_wallet = update_user_meta( $user_id, 'wps_wallet', $wallet );
 						$mail_message  = __( 'Your wallet has credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
 
 					} elseif ( 'debit' === $wallet_action ) {
@@ -121,13 +121,13 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 						} else {
 							$wallet -= $updated_amount;
 						}
-						$update_wallet = update_user_meta( $user_id, 'mwb_wallet', abs( $wallet ) );
+						$update_wallet = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
 						$mail_message  = __( 'Your wallet has been debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
 
 					}
 					if ( $update_wallet ) {
-						$wallet            = get_user_meta( $user_id, 'mwb_wallet', true );
-						$send_email_enable = get_option( 'mwb_wsfw_enable_email_notification_for_wallet_update', '' );
+						$wallet            = get_user_meta( $user_id, 'wps_wallet', true );
+						$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$name       = $user->first_name . ' ' . $user->last_name;
 							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
@@ -163,14 +163,14 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 							);
 						}
 					}
-					$mwb_wsfw_rest_response['data'] = $data;
+					$wps_wsfw_rest_response['data'] = $data;
 				} else {
-					$mwb_wsfw_rest_response['data'] = esc_html__( 'User does not exist', 'wallet-system-for-woocommerce' );
+					$wps_wsfw_rest_response['data'] = esc_html__( 'User does not exist', 'wallet-system-for-woocommerce' );
 				}
 			}
-			$mwb_wsfw_rest_response['status'] = 200;
+			$wps_wsfw_rest_response['status'] = 200;
 
-			return $mwb_wsfw_rest_response;
+			return $wps_wsfw_rest_response;
 		}
 
 		/**
@@ -180,25 +180,25 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		 * @return array
 		 */
 		public function get_user_wallet_transactions( $user_id ) {
-			$mwb_wsfw_rest_response = array();
+			$wps_wsfw_rest_response = array();
 
 			if ( ! empty( $user_id ) ) {
 				$user = get_user_by( 'id', $user_id );
 				if ( $user ) {
 					global $wpdb;
-					$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'mwb_wsfw_wallet_transaction WHERE user_id = %s ORDER BY Id', $user_id ) );
+					$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction WHERE user_id = %s ORDER BY Id', $user_id ) );
 					if ( ! empty( $transactions ) && is_array( $transactions ) ) {
-						$mwb_wsfw_rest_response['data'] = $transactions;
+						$wps_wsfw_rest_response['data'] = $transactions;
 					} else {
-						$mwb_wsfw_rest_response['data'] = array();
+						$wps_wsfw_rest_response['data'] = array();
 					}
 				} else {
-					$mwb_wsfw_rest_response['data'] = esc_html__( 'User does not exist', 'wallet-system-for-woocommerce' );
+					$wps_wsfw_rest_response['data'] = esc_html__( 'User does not exist', 'wallet-system-for-woocommerce' );
 				}
 			}
-			$mwb_wsfw_rest_response['status'] = 200;
+			$wps_wsfw_rest_response['status'] = 200;
 
-			return $mwb_wsfw_rest_response;
+			return $wps_wsfw_rest_response;
 		}
 
 	}

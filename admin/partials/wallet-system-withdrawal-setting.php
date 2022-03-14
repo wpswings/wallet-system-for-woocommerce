@@ -14,13 +14,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-global $wsfw_mwb_wsfw_obj;
+global $wsfw_wps_wsfw_obj;
 
 ?>
 <!--  template file for admin settings. -->
 
 
-<div class="mwb-wpg-withdrawal-section-search">
+<div class="wps-wpg-withdrawal-section-search">
 
 	<table>
 			<tbody>
@@ -48,10 +48,10 @@ global $wsfw_mwb_wsfw_obj;
 
 </div>
 
-<div class="mwb-wpg-gen-section-table-wrap mwb-wpg-withdrawal-section-table">
+<div class="wps-wpg-gen-section-table-wrap wps-wpg-withdrawal-section-table">
 	<h4><?php esc_html_e( 'Withdrawal Requests', 'wallet-system-for-woocommerce' ); ?></h4>
-	<div class="mwb-wpg-gen-section-table-container demo">
-		<table id="mwb-wpg-gen-table1" class="mwb-wpg-gen-section-table dt-responsive">
+	<div class="wps-wpg-gen-section-table-container demo">
+		<table id="wps-wpg-gen-table1" class="wps-wpg-gen-section-table dt-responsive">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
@@ -77,7 +77,7 @@ global $wsfw_mwb_wsfw_obj;
 				$i                   = 1;
 				if ( ! empty( $withdrawal_requests ) ) {
 					foreach ( $withdrawal_requests as $request ) {
-						$withdrawal_amount = get_post_meta( $request->ID, 'mwb_wallet_withdrawal_amount', true );
+						$withdrawal_amount = get_post_meta( $request->ID, 'wps_wallet_withdrawal_amount', true );
 						$user_id           = get_post_meta( $request->ID, 'wallet_user_id', true );
 						?>
 							<tr>
@@ -97,7 +97,7 @@ global $wsfw_mwb_wsfw_obj;
 										<span class="rejected" ><?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></span>
 									<?php } else { ?> 
 									<form action="" method="POST">
-										<select onchange="this.className=this.options[this.selectedIndex].className" name="mwb-wpg-gen-table_status" id="mwb-wpg-gen-table_status" aria-controls="mwb-wpg-gen-section-table" class="<?php echo esc_attr( $request->post_status ); ?>">
+										<select onchange="this.className=this.options[this.selectedIndex].className" name="wps-wpg-gen-table_status" id="wps-wpg-gen-table_status" aria-controls="wps-wpg-gen-section-table" class="<?php echo esc_attr( $request->post_status ); ?>">
 											<option class="approved" value="approved" >&nbsp;&nbsp;<?php esc_html_e( 'approved', 'wallet-system-for-woocommerce' ); ?></option>
 											<option class="pending1" value="pending1" <?php selected( 'pending1', $request->post_status, true ); ?> disabled  >&nbsp;&nbsp;<?php esc_html_e( 'pending', 'wallet-system-for-woocommerce' ); ?></option>
 											<option class="rejected" value="rejected" >&nbsp;&nbsp;<?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></option>
@@ -122,7 +122,7 @@ global $wsfw_mwb_wsfw_obj;
 								</td>					
 								<td>
 								<?php
-								echo esc_html( get_post_meta( $request->ID, 'mwb_wallet_note', true ) );
+								echo esc_html( get_post_meta( $request->ID, 'wps_wallet_note', true ) );
 								?>
 								</td>	
 							</tr>

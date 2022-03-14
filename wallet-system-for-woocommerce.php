@@ -15,16 +15,16 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
- * Version:           2.1.3
+ * Version:           2.1.4
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
  * WC Requires at least: 4.6
- * WC tested up to: 6.1.1
+ * WC tested up to: 6.3.1
  * WP Requires at least: 5.1.0
- * WP tested up to: 5.9
+ * WP tested up to: 5.9.2
  * Requires PHP: 7.2 or Higher
  *
  * License:           GNU General Public License v3.0
@@ -35,6 +35,18 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+
+include_once ABSPATH . 'wp-admin/includes/plugin.php';
+if ( is_plugin_active( 'woocommerce-wallet-system/woocommerce-wallet-system.php' ) ) {
+	$plug = get_plugins();
+	if ( isset( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php'] ) ) {
+		if ( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php']['Version'] < '1.0.5' ) {
+			unset( $_GET['activate'] );
+			deactivate_plugins( plugin_basename( 'woocommerce-wallet-system/woocommerce-wallet-system.php' ) );
+		}
+	}
+}
+
 $active_plugins = (array) get_option( 'active_plugins', array() );
 if ( is_multisite() ) {
 	$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
@@ -51,7 +63,7 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.1.3' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.1.4' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -83,20 +95,20 @@ if ( $activated ) {
 	function activate_wallet_system_for_woocommerce( $network_wide ) {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-activator.php';
 		Wallet_System_For_Woocommerce_Activator::wallet_system_for_woocommerce_activate( $network_wide );
-		$mwb_wsfw_active_plugin = get_option( 'mwb_all_plugins_active', false );
-		if ( is_array( $mwb_wsfw_active_plugin ) && ! empty( $mwb_wsfw_active_plugin ) ) {
-			$mwb_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
+		$wps_wsfw_active_plugin = get_option( 'wps_all_plugins_active', false );
+		if ( is_array( $wps_wsfw_active_plugin ) && ! empty( $wps_wsfw_active_plugin ) ) {
+			$wps_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
 				'plugin_name' => __( 'Wallet System for WooCommerce', 'wallet-system-for-woocommerce' ),
 				'active'      => '1',
 			);
 		} else {
-			$mwb_wsfw_active_plugin = array();
-			$mwb_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
+			$wps_wsfw_active_plugin = array();
+			$wps_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
 				'plugin_name' => __( 'Wallet System for WooCommerce', 'wallet-system-for-woocommerce' ),
 				'active'      => '1',
 			);
 		}
-		update_option( 'mwb_all_plugins_active', $mwb_wsfw_active_plugin );
+		update_option( 'wps_all_plugins_active', $wps_wsfw_active_plugin );
 	}
 
 	/**
@@ -106,15 +118,15 @@ if ( $activated ) {
 	function deactivate_wallet_system_for_woocommerce() {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-deactivator.php';
 		Wallet_System_For_Woocommerce_Deactivator::wallet_system_for_woocommerce_deactivate();
-		$mwb_wsfw_deactive_plugin = get_option( 'mwb_all_plugins_active', false );
-		if ( is_array( $mwb_wsfw_deactive_plugin ) && ! empty( $mwb_wsfw_deactive_plugin ) ) {
-			foreach ( $mwb_wsfw_deactive_plugin as $mwb_wsfw_deactive_key => $mwb_wsfw_deactive ) {
-				if ( 'wallet-system-for-woocommerce' === $mwb_wsfw_deactive_key ) {
-					$mwb_wsfw_deactive_plugin[ $mwb_wsfw_deactive_key ]['active'] = '0';
+		$wps_wsfw_deactive_plugin = get_option( 'wps_all_plugins_active', false );
+		if ( is_array( $wps_wsfw_deactive_plugin ) && ! empty( $wps_wsfw_deactive_plugin ) ) {
+			foreach ( $wps_wsfw_deactive_plugin as $wps_wsfw_deactive_key => $wps_wsfw_deactive ) {
+				if ( 'wallet-system-for-woocommerce' === $wps_wsfw_deactive_key ) {
+					$wps_wsfw_deactive_plugin[ $wps_wsfw_deactive_key ]['active'] = '0';
 				}
 			}
 		}
-		update_option( 'mwb_all_plugins_active', $mwb_wsfw_deactive_plugin );
+		update_option( 'wps_all_plugins_active', $wps_wsfw_deactive_plugin );
 	}
 
 	register_activation_hook( __FILE__, 'activate_wallet_system_for_woocommerce' );
@@ -127,7 +139,7 @@ if ( $activated ) {
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce.php';
 
 	// Upgrade notice.
-	add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'mwb_wsfw_upgrade_notice', 0, 3 );
+	add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_wsfw_upgrade_notice', 0, 3 );
 
 
 	/**
@@ -138,34 +150,31 @@ if ( $activated ) {
 	 * @param string $status Status filter currently applied to the plugin list.
 	 * @return void
 	 */
-	function mwb_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
+	function wps_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 
 		?>
-
-<tr class="plugin-update-tr active notice-warning notice-alt">
-	<td colspan="4" class="plugin-update colspanchange">
-		<div class="notice notice-success inline update-message notice-alt">
-			<div class='wps-notice-title wps-notice-section'>
-				<p><strong>IMPORTANT NOTICE:</strong></p>
-			</div>
-			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
-				Please connect with us for all setup, support, and update related queries without hesitation.</p>
-			</div>
-		</div>
-	</td>
-</tr>
-<style>
-	.wps-notice-section > p:before {
-		content: none;
-	}
-</style>
-
+		<tr class="plugin-update-tr active notice-warning notice-alt">
+			<td colspan="4" class="plugin-update colspanchange">
+				<div class="notice notice-success inline update-message notice-alt">
+					<div class='wps-notice-title wps-notice-section'>
+						<p><strong>IMPORTANT NOTICE:</strong></p>
+					</div>
+					<div class='wps-notice-content wps-notice-section'>
+						<p>From this update <strong>Version 2.1.4</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+						Please connect with us for all setup, support, and update related queries without hesitation.</p>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<style>
+			.wps-notice-section > p:before {
+				content: none;
+			}
+		</style>
 		<?php
+	}//end wps_wsfw_upgrade_notice()
 
-	}//end mwb_wsfw_upgrade_notice()
-
-	add_action( 'admin_notices', 'mwb_wsfw_plugin_upgrade_notice', 20 );
+	add_action( 'admin_notices', 'wps_wsfw_plugin_upgrade_notice', 20 );
 
 
 	/**
@@ -173,7 +182,7 @@ if ( $activated ) {
 	 *
 	 * @return void
 	 */
-	function mwb_wsfw_plugin_upgrade_notice() {
+	function wps_wsfw_plugin_upgrade_notice() {
 		$screen = get_current_screen();
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' === $screen->id ) {
 			?>
@@ -185,7 +194,7 @@ if ( $activated ) {
 				<p><strong>IMPORTANT NOTICE:</strong></p>
 			</div>
 			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+				<p>From this update <strong>Version 2.1.4</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 				Please connect with us for all setup, support, and update related queries without hesitation.</p>
 			</div>
 		</div>
@@ -199,6 +208,22 @@ if ( $activated ) {
 		
 			<?php
 		}
+		wps_wsfw_show_deactivation_notice_for_pro();
+	}
+
+	/**
+	 * This function is used to show deactivation notice.
+	 *
+	 * @return void
+	 */
+	function wps_wsfw_show_deactivation_notice_for_pro() {
+		if ( ! is_plugin_active( 'wallet-system-for-woocommerce-pro/wallet-system-for-woocommerce-pro.php' ) ) {
+			?>
+				<div class="notice notice-error is-dismissible">
+					<p><strong><?php esc_html_e( 'Version 1.0.5 of Wallet System for WooCommerce Pro ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not available on your system! Please Update ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'wallet-system-for-woocommerce' ); ?></p>
+				</div>
+			<?php
+		}
 	}
 
 	/**
@@ -207,7 +232,7 @@ if ( $activated ) {
 	 * @param object $new_site New site object.
 	 * @return void
 	 */
-	function mwb_wsfw_on_create_blog( $new_site ) {
+	function wps_wsfw_on_create_blog( $new_site ) {
 		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		}
@@ -219,7 +244,7 @@ if ( $activated ) {
 			restore_current_blog();
 		}
 	}
-	add_action( 'wp_initialize_site', 'mwb_wsfw_on_create_blog', 900 );
+	add_action( 'wp_initialize_site', 'wps_wsfw_on_create_blog', 900 );
 
 	/**
 	 * Deleting the table whenever a blog is deleted.
@@ -227,12 +252,12 @@ if ( $activated ) {
 	 * @param array $tables tables.
 	 * @return array
 	 */
-	function mwb_wsfw_on_delete_blog( $tables ) {
+	function wps_wsfw_on_delete_blog( $tables ) {
 		global $wpdb;
-		$tables[] = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+		$tables[] = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 		return $tables;
 	}
-	add_filter( 'wpmu_drop_tables', 'mwb_wsfw_on_delete_blog' );
+	add_filter( 'wpmu_drop_tables', 'wps_wsfw_on_delete_blog' );
 
 	/**
 	 * Begins execution of the plugin.
@@ -246,9 +271,9 @@ if ( $activated ) {
 	function run_wallet_system_for_woocommerce() {
 		define_wallet_system_for_woocommerce_constants();
 
-		$wsfw_plugin_standard = new Wallet_System_For_Woocommerce();
-		$wsfw_plugin_standard->wsfw_run();
-		$GLOBALS['wsfw_mwb_wsfw_obj'] = $wsfw_plugin_standard;
+		$wsfw_wsfw_plugin_standard = new Wallet_System_For_Woocommerce();
+		$wsfw_wsfw_plugin_standard->wsfw_run();
+		$GLOBALS['wsfw_wps_wsfw_obj'] = $wsfw_wsfw_plugin_standard;
 
 	}
 	run_wallet_system_for_woocommerce();
@@ -279,9 +304,9 @@ if ( $activated ) {
 	 */
 	function wallet_system_for_woocommerce_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 		if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-			$links_array[] = '<a href="https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-backend&utm_campaign=wallet-demo" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="mwb-info-img" alt="Demo image">' . __( 'Demo', 'wallet-system-for-woocommerce' ) . '</a>';
-			$links_array[] = '<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="mwb-info-img" alt="documentation image">' . __( 'Documentation', 'wallet-system-for-woocommerce' ) . '</a>';
-			$links_array[] = '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-wallet-query&utm_medium=wallet-org-backend&utm_campaign=submit-query" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="mwb-info-img" alt="support image">' . __( 'Support', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-backend&utm_campaign=wallet-demo" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="wps-info-img" alt="Demo image">' . __( 'Demo', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="wps-info-img" alt="documentation image">' . __( 'Documentation', 'wallet-system-for-woocommerce' ) . '</a>';
+			$links_array[] = '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-wallet-query&utm_medium=wallet-org-backend&utm_campaign=submit-query" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="wps-info-img" alt="support image">' . __( 'Support', 'wallet-system-for-woocommerce' ) . '</a>';
 		}
 		return $links_array;
 	}
@@ -289,25 +314,25 @@ if ( $activated ) {
 
 } else {
 	// To deactivate plugin if woocommerce is not installed.
-	add_action( 'admin_init', 'mwb_wsfw_plugin_deactivate' );
+	add_action( 'admin_init', 'wps_wsfw_plugin_deactivate' );
 
 	/**
 	 * Call Admin notices
 	 *
-	 * @name mwb_wsfw_plugin_deactivate()
+	 * @name wps_wsfw_plugin_deactivate()
 	 */
-	function mwb_wsfw_plugin_deactivate() {
+	function wps_wsfw_plugin_deactivate() {
 		deactivate_plugins( plugin_basename( __FILE__ ), true );
 		unset( $_GET['activate'] );
-		add_action( 'admin_notices', 'mwb_wsfw_plugin_error_notice' );
+		add_action( 'admin_notices', 'wps_wsfw_plugin_error_notice' );
 	}
 
 	/**
 	 * Show warning message if woocommerce is not install
 	 *
-	 * @name mwb_wsfw_plugin_error_notice()
+	 * @name wps_wsfw_plugin_error_notice()
 	 */
-	function mwb_wsfw_plugin_error_notice() {
+	function wps_wsfw_plugin_error_notice() {
 		?>
 		<div class="error notice is-dismissible">
 			<p>

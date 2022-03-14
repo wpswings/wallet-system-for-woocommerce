@@ -14,13 +14,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-global $wsfw_mwb_wsfw_obj;
+global $wsfw_wps_wsfw_obj;
 $wsfw_template_settings = apply_filters( 'wsfw_template_settings_array', array() );
 ?>
 <!--  template file for admin settings. -->
 <div class="wsfw-section-wrap">
 	<?php
-		$wsfw_template_html = $wsfw_mwb_wsfw_obj->mwb_wsfw_plug_generate_html( $wsfw_template_settings );
+		$wsfw_template_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_template_settings );
 		echo esc_html( $wsfw_template_html );
 	?>
 </div>
