@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wallet System For WooCommerce 2.1.4\n"
-"POT-Creation-Date: 2022-03-11 18:31+0530\n"
-"PO-Revision-Date: 2022-03-11 18:31+0530\n"
+"POT-Creation-Date: 2022-03-16 17:16+0530\n"
+"PO-Revision-Date: 2022-03-16 17:17+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -832,12 +832,12 @@ msgid "Please configure your Wallet Payment Gateway settings."
 msgstr ""
 
 #: admin/partials/wallet-system-for-woocommerce-admin-dashboard.php:42
-#: wallet-system-for-woocommerce.php:308
+#: wallet-system-for-woocommerce.php:314
 msgid "Documentation"
 msgstr ""
 
 #: admin/partials/wallet-system-for-woocommerce-admin-dashboard.php:44
-#: wallet-system-for-woocommerce.php:309
+#: wallet-system-for-woocommerce.php:315
 msgid "Support"
 msgstr ""
 
@@ -2106,31 +2106,31 @@ msgstr ""
 msgid "Wallet System for WooCommerce"
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:223
+#: wallet-system-for-woocommerce.php:227
 msgid "Version 1.0.5 of Wallet System for WooCommerce Pro "
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:223
+#: wallet-system-for-woocommerce.php:227
 msgid " is not available on your system! Please Update "
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:223
+#: wallet-system-for-woocommerce.php:227
 msgid "Wallet System for WooCommerce Pro"
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:223
+#: wallet-system-for-woocommerce.php:227
 msgid "."
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:293
+#: wallet-system-for-woocommerce.php:299
 msgid "Settings"
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:307
+#: wallet-system-for-woocommerce.php:313
 msgid "Demo"
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:339
+#: wallet-system-for-woocommerce.php:345
 msgid ""
 "WooCommerce is not activated, Please activate WooCommerce first to install "
 "Wallet System For WooCommerce."
