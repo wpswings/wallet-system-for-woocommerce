@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Wallet System For WooCommerce 2.1.4\n"
-"POT-Creation-Date: 2022-03-16 17:16+0530\n"
+"Project-Id-Version: Wallet System For WooCommerce 2.2.0\n"
+"POT-Creation-Date: 2022-03-16 17:42+0530\n"
 "PO-Revision-Date: 2021-08-02 15:42+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -833,12 +833,12 @@ msgid "Please configure your Wallet Payment Gateway settings."
 msgstr ""
 
 #: admin/partials/wallet-system-for-woocommerce-admin-dashboard.php:42
-#: wallet-system-for-woocommerce.php:314
+#: wallet-system-for-woocommerce.php:310
 msgid "Documentation"
 msgstr ""
 
 #: admin/partials/wallet-system-for-woocommerce-admin-dashboard.php:44
-#: wallet-system-for-woocommerce.php:315
+#: wallet-system-for-woocommerce.php:311
 msgid "Support"
 msgstr ""
 
@@ -2107,31 +2107,31 @@ msgstr ""
 msgid "Wallet System for WooCommerce"
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:227
-msgid "Version 1.0.5 of Wallet System for WooCommerce Pro "
+#: wallet-system-for-woocommerce.php:225
+msgid "Version 1.0.5 of WooCommerce Wallet System "
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:227
+#: wallet-system-for-woocommerce.php:225
 msgid " is not available on your system! Please Update "
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:227
+#: wallet-system-for-woocommerce.php:225
 msgid "Wallet System for WooCommerce Pro"
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:227
+#: wallet-system-for-woocommerce.php:225
 msgid "."
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:299
+#: wallet-system-for-woocommerce.php:295
 msgid "Settings"
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:313
+#: wallet-system-for-woocommerce.php:309
 msgid "Demo"
 msgstr ""
 
-#: wallet-system-for-woocommerce.php:345
+#: wallet-system-for-woocommerce.php:341
 msgid ""
 "WooCommerce is not activated, Please activate WooCommerce first to install "
 "Wallet System For WooCommerce."
