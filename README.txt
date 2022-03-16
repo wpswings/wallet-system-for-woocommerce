@@ -232,61 +232,60 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 
 == Changelog ==
 
-= 2.2.0 - RELEASED ON 14 March 2022 =
+= 2.2.0 - Released on 16 March 2022 =
 
+* New: Minor Bug Fixes
 
-* New : Minor Bug Fixes
+= 2.1.4 - Released on 14 March 2022 =
 
-= 2.1.4 - RELEASED ON 14 March 2022 =
+* New:  Some substantial changes across different areas of the plugin.
+* New: Minor Bug Fixes
+* New: Compatible with latest WP and WC
 
-* New :  Some substantial changes across different areas of the plugin.
-* New : Minor Bug Fixes
-* New : Compatible with latest WP and WC
-
-= 2.1.3 - RELEASED ON 3 february 2022 =
+= 2.1.3 - Released on 3 february 2022 =
 
 * New: Change author from MakeWebBetter to WP Swings
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official ).
 * New: Minor Bug fixes
 * New: Compatible with latest WP and WC 
 
-= 2.1.2 - RELEASED ON 29 November 2021 =
+= 2.1.2 - Released on 29 November 2021 =
 
 * New: Partial Payment Option
 * New: Updated all transaction table
 * Fix: Minor Fixes.
 
-= 2.1.1 - RELEASED ON 2 November 2021 =
+= 2.1.1 - Released on 2 November 2021 =
 
 * New: Supports Multi Vendor Marketplace Solution for WooCommerce
 * Fix: Minor Fixes.
 
-= 2.1.0 - RELEASED ON 23 September 2021 =
+= 2.1.0 - Released on 23 September 2021 =
 
 * New: Shortcode wps-wallet which will display user wallet on a page
 * New: Support WordPress Multisite Network
 * New: Compatible with our [Subscriptions For WooCommerce plugin](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
 * New: Compatible with WPML plugin
 
-= 2.0.4 - RELEASED ON 2 August 2021 =
+= 2.0.4 - Released on 2 August 2021 =
 
 * Fix: the warning comes when adding wallet recharge to cart.
 * New: Added a function for WooCommerce POS plugin regarding debiting the wallet amount.
 
-= 2.0.3 - RELEASED ON 22 June 2021 =
+= 2.0.3 - Released on 22 June 2021 =
 
 * Fix: Minor Fixes.
 
-= 2.0.2 - RELEASED ON 15 June 2021 =
+= 2.0.2 - Released on 15 June 2021 =
 
 * Fix: The error coming due to plugin JavaScript file in shop and cart page
 * Fix: Wallet payment gateway error
 
-= 2.0.1 - RELEASED ON 27 May 2021 =
+= 2.0.1 - Released on 27 May 2021 =
 
 * Fix: Minor Bug and Issues Fixes.
 
-= 2.0.0 - RELEASED ON 20 May 2021 =
+= 2.0.0 - Released on 20 May 2021 =
 
 * New: Customers can pay using their wallet as a discount if the wallet amount is less than the actual order amount,
 * New: Customers can transfer wallet amounts to another user.
@@ -304,8 +303,6 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 
 == Upgrade Notice ==
 
-= 2.2.0 - RELEASED ON 14 March 2022 =
+= 2.2.0 - Released on 16 March 2022 =
 
-
-* New : Minor Bug Fixes
-
+* New: Minor Bug Fixes
