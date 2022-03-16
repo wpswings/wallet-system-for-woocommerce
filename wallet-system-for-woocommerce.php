@@ -217,12 +217,18 @@ if ( $activated ) {
 	 * @return void
 	 */
 	function wps_wsfw_show_deactivation_notice_for_pro() {
-		if ( ! is_plugin_active( 'wallet-system-for-woocommerce-pro/wallet-system-for-woocommerce-pro.php' ) ) {
-			?>
-				<div class="notice notice-error is-dismissible">
-					<p><strong><?php esc_html_e( 'Version 1.0.5 of Wallet System for WooCommerce Pro ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not available on your system! Please Update ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'wallet-system-for-woocommerce' ); ?></p>
-				</div>
-			<?php
+		if ( is_plugin_active( 'woocommerce-wallet-system/woocommerce-wallet-system.php' ) ) {
+			$plug = get_plugins();
+			if ( isset( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php'] ) ) {
+		
+				if ( ! is_plugin_active( 'wallet-system-for-woocommerce-pro/wallet-system-for-woocommerce-pro.php' ) ) {
+					?>
+						<div class="notice notice-error is-dismissible">
+							<p><strong><?php esc_html_e( 'Version 1.0.5 of Wallet System for WooCommerce Pro ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not available on your system! Please Update ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'wallet-system-for-woocommerce' ); ?></p>
+						</div>
+					<?php
+				}
+			}
 		}
 	}
 
