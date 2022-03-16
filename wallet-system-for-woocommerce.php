@@ -221,8 +221,8 @@ if ( $activated ) {
 	$plug = get_plugins();
 		if ( isset( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php'] ) ) {
 			?>
-				<div class="notice notice-error is-dismissible">
-					<p><strong><?php esc_html_e( 'Version 1.0.5 of WooCommerce Wallet System ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not available on your system! Please Update ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'wallet-system-for-woocommerce' ); ?></p>
+			<div class="notice notice-error is-dismissible">
+					<p><strong><?php esc_html_e( 'The WooCommerce Wallet System ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( 'has been renamed as ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ". Please update the plugin's latest version ", 'wallet-system-for-woocommerce' )?><strong><?php esc_html_e( '1.0.5.', 'wallet-system-for-woocommerce' ); ?></strong></p>
 				</div>
 			<?php
 		}
