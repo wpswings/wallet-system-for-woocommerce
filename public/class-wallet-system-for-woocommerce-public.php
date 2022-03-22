@@ -724,5 +724,74 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 
+	public function calculate_cashback(){
+		$cashback_amount = 0;
+		$wsfw_max_cashbak_amount = get_option('wps_wsfw_cashback_amount_max');
+		$wsfw_cashbak_amount = get_option('wps_wsfw_cashback_amount');
+		$wsfw_cashbak_type = get_option('wps_wsfw_cashback_type');
+		$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
+		if ('percent' === $wsfw_cashbak_type) {
+			$total = apply_filters('wps_wsfw_wallet_calculate_cashback_on_total_amount', true) ? wc()->cart->get_total('edit') : wc()->cart->get_subtotal();
+			$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
 
+			if ( $wsfw_percent_cashback_amount <  $wsfw_min_cart_amount ) 
+			{
+			
+			if ($wsfw_max_cashbak_amount && $wsfw_percent_cashback_amount > $wsfw_max_cashbak_amount) {
+				$cashback_amount += $wsfw_max_cashbak_amount;
+			} else {
+				$cashback_amount += $wsfw_percent_cashback_amount;
+			}
+		}
+		} else {
+			if ( wc()->cart->get_subtotal() >= $wsfw_max_cashbak_amount  ) {
+				$cashback_amount += $wsfw_cashbak_amount;
+			}
+			
+		}
+		return apply_filters('wps_wsfw_wallet_form_cart_cashback_amount', $cashback_amount);
+	}
+
+	public function wsfw_wallet_price_args($user_id = '') {
+        if (!$user_id) {
+            $user_id = get_current_user_id();
+        }
+        $args = apply_filters('wsfw_wallet_price_args', array(
+            'ex_tax_label' => false,
+            'currency' => '',
+            'decimal_separator' => wc_get_price_decimal_separator(),
+            'thousand_separator' => wc_get_price_thousand_separator(),
+            'decimals' => wc_get_price_decimals(),
+            'price_format' => get_woocommerce_price_format(),
+                ), $user_id);
+        return $args;
+    }
+
+	/**
+     * Cashback notice
+     */
+	public function wsfw_woocommerce_before_cart_total_cashback_message() {
+			if ( 'on' == get_option('wps_wsfw_enable_cashback') ) :
+				?>
+				<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+					<?php
+					    $cashback_amount = $this->calculate_cashback();
+						$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
+						$cart_subtotal = wc()->cart->get_subtotal();
+						if ( $cart_subtotal <  $wsfw_min_cart_amount ) {
+							echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Earn Cashback On Orders Above %s .', 'woo-wallet'), wc_price($wsfw_min_cart_amount,$this->wsfw_wallet_price_args() )), $wsfw_min_cart_amount);
+						}else{
+						
+							if (is_user_logged_in()) {
+								echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Upon placing this order a cashback of %s will be credited to your wallet.', 'woo-wallet'), wc_price($cashback_amount,$this->wsfw_wallet_price_args() )), $cashback_amount);
+							} else {
+								echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Please <a href="%s">log in</a> to avail %s cashback from this order.', 'woo-wallet'), esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))), wc_price($cashback_amount, $this->wsfw_wallet_price_args())), $cashback_amount);
+							}
+						}
+
+						?>
+					</div>
+				<?php
+			endif;
+		}
 }
