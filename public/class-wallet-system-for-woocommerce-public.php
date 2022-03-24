@@ -322,13 +322,11 @@ class Wallet_System_For_Woocommerce_Public {
 						'order_id'         => $order_id,
 						'note'             => $transfer_note,
 					);
-
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 
 				}
 			}
 		}
-
 		foreach ( $order->get_fees() as $item_fee ) {
 			$fee_name    = $item_fee->get_name();
 			$fee_total   = $item_fee->get_total();
@@ -744,7 +742,7 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		} else {
-			if ( wc()->cart->get_subtotal() >= $wsfw_max_cashbak_amount  ) {
+			if ( wc()->cart->get_total('edit') >= $wsfw_cashbak_amount  ) {
 				$cashback_amount += $wsfw_cashbak_amount;
 			}
 			
@@ -777,8 +775,12 @@ class Wallet_System_For_Woocommerce_Public {
 					<?php
 					    $cashback_amount = $this->calculate_cashback();
 						$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
-						$cart_subtotal = wc()->cart->get_subtotal();
-						if ( $cart_subtotal <  $wsfw_min_cart_amount ) {
+						$cart_total =  ! empty( wc()->cart->get_total('edit') ) ? wc()->cart->get_total('edit') : wc()->cart->get_subtotal();
+						//print_r(wc()->cart);
+						$cart_total = apply_filters('wps_wsfw_wallet_cashback_on_total', $cart_total );
+echo 	$cashback_amount;
+
+						if ( floatval( $cart_total ) <  floatval( $wsfw_min_cart_amount ) ) {
 							echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Earn Cashback On Orders Above %s .', 'woo-wallet'), wc_price($wsfw_min_cart_amount,$this->wsfw_wallet_price_args() )), $wsfw_min_cart_amount);
 						}else{
 						
@@ -794,4 +796,5 @@ class Wallet_System_For_Woocommerce_Public {
 				<?php
 			endif;
 		}
+	
 }

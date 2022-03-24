@@ -264,7 +264,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_wallet_recharge_post_type', 30 );
 
 		$this->loader->add_action( 'wp_ajax_export_users_wallet', $wsfw_plugin_admin, 'export_users_wallet' );
-		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 10, 3 );
+		 $this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 30, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
 
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
@@ -293,6 +293,8 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_scripts' );
 
 		$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_common, 'wps_wsfw_wallet_recharge_product_purchasable', 1, 2 );
+
+		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_cashback_on_complete_order', 10, 3 );
 
 	}
 
@@ -329,7 +331,6 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'wps_wsfw_remove_customer_details_in_emails', 5, 1 );
 			$this->loader->add_action( 'woocommerce_before_cart_table', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
 			$this->loader->add_action( 'woocommerce_before_checkout_form', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
-
 		}
 
 	}
@@ -675,8 +676,7 @@ class Wallet_System_For_Woocommerce {
 											step="<?php echo esc_attr( $wsfw_component['step'] ); ?>"
 												<?php }
 										?>
-									<?php } 
-									
+									<?php }
 									?>
 									type="<?php echo esc_attr( $wsfw_component['type'] ); ?>"
 									value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"

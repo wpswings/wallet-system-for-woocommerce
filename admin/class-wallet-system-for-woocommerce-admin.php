@@ -295,7 +295,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_enable_cashback',
 				'id'          => 'wps_wsfw_enable_cashback',
-				'value'       => 'on',
+				'value'       => get_option( 'wps_wsfw_enable_cashback' ),
 				'class'       => 'wsfw-radio-switch-class',
 				'options'     => array(
 					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
@@ -308,7 +308,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'type'        => 'multiselect',
 				'description' => __( 'Select order status to apply cashback Wallet Payment.', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_multiselect_category',
-				'value'       => get_option( 'wsfw_multiselect_category' ),
+				'value'       => get_option( 'wps_wsfw_multiselect_category' ),
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
 				'placeholder' => '',
 				'options' => apply_filters( 'wps_wsfw_cashback_type_order', array( 
@@ -350,7 +350,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'description' => __( 'Give cashback on wallet when customer pay through Wallet Payment Method.', 'wallet-system-for-woocommerce' ),
 					'name'        => 'wps_wsfw_cashback_amount',
 					'id'          => 'wps_wsfw_cashback_amount',
-					'value'       => get_option( 'wws_cashback_amount' ),
+					'value'       => get_option( 'wps_wsfw_cashback_amount' ),
 					'placeholder' => __( 'enter amount', 'wallet-system-for-woocommerce' ),
 					'class'       => 'wws-text-class',
 				),
@@ -361,7 +361,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'name'        => 'wps_wsfw_cart_amount_min',
 					'id'          => 'wps_wsfw_cart_amount_min',
 					'step'        => '0.01',
-					'value'       => get_option( 'wws_cart_amount_min' ),
+					'value'       => get_option( 'wps_wsfw_cart_amount_min' ),
 					'placeholder' => __( 'enter amount', 'wallet-system-for-woocommerce' ),
 					'class'       => 'wws-text-class',
 				),
@@ -372,7 +372,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'name'        => 'wps_wsfw_cashback_amount_max',
 					'id'          => 'wps_wsfw_cashback_amount_max',
 					'step'        => '0.01',
-					'value'       => get_option( 'wws_cashback_amount_max' ),
+					'value'       => get_option( 'wps_wsfw_cashback_amount_max' ),
 					'placeholder' => __( 'enter amount', 'wallet-system-for-woocommerce' ),
 					'class'       => 'wws-text-class',
 				),
@@ -2148,5 +2148,4 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	/** End of Mgration code */
-
 }
