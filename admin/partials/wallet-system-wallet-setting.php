@@ -388,7 +388,7 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $user->ID ); ?></td>
 							<td><?php echo esc_html( $user->display_name ); ?></td>
 							<td><?php echo esc_html( $user->user_email ); ?></td>
-							<td><?php echo esc_html( $user->roles[0] ); ?></td>
+							<td><?php echo esc_html( ! empty( $user->roles[0] ) ? $user->roles[0] : '' ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $wallet_bal ) ); ?></td>
 							<td>
 								<span>

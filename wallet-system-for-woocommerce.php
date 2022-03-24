@@ -15,7 +15,7 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
- * Version:           2.1.4
+ * Version:           2.2.0
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
@@ -63,7 +63,7 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.1.4' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.2.0' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -160,7 +160,7 @@ if ( $activated ) {
 						<p><strong>IMPORTANT NOTICE:</strong></p>
 					</div>
 					<div class='wps-notice-content wps-notice-section'>
-						<p>From this update <strong>Version 2.1.4</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+						<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 						Please connect with us for all setup, support, and update related queries without hesitation.</p>
 					</div>
 				</div>
@@ -194,7 +194,7 @@ if ( $activated ) {
 				<p><strong>IMPORTANT NOTICE:</strong></p>
 			</div>
 			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update <strong>Version 2.1.4</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 				Please connect with us for all setup, support, and update related queries without hesitation.</p>
 			</div>
 		</div>
@@ -217,10 +217,12 @@ if ( $activated ) {
 	 * @return void
 	 */
 	function wps_wsfw_show_deactivation_notice_for_pro() {
-		if ( ! is_plugin_active( 'wallet-system-for-woocommerce-pro/wallet-system-for-woocommerce-pro.php' ) ) {
+
+	$plug = get_plugins();
+		if ( isset( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php'] ) ) {
 			?>
-				<div class="notice notice-error is-dismissible">
-					<p><strong><?php esc_html_e( 'Version 1.0.5 of Wallet System for WooCommerce Pro ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not available on your system! Please Update ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'wallet-system-for-woocommerce' ); ?></p>
+			<div class="notice notice-error is-dismissible">
+					<p><strong><?php esc_html_e( 'The WooCommerce Wallet System ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( 'has been renamed as ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ". Please update the plugin's latest version ", 'wallet-system-for-woocommerce' )?><strong><?php esc_html_e( '1.0.5.', 'wallet-system-for-woocommerce' ); ?></strong></p>
 				</div>
 			<?php
 		}

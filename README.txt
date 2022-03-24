@@ -1,12 +1,12 @@
 === Wallet System for WooCommerce - Create an In-store Digital Wallet, Recharge User Wallets & View Transition History ===
-Contributors: WP Swings
+Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: digital wallet, credit, refund, user wallet, woocommerce wallet, wallet
 Requires at least: 5.1.0
 Tested up to: 5.9.2
 WC requires at least: 4.6
 WC tested up to: 6.3.1
-Stable tag: 2.1.4
+Stable tag: 2.2.0
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,7 +27,7 @@ The WooCommerce Wallet System increases the ease and security of the payment pro
 
 >**IMPORTANT NOTICE:**
 
->_**From this update Version 2.1.4 onwards, the Wallet System for WooCommerce and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-org-page&utm_campaign=official ).**_
+>_**From this update Version 2.1.3 onwards, the Wallet System for WooCommerce and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-org-page&utm_campaign=official ).**_
 
 >_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us) for all setup, support, and update related queries without hesitation.**_
 
@@ -59,20 +59,23 @@ The WooCommerce Wallet System increases the ease and security of the payment pro
 
 **11.** Compatible with [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/ ).
 
+**12.** Compatible with [**Subscription for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-subscription-pro&utm_medium=wallet-org-page&utm_campaign=subscription-pro)
 
-**12.**Compatible with the WPML plugin.
+**13.** Compatible with [**RMA Return Refund & Exchange For WooCommerce Pro**](https://wpswings.com/product/rma-return-refund-exchange-for-woocommerce-pro/?utm_source=wpswings-rma-pro&utm_medium=wallet-org-page&utm_campaign=rma-pro).
 
-**13.**Supports WordPress multisite network. 
+**14.** Compatible with the WPML plugin.
 
-**14.**Use the shortcode [wps-wallet] to display the user wallet on any page. 
+**15.** Supports WordPress multisite network. 
 
-**15.**  Compatibility with Multi Vendor Marketplace Solution for WooCommerce
+**16.** Use the shortcode [wps-wallet] to display the user wallet on any page. 
 
-**16.** Pay a total or partial Wallet amount to buy products. 
+**17.** Compatibility with Multi Vendor Marketplace Solution for WooCommerce
 
-**17.** The email ids of both the debtor and creditor are shown in the transactions table to customers.
+**18.** Pay a total or partial Wallet amount to buy products. 
 
-**18.**Compatibility with [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/) Solution for WooCommerce.
+**19.** The email ids of both the debtor and creditor are shown in the transactions table to customers.
+
+**20.** Compatibility with [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/) Solution for WooCommerce.
 
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
@@ -100,12 +103,15 @@ The customers’ wallet transactions history contains entries for wallet recharg
 The customers can transfer their wallet amount into other customers’ wallets. It will help the merchants to increase the user interaction on their WooCommerce store and result in an increase in the wallet user base. 
 
 **7. Compatibility with Subscriptions for WooCommerce**
-The WooCommerce Wallet is compatible with the [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
+The WooCommerce Wallet is compatible with the [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) and  [**Subscription for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-subscription-pro&utm_medium=wallet-org-page&utm_campaign=subscription-pro) plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
 
 **8.  Compatibility with Multi-Vendor Marketplace Solution for WooCommerce**
 The Wallet System for WooCommerce is compatible with the Multi-Vendor Marketplace Solution for the WooCommerce plugin. You will be able to select a wallet as a payment method for your vendors to receive the sales commission. 
 
-**9. Select Partial Payment Option**
+**9.  Compatibility with RMA for WooCommerce**
+The Wallet System for WooCommerce is compatible with [**RMA Return Refund & Exchange For WooCommerce Pro**](https://wpswings.com/product/rma-return-refund-exchange-for-woocommerce-pro/?utm_source=wpswings-rma-pro&utm_medium=wallet-org-page&utm_campaign=rma-pro). It allows the admin to easily manage all the wallet functionality to one dedicated wallet system.
+
+**10. Select Partial Payment Option**
 Customers can use their WooCommerce wallet balance to pay for products in two different ways: Total Wallet Amount and Manual Wallet Amount. They can use the whole wallet balance while making a purchase. Or manually select to pay a partial payment of their choice. 
 
 Visit [**Wallet System for WooCommerce Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-doc) and learn more about the features and working of the plugin.
@@ -226,56 +232,60 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 
 == Changelog ==
 
-= 2.1.4 - RELEASED ON 11 March 2022 =
+= 2.2.0 - Released on 16 March 2022 =
 
-* New :  Some substantial changes across different areas of the plugin.
-* New : Minor Bug Fixes
-* New : Compatible with latest WP and WC
+* New: Minor Bug Fixes
 
-= 2.1.3 - RELEASED ON 3 february 2022 =
+= 2.1.4 - Released on 14 March 2022 =
+
+* New:  Some substantial changes across different areas of the plugin.
+* New: Minor Bug Fixes
+* New: Compatible with latest WP and WC
+
+= 2.1.3 - Released on 3 february 2022 =
 
 * New: Change author from MakeWebBetter to WP Swings
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official ).
 * New: Minor Bug fixes
 * New: Compatible with latest WP and WC 
 
-= 2.1.2 - RELEASED ON 29 November 2021 =
+= 2.1.2 - Released on 29 November 2021 =
 
 * New: Partial Payment Option
 * New: Updated all transaction table
 * Fix: Minor Fixes.
 
-= 2.1.1 - RELEASED ON 2 November 2021 =
+= 2.1.1 - Released on 2 November 2021 =
 
 * New: Supports Multi Vendor Marketplace Solution for WooCommerce
 * Fix: Minor Fixes.
 
-= 2.1.0 - RELEASED ON 23 September 2021 =
+= 2.1.0 - Released on 23 September 2021 =
 
 * New: Shortcode wps-wallet which will display user wallet on a page
 * New: Support WordPress Multisite Network
 * New: Compatible with our [Subscriptions For WooCommerce plugin](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
 * New: Compatible with WPML plugin
 
-= 2.0.4 - RELEASED ON 2 August 2021 =
+= 2.0.4 - Released on 2 August 2021 =
 
 * Fix: the warning comes when adding wallet recharge to cart.
-* New: Added a function for [WooCommerce POS](https://wordpress.org/plugins/mwb-point-of-sale-pos-for-woocommerce/) plugin regarding debiting the wallet amount.
+* New: Added a function for WooCommerce POS plugin regarding debiting the wallet amount.
 
-= 2.0.3 - RELEASED ON 22 June 2021 =
+= 2.0.3 - Released on 22 June 2021 =
 
 * Fix: Minor Fixes.
 
-= 2.0.2 - RELEASED ON 15 June 2021 =
+= 2.0.2 - Released on 15 June 2021 =
 
 * Fix: The error coming due to plugin JavaScript file in shop and cart page
 * Fix: Wallet payment gateway error
 
-= 2.0.1 - RELEASED ON 27 May 2021 =
+= 2.0.1 - Released on 27 May 2021 =
 
 * Fix: Minor Bug and Issues Fixes.
 
-= 2.0.0 - RELEASED ON 20 May 2021 =
+= 2.0.0 - Released on 20 May 2021 =
 
 * New: Customers can pay using their wallet as a discount if the wallet amount is less than the actual order amount,
 * New: Customers can transfer wallet amounts to another user.
@@ -293,9 +303,6 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 
 == Upgrade Notice ==
 
-= 2.1.4 - RELEASED ON 11 March 2022 =
+= 2.2.0 - Released on 16 March 2022 =
 
-* New :  Some substantial changes across different areas of the plugin.
-* New : Minor Bug Fixes
-* New : Compatible with latest WP and WC
-
+* New: Minor Bug Fixes
