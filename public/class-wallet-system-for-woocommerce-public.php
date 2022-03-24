@@ -778,7 +778,6 @@ class Wallet_System_For_Woocommerce_Public {
 						$cart_total =  ! empty( wc()->cart->get_total('edit') ) ? wc()->cart->get_total('edit') : wc()->cart->get_subtotal();
 						//print_r(wc()->cart);
 						$cart_total = apply_filters('wps_wsfw_wallet_cashback_on_total', $cart_total );
-echo 	$cashback_amount;
 
 						if ( floatval( $cart_total ) <  floatval( $wsfw_min_cart_amount ) ) {
 							echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Earn Cashback On Orders Above %s .', 'woo-wallet'), wc_price($wsfw_min_cart_amount,$this->wsfw_wallet_price_args() )), $wsfw_min_cart_amount);

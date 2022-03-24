@@ -5,7 +5,6 @@ vendor/*
 .vscode
 .vscode/*
 .history
-.history/*
 .github
 .github/*
 

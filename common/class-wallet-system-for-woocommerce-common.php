@@ -398,6 +398,10 @@ class Wallet_System_For_Woocommerce_Common {
 	 */
 	public function wsfw_cashback_on_complete_order( $order_id, $old_status, $new_status ) {
 
+		if ( 'on' != get_option('wps_wsfw_enable_cashback') ) {
+			return;
+		}
+
 		if ( $old_status != $new_status ) {
 
 			$order                  = wc_get_order( $order_id );
@@ -414,9 +418,13 @@ class Wallet_System_For_Woocommerce_Common {
 			$payment_method         = $order->get_payment_method();
 			$wallet_id              = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 			$cashback_process       = get_option( 'wps_wsfw_multiselect_category' );
+			$cashback_process       = is_array( $cashback_process ) && ! empty( $cashback_process ) ? $cashback_process : array();
 
-
-
+			$order_subtotal = $order->get_subtotal();
+			$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
+			if ( floatval( $order_subtotal ) <  floatval( $wsfw_min_cart_amount ) ) {
+				return;
+			}
 			
 			if ( ! empty ( $cashback_process ) && in_array( $new_status , $cashback_process ) ) {
 
@@ -436,12 +444,14 @@ class Wallet_System_For_Woocommerce_Common {
 					if ( ! isset( $wps_cash_back_provided ) || empty( $wps_cash_back_provided ) ) {
 						if ( $order_total > 0 ) {
 							$cashback_amount_order = $this->calculate_cashback( $order_total );
-							$credited_amount     = apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
-							$walletamount       += $credited_amount;
-							update_user_meta( $userid, 'wps_wallet', $walletamount );
-							update_post_meta( $order_id, 'wps_cashback_receive_amount', $credited_amount );
-							update_post_meta( $order_id, 'wps_cash_back_provided', 'done' );
-							$updated = true;
+							if ( $cashback_amount_order > 0 ) {
+								$credited_amount     = apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
+								$walletamount       += $credited_amount;
+								update_user_meta( $userid, 'wps_wallet', $walletamount );
+								update_post_meta( $order_id, 'wps_cashback_receive_amount', $credited_amount );
+								update_post_meta( $order_id, 'wps_cash_back_provided', 'done' );
+								$updated = true;
+							}
 						}
 					}
 					if ( $updated ) {
@@ -475,7 +485,7 @@ class Wallet_System_For_Woocommerce_Common {
 
 			/** Cashback refund process start here */
 
-			if ( 'refunded' == $new_status  || 'cancelled' == $new_status   ) {
+			if ( 'completed' == $old_status && 'refunded' == $new_status ) {
 
 				if ( ! empty( $order_items ) ) {
 					foreach ( $order_items as $item_id => $item ) {
@@ -492,18 +502,17 @@ class Wallet_System_For_Woocommerce_Common {
 					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount', true );
 					$updated                     = false;
 
-					if ( $wps_cashback_receive_amount < 0 ) {
-						$wps_cashback_receive_amount = 0;
-					}
-					$wps_cash_back_refunded = get_post_meta( $order_id, 'wps_cash_back_refunded', true );
-					if ( ! isset( $wps_cash_back_refunded ) || empty( $wps_cash_back_refunded ) ) {
-						$walletamount        = get_user_meta( $userid, 'wps_wallet', true );
-						$walletamount        = empty( $walletamount ) ? 0 : $walletamount;
-						$wps_cashback_amount = ( int ) $walletamount - $wps_cashback_receive_amount;
-						$debited_amount      = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_cashback_amount );
-						update_user_meta( $userid, 'wps_wallet', $debited_amount );
-						update_post_meta( $order_id, 'wps_cash_back_refunded', 'done' );
-						$updated = true;
+					if ( $wps_cashback_receive_amount > 0 ) {
+						$wps_cash_back_refunded = get_post_meta( $order_id, 'wps_cash_back_refunded', true );
+						if ( ! isset( $wps_cash_back_refunded ) || empty( $wps_cash_back_refunded ) ) {
+							$walletamount        = get_user_meta( $userid, 'wps_wallet', true );
+							$walletamount        = empty( $walletamount ) ? 0 : $walletamount;
+							$wps_cashback_amount = ( int ) $walletamount - $wps_cashback_receive_amount;
+							$debited_amount      = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_cashback_amount );
+							update_user_meta( $userid, 'wps_wallet', $debited_amount );
+							update_post_meta( $order_id, 'wps_cash_back_refunded', 'done' );
+							$updated = true;
+						}
 					}
 
 					if ( $updated ) {
@@ -534,35 +543,100 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 				}
 			}
+
+			/** Cashback return after order cancelation */
+
+			$wsfw_array_ordr_status = array( 'processing', 'on-hold', 'pending','complete' );
+			if ( in_array( $old_status, $wsfw_array_ordr_status ) && 'cancelled' == $new_status ) {
+
+				if ( ! empty( $order_items ) ) {
+					foreach ( $order_items as $item_id => $item ) {
+						$product_id = $item->get_product_id();
+						if ( isset( $product_id ) && ! empty( $product_id ) && $product_id != $wallet_id ) {
+							$allow_refund = true;
+						} else {
+							$allow_refund = false;
+						}
+					}
+				}
+
+				if ( $allow_refund ) {
+					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount', true );
+					$updated                     = false;
+
+					if ( $wps_cashback_receive_amount > 0 ) {
+						$wps_cash_back_refunded = get_post_meta( $order_id, 'wps_cash_back_cancelled', true );
+						if ( ! isset( $wps_cash_back_refunded ) || empty( $wps_cash_back_refunded ) ) {
+							$walletamount        = get_user_meta( $userid, 'wps_wallet', true );
+							$walletamount        = empty( $walletamount ) ? 0 : $walletamount;
+							$wps_cashback_amount = ( int ) $walletamount - $wps_cashback_receive_amount;
+							$debited_amount      = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_cashback_amount );
+							update_user_meta( $userid, 'wps_wallet', $debited_amount );
+							update_post_meta( $order_id, 'wps_cash_back_cancelled', 'done' );
+							$updated = true;
+						}
+					}
+
+					if ( $updated ) {
+						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+							$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+							$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
+							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $wps_cashback_receive_amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order cancelled.', 'wallet-system-for-woocommerce' );
+							$to         = $wallet_user->user_email;
+							$from       = get_option( 'admin_email' );
+							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+							$headers    = 'MIME-Version: 1.0' . "\r\n";
+							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+							$headers   .= 'From: ' . $from . "\r\n" .
+								'Reply-To: ' . $to . "\r\n";
+							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+						}
+						$transaction_type = __( 'Wallet debited through ', 'wallet-system-for-woocommerce' ) .$new_status. ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+						$transaction_data = array(
+							'user_id'          => $userid,
+							'amount'           => $wps_cashback_receive_amount,
+							'currency'         => $order->get_currency(),
+							'payment_method'   => $payment_method,
+							'transaction_type' => htmlentities( $transaction_type ),
+							'order_id'         => $order_id,
+							'note'             => '',
+						);
+						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+					}
+				}
+			}
 		}
 	}
 
-
-	public function calculate_cashback( $order_total ){
-		$cashback_amount=0;
+	/**
+	 * This function is used to calculate cashback.
+	 *
+	 * @param int $order_total contain order totl amount.
+	 * @return int
+	 */
+	public function calculate_cashback( $order_total ) {
+		$cashback_amount         = 0;
 		$wsfw_max_cashbak_amount = get_option('wps_wsfw_cashback_amount_max');
-		$wsfw_cashbak_amount = get_option('wps_wsfw_cashback_amount');
-		$wsfw_cashbak_type = get_option('wps_wsfw_cashback_type');
-		$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
-		if ('percent' === $wsfw_cashbak_type) {
-			$total = $order_total;
-			$total = apply_filters('wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );
-			$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
+		$wsfw_cashbak_amount     = get_option('wps_wsfw_cashback_amount');
+		$wsfw_cashbak_type       = get_option('wps_wsfw_cashback_type');
+		$wsfw_min_cart_amount    = get_option('wps_wsfw_cart_amount_min');
 
-			if ( $wsfw_percent_cashback_amount <  $wsfw_min_cart_amount ) 
-			{
-			
-			if ($wsfw_max_cashbak_amount && $wsfw_percent_cashback_amount > $wsfw_max_cashbak_amount) {
-				$cashback_amount += $wsfw_max_cashbak_amount;
+		if ( $order_total > $wsfw_min_cart_amount ) {
+
+			if ( 'percent' === $wsfw_cashbak_type ) {
+				$total                        = $order_total;
+				$total                        = apply_filters('wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );
+				$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
+
+				if ( $wsfw_percent_cashback_amount < $wsfw_max_cashbak_amount ) {
+					$cashback_amount += $wsfw_percent_cashback_amount;
+				} else {
+					$cashback_amount += $wsfw_max_cashbak_amount;
+				}
+
 			} else {
-				$cashback_amount += $wsfw_percent_cashback_amount;
-			}
-		}
-		} else {
-			if ( $order_total >= $wsfw_cashbak_amount  ) {
 				$cashback_amount += $wsfw_cashbak_amount;
 			}
-			
 		}
 		return $cashback_amount;
 	}
