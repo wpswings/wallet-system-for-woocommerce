@@ -398,6 +398,10 @@ class Wallet_System_For_Woocommerce_Common {
 	 */
 	public function wsfw_cashback_on_complete_order( $order_id, $old_status, $new_status ) {
 
+		if ( 'on' != get_option('wps_wsfw_enable_cashback') ){
+			return;
+		}
+
 		if ( $old_status != $new_status ) {
 
 			$order                  = wc_get_order( $order_id );
@@ -414,9 +418,13 @@ class Wallet_System_For_Woocommerce_Common {
 			$payment_method         = $order->get_payment_method();
 			$wallet_id              = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 			$cashback_process       = get_option( 'wps_wsfw_multiselect_category' );
+			$cashback_process       = is_array( $cashback_process ) && ! empty( $cashback_process ) ? $cashback_process : array();
 
-
-
+			$order_subtotal = $order->get_subtotal();
+			$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
+			if ( floatval( $order_subtotal ) <  floatval( $wsfw_min_cart_amount ) ) {
+				return;
+			}
 			
 			if ( ! empty ( $cashback_process ) && in_array( $new_status , $cashback_process ) ) {
 
@@ -544,6 +552,7 @@ class Wallet_System_For_Woocommerce_Common {
 		$wsfw_cashbak_amount = get_option('wps_wsfw_cashback_amount');
 		$wsfw_cashbak_type = get_option('wps_wsfw_cashback_type');
 		$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
+
 		if ('percent' === $wsfw_cashbak_type) {
 			$total = $order_total;
 			$total = apply_filters('wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );

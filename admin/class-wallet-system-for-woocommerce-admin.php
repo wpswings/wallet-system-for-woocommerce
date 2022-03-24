@@ -321,7 +321,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Cash Back rule', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select the option to apply cashback.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_cashback_rule',
 				'id'          => 'wps_wsfw_cashback_rule',
 				'value'       => get_option( 'wps_wsfw_cashback_rule' ),
