@@ -728,24 +728,28 @@ class Wallet_System_For_Woocommerce_Public {
 		$wsfw_cashbak_amount = get_option('wps_wsfw_cashback_amount');
 		$wsfw_cashbak_type = get_option('wps_wsfw_cashback_type');
 		$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
-		if ('percent' === $wsfw_cashbak_type) {
-			$total = apply_filters('wps_wsfw_wallet_calculate_cashback_on_total_amount', true) ? wc()->cart->get_total('edit') : wc()->cart->get_subtotal();
-			$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
 
-			if ( $wsfw_percent_cashback_amount <  $wsfw_min_cart_amount ) 
-			{
-			
-			if ($wsfw_max_cashbak_amount && $wsfw_percent_cashback_amount > $wsfw_max_cashbak_amount) {
-				$cashback_amount += $wsfw_max_cashbak_amount;
+		if ( wc()->cart->get_total('edit') > $wsfw_min_cart_amount ) {
+
+			if ( 'percent' === $wsfw_cashbak_type ) {
+				$total                        = wc()->cart->get_total('edit');
+				$total                        = apply_filters('wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_total('edit') );
+				$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
+	
+				if ( $wsfw_percent_cashback_amount < $wsfw_max_cashbak_amount ) {
+					$cashback_amount += $wsfw_percent_cashback_amount;
+				} else {
+					$cashback_amount += $wsfw_max_cashbak_amount;
+				}
+	
 			} else {
-				$cashback_amount += $wsfw_percent_cashback_amount;
+				if ( wc()->cart->get_total('edit') >= $wsfw_cashbak_amount  ) {
+					$cashback_amount += $wsfw_cashbak_amount;
+				}
 			}
 		}
-		} else {
-			if ( wc()->cart->get_total('edit') >= $wsfw_cashbak_amount  ) {
-				$cashback_amount += $wsfw_cashbak_amount;
-			}
-		}
+
+
 		return apply_filters('wps_wsfw_wallet_form_cart_cashback_amount', $cashback_amount);
 	}
 
@@ -769,6 +773,19 @@ class Wallet_System_For_Woocommerce_Public {
      */
 	public function wsfw_woocommerce_before_cart_total_cashback_message() {
 			if ( 'on' == get_option('wps_wsfw_enable_cashback') ) :
+				$wallet_id              = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+				$is_wallet_recharge = false;
+				foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+					$product = $cart_item['data'];
+				 	$product_id = $cart_item['product_id'];
+					 if( $wallet_id == $product_id ){
+						$is_wallet_recharge = true;
+
+					 }
+				 }
+				 if ( $is_wallet_recharge == true ) {
+					return;
+				 }
 				?>
 				<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
 					<?php
