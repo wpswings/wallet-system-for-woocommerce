@@ -229,12 +229,16 @@ $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 $user_id                = get_current_user_id();
 $wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
+$is_user_restricted     = get_user_meta( $user_id, 'user_restriction_for_wallet', true );
 
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
 }
 
+
 $wallet_tabs = array();
+
+if ( $is_user_restricted != 'restricted'){
 
 if ( ! empty( $product_id ) && ! empty( $enable_wallet_recharge ) ) {
 	$wallet_tabs['wallet_recharge'] = array(
@@ -270,6 +274,8 @@ $wallet_tabs['wallet_withdrawal'] = array(
 <path d="M25 13H32C33.1046 13 34 12.1046 34 11V4C34 2.89543 33.1046 2 32 2H4C2.89543 2 2 2.89543 2 4V11C2 12.1046 2.89543 13 4 13H10" stroke="#1D201F" stroke-width="2.5"/>',
 	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php',
 );
+}
+
 $wallet_tabs['wallet_transactions'] = array(
 	'title'     => esc_html__( 'Transactions', 'wallet-system-for-woocommerce' ),
 	'url'       => $transaction_url,

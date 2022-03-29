@@ -77,7 +77,7 @@
 
 			})
 			.fail(function ( response ) {
-				$( '#export_user_wallet' ).after('<span style="color:red;" >' + wsfw_admin_param.wsfw_ajax_error + '</span>');		
+				$( '#export_user_wallet' ).after('<span style="color:red;" >' + wsfw_admin_param.wsfw_ajax_error + '</span>');	
 			});
 		});
 
@@ -133,7 +133,7 @@
 			$('.wps_wallet-edit--popupwrap').find('.wps_wallet-edit-popup-btn').before('<input class="userid" type="hidden" name="user_id" value="'+userid+'">');
 		});
 
-		$(document).on("click", "#close_wallet_form", function(e){
+		$(document).on("click", "#close_wallet_form", function(e) {
 			$('.wps_wallet-edit-popup-fill').val('');
 			$('.error').html('');
 			$('.wps_wallet-edit--popupwrap').find('.userid').remove();
@@ -177,7 +177,38 @@
 			});
 		});
 
+		// update wallet and status on changing status of wallet request
+		$(document).on( 'change', '.wsfw_restrict_user', function() {
+			debugger;
+			var user_id='';
+			if ( $(this).length > 0 ) {
+				var user_name = $(this)[0].id;
+				var user_id = jQuery('#'+user_name).attr('user_id');
+			}
+		var restriction_status = jQuery('#'+user_name).attr('aria-checked');
+			var loader = $(this).siblings('#overlay');
+			loader.show();
+			$.ajax({
+				type: 'POST',
+				url: wsfw_admin_param.ajaxurl,
+				data: {
+					action: 'restrict_user_from_wallet_access',
+					nonce: wsfw_admin_param.nonce,
+					user_id: user_id,
+					restriction_status:restriction_status,
+					
+				},
+				datatType: 'JSON',
+				success: function( response ) {
+				debugger;
+				loader.hide();
+				},
 
+			})
+			.fail(function ( response ) {
+				loader.hide();
+			});
+		});
 
 
 		$('#search_in_table').keyup(function(){

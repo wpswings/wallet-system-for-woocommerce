@@ -290,7 +290,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wsfw_settings_general = array(
 			// enable wallet cashback.
 			array(
-				'title'       => __( 'Enable Cashback', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Enable Wallet Cashback', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_enable_cashback',
@@ -319,7 +319,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				)),
 			),
 			array(
-				'title'       => __( 'Cash Back rule', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Wallet Cashback rule', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
 				'description' => __( 'Select the option to apply cashback.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_cashback_rule',
@@ -332,7 +332,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			),
 
 			array(
-				'title'       => __( 'Cashback type', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Wallet Cashback type', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
 				'description' => __( 'Select cashback type percentage or fixed', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_cashback_type',
@@ -345,7 +345,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				)),
 			),
 				array(
-					'title'       => __( 'Enter Cash Back Amount', 'wallet-system-for-woocommerce' ),
+					'title'       => __( 'Enter Wallet Cashback Amount', 'wallet-system-for-woocommerce' ),
 					'type'        => 'number',
 					'description' => __( 'Give cashback on wallet when customer pay through Wallet Payment Method.', 'wallet-system-for-woocommerce' ),
 					'name'        => 'wps_wsfw_cashback_amount',
@@ -366,7 +366,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'class'       => 'wws-text-class',
 				),
 				array(
-					'title'       => __( 'Maximum Cashback Amount', 'wallet-system-for-woocommerce' ),
+					'title'       => __( 'Maximum Wallet Cashback Amount', 'wallet-system-for-woocommerce' ),
 					'type'        => 'number',
 					'description' => __( 'Enter maximum cashback amount.', 'wallet-system-for-woocommerce' ),
 					'name'        => 'wps_wsfw_cashback_amount_max',
@@ -1068,6 +1068,34 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 		}
 		wp_send_json( $userdata );
+
+	}
+
+		/**
+	 * Update wallet and status on changing status of wallet request
+	 *
+	 * @return void
+	 */
+	public function restrict_user_from_wallet_access() {
+		$update = true;
+
+		$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
+		$restriction_status     = ( isset( $_POST['restriction_status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['restriction_status'] ) ) : '';
+
+	if ( ! empty( $user_id ) ) {
+
+		if ( $restriction_status == 'true' ) {
+			update_user_meta( $user_id, 'user_restriction_for_wallet', 'restricted', true );
+		} else {
+			delete_user_meta( $user_id, 'user_restriction_for_wallet' );
+		}
+	}
+		$message       = array(
+			'msg'     => 'klk',
+			'msgType' => 'success',
+		);
+
+	 	wp_send_json( 'dfd' );
 
 	}
 

@@ -266,6 +266,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_export_users_wallet', $wsfw_plugin_admin, 'export_users_wallet' );
 		 $this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 30, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
+		$this->loader->add_action( 'wp_ajax_restrict_user_from_wallet_access', $wsfw_plugin_admin, 'restrict_user_from_wallet_access' );
 
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
 			if ( wps_sfw_check_plugin_enable() ) {
@@ -275,7 +276,6 @@ class Wallet_System_For_Woocommerce {
 		}
 
 	}
-
 
 	/**
 	 * Register all of the hooks related to the common functionality

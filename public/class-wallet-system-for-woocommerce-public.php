@@ -111,9 +111,7 @@ class Wallet_System_For_Woocommerce_Public {
 			wp_enqueue_script( 'wps-datatable', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/js/jquery.dataTables.min.js', array(), $this->version, true );
 			wp_enqueue_script( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/wps-public.min.js', array(), $this->version, 'all' );
 		}
-
 	}
-
 
 	/**
 	 * Unset COD if wallet topup product in cart.
@@ -147,7 +145,7 @@ class Wallet_System_For_Woocommerce_Public {
 	}
 
 	/**
-	 * Show wallet as discount ( when wallet amount is less than cart total ) in review order table
+	 * Show wallet as discount ( when wallet amount is less than cart total ) in review order table.
 	 *
 	 * @return void
 	 */
