@@ -129,7 +129,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 				$subject     = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
 				$headers1    = 'MIME-Version: 1.0' . "\r\n";
 				$headers1   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-				$headers1   .= 'From: ' . $from . "\r\n" .
+	 			$headers1   .= 'From: ' . $from . "\r\n" .
 					'Reply-To: ' . $to1 . "\r\n";
 
 				$wallet_payment_gateway->send_mail_on_wallet_updation( $to1, $subject, $mail_text1, $headers1 );

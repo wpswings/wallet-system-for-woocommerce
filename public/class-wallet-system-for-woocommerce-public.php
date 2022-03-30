@@ -113,6 +113,7 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 	}
 
+
 	/**
 	 * Unset COD if wallet topup product in cart.
 	 *
