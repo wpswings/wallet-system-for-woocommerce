@@ -44,6 +44,14 @@
             return new MDCSwitch(el);
         });
 
+		// hide show category fields.
+		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
+		if ( 'cartwise' == cash_back_rule ) {
+			jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide()
+		} else {
+			jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
+		}
+
 		// on clicking element change the input type password to text or vice-versa
 		$(document).on( 'click', '.wps-password-hidden', function() {
             if ($('.wps-form__password').attr('type') == 'text') {
@@ -234,6 +242,16 @@
 			if(!numericReg.test(inputVal)) {
 				$('.error').show();
 				$('.error').html(wsfw_admin_param.wsfw_amount_error);
+			}
+		});
+
+		// Hide show category fields on select option.
+		$('#wps_wsfw_cashback_rule').on('change', function(){
+			var cash_back_rule = $(this).val();
+			if ( 'cartwise' == cash_back_rule ) {
+				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide()
+			} else {
+				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
 			}
 		});
 

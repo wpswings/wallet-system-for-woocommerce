@@ -286,7 +286,30 @@ class Wallet_System_For_Woocommerce_Admin {
 		return $wsfw_settings_general;
 	}
 
+	/**
+	 * This function is used to 
+	 *
+	 * @return void
+	 */
 	public function wsfw_admin_cashback_settings_page(){
+
+		$args           = array(
+			'taxonomy'     => 'product_cat',
+			'orderby'      => 'name',
+			'show_count'   => 0,
+			'pad_counts'   => 0,
+			'hierarchical' => 1,
+			'title_li'     => '',
+			'hide_empty'   => 0
+		);
+		$all_categories    = get_categories( $args );
+		$mwb_wsfw_cat_name = array();
+		if ( ! empty( $all_categories ) && is_array( $all_categories ) ) {
+			foreach ( $all_categories as $mwb_cat ) {
+				$mwb_wsfw_cat_name[ $mwb_cat->name ] = $mwb_cat->name;
+			}
+		}
+
 		$wsfw_settings_general = array(
 			// enable wallet cashback.
 			array(
@@ -328,7 +351,20 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-radio-switch-class',
 				'options'     => apply_filters('wsfw_cashback_type__array', array(
 					'cartwise' => __( 'Cart wise', 'wallet-system-for-woocommerce' ),
+					'catwise'  => __( 'Category Wise', 'wallet-system-for-woocommerce' ),
 				)),
+			),
+
+			array(
+				'title'       => __( 'Select Product Category', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_multiselect_category_rule',
+				'type'        => 'multiselect',
+				'description' => __( 'Select any category to give cashback.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_multiselect_category_rule',
+				'value'       => get_option( 'wps_wsfw_multiselect_category_rule' ),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
+				'placeholder' => '',
+				'options'     => $mwb_wsfw_cat_name,
 			),
 
 			array(
