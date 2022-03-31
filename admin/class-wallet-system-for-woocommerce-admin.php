@@ -335,10 +335,10 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
 				'placeholder' => '',
 				'options' => apply_filters( 'wps_wsfw_cashback_type_order', array( 
-					'pending' => __( 'Pending payment', 'woo-wallet' ),
-					'on-hold' => __( 'On hold', 'woo-wallet' ),
-					'processing' => __( 'Processing', 'woo-wallet' ),
-					'completed' => __( 'Completed', 'woo-wallet' )
+					'pending' => __( 'Pending payment', 'wallet-system-for-woocommerce' ),
+					'on-hold' => __( 'On hold', 'wallet-system-for-woocommerce' ),
+					'processing' => __( 'Processing', 'wallet-system-for-woocommerce' ),
+					'completed' => __( 'Completed', 'wallet-system-for-woocommerce' )
 				)),
 			),
 			array(
