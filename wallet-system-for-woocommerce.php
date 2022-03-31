@@ -176,7 +176,6 @@ if ( $activated ) {
 
 	add_action( 'admin_notices', 'wps_wsfw_plugin_upgrade_notice', 20 );
 
-
 	/**
 	 * Displays notice to upgrade for Wallet.
 	 *
@@ -280,6 +279,27 @@ if ( $activated ) {
 	}
 	run_wallet_system_for_woocommerce();
 
+
+	add_action( 'admin_enqueue_scripts', 'wps_wsfw_admin_enqueue_styles' );
+	/**
+	 * Register the JavaScript for the admin area.
+	 *
+	 * @since    1.0.0
+	 * @name mfw_admin_enqueue_styles.
+	 */
+	function wps_wsfw_admin_enqueue_styles() {
+		$screen = get_current_screen();
+
+		if ( isset( $screen->id ) || isset( $screen->post_type ) ) {
+		
+			$screen = get_current_screen();
+				if ( isset( $screen->id ) && 'plugins' == $screen->id ) {
+					wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', plugin_dir_url( __FILE__ ) . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
+
+			}
+		}
+	}
+
 	// Add settings link on plugin page.
 	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wallet_system_for_woocommerce_settings_link' );
 
@@ -294,6 +314,11 @@ if ( $activated ) {
 		$my_link = array(
 			'<a href="' . admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '">' . __( 'Settings', 'wallet-system-for-woocommerce' ) . '</a>',
 		);
+		$mfw_plugins = get_plugins();
+		if ( ! isset( $mfw_plugins['wallet-system-for-woocommerce-pro/wallet-system-for-woocommerce-pro.php'] ) ) {
+
+			$my_link['goPro'] = '<a class="wps-wsfw-go-pro" target="_blank" href="https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend&utm_campaign=go-pro">' . esc_html__( 'GO PRO', 'wallet-system-for-woocommerce' ) . '</a>';
+		}
 		return array_merge( $my_link, $links );
 	}
 
