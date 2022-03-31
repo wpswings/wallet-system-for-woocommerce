@@ -721,7 +721,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 
-	public function calculate_cashback(){
+	public function wsfw_calculate_cashback_cart(){
 		$cashback_amount = 0;
 		$wsfw_max_cashbak_amount = get_option('wps_wsfw_cashback_amount_max');
 		$wsfw_cashbak_amount = get_option('wps_wsfw_cashback_amount');
@@ -788,7 +788,7 @@ class Wallet_System_For_Woocommerce_Public {
 				?>
 				<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
 					<?php
-					    $cashback_amount = $this->calculate_cashback();
+					    $cashback_amount = $this->wsfw_calculate_cashback_cart();
 						$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
 						$cart_total =  ! empty( wc()->cart->get_total('edit') ) ? wc()->cart->get_total('edit') : wc()->cart->get_subtotal();
 						//print_r(wc()->cart);
@@ -817,6 +817,9 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wsfw_display_category_wise_cashback_price_on_shop_page() {
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
 		if ( 'on' !== get_option( 'wps_wsfw_enable_cashback', '' ) ) {
 			return;
 		}

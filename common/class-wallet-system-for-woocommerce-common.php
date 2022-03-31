@@ -397,7 +397,9 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @return void
 	 */
 	public function wsfw_cashback_on_complete_order( $order_id, $old_status, $new_status ) {
-
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
 		if ( 'on' != get_option('wps_wsfw_enable_cashback') ) {
 			return;
 		}
@@ -406,6 +408,9 @@ class Wallet_System_For_Woocommerce_Common {
 
 			$order                  = wc_get_order( $order_id );
 			$userid                 = $order->get_user_id();
+			if ( empty( $userid ) ) {
+				return;
+			}
 			$order_items            = $order->get_items();
 			$order_total            = $order->get_total();
 			$order_currency         = $order->get_currency();
@@ -423,7 +428,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$credited_amount        = 0;
 			$wps_send_mail          = false;
 
-			$order_subtotal = $order->get_subtotal();
+			$order_subtotal       = $order->get_subtotal();
 			$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
 			if ( floatval( $order_subtotal ) <  floatval( $wsfw_min_cart_amount ) ) {
 				return;
@@ -449,7 +454,7 @@ class Wallet_System_For_Woocommerce_Common {
 					if ( ! isset( $wps_cash_back_provided ) || empty( $wps_cash_back_provided ) ) {
 						if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
 							if ( $order_total > 0 ) {
-								$cashback_amount_order = $this->calculate_cashback( $order_total );
+								$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $order_total );
 								if ( $cashback_amount_order > 0 ) {
 									$credited_amount     = apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
 									$walletamount       += $credited_amount;
@@ -468,7 +473,7 @@ class Wallet_System_For_Woocommerce_Common {
 										$product_obj = wc_get_product( $product_id );
 										if ( is_object( $product_obj ) ) {
 											$product_price         = $product_obj->get_price();
-											$cashback_amount_order = $this->calculate_cashback( $product_price );
+											$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $product_price );
 											if ( $cashback_amount_order > 0 ) {
 												$credited_amount     += apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
 												$updated             = true;
@@ -646,7 +651,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @param int $order_total contain order totl amount.
 	 * @return int
 	 */
-	public function calculate_cashback( $order_total ) {
+	public function wsfw_get_calculated_cashback_amount( $order_total ) {
 		$cashback_amount         = 0;
 		$wsfw_max_cashbak_amount = get_option('wps_wsfw_cashback_amount_max');
 		$wsfw_cashbak_amount     = get_option('wps_wsfw_cashback_amount');
