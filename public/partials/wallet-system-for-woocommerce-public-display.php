@@ -216,6 +216,17 @@ if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawa
 	}
 }
 
+if ( isset( $_POST['wps_coupon_wallet'] ) && ! empty( $_POST['wps_coupon_wallet'] ) ) {
+	unset( $_POST['wps_coupon_wallet'] );
+	if ( ! empty( $_POST['user_id'] ) ) {
+		$user_id  = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
+		$user     = get_user_by( 'id', $user_id );
+		$username = $user->user_login;
+
+	}
+}
+
+
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
@@ -274,6 +285,9 @@ $wallet_tabs['wallet_withdrawal'] = array(
 <path d="M25 13H32C33.1046 13 34 12.1046 34 11V4C34 2.89543 33.1046 2 32 2H4C2.89543 2 2 2.89543 2 4V11C2 12.1046 2.89543 13 4 13H10" stroke="#1D201F" stroke-width="2.5"/>',
 	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php',
 );
+
+$wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs_before_transaction', $wallet_tabs, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH );
+
 }
 
 $wallet_tabs['wallet_transactions'] = array(
@@ -285,6 +299,8 @@ $wallet_tabs['wallet_transactions'] = array(
 <path d="M21 21.25C21.6904 21.25 22.25 20.6904 22.25 20C22.25 19.3096 21.6904 18.75 21 18.75V21.25ZM9 18.75C8.30964 18.75 7.75 19.3096 7.75 20C7.75 20.6904 8.30964 21.25 9 21.25V18.75ZM21 18.75H9V21.25H21V18.75Z" fill="#1D201F"/>',
 	'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transactions.php',
 );
+
+
 $wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs', $wallet_tabs );
 $flag = false;
 if ( $current_url == $main_url ) {
@@ -354,6 +370,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 						}
 					} else {
 						if ( $current_url === $wallet_tab['url'] ) {
+
 							include_once $wallet_tab['file-path'];
 						}
 					}

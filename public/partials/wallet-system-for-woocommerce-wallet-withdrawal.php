@@ -14,7 +14,6 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 
 ?>
 
-
 <div class='content active'>
 
 	<?php
