@@ -472,7 +472,7 @@ class Wallet_System_For_Woocommerce_Common {
 									if ( $wps_cat_wise ) {
 										$product_obj = wc_get_product( $product_id );
 										if ( is_object( $product_obj ) ) {
-											$product_price         = $product_obj->get_price();
+											$product_price         = $order->get_line_subtotal( $order_values );
 											$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $product_price );
 											if ( $cashback_amount_order > 0 ) {
 												$credited_amount     += apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );

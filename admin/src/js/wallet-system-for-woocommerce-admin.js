@@ -46,7 +46,7 @@
 
 		// hide show category fields.
 		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
-		if ( 'cartwise' == cash_back_rule ) {
+		if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {
 			jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide()
 		} else {
 			jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
@@ -251,7 +251,7 @@
 		// Hide show category fields on select option.
 		$('#wps_wsfw_cashback_rule').on('change', function(){
 			var cash_back_rule = $(this).val();
-			if ( 'cartwise' == cash_back_rule ) {
+			if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {
 				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide()
 			} else {
 				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
