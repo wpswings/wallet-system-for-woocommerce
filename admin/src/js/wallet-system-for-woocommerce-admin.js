@@ -111,7 +111,10 @@
 				$('.error').hide();
 				$('#update_wallet').prop('disabled', false);
 			} else if ( amount <= 0 ) {
-				$(this).parent().after('<p class="error">' + wsfw_admin_param.wsfw_amount_error + '</p>');
+				if ( jQuery('.error').html() == '' ) {
+					$(this).parent().after('<p class="error">' + wsfw_admin_param.wsfw_amount_error + '</p>');
+				
+				}
 				$('.error').show();
 
 				$('#update_wallet').prop('disabled', true);
