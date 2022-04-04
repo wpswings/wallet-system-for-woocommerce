@@ -206,6 +206,10 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_general_settings_page( $wsfw_settings_general ) {
 
+
+		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
+	
+
 		$wsfw_settings_general = array(
 			// enable wallet.
 			array(

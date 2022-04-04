@@ -624,7 +624,7 @@ svg {
 .wps_wcb_content_template .dataTables_wrapper {
 	overflow-x: auto;
 }
-.wps-wallet-transaction-container .wps-wallet-field-table {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table {
     width:100%;
 }
 .woocommerce-error, .woocommerce-info, .woocommerce-message {

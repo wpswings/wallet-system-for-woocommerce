@@ -222,7 +222,8 @@ if ( isset( $_POST['wps_coupon_wallet'] ) && ! empty( $_POST['wps_coupon_wallet'
 		$user_id  = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 		$user     = get_user_by( 'id', $user_id );
 		$username = $user->user_login;
-
+		$wps_wsfw_coupon_code = ! empty( $_POST['wps_wsfw_coupon_code'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_coupon_code'] ) ) : '';
+		apply_filters( 'wps_wsfw_wallet_coupon_before_saving', $wps_wsfw_coupon_code );
 	}
 }
 
