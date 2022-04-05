@@ -126,7 +126,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	</p>
 	<?php
 	// phpcs:ignore
-	_e(
+	esc_html_e(
 		'<pre>
 
     {
@@ -153,7 +153,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
 	<?php
 	// phpcs:ignore
-	_e(
+	esc_html_e(
 		'<pre>
 
     [
@@ -190,7 +190,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 
 	<?php
 	// phpcs:ignore
-	_e(
+	esc_html_e(
 		'<pre>
 
     "23.34"
@@ -211,7 +211,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
 	<?php
 	// phpcs:ignore
-	_e(
+	esc_html_e(
 		'<pre>
     [
     	{
@@ -254,11 +254,17 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	</p>
 	<p>
 	<?php
-	// phpcs:ignore
-	_e(
+	// phpcs:ignore echo esc_html( $store_url );
+
+	esc_html_e(
 		"<pre>
 
-    curl -X PUT -d 'amount=29&action=credit' '$store_url/wp-json/wsfw-route/v1/wallet/1' \
+    curl -X PUT -d 'amount=29&action=credit' ",
+		'wallet-system-for-woocommerce'
+	);
+	echo esc_html( $store_url );
+	esc_html_e(
+		"/wp-json/wsfw-route/v1/wallet/1' \
     --header 'Content-Type: application/json'
 	</pre>",
 		'wallet-system-for-woocommerce'
@@ -333,7 +339,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	<p><?php esc_html_e( 'JSON response example:', 'wallet-system-for-woocommerce' ); ?></p>
 	<?php
 	// phpcs:ignore
-	_e(
+	esc_html_e(
 		'<pre> 
     {
     	"response": "success",
