@@ -760,7 +760,7 @@ class Wallet_System_For_Woocommerce_Public {
 							$cashback_amount = $wsfw_max_cashbak_amount;
 						}
 					} else {
-						$cashback_amount = $wsfw_cashbak_amount;
+						$cashback_amount = $cashback_amount_order;
 					}
 				}
 			}

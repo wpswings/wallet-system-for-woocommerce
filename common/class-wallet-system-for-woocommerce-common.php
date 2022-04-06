@@ -492,7 +492,7 @@ class Wallet_System_For_Woocommerce_Common {
 											$credited_amount = $wsfw_max_cashbak_amount;
 										}
 									} else {
-										$credited_amount = $wsfw_cashbak_amount;
+										$credited_amount = $credited_amount;
 									}
 									$walletamount         += $credited_amount;
 									$cashback_amount_order = $credited_amount;

@@ -332,6 +332,16 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		?>
 		</p>
 	</div>
+	<?php
+	if ( 'restricted' === $is_user_restricted ) { ?>
+		<div class="wsfw_show_user_restriction_notice">
+			<?php
+				esc_html_e( 'Some functionality are restricted by Admin !!', 'wallet-system-for-woocommerce' );
+				?>
+		</div>
+		<?php
+	}
+	?>
 	<div class="wps_wcb_main_tabs_template">
 		<div class="wps_wcb_body_template">
 			<div class="wps_wcb_content_template">

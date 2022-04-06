@@ -1121,7 +1121,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$update = true;
 
 		$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
-		$restriction_status     = ( isset( $_POST['restriction_status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['restriction_status'] ) ) : '';
+		$restriction_status = ( isset( $_POST['restriction_status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['restriction_status'] ) ) : '';
 
 	if ( ! empty( $user_id ) ) {
 

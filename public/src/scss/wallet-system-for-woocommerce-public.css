@@ -724,3 +724,15 @@ svg {
 .wps_wcb_wallet_balance_container h4 {
     margin: 0 !important;
 }
+
+.wsfw_show_user_restriction_notice{
+    width: 100%;
+    max-width: 275px;
+    margin:5px auto;
+    color:#ff0000;
+    background-color: #ffcbcb;
+    padding: 5px;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    text-align: center;
+}
