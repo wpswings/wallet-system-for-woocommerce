@@ -138,77 +138,7 @@ if ( $activated ) {
 	 */
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce.php';
 
-	// Upgrade notice.
-	add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_wsfw_upgrade_notice', 0, 3 );
-
-
-	/**
-	 * Undocumented function
-	 *
-	 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-	 * @param array  $plugin_data An array of plugin data.
-	 * @param string $status Status filter currently applied to the plugin list.
-	 * @return void
-	 */
-	function wps_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
-
-		?>
-		<tr class="plugin-update-tr active notice-warning notice-alt">
-			<td colspan="4" class="plugin-update colspanchange">
-				<div class="notice notice-success inline update-message notice-alt">
-					<div class='wps-notice-title wps-notice-section'>
-						<p><strong>IMPORTANT NOTICE:</strong></p>
-					</div>
-					<div class='wps-notice-content wps-notice-section'>
-						<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
-						Please connect with us for all setup, support, and update related queries without hesitation.</p>
-					</div>
-				</div>
-			</td>
-		</tr>
-		<style>
-			.wps-notice-section > p:before {
-				content: none;
-			}
-		</style>
-		<?php
-	}//end wps_wsfw_upgrade_notice()
-
-	add_action( 'admin_notices', 'wps_wsfw_plugin_upgrade_notice', 20 );
-
-	/**
-	 * Displays notice to upgrade for Wallet.
-	 *
-	 * @return void
-	 */
-	function wps_wsfw_plugin_upgrade_notice() {
-		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' === $screen->id ) {
-			?>
-		
-		<tr class="plugin-update-tr active notice-warning notice-alt">
-	<td colspan="4" class="plugin-update colspanchange">
-		<div class="notice notice-success inline update-message notice-alt">
-			<div class='wps-notice-title wps-notice-section'>
-				<p><strong>IMPORTANT NOTICE:</strong></p>
-			</div>
-			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
-				Please connect with us for all setup, support, and update related queries without hesitation.</p>
-			</div>
-		</div>
-	</td>
-</tr>
-<style>
-	.wps-notice-section > p:before {
-		content: none;
-	}
-</style>
-		
-			<?php
-		}
-		wps_wsfw_show_deactivation_notice_for_pro();
-	}
+	add_action( 'admin_notices', 'wps_wsfw_show_deactivation_notice_for_pro', 20 );
 
 	/**
 	 * This function is used to show deactivation notice.
