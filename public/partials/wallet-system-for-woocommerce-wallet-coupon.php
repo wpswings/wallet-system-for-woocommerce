@@ -27,18 +27,24 @@ if ( is_array( $wsfw_min_max_value ) ) {
 ?>
 
 
-
+<?php do_action( 'wsfw_coupon__redeem' ); ?>
 <div class='content active'>
 	<form method="post" action="" id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
-			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Coupon Code :', 'wallet-system-for-woocommerce' ); ?></label>
+			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Coupon Code :', 'wallet-system-for-woocommerce' ) ?></label>
 				<input type="text" name="wps_wsfw_coupon_code" class="input-text" id="wps_wsfw_coupon_code" value="" placeholder="Coupon code">
 		</p>
 		<p class="error"></p>
 		<p class="wps-wallet-field-container form-row">
-			<input type="hidden" name="user_id" value="<?php echo esc_attr( $user_id ); ?>">
+			<input type="hidden" name="wps_current_user_id" id="wps_current_user_id" value="<?php echo esc_attr( $user_id ); ?>">
 			<input type="hidden" id="verifynonce" name="verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
-			<input type="submit" class="wps-btn__filled button" id="wps_coupon_wallet" name="wps_coupon_wallet" value="<?php esc_html_e( 'Redeem Coupon', 'wallet-system-for-woocommerce' ); ?>">
+			<div class="wsfw_loader__wrapper">
+				<input type="submit" class="wps-btn__filled button" id="wps_coupon_wallet" name="wps_coupon_wallet" value="<?php esc_html_e( 'Redeem Coupon', 'wallet-system-for-woocommerce' ); ?>">
+				<?php do_action( 'wsfw_before_redeem_loader' ); ?>
+				<img class="loading_image" style="display: none;" src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>common/images/loader.gif">
+			</div>
+			<p class="wsfw__redeem_form_message" style="display: none;"></p>
+			<?php do_action( 'wsfw_after_redeem_loader' ); ?>
 		</p>
 	</form>
 </div>

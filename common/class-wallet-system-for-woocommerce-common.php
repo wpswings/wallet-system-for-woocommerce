@@ -427,9 +427,12 @@ class Wallet_System_For_Woocommerce_Common {
 			$cashback_amount_order  = 0;
 			$credited_amount        = 0;
 			$wps_send_mail          = false;
+			$wsfw_cashbak_type      = get_option('wps_wsfw_cashback_type');
+			$wsfw_max_cashbak_amount = ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20;
+			$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10;
 
 			$order_subtotal       = $order->get_subtotal();
-			$wsfw_min_cart_amount = get_option('wps_wsfw_cart_amount_min');
+			$wsfw_min_cart_amount = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
 			if ( floatval( $order_subtotal ) <  floatval( $wsfw_min_cart_amount ) ) {
 				return;
 			}
@@ -482,6 +485,15 @@ class Wallet_System_For_Woocommerce_Common {
 									}
 								}
 								if ( $updated ) {
+									if ( 'percent' === $wsfw_cashbak_type ) {
+										if ( $credited_amount <= $wsfw_max_cashbak_amount ) {
+											$credited_amount = $credited_amount;
+										} else {
+											$credited_amount = $wsfw_max_cashbak_amount;
+										}
+									} else {
+										$credited_amount = $wsfw_cashbak_amount;
+									}
 									$walletamount         += $credited_amount;
 									$cashback_amount_order = $credited_amount;
 									update_user_meta( $userid, 'wps_wallet', $walletamount );
@@ -653,10 +665,10 @@ class Wallet_System_For_Woocommerce_Common {
 	 */
 	public function wsfw_get_calculated_cashback_amount( $order_total ) {
 		$cashback_amount         = 0;
-		$wsfw_max_cashbak_amount = get_option('wps_wsfw_cashback_amount_max');
-		$wsfw_cashbak_amount     = get_option('wps_wsfw_cashback_amount');
+		$wsfw_max_cashbak_amount = ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20;
+		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10;
 		$wsfw_cashbak_type       = get_option('wps_wsfw_cashback_type');
-		$wsfw_min_cart_amount    = get_option('wps_wsfw_cart_amount_min');
+		$wsfw_min_cart_amount    = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
 		$wps_wsfw_cashback_rule  = get_option( 'wps_wsfw_cashback_rule', '' );
 
 		if ( 'cartwise' === $wps_wsfw_cashback_rule ) {

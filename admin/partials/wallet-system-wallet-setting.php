@@ -412,23 +412,19 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 											<div class="mdc-switch__track"></div>
 											<div class="mdc-switch__thumb-underlay">
 											<div class="mdc-switch__thumb"></div>
-											<input name="wsfw_restrict_user_<?php echo esc_html( $user->ID ); ?>" user_id="<?php echo esc_html( $user->ID ); ?>" type="checkbox" id="wsfw_restrict_user_<?php echo esc_html( $user->ID ); ?>" value="on" class="mdc-switch__native-control wsfw-radio-switch-class wsfw_restrict_user" role="switch" aria-checked="
-																					   <?php
-																						if ( 'restricted' == $is_user_restricted ) {
-																							echo 'true';
-																						} else {
-																							echo 'false';
-																						}
-																						?>
-												" 
-												<?php
+											<input name="wsfw_restrict_user_<?php echo esc_html( $user->ID );?>" user_id="<?php echo esc_html( $user->ID );?>" type="checkbox" id="wsfw_restrict_user_<?php echo esc_html( $user->ID );?>" value="on" class="mdc-switch__native-control wsfw-radio-switch-class wsfw_restrict_user" role="switch" aria-checked="<?php
+												if ( 'restricted' == $is_user_restricted ) {
+													echo 'true';
+												} else {
+													echo 'false';
+												}
+												?>" <?php
 												if ( 'restricted' == $is_user_restricted ) {
 													checked( 'on', 'on' );
 												} else {
 													checked( '', 'on' );
 												}
-												?>
-												  >
+												?>  >
 										</div>
 									</div>
 								</div>

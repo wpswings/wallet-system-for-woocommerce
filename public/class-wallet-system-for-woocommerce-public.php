@@ -723,13 +723,13 @@ class Wallet_System_For_Woocommerce_Public {
 	 *
 	 * @return int
 	 */
-	public function wsfw_calculate_cashback_cart() {
+	public function wsfw_calculate_cashback_cart(){
 		$cashback_amount         = 0;
 		$cashback_amount_order   = 0;
-		$wsfw_max_cashbak_amount = get_option( 'wps_wsfw_cashback_amount_max' );
-		$wsfw_cashbak_amount     = get_option( 'wps_wsfw_cashback_amount' );
-		$wsfw_cashbak_type       = get_option( 'wps_wsfw_cashback_type' );
-		$wsfw_min_cart_amount    = get_option( 'wps_wsfw_cart_amount_min' );
+		$wsfw_max_cashbak_amount = ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20;
+		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10;
+		$wsfw_cashbak_type       = get_option('wps_wsfw_cashback_type');
+		$wsfw_min_cart_amount    = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
 		$wps_wsfw_cashback_rule  = get_option( 'wps_wsfw_cashback_rule', '' );
 		$update                  = false;
 
@@ -739,10 +739,11 @@ class Wallet_System_For_Woocommerce_Public {
 				foreach ( wc()->cart->get_cart() as $key => $cart_item ) {
 
 					$product_id = $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'];
-					$product    = wc_get_product( $product_id );
+					$product    = wc_get_product($product_id);
+					$price      = $product->get_price();
 					$qty        = $cart_item['quantity'];
 					if ( class_exists( 'Wallet_System_For_Woocommerce_Common' ) ) {
-						$common_obj   = new Wallet_System_For_Woocommerce_Common( '', '' );
+						$common_obj   = new Wallet_System_For_Woocommerce_Common( '', '');
 						$wps_cat_wise = $common_obj->wps_get_cashback_cat_wise( $product_id );
 						if ( $wps_cat_wise ) {
 							$cashback_amount_order += $common_obj->wsfw_get_calculated_cashback_amount( $cart_item['line_subtotal'] );
@@ -752,29 +753,39 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 				if ( $update ) {
 					$cashback_amount += $cashback_amount_order;
+					if ( 'percent' === $wsfw_cashbak_type ) {
+						if ( $cashback_amount <= $wsfw_max_cashbak_amount ) {
+							$cashback_amount = $cashback_amount;
+						} else {
+							$cashback_amount = $wsfw_max_cashbak_amount;
+						}
+					} else {
+						$cashback_amount = $wsfw_cashbak_amount;
+					}
 				}
 			}
 		} else {
-			if ( wc()->cart->get_total( 'edit' ) > $wsfw_min_cart_amount ) {
+			if ( wc()->cart->get_total('edit') > $wsfw_min_cart_amount ) {
 
 				if ( 'percent' === $wsfw_cashbak_type ) {
-					$total                        = wc()->cart->get_total( 'edit' );
-					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_total( 'edit' ) );
+					$total                        = wc()->cart->get_total('edit');
+					$total                        = apply_filters('wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_total('edit') );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
-
+		
 					if ( $wsfw_percent_cashback_amount < $wsfw_max_cashbak_amount ) {
 						$cashback_amount += $wsfw_percent_cashback_amount;
 					} else {
 						$cashback_amount += $wsfw_max_cashbak_amount;
 					}
+		
 				} else {
-					if ( wc()->cart->get_total( 'edit' ) >= $wsfw_cashbak_amount ) {
+					if ( wc()->cart->get_total('edit') >= $wsfw_cashbak_amount  ) {
 						$cashback_amount += $wsfw_cashbak_amount;
 					}
 				}
 			}
 		}
-		return apply_filters( 'wps_wsfw_wallet_form_cart_cashback_amount', $cashback_amount );
+		return apply_filters('wps_wsfw_wallet_form_cart_cashback_amount', $cashback_amount);
 	}
 
 	/**
@@ -784,23 +795,19 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return string
 	 */
 	public function wsfw_wallet_price_args( $user_id = '' ) {
-		if ( ! $user_id ) {
-			$user_id = get_current_user_id();
-		}
-		$args = apply_filters(
-			'wsfw_wallet_price_args',
-			array(
-				'ex_tax_label'       => false,
-				'currency'           => '',
-				'decimal_separator'  => wc_get_price_decimal_separator(),
-				'thousand_separator' => wc_get_price_thousand_separator(),
-				'decimals'           => wc_get_price_decimals(),
-				'price_format'       => get_woocommerce_price_format(),
-			),
-			$user_id
-		);
-		return $args;
-	}
+        if ( ! $user_id ) {
+            $user_id = get_current_user_id();
+        }
+        $args = apply_filters('wsfw_wallet_price_args', array(
+            'ex_tax_label'       => false,
+            'currency'           => '',
+            'decimal_separator'  => wc_get_price_decimal_separator(),
+            'thousand_separator' => wc_get_price_thousand_separator(),
+            'decimals'           => wc_get_price_decimals(),
+            'price_format'       => get_woocommerce_price_format(),
+            ), $user_id);
+        return $args;
+    }
 
 	/**
 	 * This function is used to show cashback notice on cart page.
@@ -808,70 +815,65 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wsfw_woocommerce_before_cart_total_cashback_message() {
-		if ( 'on' == get_option( 'wps_wsfw_enable_cashback' ) ) :
+		if ( 'on' == get_option('wps_wsfw_enable_cashback') ) :
 			$wallet_id          = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 			$is_wallet_recharge = false;
 			if ( ! empty( WC()->cart->get_cart() ) ) {
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 					$product    = $cart_item['data'];
 					$product_id = $cart_item['product_id'];
-					if ( $wallet_id == $product_id ) {
+					if( $wallet_id == $product_id ){
 						$is_wallet_recharge = true;
 					}
 				}
 			}
-			if ( $is_wallet_recharge == true ) {
+				if ( $is_wallet_recharge == true ) {
 				return;
-			}
-
+				}
+		
 			$cashback_amount        = $this->wsfw_calculate_cashback_cart();
-			$wsfw_min_cart_amount   = get_option( 'wps_wsfw_cart_amount_min' );
-			$cart_total             = ! empty( wc()->cart->get_total( 'edit' ) ) ? wc()->cart->get_total( 'edit' ) : wc()->cart->get_subtotal();
-			$cart_total             = apply_filters( 'wps_wsfw_wallet_cashback_on_total', $cart_total );
+			$wsfw_min_cart_amount   = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
+			$cart_total             =  ! empty( wc()->cart->get_total('edit') ) ? wc()->cart->get_total('edit') : wc()->cart->get_subtotal();
+			$cart_total             = apply_filters('wps_wsfw_wallet_cashback_on_total', $cart_total );
 			$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
-			
+	
 			if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
-				if ( floatval( $cart_total ) < floatval( $wsfw_min_cart_amount ) ) {
-
-					?>
-						<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
-					<?php
-					echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount );
+				if ( floatval( $cart_total ) <  floatval( $wsfw_min_cart_amount ) ) {
+					
+						?>	<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+						<?php
+						echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce'), wc_price($wsfw_min_cart_amount,$this->wsfw_wallet_price_args() )), $wsfw_min_cart_amount);
 				} else {
-
-					if ( is_user_logged_in() ) {
-						if ( $cashback_amount > 0 ) {
-							?>
 						
-						<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
-							<?php
-							echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount );
-						}
+					if (is_user_logged_in()) {
+						if (  $cashback_amount > 0 ) {
+						?>	
+							<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+							<?php						
+								echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce'), wc_price($cashback_amount,$this->wsfw_wallet_price_args() )), $cashback_amount);
+							}
 					} else {
-						?>
-							<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
-						<?php
-						echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Please <a href="%1$s">log in</a> to avail %2$s cashback from this order.', 'wallet-system-for-woocommerce' ), esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount );
-					}
-				}
-			} elseif ( 'catwise' === $wps_wsfw_cashback_rule ) {
-				if ( is_user_logged_in() ) {
-					if ( $cashback_amount > 0 ) {
-						?>
-							
-							<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
-						<?php
-							echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount );
-					}
+							?>	<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+							<?php
+							echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Please <a href="%s">log in</a> to avail %s cashback from this order.', 'wallet-system-for-woocommerce'), esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))), wc_price($cashback_amount, $this->wsfw_wallet_price_args())), $cashback_amount);
+							}
+						}
+			} elseif('catwise' === $wps_wsfw_cashback_rule ){
+				if (is_user_logged_in()) {
+					if (  $cashback_amount > 0 ) {
+					?>	
+						<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+						<?php						
+							echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce'), wc_price($cashback_amount,$this->wsfw_wallet_price_args() )), $cashback_amount);
+						}
 				} else {
-					?>
-								<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+						?>	<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
 						<?php
-						echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Please <a href="%1$s">log in</a> to avail %2$s cashback from this order.', 'wallet-system-for-woocommerce' ), esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount );
-				}
-			}
-
-			?>
+						echo apply_filters('wps_wsfw_cashback_notice_text', sprintf(__('Please <a href="%s">log in</a> to avail %s cashback from this order.', 'wallet-system-for-woocommerce'), esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))), wc_price($cashback_amount, $this->wsfw_wallet_price_args())), $cashback_amount);
+						}
+					}
+					
+					?>
 				</div>
 			<?php
 		endif;
@@ -893,42 +895,42 @@ class Wallet_System_For_Woocommerce_Public {
 		$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
 		$wps_wsfw_cashback_type = get_option( 'wps_wsfw_cashback_type', '' );
 		$product                = wc_get_product( $product_id );
-		if ( ! $product ) {
+		if( ! $product ) {
 			return;
 		}
 		if ( ! empty( $wps_wsfw_cashback_rule ) && 'catwise' === $wps_wsfw_cashback_rule ) {
 			if ( class_exists( 'Wallet_System_For_Woocommerce_Common' ) ) {
-				$common_obj   = new Wallet_System_For_Woocommerce_Common( '', '' );
+				$common_obj   = new Wallet_System_For_Woocommerce_Common( '', '');
 				$wps_cat_wise = $common_obj->wps_get_cashback_cat_wise( get_the_ID() );
 				if ( $wps_cat_wise ) {
 					$price           = $product->get_price();
 					$price           = apply_filters( 'wsfw_category_wise_cashback_product_price', $price );
 					$cashback_amount = $this->wsfw_calculate_category_wise_cashback( $price );
-					$cashback_html   = '<span class="wps-show-cashback-notice-on-shop-page">' . wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) . __( ' Cashback', 'wallet-system-for-woocommerce' ) . '</span>';
+					$cashback_html   = '<span class="wps-show-cashback-notice-on-shop-page">' . wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) . __(' Cashback', 'wallet-system-for-woocommerce') . '</span>';
 					echo apply_filters( 'wsfw_show_category_wise_cashback_amount_on_shop_page', wp_kses_post( $cashback_html ) );
 				}
 			}
 		}
 	}
-
+	
 	/**
 	 * This function is used to calculate category wise cashback.
 	 *
-	 * @param int $price price.
+	 * @param int $price price. 
 	 * @return int
 	 */
 	public function wsfw_calculate_category_wise_cashback( $price ) {
 		$cashback_amount         = 0;
-		$wsfw_max_cashbak_amount = get_option( 'wps_wsfw_cashback_amount_max' );
-		$wsfw_cashbak_amount     = get_option( 'wps_wsfw_cashback_amount' );
-		$wsfw_cashbak_type       = get_option( 'wps_wsfw_cashback_type' );
+		$wsfw_max_cashbak_amount = ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20;
+		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10;
+		$wsfw_cashbak_type       = get_option('wps_wsfw_cashback_type');
 		$wps_wsfw_cashback_rule  = get_option( 'wps_wsfw_cashback_rule', '' );
 
 		if ( 'catwise' === $wps_wsfw_cashback_rule ) {
 			if ( ! empty( $price ) && $price > 0 ) {
 				if ( 'percent' === $wsfw_cashbak_type ) {
 					$total                        = $price;
-					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $price );
+					$total                        = apply_filters('wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $price );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
 
 					if ( $wsfw_percent_cashback_amount <= $wsfw_max_cashbak_amount ) {
@@ -937,7 +939,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$cashback_amount += $wsfw_max_cashbak_amount;
 					}
 				} else {
-					if ( $wsfw_cashbak_amount > 0 ) {
+					if ( $wsfw_cashbak_amount > 0  ) {
 						$cashback_amount += $wsfw_cashbak_amount;
 					}
 				}
@@ -945,5 +947,5 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 		return $cashback_amount;
 	}
-
+	
 }
