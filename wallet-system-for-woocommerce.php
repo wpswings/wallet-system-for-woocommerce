@@ -24,7 +24,7 @@
  * WC Requires at least: 4.6
  * WC tested up to: 6.3.1
  * WP Requires at least: 5.1.0
- * WP tested up to: 5.9.2
+ * WP tested up to: 5.9.3
  * Requires PHP: 7.2 or Higher
  *
  * License:           GNU General Public License v3.0
@@ -147,11 +147,11 @@ if ( $activated ) {
 	 */
 	function wps_wsfw_show_deactivation_notice_for_pro() {
 
-	$plug = get_plugins();
+		$plug = get_plugins();
 		if ( isset( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php'] ) ) {
 			?>
 			<div class="notice notice-error is-dismissible">
-					<p><strong><?php esc_html_e( 'The WooCommerce Wallet System ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( 'has been renamed as ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ". Please update the plugin's latest version ", 'wallet-system-for-woocommerce' )?><strong><?php esc_html_e( '1.0.5.', 'wallet-system-for-woocommerce' ); ?></strong></p>
+					<p><strong><?php esc_html_e( 'The WooCommerce Wallet System ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( 'has been renamed as ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ". Please update the plugin's latest version ", 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( '1.0.5.', 'wallet-system-for-woocommerce' ); ?></strong></p>
 				</div>
 			<?php
 		}
@@ -221,10 +221,10 @@ if ( $activated ) {
 		$screen = get_current_screen();
 
 		if ( isset( $screen->id ) || isset( $screen->post_type ) ) {
-		
+
 			$screen = get_current_screen();
-				if ( isset( $screen->id ) && 'plugins' == $screen->id ) {
-					wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', plugin_dir_url( __FILE__ ) . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
+			if ( isset( $screen->id ) && 'plugins' == $screen->id ) {
+				wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', plugin_dir_url( __FILE__ ) . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
 
 			}
 		}

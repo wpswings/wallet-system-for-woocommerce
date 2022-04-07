@@ -225,10 +225,9 @@ class Wallet_System_For_Woocommerce {
 
 		// All admin actions and filters after License Validation goes here.
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
-	//	$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
+		// $this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_cashback_settings_page', 10 );
-		
 
 		$this->loader->add_filter( 'wsfw_update_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_update_wallet_page', 10 );
 		// for importing wallet.
@@ -255,7 +254,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'edit_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10, 1 );
 			$this->loader->add_action( 'personal_options_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 );
 			$this->loader->add_action( 'edit_user_profile_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 );
-	
+
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_admin, 'wps_wsfw_remove_customer_details_in_emails', 5, 1 );
 		}
@@ -331,7 +330,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'wps_wsfw_remove_customer_details_in_emails', 5, 1 );
 			$this->loader->add_action( 'woocommerce_before_cart_table', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
 			$this->loader->add_action( 'woocommerce_before_checkout_form', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
-			// show cashback notice on shop page
+			// show cashback notice on shop page.
 			$this->loader->add_action( 'woocommerce_shop_loop_item_title', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 			$this->loader->add_action( 'woocommerce_single_product_summary', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 		}
@@ -636,7 +635,7 @@ class Wallet_System_For_Woocommerce {
 	 * @since  1.0.0
 	 */
 	public function wps_wsfw_plug_generate_html( $wsfw_components = array() ) {
-	
+
 		if ( is_array( $wsfw_components ) && ! empty( $wsfw_components ) ) {
 			foreach ( $wsfw_components as $wsfw_component ) {
 				if ( ! empty( $wsfw_component['type'] ) && ! empty( $wsfw_component['id'] ) ) {
@@ -667,19 +666,27 @@ class Wallet_System_For_Woocommerce {
 									class="mdc-text-field__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
 									name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 									id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
-									<?php if ( 'number' == $wsfw_component['type'] ) { 
+									<?php
+									if ( 'number' == $wsfw_component['type'] ) {
 
-										if( ! empty( $wsfw_component['min'] ) ){?>
+										if ( ! empty( $wsfw_component['min'] ) ) {
+											?>
 										min="<?php echo esc_attr( $wsfw_component['min'] ); ?>"
-										<?php }
-										if( ! empty( $wsfw_component['max'] ) ){?>
+											<?php
+										}
+										if ( ! empty( $wsfw_component['max'] ) ) {
+											?>
 										max="<?php echo esc_attr( $wsfw_component['max'] ); ?>"
-										<?php }
-										if( ! empty( $wsfw_component['step'] ) ){?>
+											<?php
+										}
+										if ( ! empty( $wsfw_component['step'] ) ) {
+											?>
 											step="<?php echo esc_attr( $wsfw_component['step'] ); ?>"
-												<?php }
+												<?php
+										}
 										?>
-									<?php }
+										<?php
+									}
 									?>
 									type="<?php echo esc_attr( $wsfw_component['type'] ); ?>"
 									value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
@@ -752,10 +759,9 @@ class Wallet_System_For_Woocommerce {
 							<?php
 							break;
 
-
-							case 'select':
-								case 'multiselect':
-									?>
+						case 'select':
+						case 'multiselect':
+							?>
 								<div class="wps-form-group">
 									<div class="wps-form-group__label">
 										<label class="wps-form-label" for="<?php echo esc_attr( $wsfw_component['id'] ); ?>"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
@@ -763,33 +769,33 @@ class Wallet_System_For_Woocommerce {
 									<div class="wps-form-group__control">
 										<div class="wps-form-select">
 											<select id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : '' ); ?><?php echo ( 'multiselect' === $wsfw_component['type'] ) ? '[]' : ''; ?>" id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mdl-textfield__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" <?php echo 'multiselect' === $wsfw_component['type'] ? 'multiple="multiple"' : ''; ?> >
-												<?php
-												foreach ( $wsfw_component['options'] as $wsfw_key => $wsfw_val ) {
-													?>
+										<?php
+										foreach ( $wsfw_component['options'] as $wsfw_key => $wsfw_val ) {
+											?>
 													<option value="<?php echo esc_attr( $wsfw_key ); ?>"
-														<?php
-														if ( is_array( $wsfw_component['value'] ) ) {
-															selected( in_array( (string) $wsfw_key, $wsfw_component['value'], true ), true );
-														} else {
-															selected( $wsfw_component['value'], (string) $wsfw_key );
-														}
-														?>
-														>
-														<?php echo esc_html( $wsfw_val ); ?>
-													</option>
-													<?php
+												<?php
+												if ( is_array( $wsfw_component['value'] ) ) {
+													selected( in_array( (string) $wsfw_key, $wsfw_component['value'], true ), true );
+												} else {
+													selected( $wsfw_component['value'], (string) $wsfw_key );
 												}
 												?>
+														>
+												<?php echo esc_html( $wsfw_val ); ?>
+													</option>
+													<?php
+										}
+										?>
 											</select>
 										</div>
 										<div class="mdc-text-field-helper-line">
-											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? wp_kses_post( $wsfw_component['description'] ) : '' ); ?></div>
 										</div>
 									</div>
 								</div>
 		
 									<?php
-									break;
+							break;
 
 						case 'checkbox':
 							?>

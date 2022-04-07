@@ -258,7 +258,12 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 	_e(
 		"<pre>
 
-    curl -X PUT -d 'amount=29&action=credit' '$store_url/wp-json/wsfw-route/v1/wallet/1' \
+    curl -X PUT -d 'amount=29&action=credit'",
+		'wallet-system-for-woocommerce'
+	);
+	echo esc_html( $store_url );
+	_e(
+		"/wp-json/wsfw-route/v1/wallet/1' \
     --header 'Content-Type: application/json'
 	</pre>",
 		'wallet-system-for-woocommerce'
