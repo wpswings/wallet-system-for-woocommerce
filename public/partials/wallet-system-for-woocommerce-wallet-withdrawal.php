@@ -14,7 +14,6 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 
 ?>
 
-
 <div class='content active'>
 
 	<?php
@@ -31,7 +30,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 		$withdrawal_request = get_posts( $args );
 		?>
 		<div class="wps-wallet-transaction-container">
-			<table class="wps-wallet-field-table dt-responsive" id="transactions_table" >
+			<table class="wps-wsfw-wallet-field-table dt-responsive" id="transactions_table" >
 				<thead>
 					<tr>
 						<th>#</th>

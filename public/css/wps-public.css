@@ -14,9 +14,7 @@
 
 html,
 body {
-  font-family: 'NunitoSans-Regular';
   font-size: 16px;
-  line-height: 22px;
   margin: 0;
   padding: 0;
 }
@@ -231,19 +229,19 @@ ul {
   margin-bottom: 55px;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table {
   border-collapse: collapse;
   border-radius: 5px;
   border-bottom: 0 !important;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table thead {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table thead {
   background-color: #2196f3;
   color: #ffffff;
   text-align: left;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table thead th {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table thead th {
   background-color: #2196f3;
   border: 0;
   padding: 10px 18px;
@@ -253,19 +251,19 @@ ul {
   letter-spacing: 0.25px;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table tbody {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody {
   text-align: left;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table tbody .odd td {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody .odd td {
   background-color: #f4f4f4;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table tbody .even td {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody .even td {
   background-color: #C8E5FC;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table tbody td {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody td {
   border: 0;
   padding: 8px 10px;
   font-size: 16px;
@@ -274,27 +272,27 @@ ul {
   letter-spacing: 0.25px;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table tbody td .dtr-details li {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody td .dtr-details li {
   display: flex;
   flex-wrap: wrap;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table tbody td .dtr-details li .dtr-title {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody td .dtr-details li .dtr-title {
   margin-right: 20px;
 }
 
-.wps-wallet-transaction-container .wps-wallet-field-table tbody td span {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody td span {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
-.wps-wallet-transaction-container .wps-wallet-field-table tbody td .woocommerce-Price-amount {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody td .woocommerce-Price-amount {
   display: inline-flex;
 }
-.wps-wallet-transaction-container .wps-wallet-field-table tbody td .woocommerce-Price-currencySymbol {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody td .woocommerce-Price-currencySymbol {
   display: inline-flex;
 }
-.wps-wallet-transaction-container .wps-wallet-field-table tbody td span img {
+.wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody td span img {
   margin: 0 6px;
   width: 22px;
 }
@@ -341,7 +339,7 @@ ul {
 /*=====  End of Transaction Section  ======*/
 
 @media (max-width: 992px) {
-  .wps-wallet-transaction-container .wps-wallet-field-table tbody td span {
+  .wps-wallet-transaction-container .wps-wsfw-wallet-field-table tbody td span {
     justify-content: flex-start;
   }
 }

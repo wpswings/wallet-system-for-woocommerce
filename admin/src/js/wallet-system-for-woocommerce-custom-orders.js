@@ -16,6 +16,7 @@ jQuery(document).ready(function() {
         jQuery(".walletrechargeorders tbody tr").each(function() {
             var row = jQuery(this);
             var date = row.find("td").eq(3).text();
+            
             var show = true;
 
             if (from && date < from)

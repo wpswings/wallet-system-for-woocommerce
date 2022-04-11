@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.2.0';
+			$this->version = '2.2.1';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -225,8 +225,10 @@ class Wallet_System_For_Woocommerce {
 
 		// All admin actions and filters after License Validation goes here.
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
-		$this->loader->add_filter( 'wsfw_template_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
+		// $this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
+		$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_cashback_settings_page', 10 );
+
 		$this->loader->add_filter( 'wsfw_update_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_update_wallet_page', 10 );
 		// for importing wallet.
 		$this->loader->add_filter( 'wsfw_import_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_import_wallets_page', 10 );
@@ -261,8 +263,9 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_wallet_recharge_post_type', 30 );
 
 		$this->loader->add_action( 'wp_ajax_export_users_wallet', $wsfw_plugin_admin, 'export_users_wallet' );
-		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 10, 3 );
+		 $this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 30, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
+		$this->loader->add_action( 'wp_ajax_restrict_user_from_wallet_access', $wsfw_plugin_admin, 'restrict_user_from_wallet_access' );
 
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
 			if ( wps_sfw_check_plugin_enable() ) {
@@ -272,7 +275,6 @@ class Wallet_System_For_Woocommerce {
 		}
 
 	}
-
 
 	/**
 	 * Register all of the hooks related to the common functionality
@@ -290,6 +292,8 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_scripts' );
 
 		$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_common, 'wps_wsfw_wallet_recharge_product_purchasable', 1, 2 );
+
+		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_cashback_on_complete_order', 10, 3 );
 
 	}
 
@@ -324,6 +328,11 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_checkout_fields', $wsfw_plugin_public, 'wps_wsfw_remove_billing_from_checkout' );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'change_order_type', 20, 1 );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'wps_wsfw_remove_customer_details_in_emails', 5, 1 );
+			$this->loader->add_action( 'woocommerce_before_cart_table', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
+			$this->loader->add_action( 'woocommerce_before_checkout_form', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
+			// show cashback notice on shop page.
+			$this->loader->add_action( 'woocommerce_shop_loop_item_title', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
+			$this->loader->add_action( 'woocommerce_single_product_summary', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 		}
 
 	}
@@ -426,6 +435,12 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'wallet-system-withdrawal-setting',
 		);
 
+		// added tab for wallet withdrawal settings.
+		$wsfw_default_tabs['wallet-system-for-woocommerce-cashback'] = array(
+			'title' => esc_html__( 'Wallet Cashback', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-for-woocommerce-cashback',
+		);
+		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_cashback', $wsfw_default_tabs );
 		$wsfw_default_tabs['wallet-system-rest-api'] = array(
 			'title' => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-rest-api',
@@ -620,6 +635,7 @@ class Wallet_System_For_Woocommerce {
 	 * @since  1.0.0
 	 */
 	public function wps_wsfw_plug_generate_html( $wsfw_components = array() ) {
+
 		if ( is_array( $wsfw_components ) && ! empty( $wsfw_components ) ) {
 			foreach ( $wsfw_components as $wsfw_component ) {
 				if ( ! empty( $wsfw_component['type'] ) && ! empty( $wsfw_component['id'] ) ) {
@@ -650,13 +666,35 @@ class Wallet_System_For_Woocommerce {
 									class="mdc-text-field__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
 									name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 									id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
+									<?php
+									if ( 'number' == $wsfw_component['type'] ) {
+
+										if ( ! empty( $wsfw_component['min'] ) ) {
+											?>
+										min="<?php echo esc_attr( $wsfw_component['min'] ); ?>"
+											<?php
+										}
+										if ( ! empty( $wsfw_component['max'] ) ) {
+											?>
+										max="<?php echo esc_attr( $wsfw_component['max'] ); ?>"
+											<?php
+										}
+										if ( ! empty( $wsfw_component['step'] ) ) {
+											?>
+											step="<?php echo esc_attr( $wsfw_component['step'] ); ?>"
+												<?php
+										}
+										?>
+										<?php
+									}
+									?>
 									type="<?php echo esc_attr( $wsfw_component['type'] ); ?>"
 									value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
 									placeholder="<?php echo ( isset( $wsfw_component['placeholder'] ) ? esc_attr( $wsfw_component['placeholder'] ) : '' ); ?>"
 									>
-								</label>
+								</label><br>
 								<div class="mdc-text-field-helper-line">
-									<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
 								</div>
 							</div>
 						</div>
@@ -724,17 +762,17 @@ class Wallet_System_For_Woocommerce {
 						case 'select':
 						case 'multiselect':
 							?>
-						<div class="wps-form-group">
-							<div class="wps-form-group__label">
-								<label class="wps-form-label" for="<?php echo esc_attr( $wsfw_component['id'] ); ?>"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
-							</div>
-							<div class="wps-form-group__control">
-								<div class="wps-form-select">
-									<select id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : '' ); ?><?php echo ( 'multiselect' === $wsfw_component['type'] ) ? '[]' : ''; ?>" id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mdl-textfield__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" <?php echo 'multiselect' === $wsfw_component['type'] ? 'multiple="multiple"' : ''; ?> >
+								<div class="wps-form-group">
+									<div class="wps-form-group__label">
+										<label class="wps-form-label" for="<?php echo esc_attr( $wsfw_component['id'] ); ?>"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
+									</div>
+									<div class="wps-form-group__control">
+										<div class="wps-form-select">
+											<select id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : '' ); ?><?php echo ( 'multiselect' === $wsfw_component['type'] ) ? '[]' : ''; ?>" id="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="mdl-textfield__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" <?php echo 'multiselect' === $wsfw_component['type'] ? 'multiple="multiple"' : ''; ?> >
 										<?php
 										foreach ( $wsfw_component['options'] as $wsfw_key => $wsfw_val ) {
 											?>
-											<option value="<?php echo esc_attr( $wsfw_key ); ?>"
+													<option value="<?php echo esc_attr( $wsfw_key ); ?>"
 												<?php
 												if ( is_array( $wsfw_component['value'] ) ) {
 													selected( in_array( (string) $wsfw_key, $wsfw_component['value'], true ), true );
@@ -742,18 +780,21 @@ class Wallet_System_For_Woocommerce {
 													selected( $wsfw_component['value'], (string) $wsfw_key );
 												}
 												?>
-												>
+														>
 												<?php echo esc_html( $wsfw_val ); ?>
-											</option>
-											<?php
+													</option>
+													<?php
 										}
 										?>
-									</select>
+											</select>
+										</div>
+										<div class="mdc-text-field-helper-line">
+											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? wp_kses_post( $wsfw_component['description'] ) : '' ); ?></div>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-
-							<?php
+		
+									<?php
 							break;
 
 						case 'checkbox':

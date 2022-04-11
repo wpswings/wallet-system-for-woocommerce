@@ -44,6 +44,14 @@
             return new MDCSwitch(el);
         });
 
+		// hide show category fields.
+		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
+		if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {
+			jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide()
+		} else {
+			jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
+		}
+
 		// on clicking element change the input type password to text or vice-versa
 		$(document).on( 'click', '.wps-password-hidden', function() {
             if ($('.wps-form__password').attr('type') == 'text') {
@@ -77,7 +85,7 @@
 
 			})
 			.fail(function ( response ) {
-				$( '#export_user_wallet' ).after('<span style="color:red;" >' + wsfw_admin_param.wsfw_ajax_error + '</span>');		
+				$( '#export_user_wallet' ).after('<span style="color:red;" >' + wsfw_admin_param.wsfw_ajax_error + '</span>');	
 			});
 		});
 
@@ -103,7 +111,10 @@
 				$('.error').hide();
 				$('#update_wallet').prop('disabled', false);
 			} else if ( amount <= 0 ) {
-				$(this).parent().after('<p class="error">' + wsfw_admin_param.wsfw_amount_error + '</p>');
+				if ( jQuery('.error').html() == '' ) {
+					$(this).parent().after('<p class="error">' + wsfw_admin_param.wsfw_amount_error + '</p>');
+				
+				}
 				$('.error').show();
 
 				$('#update_wallet').prop('disabled', true);
@@ -133,7 +144,7 @@
 			$('.wps_wallet-edit--popupwrap').find('.wps_wallet-edit-popup-btn').before('<input class="userid" type="hidden" name="user_id" value="'+userid+'">');
 		});
 
-		$(document).on("click", "#close_wallet_form", function(e){
+		$(document).on("click", "#close_wallet_form", function(e) {
 			$('.wps_wallet-edit-popup-fill').val('');
 			$('.error').html('');
 			$('.wps_wallet-edit--popupwrap').find('.userid').remove();
@@ -177,7 +188,38 @@
 			});
 		});
 
+		// update wallet and status on changing status of wallet request
+		$(document).on( 'change', '.wsfw_restrict_user', function() {
+			debugger;
+			var user_id='';
+			if ( $(this).length > 0 ) {
+				var user_name = $(this)[0].id;
+				var user_id = jQuery('#'+user_name).attr('user_id');
+			}
+		var restriction_status = jQuery('#'+user_name).attr('aria-checked');
+			var loader = $(this).siblings('#overlay');
+			loader.show();
+			$.ajax({
+				type: 'POST',
+				url: wsfw_admin_param.ajaxurl,
+				data: {
+					action: 'restrict_user_from_wallet_access',
+					nonce: wsfw_admin_param.nonce,
+					user_id: user_id,
+					restriction_status:restriction_status,
+					
+				},
+				datatType: 'JSON',
+				success: function( response ) {
+				debugger;
+				loader.hide();
+				},
 
+			})
+			.fail(function ( response ) {
+				loader.hide();
+			});
+		});
 
 
 		$('#search_in_table').keyup(function(){
@@ -203,6 +245,16 @@
 			if(!numericReg.test(inputVal)) {
 				$('.error').show();
 				$('.error').html(wsfw_admin_param.wsfw_amount_error);
+			}
+		});
+
+		// Hide show category fields on select option.
+		$('#wps_wsfw_cashback_rule').on('change', function(){
+			var cash_back_rule = $(this).val();
+			if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {
+				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide()
+			} else {
+				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
 			}
 		});
 

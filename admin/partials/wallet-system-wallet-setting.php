@@ -375,6 +375,7 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 					<th><?php esc_html_e( 'Role', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Actions', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Restrict user', 'wallet-system-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -382,6 +383,7 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 				$users = get_users( 'orderby=id' );
 				if ( ! empty( $users ) ) {
 					foreach ( $users as $user ) {
+						$is_user_restricted = get_user_meta( $user->ID, 'user_restriction_for_wallet', true );
 						$wallet_bal = get_user_meta( $user->ID, 'wps_wallet', true );
 						?>
 						<tr>
@@ -397,9 +399,42 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 									</a>	
 									<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wps-user-wallet-transactions&id=' . $user->ID ); ?>" title="View Transactions" >
 										<img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eye.svg">
-									</a>
+									</a>	
 								</span>
-							</td>
+							</td>	<td>
+								<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label for="" class="wps-form-label"></label>
+								</div>
+								<div class="wps-form-group__control">
+									<div>
+										<div class="mdc-switch">
+											<div class="mdc-switch__track"></div>
+											<div class="mdc-switch__thumb-underlay">
+											<div class="mdc-switch__thumb"></div>
+											<input name="wsfw_restrict_user_<?php echo esc_html( $user->ID ); ?>" user_id="<?php echo esc_html( $user->ID ); ?>" type="checkbox" id="wsfw_restrict_user_<?php echo esc_html( $user->ID ); ?>" value="on" class="mdc-switch__native-control wsfw-radio-switch-class wsfw_restrict_user" role="switch" aria-checked="
+																					   <?php
+																						if ( 'restricted' == $is_user_restricted ) {
+																							echo 'true';
+																						} else {
+																							echo 'false';
+																						}
+																						?>
+												" 
+												<?php
+												if ( 'restricted' == $is_user_restricted ) {
+													checked( 'on', 'on' );
+												} else {
+													checked( '', 'on' );
+												}
+												?>
+												  >
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>	
+						</td>
 						</tr>
 						<?php
 					}
@@ -409,7 +444,6 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 		</table>
 	</div>
 </div>
-
 <div class="wps_wallet-edit--popupwrap">
 	<div class="wps_wallet-edit-popup">
 		<p><span id="close_wallet_form"><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/cancel.svg"></span></p>

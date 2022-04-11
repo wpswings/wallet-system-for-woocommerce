@@ -206,6 +206,8 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_general_settings_page( $wsfw_settings_general ) {
 
+		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
+
 		$wsfw_settings_general = array(
 			// enable wallet.
 			array(
@@ -285,6 +287,217 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 		return $wsfw_settings_general;
 	}
+
+	/**
+	 * This function is used to
+	 *
+	 * @return void
+	 */
+	public function wsfw_admin_cashback_settings_page() {
+
+		$args           = array(
+			'taxonomy'     => 'product_cat',
+			'orderby'      => 'name',
+			'show_count'   => 0,
+			'pad_counts'   => 0,
+			'hierarchical' => 1,
+			'title_li'     => '',
+			'hide_empty'   => 0,
+		);
+		$all_categories    = get_categories( $args );
+		$mwb_wsfw_cat_name = array();
+		$wps_wsfw_multiselect_category_rule = get_option( 'wps_wsfw_multiselect_category_rule' );
+		if ( empty( $wps_wsfw_multiselect_category_rule ) ) {
+			$mwb_wsfw_cat_name[''] = __( 'Please Select', 'wallet-system-for-woocommerce' );
+		}
+		if ( ! empty( $all_categories ) && is_array( $all_categories ) ) {
+			foreach ( $all_categories as $mwb_cat ) {
+				$mwb_wsfw_cat_name[ $mwb_cat->name ] = $mwb_cat->name;
+			}
+		}
+
+		$wsfw_settings_general = array(
+			// enable wallet cashback.
+			array(
+				'title'       => __( 'Enable Wallet Cashback', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_enable_cashback',
+				'id'          => 'wps_wsfw_enable_cashback',
+				'value'       => get_option( 'wps_wsfw_enable_cashback' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Process Wallet Cashback', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_multiselect_category',
+				'type'        => 'multiselect',
+				'description' => __( 'Select order status to apply Cashback.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_multiselect_category',
+				'value'       => get_option( 'wps_wsfw_multiselect_category', array( 'completed' ) ),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
+				'placeholder' => '',
+				'options' => apply_filters(
+					'wps_wsfw_cashback_type_order',
+					array(
+						'pending' => __( 'Pending payment', 'wallet-system-for-woocommerce' ),
+						'on-hold' => __( 'On hold', 'wallet-system-for-woocommerce' ),
+						'processing' => __( 'Processing', 'wallet-system-for-woocommerce' ),
+						'completed' => __( 'Completed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			array(
+				'title'       => __( 'Wallet Cashback Rule', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'description' => __( 'Select Cashback rule to apply Cashback.<br> <b>Note:</b> In the case of Catergory Wise, Cashback will be applied to each product of category', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_cashback_rule',
+				'id'          => 'wps_wsfw_cashback_rule',
+				'value'       => get_option( 'wps_wsfw_cashback_rule', 'cartwise' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => apply_filters(
+					'wsfw_cashback_type__array',
+					array(
+						''         => __( 'Please Select', 'wallet-system-for-woocommerce' ),
+						'cartwise' => __( 'Cart Wise', 'wallet-system-for-woocommerce' ),
+						'catwise'  => __( 'Category Wise', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+
+			array(
+				'title'       => __( 'Select Product Category', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_multiselect_category_rule',
+				'type'        => 'multiselect',
+				'description' => __( 'Select any category to give Cashback.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_multiselect_category_rule',
+				'value'       => get_option( 'wps_wsfw_multiselect_category_rule' ),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
+				'placeholder' => '',
+				'options'     => $mwb_wsfw_cat_name,
+			),
+
+			array(
+				'title'       => __( 'Wallet Cashback Type', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'description' => __( 'Select Cashback type Percentage or Fixed', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_cashback_type',
+				'id'          => 'wps_wsfw_cashback_type',
+				'value'       => get_option( 'wps_wsfw_cashback_type', 'percent' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => apply_filters(
+					'wsfw_cashback_type__array',
+					array(
+						''        => __( 'Please Select', 'wallet-system-for-woocommerce' ),
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			array(
+				'title'       => __( 'Enter Wallet Cashback Amount', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Give Cashback on Wallet when customer place order.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_cashback_amount',
+				'id'          => 'wps_wsfw_cashback_amount',
+				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10,
+				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			),
+			array(
+				'title'       => __( 'Minimum Cart Amount', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter minimum cart amount.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_cart_amount_min',
+				'id'          => 'wps_wsfw_cart_amount_min',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10,
+				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			),
+			array(
+				'title'       => __( 'Maximum Wallet Cashback Amount', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter maximum Cashback amount.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_cashback_amount_max',
+				'id'          => 'wps_wsfw_cashback_amount_max',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20,
+				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			),
+		);
+		$wsfw_settings_general   = apply_filters( 'wsfw_cashback_extra_settings_array', $wsfw_settings_general );
+		$wsfw_settings_general[] = array(
+			'type'        => 'submit',
+			'name'        => 'wsfw_button_cashback',
+			'id'          => 'wsfw_button_cashback',
+			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wsfw-button-class',
+		);
+		return $wsfw_settings_general;
+	}
+
+
+	/**
+	 * Wallet System for WooCommerce save tab settings.
+	 *
+	 * @since 1.0.0
+	 */
+	public function wsfw_admis_save_tab_settings_for_cashback() {
+		global $wsfw_wps_wsfw_obj;
+		if ( isset( $_POST['wsfw_button_cashback'] ) ) {
+
+			$nonce = ( isset( $_POST['updatenoncecashback'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncecashback'] ) ) : '';
+			if ( wp_verify_nonce( $nonce ) ) {
+
+				$wps_wsfw_gen_flag     = false;
+				$wsfw_genaral_settings = apply_filters( 'wsfw_cashback_settings_array', array() );
+				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
+				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
+					$wsfw_button_index = array_search( 'button', array_column( $wsfw_genaral_settings, 'type' ) );
+				}
+
+				if ( isset( $wsfw_button_index ) && '' !== $wsfw_button_index ) {
+					unset( $wsfw_genaral_settings[ $wsfw_button_index ] );
+					if ( is_array( $wsfw_genaral_settings ) && ! empty( $wsfw_genaral_settings ) ) {
+						foreach ( $wsfw_genaral_settings as $wsfw_genaral_setting ) {
+
+							if ( isset( $wsfw_genaral_setting['id'] ) && '' !== $wsfw_genaral_setting['id'] ) {
+								if ( is_array( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
+									update_option( $wsfw_genaral_setting['id'], map_deep( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) );
+								} else {
+									if ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
+										update_option( $wsfw_genaral_setting['id'], sanitize_text_field( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ) ) );
+									} else {
+										update_option( $wsfw_genaral_setting['id'], '' );
+									}
+								}
+							} else {
+								$wps_wsfw_gen_flag = true;
+							}
+						}
+					}
+					if ( $wps_wsfw_gen_flag ) {
+						$wps_wsfw_error_text = esc_html__( 'Id of some field is missing', 'wallet-system-for-woocommerce' );
+						$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
+					} else {
+						$wps_wsfw_error_text = esc_html__( 'Settings saved !', 'wallet-system-for-woocommerce' );
+						$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'success' );
+					}
+				}
+			} else {
+				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
+			}
+			if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
+				wp_redirect( $_SERVER['HTTP_REFERER'] );
+			}
+		}
+	}
+
 
 	/**
 	 * Wallet System for WooCommerce admin menu page.
@@ -405,6 +618,10 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 		return $wsfw_settings_template;
 	}
+
+
+
+
 
 	/**
 	 * Wallet System for WooCommerce save tab settings.
@@ -897,6 +1114,34 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 		}
 		wp_send_json( $userdata );
+
+	}
+
+		/**
+		 * Update wallet and status on changing status of wallet request
+		 *
+		 * @return void
+		 */
+	public function restrict_user_from_wallet_access() {
+		$update = true;
+		check_ajax_referer( 'wp_rest', 'nonce' );
+		$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
+		$restriction_status = ( isset( $_POST['restriction_status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['restriction_status'] ) ) : '';
+
+		if ( ! empty( $user_id ) ) {
+
+			if ( 'true' == $restriction_status ) {
+				update_user_meta( $user_id, 'user_restriction_for_wallet', 'restricted', true );
+			} else {
+				delete_user_meta( $user_id, 'user_restriction_for_wallet' );
+			}
+		}
+		$message       = array(
+			'msg'     => 'success',
+			'msgType' => 'success',
+		);
+
+		wp_send_json( $message );
 
 	}
 
@@ -1793,7 +2038,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		self::wsfw_upgrade_wp_usermeta();
 		self::wsfw_upgrade_wp_options();
 		self::wsfw_rename_custom_table();
-		self::wsfw_replace_mwb_to_wps_in_shortcodes();
 		self::wsfw_remove_pro_menus();
 	}
 
@@ -1977,5 +2221,4 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	/** End of Mgration code */
-
 }

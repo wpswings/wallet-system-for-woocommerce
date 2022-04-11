@@ -17,7 +17,7 @@ $allowed_html = array(
 
 <div class='content active'>
 	<div class="wps-wallet-transaction-container">
-		<table class="wps-wallet-field-table dt-responsive" id="transactions_table">
+		<table class="wps-wsfw-wallet-field-table dt-responsive" id="transactions_table">
 			<thead>
 				<tr>
 					<th>#</th>

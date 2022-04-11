@@ -15,7 +15,7 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
  * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
- * Version:           2.2.0
+ * Version:           2.2.1
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
@@ -24,7 +24,7 @@
  * WC Requires at least: 4.6
  * WC tested up to: 6.3.1
  * WP Requires at least: 5.1.0
- * WP tested up to: 5.9.2
+ * WP tested up to: 5.9.3
  * Requires PHP: 7.2 or Higher
  *
  * License:           GNU General Public License v3.0
@@ -63,7 +63,7 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.2.0' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.2.1' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -138,78 +138,7 @@ if ( $activated ) {
 	 */
 	require plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce.php';
 
-	// Upgrade notice.
-	add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_wsfw_upgrade_notice', 0, 3 );
-
-
-	/**
-	 * Undocumented function
-	 *
-	 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-	 * @param array  $plugin_data An array of plugin data.
-	 * @param string $status Status filter currently applied to the plugin list.
-	 * @return void
-	 */
-	function wps_wsfw_upgrade_notice( $plugin_file, $plugin_data, $status ) {
-
-		?>
-		<tr class="plugin-update-tr active notice-warning notice-alt">
-			<td colspan="4" class="plugin-update colspanchange">
-				<div class="notice notice-success inline update-message notice-alt">
-					<div class='wps-notice-title wps-notice-section'>
-						<p><strong>IMPORTANT NOTICE:</strong></p>
-					</div>
-					<div class='wps-notice-content wps-notice-section'>
-						<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
-						Please connect with us for all setup, support, and update related queries without hesitation.</p>
-					</div>
-				</div>
-			</td>
-		</tr>
-		<style>
-			.wps-notice-section > p:before {
-				content: none;
-			}
-		</style>
-		<?php
-	}//end wps_wsfw_upgrade_notice()
-
-	add_action( 'admin_notices', 'wps_wsfw_plugin_upgrade_notice', 20 );
-
-
-	/**
-	 * Displays notice to upgrade for Wallet.
-	 *
-	 * @return void
-	 */
-	function wps_wsfw_plugin_upgrade_notice() {
-		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' === $screen->id ) {
-			?>
-		
-		<tr class="plugin-update-tr active notice-warning notice-alt">
-	<td colspan="4" class="plugin-update colspanchange">
-		<div class="notice notice-success inline update-message notice-alt">
-			<div class='wps-notice-title wps-notice-section'>
-				<p><strong>IMPORTANT NOTICE:</strong></p>
-			</div>
-			<div class='wps-notice-content wps-notice-section'>
-				<p>From this update <strong>Version 2.1.3</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
-				Please connect with us for all setup, support, and update related queries without hesitation.</p>
-			</div>
-		</div>
-	</td>
-</tr>
-<style>
-	.wps-notice-section > p:before {
-		content: none;
-	}
-</style>
-		
-			<?php
-		}
-		wps_wsfw_show_deactivation_notice_for_pro();
-	}
+	add_action( 'admin_notices', 'wps_wsfw_show_deactivation_notice_for_pro', 20 );
 
 	/**
 	 * This function is used to show deactivation notice.
@@ -218,11 +147,11 @@ if ( $activated ) {
 	 */
 	function wps_wsfw_show_deactivation_notice_for_pro() {
 
-	$plug = get_plugins();
+		$plug = get_plugins();
 		if ( isset( $plug['woocommerce-wallet-system/woocommerce-wallet-system.php'] ) ) {
 			?>
 			<div class="notice notice-error is-dismissible">
-					<p><strong><?php esc_html_e( 'The WooCommerce Wallet System ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( 'has been renamed as ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ". Please update the plugin's latest version ", 'wallet-system-for-woocommerce' )?><strong><?php esc_html_e( '1.0.5.', 'wallet-system-for-woocommerce' ); ?></strong></p>
+					<p><strong><?php esc_html_e( 'The WooCommerce Wallet System ', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( 'has been renamed as ', 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( 'Wallet System for WooCommerce Pro', 'wallet-system-for-woocommerce' ); ?></strong><?php esc_html_e( ". Please update the plugin's latest version ", 'wallet-system-for-woocommerce' ); ?><strong><?php esc_html_e( '1.0.5.', 'wallet-system-for-woocommerce' ); ?></strong></p>
 				</div>
 			<?php
 		}
@@ -280,6 +209,27 @@ if ( $activated ) {
 	}
 	run_wallet_system_for_woocommerce();
 
+
+	add_action( 'admin_enqueue_scripts', 'wps_wsfw_admin_enqueue_styles' );
+	/**
+	 * Register the JavaScript for the admin area.
+	 *
+	 * @since    1.0.0
+	 * @name mfw_admin_enqueue_styles.
+	 */
+	function wps_wsfw_admin_enqueue_styles() {
+		$screen = get_current_screen();
+
+		if ( isset( $screen->id ) || isset( $screen->post_type ) ) {
+
+			$screen = get_current_screen();
+			if ( isset( $screen->id ) && 'plugins' == $screen->id ) {
+				wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', plugin_dir_url( __FILE__ ) . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
+
+			}
+		}
+	}
+
 	// Add settings link on plugin page.
 	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wallet_system_for_woocommerce_settings_link' );
 
@@ -294,6 +244,11 @@ if ( $activated ) {
 		$my_link = array(
 			'<a href="' . admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '">' . __( 'Settings', 'wallet-system-for-woocommerce' ) . '</a>',
 		);
+		$mfw_plugins = get_plugins();
+		if ( ! isset( $mfw_plugins['wallet-system-for-woocommerce-pro/wallet-system-for-woocommerce-pro.php'] ) ) {
+
+			$my_link['goPro'] = '<a class="wps-wsfw-go-pro" target="_blank" href="https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend&utm_campaign=go-pro">' . esc_html__( 'GO PRO', 'wallet-system-for-woocommerce' ) . '</a>';
+		}
 		return array_merge( $my_link, $links );
 	}
 

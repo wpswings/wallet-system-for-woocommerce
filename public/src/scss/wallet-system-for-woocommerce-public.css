@@ -4,380 +4,421 @@
  */
 
 /** added custom css */
-a:focus, button:focus, .button.alt:focus, input:focus, textarea:focus, input[type="button"]:focus, input[type="reset"]:focus, input[type="submit"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="url"]:focus, input[type="password"]:focus, input[type="search"]:focus {
-	outline:none!important;
-}
-.wallet-amount input {
-	padding: 5px;
+a:focus,
+button:focus,
+.button.alt:focus,
+input:focus,
+textarea:focus,
+input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus {
+    outline: none !important;
 }
 
-#wps_wallet_show_total_msg{
-	display: none;
+.wallet-amount input {
+    padding: 5px;
 }
+
+.wps-show-cashback-notice-on-shop-page {
+    border: none;
+    color: #000;
+	padding: 5px 14px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    background-image: linear-gradient(180deg, #d4ecc4, #ebf6c9);
+    border-bottom: 2px solid #a9cd3a;
+    position: relative;
+}
+
+.wps-show-cashback-notice-on-shop-page:after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background-color: #a9cd3a;
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px #fff;
+}
+
+#wps_wallet_show_total_msg {
+    display: none;
+}
+
 .wps_wcb_wallet_balance_container {
-	background: #242424;
-	padding: 10px;
-	margin-bottom: 20px;
+    background: #242424;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
 .wps_wcb_wallet_balance_container h4 {
-	max-width: 50%;
-	float: left;
-	margin: 0;
-	font-weight: normal;
-	font-size: 22px;
-	line-height: normal;
-	color: #fff;
+    max-width: 50%;
+    float: left;
+    margin: 0;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: normal;
+    color: #fff;
 }
 
 .wps_wcb_wallet_balance_container p {
-	max-width: 45%;
-	float: right;
-	font-size: 20px;
-	margin: 0;
-	line-height: normal;
-	color: #fff;
+    max-width: 45%;
+    float: right;
+    font-size: 20px;
+    margin: 0;
+    line-height: normal;
+    color: #fff;
 }
 
 .wps_wcb_body_template::after {
-	clear: both;
-	display: block;
-	content: "";
+    clear: both;
+    display: block;
+    content: "";
 }
 
 .wps_wcb_content_template {
-	width: 100%;
-	text-align: center;
-	border: 1px solid #ddd;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #ddd;
 }
 
 .wps_wcb_navigator_template {
-	width: 100%;
-	float: left;
-	margin-bottom: 20px;
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
 }
 
 .wps-wcb-navigations ul {
-	padding: 0;
-	margin: 0;
-	background-color: #c9c9c9;
+    padding: 0;
+    margin: 0;
+    background-color: #c9c9c9;
 }
 
 .wps-wcb-navigations ul li {
-	list-style-type: none;
-	float: left;
-	position: relative;
-	padding: 10px 20px;
+    list-style-type: none;
+    float: left;
+    position: relative;
+    padding: 10px 20px;
 }
 
 .wps-wcb-navigations ul::after {
-	display: block;
-	content: "";
-	clear: both;
+    display: block;
+    content: "";
+    clear: both;
 }
 
 .wps_wcb_nav_tab.nav-tab:hover {
-	background: #9f9d9d;
-	border: 1px solid #9f9d9d;
-	border-bottom: 0;
+    background: #9f9d9d;
+    border: 1px solid #9f9d9d;
+    border-bottom: 0;
 }
 
 .wps-wcb-navigations ul li:hover .tool-tip {
-	display: block;
-	visibility: visible;
-	opacity: 1;
+    display: block;
+    visibility: visible;
+    opacity: 1;
 }
 
 .tool-tip {
-	position: absolute;
-	bottom: -55px;
-	left: -35px;
-	padding: 10px;
-	background-color: #FFF9F9;
-	border-radius: 3px;
-	opacity: 0;
-	visibility: hidden;
-	transition: all 200ms ease-in-out, visibility 0ms;
-	transform-origin: bottom center;
-	width: 145px;
-	z-index: 1;
-	color: #000;
-	font-size: 14px;
-	text-align: center;
-	box-shadow: 0 8px 13px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(213, 213, 213, 0.03);
+    position: absolute;
+    bottom: -55px;
+    left: -35px;
+    padding: 10px;
+    background-color: #FFF9F9;
+    border-radius: 3px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 200ms ease-in-out, visibility 0ms;
+    transform-origin: bottom center;
+    width: 145px;
+    z-index: 1;
+    color: #000;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 8px 13px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(213, 213, 213, 0.03);
 }
 
 .tool-tip::after {
-	border: 9px solid transparent;
-	border-bottom-color: transparent;
-	border-bottom-style: solid;
-	border-bottom-width: 10px;
-	border-bottom: 11px solid #fff;
-	position: absolute;
-	content: "";
-	left: 50%;
-	margin-left: -10px;
-	bottom: 100%;
+    border: 9px solid transparent;
+    border-bottom-color: transparent;
+    border-bottom-style: solid;
+    border-bottom-width: 10px;
+    border-bottom: 11px solid #fff;
+    position: absolute;
+    content: "";
+    left: 50%;
+    margin-left: -10px;
+    bottom: 100%;
 }
 
 .wps_wcb_navigator_template .wps-wcb-navigations img {
-	width: 100%;
-	max-width: 30px;
-	display: block;
+    width: 100%;
+    max-width: 30px;
+    display: block;
 }
 
 .wps_wcb_pagination_front_container {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .wps_wcb_pagination_front_container .wps_wcb_all_trans_front_page_limit {
-	display: inline-block;
-	width: 70px;
-	margin-left: 10px;
+    display: inline-block;
+    width: 70px;
+    margin-left: 10px;
 }
 
 .wps_wcb_pagination_front_container .wps_wcb_all_trans_front_set_page_limit {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 .wps_wcb_main_tabs_template {
-	background: #f4f3f3;
+    background: #f4f3f3;
 }
 
 .wps_wcb_content_template h2 {
-	font-size: 28px;
-	color: #000;
+    font-size: 28px;
+    color: #000;
 }
 
 .wps-wcb-navigations a {
-	text-decoration: none !important;
+    text-decoration: none !important;
 }
 
 .wps_wcb_wallet_topup_wrap {
-	padding-top: 8px;
-	padding-bottom: 30px;
+    padding-top: 8px;
+    padding-bottom: 30px;
 }
 
 #wallet_topup_add {
-	display: inline-block;
-	width: 100%;
-	max-width: 100px;
-	height: 40px;
+    display: inline-block;
+    width: 100%;
+    max-width: 100px;
+    height: 40px;
 }
 
 #wps_wallet_topup_add {
-	background: #242424;
-	padding: 0 30px;
-	color: #fff;
-	line-height: normal;
-	height: 40px;
-	font-weight: normal;
-	display: inline-block;
-	margin-left: 5px;
-	width: 100%;
-	max-width: 100px;
+    background: #242424;
+    padding: 0 30px;
+    color: #fff;
+    line-height: normal;
+    height: 40px;
+    font-weight: normal;
+    display: inline-block;
+    margin-left: 5px;
+    width: 100%;
+    max-width: 100px;
 }
 
 #wps_wcb_all_trans_table caption {
-	caption-side: top;
-	font-size: 28px;
-	color: #000;
-	text-align: center;
+    caption-side: top;
+    font-size: 28px;
+    color: #000;
+    text-align: center;
 }
 
 #wps_wcb_all_trans_table_wrapper {
-	width: 100%;
-	padding: 15px;
-	box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
 #wps_wcb_all_trans_table_wrapper:after {
-	display: block;
-	clear: both;
-	content: '';
+    display: block;
+    clear: both;
+    content: '';
 }
 
 #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_length {
-	float: left;
-	width: 49%;
-	margin-right: 2%;
-	text-align: left;
+    float: left;
+    width: 49%;
+    margin-right: 2%;
+    text-align: left;
 }
 
 #wps_wcb_all_trans_table_length label {
-	color: #000;
-	font-size: 14px;
-	text-transform: capitalize;
-	font-weight: normal;
-	text-align: left;
+    color: #000;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: normal;
+    text-align: left;
 }
 
 #wps_wcb_all_trans_table_length label select {
-	background-color: #fff;
-	width: 100%;
-	height: 40px;
-	box-shadow: none;
-	border: 1px solid #ddd;
+    background-color: #fff;
+    width: 100%;
+    height: 40px;
+    box-shadow: none;
+    border: 1px solid #ddd;
 }
 
 #wps_wcb_all_trans_table_length label select:focus {
-	outline: none;
+    outline: none;
 }
 
 #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_filter {
-	float: left;
-	width: 49%;
-	text-align: left;
+    float: left;
+    width: 49%;
+    text-align: left;
 }
 
 #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_filter label {
-	color: #000;
-	font-size: 14px;
-	text-transform: capitalize;
-	font-weight: normal;
+    color: #000;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: normal;
 }
 
 #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_filter input {
-	margin-left: 0;
-	width: 100%;
-	background-color: #fff;
-	height: 40px;
-	box-shadow: none;
-	border: 1px solid #ddd;
+    margin-left: 0;
+    width: 100%;
+    background-color: #fff;
+    height: 40px;
+    box-shadow: none;
+    border: 1px solid #ddd;
 }
 
 #wps_wcb_all_trans_table {
-	border: 1px solid #c8c8c8;
+    border: 1px solid #c8c8c8;
 }
 
 #wps_wcb_all_trans_table thead {
-	background-color: #242424;
-	color: #fff;
+    background-color: #242424;
+    color: #fff;
 }
 
 #wps_wcb_all_trans_table thead th {
-	font-weight: normal;
-	background-color: #242424;
-	color: #fff;
+    font-weight: normal;
+    background-color: #242424;
+    color: #fff;
 }
 
 #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table tbody tr {
-	color: #000;
+    color: #000;
 }
 
 #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table tbody tr.even {
-	background: #f9f9f9;
+    background: #f9f9f9;
 }
 
 #wps_wcb_all_trans_table tfoot {
-	background-color: #000;
-	color: #fff;
+    background-color: #000;
+    color: #fff;
 }
 
 #wps_wcb_all_trans_table tfoot th {
-	font-weight: normal;
-	padding: 10px;
-	background-color: #242424;
-	color: #fff;
+    font-weight: normal;
+    padding: 10px;
+    background-color: #242424;
+    color: #fff;
 }
 
 #wps_wcb_all_trans_table_paginate #wps_wcb_all_trans_table_previous {
-	color: #000 !important;
+    color: #000 !important;
 }
 
 #wps_wcb_all_trans_table_info {
-	color: #000;
+    color: #000;
 }
 
 #wps_wcb_all_trans_table_paginate #wps_wcb_all_trans_table_next {
-	color: #000 !important;
+    color: #000 !important;
 }
 
 #wps_wcb_all_trans_table_paginate .paginate_button {
-	color: #000 !important;
+    color: #000 !important;
 }
 
 #wps_wcb_all_trans_table_paginate .paginate_button:active {
-	color: #fff !important;
+    color: #fff !important;
 }
 
 #wps_wcb_add_wallet_credit label {
-	margin-bottom: 8px !important;
-	display: inline-block;
+    margin-bottom: 8px !important;
+    display: inline-block;
 }
 
 #wps_wcb_add_wallet_credit #wallet_topup_add {
-	border: 1px solid #242424;
-	box-shadow: none;
+    border: 1px solid #242424;
+    box-shadow: none;
 }
 
 #wps_wcb_add_wallet_credit #wallet_topup_add:focus {
-	border: 0;
+    border: 0;
 }
 
 .wps-wcb-navigations a:focus {
-	border: 0 !important;
-	outline-color: transparent;
-	color: #fff;
+    border: 0 !important;
+    outline-color: transparent;
+    color: #fff;
 }
 
 .wps-wcb-navigations p {
-	margin: 0;
-	position: relative;
-	padding-right: 10px;
+    margin: 0;
+    position: relative;
+    padding-right: 10px;
 }
 
 .wps_wcb_nav_tab_a {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	display: block;
-	background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    background: transparent;
 }
 
 .wps_wcb_nav_tab_a:focus {
-	outline: none;
+    outline: none;
 }
 
 .wps-wcb-navigations .logo {
-	width: 30px;
-	height: auto;
+    width: 30px;
+    height: auto;
 }
 
 svg {
-	fill: red !important;
+    fill: red !important;
 }
 
 .wps-wcb-navigations ul li.nav-tab-active {
-	background: #F4F3F3;
-	color: #000;
-	box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.2);
-	border: 1px solid #ddd;
-	border-bottom: 0;
+    background: #F4F3F3;
+    color: #000;
+    box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ddd;
+    border-bottom: 0;
 }
 
 .wps-wcb-navigations .nav-tab-active p::after {
-	position: absolute;
-	content: "";
-	height: 8px;
-	width: 2px;
-	background: #fff;
-	right: 0;
-	transform: rotate(-52deg);
-	top: 6px;
+    position: absolute;
+    content: "";
+    height: 8px;
+    width: 2px;
+    background: #fff;
+    right: 0;
+    transform: rotate(-52deg);
+    top: 6px;
 }
 
 .wps-wcb-navigations .nav-tab-active p::before {
-	position: absolute;
-	content: "";
-	height: 7px;
-	width: 2px;
-	background: #fff;
-	right: 0;
-	transform: rotate(52deg);
-	top: 11px;
+    position: absolute;
+    content: "";
+    height: 7px;
+    width: 2px;
+    background: #fff;
+    right: 0;
+    transform: rotate(52deg);
+    top: 11px;
 }
 
 /*====================================
@@ -385,208 +426,221 @@ svg {
 ====================================*/
 
 .wps-wallet-rTable {
-	display: block;
-	width: 100%;
+    display: block;
+    width: 100%;
 }
 
 .wps-wallet-rTable .rTableHead {
-	color: #212529 !important;
+    color: #212529 !important;
 }
 
 .rTableHeading,
 .rTableBody,
 .rTableFoot,
 .rTableRow {
-	clear: both;
+    clear: both;
 }
 
 .rTableHead,
 .rTableFoot {
-	background-color: #DDD;
-	font-weight: bold;
+    background-color: #DDD;
+    font-weight: bold;
 }
 
 .rTableCell,
 .rTableHead {
-	border: 1px solid #999999;
-	float: left;
-	overflow: hidden;
-	padding: 3px;
-	width: 24%;
-	font-size: 14px;
+    border: 1px solid #999999;
+    float: left;
+    overflow: hidden;
+    padding: 3px;
+    width: 24%;
+    font-size: 14px;
 }
 
 .wps-wallet-rTable:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
 }
 
 .wps-wallet-rTable .rTableRow::after {
-	display: block;
-	clear: both;
-	content: "";
+    display: block;
+    clear: both;
+    content: "";
 }
 
 .wps_wcb_nav_tab.nav-tab i {
-	font-size: 20px;
-	font-weight: 600;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 
 /*=====  End of table-design  ======*/
 
 @media screen and (max-width:991px) and (min-width: 769px) {
-	#wps_wcb_all_trans_table {
-		display: block;
-		border: 0;
-		padding: 10px 0;
-		margin-top: 5px;
-		overflow: auto;
-	}
-	main#main.site-main.wps_wcb_wallet_container {
-		padding-right: 15px;
-	}
+    #wps_wcb_all_trans_table {
+        display: block;
+        border: 0;
+        padding: 10px 0;
+        margin-top: 5px;
+        overflow: auto;
+    }
+
+    main#main.site-main.wps_wcb_wallet_container {
+        padding-right: 15px;
+    }
 }
 
 @media only screen and (max-width:767px) {
-	main#main.site-main.wps_wcb_wallet_container {
-		padding-right: 15px;
-	}
-	#wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_filter {
-		margin-top: 0;
-	}
-	.wps_wcb_wallet_display_wrapper {
-		margin-top: 15px;
-	}
+    main#main.site-main.wps_wcb_wallet_container {
+        padding-right: 15px;
+    }
+
+    #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_filter {
+        margin-top: 0;
+    }
+
+    .wps_wcb_wallet_display_wrapper {
+        margin-top: 15px;
+    }
 }
 
 @media only screen and (max-width: 580px) {
-	#wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_length {
-		width: 100%;
-		text-align: left;
-	}
-	#wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_filter {
-		width: 100%;
-		text-align: left;
-	}
-	#wps_wcb_all_trans_table {
-		display: block;
-		border: 0;
-		padding: 10px 0;
-		margin-top: 5px;
-		overflow: auto;
-	}
-	#wps_wcb_all_trans_table caption {
-		text-align: left;
-	}
-	.wps_wcb_wallet_balance_container h4 {
-		font-size: 20px;
-	}
+    #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_length {
+        width: 100%;
+        text-align: left;
+    }
+
+    #wps_wcb_all_trans_table_wrapper #wps_wcb_all_trans_table_filter {
+        width: 100%;
+        text-align: left;
+    }
+
+    #wps_wcb_all_trans_table {
+        display: block;
+        border: 0;
+        padding: 10px 0;
+        margin-top: 5px;
+        overflow: auto;
+    }
+
+    #wps_wcb_all_trans_table caption {
+        text-align: left;
+    }
+
+    .wps_wcb_wallet_balance_container h4 {
+        font-size: 20px;
+    }
 }
 
 #wps_wallet_transfer_form {
-	text-align: left;
+    text-align: left;
 }
 
 #wps_wallet_transfer_form input,
 #wps_wallet_transfer_form textarea {
-	border: 1px solid #9c27b0;
+    border: 1px solid #9c27b0;
 }
 
 .wps_wcb_content_template {
-	padding: 30px;
+    padding: 30px;
 }
 
 .wps_wcb_content_template h2 {
-	color: #9c27b0;
-	margin-top: 10px;
+    color: #9c27b0;
+    margin-top: 10px;
 }
 
 #wps_wallet_transfer_form textarea {
-	height: 70px;
+    height: 70px;
 }
 
 #wps_wallet_transfer_form input[type=submit] {
-	background: #242424;
-	color: white;
-	border: none;
+    background: #242424;
+    color: white;
+    border: none;
 }
 
 .wps_wcb_content_template li.active {
-	border: 1px solid #ccc;
-	border-bottom: none;
-	background: #9c27b0c7;
-	font-weight: 600;
-	color: white;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background: #9c27b0c7;
+    font-weight: 600;
+    color: white;
 }
 
 .wps_wcb_content_template .content {
-	border: 1px solid #ccc;
-	padding: 20px 10px;
-	display: none;
+    border: 1px solid #ccc;
+    padding: 20px 10px;
+    display: none;
 }
 
 @keyframes display-none-transition {
-	0% {
-		display: none;
-		opacity: 0;
-	}
-	1% {
-		display: block;
-	}
-	100% {
-		opacity: 1;
-	}
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes display-none-transition {
-	0% {
-		display: none;
-		opacity: 0;
-	}
-	1% {
-		display: block;
-	}
-	100% {
-		opacity: 1;
-	}
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .wps_wcb_content_template .content-section .active {
-	display: block;
-	opacity: 1;
+    display: block;
+    opacity: 1;
 }
 
 .wps_wcb_content_template .wallet-tabs ul {
-	margin-bottom: 0px;
-	margin-left: 0px;
-	padding: 0;
-	text-align: left;
-	display: flex;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding: 0;
+    text-align: left;
+    display: flex;
 }
 
 .wps_wcb_content_template .wallet-tabs ul li {
-	list-style: none;
-	display: inline-block;
-	padding: 10px 15px;
-	text-align: center;
-	border-bottom: 1px solid #ccc;
+    list-style: none;
+    display: inline-block;
+    padding: 10px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
 }
 
 .wps_wcb_content_template .wallet-tabs ul li a img {
-	width: 30px;
+    width: 30px;
 }
+
 .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--wps-wallet a {
     position: relative;
-	width: 100%;
+    width: 100%;
     display: block;
-    text-decoration: none!important;
-	max-width: 150px;
+    text-decoration: none !important;
+    max-width: 150px;
 }
+
 .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--wps-wallet a:after {
     content: "\f318";
     font-family: 'dashicons';
@@ -594,54 +648,67 @@ svg {
     position: absolute;
     right: 0;
 }
+
 .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--wps-wallet a:before {
-	display:none;
+    display: none;
 }
 
-.wps_wcb_content_template .error, .wps_wcb_content_template .transfer-error, .wps_wallet_shortcodes .transfer-error {
-	display: none;
-	color:red;
+.wps_wcb_content_template .error,
+.wps_wcb_content_template .transfer-error,
+.wps_wallet_shortcodes .transfer-error {
+    display: none;
+    color: red;
 }
 
 #wps_wallet_transfer_form .show-on-bank-transfer,
 #wps_wallet_transfer_form .show-on-paypal {
-	display: none;
+    display: none;
 }
 
 .wps_wcb_content_template .dataTables_wrapper {
-	overflow-x: auto;
+    overflow-x: auto;
 }
+
 .wps-wallet-transaction-container .wps-wallet-field-table {
-    width:100%;
+    width: 100%;
 }
-.woocommerce-error, .woocommerce-info, .woocommerce-message {
+
+.woocommerce-error,
+.woocommerce-info,
+.woocommerce-message {
     margin-bottom: 2.617924em;
     background-color: #0f834d;
     margin-left: 0;
     border-radius: 2px;
-    color: #fff!important;
-	text-align: left;
+    color: #fff !important;
+    text-align: left;
     clear: both;
-    border-left: .6180469716em solid rgba(0,0,0,.15)!important;
+    border-left: .6180469716em solid rgba(0, 0, 0, .15) !important;
     padding: 1em 2em 1em 3.5em;
     position: relative;
     list-style: none outside;
 }
-.woocommerce-error a:hover, .woocommerce-info a:hover, .woocommerce-message a:hover {
-    color:white!important;
-    text-decoration:none;
+
+.woocommerce-error a:hover,
+.woocommerce-info a:hover,
+.woocommerce-message a:hover {
+    color: white !important;
+    text-decoration: none;
 }
+
 .woocommerce-error {
     background-color: #e2401c !important;
     padding: 16px 32px 16px 55px !important;
-	border-top-color: #b81c23!important;
+    border-top-color: #b81c23 !important;
 }
+
 .woocommerce-message {
-    background-color: #0f834d!important;
+    background-color: #0f834d !important;
     margin: 0 auto 50px;
 }
+
 .woocommerce-info {
-    background-color: #3d9cd2!important;
+    background-color: #3d9cd2 !important;
 }
 
 .wps_wcb_wallet_balance_container {
@@ -653,6 +720,19 @@ svg {
     justify-content: space-between;
     flex-wrap: nowrap;
 }
+
 .wps_wcb_wallet_balance_container h4 {
-    margin: 0!important;
+    margin: 0 !important;
+}
+
+.wsfw_show_user_restriction_notice{
+    width: 100%;
+    max-width: 275px;
+    margin:5px auto;
+    color:#ff0000;
+    background-color: #ffcbcb;
+    padding: 5px;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    text-align: center;
 }
