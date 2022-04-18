@@ -225,9 +225,14 @@ class Wallet_System_For_Woocommerce {
 
 		// All admin actions and filters after License Validation goes here.
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
-		// $this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
+		$this->loader->add_filter( 'wsfw_wallet_action_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_cashback_settings_page', 10 );
+
+		$this->loader->add_filter( 'wsfw_wallet_action_new_registration_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_new_registration_settings_page', 10 );
+
+		
+
 
 		$this->loader->add_filter( 'wsfw_update_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_update_wallet_page', 10 );
 		// for importing wallet.
@@ -441,6 +446,15 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'wallet-system-for-woocommerce-cashback',
 		);
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_cashback', $wsfw_default_tabs );
+		
+		
+		// added tab for wallet withdrawal settings.
+		$wsfw_default_tabs['wallet-system-for-woocommerce-wallet-actions'] = array(
+			'title' => esc_html__( 'Wallet Actions', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-for-woocommerce-wallet-actions',
+		);
+		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
+		
 		$wsfw_default_tabs['wallet-system-rest-api'] = array(
 			'title' => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-rest-api',
