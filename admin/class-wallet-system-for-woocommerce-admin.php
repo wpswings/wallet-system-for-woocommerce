@@ -290,61 +290,82 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 
+	
+
 	/**
 	 * Wallet System for WooCommerce admin menu page.
 	 *
 	 * @since    1.0.0
 	 * @param array $wsfw_settings_template Settings fields.
 	 */
-	public function wsfw_admin_template_settings_page( $wsfw_settings_template ) {
+	public function wsfw_admin_wallet_action_daily_visit_settings_page( $wsfw_settings_template ) {
+		
 		$wsfw_settings_template = array(
-			array(
-				'title'       => __( 'Credit on New Registration', 'wallet-system-for-woocommerce' ),
-				'type'        => 'radio-switch',
-				'description' => __( 'Set credit amount upon new user registration.', 'wallet-system-for-woocommerce' ),
-				'id'          => 'wsfw_wallet_action_registration',
-				'name'        => 'wsfw_wallet_action_registration',
-				'value'       => get_option( 'wsfw_wallet_action_registration' ),
-				'class'       => 'wsfw-radio-switch-class',
-				'options'     => array(
-					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
-					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
-				),
-			),
-			array(
-				'title'       => __( 'Credit on Daily Visits', 'wallet-system-for-woocommerce' ),
-				'type'        => 'radio-switch',
-				'description' => __( 'Set credit amount on daily site visit.', 'wallet-system-for-woocommerce' ),
-				'id'          => 'wsfw_wallet_action_daily_visit',
-				'name'        => 'wsfw_wallet_action_daily_visit',
-				'value'       => get_option( 'wsfw_wallet_action_daily_visit' ),
-				'class'       => 'wsfw-radio-switch-class',
-				'options'     => array(
-					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
-					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
-				),
-			),
-
-			array(
-				'type'        => 'button',
-				'id'          => 'wsfw_button_wallet_action',
-				'button_text' => __( 'Save', 'wallet-system-for-woocommerce' ),
-				'class'       => 'wsfw-button-class',
-			),
-		);
-		return $wsfw_settings_template;
-	}
-
-//	wsfw_wallet_action_new_registration_settings_page
-
-	public function wsfw_wallet_action_new_registration_settings_page() {
-
-		$wsfw_settings_wallet_action_new_registration = array(
 			// enable wallet cashback.
 			array(
 				'title'       => __( 'Enable', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable auto credit amount upon user registration.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable auto credit amount on daily visit.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_daily_enable',
+				'id'          => 'wps_wsfw_wallet_action_daily_enable',
+				'value'       => get_option( 'wps_wsfw_wallet_action_daily_enable' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Amount', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter amount which will be credited to the user wallet on daily visit.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_daily_amount',
+				'id'          => 'wps_wsfw_wallet_action_daily_amount',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_daily_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_daily_amount' ) : 10,
+				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			),
+			array(
+				'title'       => __( 'User Description', 'wallet-system-for-woocommerce' ),
+				'type'        => 'textarea',
+				'description' => __( 'Description that will display to user.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_daily_description',
+				'id'          => 'wps_wsfw_wallet_action_daily_description',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_daily_description' ) ) ? get_option( 'wps_wsfw_wallet_action_daily_description' ) : 'Amount credited on daily visit.',
+				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			),
+		);
+		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_daily_extra_settings_array', $wsfw_settings_template );
+		$wsfw_settings_template[] = array(
+			'type'        => 'submit',
+			'name'        => 'wsfw_button_wallet_action',
+			'id'          => 'wsfw_button_wallet_action',
+			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wsfw-button-class',
+		);
+		return $wsfw_settings_template;
+	}
+
+
+
+
+	/**
+	 * Wallet System for WooCommerce admin menu page.
+	 *
+	 * @since    1.0.0
+	 * @param array $wsfw_settings_template Settings fields.
+	 */
+	public function wsfw_admin_wallet_action_registration_settings_page( $wsfw_settings_template ) {
+		
+		$wsfw_settings_template = array(
+			// enable wallet cashback.
+			array(
+				'title'       => __( 'Enable', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_registration_enable',
 				'id'          => 'wps_wsfw_wallet_action_registration_enable',
 				'value'       => get_option( 'wps_wsfw_wallet_action_registration_enable' ),
@@ -357,7 +378,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Amount', 'wallet-system-for-woocommerce' ),
 				'type'        => 'number',
-				'description' => __( 'Enter amount which will be credited to the user wallet after registration.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enter amount which will be credited to the user wallet after new registration.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_registration_amount',
 				'id'          => 'wps_wsfw_wallet_action_registration_amount',
 				'step'        => '0.01',
@@ -366,8 +387,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wws-text-class',
 			),
 			array(
-				'title'       => __( 'Description', 'wallet-system-for-woocommerce' ),
-				'type'        => 'text',
+				'title'       => __( 'User Description', 'wallet-system-for-woocommerce' ),
+				'type'        => 'textarea',
 				'description' => __( 'Wallet transaction description that will display in wallet section.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_registration_description',
 				'id'          => 'wps_wsfw_wallet_action_registration_description',
@@ -377,18 +398,10 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wws-text-class',
 			),
 		);
-		$wsfw_settings_wallet_action_new_registration   = apply_filters( 'wsfw_wallet_action_registration_extra_settings_array', $wsfw_settings_wallet_action_new_registration );
-		$wsfw_settings_wallet_action_new_registration[] = array(
-			'type'        => 'submit',
-			'name'        => 'wsfw_button_wallet_action',
-			'id'          => 'wsfw_button_wallet_action',
-			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
-			'class'       => 'wsfw-button-class',
-		);
-		return $wsfw_settings_wallet_action_new_registration;
-
+		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_registration_extra_settings_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
 	}
-	
+
 	/**
 	 * This function is used to
 	 *
@@ -550,6 +563,8 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @since 1.0.0
 	 */
 	public function wsfw_admis_save_tab_settings_for_wallet_action() {
+
+
 		global $wsfw_wps_wsfw_obj;
 		if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
 
@@ -557,10 +572,16 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( wp_verify_nonce( $nonce ) ) {
 
 				$wps_wsfw_gen_flag     = false;
-				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_settings_wallet_action_new_registration_array', array() );
+				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
+				$wsfw_wallet_action_settings_daily_visit = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
+				
+				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_daily_visit );
 
-				$this->wsfw_admin_save_data( $wsfw_settings_wallet_action_new_registration, $wps_wsfw_gen_flag );
-
+				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
+				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
+					$wsfw_button_index = array_search( 'button', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
+				}
+				$this->wsfw_admin_save_data($wsfw_settings_wallet_action_new_registration,$wps_wsfw_gen_flag);
 
 			} else {
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
@@ -587,42 +608,14 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wps_wsfw_gen_flag     = false;
 				$wsfw_genaral_settings = apply_filters( 'wsfw_cashback_settings_array', array() );
 
+								
+				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
+				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
+					$wsfw_button_index = array_search( 'button', array_column( $wsfw_genaral_settings, 'type' ) );
+				}
 				$this->wsfw_admin_save_data($wsfw_genaral_settings,$wps_wsfw_gen_flag);
-
-
-				// $wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
-				// if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
-				// 	$wsfw_button_index = array_search( 'button', array_column( $wsfw_genaral_settings, 'type' ) );
-				// }
-
-				// if ( isset( $wsfw_button_index ) && '' !== $wsfw_button_index ) {
-				// 	unset( $wsfw_genaral_settings[ $wsfw_button_index ] );
-				// 	if ( is_array( $wsfw_genaral_settings ) && ! empty( $wsfw_genaral_settings ) ) {
-				// 		foreach ( $wsfw_genaral_settings as $wsfw_genaral_setting ) {
-
-				// 			if ( isset( $wsfw_genaral_setting['id'] ) && '' !== $wsfw_genaral_setting['id'] ) {
-				// 				if ( is_array( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
-				// 					update_option( $wsfw_genaral_setting['id'], map_deep( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) );
-				// 				} else {
-				// 					if ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
-				// 						update_option( $wsfw_genaral_setting['id'], sanitize_text_field( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ) ) );
-				// 					} else {
-				// 						update_option( $wsfw_genaral_setting['id'], '' );
-				// 					}
-				// 				}
-				// 			} else {
-				// 				$wps_wsfw_gen_flag = true;
-				// 			}
-				// 		}
-				// 	}
-				// 	if ( $wps_wsfw_gen_flag ) {
-				// 		$wps_wsfw_error_text = esc_html__( 'Id of some field is missing', 'wallet-system-for-woocommerce' );
-				// 		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
-				// 	} else {
-				// 		$wps_wsfw_error_text = esc_html__( 'Settings saved !', 'wallet-system-for-woocommerce' );
-				// 		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'success' );
-				// 	}
-				// }
+				
+				
 			} else {
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 			}
@@ -648,11 +641,13 @@ class Wallet_System_For_Woocommerce_Admin {
 
 							if ( isset( $wsfw_genaral_setting['id'] ) && '' !== $wsfw_genaral_setting['id'] ) {
 								if ( is_array( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
+								
 									update_option( $wsfw_genaral_setting['id'], map_deep( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) );
 								} else {
 									if ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
 										update_option( $wsfw_genaral_setting['id'], sanitize_text_field( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ) ) );
 									} else {
+									
 										update_option( $wsfw_genaral_setting['id'], '' );
 									}
 								}
@@ -669,6 +664,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'success' );
 					}
 				}
+				
 	}
 
 

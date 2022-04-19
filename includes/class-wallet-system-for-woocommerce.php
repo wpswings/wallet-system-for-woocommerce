@@ -225,11 +225,13 @@ class Wallet_System_For_Woocommerce {
 
 		// All admin actions and filters after License Validation goes here.
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
-		$this->loader->add_filter( 'wsfw_wallet_action_settings_array', $wsfw_plugin_admin, 'wsfw_admin_template_settings_page', 10 );
+		$this->loader->add_filter( 'wsfw_wallet_action_settings_registration_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_registration_settings_page', 10 );
+		$this->loader->add_filter( 'wsfw_wallet_action_settings_daily_visit_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_daily_visit_settings_page', 10 );
+		
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_cashback_settings_page', 10 );
 
-		$this->loader->add_filter( 'wsfw_wallet_action_new_registration_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_new_registration_settings_page', 10 );
+		//$this->loader->add_filter( 'wsfw_wallet_action_new_registration_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_new_registration_settings_page', 10 );
 
 		
 
