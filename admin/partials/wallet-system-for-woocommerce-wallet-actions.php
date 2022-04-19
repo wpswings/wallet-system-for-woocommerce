@@ -38,7 +38,7 @@ if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
 <form action="" method="POST" class="wps-wsfw-gen-section-form">
 	<div class="wsfw-secion-wrap">
     <div class="wsfw-secion-registration">
-      <span><b><center> <?php esc_html_e( 'Credit On New Registration', 'wallet-system-for-woocommerce' ); ?></center></b></span>
+      <span><b> <?php esc_html_e( 'Credit On New Registration', 'wallet-system-for-woocommerce' ); ?></b></span>
     <?php
 
       $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_registration_settings );
@@ -46,7 +46,7 @@ if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
     ?>
     </div>
     <div class="wsfw-secion-daily-visit">
-    <span><b><center><?php esc_html_e( 'Credit On Daily Visit', 'wallet-system-for-woocommerce' ); ?></b></center></span>
+    <span><b><?php esc_html_e( 'Credit On Daily Visit', 'wallet-system-for-woocommerce' ); ?></b></span>
     <?php
 
       $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_daily_visit_settings );
@@ -54,7 +54,7 @@ if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
     ?>
     </div>
     <div class="wsfw-secion-daily-visit">
-    <span><b><center><?php esc_html_e( 'Credit On Comment', 'wallet-system-for-woocommerce' ); ?></b></center></span>
+    <span><b><?php esc_html_e( 'Credit On Comment', 'wallet-system-for-woocommerce' ); ?></b></span>
     <?php
 
       $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_comment_settings );
