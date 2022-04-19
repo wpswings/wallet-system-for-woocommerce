@@ -377,6 +377,14 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wws-text-class',
 			),
 		);
+		$wsfw_settings_wallet_action_new_registration   = apply_filters( 'wsfw_wallet_action_registration_extra_settings_array', $wsfw_settings_wallet_action_new_registration );
+		$wsfw_settings_wallet_action_new_registration[] = array(
+			'type'        => 'submit',
+			'name'        => 'wsfw_button_wallet_action',
+			'id'          => 'wsfw_button_wallet_action',
+			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wsfw-button-class',
+		);
 		return $wsfw_settings_wallet_action_new_registration;
 
 	}
@@ -532,6 +540,35 @@ class Wallet_System_For_Woocommerce_Admin {
 			'class'       => 'wsfw-button-class',
 		);
 		return $wsfw_settings_general;
+	}
+
+	
+
+	/**
+	 * Wallet System for WooCommerce save tab settings.
+	 *
+	 * @since 1.0.0
+	 */
+	public function wsfw_admis_save_tab_settings_for_wallet_action() {
+		global $wsfw_wps_wsfw_obj;
+		if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
+
+			$nonce = ( isset( $_POST['updatenoncewallet_action'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_action'] ) ) : '';
+			if ( wp_verify_nonce( $nonce ) ) {
+
+				$wps_wsfw_gen_flag     = false;
+				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_settings_wallet_action_new_registration_array', array() );
+
+				$this->wsfw_admin_save_data( $wsfw_settings_wallet_action_new_registration, $wps_wsfw_gen_flag );
+
+
+			} else {
+				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
+			}
+			if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
+				wp_redirect( $_SERVER['HTTP_REFERER'] );
+			}
+		}
 	}
 
 

@@ -1,12 +1,10 @@
-
-
 jQuery(document).ready(function() {
     
 // Get the modal
 var modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+var btn = document.getElementById("wsfw_wallet_action_registration");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];

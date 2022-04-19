@@ -21,7 +21,8 @@ if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
 	$nonce = ( isset( $_POST['updatenoncewallet_action'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_action'] ) ) : '';
 	if ( wp_verify_nonce( $nonce ) ) {
 		$wsfw_plugin_admin = new Wallet_System_For_Woocommerce_Admin( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
-		$wsfw_plugin_admin->wsfw_admis_save_tab_settings_for_wallet_action();
+
+    $wsfw_plugin_admin->wsfw_admis_save_tab_settings_for_wallet_action();
 	} else {
 		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 	}
@@ -39,8 +40,10 @@ if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
 	</div>
 </form>
 
-<!-- Trigger/Open The Modal -->
-<button id="myBtn">Open Modal</button>
+
+  <!--  template file for admin settings. -->
+<form action="" method="POST" class="wps-wsfw-gen-section-form">
+	<div class="wsfw-secion-wrap">
 
  <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -65,5 +68,7 @@ if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
       </div>
     </div>
   </div>
+	</div>
+</form>
 
 
