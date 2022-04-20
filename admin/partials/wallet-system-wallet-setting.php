@@ -381,6 +381,7 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 			<tbody>
 				<?php
 				$users = get_users( 'orderby=id' );
+
 				if ( ! empty( $users ) ) {
 					foreach ( $users as $user ) {
 						$is_user_restricted = get_user_meta( $user->ID, 'user_restriction_for_wallet', true );
