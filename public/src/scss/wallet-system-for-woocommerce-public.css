@@ -39,6 +39,11 @@ input[type="search"]:focus {
     position: relative;
 }
 
+.wsfw_comment_section_notice{
+    color: green;
+    font-weight: 600;
+}
+
 .wps-show-cashback-notice-on-shop-page:after {
     content: '';
     position: absolute;

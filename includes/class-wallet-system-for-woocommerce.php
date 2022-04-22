@@ -227,14 +227,10 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_registration_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_registration_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_daily_visit_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_daily_visit_settings_page', 10 );
+		$this->loader->add_action( 'wsfw_wallet_action_settings_comment_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_comment_array', 10 );
 		
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_cashback_settings_page', 10 );
-
-		//$this->loader->add_filter( 'wsfw_wallet_action_new_registration_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_new_registration_settings_page', 10 );
-
-		
-
 
 		$this->loader->add_filter( 'wsfw_update_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_update_wallet_page', 10 );
 		// for importing wallet.
@@ -299,9 +295,11 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_scripts' );
 
 		$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_common, 'wps_wsfw_wallet_recharge_product_purchasable', 1, 2 );
-
+		// cashback hook.
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_cashback_on_complete_order', 10, 3 );
-
+		// comment hook.
+		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
+		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );
 	}
 
 	/**
@@ -340,6 +338,9 @@ class Wallet_System_For_Woocommerce {
 			// show cashback notice on shop page.
 			$this->loader->add_action( 'woocommerce_shop_loop_item_title', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 			$this->loader->add_action( 'woocommerce_single_product_summary', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
+
+			// show comment notice.
+			$this->loader->add_filter( 'woocommerce_product_review_comment_form_args', $wsfw_plugin_public, 'wps_wsfw_woocommerce_comment_point', 1000, 1 );
 		}
 
 	}

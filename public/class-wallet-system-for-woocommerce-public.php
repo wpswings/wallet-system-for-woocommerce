@@ -956,4 +956,38 @@ class Wallet_System_For_Woocommerce_Public {
 		return $cashback_amount;
 	}
 
+	/** Comment section restart here */
+
+	/**
+	 * This function is used to show comment amount on single product page.
+	 *
+	 * @param [type] $comment_data
+	 * @return void
+	 */
+	public function wps_wsfw_woocommerce_comment_point( $comment_data ) {
+		global $current_user,$post;
+
+		$args = array(
+			'user_id' => $current_user->ID,
+			'post_id' => $post->ID,
+		);
+
+		$wps_wsfw_wallet_action_comment_enable      = get_option( 'wps_wsfw_wallet_action_comment_enable', '' );
+		$wps_wsfw_wallet_action_comment_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_comment_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_amount' ) : 1;
+		$wps_wsfw_wallet_action_restrict_comment    = get_option( 'wps_wsfw_wallet_action_restrict_comment', '' );
+		$wps_wsfw_wallet_action_comment_description = get_option( 'wps_wsfw_wallet_action_comment_description', '' );
+		$user_id                                    = get_current_user_ID();
+		$user_comment                               = get_comments( $args );
+
+		WC()->session->set( 'w1', $user_comment );
+		WC()->session->set( 'w2', $wps_wsfw_wallet_action_restrict_comment );
+
+		if ( isset( $wps_wsfw_wallet_action_comment_enable ) && 'on' === $wps_wsfw_wallet_action_comment_enable ) {
+			if ( count( $user_comment ) < $wps_wsfw_wallet_action_restrict_comment ) {
+				$comment_data['comment_field'] .= '<p class="wsfw_comment_section_notice">' . esc_html( $wps_wsfw_wallet_action_comment_description ) . '</p>';
+			}
+		}
+		return $comment_data;
+	}
+
 }
