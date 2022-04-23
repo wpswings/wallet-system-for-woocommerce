@@ -449,10 +449,10 @@ class Wallet_User_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Undocumented function
+	 * This function is used to show checkbox.
 	 *
-	 * @param [type] $item
-	 * @return void
+	 * @param int $item item id.
+	 * @return string
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
@@ -462,50 +462,50 @@ class Wallet_User_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Undocumented function
+	 * This function is used to show columns.
 	 *
-	 * @param [type] $item
-	 * @param [type] $column_name
-	 * @return void
+	 * @param string $item item.
+	 * @param string $column_name column name.
+	 * @return string
 	 */
 	public function column_default( $item, $column_name ) {
 		return sprintf( $item[ $column_name ], true );
 	}
 
 	/**
-	 * Undocumented function
+	 * Show user id.
 	 *
-	 * @param [type] $user
-	 * @return void
+	 * @param object $user user.
+	 * @return string
 	 */
 	public function wsfw_get_id( $user ) {
 		return $user->id;
 	}
 
 	/**
-	 * Undocumented function
+	 * This function is used to show user name.
 	 *
-	 * @param [type] $user
-	 * @return void
+	 * @param object $user user.
+	 * @return string
 	 */
 	public function wsfw_get_name( $user ) {
 		return $user->display_name;
 	}
 
 	/**
-	 * Undocumented function
+	 * This function is used to show user email.
 	 *
-	 * @param [type] $user
-	 * @return void
+	 * @param object $user user.
+	 * @return string
 	 */
 	public function wsfw_get_email( $user ) {
 		return $user->user_email;
 	}
 
 	/**
-	 * Undocumented function
+	 * This function is used to show user role.
 	 *
-	 * @param [type] $user
+	 * @param object $user
 	 * @return void
 	 */
 	public function wsfw_get_role( $user ) {
@@ -513,19 +513,22 @@ class Wallet_User_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Undocumented function
+	 * This function ia used to show user wallet amount.
 	 *
-	 * @param [type] $user
-	 * @return void
+	 * @param object $user
+	 * @return string
 	 */
 	public function wsfw_get_amount( $wallet_bal ) {
+		if ( $wallet_bal > 0 ) {
+			$wallet_bal = wc_price( $wallet_bal, array( 'currency' => get_woocommerce_currency() ) );
+		}
 		return $wallet_bal;
 	}
 
 	/**
-	 * Undocumented function
+	 * This function is to edit user wallet and show transactions.
 	 *
-	 * @param [type] $user
+	 * @param object $user user.
 	 * @return void
 	 */
 	public function wsfw_get_action( $user ) {
@@ -540,10 +543,10 @@ class Wallet_User_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Undocumented function
+	 * This function is used to restrict user.
 	 *
-	 * @param [type] $user
-	 * @return void
+	 * @param object $user user.
+	 * @return string
 	 */
 	public function wsfw_get_res_user( $user ) {
 		$is_user_restricted = get_user_meta( $user->ID, 'user_restriction_for_wallet', true );
@@ -563,16 +566,17 @@ class Wallet_User_Table extends WP_List_Table {
 		$html .= '> </div> </div> </div> </div>';						
 		return $html;
 	}
+
 }
 ?>
-	<form method="post">
-		<?php
-			$wallet_user_table = new Wallet_User_Table();
-			$wallet_user_table->prepare_items();
-			$wallet_user_table->search_box( __( 'Search', 'wallet-system-for-woocommerce' ), 'search_id' );
-			$wallet_user_table->display();
-		?>
-	</form>
+<form method="post">
+	<?php
+		$wallet_user_table = new Wallet_User_Table();
+		$wallet_user_table->prepare_items();
+		$wallet_user_table->search_box( __( 'Search', 'wallet-system-for-woocommerce' ), 'search_id' );
+		$wallet_user_table->display();
+	?>
+</form>
 </div>
 
 <div class="wps_wallet-edit--popupwrap">

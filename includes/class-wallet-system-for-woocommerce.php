@@ -338,9 +338,11 @@ class Wallet_System_For_Woocommerce {
 			// show cashback notice on shop page.
 			$this->loader->add_action( 'woocommerce_shop_loop_item_title', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 			$this->loader->add_action( 'woocommerce_single_product_summary', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
-
 			// show comment notice.
-			$this->loader->add_filter( 'woocommerce_product_review_comment_form_args', $wsfw_plugin_public, 'wps_wsfw_woocommerce_comment_point', 1000, 1 );
+			$this->loader->add_filter( 'woocommerce_product_review_comment_form_args', $wsfw_plugin_public, 'wps_wsfw_woo_show_comment_notice', 1000, 1 );
+			// new user registration notice.
+			$this->loader->add_action( 'woocommerce_before_customer_login_form', $wsfw_plugin_public, 'wps_wsfw_woo_show_signup_notice' );
+			$this->loader->add_action( 'user_register', $wsfw_plugin_public, 'wps_wsfw_new_customer_registerd', 10, 1 );
 		}
 
 	}
