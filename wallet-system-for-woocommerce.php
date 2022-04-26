@@ -13,11 +13,11 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Wallet System For WooCommerce
- * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce/
- * Description:       Wallet System For WooCommerce is the plugin that facilitates WooCommerce store owners to provide e-wallet functionalities.
+ * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce
+ * Description:       <code><strong>Wallet System for WooCommerce</strong></code> is a digital wallet plugin where users can add or delete balances in bulk, give refunds and earn cashback. <a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-shop&utm_medium=wallet-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>.
  * Version:           2.2.2
  * Author:            WP Swings
- * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=wallet-org-backend&utm_campaign=official
+ * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *

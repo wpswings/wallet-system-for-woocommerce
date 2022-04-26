@@ -343,6 +343,8 @@ class Wallet_System_For_Woocommerce {
 			// new user registration notice.
 			$this->loader->add_action( 'woocommerce_before_customer_login_form', $wsfw_plugin_public, 'wps_wsfw_woo_show_signup_notice' );
 			$this->loader->add_action( 'user_register', $wsfw_plugin_public, 'wps_wsfw_new_customer_registerd', 10, 1 );
+			// daily visit balance.
+			$this->loader->add_action( 'wp', $wsfw_plugin_public, 'wps_wsfw_daily_visit_balance', 100 );
 		}
 
 	}

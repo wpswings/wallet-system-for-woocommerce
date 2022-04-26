@@ -432,13 +432,12 @@ class Wallet_User_Table extends WP_List_Table {
 		if ( ! empty( $user_data ) ) {
 			foreach ( $user_data as $all_user ) {
 				$user               = get_user_by( 'id', $all_user->ID );
-				$wallet_bal         = get_user_meta( $user->ID, 'wps_wallet', true );
 				$x      = array(
 					'id'       => $this->wsfw_get_id( $user ),
 					'name'     => $this->wsfw_get_name( $user ),
 					'email'    => $this->wsfw_get_email( $user ),
 					'role'     => $this->wsfw_get_role( $user ),
-					'amount'   => $this->wsfw_get_amount( $wallet_bal ),
+					'amount'   => $this->wsfw_get_amount( $user ),
 					'action'   => $this->wsfw_get_action( $user ),
 					'res_user' => $this->wsfw_get_res_user( $user ),
 				);
@@ -518,10 +517,10 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @param object $user
 	 * @return string
 	 */
-	public function wsfw_get_amount( $wallet_bal ) {
-		if ( $wallet_bal > 0 ) {
-			$wallet_bal = wc_price( $wallet_bal, array( 'currency' => get_woocommerce_currency() ) );
-		}
+	public function wsfw_get_amount( $user ) {
+		$wallet_bal = get_user_meta( $user->ID, 'wps_wallet', true );
+		$wallet_bal = ! empty( $wallet_bal ) ? $wallet_bal : 0;
+		$wallet_bal = wc_price( $wallet_bal, array( 'currency' => get_woocommerce_currency() ) );
 		return $wallet_bal;
 	}
 

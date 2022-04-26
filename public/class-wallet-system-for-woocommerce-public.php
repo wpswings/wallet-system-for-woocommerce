@@ -956,17 +956,19 @@ class Wallet_System_For_Woocommerce_Public {
 		return $cashback_amount;
 	}
 
-	/** Comment section restart here */
+	/** Comment section start here */
 
 	/**
 	 * This function is used to show comment amount on single product page.
 	 *
-	 * @param [type] $comment_data
-	 * @return void
+	 * @param string $comment_data comment data.
+	 * @return string
 	 */
 	public function wps_wsfw_woo_show_comment_notice( $comment_data ) {
 		global $current_user,$post;
-
+		if ( ! is_user_logged_in() ) {
+			return $comment_data;
+		}
 		$args = array(
 			'user_id' => $current_user->ID,
 			'post_id' => $post->ID,
@@ -993,7 +995,7 @@ class Wallet_System_For_Woocommerce_Public {
 	/** New user sinup */
 
 	/**
-	 * This functions is used to notice on account page.
+	 * This functions is used to show notice on account page.
 	 *
 	 * @return void
 	 */
@@ -1062,6 +1064,70 @@ class Wallet_System_For_Woocommerce_Public {
 				'amount'           => $amount,
 				'currency'         => $current_currency,
 				'payment_method'   => 'Sigup',
+				'transaction_type' => htmlentities( $transaction_type ),
+				'order_id'         => '',
+				'note'             => '',
+			);
+			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+		}
+	}
+
+	/**
+	 * This functions is used to give amount on daily basis.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_daily_visit_balance() {
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+		$user_id                                  = get_current_user_id();
+		$wps_wsfw_wallet_action_daily_enable      = get_option( 'wps_wsfw_wallet_action_daily_enable' );
+		$wps_wsfw_wallet_action_daily_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_daily_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_daily_amount' ) : 1;
+		$current_currency                         = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
+		$updated                                  = false;
+		if ( get_transient('wps_wsfw_wallet_site_visit_' . $user_id ) ) {
+            return;
+        }
+		if ( ! headers_sent() && did_action( 'wp_loaded' ) ) {
+            set_transient('wps_wsfw_wallet_site_visit_' . $user_id, true, DAY_IN_SECONDS);
+        }
+		if ( 'on' === $wps_wsfw_wallet_action_daily_enable ) {
+			$wallet_amount          = get_user_meta( $user_id, 'wps_wallet', true );
+			$wallet_amount          = empty( $wallet_amount ) ? 0 : $wallet_amount;
+			$wallet_user            = get_user_by( 'id', $user_id );
+			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+			$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+			
+			if ( $wps_wsfw_wallet_action_daily_amount > 0 ) {
+				$amount          = $wps_wsfw_wallet_action_daily_amount;
+				$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_daily_amount );
+				$wallet_amount   += $credited_amount;
+				update_user_meta( $user_id, 'wps_wallet', $wallet_amount );
+				$updated = true;
+			}
+		}
+		if ( $updated ) {
+			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+				$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $current_currency ) ) . __( ' through visiting site.', 'wallet-system-for-woocommerce' );
+				$to         = $wallet_user->user_email;
+				$from       = get_option( 'admin_email' );
+				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+				$headers    = 'MIME-Version: 1.0' . "\r\n";
+				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+				$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+			}
+
+			$transaction_type = __( 'Wallet credited through visiting site. ', 'wallet-system-for-woocommerce' );
+			$transaction_data = array(
+				'user_id'          => $user_id,
+				'amount'           => $amount,
+				'currency'         => $current_currency,
+				'payment_method'   => 'Site visit',
 				'transaction_type' => htmlentities( $transaction_type ),
 				'order_id'         => '',
 				'note'             => '',

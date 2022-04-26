@@ -14,11 +14,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-global $wsfw_wps_wsfw_obj;
-$wsfw_wallet_action_registration_settings = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
-$wsfw_wallet_action_daily_visit_settings  = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
-$wsfw_wallet_action_comment_settings      = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
 
+global $wsfw_wps_wsfw_obj;
 
 if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
 	$nonce = ( isset( $_POST['updatenoncewallet_action'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_action'] ) ) : '';
@@ -31,35 +28,39 @@ if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
 		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 	}
 }
+
+$wsfw_wallet_action_registration_settings = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
+$wsfw_wallet_action_daily_visit_settings  = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
+$wsfw_wallet_action_comment_settings      = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
+
 ?>
 <!--  template file for admin settings. -->
 <form action="" method="POST" class="wps-wsfw-gen-section-form">
 	<div class="wsfw-secion-wrap">
+  
+    <div class="wsfw-secion-daily-visit">
+      <span><b><?php esc_html_e( 'Credit Amount On User Daily Visit', 'wallet-system-for-woocommerce' ); ?></b></span>
+        <?php
+          $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_daily_visit_settings );
+          echo wp_kses_post( $wsfw_wallet_action_html );
+      ?>
+    </div>
+  
     <div class="wsfw-secion-registration">
-      <span><b> <?php esc_html_e( 'Credit Amount On New User Registration', 'wallet-system-for-woocommerce' ); ?></b></span>
-    <?php
-
-      $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_registration_settings );
-      echo wp_kses_post( $wsfw_wallet_action_html );
-    ?>
+      <span><b><?php esc_html_e( 'Credit Amount On New User Registration', 'wallet-system-for-woocommerce' ); ?></b></span>
+        <?php
+          $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_registration_settings );
+          echo wp_kses_post( $wsfw_wallet_action_html );
+        ?>
     </div>
-    <div class="wsfw-secion-daily-visit">
-    <span><b><?php esc_html_e( 'Credit Amount On User Daily Visit', 'wallet-system-for-woocommerce' ); ?></b></span>
-    <?php
 
-      $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_daily_visit_settings );
-      echo wp_kses_post( $wsfw_wallet_action_html );
-    ?>
-    </div>
     <div class="wsfw-secion-daily-visit">
-    <span><b><?php esc_html_e( 'Credit Amount On Comment', 'wallet-system-for-woocommerce' ); ?></b></span>
-    <?php
-      $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_comment_settings );
-      echo wp_kses_post( $wsfw_wallet_action_html );
-    ?>
+      <span><b><?php esc_html_e( 'Credit Amount On Comment', 'wallet-system-for-woocommerce' ); ?></b></span>
+        <?php
+          $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_comment_settings );
+          echo wp_kses_post( $wsfw_wallet_action_html );
+        ?>
     </div>
 		<input type="hidden" id="updatenoncewallet_action" name="updatenoncewallet_action" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 	</div>
 </form>
-
-
