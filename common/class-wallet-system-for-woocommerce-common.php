@@ -824,11 +824,23 @@ class Wallet_System_For_Woocommerce_Common {
 		if ( $old_status != $new_status ) {
 			$comment_id                              = $comment->comment_ID;
 			$user_id                                 = $comment->user_id;
+			$post_id                                 = $comment->comment_post_ID;
 			$wps_wsfw_enable                         = get_option( 'wps_wsfw_enable', '' );
 			$wps_wsfw_wallet_action_comment_enable   = get_option( 'wps_wsfw_wallet_action_comment_enable', '' );
+			$wps_wsfw_wallet_action_restrict_comment = get_option( 'wps_wsfw_wallet_action_restrict_comment', '' );
 			$wps_wsfw_wallet_action_comment_amount   = ! empty( get_option( 'wps_wsfw_wallet_action_comment_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_amount' ) : 1;
 			$current_currency                        = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
 			if ( 'approved' == $new_status ) {
+
+				$wps_restrict_user = 0;
+				$wps_restrict_user = get_user_meta( $user_id, 'wps_restrict_user' . $post_id, true );
+				if ( empty( $wps_restrict_user ) || $wps_restrict_user < 0 ) {
+					$wps_restrict_user = 1;
+				}
+				if ( $wps_restrict_user > $wps_wsfw_wallet_action_restrict_comment ) {
+					return;
+				}
+				update_user_meta( $user_id, 'wps_restrict_user' . $post_id, ++$wps_restrict_user );
 
 				$walletamount           = get_user_meta( $user_id, 'wps_wallet', true );
 				$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
@@ -878,6 +890,24 @@ class Wallet_System_For_Woocommerce_Common {
 				'note'             => '',
 			);
 			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+		}
+	}
+
+	/**
+	 * This function is used to delete comment.
+	 *
+	 * @param int $comment_id comment id.
+	 * @param object $comment comment object.
+	 * @return void
+	 */
+	public function wps_wsfw_delete_comment( $comment_id ) {
+		if ( ! empty( $comment_id ) ) {
+			$comment = get_comment( $comment_id );
+			if ( ! empty( $comment ) ) {
+				$user_id = $comment->user_id;
+			    $post_id = $comment->comment_post_ID;
+			}
+			delete_user_meta( $user_id, 'wps_restrict_user' . $post_id );
 		}
 	}
 
