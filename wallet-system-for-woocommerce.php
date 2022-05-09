@@ -191,6 +191,34 @@ if ( $activated ) {
 	add_filter( 'wpmu_drop_tables', 'wps_wsfw_on_delete_blog' );
 
 	/**
+	 * This function is used to escpe html.
+	 *
+	 * @return array
+	 */
+	function wps_wsfw_lite_allowed_html() {
+		// Return the complete html elements defined by us.
+		$allowed_html = array(
+
+			'path' => array(
+				'd'               => array(),
+				'stroke'          => array(),
+				'stroke-width'    => array(),
+				'stroke-linecap'  => array(),
+				'stroke-linejoin' => array(),
+			),
+
+			'circle' => array(
+				'cx'           => array(),
+				'cy'           => array(),
+				'r'            => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+			),
+		);
+		return $allowed_html;
+	}
+
+	/**
 	 * Begins execution of the plugin.
 	 *
 	 * Since everything within the plugin is registered via hooks,
