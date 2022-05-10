@@ -364,7 +364,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_wallet_action_registration_description',
 				'id'          => 'wps_wsfw_wallet_action_registration_description',
 				'step'        => '0.01',
-				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_registration_description' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_description' ) : 'Amount credited for becoming a member.',
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_registration_description' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_description' ) : 'You will Get 1 Points on a successful Sign Up.',
 				'placeholder' => __( 'Enter signup description', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
@@ -384,7 +384,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Comments Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Check this box to enable the Comment Amount when comment is approved..', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable the Comment Amount when comment is approved.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_comment_enable',
 				'id'          => 'wps_wsfw_wallet_action_comment_enable',
 				'value'       => get_option( 'wps_wsfw_wallet_action_comment_enable' ),
@@ -397,7 +397,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enter Comments Amount', 'wallet-system-for-woocommerce' ),
 				'type'        => 'number',
-				'description' => __( 'The amount which new customers will get after their comments are approved..', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'The amount which new customers will get after their comments are approved.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_comment_amount',
 				'id'          => 'wps_wsfw_wallet_action_comment_amount',
 				'step'        => '0.01',
