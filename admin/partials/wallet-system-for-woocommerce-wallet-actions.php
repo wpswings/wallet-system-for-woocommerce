@@ -32,7 +32,6 @@ if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
 $wsfw_wallet_action_registration_settings = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
 $wsfw_wallet_action_daily_visit_settings  = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 $wsfw_wallet_action_comment_settings      = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
-
 ?>
 <!--  template file for admin settings. -->
 <form action="" method="POST" class="wps-wsfw-gen-section-form">
