@@ -88,7 +88,7 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 		 */
 		public function validate_request() {
 			global $WCMp; // phpcs:ignore
-			if ( $this->enabled != 'Enable' ) {
+			if ( 'Enable' != $this->enabled ) {
 				$this->message[] = array(
 					'message' => __( 'Invalid payment method', 'wallet-system-for-woocommerce' ),
 					'type'    => 'error',
@@ -96,7 +96,7 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 				return false;
 			}
 			// phpcs:ignore
-			if ( $this->transaction_mode != 'admin' ) {
+			if ( 'admin' != $this->transaction_mode ) {
 				/* handle thesold time */
 				$threshold_time = isset( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold_time'] : 0; // phpcs:ignore
 				if ( $threshold_time > 0 ) {
@@ -112,7 +112,7 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 					return true;
 				} else {
 					$this->message[] = array(
-						'message' => __( 'Minimum threshold amount for commission withdrawal is ' . $thesold_amount, 'wallet-system-for-woocommerce' ), // phpcs:ignore
+						'message' => __( 'Minimum threshold amount for commission withdrawal is ', 'wallet-system-for-woocommerce' ) . esc_html( $thesold_amount ),
 						'type'    => 'error',
 					);
 					return false;

@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.2.1';
+			$this->version = '2.2.2';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -300,6 +300,9 @@ class Wallet_System_For_Woocommerce {
 		// comment hook.
 		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
 		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );
+		// delete comment.
+		$this->loader->add_action( 'delete_comment', $wsfw_plugin_common, 'wps_wsfw_delete_comment', 10, 1 );
+		$this->loader->add_action( 'trash_comment', $wsfw_plugin_common, 'wps_wsfw_delete_comment', 10, 1 );
 	}
 
 	/**
@@ -428,9 +431,9 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_wsfw_plugin_standard_admin_settings_tabs', $wsfw_default_tabs );
 
 		// added tab for importing wallet of users through button.
-		$wsfw_default_tabs['wallet-system-wallet-setting'] = array(
+		$wsfw_default_tabs['class-wallet-user-table'] = array(
 			'title' => esc_html__( 'Wallet', 'wallet-system-for-woocommerce' ),
-			'name'  => 'wallet-system-wallet-setting',
+			'name'  => 'class-wallet-user-table',
 		);
 
 		$wsfw_default_tabs['wallet-system-wallet-transactions'] = array(

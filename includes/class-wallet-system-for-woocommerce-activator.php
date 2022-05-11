@@ -90,8 +90,7 @@ class Wallet_System_For_Woocommerce_Activator {
 		// create custom table named wp-db-prefix_wps_wsfw_wallet_transaction.
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
-		$query      = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
-		if ( $wpdb->get_var( $query ) != $table_name ) {
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) ) !== $table_name ) {
 			$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 			$wpdb_collate = $wpdb->collate;
 			$sql          = "CREATE TABLE IF NOT EXISTS {$table_name} (

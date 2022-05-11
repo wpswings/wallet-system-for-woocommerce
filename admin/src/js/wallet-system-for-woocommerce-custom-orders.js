@@ -57,6 +57,12 @@ jQuery(document).ready(function() {
         return ret;
     }
 
+    // count wallet recharge processing order.
+    let walletCount = jQuery('mark.wallet-status.order-status.status-processing').length;
+	jQuery.each( jQuery('a[href="admin.php?page=wallet_shop_order"]'), function( key, value ) {
+		jQuery( this ).append('<span class="awaiting-mod update-plugins count-' + walletCount + '"><span class="processing-count">' + walletCount + '</span></span>');
+	});
+
     jQuery(document).on('click', '#clear_datefilter', function(){
         jQuery("#searchFrom").val('');
         jQuery('#searchTo').val('');
