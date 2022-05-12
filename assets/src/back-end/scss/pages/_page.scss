@@ -1,0 +1,740 @@
+@import 
+'about',
+'home',
+'overview';
+
+
+
+/*====================================
+=            Tabs Section            =
+====================================*/
+.wps-navbar{
+	background: $c-white;
+	border-bottom: 0;
+	border-radius: 10px;
+	padding: 10px 30px 30px;
+	margin: 15px 15px 8px 0;
+
+	.wps-navbar__items {
+		border-bottom: 1px solid $c-gunsmoke;
+
+		.wps-link {
+			color: $c-outer-space;
+
+			&.active {
+				color: $c-doger-blue;
+			}
+		}
+	}
+}
+
+/*=====  End of Tabs Section  ======*/
+
+/*=======================================
+=            General section            =
+=======================================*/
+.wps-wsfw-gen-section-form {
+	background: $c-white;
+	border-radius: 10px;
+	padding: 10px 30px 30px;
+	margin: 15px 15px 8px 0;
+
+	.wps-form-group {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 -15px 35px;
+		padding-top: 30px;
+
+		.wps-form-group__label {
+			flex: 0 0 20%;
+			max-width: 20%;
+			padding: 0 15px;
+
+			.wps-form-label {
+				font-family: $ff-nunitosans-s;
+				font-size: $fs-normal;
+				line-height: 24px;
+				letter-spacing: 0.3px;
+			}
+		}
+
+		.wps-form-group__control {
+			flex: 0 0 80%;
+			max-width: 80%;
+			padding: 0 15px;
+		}
+	}	
+}
+
+
+/*=====  End of General section  ======*/
+
+/*======================================
+=            Wallet Section            =
+======================================*/
+.wps-wpg-gen-section-form-container {
+	background: $c-white;
+	border-radius: 10px;
+	padding: 10px 30px 30px;
+	margin: 15px 15px 8px 0;
+
+	h3 {
+		border-bottom: 1px solid $c-silver;
+		color: $c-outer-space;
+		font-family: $ff-nunitosans-e;
+		font-size: $fs-normal;
+		font-weight: 700;
+		line-height: 26px;
+		letter-spacing: 0.5px;
+		padding-bottom: 15px;
+	}
+
+	.wps-form-group {
+		margin: 0 0 35px;
+
+		.wps-form-group__label {		
+			align-self: center;
+			flex: 0 0 20%;
+			max-width: 20%;
+			padding: 0 15px;
+
+			.wps-form-label {
+				color: $c-outer-space;
+				font-family: $ff-nunitosans-e;
+				font-size: $fs-normal;
+				font-weight: 700;
+				line-height: 26px;
+				letter-spacing: 0.5px;
+			}
+		}
+
+		.wps-form-group__control {
+			flex: 0 0 80%;
+			max-width: 80%;
+			padding: 0 15px;
+
+			label {
+				max-height: 40px;
+				padding-right: 10px;
+
+				input {
+					padding: 0;
+					max-width: 150px;
+				}
+			}
+
+			.wps-form-select {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				max-width: 360px;
+
+				input {
+					border-width: 2px;
+					height: 18px;
+					padding: 0px !important;
+					vertical-align: sub;
+					width: 18px;
+
+					&:before {
+						background-color: $c-doger-blue;
+					}
+
+					&:checked {						
+						border-color: $c-doger-blue;
+					}
+				}
+
+				label {
+					font-family: $ff-nunitosans-r;
+					font-size: $fs-normal;
+					font-weight: 400;
+					line-height: 26px;
+					letter-spacing: 0.25px;
+				}
+			}
+		}
+	}	
+}
+
+.wps-wpg-gen-section-form-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+	justify-content: space-between;
+
+	.wps-wpg-gen-section-form {
+		flex: 0 0 calc(50% - 20px);
+		border: 1px solid $c-silver;
+		border-radius: 5px;
+		padding: 15px;
+
+		@include media(wps-tablet) { 
+			flex: 0 0 100%;
+		}
+
+		h3 {
+			border-bottom: none;
+			padding: 0 0 0 15px;
+		}
+
+		.wps-form-group .wps-form-group__label {
+			flex: 0 0 40%;
+			max-width: 40%;
+		}
+
+		.wps-form-group__control {
+			flex: 0 0 60%;
+			max-width: 60%;
+		}	
+
+		.wps_wallet-update--popupwrap {
+			bottom: 0;
+			display: block;
+			display: none;
+			height: 100%;
+			left: 0;
+			position: fixed;
+			right: 0;
+			top: 0;
+			width: 100%;
+			z-index: 5555555;
+
+			&:after {
+				position: absolute;
+				content: '';
+				height: 100%;
+				width: 100%;
+				background: rgba(121, 121, 121, 0.8);
+			}
+
+			.wps_wallet-update-popup {
+				background: $c-white;
+				border-radius: 5px;
+				left: 0;
+				margin: auto;
+				max-width: 550px;
+				padding: 30px;
+				position: absolute;
+				right: 0;
+				text-align: center;
+				top: 50%;
+				transform: translateY(-50%);
+				z-index: 455;
+
+				h3 {
+					margin-bottom: 30px;
+				}
+
+				.wps-btn {
+					color: $c-white;
+				}
+
+				a {
+					color: $c-pomegranate;
+					margin: 0 10px;
+				}
+			}
+		}		
+	}
+	#export_user_wallet {
+		background-color: $c-white;
+		border: 0;
+		bottom: 28%;
+		cursor: pointer;
+		height: auto;
+		position: absolute;
+		right: 3%;
+	}
+}
+
+.wps_wallet-edit--popupwrap {
+	bottom: 0;
+	display: block;
+	display: none;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 100%;
+	z-index: 5555555;
+
+	&:after {
+		background: rgba(121, 121, 121, 0.8);
+		content: '';
+		height: 100%;
+		position: absolute;
+		width: 100%;
+	}
+
+	.wps_wallet-edit-popup {
+		background: $c-white;
+		border-radius: 5px;
+		left: 0;
+		margin: auto;
+		max-width: 550px;
+		padding: 30px;
+		position: absolute;
+		right: 0;
+		text-align: center;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 455;
+
+		.wps_wallet-edit-popup-amount {
+			display: flex;
+			flex-wrap: wrap;
+			margin-bottom: 30px;
+
+			.wps_wallet-edit-popup-control {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				width: 250px;
+
+				label {
+					font-family: $ff-nunitosans-s;
+					font-size: $fs-normal;
+					font-weight: 400;
+					line-height: 26px;
+					letter-spacing: 0.25px;
+				}
+			}
+		}
+
+		#close_wallet_form {
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			width: 15px;
+		}
+
+		.wps_wallet-edit-popup-label {
+			min-width: 220px;
+			text-align: left;
+
+			label {
+				color: $c-outer-space;
+				font-family: $ff-nunitosans-b;
+				font-size: $fs-normal;
+				line-height: 26px;
+				letter-spacing: 0.5px;
+			}
+		}
+	}
+}
+
+.wps-wpg-gen-section-table-wrap {
+	background: $c-white;
+	border-radius: 10px;
+	padding: 10px 30px 30px;
+	margin: 15px 15px 8px 0;
+
+	h4 {
+		color: $c-outer-space;
+		font-family: $ff-nunitosans-b;
+		font-size: $fs-xmedium;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+		margin-bottom: 15px;
+	}
+
+	.wps-wpg-gen-section-table-container {
+		border: 1px solid $c-silver;
+		border-radius: 5px;
+		margin-bottom: 55px;
+
+		.wps-wpg-gen-section-table {
+			border-collapse: collapse;
+			border-bottom: 0 !important;
+
+			thead {
+				text-align: left;
+
+				th {
+					border-bottom: 1px solid rgba(33, 33, 33, 0.08);
+					padding: 15px;
+					font-family: $ff-nunitosans-s;
+					font-size: $fs-normal;
+					font-weight: 400;
+					line-height: 24px;
+					letter-spacing: 0.25px;
+
+					&:last-child {
+						text-align: right;
+					}
+				}
+			}
+
+			tbody {
+
+				.dtr-control {
+					display: flex;
+					flex-wrap: wrap;
+
+					img {
+						flex: 0;
+					}
+				}
+
+				td {
+					border-bottom: 1px solid rgba(33, 33, 33, 0.08);
+					padding: 15px;					
+					font-family: $ff-nunitosans-s;
+					font-size: $fs-normal;
+					font-weight: 400;
+					line-height: 24px;
+					letter-spacing: 0.25px;
+
+					.dtr-details {
+						li {
+							display: flex;
+							flex-wrap: wrap;
+
+							.dtr-title {
+								margin-right: 20px;
+							}
+						}
+					}
+
+					span {
+						display: flex;
+						flex-wrap: wrap;
+						justify-content: flex-end;
+
+						@include media(wps-tablet) { 
+							justify-content: flex-start;
+						}
+
+						img {
+							margin: 0 6px;
+							width: 22px;
+						}
+					}
+				}
+			}
+		}	
+
+		.bottom {
+			bottom: -60px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			position: absolute;
+			right: 0;
+
+			.dataTables_length {
+				font-family: $ff-nunitosans-s;
+				font-size: $fs-xm-small;
+				font-weight: 400;
+				letter-spacing: 0.25px;
+
+				select {
+					margin: 0 25px;
+					min-width: 90px;
+					padding: 5px 30px 5px 15px!important;
+				}
+			}
+
+			.dataTables_info {
+				font-family: $ff-nunitosans-s;
+				font-size: $fs-xm-small;
+				font-weight: 400;
+				letter-spacing: 0.25px;
+				margin-right: 5px;
+			}
+
+			.dataTables_paginate {
+				padding: 0;
+				span {
+					.paginate_button {
+						display: none !important;
+					}
+				}
+
+				.paginate_button {
+					&:hover {
+						background: $c-white;
+						border: 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+/*=====  End of Wallet Section  ======*/
+
+/*==========================================
+=            Withdrawal Section            =
+==========================================*/
+
+.wps-wpg-gen-section-table-wrap {
+	.wps-wpg-gen-section-table-container {
+		.wps-wpg-gen-section-table {
+			thead {
+				th {
+					&:last-child {
+						text-align: left;
+					}
+				}
+			}
+
+			tbody {
+
+					img {
+						max-width: 20px;
+    					display: inline-block;
+					}
+				
+				
+				td {
+					select {
+						border: 0;
+
+						.approved {
+							color: $c-robins-egg-blue !important;
+						}
+						.pending {
+							color: $c-my-sin !important;
+						}
+						.rejected {
+							color: $c-pomegranate !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.wps-wpg-withdrawal-section-search {
+	background: $c-white;
+	border-radius: 10px;
+	margin: 15px 15px 8px 0;
+	padding: 15px;
+
+	table {
+		width: 100%;
+
+		tbody {
+			display: flex;
+			flex-wrap: wrap;
+
+			tr {
+				th {
+					color: $c-outer-space;
+					font-family: $ff-nunitosans-b;
+					font-size: $fs-normal;
+					font-weight: 700;
+					letter-spacing: 0.5px;
+				}
+
+				td {
+					input {
+						padding: 5px 10px;
+					}
+					select {
+						height: 40px;
+						padding: 5px 30px 5px 15px!important;
+					}
+				}
+
+				&:first-child {
+					input {
+						width: 340px;
+					}
+				}
+			}
+		}
+	}
+}
+/*=====  End of Withdrawal Section  ======*/
+
+/*==========================================
+=            Transaction Section            =
+==========================================*/
+.wps-section {
+	padding: 0;
+
+	.wps-wpg-transcation-section-search {
+		background: $c-white;
+		border-radius: 10px;
+		margin: 15px 15px 8px 0;
+		padding: 15px;
+
+		table {
+			width: 100%;
+
+			tbody {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: flex-end;
+
+				@include media (wps-desktop) { 
+					justify-content: flex-start; 
+				}
+
+				tr {
+					th {
+						color: $c-outer-space;
+						font-family: $ff-nunitosans-b;
+						font-size: $fs-normal;
+						font-weight: 700;
+						letter-spacing: 0.5px;
+					}
+
+					td {
+						input {
+							padding: 5px 10px;
+						}
+
+						span {
+							color: $c-doger-blue;
+							font-family: $ff-nunitosans-b;
+							font-size: $fs-normal;
+							padding: 8px 3px;
+							display: inline-block;
+							cursor: pointer;
+						}
+					}
+
+					&:first-child {
+						display: flex;
+						flex-wrap: wrap;
+						justify-content: space-between;
+						align-items: center;
+						width: 58%;
+
+						@include media (wps-desktop) { 
+							width: auto; 
+						}
+
+						input {
+							width: 340px;
+
+							@include media (wps-desktop) { 
+								width: auto; 
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.wps-wpg-transcation-section-table {
+		background: $c-white;
+		border-radius: 10px;
+		margin: 15px 15px 8px 0;
+		padding: 30px 30px 30px;		
+	}
+}
+
+#ui-datepicker-div {
+	background: $c-white;
+	padding: 15px;
+	border-radius: 5px;
+
+	.ui-datepicker-header {
+		display: flex;
+		flex-wrap: wrap;
+		max-width: 180px;
+		justify-content: center;
+
+		.ui-corner-all {
+			padding: 5px;
+			flex: 0 0 40%;
+		}
+
+		.ui-datepicker-next {
+			text-align: right;
+		}
+
+		.ui-datepicker-title {
+			select {
+				padding: 5px 20px 5px 15px!important;
+				width: 80px;
+			}
+		}
+	}
+}
+
+
+
+
+.wps-wpg-gen-section-form-container .wps-form-group .wps-form-group__control .wps-form-select input:before {
+    line-height: 0;
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wps-wpg-gen-section-form-container .wps-form-group .wps-form-group__control .wps-form-select input[type=radio] {
+    position: relative;
+}
+
+.wallet-system-wallet-setting .wps-form-group .wps-form-group__label {
+    align-self: flex-start;
+}
+.wps-wpg-gen-section-table-wrap .wps-wpg-gen-section-table-container .wps-wpg-gen-section-table tbody td span {
+    justify-content: flex-start;
+}
+.wps-wpg-gen-section-table-wrap .wps-wpg-gen-section-table-container .wps-wpg-gen-section-table tbody td .wps-form-group {
+    display: block;
+    margin: 0;
+}
+.wps-wpg-withdrawal-section-search table tbody tr:first-child input {
+    width: 100%;
+    max-width: 320px;
+}
+@media screen and (max-width: 768px) {
+	.wps-wsfw-gen-section-form .wps-form-group {
+    	display: block;
+	}
+
+	.wps-wsfw-gen-section-form .wps-form-group .wps-form-group__label {
+	    max-width: 80%;
+	    margin-bottom: 10px;
+	}
+
+	.wps-header-container .wps-header-title {
+	    max-width: 80%;
+	    margin-bottom: 10px;
+	}
+
+	.wps-header-container {
+	    justify-content: flex-start;
+	}
+
+	.wps-header-container span {
+	    margin: 0 15px;
+	}
+
+	.wps-header-container .wps-header-title p {
+	    margin: 0 0 -10px;
+	}
+
+	.wallet-system-wallet-setting .wps-form-group {
+	    display: block;
+	}
+
+	.wallet-system-wallet-setting .wps-form-group .wps-form-group__label {
+	    max-width: 80%!important;
+	    margin-bottom: 10px;
+	}
+
+	.wallet-system-wallet-setting .wps-form-group .wps-form-group__control {
+	    max-width: 80%;
+	}
+
+	.wps-overview__wrapper {
+    	width: calc(100%);
+	}
+
+}
+
+/*=====  End of Transaction Section  ======*/

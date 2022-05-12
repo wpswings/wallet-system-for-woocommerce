@@ -260,8 +260,8 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 				}
 				update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
-				$http_host   = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : ''; // phpcs:ignore
-				$request_url = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : ''; // phpcs:ignore
+				$http_host   = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+				$request_url = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 				$current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
 				wp_safe_redirect( $current_url );
 				exit();
@@ -736,6 +736,178 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 		}
 		return $flag;
+	}
+
+	/** Comment feature start here */
+
+	/**
+	 * This function is used to give.
+	 *
+	 * @param int    $comment_ids comment id.
+	 * @param string $comment_approved status.
+	 * @return void
+	 */
+	public function wps_wsfw_comment_amount_function( $comment_ids, $comment_approved ) {
+
+		$user_id = get_current_user_id();
+		$updated = false;
+		if ( 1 === $comment_approved ) {
+			$wps_wsfw_enable                         = get_option( 'wps_wsfw_enable', '' );
+			$wps_wsfw_wallet_action_comment_enable   = get_option( 'wps_wsfw_wallet_action_comment_enable', '' );
+			$wps_wsfw_wallet_action_comment_amount   = ! empty( get_option( 'wps_wsfw_wallet_action_comment_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_amount' ) : 1;
+			$wps_wsfw_wallet_action_restrict_comment = get_option( 'wps_wsfw_wallet_action_restrict_comment', '' );
+			$current_currency                        = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
+
+			if ( 'on' === $wps_wsfw_enable && 'on' === $wps_wsfw_wallet_action_comment_enable ) {
+
+				$walletamount           = get_user_meta( $user_id, 'wps_wallet', true );
+				$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
+				$wallet_user            = get_user_by( 'id', $user_id );
+				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+				$user_comment           = WC()->session->get( 'w1' );
+				$wsfw_comment_limit     = WC()->session->get( 'w2' );
+
+				if ( count( $user_comment ) < $wsfw_comment_limit ) {
+					$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
+					if ( 'not_done' === $wps_wsfw_comment_done ) {
+						$amount          = $wps_wsfw_wallet_action_comment_amount;
+						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
+						$walletamount    += $credited_amount;
+						update_user_meta( $user_id, 'wps_wallet', $walletamount );
+						update_option( $comment_ids . '_wps_wsfw_comment_done', 'done' );
+						$updated = true;
+					}
+				}
+			}
+		}
+		if ( $updated ) {
+			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+				$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $current_currency ) ) . __( ' through product review.', 'wallet-system-for-woocommerce' );
+				$to         = $wallet_user->user_email;
+				$from       = get_option( 'admin_email' );
+				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+				$headers    = 'MIME-Version: 1.0' . "\r\n";
+				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+				$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+			}
+
+			$transaction_type = __( 'Wallet credited through ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'comment.php?action=editcomment&c=' . $comment_ids ) . '" >#' . $comment_ids . '</a>';
+			$transaction_data = array(
+				'user_id'          => $user_id,
+				'amount'           => $amount,
+				'currency'         => $current_currency,
+				'payment_method'   => 'Product review',
+				'transaction_type' => htmlentities( $transaction_type ),
+				'order_id'         => $comment_ids,
+				'note'             => '',
+			);
+			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+		}
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param string $new_status new status.
+	 * @param string $old_status old status.
+	 * @param string $comment comment.
+	 * @return void
+	 */
+	public function wps_wsfw_give_amount_on_comment( $new_status, $old_status, $comment ) {
+		global $current_user;
+		$updated = false;
+		if ( $old_status != $new_status ) {
+			$comment_id                              = $comment->comment_ids;
+			$user_id                                 = $comment->user_id;
+			$post_id                                 = $comment->comment_post_ID;
+			$wps_wsfw_enable                         = get_option( 'wps_wsfw_enable', '' );
+			$wps_wsfw_wallet_action_comment_enable   = get_option( 'wps_wsfw_wallet_action_comment_enable', '' );
+			$wps_wsfw_wallet_action_restrict_comment = get_option( 'wps_wsfw_wallet_action_restrict_comment', '' );
+			$wps_wsfw_wallet_action_comment_amount   = ! empty( get_option( 'wps_wsfw_wallet_action_comment_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_amount' ) : 1;
+			$current_currency                        = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
+			if ( 'approved' == $new_status ) {
+
+				$wps_restrict_user = 0;
+				$wps_restrict_user = get_user_meta( $user_id, 'wps_restrict_user' . $post_id, true );
+				if ( empty( $wps_restrict_user ) || $wps_restrict_user < 0 ) {
+					$wps_restrict_user = 1;
+				}
+				if ( $wps_restrict_user > $wps_wsfw_wallet_action_restrict_comment ) {
+					return;
+				}
+				update_user_meta( $user_id, 'wps_restrict_user' . $post_id, ++$wps_restrict_user );
+
+				$walletamount           = get_user_meta( $user_id, 'wps_wallet', true );
+				$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
+				$wallet_user            = get_user_by( 'id', $user_id );
+				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+				$user_comment           = WC()->session->get( 'w1' );
+				$wsfw_comment_limit     = WC()->session->get( 'w2' );
+
+				if ( 'on' === $wps_wsfw_enable && 'on' === $wps_wsfw_wallet_action_comment_enable ) {
+					$wps_wsfw_comment_done = get_option( $comment_id . '_wps_wsfw_comment_done', 'not_done' );
+					if ( 'not_done' === $wps_wsfw_comment_done ) {
+
+						$amount          = $wps_wsfw_wallet_action_comment_amount;
+						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
+						$walletamount    += $credited_amount;
+						update_user_meta( $user_id, 'wps_wallet', $walletamount );
+						update_option( $comment_id . '_wps_wsfw_comment_done', 'done' );
+						$updated = true;
+					}
+				}
+			}
+		}
+		if ( $updated ) {
+			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+				$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $current_currency ) ) . __( ' through product review.', 'wallet-system-for-woocommerce' );
+				$to         = $wallet_user->user_email;
+				$from       = get_option( 'admin_email' );
+				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+				$headers    = 'MIME-Version: 1.0' . "\r\n";
+				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+				$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+			}
+
+			$transaction_type = __( 'Wallet credited through ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'comment.php?action=editcomment&c=' . $comment_id ) . '" >#' . $comment_id . '</a>';
+			$transaction_data = array(
+				'user_id'          => $user_id,
+				'amount'           => $amount,
+				'currency'         => $current_currency,
+				'payment_method'   => 'Product review',
+				'transaction_type' => htmlentities( $transaction_type ),
+				'order_id'         => $comment_id,
+				'note'             => '',
+			);
+			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+		}
+	}
+
+	/**
+	 * This functions is used to delete comment ids keys.
+	 *
+	 * @param int $comment_id comment id.
+	 * @return void
+	 */
+	public function wps_wsfw_delete_comment( $comment_id ) {
+		if ( ! empty( $comment_id ) ) {
+			$comment = get_comment( $comment_id );
+			if ( ! empty( $comment ) ) {
+				$user_id = $comment->user_id;
+				$post_id = $comment->comment_post_ID;
+			}
+			delete_user_meta( $user_id, 'wps_restrict_user' . $post_id );
+		}
 	}
 
 }

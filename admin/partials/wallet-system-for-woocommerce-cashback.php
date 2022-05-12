@@ -15,7 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $wsfw_wps_wsfw_obj;
-$wsfw_cashback_settings = apply_filters( 'wsfw_cashback_settings_array', array() );
 
 if ( isset( $_POST['wsfw_button_cashback'] ) ) {
 	$nonce = ( isset( $_POST['updatenoncecashback'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncecashback'] ) ) : '';
@@ -26,6 +25,7 @@ if ( isset( $_POST['wsfw_button_cashback'] ) ) {
 		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 	}
 }
+$wsfw_cashback_settings = apply_filters( 'wsfw_cashback_settings_array', array() );
 ?>
 <!--  template file for admin settings. -->
 <form action="" method="POST" class="wps-wsfw-gen-section-form">

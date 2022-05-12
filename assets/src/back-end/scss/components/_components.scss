@@ -1,0 +1,13 @@
+@import 
+    'buttons',
+    'form',
+    'table';
+    
+        
+.wps-btn {
+    @extend %wps-btn;
+}
+
+.wps-btn__filled {
+    @extend %wps-btn__filled;
+}

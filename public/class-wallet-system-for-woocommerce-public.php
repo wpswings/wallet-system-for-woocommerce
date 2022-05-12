@@ -125,17 +125,19 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
 			$wallet_amount  = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-			if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
-				unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-			} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
-				unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-				unset( $available_gateways['cod'] );
-			} elseif ( isset( $wallet_amount ) && $wallet_amount >= 0 ) {
-				if ( $wallet_amount < $wps_cart_total ) {
+			if ( ! empty( WC()->session ) || WC()->session->has_session() ) {
+				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
+					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
+					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					unset( $available_gateways['cod'] );
+				} elseif ( isset( $wallet_amount ) && $wallet_amount >= 0 ) {
+					if ( $wallet_amount < $wps_cart_total ) {
+						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					}
+				} elseif ( isset( $wallet_amount ) && $wallet_amount <= 0 ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 				}
-			} elseif ( isset( $wallet_amount ) && $wallet_amount <= 0 ) {
-				unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 			}
 		}
 		return $available_gateways;
@@ -841,47 +843,47 @@ class Wallet_System_For_Woocommerce_Public {
 
 			if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
 				if ( floatval( $cart_total ) < floatval( $wsfw_min_cart_amount ) ) {
-
 					?>
-							<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
-						<?php
-						echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount );
+					<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+					<?php
+					/* translators: %s: search term */
+					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount ) );
 				} else {
-
 					if ( is_user_logged_in() ) {
 						if ( $cashback_amount > 0 ) {
 							?>
-							
 							<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
 							<?php
-								echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount );
+							/* translators: %s: search term */
+							echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
 						}
 					} else {
 						?>
-								<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
-							<?php
-							echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Please <a href="%1$s">log in</a> to avail %2$s cashback from this order.', 'wallet-system-for-woocommerce' ), esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount );
+						<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+						<?php
+						/* translators: %s: search term */
+						echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Please <a href="%1$s">log in</a> to avail %2$s cashback from this order.', 'wallet-system-for-woocommerce' ), esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
 					}
 				}
 			} elseif ( 'catwise' === $wps_wsfw_cashback_rule ) {
 				if ( is_user_logged_in() ) {
 					if ( $cashback_amount > 0 ) {
 						?>
-						
 						<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
 						<?php
-							echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount );
+						/* translators: %s: search term */
+						echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
 					}
 				} else {
 					?>
-							<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
-						<?php
-						echo apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Please <a href="%1$s">log in</a> to avail %2$s cashback from this order.', 'wallet-system-for-woocommerce' ), esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount );
+					<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
+					<?php
+					/* translators: %s: search term */
+					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Please <a href="%1$s">log in</a> to avail %2$s cashback from this order.', 'wallet-system-for-woocommerce' ), esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
 				}
 			}
-
 			?>
-				</div>
+			</div>
 			<?php
 		endif;
 	}
@@ -914,7 +916,7 @@ class Wallet_System_For_Woocommerce_Public {
 					$price           = apply_filters( 'wsfw_category_wise_cashback_product_price', $price );
 					$cashback_amount = $this->wsfw_calculate_category_wise_cashback( $price );
 					$cashback_html   = '<span class="wps-show-cashback-notice-on-shop-page">' . wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) . __( ' Cashback', 'wallet-system-for-woocommerce' ) . '</span>';
-					echo apply_filters( 'wsfw_show_category_wise_cashback_amount_on_shop_page', wp_kses_post( $cashback_html ) );
+					echo wp_kses_post( apply_filters( 'wsfw_show_category_wise_cashback_amount_on_shop_page', $cashback_html ) );
 				}
 			}
 		}
@@ -953,6 +955,106 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		return $cashback_amount;
+	}
+
+	/** Comment section start here */
+
+	/**
+	 * This function is used to show comment amount on single product page.
+	 *
+	 * @param string $comment_data comment data.
+	 * @return string
+	 */
+	public function wps_wsfw_woo_show_comment_notice( $comment_data ) {
+		global $current_user,$post;
+		if ( ! is_user_logged_in() ) {
+			return $comment_data;
+		}
+		$args = array(
+			'user_id' => $current_user->ID,
+			'post_id' => $post->ID,
+		);
+
+		$wps_wsfw_wallet_action_comment_enable      = get_option( 'wps_wsfw_wallet_action_comment_enable', '' );
+		$wps_wsfw_wallet_action_comment_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_comment_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_amount' ) : 1;
+		$wps_wsfw_wallet_action_restrict_comment    = get_option( 'wps_wsfw_wallet_action_restrict_comment', '' );
+		$wps_wsfw_wallet_action_comment_description = get_option( 'wps_wsfw_wallet_action_comment_description', '' );
+		$user_id                                    = get_current_user_ID();
+		$user_comment                               = get_comments( $args );
+
+		WC()->session->set( 'w1', $user_comment );
+		WC()->session->set( 'w2', $wps_wsfw_wallet_action_restrict_comment );
+
+		if ( isset( $wps_wsfw_wallet_action_comment_enable ) && 'on' === $wps_wsfw_wallet_action_comment_enable ) {
+			if ( count( $user_comment ) < $wps_wsfw_wallet_action_restrict_comment ) {
+				$comment_data['comment_field'] .= '<p class="wsfw_comment_section_notice">' . esc_html( $wps_wsfw_wallet_action_comment_description ) . '</p>';
+			}
+		}
+		return $comment_data;
+	}
+
+	/**
+	 * This functions is used to give amount on daily basis.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_daily_visit_balance() {
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+		$user_id                                  = get_current_user_id();
+		$wps_wsfw_wallet_action_daily_enable      = get_option( 'wps_wsfw_wallet_action_daily_enable' );
+		$wps_wsfw_wallet_action_daily_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_daily_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_daily_amount' ) : 1;
+		$current_currency                         = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
+		$updated                                  = false;
+		if ( get_transient( 'wps_wsfw_wallet_site_visit_' . $user_id ) ) {
+			return;
+		}
+		if ( ! headers_sent() && did_action( 'wp_loaded' ) ) {
+			set_transient( 'wps_wsfw_wallet_site_visit_' . $user_id, true, DAY_IN_SECONDS );
+		}
+		if ( 'on' === $wps_wsfw_wallet_action_daily_enable ) {
+			$wallet_amount          = get_user_meta( $user_id, 'wps_wallet', true );
+			$wallet_amount          = empty( $wallet_amount ) ? 0 : $wallet_amount;
+			$wallet_user            = get_user_by( 'id', $user_id );
+			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+			$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+
+			if ( $wps_wsfw_wallet_action_daily_amount > 0 ) {
+				$amount          = $wps_wsfw_wallet_action_daily_amount;
+				$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_daily_amount );
+				$wallet_amount   += $credited_amount;
+				update_user_meta( $user_id, 'wps_wallet', $wallet_amount );
+				$updated = true;
+			}
+		}
+		if ( $updated ) {
+			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+				$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $current_currency ) ) . __( ' through visiting site.', 'wallet-system-for-woocommerce' );
+				$to         = $wallet_user->user_email;
+				$from       = get_option( 'admin_email' );
+				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+				$headers    = 'MIME-Version: 1.0' . "\r\n";
+				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+				$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+			}
+
+			$transaction_type = __( 'Wallet credited through visiting site. ', 'wallet-system-for-woocommerce' );
+			$transaction_data = array(
+				'user_id'          => $user_id,
+				'amount'           => $amount,
+				'currency'         => $current_currency,
+				'payment_method'   => 'Site visit',
+				'transaction_type' => htmlentities( $transaction_type ),
+				'order_id'         => '',
+				'note'             => '',
+			);
+			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+		}
 	}
 
 }

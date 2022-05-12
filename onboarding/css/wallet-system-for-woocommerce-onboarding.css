@@ -28,6 +28,12 @@ a:focus {
     box-shadow: none!important;
 }
 
+.wps-info-img{
+    margin-right: 6px;
+    margin-top: -3px;
+    max-width: 15px;
+}
+
 .wps-wsfw-on-boarding-form-submit {
     text-align: center;
 }
