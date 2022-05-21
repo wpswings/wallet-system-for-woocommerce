@@ -212,6 +212,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 		}
 	}
 }
+//do_action('user_restriction_saving');
 
 if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 	$nonce = ( isset( $_POST['user_update_nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_update_nonce'] ) ) : '';
@@ -392,16 +393,18 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function get_columns() {
-		$columns = array(
-			'cb'       => '<input type="checkbox" />',
-			'id'       => esc_html__( 'ID', 'wallet-system-for-woocommerce' ),
-			'name'     => esc_html__( 'Name', 'wallet-system-for-woocommerce' ),
-			'email'    => esc_html__( 'Email', 'wallet-system-for-woocommerce' ),
-			'role'     => esc_html__( 'Role', 'wallet-system-for-woocommerce' ),
-			'amount'   => esc_html__( 'Amount', 'wallet-system-for-woocommerce' ),
-			'action'   => esc_html__( 'Actions', 'wallet-system-for-woocommerce' ),
-			'res_user' => esc_html__( 'Restrict User', 'wallet-system-for-woocommerce' ),
-		);
+		
+			$columns = array(
+				'cb'       => '<input type="checkbox" />',
+				'id'       => esc_html__( 'ID', 'wallet-system-for-woocommerce' ),
+				'name'     => esc_html__( 'Name', 'wallet-system-for-woocommerce' ),
+				'email'    => esc_html__( 'Email', 'wallet-system-for-woocommerce' ),
+				'role'     => esc_html__( 'Role', 'wallet-system-for-woocommerce' ),
+				'amount'   => esc_html__( 'Amount', 'wallet-system-for-woocommerce' ),
+				'action'   => esc_html__( 'Actions', 'wallet-system-for-woocommerce' ),
+				'res_user' => esc_html__( 'Restrict User', 'wallet-system-for-woocommerce' ),
+			);
+		
 		return $columns;
 	}
 
@@ -562,7 +565,8 @@ class Wallet_User_Table extends WP_List_Table {
 		} else {
 			$html .= '';
 		}
-		$html .= '> </div> </div> </div> </div>';						
+		$html .= '> </div> </div> </div> </div>';
+		$html =  apply_filters( 'wsfw_wallet_user_restriction_after', $html );						
 		return $html;
 	}
 
@@ -617,3 +621,6 @@ class Wallet_User_Table extends WP_List_Table {
 		</form>
 	</div>
 </div>
+<!-- <?php
+
+// do_action('') -->
