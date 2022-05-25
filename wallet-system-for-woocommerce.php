@@ -21,10 +21,10 @@
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
- * WC Requires at least: 4.6
- * WC tested up to: 6.4.1
+ * WC Requires at least: 5.1.0
+ * WC tested up to: 6.5.1
  * WP Requires at least: 5.1.0
- * WP tested up to: 5.9.3
+ * WP tested up to: 6.0.0
  * Requires PHP: 7.2 or Higher
  *
  * License:           GNU General Public License v3.0
