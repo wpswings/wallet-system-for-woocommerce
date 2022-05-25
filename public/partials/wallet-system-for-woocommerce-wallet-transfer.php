@@ -31,7 +31,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 		}
 		$show_additional_content = apply_filters( 'wps_wsfw_show_additional_content', '', $user_id, $useremail, $transfer_amount );
 		if ( ! empty( $show_additional_content ) ) {
-			echo $show_additional_content; // phpcs:ignore
+			echo wp_kses_post( $show_additional_content ); // phpcs:ignore
 		}
 		?>
 	<form method="post" action="" id="wps_wallet_transfer_form">
@@ -52,7 +52,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 		<?php
 		$show_additional_form_content = apply_filters( 'wps_wsfw_show_additional_form_content', '' );
 		if ( ! empty( $show_additional_form_content ) ) {
-			echo $show_additional_form_content; // phpcs:ignore
+			echo wp_kses_post( $show_additional_form_content ); // phpcs:ignore
 		}
 		?>
 		<p class="wps-wallet-field-container form-row">

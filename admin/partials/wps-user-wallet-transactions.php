@@ -47,7 +47,7 @@ $user = get_user_by( 'id', $user_id );
 	<?php
 	echo esc_html__( 'Wallet Transactions: ', 'wallet-system-for-woocommerce' ) . esc_html( $user->user_login ) . '(' . esc_html( $user->user_email ) . ')';
 	?>
-		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-wallet-setting' ) ); ?>"><span class="dashicons dashicons-editor-break" ></span></a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=class-wallet-user-table' ) ); ?>"><span class="dashicons dashicons-editor-break" ></span></a>
 	</h4>
 	<div class="wps-wpg-gen-section-table-container">
 		<table id="wps-wpg-gen-table" class="wps-wpg-gen-section-table wps-wpg-user-transaction-table dt-responsive">
@@ -75,8 +75,8 @@ $user = get_user_by( 'id', $user_id );
 							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
 							<td><?php echo esc_html( $transaction->id ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
-							<td><?php echo $transaction->payment_method; // phpcs:ignore ?></td>
-							<td><?php echo html_entity_decode( $transaction->transaction_type ); // phpcs:ignore ?></td>
+							<td><?php echo wp_kses_post( $transaction->payment_method ); ?></td>
+							<td><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );

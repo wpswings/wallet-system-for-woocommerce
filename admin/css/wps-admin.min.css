@@ -13,7 +13,7 @@ table.dataTable tbody tr{background-color:#fff}table.dataTable tbody tr.selected
     position: relative;
 }
 
-.wallet-system-wallet-setting .wps-form-group .wps-form-group__label {
+.class-wallet-user-table .wps-form-group .wps-form-group__label {
     align-self: flex-start;
 }
 .wps-wpg-gen-section-table-wrap .wps-wpg-gen-section-table-container .wps-wpg-gen-section-table tbody td span {
@@ -54,16 +54,16 @@ table.dataTable tbody tr{background-color:#fff}table.dataTable tbody tr.selected
 	    margin: 0 0 -10px;
 	}
 
-	.wallet-system-wallet-setting .wps-form-group {
+	.class-wallet-user-table .wps-form-group {
 	    display: block;
 	}
 
-	.wallet-system-wallet-setting .wps-form-group .wps-form-group__label {
+	.class-wallet-user-table .wps-form-group .wps-form-group__label {
 	    max-width: 80%!important;
 	    margin-bottom: 10px;
 	}
 
-	.wallet-system-wallet-setting .wps-form-group .wps-form-group__control {
+	.class-wallet-user-table .wps-form-group .wps-form-group__control {
 	    max-width: 80%;
 	}
 

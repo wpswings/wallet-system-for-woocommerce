@@ -502,10 +502,10 @@ class Wallet_User_Table extends WP_List_Table {
 	}
 
 	/**
-	 * This function is used to show user role.
+	 * This functions is used to show user role.
 	 *
-	 * @param object $user
-	 * @return void
+	 * @param object $user user.
+	 * @return string
 	 */
 	public function wsfw_get_role( $user ) {
 		return ! empty( $user->roles[0] ) ? $user->roles[0] : '-';
@@ -514,7 +514,7 @@ class Wallet_User_Table extends WP_List_Table {
 	/**
 	 * This function ia used to show user wallet amount.
 	 *
-	 * @param object $user
+	 * @param object $user user.
 	 * @return string
 	 */
 	public function wsfw_get_amount( $user ) {
@@ -528,16 +528,16 @@ class Wallet_User_Table extends WP_List_Table {
 	 * This function is to edit user wallet and show transactions.
 	 *
 	 * @param object $user user.
-	 * @return void
+	 * @return string
 	 */
 	public function wsfw_get_action( $user ) {
 		$data  = '';
-		$data .='<span>';
-		$data .='<a class="edit_wallet" data-userid="'. esc_attr( $user->ID ).'" href="" title="Edit Wallet" >';
-		$data .='<img src="'. esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) .'admin/image/edit.svg"></a>';
-		$data .= '<a href="'.esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wps-user-wallet-transactions&id=' . $user->ID ).'" title="View Transactions" >';
-		$data .= '<img src="'.esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ).'admin/image/eye.svg"></a>';	
-		$data .='</span>';
+		$data .= '<span>';
+		$data .= '<a class="edit_wallet" data-userid="' . esc_attr( $user->ID ) . '" href="" title="Edit Wallet" >';
+		$data .= '<img src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/edit.svg"></a>';
+		$data .= '<a href="' . esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wps-user-wallet-transactions&id=' . $user->ID ) . '" title="View Transactions" >';
+		$data .= '<img src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/eye.svg"></a>';
+		$data .= '</span>';
 		return $data;
 	}
 
@@ -550,19 +550,19 @@ class Wallet_User_Table extends WP_List_Table {
 	public function wsfw_get_res_user( $user ) {
 		$is_user_restricted = get_user_meta( $user->ID, 'user_restriction_for_wallet', true );
 		$html               = '<div class="wps-form-group__control"> <div> <div class="mdc-switch mdc-switch--checked"> <div class="mdc-switch__track"></div> <div class="mdc-switch__thumb-underlay mdc-ripple-upgraded mdc-ripple-upgraded--unbounded" style="--mdc-ripple-fg-size:28px; --mdc-ripple-fg-scale:1.71429; --mdc-ripple-left:10px; --mdc-ripple-top:10px;"> <div class="mdc-switch__thumb"></div> ';
-		$html              .= '<input name="wsfw_restrict_user_'.esc_html( $user->ID ).'" user_id="'.esc_html( $user->ID ).'" type="checkbox" id="wsfw_restrict_user_'.esc_html( $user->ID ).'" value="on" class="mdc-switch__native-control wsfw-radio-switch-class wsfw_restrict_user" role="switch" ';
-		
+		$html              .= '<input name="wsfw_restrict_user_' . esc_html( $user->ID ) . '" user_id="' . esc_html( $user->ID ) . '" type="checkbox" id="wsfw_restrict_user_' . esc_html( $user->ID ) . '" value="on" class="mdc-switch__native-control wsfw-radio-switch-class wsfw_restrict_user" role="switch" ';
+
 		if ( 'restricted' == $is_user_restricted ) {
-			$html .=  'aria-checked="true"';
+			$html .= 'aria-checked="true"';
 		} else {
-			$html .=  'aria-checked="false"';
+			$html .= 'aria-checked="false"';
 		}
 		if ( 'restricted' == $is_user_restricted ) {
 			$html .= 'checked="checked"';
 		} else {
 			$html .= '';
 		}
-		$html .= '> </div> </div> </div> </div>';						
+		$html .= '> </div> </div> </div> </div>';
 		return $html;
 	}
 

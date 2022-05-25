@@ -23,7 +23,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' !== $_REQUEST['bulk_action
 	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
 		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
-			// phpcs:ignore
+			/* translators: %d: Status Change. */
 			_n(
 				'%d order status changed.',
 				'%d orders status changed.',
@@ -38,7 +38,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'trash' === $_REQUEST['bulk_action
 	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
 		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
-			// phpcs:ignore
+			/* translators: %d: Status Change. */
 			_n(
 				'%d order moved to trash.',
 				'%d orders moved to trash.',
@@ -53,7 +53,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'untrash' === $_REQUEST['bulk_acti
 	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
 		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
-			// phpcs:ignore
+			/* translators: %d: Status Change. */
 			_n(
 				'%d order restored from the Trash.',
 				'%d orders restored from the Trash.',
@@ -68,7 +68,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 	$changed = ( isset( $_REQUEST['changed'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['changed'] ) ) : '';
 	printf(
 		'<div id="message" class="updated notice is-dismissable"><p>' . esc_html(
-			// phpcs:ignore
+			/* translators: %d: Status Change. */
 			_n(
 				'%d order permanently deleted.',
 				'%d orders permanently deleted.',
@@ -106,6 +106,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 		// including datepicker jquery in custom order wp list table.
 		wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
 		wp_enqueue_script( 'wps-admin-custom-orders', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-custom-orders.js', array( 'jquery' ), $this->version, false );
+
 		?>
 
 	</div>
