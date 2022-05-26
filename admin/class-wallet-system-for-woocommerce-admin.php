@@ -75,6 +75,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wps-datatable-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/css/jquery.dataTables.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'wps-wallet-action-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-wallet-action.css', array(), $this->version, 'all' );
 
 		}
 	}
@@ -118,6 +119,36 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.min.js', array(), time(), false );
 
 		}
+
+		wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-wallet-recharge.js', array( 'jquery' ), $this->version, false );
+
+			wp_localize_script(
+				'wallet-recharge-admin-js',
+				'wsfw_recharge_param',
+				array(
+					'wallet_count'       => $this->wsfw_wallet_recharge_count(),
+				)
+			);
+
+			wp_enqueue_script( 'wallet-recharge-admin-js' );
+
+	}
+
+	/**
+	 * Get wallet recharge order count.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wsfw_wallet_recharge_count() {
+		$wallet_orders = get_posts(
+			array(
+				'numberposts' => -1,
+				'post_type'   => 'wallet_shop_order',
+				'post_status' => 'wc-processing',
+			)
+		);
+		$order_count = count( $wallet_orders );
+		return $order_count;
 	}
 
 	/**
@@ -364,7 +395,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_wallet_action_registration_description',
 				'id'          => 'wps_wsfw_wallet_action_registration_description',
 				'step'        => '0.01',
-				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_registration_description' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_description' ) : 'You will Get 1 Points on a successful Sign Up.',
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_registration_description' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_description' ) : 'Amount credited for becoming a member.',
 				'placeholder' => __( 'Enter signup description', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
@@ -384,7 +415,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Comments Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Check this box to enable the Comment Amount when comment is approved.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable the Comment Amount when comment is approved..', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_comment_enable',
 				'id'          => 'wps_wsfw_wallet_action_comment_enable',
 				'value'       => get_option( 'wps_wsfw_wallet_action_comment_enable' ),
@@ -397,7 +428,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enter Comments Amount', 'wallet-system-for-woocommerce' ),
 				'type'        => 'number',
-				'description' => __( 'The amount which new customers will get after their comments are approved.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'The amount which new customers will get after their comments are approved..', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_comment_amount',
 				'id'          => 'wps_wsfw_wallet_action_comment_amount',
 				'step'        => '0.01',
@@ -1386,7 +1417,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'public'                    => false,
 				'exclude_from_search'       => false,
 				/* translators: %s: search term */
-				'label_count'               => _n_noop( 'Approved <span class="count">(%s)</span>', 'Approved <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Approved <span class="count">(%s)</span>', 'Approved <span class="count">(%s)</span>' ), // phpcs:ignore
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 			)
@@ -1399,7 +1430,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'public'                    => false,
 				'exclude_from_search'       => false,
 				/* translators: %s: search term */
-				'label_count'               => _n_noop( 'Rejected <span class="count">(%s)</span>', 'Rejected <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Rejected <span class="count">(%s)</span>', 'Rejected <span class="count">(%s)</span>' ), // phpcs:ignore
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 			)
@@ -1410,7 +1441,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'label'                     => _x( 'Pending', 'wallet-system-for-woocommerce' ),
 				'public'                    => true,
 				/* translators: %s: search term */
-				'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ), // phpcs:ignore
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 			)

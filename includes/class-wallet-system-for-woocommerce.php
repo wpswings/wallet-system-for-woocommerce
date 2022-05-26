@@ -300,9 +300,6 @@ class Wallet_System_For_Woocommerce {
 		// comment hook.
 		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
 		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );
-		// delete comment.
-		$this->loader->add_action( 'delete_comment', $wsfw_plugin_common, 'wps_wsfw_delete_comment', 10, 1 );
-		$this->loader->add_action( 'trash_comment', $wsfw_plugin_common, 'wps_wsfw_delete_comment', 10, 1 );
 	}
 
 	/**
@@ -343,6 +340,9 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_single_product_summary', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 			// show comment notice.
 			$this->loader->add_filter( 'woocommerce_product_review_comment_form_args', $wsfw_plugin_public, 'wps_wsfw_woo_show_comment_notice', 1000, 1 );
+			// new user registration notice.
+			$this->loader->add_action( 'woocommerce_before_customer_login_form', $wsfw_plugin_public, 'wps_wsfw_woo_show_signup_notice' );
+			$this->loader->add_action( 'user_register', $wsfw_plugin_public, 'wps_wsfw_new_customer_registerd', 10, 1 );
 			// daily visit balance.
 			$this->loader->add_action( 'wp', $wsfw_plugin_public, 'wps_wsfw_daily_visit_balance', 100 );
 		}

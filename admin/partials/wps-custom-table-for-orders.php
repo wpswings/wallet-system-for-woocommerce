@@ -106,6 +106,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 		// including datepicker jquery in custom order wp list table.
 		wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
 		wp_enqueue_script( 'wps-admin-custom-orders', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-custom-orders.js', array( 'jquery' ), $this->version, false );
+
 		?>
 
 	</div>
