@@ -143,6 +143,12 @@
 			$('.wps_wallet-edit--popupwrap').show();
 			$('.wps_wallet-edit--popupwrap').find('.wps_wallet-edit-popup-btn').before('<input class="userid" type="hidden" name="user_id" value="'+userid+'">');
 		});
+		$(document).on("click", ".edit_wallet-check", function(e){
+			e.preventDefault(e);
+			var userid = $(this).attr('data-userid');
+			$('.wps_wallet-edit-check--popupwrap').show();
+			$('.wps_wallet-edit-check--popupwrap').find('.wps_wallet-edit-popup-btn-check').before('<input class="userid" type="hidden" name="user_id_check" value="'+userid+'">');
+		});
 
 		$(document).on("click", "#close_wallet_form", function(e) {
 			$('.wps_wallet-edit-popup-fill').val('');
@@ -196,29 +202,29 @@
 				var user_name = $(this)[0].id;
 				var user_id = jQuery('#'+user_name).attr('user_id');
 			}
-		var restriction_status = jQuery('#'+user_name).attr('aria-checked');
-			var loader = $(this).siblings('#overlay');
-			loader.show();
-			$.ajax({
-				type: 'POST',
-				url: wsfw_admin_param.ajaxurl,
-				data: {
-					action: 'restrict_user_from_wallet_access',
-					nonce: wsfw_admin_param.nonce,
-					user_id: user_id,
-					restriction_status:restriction_status,
-					
-				},
-				datatType: 'JSON',
-				success: function( response ) {
-				debugger;
-				loader.hide();
-				},
+			var restriction_status = jQuery('#'+user_name).attr('aria-checked');
+				var loader = $(this).siblings('#overlay');
+				loader.show();
+				$.ajax({
+					type: 'POST',
+					url: wsfw_admin_param.ajaxurl,
+					data: {
+						action: 'restrict_user_from_wallet_access',
+						nonce: wsfw_admin_param.nonce,
+						user_id: user_id,
+						restriction_status:restriction_status,
+						
+					},
+					datatType: 'JSON',
+					success: function( response ) {
+					debugger;
+					loader.hide();
+					},
 
-			})
-			.fail(function ( response ) {
-				loader.hide();
-			});
+				})
+				.fail(function ( response ) {
+					loader.hide();
+				});
 		});
 
 

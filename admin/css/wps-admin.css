@@ -1088,6 +1088,45 @@ ul {
   background: #ffffff;
   border: 0;
 }
+.wps_wallet-edit-check--popupwrap {
+  bottom: 0;
+  display: block;
+  display: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 5555555;
+}
+.wps_wallet-edit-check--popupwrap:after {
+  background: rgba(121, 121, 121, 0.8);
+  content: '';
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+.wps_wallet-edit-check--popupwrap .wps_wallet-edit-check-popup {
+  background: #ffffff;
+  border-radius: 5px;
+  left: 0;
+  margin: auto;
+  max-width: 550px;
+  padding: 30px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 455;
+}
+.wps_wallet-edit-check--popupwrap .wps_wallet-edit-check-popup #close_wallet_form_check {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 15px;
+}
 
 /*=====  End of Wallet Section  ======*/
 /*==========================================
