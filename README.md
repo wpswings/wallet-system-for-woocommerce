@@ -1,4 +1,4 @@
-[![BuildStatus](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.0.0-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.4.1-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
+[![BuildStatus](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.0.0-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.5.1-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # Wallet System for WooCommerce – Digital Wallet, Cashback Rewards, Recharge User Wallets, View Transition History
 ![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png?rev=2671995)
 * Contributors: WP Swings
@@ -10,7 +10,7 @@
  
 # Description 
  
-**STREAMLINE AND SPEED UP TRANSACTIONS WITH A DIGITAL WALLET SYSTEM FOR WOOCOMMERCE. ADD OR REMOVE BALANCE IN BULK, SEND REFUNDS, RESTRICT USERS, AND VIEW THE TRANSACTION HISTORY OF ALL WALLET USERS**
+**STREAMLINE AND SPEED UP TRANSACTIONS WITH A DIGITAL WALLET SYSTEM FOR WOOCOMMERCE. ADD OR REMOVE BALANCE IN BULK, SEND REFUNDS, RESTRICT USERS, AND VIEW THE TRANSACTION HISTORY OF ALL WALLET USERS.**
  
  
 [**Wallet System for WooCommerce**](https://wordpress.org/plugins/wallet-system-for-woocommerce/) is a digital wallet plugin. It helps the merchant implement a digital wallet system on their WooCommerce store. And allows customers to perform eCommerce transactions using the wallet system.
@@ -72,8 +72,12 @@ The customers can transfer their wallet amount into other customers’ wallets. 
 **7. Wallet Cashback Reward** 
 The Wallet system for Woocommerce allows you to send cashback rewards to customers in their WooCommerce wallets. Even if the payment method used to purchase the product is other than the wallet plugin, customers will still receive cashback rewards. You can set cashback type as percentage or fixed and offer it either cart-wise or product-wise. 
 
-**8. Credit Amount On Daily User Visit and Commenting** 
-Our wallet plugin allows you to implement a WooCommerce credit system. You can decide a daily login reward amount and enable your customers to earn wallet credit daily by simply logging in to their wallets. You can also let them earn wallet credit on submitting product reviews. For this feature, you can set the limit on how many comments a user can have per post, credit amount, and customize comment label text. 
+**8.  Credit Amount on Daily User Visit, Commenting, and Sign Up** 
+Our digital wallet plugin allows you to implement a WooCommerce credit system. You can decide a daily login reward amount and enable your customers to earn wallet credit daily by simply logging in to their wallets. 
+
+You can also let them earn wallet credit on submitting product reviews. For this feature, you can set the limit on how many comments a user can have per post, credit amount, and customize comment label text. 
+
+Lastly, allow your users to receive wallet credit upon signing up for the wallet system. Set the signup reward amount and description that will be shown to the users on signup. 
  
 **9. Select Partial Payment Option**
 Customers can use their WooCommerce wallet balance to pay for products in two different ways: Total Wallet Amount and Manual Wallet Amount. They can use the whole wallet balance while making a purchase. Or manually select to pay a partial payment of their choice. 
@@ -91,7 +95,7 @@ Check out [**Wallet System Plugin Knowledge Base**](https://support.wpswings.com
 ## PLUGIN COMPATIBILITIES 
  
 * **Compatibility with Subscriptions for WooCommerce**
-The WooCommerce Wallet is compatible with the [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) and  [**Subscription for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-subscription-pro&utm_medium=wallet-github-page&utm_campaign=subscription-pro) plugin. Customers will get discounts on Subscriptions renewal, which they can pay using their wallet balance. The merchant can decide the amount/percentage to be deducted from the wallet for order renewal. 
+The WooCommerce Wallet is compatible with the [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) and  [**Subscription for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-subscription-pro&utm_medium=wallet-github-page&utm_campaign=subscription-pro) plugin.Customers can use the Wallet partial payment feature to pay for subscription products. The subscription renewal happens automatically through the payment method initially used to purchase the subscription.  
 
 
 * **Compatibility with Multi-Vendor Marketplace Solution for WooCommerce**
@@ -118,7 +122,7 @@ The Wallet System for WooCommerce is compatible with [**RMA Return Refund & Exch
 > Note:  Get [**Wallet System For WooCommerce Pro**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-github-page&utm_campaign=wallet-pro)
  
 ## DOCUMENTATION OF PREMIUM VERSION
-Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-github-page&utm_campaign=wallet-org-doc ) and learn more about the features and working of the plugin.
+Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-github-page&utm_campaign=wallet-pro-doc ) and learn more about the features and working of the plugin.
  
 ### **SUPPORT**
  
