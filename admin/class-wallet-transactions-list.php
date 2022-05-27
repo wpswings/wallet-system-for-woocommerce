@@ -40,7 +40,7 @@ if ( ! class_exists( 'Wallet_Transactions_List' ) ) {
 		 */
 		public function get_columns() {
 			$columns = array(
-				'transaction_id' => __( 'Transaction ID', 'wallet-system-for-woocommerce' ),
+				'transaction_id' => __( 'Transaction IsD', 'wallet-system-for-woocommerce' ),
 				'name'           => __( 'Name', 'wallet-system-for-woocommerce' ),
 				'email'          => __( 'Email', 'wallet-system-for-woocommerce' ),
 				'amount'         => __( 'Amount', 'wallet-system-for-woocommerce' ),
