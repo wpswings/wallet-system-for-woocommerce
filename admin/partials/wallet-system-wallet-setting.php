@@ -212,7 +212,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 		}
 	}
 }
-do_action('user_restriction_saving',$user);
+do_action('user_restriction_saving');
 
 if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 	$nonce = ( isset( $_POST['user_update_nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_update_nonce'] ) ) : '';
@@ -554,7 +554,6 @@ class Wallet_User_Table extends WP_List_Table {
 		$is_user_restricted = get_user_meta( $user->ID, 'user_restriction_for_wallet', true );
 		$html               = '<div class="wps-form-group__control"> <div> <div class="mdc-switch mdc-switch--checked"> <div class="mdc-switch__track"></div> <div class="mdc-switch__thumb-underlay mdc-ripple-upgraded mdc-ripple-upgraded--unbounded" style="--mdc-ripple-fg-size:28px; --mdc-ripple-fg-scale:1.71429; --mdc-ripple-left:10px; --mdc-ripple-top:10px;"> <div class="mdc-switch__thumb"></div> ';
 		$html              .= '<input name="wsfw_restrict_user_'.esc_html( $user->ID ).'" user_id="'.esc_html( $user->ID ).'" type="checkbox" id="wsfw_restrict_user_'.esc_html( $user->ID ).'" value="on" class="mdc-switch__native-control wsfw-radio-switch-class wsfw_restrict_user" role="switch" ';
-		// do_action('wsfw_restrict_user_content',$user->ID);
 		if ( 'restricted' == $is_user_restricted ) {
 			$html .=  'aria-checked="true"';
 		} else {
@@ -566,6 +565,8 @@ class Wallet_User_Table extends WP_List_Table {
 			$html .= '';
 		}
 		$html .= '> </div> </div> </div> </div>';
+		$html .= '<input type="hidden" id="test_'.esc_html($user->ID).'" value="'.$user->ID.'">';
+		$html .= apply_filters('wsfw_wallet_user_id_before', $user->ID);
 		$html =  apply_filters( 'wsfw_wallet_user_restriction_after', $html,$user );						
 		return $html;
 	}
@@ -621,4 +622,4 @@ class Wallet_User_Table extends WP_List_Table {
 		</form>
 	</div>
 </div>
-<?php do_action('wsfw_restrict_user_content_after'); ?>
+<?php do_action('wsfw_wallet_restrict_user_pro_after');?>
