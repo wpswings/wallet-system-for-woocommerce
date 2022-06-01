@@ -196,7 +196,6 @@
 
 		// update wallet and status on changing status of wallet request
 		$(document).on( 'change', '.wsfw_restrict_user', function() {
-			debugger;
 			var user_id='';
 			if ( $(this).length > 0 ) {
 				var user_name = $(this)[0].id;
@@ -217,7 +216,6 @@
 					},
 					datatType: 'JSON',
 					success: function( response ) {
-					debugger;
 					loader.hide();
 					},
 

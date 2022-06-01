@@ -903,6 +903,8 @@ class Wallet_System_For_Woocommerce_Public {
 		$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
 		$wps_wsfw_cashback_type = get_option( 'wps_wsfw_cashback_type', '' );
 		$product                = wc_get_product( $product_id );
+		$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
+		$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids );
 		if ( ! $product ) {
 			return;
 		}
@@ -914,7 +916,13 @@ class Wallet_System_For_Woocommerce_Public {
 					$price           = $product->get_price();
 					$price           = apply_filters( 'wsfw_category_wise_cashback_product_price', $price );
 					$cashback_amount = $this->wsfw_calculate_category_wise_cashback( $price );
+					if( is_array($wps_wsfwp_cashback_amount) ){
+						$wps_wsfwp_cashback_amount = $cashback_amount;
+					}
 					$cashback_html   = '<span class="wps-show-cashback-notice-on-shop-page">' . wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) . __( ' Cashback', 'wallet-system-for-woocommerce' ) . '</span>';
+					if( $wps_wsfwp_cashback_amount ){
+						$cashback_html   = '<span class="wps-show-cashback-notice-on-shop-page">' . wc_price( $wps_wsfwp_cashback_amount, $this->wsfw_wallet_price_args() ) . __( ' Cashback', 'wallet-system-for-woocommerce' ) . '</span>';
+					}
 					echo apply_filters( 'wsfw_show_category_wise_cashback_amount_on_shop_page', wp_kses_post( $cashback_html ) );
 				}
 			}

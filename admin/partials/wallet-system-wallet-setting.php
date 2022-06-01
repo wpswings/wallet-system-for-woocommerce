@@ -566,7 +566,7 @@ class Wallet_User_Table extends WP_List_Table {
 		}
 		$html .= '> </div> </div> </div> </div>';
 		$html .= '<input type="hidden" id="test_'.esc_html($user->ID).'" value="'.$user->ID.'">';
-		$html .= apply_filters('wsfw_wallet_user_id_before', $user->ID);
+		// $html .= apply_filters('wsfw_wallet_user_id_before', $user->ID);
 		$html =  apply_filters( 'wsfw_wallet_user_restriction_after', $html,$user );						
 		return $html;
 	}
