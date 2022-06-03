@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="wps-wpg-gen-section-table-wrap wps-wpg-transcation-section-table">
 	<h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
 	<div class="wps-wpg-gen-section-table-container">
-		<table id="wps-wpg-gen-table" class="wps-wpg-gen-section-table dt-responsive wps-wpg-gen-table-all-transaction">
+		<table id="wps-wpg-gen-table_trasa" class="wps-wpg-gen-section-table dt-responsive wps-wpg-gen-table-all-transaction">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -116,5 +116,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php
 // including datepicker jquery for input tag.
 wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
-wp_enqueue_script( 'wps-admin-all-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-all-transaction-table.js', array( 'jquery' ), $this->version, false );
+$check = false;
+$check = apply_filters('wsfw_check_pro_plugin',$check );
+if ( $check == false){	
+	wp_enqueue_script( 'wps-admin-all-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-all-transaction-table.js', array( 'jquery' ), $this->version, false );
+}	
 ?>

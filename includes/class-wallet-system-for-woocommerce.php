@@ -345,6 +345,10 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'user_register', $wsfw_plugin_public, 'wps_wsfw_new_customer_registerd', 10, 1 );
 			// daily visit balance.
 			$this->loader->add_action( 'wp', $wsfw_plugin_public, 'wps_wsfw_daily_visit_balance', 100 );
+			$this->loader->add_filter( 'woocommerce_cart_totals_fee_html', $wsfw_plugin_public, 'wsfw_wallet_cart_totals_fee_html', 10, 2 );
+			$this->loader->add_filter( 'woocommerce_cart_get_fee_taxes',$wsfw_plugin_public, 'wsfw_wallet_get_fee_taxes', 10, 1 ); 
+			$this->loader->add_filter( 'woocommerce_cart_total',$wsfw_plugin_public, 'wsfw_wallet_cart_total', 10, 1 );
+			$this->loader->add_action( 'woocommerce_checkout_order_created',$wsfw_plugin_public,'wsfw_wallet_add_order_detail');
 		}
 
 	}

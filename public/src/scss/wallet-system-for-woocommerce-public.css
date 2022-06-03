@@ -17,7 +17,7 @@ input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="password"]:focus,
 input[type="search"]:focus {
-    outline: none !important;
+    outline: none;
 }
 
 .wallet-amount input {
@@ -390,10 +390,6 @@ input[type="search"]:focus {
 .wps-wcb-navigations .logo {
     width: 30px;
     height: auto;
-}
-
-svg {
-    fill: red !important;
 }
 
 .wps-wcb-navigations ul li.nav-tab-active {

@@ -334,7 +334,6 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 				</div>
 			</div>
 		</form>
-
 		<button class="mdc-ripple-upgraded" id="export_user_wallet" > <img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/down-arrow.png" title="Download CSV file" >
 		</button>
 
