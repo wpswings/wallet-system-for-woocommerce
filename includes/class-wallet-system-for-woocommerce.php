@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.2.4';
+			$this->version = '2.2.2';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -228,7 +228,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_registration_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_registration_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_daily_visit_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_daily_visit_settings_page', 10 );
 		$this->loader->add_action( 'wsfw_wallet_action_settings_comment_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_comment_array', 10 );
-		
+
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_cashback_settings_page', 10 );
 
@@ -435,9 +435,9 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_wsfw_plugin_standard_admin_settings_tabs', $wsfw_default_tabs );
 
 		// added tab for importing wallet of users through button.
-		$wsfw_default_tabs['wallet-system-wallet-setting'] = array(
+		$wsfw_default_tabs['class-wallet-user-table'] = array(
 			'title' => esc_html__( 'Wallet', 'wallet-system-for-woocommerce' ),
-			'name'  => 'wallet-system-wallet-setting',
+			'name'  => 'class-wallet-user-table',
 		);
 
 		$wsfw_default_tabs['wallet-system-wallet-transactions'] = array(
@@ -457,15 +457,14 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'wallet-system-for-woocommerce-cashback',
 		);
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_cashback', $wsfw_default_tabs );
-		
-		
+
 		// added tab for wallet withdrawal settings.
 		$wsfw_default_tabs['wallet-system-for-woocommerce-wallet-actions'] = array(
 			'title' => esc_html__( 'Wallet Actions', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-wallet-actions',
 		);
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
-		
+
 		$wsfw_default_tabs['wallet-system-rest-api'] = array(
 			'title' => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-rest-api',

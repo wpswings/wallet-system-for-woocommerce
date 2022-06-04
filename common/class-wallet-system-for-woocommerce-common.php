@@ -260,8 +260,8 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 				}
 				update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
-				$http_host   = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : ''; // phpcs:ignore
-				$request_url = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : ''; // phpcs:ignore
+				$http_host   = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+				$request_url = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 				$current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
 				wp_safe_redirect( $current_url );
 				exit();
@@ -671,15 +671,15 @@ class Wallet_System_For_Woocommerce_Common {
 		$wsfw_cashbak_type       = get_option( 'wps_wsfw_cashback_type' );
 		$wsfw_min_cart_amount    = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
 		$wps_wsfw_cashback_rule  = get_option( 'wps_wsfw_cashback_rule', '' );
-		
+
 		if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
 			if ( $order_total > $wsfw_min_cart_amount ) {
-				
+
 				if ( 'percent' === $wsfw_cashbak_type ) {
 					$total                        = $order_total;
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
-					
+
 					if ( $wsfw_percent_cashback_amount <= $wsfw_max_cashbak_amount ) {
 						$cashback_amount += $wsfw_percent_cashback_amount;
 					} else {
@@ -734,20 +734,7 @@ class Wallet_System_For_Woocommerce_Common {
 	public function wps_get_cashback_cat_wise( $product_id ) {
 		if ( ! empty( $product_id ) ) {
 			$terms                              = get_the_terms( $product_id, 'product_cat' );
-
-			$max_id = $terms[0]->term_id;
-			$max_value = get_term_meta( $terms[0]->term_id, '_wps_wsfwp_category_rule', true );
-			foreach( $terms as $key=>$value ){
-				$temp = get_term_meta( $value->term_id, '_wps_wsfwp_category_rule', true );
-				if( $max_value < $temp ) {
-					$max_value = $temp;
-					$max_id = $value->term_id;
-				}
-			}
-			$term_id = $max_id;
 			$wps_wsfw_multiselect_category_rule = get_option( 'wps_wsfw_multiselect_category_rule', array() );
-			$wps_wsfwp_category_rule = get_term_meta( $term_id, '_wps_wsfwp_category_rule', true );
-			$wps_wsfw_multiselect_category_rule[] = $wps_wsfwp_category_rule;
 			$wps_wsfw_multiselect_category_rule = is_array( $wps_wsfw_multiselect_category_rule ) && ! empty( $wps_wsfw_multiselect_category_rule ) ? $wps_wsfw_multiselect_category_rule : array();
 			$flag                               = false;
 			if ( ! empty( $wps_wsfw_multiselect_category_rule ) && is_array( $wps_wsfw_multiselect_category_rule ) ) {
@@ -769,11 +756,11 @@ class Wallet_System_For_Woocommerce_Common {
 	/**
 	 * This function is used to give.
 	 *
-	 * @param int $comment_ID comment id.
+	 * @param int    $comment_ids comment id.
 	 * @param string $comment_approved status.
 	 * @return void
 	 */
-	public function wps_wsfw_comment_amount_function( $comment_ID, $comment_approved ) {
+	public function wps_wsfw_comment_amount_function( $comment_ids, $comment_approved ) {
 
 		$user_id = get_current_user_id();
 		$updated = false;
@@ -795,13 +782,13 @@ class Wallet_System_For_Woocommerce_Common {
 				$wsfw_comment_limit     = WC()->session->get( 'w2' );
 
 				if ( count( $user_comment ) < $wsfw_comment_limit ) {
-					$wps_wsfw_comment_done = get_option( $comment_ID . '_wps_wsfw_comment_done', 'not_done' );
+					$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
 					if ( 'not_done' === $wps_wsfw_comment_done ) {
 						$amount          = $wps_wsfw_wallet_action_comment_amount;
 						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
 						$walletamount    += $credited_amount;
 						update_user_meta( $user_id, 'wps_wallet', $walletamount );
-						update_option( $comment_ID . '_wps_wsfw_comment_done', 'done' );
+						update_option( $comment_ids . '_wps_wsfw_comment_done', 'done' );
 						$updated = true;
 					}
 				}
@@ -822,14 +809,14 @@ class Wallet_System_For_Woocommerce_Common {
 				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 			}
 
-			$transaction_type = __( 'Wallet credited through ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'comment.php?action=editcomment&c=' . $comment_ID ) . '" >#' . $comment_ID . '</a>';
+			$transaction_type = __( 'Wallet credited through ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'comment.php?action=editcomment&c=' . $comment_ids ) . '" >#' . $comment_ids . '</a>';
 			$transaction_data = array(
 				'user_id'          => $user_id,
 				'amount'           => $amount,
 				'currency'         => $current_currency,
 				'payment_method'   => 'Product review',
 				'transaction_type' => htmlentities( $transaction_type ),
-				'order_id'         => $comment_ID,
+				'order_id'         => $comment_ids,
 				'note'             => '',
 			);
 			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );

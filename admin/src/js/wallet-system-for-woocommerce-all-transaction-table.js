@@ -12,7 +12,7 @@ jQuery.fn.dataTable.ext.search.push(
 );
 
 jQuery(document).ready(function(){
-    
+
     var datatable_pagination_text = wsfw_admin_param.datatable_pagination_text;
 	var datatable_info            = wsfw_admin_param.datatable_info	;
     var table1 = jQuery('#wps-wpg-gen-table_trasa').DataTable({
@@ -33,8 +33,7 @@ jQuery(document).ready(function(){
     jQuery('#search_in_table').keyup(function(){
         table1.search(jQuery(this).val()).draw() ;
     });
-
-
+    
     jQuery("#min").datepicker({ onSelect: function () { table1.draw(); }, changeMonth: true, changeYear: true });
     jQuery("#max").datepicker({ onSelect: function () { table1.draw(); }, changeMonth: true, changeYear: true });
     

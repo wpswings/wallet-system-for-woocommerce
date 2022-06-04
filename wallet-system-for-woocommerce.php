@@ -21,10 +21,10 @@
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
- * WC Requires at least: 4.6
- * WC tested up to: 6.4.1
+ * WC Requires at least: 5.1.0
+ * WC tested up to: 6.5.1
  * WP Requires at least: 5.1.0
- * WP tested up to: 5.9.3
+ * WP tested up to: 6.0.0
  * Requires PHP: 7.2 or Higher
  *
  * License:           GNU General Public License v3.0
@@ -63,7 +63,7 @@ if ( $activated ) {
 	 */
 	function define_wallet_system_for_woocommerce_constants() {
 
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.2.4' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.2.3' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -189,6 +189,35 @@ if ( $activated ) {
 		return $tables;
 	}
 	add_filter( 'wpmu_drop_tables', 'wps_wsfw_on_delete_blog' );
+
+
+	/**
+	 * This function is used to escpe html.
+	 *
+	 * @return array
+	 */
+	function wps_wsfw_lite_allowed_html() {
+		// Return the complete html elements defined by us.
+		$allowed_html = array(
+
+			'path' => array(
+				'd'               => array(),
+				'stroke'          => array(),
+				'stroke-width'    => array(),
+				'stroke-linecap'  => array(),
+				'stroke-linejoin' => array(),
+			),
+
+			'circle' => array(
+				'cx'           => array(),
+				'cy'           => array(),
+				'r'            => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+			),
+		);
+		return $allowed_html;
+	}
 
 	/**
 	 * Begins execution of the plugin.

@@ -79,13 +79,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 						}
 						?>
 						<tr>
-							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
+						<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
 							<td><?php echo esc_html( $display_name ); ?></td>
 							<td><?php echo esc_html( $useremail ); ?></td>
 							<td><?php echo esc_html( $user_role ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
-							<td><?php echo $transaction->payment_method; // phpcs:ignore ?></td>
-							<td><?php echo html_entity_decode( $transaction->transaction_type );// phpcs:ignore ?></td>
+							<td><?php echo wp_kses_post( $transaction->payment_method ); ?></td>
+							<td><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
 							<td><?php echo esc_html( $transaction->id ); ?></td>
 							<td>
 							<?php
@@ -120,5 +120,5 @@ $check = false;
 $check = apply_filters('wsfw_check_pro_plugin',$check );
 if ( $check == false){	
 	wp_enqueue_script( 'wps-admin-all-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-all-transaction-table.js', array( 'jquery' ), $this->version, false );
-}	
+}
 ?>

@@ -206,33 +206,35 @@
 
 		// update wallet and status on changing status of wallet request
 		$(document).on( 'change', '.wsfw_restrict_user', function() {
+			debugger;
 			var user_id='';
 			if ( $(this).length > 0 ) {
 				var user_name = $(this)[0].id;
 				var user_id = jQuery('#'+user_name).attr('user_id');
 			}
-			var restriction_status = jQuery('#'+user_name).attr('aria-checked');
-				var loader = $(this).siblings('#overlay');
-				loader.show();
-				$.ajax({
-					type: 'POST',
-					url: wsfw_admin_param.ajaxurl,
-					data: {
-						action: 'restrict_user_from_wallet_access',
-						nonce: wsfw_admin_param.nonce,
-						user_id: user_id,
-						restriction_status:restriction_status,
-						
-					},
-					datatType: 'JSON',
-					success: function( response ) {
-					loader.hide();
-					},
+		var restriction_status = jQuery('#'+user_name).attr('aria-checked');
+			var loader = $(this).siblings('#overlay');
+			loader.show();
+			$.ajax({
+				type: 'POST',
+				url: wsfw_admin_param.ajaxurl,
+				data: {
+					action: 'restrict_user_from_wallet_access',
+					nonce: wsfw_admin_param.nonce,
+					user_id: user_id,
+					restriction_status:restriction_status,
+					
+				},
+				datatType: 'JSON',
+				success: function( response ) {
+				debugger;
+				loader.hide();
+				},
 
-				})
-				.fail(function ( response ) {
-					loader.hide();
-				});
+			})
+			.fail(function ( response ) {
+				loader.hide();
+			});
 		});
 
 
