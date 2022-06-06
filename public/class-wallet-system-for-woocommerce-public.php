@@ -766,7 +766,6 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		} else {
 			if ( wc()->cart->get_total( 'edit' ) > $wsfw_min_cart_amount ) {
-
 				if ( 'percent' === $wsfw_cashbak_type ) {
 					$total                        = wc()->cart->get_total( 'edit' );
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_total( 'edit' ) );
@@ -778,7 +777,8 @@ class Wallet_System_For_Woocommerce_Public {
 						$cashback_amount += $wsfw_max_cashbak_amount;
 					}
 				} else {
-					if ( wc()->cart->get_total( 'edit' ) >= $wsfw_cashbak_amount ) {
+					if ( !empty(wc()->cart->get_total( 'edit' )) ) {
+
 						$cashback_amount += $wsfw_cashbak_amount;
 					}
 				}
@@ -841,13 +841,14 @@ class Wallet_System_For_Woocommerce_Public {
 			$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
 
 			if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
+			
 				if ( floatval( $cart_total ) < floatval( $wsfw_min_cart_amount ) ) {
 					?>
 					<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
 					<?php
 					/* translators: %s: search term */
 					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount ) );
-				} else {
+				}else {
 					if ( is_user_logged_in() ) {
 						if ( $cashback_amount > 0 ) {
 							?>

@@ -295,7 +295,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title'       => __( 'Select Partial Payment Option', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
 				'name'        => 'wsfw_wallet_partial_payment_method_options',
-				'description' => __( 'This is select field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select Value for Manual Metohd or Partial Metohd', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wsfw_wallet_partial_payment_method_options',
 				'value'       => get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' ),
 				'class'       => 'wsfw-select-class',
