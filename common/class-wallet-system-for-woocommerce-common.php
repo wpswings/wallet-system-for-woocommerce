@@ -734,7 +734,25 @@ class Wallet_System_For_Woocommerce_Common {
 	public function wps_get_cashback_cat_wise( $product_id ) {
 		if ( ! empty( $product_id ) ) {
 			$terms                              = get_the_terms( $product_id, 'product_cat' );
+
+			$max_id = $terms[0]->term_id;
+			$max_value = get_term_meta( $terms[0]->term_id, '_wps_wsfwp_category_rule', true );
+			foreach( $terms as $key=>$value ){
+				$temp = get_term_meta( $value->term_id, '_wps_wsfwp_category_rule', true );
+				if( $max_value < $temp ) {
+					$max_value = $temp;
+					$max_id = $value->term_id;
+				}
+			}
+			$term_id = $max_id;
 			$wps_wsfw_multiselect_category_rule = get_option( 'wps_wsfw_multiselect_category_rule', array() );
+			$wps_wsfwp_category_rule = get_term_meta( $term_id, '_wps_wsfwp_category_rule', true );
+			$check = false;
+			$check = apply_filters('wsfw_check_pro_plugin_common',$check );
+			if ( $check == true){
+				$wps_wsfw_multiselect_category_rule = array();
+				$wps_wsfw_multiselect_category_rule[] = $wps_wsfwp_category_rule;
+			}
 			$wps_wsfw_multiselect_category_rule = is_array( $wps_wsfw_multiselect_category_rule ) && ! empty( $wps_wsfw_multiselect_category_rule ) ? $wps_wsfw_multiselect_category_rule : array();
 			$flag                               = false;
 			if ( ! empty( $wps_wsfw_multiselect_category_rule ) && is_array( $wps_wsfw_multiselect_category_rule ) ) {
@@ -748,7 +766,7 @@ class Wallet_System_For_Woocommerce_Common {
 				}
 			}
 		}
-		return $flag;
+		return $flag;;
 	}
 
 	/** Comment feature start here */
