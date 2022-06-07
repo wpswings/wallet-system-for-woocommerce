@@ -262,13 +262,13 @@ $product_id             = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 $user_id                = get_current_user_id();
 $wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
 $is_user_restricted     = get_user_meta( $user_id, 'user_restriction_for_wallet', true );
-$is_user_restricted  = apply_filters( 'wsfw_user_restrict_pro_check', $is_user_restricted  );
+$is_user_restricted  = apply_filters( 'wsfw_user_restrict_pro_check', $is_user_restricted );
 
-$wallet_restrict_topup = apply_filters('wallet_restrict_topup', $user_id);
-$wallet_restrict_transfer = apply_filters('wallet_restrict_transfer', $user_id);
-$wallet_restrict_withdrawal = apply_filters('wallet_restrict_withdrawal', $user_id);
-$wallet_restrict_coupon = apply_filters('wallet_restrict_coupon', $user_id);
-$wallet_restrict_transaction = apply_filters('wallet_restrict_transaction', $user_id);
+$wallet_restrict_topup = apply_filters( 'wallet_restrict_topup', $user_id );
+$wallet_restrict_transfer = apply_filters( 'wallet_restrict_transfer', $user_id );
+$wallet_restrict_withdrawal = apply_filters( 'wallet_restrict_withdrawal', $user_id );
+$wallet_restrict_coupon = apply_filters( 'wallet_restrict_coupon', $user_id );
+$wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
 
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
@@ -278,7 +278,7 @@ $wallet_tabs = array();
 if ( 'restricted' !== $is_user_restricted ) {
 
 	if ( ! empty( $product_id ) && ! empty( $enable_wallet_recharge ) ) {
-		if( $wallet_restrict_topup != 'on'){
+		if ( 'on' != $wallet_restrict_topup ) {
 			$wallet_tabs['wallet_recharge'] = array(
 				'title'     => esc_html__( 'Add Balance', 'wallet-system-for-woocommerce' ),
 				'url'       => $topup_url,
@@ -292,7 +292,7 @@ if ( 'restricted' !== $is_user_restricted ) {
 		}
 	}
 
-	if( $wallet_restrict_transfer != 'on' ){
+	if ( 'on' != $wallet_restrict_transfer ) {
 		$wallet_tabs['wallet_transfer'] = array(
 			'title'     => esc_html__( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 			'url'       => $wallet_url,
@@ -303,9 +303,9 @@ if ( 'restricted' !== $is_user_restricted ) {
 							<path d="M21.7444 5.80768L23.9836 8.0796L11.8571 8.0796" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
 			'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transfer.php',
 		);
-	}	
+	}
 
-	if( $wallet_restrict_withdrawal != 'on' ){
+	if ( 'on' != $wallet_restrict_withdrawal ) {
 		$wallet_tabs['wallet_withdrawal'] = array(
 			'title'     => esc_html__( 'Wallet Withdrawal Request', 'wallet-system-for-woocommerce' ),
 			'url'       => $withdrawal_url,
@@ -318,13 +318,12 @@ if ( 'restricted' !== $is_user_restricted ) {
 		);
 	}
 
-	if ( $wallet_restrict_coupon != 'on'){
+	if ( 'on' != $wallet_restrict_coupon ) {
 
 		$wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs_before_transaction', $wallet_tabs, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH );
 	}
-
 }
-if( $wallet_restrict_transaction != 'on'){
+if ( 'on' != $wallet_restrict_transaction ) {
 
 	$wallet_tabs['wallet_transactions'] = array(
 		'title'     => esc_html__( 'Transactions', 'wallet-system-for-woocommerce' ),
@@ -355,7 +354,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 		</p>
 	</div>
 	<?php
-	if ( ( $wallet_restrict_topup === 'on' ) || ( $wallet_restrict_transfer === 'on' ) || ( $wallet_restrict_withdrawal === 'on' ) || ( $wallet_restrict_coupon === 'on' ) || ( $wallet_restrict_transaction === 'on' ) ) {
+	if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
 		?>
 		<div class="wsfw_show_user_restriction_notice">
 			<?php

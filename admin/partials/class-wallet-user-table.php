@@ -212,7 +212,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 		}
 	}
 }
-do_action('user_restriction_saving');
+do_action( 'user_restriction_saving' );
 
 if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 	$nonce = ( isset( $_POST['user_update_nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_update_nonce'] ) ) : '';
@@ -564,7 +564,7 @@ class Wallet_User_Table extends WP_List_Table {
 			$html .= '';
 		}
 		$html .= '> </div> </div> </div> </div>';
-		$html =  apply_filters( 'wsfw_wallet_user_restriction_after', $html,$user );
+		$html = apply_filters( 'wsfw_wallet_user_restriction_after', $html, $user );
 		return $html;
 	}
 
@@ -619,4 +619,4 @@ class Wallet_User_Table extends WP_List_Table {
 		</form>
 	</div>
 </div>
-<?php do_action('wsfw_wallet_restrict_user_pro_after');?>
+<?php do_action( 'wsfw_wallet_restrict_user_pro_after' ); ?>

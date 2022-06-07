@@ -117,8 +117,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 // including datepicker jquery for input tag.
 wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
 $check = false;
-$check = apply_filters('wsfw_check_pro_plugin',$check );
-if ( $check == false){	
+$check = apply_filters( 'wsfw_check_pro_plugin', $check );
+if ( false == $check ) {
 	wp_enqueue_script( 'wps-admin-all-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-all-transaction-table.js', array( 'jquery' ), $this->version, false );
 }
 ?>

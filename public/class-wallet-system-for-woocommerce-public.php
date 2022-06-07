@@ -746,7 +746,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$common_obj   = new Wallet_System_For_Woocommerce_Common( '', '' );
 						$wps_cat_wise = $common_obj->wps_get_cashback_cat_wise( $product_id );
 						if ( $wps_cat_wise ) {
-							$cashback_amount_order += $common_obj->wsfw_get_calculated_cashback_amount( $cart_item['line_subtotal'], $product_id , $qty );
+							$cashback_amount_order += $common_obj->wsfw_get_calculated_cashback_amount( $cart_item['line_subtotal'], $product_id, $qty );
 							$update = true;
 						}
 					}
@@ -777,7 +777,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$cashback_amount += $wsfw_max_cashbak_amount;
 					}
 				} else {
-					if ( !empty(wc()->cart->get_total( 'edit' )) ) {
+					if ( ! empty( wc()->cart->get_total( 'edit' ) ) ) {
 
 						$cashback_amount += $wsfw_cashbak_amount;
 					}
@@ -841,14 +841,14 @@ class Wallet_System_For_Woocommerce_Public {
 			$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
 
 			if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
-			
+
 				if ( floatval( $cart_total ) < floatval( $wsfw_min_cart_amount ) ) {
 					?>
 					<div class="woocommerce-Message woocommerce-Message--info woocommerce-info">
 					<?php
 					/* translators: %s: search term */
 					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount ) );
-				}else {
+				} else {
 					if ( is_user_logged_in() ) {
 						if ( $cashback_amount > 0 ) {
 							?>
@@ -905,7 +905,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$wps_wsfw_cashback_type = get_option( 'wps_wsfw_cashback_type', '' );
 		$product                = wc_get_product( $product_id );
 		$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
-		$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids,$product_id , 1 );
+		$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, 1 );
 
 		if ( ! $product ) {
 			return;
@@ -918,11 +918,11 @@ class Wallet_System_For_Woocommerce_Public {
 					$price           = $product->get_price();
 					$price           = apply_filters( 'wsfw_category_wise_cashback_product_price', $price );
 					$cashback_amount = $this->wsfw_calculate_category_wise_cashback( $price );
-					if( is_array($wps_wsfwp_cashback_amount) ){
+					if ( is_array( $wps_wsfwp_cashback_amount ) ) {
 						$wps_wsfwp_cashback_amount = $cashback_amount;
 					}
 					$cashback_html   = '<span class="wps-show-cashback-notice-on-shop-page">' . wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) . __( ' Cashback', 'wallet-system-for-woocommerce' ) . '</span>';
-					if( $wps_wsfwp_cashback_amount ){
+					if ( $wps_wsfwp_cashback_amount ) {
 						$cashback_html   = '<span class="wps-show-cashback-notice-on-shop-page">' . wc_price( $wps_wsfwp_cashback_amount, $this->wsfw_wallet_price_args() ) . __( ' Cashback', 'wallet-system-for-woocommerce' ) . '</span>';
 					}
 					echo wp_kses_post( apply_filters( 'wsfw_show_category_wise_cashback_amount_on_shop_page', $cashback_html ) );
@@ -1145,104 +1145,125 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 		}
 	}
-	public function wsfw_wallet_cart_totals_fee_html( $cart_totals_fee_html, $fees  ){
+	/**
+	 * Fee html for cart total.
+	 *
+	 * @param array $cart_totals_fee_html as cart html.
+	 * @param array $fees as fee.
+	 * @return array
+	 */
+	public function wsfw_wallet_cart_totals_fee_html( $cart_totals_fee_html, $fees ) {
 
 		foreach ( $fees as $key => $fee ) {
 
-			if ( $fee == 'Via wallet' ) {
-				// gets the data to recalculate the cart total
-				$cart_totals_fee_html=$fees->amount;
+			if ( 'Via wallet' == $fee ) {
+				// gets the data to recalculate the cart total.
+				$cart_totals_fee_html = $fees->amount;
 
 				break;
 			}
 		}
-		return wc_price($cart_totals_fee_html);
+		return wc_price( $cart_totals_fee_html );
 	}
+	/**
+	 * Fix cart total html.
+	 *
+	 * @param array $cart_totals_fee_html as cart total html.
+	 * @return array
+	 */
 	public function wsfw_wallet_get_fee_taxes( $cart_totals_fee_html ) {
 
-		if( is_array($cart_totals_fee_html) && count($cart_totals_fee_html)>0) {
+		if ( is_array( $cart_totals_fee_html ) && count( $cart_totals_fee_html ) > 0 ) {
 
-			$cart_totals_fee_html[1]=floatval(0);
+			$cart_totals_fee_html[1] = floatval( 0 );
 		}
-		
+
 		return $cart_totals_fee_html;
 	}
+	/**
+	 * Fix total html via wallet.
+	 *
+	 * @param array $cart_totals_fee_html as total html via wallet.
+	 * @return array
+	 */
 	public function wsfw_wallet_cart_total( $cart_totals_fee_html ) {
-	
-		$cart_total     = WC()->cart->get_total(''); 
-	
+
+		$cart_total     = WC()->cart->get_total( '' );
+
 		 $fees = WC()->cart->get_fees();
 		 $fee_tax = 0;
 		 $fee_tax_data = array();
-	 
-		 foreach ( $fees as $key => $fee ) {
-	
-			 if ( $fee->name == 'Via wallet' ) {			
-					 $fee_tax      = $fee->tax;
-					 $fee_tax_data = $fee->tax_data;
-				 unset( $fees[$key] );
-				 break;
-			 }
-		 }
-	
+
+		foreach ( $fees as $key => $fee ) {
+
+			if ( 'Via wallet' == $fee->name ) {
+					$fee_tax      = $fee->tax;
+					$fee_tax_data = $fee->tax_data;
+				unset( $fees[ $key ] );
+				break;
+			}
+		}
+
 		 $cart_total = $cart_total - $fee_tax;
-		 
-		return  wc_price($cart_total);
+
+		return wc_price( $cart_total );
 	}
 
-	public function wsfw_wallet_add_order_detail( $order){
-		$fee_name ='';
-		$fee_total ='';
-		$fee_total_tax =
-		$order_fee_array=$order->get_items('fee') ;
-		foreach( $order_fee_array as $item_id => $item_fee ){
-		
-		if ( $item_fee->get_name() == 'Via wallet' ) {
-			$fee_name = $item_fee->get_name();
-		 
-			$fee_total = $item_fee->get_total();
-		
-			$fee_total_tax = $item_fee->get_total_tax();
-			$order->remove_item($item_id);	
-			break;
+	/**
+	 * Fix html via wallet at order details
+	 *
+	 * @param array $order as order.
+	 * @return void
+	 */
+	public function wsfw_wallet_add_order_detail( $order ) {
+		$fee_name = '';
+		$fee_total = '';
+		$fee_total_tax = '';
+		$order_fee_array = $order->get_items( 'fee' );
+		foreach ( $order_fee_array as $item_id => $item_fee ) {
+
+			if ( $item_fee->get_name() == 'Via wallet' ) {
+				$fee_name = $item_fee->get_name();
+
+				$fee_total = $item_fee->get_total();
+
+				$fee_total_tax = $item_fee->get_total_tax();
+				$order->remove_item( $item_id );
+				break;
+			}
 		}
-		
-		}
-		if ( ! empty( $fee_total_tax)) {
+		if ( ! empty( $fee_total_tax ) ) {
 			$order_id = $order->get_id();
-			$order_tax = get_post_meta($order_id,'_order_tax',true);
-			
-			
-			$order_tax= (floatval($order_tax )+abs( ($fee_total_tax) ));
-			
-			update_post_meta($order_id,'_order_tax',$order_tax);
-			
-			$_order_total = get_post_meta($order_id,'_order_total',true);
-			
-			$_order_total= (floatval($_order_total )+abs( ($fee_total_tax) ));
-			
-			
-			update_post_meta($order_id,'_order_total',$_order_total);
-			
-			
-			$order_total=$order->get_total();
-			$order_total=$order_total+abs( $fee_total_tax );
-			$order->set_total($order_total);
-			
+			$order_tax = get_post_meta( $order_id, '_order_tax', true );
+
+			$order_tax = ( floatval( $order_tax ) + abs( ( $fee_total_tax ) ) );
+
+			update_post_meta( $order_id, '_order_tax', $order_tax );
+
+			$_order_total = get_post_meta( $order_id, '_order_total', true );
+
+			$_order_total = ( floatval( $_order_total ) + abs( ( $fee_total_tax ) ) );
+
+			update_post_meta( $order_id, '_order_total', $_order_total );
+
+			$order_total = $order->get_total();
+			$order_total = $order_total + abs( $fee_total_tax );
+			$order->set_total( $order_total );
+
 			$item_fee = new WC_Order_Item_Fee();
-			
-			$item_fee->set_name( $fee_name  );
+
+			$item_fee->set_name( $fee_name );
 			$item_fee->set_amount( $fee_total );
 			$item_fee->set_tax_class( '' );
 			$item_fee->set_tax_status( '' );
 			$item_fee->set_total( $fee_total );
 			$item_fee->set_total_tax( 0 );
-			
-			// Add Fee item to the order
+
+			// Add Fee item to the order.
 			$order->add_item( $item_fee );
-			
+
 		}
-		
+
 		$order->save();
 	}
 
