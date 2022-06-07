@@ -158,19 +158,61 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_options_page() {
 		global $submenu;
+		// if ( empty( $GLOBALS['admin_page_hooks']['wps-plugins'] ) ) {
+		// 	add_menu_page( 'WP Swings', 'WP Swings', 'manage_options', 'wps-plugins', array( $this, 'wps_plugins_listing_page' ), WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/images/wpswings_logo.png', 15 );
+		// 	$wsfw_menus = apply_filters( 'wps_add_plugins_menus_array', array() );
+		// 	if ( is_array( $wsfw_menus ) && ! empty( $wsfw_menus ) ) {
+		// 		foreach ( $wsfw_menus as $wsfw_key => $wsfw_value ) {
+		// 			add_submenu_page( 'wps-plugins', $wsfw_value['name'], $wsfw_value['name'], 'manage_options', $wsfw_value['menu_link'], array( $wsfw_value['instance'], $wsfw_value['function'] ) );
+		// 		}
+		// 	}
+		// }
+
 		if ( empty( $GLOBALS['admin_page_hooks']['wps-plugins'] ) ) {
 			add_menu_page( 'WP Swings', 'WP Swings', 'manage_options', 'wps-plugins', array( $this, 'wps_plugins_listing_page' ), WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/images/wpswings_logo.png', 15 );
-			$wsfw_menus = apply_filters( 'wps_add_plugins_menus_array', array() );
+
+			//if ( wps_mfw_standard_check_multistep() ) {
+				add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wpswings_welcome_callback_function' ), 1 );
+			//}
+			$wsfw_menus =
+			// desc - filter for trial.
+			apply_filters( 'wps_add_plugins_menus_array', array() );
 			if ( is_array( $wsfw_menus ) && ! empty( $wsfw_menus ) ) {
-				foreach ( $wsfw_menus as $wsfw_key => $wsfw_value ) {
+				foreach ( $wsfw_menus as $mfw_key => $wsfw_value ) {
 					add_submenu_page( 'wps-plugins', $wsfw_value['name'], $wsfw_value['name'], 'manage_options', $wsfw_value['menu_link'], array( $wsfw_value['instance'], $wsfw_value['function'] ) );
 				}
 			}
+		} else {
+			if ( ! empty( $submenu['wps-plugins'] ) ) {
+
+				if ( ! in_array( 'Home', (array) $submenu['wps-plugins'] ) ) {
+					//if ( wps_mfw_standard_check_multistep() ) {
+						add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wpswings_welcome_callback_function' ), 1 );
+					//}
+				}
+			}
 		}
+
+
+
 		add_submenu_page( '', 'Edit User Wallet', '', 'edit_posts', 'wps-edit-wallet', array( $this, 'edit_wallet_of_user' ) );
 
 		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', 'Wallet Recharge Orders', 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
 	}
+
+
+
+	/**
+	 *
+	 * Adding the default menu into the WordPress menu.
+	 *
+	 * @name wpswings_callback_function
+	 * @since 1.0.0
+	 */
+	public function wpswings_welcome_callback_function() {
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/wallet-system-for-woocommerce-welcome.php';
+	}
+
 
 	/**
 	 * Removing default submenu of parent menu in backend dashboard
