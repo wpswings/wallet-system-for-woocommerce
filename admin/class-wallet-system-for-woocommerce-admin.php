@@ -543,7 +543,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'options'     => apply_filters(
 					'wsfw_cashback_type__array',
 					array(
-						''         => __( 'Please Select', 'wallet-system-for-woocommerce' ),
 						'cartwise' => __( 'Cart Wise', 'wallet-system-for-woocommerce' ),
 						'catwise'  => __( 'Category Wise', 'wallet-system-for-woocommerce' ),
 					)
