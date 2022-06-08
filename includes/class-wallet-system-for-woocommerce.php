@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.2.2';
+			$this->version = '2.2.4';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -300,8 +300,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_cashback_on_complete_order', 10, 3 );
 		// comment hook.
 		if ( self::is_enbale_usage_tracking() ) {
-			$this->loader->add_action( 'init', $wsfw_plugin_common, 'wsfw_wpswings_wallet_tracker_send_event' );
-			// $this->loader->add_action( 'wpswings_tracker_send_event', $wsfw_plugin_common, 'wsfw_wpswings_wallet_tracker_send_event' );
+			$this->loader->add_action( 'wpswings_tracker_send_event', $wsfw_plugin_common, 'wsfw_wpswings_wallet_tracker_send_event' );
 		}
 		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
 		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );
