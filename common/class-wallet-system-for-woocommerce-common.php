@@ -921,7 +921,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @name wps_membership_mfw_wpswings_tracker_send_event
 	 * @since 1.0.0
 	 */
-	public function wps_membership_mfw_wpswings_tracker_send_event( $override = false ) {
+	public function wsfw_wpswings_wallet_tracker_send_event( $override = false ) {
 		require_once WC()->plugin_path() . '/includes/class-wc-tracker.php';
 
 		$last_send = get_option( 'wpswings_tracker_last_send' );
@@ -944,8 +944,7 @@ class Wallet_System_For_Woocommerce_Common {
 		$params['extensions']['wallet_system_for_woocommerce'] = array(
 			'version' => WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION,
 			'site_url' => home_url(),
-			'membership_plans' => $this->wps_mfw_membership_plan_count(),
-			'members_data' => $this->wps_mfw_membership_get_all_members(),
+			'wallet_active_users' => $this->wps_wsfw_wallet_active_users_count(),
 		);
 		$params = apply_filters( 'wpswings_tracker_params', $params );
 
@@ -958,6 +957,45 @@ class Wallet_System_For_Woocommerce_Common {
 				'body'        => wp_json_encode( $params ),
 			)
 		);
+	}
+
+
+
+	/**
+	 * Wallet active users count.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_wallet_active_users_count(){
+		$args['meta_query'] = array(
+			'relation' => 'OR',
+			array(
+				'key'     => 'wps_wallet',
+				'compare' => 'EXISTS',
+			),
+			array(
+				'key'     => 'wps_wallet',
+				'compare' => 'NOT EXISTS',
+		
+			),
+		);
+		$user_data = new WP_User_Query( $args );
+		$user_data = $user_data->get_results();
+		$wps_wallet = array();
+		if ( ! empty( $user_data ) ) {
+			foreach ( $user_data as $all_user ) {
+				$wps_wallet[] = get_user_meta( $all_user->ID, 'wps_wallet',true );
+				// print_r($wps_wallet);
+			}
+		}
+		$count = 0;
+		foreach( $wps_wallet as $key=>$value){
+			if( $value > 0){
+				$count += count($value);
+			}
+			echo "<br>";
+		}
+		return $count;
 	}
 
 	/**
