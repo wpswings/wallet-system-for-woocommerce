@@ -332,7 +332,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' ),
 				'class'       => 'wsfw-select-class',
 				'options'     => array(
-					''    => __( 'Select option', 'wallet-system-for-woocommerce' ),
 					'total_pay'   => __( 'Total Wallet Amount', 'wallet-system-for-woocommerce' ),
 					'manual_pay'  => __( 'Manual Wallet Amount', 'wallet-system-for-woocommerce' ),
 				),
@@ -604,7 +603,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'options'     => apply_filters(
 					'wsfw_cashback_type__array',
 					array(
-						''        => __( 'Please Select', 'wallet-system-for-woocommerce' ),
 						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
 						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
 					)
