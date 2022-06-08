@@ -750,7 +750,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$wps_wsfwp_category_rule = get_term_meta( $term_id, '_wps_wsfwp_category_rule', true );
 			$check = false;
 			$check = apply_filters( 'wsfw_check_pro_plugin_common', $check );
-			if ( true == $check ) {
+			if ( true == $check && !empty($wps_wsfwp_category_rule) ) {
 				$wps_wsfw_multiselect_category_rule = array();
 				$wps_wsfw_multiselect_category_rule[] = $wps_wsfwp_category_rule;
 			}
