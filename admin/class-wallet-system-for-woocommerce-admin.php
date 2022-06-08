@@ -78,6 +78,11 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_style( 'wps-wallet-action-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-wallet-action.css', array(), $this->version, 'all' );
 
 		}
+		if ( isset( $screen->id ) && 'wp-swings_page_home' == $screen->id ) {
+			
+			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin-home.min.css', array(), $this->version, 'all' );
+		}
+		
 	}
 
 	/**
@@ -784,9 +789,23 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_save_tab_settings() {
 		global $wsfw_wps_wsfw_obj;
+
 		if ( isset( $_POST['wsfw_button_demo'] ) ) {
+
+
+
 			$nonce = ( isset( $_POST['updatenonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenonce'] ) ) : '';
+			
 			if ( wp_verify_nonce( $nonce ) ) {
+				
+				$screen = get_current_screen();
+				if ( isset( $screen->id ) && 'wp-swings_page_home' === $screen->id ) {
+					
+					$enable_tracking = ! empty( $_POST['wsfw_enable_tracking'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_enable_tracking'] ) ) : '';
+					update_option( 'wsfw_enable_tracking', $enable_tracking );
+					
+					return;
+				}
 				$wps_wsfw_gen_flag     = false;
 				$wsfw_genaral_settings = apply_filters( 'wsfw_general_settings_array', array() );
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );

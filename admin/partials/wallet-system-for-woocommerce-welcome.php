@@ -37,15 +37,18 @@ $wsfw_tab_key = '';
             $wsfw_genaral_settings = apply_filters(
                 'wsfw_home_settings_array',
                 array(
+                    
                     array(
-                        'title' => __( 'Enable Tracking', 'wallet-system-for-woocommerce' ),
-                        'type'  => 'radio-switch',
-                        'id'    => 'wsfw_enable_tracking',
-                        'value' => get_option( 'wsfw_enable_tracking' ),
-                        'class' => 'wsfw-radio-switch-class',
-                        'options' => array(
+                        'title'       => __( 'Enable Tracking', 'wallet-system-for-woocommerce' ),
+                        'type'        => 'radio-switch',
+                        'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+                        'name'        => 'wsfw_enable_tracking',
+                        'id'          => 'wsfw_enable_tracking',
+                        'value'       => get_option( 'wsfw_enable_tracking' ),
+                        'class'       => 'wsfw-radio-switch-class',
+                        'options'     => array(
                             'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
-                            'no' => __( 'NO', 'wallet-system-for-woocommerce' ),
+                            'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
                         ),
                     ),
                     array(
@@ -62,8 +65,10 @@ $wsfw_tab_key = '';
                     <?php
                     $wsfw_general_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_genaral_settings );
                     echo esc_html( $wsfw_general_html );
-                    wp_nonce_field( 'admin_save_data', 'wps_tabs_nonce' );
+                   
                     ?>
+                    <input type="hidden" id="updatenonce" name="updatenonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+	
                 </div>
             </form>
             <?php
