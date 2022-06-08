@@ -918,7 +918,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * Function is used for the sending the track data
 	 *
 	 * @param bool $override is the bool value to override tracking value.
-	 * @name wps_membership_mfw_wpswings_tracker_send_event
+	 * @name wsfw_wpswings_wallet_tracker_send_event
 	 * @since 1.0.0
 	 */
 	public function wsfw_wpswings_wallet_tracker_send_event( $override = false ) {
@@ -948,7 +948,7 @@ class Wallet_System_For_Woocommerce_Common {
 		);
 		$params = apply_filters( 'wpswings_tracker_params', $params );
 
-		$api_url = 'https://tracking.wpswings.com/wp-json/mfw-route/v1/mfw-testing-data/';
+		$api_url = 'https://tracking.wpswings.com/wp-json/mps-route/v1/mps-testing-data/';
 
 		$sucess = wp_safe_remote_post(
 			$api_url,
@@ -964,9 +964,9 @@ class Wallet_System_For_Woocommerce_Common {
 	/**
 	 * Wallet active users count.
 	 *
-	 * @return void
+	 * @return int
 	 */
-	public function wps_wsfw_wallet_active_users_count(){
+	public function wps_wsfw_wallet_active_users_count() {
 		$args['meta_query'] = array(
 			'relation' => 'OR',
 			array(
@@ -976,7 +976,7 @@ class Wallet_System_For_Woocommerce_Common {
 			array(
 				'key'     => 'wps_wallet',
 				'compare' => 'NOT EXISTS',
-		
+
 			),
 		);
 		$user_data = new WP_User_Query( $args );
@@ -984,16 +984,14 @@ class Wallet_System_For_Woocommerce_Common {
 		$wps_wallet = array();
 		if ( ! empty( $user_data ) ) {
 			foreach ( $user_data as $all_user ) {
-				$wps_wallet[] = get_user_meta( $all_user->ID, 'wps_wallet',true );
-				// print_r($wps_wallet);
+				$wps_wallet[] = get_user_meta( $all_user->ID, 'wps_wallet', true );
 			}
 		}
 		$count = 0;
-		foreach( $wps_wallet as $key=>$value){
-			if( $value > 0){
-				$count += count($value);
+		foreach ( $wps_wallet as $key => $value ) {
+			if ( $value > 0 ) {
+				$count += count( $value );
 			}
-			echo "<br>";
 		}
 		return $count;
 	}

@@ -239,7 +239,6 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_wallet_withdrawal_array', $wsfw_plugin_admin, 'wsfw_admin_withdrawal_setting_page', 10 );
 		$this->loader->add_action( 'wps_wsfw_before_common_settings_form', $wsfw_plugin_admin, 'wsfw_admin_save_tab_settings' );
 
-		
 		$saved_older_keys = get_option( 'wsfw_saved_older_walletkeys', '' );
 		if ( isset( $saved_older_keys ) && 'true' !== $saved_older_keys ) {
 			$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wsfw_upgrade_completed', 10 );
@@ -271,7 +270,7 @@ class Wallet_System_For_Woocommerce {
 		 $this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 30, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
 		$this->loader->add_action( 'wp_ajax_restrict_user_from_wallet_access', $wsfw_plugin_admin, 'restrict_user_from_wallet_access' );
-		
+
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
 			if ( wps_sfw_check_plugin_enable() ) {
 				$this->loader->add_filter( 'wsfw_general_extra_settings_array', $wsfw_plugin_admin, 'wps_wsfw_extra_settings_sfw', 30, 1 );
@@ -301,7 +300,8 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_cashback_on_complete_order', 10, 3 );
 		// comment hook.
 		if ( self::is_enbale_usage_tracking() ) {
-			$this->loader->add_action( 'wpswings_tracker_send_event', $wsfw_plugin_common, 'wsfw_wpswings_wallet_tracker_send_event' );
+			$this->loader->add_action( 'init', $wsfw_plugin_common, 'wsfw_wpswings_wallet_tracker_send_event' );
+			// $this->loader->add_action( 'wpswings_tracker_send_event', $wsfw_plugin_common, 'wsfw_wpswings_wallet_tracker_send_event' );
 		}
 		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
 		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );

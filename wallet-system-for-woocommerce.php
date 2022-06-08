@@ -35,7 +35,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 if ( is_plugin_active( 'woocommerce-wallet-system/woocommerce-wallet-system.php' ) ) {
 	$plug = get_plugins();
