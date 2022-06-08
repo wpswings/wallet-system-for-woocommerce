@@ -914,4 +914,61 @@ class Wallet_System_For_Woocommerce_Common {
 		}
 	}
 
+	/**
+	 * Function is used for the sending the track data
+	 *
+	 * @param bool $override is the bool value to override tracking value.
+	 * @name wps_membership_mfw_wpswings_tracker_send_event
+	 * @since 1.0.0
+	 */
+	public function wps_membership_mfw_wpswings_tracker_send_event( $override = false ) {
+		require_once WC()->plugin_path() . '/includes/class-wc-tracker.php';
+
+		$last_send = get_option( 'wpswings_tracker_last_send' );
+		if ( ! apply_filters( 'wpswings_tracker_send_override', $override ) ) {
+			// Send a maximum of once per week by default.
+			$last_send = $this->wps_wsfw_last_send_time();
+			if ( $last_send && $last_send > apply_filters( 'wpswings_tracker_last_send_interval', strtotime( '-1 week' ) ) ) {
+				return;
+			}
+		} else {
+			// Make sure there is at least a 1 hour delay between override sends, we don't want duplicate calls due to double clicking links.
+			$last_send = $this->wps_wsfw_last_send_time();
+			if ( $last_send && $last_send > strtotime( '-1 hours' ) ) {
+				return;
+			}
+		}
+		// Update time first before sending to ensure it is set.
+		update_option( 'wpswings_tracker_last_send', time() );
+		$params = WC_Tracker::get_tracking_data();
+		$params['extensions']['wallet_system_for_woocommerce'] = array(
+			'version' => WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION,
+			'site_url' => home_url(),
+			'membership_plans' => $this->wps_mfw_membership_plan_count(),
+			'members_data' => $this->wps_mfw_membership_get_all_members(),
+		);
+		$params = apply_filters( 'wpswings_tracker_params', $params );
+
+		$api_url = 'https://tracking.wpswings.com/wp-json/mfw-route/v1/mfw-testing-data/';
+
+		$sucess = wp_safe_remote_post(
+			$api_url,
+			array(
+				'method'      => 'POST',
+				'body'        => wp_json_encode( $params ),
+			)
+		);
+	}
+
+	/**
+	 * Get the updated time.
+	 *
+	 * @name mwb_wsfw_last_send_time
+	 *
+	 * @since 1.0.0
+	 */
+	public function wps_wsfw_last_send_time() {
+		return apply_filters( 'wpswings_tracker_last_send_time', get_option( 'wpswings_tracker_last_send', false ) );
+	}
+
 }

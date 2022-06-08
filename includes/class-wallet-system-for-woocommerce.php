@@ -300,6 +300,9 @@ class Wallet_System_For_Woocommerce {
 		// cashback hook.
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_cashback_on_complete_order', 10, 3 );
 		// comment hook.
+		if ( self::is_enbale_usage_tracking() ) {
+			$this->loader->add_action( 'wpswings_tracker_send_event', $wsfw_plugin_common, 'wsfw_makewebbetter_tracker_send_event' );
+		}
 		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
 		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );
 	}
@@ -378,6 +381,17 @@ class Wallet_System_For_Woocommerce {
 	 */
 	public function wsfw_run() {
 		$this->loader->wsfw_run();
+	}
+
+	/**
+	 * Check is usage tracking is enable
+	 *
+	 * @version 1.0.0
+	 * @name is_enbale_usage_tracking
+	 */
+	public static function is_enbale_usage_tracking() {
+		$check_is_enable = get_option( 'wsfw_enable_tracking', false );
+		return ! empty( $check_is_enable ) ? true : false;
 	}
 
 	/**
