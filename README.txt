@@ -233,7 +233,7 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 
 == Changelog ==
 
-= 2.2.4 - Released on 10 june 2022 =
+= 2.2.4 - Released on 09 june 2022 =
 * New: Bug Fixes.
 
 = 2.2.3 - Released on 25 May 2022 =
@@ -309,5 +309,5 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 * First version
 
 == Upgrade Notice ==
-= 2.2.4 - Released on 10 june 2022 =
+= 2.2.4 - Released on 09 june 2022 =
 * New: Bug Fixes.
