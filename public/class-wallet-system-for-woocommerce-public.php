@@ -1180,7 +1180,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 		return $cart_totals_fee_html;
 	}
-	
+
 	/**
 	 * Fix total html via wallet.
 	 *
@@ -1207,7 +1207,6 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( ! empty( $fee_tax ) ) {
 			$cart_total = $cart_total - $fee_tax;
 		}
-		
 
 		return wc_price( $cart_total );
 	}
@@ -1224,19 +1223,19 @@ class Wallet_System_For_Woocommerce_Public {
 		$fee_total_tax = '';
 		$order_fee_array = $order->get_items( 'fee' );
 		if ( ! empty( $fee_total_tax ) ) {
-		foreach ( $order_fee_array as $item_id => $item_fee ) {
+			foreach ( $order_fee_array as $item_id => $item_fee ) {
 
-			if ( $item_fee->get_name() == 'Via wallet' ) {
-				$fee_name = $item_fee->get_name();
+				if ( $item_fee->get_name() == 'Via wallet' ) {
+					$fee_name = $item_fee->get_name();
 
-				$fee_total = $item_fee->get_total();
+					$fee_total = $item_fee->get_total();
 
-				$fee_total_tax = $item_fee->get_total_tax();
-				$order->remove_item( $item_id );
-				break;
+					$fee_total_tax = $item_fee->get_total_tax();
+					$order->remove_item( $item_id );
+					break;
+				}
 			}
-		}
-		
+
 			$order_id = $order->get_id();
 			$order_tax = get_post_meta( $order_id, '_order_tax', true );
 
@@ -1268,7 +1267,6 @@ class Wallet_System_For_Woocommerce_Public {
 			$order->save();
 		}
 
-		
 	}
 
 }
