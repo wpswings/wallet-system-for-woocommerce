@@ -232,6 +232,9 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 
 == Changelog ==
 
+= 2.2.4 - Released on 09 June 2022 =
+* New: Bug Fixes.
+
 = 2.2.3 - Released on 25 May 2022 =
 * New: Credit amount on new user registration.
 
