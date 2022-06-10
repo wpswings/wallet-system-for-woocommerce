@@ -1222,7 +1222,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$fee_total = '';
 		$fee_total_tax = '';
 		$order_fee_array = $order->get_items( 'fee' );
-		if ( ! empty( $fee_total_tax ) ) {
+		
 			foreach ( $order_fee_array as $item_id => $item_fee ) {
 
 				if ( $item_fee->get_name() == 'Via wallet' ) {
@@ -1235,7 +1235,7 @@ class Wallet_System_For_Woocommerce_Public {
 					break;
 				}
 			}
-
+		if ( ! empty( $fee_total_tax ) ) {
 			$order_id = $order->get_id();
 			$order_tax = get_post_meta( $order_id, '_order_tax', true );
 
