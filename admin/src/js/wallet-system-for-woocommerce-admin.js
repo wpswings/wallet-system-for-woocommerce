@@ -52,6 +52,16 @@
 			jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
 		}
 
+		var cash_back_type = jQuery('#wps_wsfw_cashback_type').val();
+		if ( 'fixed' == cash_back_type ) {
+			jQuery("#wps_wsfw_cashback_amount_max").parent().parent().parent().hide();
+			jQuery("#wps_wsfw_cart_amount_min").parent().parent().parent().hide();	
+		} else {
+			jQuery("#wps_wsfw_cashback_amount_max").parent().parent().parent().show();
+			jQuery("#wps_wsfw_cart_amount_min").parent().parent().parent().show();
+		
+		}
+
 		// on clicking element change the input type password to text or vice-versa
 		$(document).on( 'click', '.wps-password-hidden', function() {
             if ($('.wps-form__password').attr('type') == 'text') {
@@ -142,6 +152,12 @@
 			var userid = $(this).attr('data-userid');
 			$('.wps_wallet-edit--popupwrap').show();
 			$('.wps_wallet-edit--popupwrap').find('.wps_wallet-edit-popup-btn').before('<input class="userid" type="hidden" name="user_id" value="'+userid+'">');
+		});
+		$(document).on("click", ".edit_wallet-check", function(e){
+			e.preventDefault(e);
+			var userid = $(this).attr('data-userid');
+			$('.wps_wallet-edit-check--popupwrap').show();
+			$('.wps_wallet-edit-check--popupwrap').find('.wps_wallet-edit-popup-btn-check').before('<input class="userid" type="hidden" name="user_id_check" value="'+userid+'">');
 		});
 
 		$(document).on("click", "#close_wallet_form", function(e) {
@@ -255,6 +271,17 @@
 				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide()
 			} else {
 				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
+			}
+		});
+		$('#wps_wsfw_cashback_type').on('change', function(){
+			var cash_back_rule = $(this).val();
+			// debugger;
+			if('fixed' == cash_back_rule ){
+				jQuery("#wps_wsfw_cashback_amount_max").parent().parent().parent().hide();
+				jQuery("#wps_wsfw_cart_amount_min").parent().parent().parent().hide();
+			} else {
+				jQuery("#wps_wsfw_cashback_amount_max").parent().parent().parent().show();
+				jQuery("#wps_wsfw_cart_amount_min").parent().parent().parent().show();
 			}
 		});
 

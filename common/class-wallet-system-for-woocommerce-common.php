@@ -457,7 +457,7 @@ class Wallet_System_For_Woocommerce_Common {
 					if ( ! isset( $wps_cash_back_provided ) || empty( $wps_cash_back_provided ) ) {
 						if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
 							if ( $order_total > 0 ) {
-								$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $order_total );
+								$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $order_total, $product_id, 1 );
 								if ( $cashback_amount_order > 0 ) {
 									$credited_amount     = apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
 									$walletamount       += $credited_amount;
@@ -471,12 +471,13 @@ class Wallet_System_For_Woocommerce_Common {
 							if ( ! empty( $order_items ) ) {
 								foreach ( $order_items as $order_key => $order_values ) {
 									$product_id   = $order_values->get_product_id();
+									$qty = $order_values->get_quantity();
 									$wps_cat_wise = $this->wps_get_cashback_cat_wise( $product_id );
 									if ( $wps_cat_wise ) {
 										$product_obj = wc_get_product( $product_id );
 										if ( is_object( $product_obj ) ) {
 											$product_price         = $order->get_line_subtotal( $order_values );
-											$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $product_price );
+											$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $product_price, $product_id, $qty );
 											if ( $cashback_amount_order > 0 ) {
 												$credited_amount     += apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
 												$updated             = true;
@@ -660,10 +661,12 @@ class Wallet_System_For_Woocommerce_Common {
 	/**
 	 * This function is used to calculate cashback.
 	 *
-	 * @param int $order_total contain order totl amount.
+	 * @param [type] $order_total contain order totol amount.
+	 * @param [type] $product_id contain product id.
+	 * @param [type] $qty contain quantity.
 	 * @return int
 	 */
-	public function wsfw_get_calculated_cashback_amount( $order_total ) {
+	public function wsfw_get_calculated_cashback_amount( $order_total, $product_id, $qty ) {
 		$cashback_amount         = 0;
 		$wsfw_max_cashbak_amount = ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20;
 		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10;
@@ -691,19 +694,30 @@ class Wallet_System_For_Woocommerce_Common {
 				}
 			}
 		} else {
+			$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
+			$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
 			if ( ! empty( $order_total ) ) {
 				if ( 'percent' === $wsfw_cashbak_type ) {
 					$total                        = $order_total;
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
-
-					if ( $wsfw_percent_cashback_amount <= $wsfw_max_cashbak_amount ) {
-						$cashback_amount += $wsfw_percent_cashback_amount;
+					$wps_wsfwp_cashback_type = get_term_meta( $product_cats_ids, '_wps_wsfwp_cashback_type', true );
+					if ( 'percent' == $wps_wsfwp_cashback_type && $wps_wsfwp_cashback_type ) {
+						if ( $wps_wsfwp_cashback_amount <= $wsfw_max_cashbak_amount ) {
+							$cashback_amount += $wps_wsfwp_cashback_amount;
+						} else {
+							$cashback_amount = $wsfw_max_cashbak_amount;
+						}
+					}
+					if ( $wps_wsfwp_cashback_amount <= $wsfw_max_cashbak_amount ) {
+						$cashback_amount += $wps_wsfwp_cashback_amount;
 					} else {
-						$cashback_amount += $wsfw_max_cashbak_amount;
+						$cashback_amount = $wsfw_max_cashbak_amount;
 					}
 				} else {
-					if ( $wsfw_cashbak_amount > 0 ) {
+					if ( $wps_wsfwp_cashback_amount > 0 && ! ( is_array( $wps_wsfwp_cashback_amount ) ) ) {
+						$cashback_amount += $wps_wsfwp_cashback_amount;
+					} else if ( $wsfw_cashbak_amount > 0 ) {
 						$cashback_amount += $wsfw_cashbak_amount;
 					}
 				}
@@ -721,7 +735,25 @@ class Wallet_System_For_Woocommerce_Common {
 	public function wps_get_cashback_cat_wise( $product_id ) {
 		if ( ! empty( $product_id ) ) {
 			$terms                              = get_the_terms( $product_id, 'product_cat' );
+
+			$max_id = $terms[0]->term_id;
+			$max_value = get_term_meta( $terms[0]->term_id, '_wps_wsfwp_category_rule', true );
+			foreach ( $terms as $key => $value ) {
+				$temp = get_term_meta( $value->term_id, '_wps_wsfwp_category_rule', true );
+				if ( $max_value < $temp ) {
+					$max_value = $temp;
+					$max_id = $value->term_id;
+				}
+			}
+			$term_id = $max_id;
 			$wps_wsfw_multiselect_category_rule = get_option( 'wps_wsfw_multiselect_category_rule', array() );
+			$wps_wsfwp_category_rule = get_term_meta( $term_id, '_wps_wsfwp_category_rule', true );
+			$check = false;
+			$check = apply_filters( 'wsfw_check_pro_plugin_common', $check );
+			if ( true == $check && !empty($wps_wsfwp_category_rule) ) {
+				$wps_wsfw_multiselect_category_rule = array();
+				$wps_wsfw_multiselect_category_rule[] = $wps_wsfwp_category_rule;
+			}
 			$wps_wsfw_multiselect_category_rule = is_array( $wps_wsfw_multiselect_category_rule ) && ! empty( $wps_wsfw_multiselect_category_rule ) ? $wps_wsfw_multiselect_category_rule : array();
 			$flag                               = false;
 			if ( ! empty( $wps_wsfw_multiselect_category_rule ) && is_array( $wps_wsfw_multiselect_category_rule ) ) {
@@ -736,6 +768,7 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 		}
 		return $flag;
+		;
 	}
 
 	/** Comment feature start here */
@@ -879,6 +912,99 @@ class Wallet_System_For_Woocommerce_Common {
 			);
 			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 		}
+	}
+
+	/**
+	 * Function is used for the sending the track data
+	 *
+	 * @param bool $override is the bool value to override tracking value.
+	 * @name wsfw_wpswings_wallet_tracker_send_event
+	 * @since 1.0.0
+	 */
+	public function wsfw_wpswings_wallet_tracker_send_event( $override = false ) {
+		require_once WC()->plugin_path() . '/includes/class-wc-tracker.php';
+
+		$last_send = get_option( 'wpswings_tracker_last_send' );
+		if ( ! apply_filters( 'wpswings_tracker_send_override', $override ) ) {
+			// Send a maximum of once per week by default.
+			$last_send = $this->wps_wsfw_last_send_time();
+			if ( $last_send && $last_send > apply_filters( 'wpswings_tracker_last_send_interval', strtotime( '-1 week' ) ) ) {
+				return;
+			}
+		} else {
+			// Make sure there is at least a 1 hour delay between override sends, we don't want duplicate calls due to double clicking links.
+			$last_send = $this->wps_wsfw_last_send_time();
+			if ( $last_send && $last_send > strtotime( '-1 hours' ) ) {
+				return;
+			}
+		}
+		// Update time first before sending to ensure it is set.
+		update_option( 'wpswings_tracker_last_send', time() );
+		$params = WC_Tracker::get_tracking_data();
+		$params['extensions']['wallet_system_for_woocommerce'] = array(
+			'version' => WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION,
+			'site_url' => home_url(),
+			'wallet_active_users' => $this->wps_wsfw_wallet_active_users_count(),
+		);
+		$params = apply_filters( 'wpswings_tracker_params', $params );
+
+		$api_url = 'https://tracking.wpswings.com/wp-json/mps-route/v1/mps-testing-data/';
+
+		$sucess = wp_safe_remote_post(
+			$api_url,
+			array(
+				'method'      => 'POST',
+				'body'        => wp_json_encode( $params ),
+			)
+		);
+	}
+
+
+
+	/**
+	 * Wallet active users count.
+	 *
+	 * @return int
+	 */
+	public function wps_wsfw_wallet_active_users_count() {
+		$args['meta_query'] = array(
+			'relation' => 'OR',
+			array(
+				'key'     => 'wps_wallet',
+				'compare' => 'EXISTS',
+			),
+			array(
+				'key'     => 'wps_wallet',
+				'compare' => 'NOT EXISTS',
+
+			),
+		);
+		$user_data = new WP_User_Query( $args );
+		$user_data = $user_data->get_results();
+		$wps_wallet = array();
+		if ( ! empty( $user_data ) ) {
+			foreach ( $user_data as $all_user ) {
+				$wps_wallet[] = get_user_meta( $all_user->ID, 'wps_wallet', true );
+			}
+		}
+		$count = 0;
+		foreach ( $wps_wallet as $key => $value ) {
+			if ( $value > 0 ) {
+				$count += count( $value );
+			}
+		}
+		return $count;
+	}
+
+	/**
+	 * Get the updated time.
+	 *
+	 * @name mwb_wsfw_last_send_time
+	 *
+	 * @since 1.0.0
+	 */
+	public function wps_wsfw_last_send_time() {
+		return apply_filters( 'wpswings_tracker_last_send_time', get_option( 'wpswings_tracker_last_send', false ) );
 	}
 
 }

@@ -36,10 +36,18 @@ class Wallet_System_For_Woocommerce_Activator {
 			foreach ( $blog_ids as $blog_id ) {
 				switch_to_blog( $blog_id );
 				self::create_table_and_product();
+
+				wp_clear_scheduled_hook( 'wpswings_tracker_send_event' );
+				wp_schedule_event( time() + 10, apply_filters( 'wpswings_tracker_event_recurrence', 'daily' ), 'wpswings_tracker_send_event' );
+
 				restore_current_blog();
 			}
 		} else {
 			self::create_table_and_product();
+
+			wp_clear_scheduled_hook( 'wpswings_tracker_send_event' );
+			wp_schedule_event( time() + 10, apply_filters( 'wpswings_tracker_event_recurrence', 'daily' ), 'wpswings_tracker_send_event' );
+
 		}
 	}
 

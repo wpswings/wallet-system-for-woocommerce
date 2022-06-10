@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.2.2';
+			$this->version = '2.2.4';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -237,6 +237,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_import_wallet_array', $wsfw_plugin_admin, 'wsfw_admin_import_wallets_page', 10 );
 		// wallet withdrawal settings for user.
 		$this->loader->add_filter( 'wsfw_wallet_withdrawal_array', $wsfw_plugin_admin, 'wsfw_admin_withdrawal_setting_page', 10 );
+		$this->loader->add_action( 'wps_wsfw_before_common_settings_form', $wsfw_plugin_admin, 'wsfw_admin_save_tab_settings' );
 
 		$saved_older_keys = get_option( 'wsfw_saved_older_walletkeys', '' );
 		if ( isset( $saved_older_keys ) && 'true' !== $saved_older_keys ) {
@@ -298,6 +299,9 @@ class Wallet_System_For_Woocommerce {
 		// cashback hook.
 		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_cashback_on_complete_order', 10, 3 );
 		// comment hook.
+		if ( self::is_enbale_usage_tracking() ) {
+			$this->loader->add_action( 'wpswings_tracker_send_event', $wsfw_plugin_common, 'wsfw_wpswings_wallet_tracker_send_event' );
+		}
 		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
 		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );
 	}
@@ -336,7 +340,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_before_cart_table', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
 			$this->loader->add_action( 'woocommerce_before_checkout_form', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
 			// show cashback notice on shop page.
-			$this->loader->add_action( 'woocommerce_shop_loop_item_title', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
+			$this->loader->add_action( 'woocommerce_after_shop_loop_item_title', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 			$this->loader->add_action( 'woocommerce_single_product_summary', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 			// show comment notice.
 			$this->loader->add_filter( 'woocommerce_product_review_comment_form_args', $wsfw_plugin_public, 'wps_wsfw_woo_show_comment_notice', 1000, 1 );
@@ -345,6 +349,10 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'user_register', $wsfw_plugin_public, 'wps_wsfw_new_customer_registerd', 10, 1 );
 			// daily visit balance.
 			$this->loader->add_action( 'wp', $wsfw_plugin_public, 'wps_wsfw_daily_visit_balance', 100 );
+			$this->loader->add_filter( 'woocommerce_cart_totals_fee_html', $wsfw_plugin_public, 'wsfw_wallet_cart_totals_fee_html', 10, 2 );
+			$this->loader->add_filter( 'woocommerce_cart_get_fee_taxes', $wsfw_plugin_public, 'wsfw_wallet_get_fee_taxes', 10, 1 );
+			$this->loader->add_filter( 'woocommerce_cart_total', $wsfw_plugin_public, 'wsfw_wallet_cart_total', 10, 1 );
+			$this->loader->add_action( 'woocommerce_checkout_order_created', $wsfw_plugin_public, 'wsfw_wallet_add_order_detail' );
 		}
 
 	}
@@ -372,6 +380,17 @@ class Wallet_System_For_Woocommerce {
 	 */
 	public function wsfw_run() {
 		$this->loader->wsfw_run();
+	}
+
+	/**
+	 * Check is usage tracking is enable
+	 *
+	 * @version 1.0.0
+	 * @name is_enbale_usage_tracking
+	 */
+	public static function is_enbale_usage_tracking() {
+		$check_is_enable = get_option( 'wsfw_enable_tracking', false );
+		return ! empty( $check_is_enable ) ? true : false;
 	}
 
 	/**

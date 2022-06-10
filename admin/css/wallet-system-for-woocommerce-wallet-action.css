@@ -43,3 +43,164 @@ body {font-family: Arial, Helvetica, sans-serif;}
   text-decoration: none;
   cursor: pointer;
 }
+
+/* Previous Org Issue fix start */
+
+/* activation notice fix start */
+.thirty-days-notice .wps-header-title #wps-wsfw-day-count {
+  margin: 0;
+  color: #000;
+}
+
+.thirty-days-notice .wps-header-title {
+  color: #f44336;
+  letter-spacing: 0.4px;
+}
+
+.thirty-days-notice .wps-header-title a {
+  color: #d80f00;
+}
+
+/* activation notice fix end */
+
+.wps-wsfw-gen-section-form .wsfw-secion-wrap .wps-form-group .wps-form-group__control {
+  flex: 0 0 70%;
+  max-width: 70%;
+}
+
+.wps-wsfw-gen-section-form .wsfw-secion-wrap .wps-form-group .wps-form-group__label {
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+
+.wps-form-group__control .mdc-text-field-helper-line {
+  margin-top: 10px;
+}
+
+.wps-wsfw-gen-section-form .wsfw-secion-wrap .wps-form-group {
+  margin: 0 -15px 0;
+}
+
+.wsfw-secion-wrap #wsfw_button_demo,
+.wsfw-secion-wrap #wsfw_button_cashback,
+.wsfw-secion-wrap #wsfw_button_wallet_action {
+  margin-top: 35px;
+}
+
+.wallet-system-for-woocommerce-general .wps-wsfw-gen-section-form {
+  padding: 20px;
+}
+
+.wallet-system-wallet-setting form.wps-wpg-gen-section-form .wps-form-group__control {
+  padding: 0;
+}
+
+.wallet-system-wallet-setting form#form_update_wallet .wps-form-group__control {
+  padding: 0 0 0 15px;
+}
+
+.wallet-system-rest-api .wps-wsfw-wallet-system-rest-api {
+  overflow: auto;
+}
+
+/* Previous Org Issue fix ends */
+
+@media screen and (max-width: 782px) {
+
+  /* Previous Org Issue fix start */
+
+  .wps-header-container h1.wps-header-title {
+      max-width: 95%;
+  }
+
+  .thirty-days-notice .wps-header-title #wps-wsfw-day-count {
+      margin: 0;
+  }
+
+  .wps-wsfw-gen-section-form .wsfw-secion-wrap .wps-form-group .wps-form-group__control {
+      flex: 0 0 80%;
+      max-width: 80%;
+  }
+
+  .wps-wsfw-gen-section-form .wsfw-secion-wrap .wps-form-group .wps-form-group__label {
+      flex: 0 0 80%;
+      max-width: 80%;
+  }
+
+  .wallet-system-wallet-setting #form_update_wallet {
+      margin: 0 0 25px;
+  }
+
+  .wps-wpg-gen-section-form-wrapper form.wps-wpg-gen-section-form {
+      padding: 15px 0;
+  }
+
+  .wps-wpg-gen-section-form #import_wallets {
+      margin: 0 0 0 15px;
+  }
+
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap {
+      padding: 20px 30px 70px;
+  }
+
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap .search-box input[type="search"] {
+      width: calc(100% - 165px);
+  }
+
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap .search-box {
+      margin-bottom: 135px;
+  }
+
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap .search-box input[type="submit"] {
+      display: block;
+  }
+
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap .tablenav.top {
+      margin: 0;
+      height: 0;
+  }
+
+  .wps-overview__wrapper .wps-overview__content .wps-overview__keywords .wps-overview__keywords-item div.wps-overview__keywords-card {
+      padding: 10px;
+  }
+
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap .wp-swings_page_wallet_system_for_woocommerce_menu td::before {
+      padding-right: 10px;
+  }
+
+  /* Previous Org Issue fix ends */
+}
+
+@media screen and (max-width: 580px) {
+
+  .wps-section.wallet-system-withdrawal-setting .wps-wpg-gen-section-table-wrap {
+      padding-bottom: 150px;
+  }
+
+  .wps-section.wallet-system-withdrawal-setting .wps-wpg-gen-section-table-wrap .bottom {
+      bottom: -160px;
+  }
+}
+
+
+@media screen and (max-width: 420px) {
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap {
+      padding: 20px 10px 70px;
+  }
+
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap .search-box input[type="search"] {
+      width: calc(100% - 90px);
+  }
+
+  .wallet-system-wallet-setting .wps-wpg-gen-section-table-wrap .search-box {
+      margin-bottom: 155px;
+  }
+
+  section.wallet-system-wallet-transactions .wps-wpg-gen-section-table-wrap {
+      padding-bottom: 80px;
+  }
+
+  .wallet-system-wallet-transactions .wps-wpg-gen-section-table-wrap .dataTables_wrapper .bottom {
+      bottom: -120px;
+  }
+}

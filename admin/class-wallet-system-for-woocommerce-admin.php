@@ -78,6 +78,18 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_style( 'wps-wallet-action-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-wallet-action.css', array(), $this->version, 'all' );
 
 		}
+		if ( isset( $screen->id ) && 'wp-swings_page_home' == $screen->id ) {
+			wp_enqueue_style( 'wps-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
+
+			wp_enqueue_style( 'wps-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-wsfw-meterial-css2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-wsfw-meterial-lite', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
+
+			wp_enqueue_style( 'wps-wsfw-meterial-icons-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/icon.css', array(), time(), 'all' );
+
+			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin-home.min.css', array(), $this->version, 'all' );
+		}
+
 	}
 
 	/**
@@ -90,7 +102,8 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$screen = get_current_screen();
 
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
+		
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id  ) {
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-wsfw-metarial-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -158,19 +171,46 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_options_page() {
 		global $submenu;
+
 		if ( empty( $GLOBALS['admin_page_hooks']['wps-plugins'] ) ) {
 			add_menu_page( 'WP Swings', 'WP Swings', 'manage_options', 'wps-plugins', array( $this, 'wps_plugins_listing_page' ), WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/images/wpswings_logo.png', 15 );
-			$wsfw_menus = apply_filters( 'wps_add_plugins_menus_array', array() );
+
+			add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wpswings_welcome_callback_function' ), 1 );
+			$wsfw_menus =
+			// desc - filter for trial.
+			apply_filters( 'wps_add_plugins_menus_array', array() );
 			if ( is_array( $wsfw_menus ) && ! empty( $wsfw_menus ) ) {
-				foreach ( $wsfw_menus as $wsfw_key => $wsfw_value ) {
+				foreach ( $wsfw_menus as $mfw_key => $wsfw_value ) {
 					add_submenu_page( 'wps-plugins', $wsfw_value['name'], $wsfw_value['name'], 'manage_options', $wsfw_value['menu_link'], array( $wsfw_value['instance'], $wsfw_value['function'] ) );
 				}
 			}
+		} else {
+			if ( ! empty( $submenu['wps-plugins'] ) ) {
+
+				if ( ! in_array( 'Home', (array) $submenu['wps-plugins'] ) ) {
+					add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wpswings_welcome_callback_function' ), 1 );
+				}
+			}
 		}
+
 		add_submenu_page( '', 'Edit User Wallet', '', 'edit_posts', 'wps-edit-wallet', array( $this, 'edit_wallet_of_user' ) );
 
 		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', 'Wallet Recharge Orders', 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
 	}
+
+
+
+	/**
+	 *
+	 * Adding the default menu into the WordPress menu.
+	 *
+	 * @name wpswings_callback_function
+	 * @since 1.0.0
+	 */
+	public function wpswings_welcome_callback_function() {
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/wallet-system-for-woocommerce-welcome.php';
+	}
+
 
 	/**
 	 * Removing default submenu of parent menu in backend dashboard
@@ -295,12 +335,11 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title'       => __( 'Select Partial Payment Option', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
 				'name'        => 'wsfw_wallet_partial_payment_method_options',
-				'description' => __( 'This is select field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select Value for Manual Method or Partial Method', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wsfw_wallet_partial_payment_method_options',
 				'value'       => get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' ),
 				'class'       => 'wsfw-select-class',
 				'options'     => array(
-					''    => __( 'Select option', 'wallet-system-for-woocommerce' ),
 					'total_pay'   => __( 'Total Wallet Amount', 'wallet-system-for-woocommerce' ),
 					'manual_pay'  => __( 'Manual Wallet Amount', 'wallet-system-for-woocommerce' ),
 				),
@@ -543,7 +582,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'options'     => apply_filters(
 					'wsfw_cashback_type__array',
 					array(
-						''         => __( 'Please Select', 'wallet-system-for-woocommerce' ),
 						'cartwise' => __( 'Cart Wise', 'wallet-system-for-woocommerce' ),
 						'catwise'  => __( 'Category Wise', 'wallet-system-for-woocommerce' ),
 					)
@@ -573,7 +611,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'options'     => apply_filters(
 					'wsfw_cashback_type__array',
 					array(
-						''        => __( 'Please Select', 'wallet-system-for-woocommerce' ),
 						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
 						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
 					)
@@ -743,9 +780,21 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_save_tab_settings() {
 		global $wsfw_wps_wsfw_obj;
+
 		if ( isset( $_POST['wsfw_button_demo'] ) ) {
+
 			$nonce = ( isset( $_POST['updatenonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenonce'] ) ) : '';
+
 			if ( wp_verify_nonce( $nonce ) ) {
+
+				$screen = get_current_screen();
+				if ( isset( $screen->id ) && 'wp-swings_page_home' === $screen->id ) {
+
+					$enable_tracking = ! empty( $_POST['wsfw_enable_tracking'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_enable_tracking'] ) ) : '';
+					update_option( 'wsfw_enable_tracking', $enable_tracking );
+
+					return;
+				}
 				$wps_wsfw_gen_flag     = false;
 				$wsfw_genaral_settings = apply_filters( 'wsfw_general_settings_array', array() );
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
