@@ -339,6 +339,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$walletamount -= $debited_amount;
 					}
 					update_user_meta( $userid, 'wps_wallet', $walletamount );
+					update_post_meta( $order_id, 'wps_wallet_update_on_thankyou' ,'done' );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
@@ -657,7 +658,10 @@ class Wallet_System_For_Woocommerce_Public {
 
 			}
 		}
-		$this->wps_order_status_changed( $order );
+		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou' , true );
+		if ( $check_wallet_thankyou != 'done'){
+			$this->wps_order_status_changed( $order );
+		}
 	}
 
 	/**
