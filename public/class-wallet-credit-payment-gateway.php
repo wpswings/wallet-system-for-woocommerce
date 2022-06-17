@@ -27,7 +27,13 @@ if ( ! ( array_key_exists( 'woocommerce/woocommerce.php', $active_plugins ) || i
  * @return array $gateways all WC gateways + Wallet gateway
  */
 function wps_wsfw_wallet_gateway( $gateways ) {
-	$gateways[] = 'Wallet_Credit_Payment_Gateway';
+	$customer_id = get_current_user_id();
+	if ( $customer_id > 0 ) {
+		$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
+		if ( ! empty( $walletamount ) ) {
+			$gateways[] = 'Wallet_Credit_Payment_Gateway';
+		}
+	}
 	return $gateways;
 }
 add_filter( 'woocommerce_payment_gateways', 'wps_wsfw_wallet_gateway', 10, 1 );
