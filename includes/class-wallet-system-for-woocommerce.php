@@ -228,7 +228,8 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_registration_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_registration_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_daily_visit_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_daily_visit_settings_page', 10 );
 		$this->loader->add_action( 'wsfw_wallet_action_settings_comment_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_comment_array', 10 );
-
+		$this->loader->add_filter( 'wsfw_wallet_action_settings_auto_topup_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_auto_topup_settings_page', 10 );
+		
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_cashback_settings_page', 10 );
 
@@ -353,6 +354,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_cart_get_fee_taxes', $wsfw_plugin_public, 'wsfw_wallet_get_fee_taxes', 10, 1 );
 			$this->loader->add_filter( 'woocommerce_cart_total', $wsfw_plugin_public, 'wsfw_wallet_cart_total', 10, 1 );
 			$this->loader->add_action( 'woocommerce_checkout_order_created', $wsfw_plugin_public, 'wsfw_wallet_add_order_detail' );
+			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
 		}
 
 	}
@@ -674,6 +676,7 @@ class Wallet_System_For_Woocommerce {
 	 * @since  1.0.0
 	 */
 	public function wps_wsfw_plug_generate_html( $wsfw_components = array() ) {
+		$age = array("day"=>"Days", "week"=>"Weeks", "month"=>"Months", "year"=>"Years");
 
 		if ( is_array( $wsfw_components ) && ! empty( $wsfw_components ) ) {
 			foreach ( $wsfw_components as $wsfw_component ) {
@@ -953,6 +956,78 @@ class Wallet_System_For_Woocommerce {
 
 							<?php
 							break;
+							case 'subscription_select1':
+								?>
+							<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
+								</div>
+								<div class="wps-form-group__control wps-pl-4">
+									<div class="mdc-form-field">
+									
+
+									<p class="form-field wps_sfw_subscription_number_field ">
+										
+										<label class="mdc-text-field mdc-text-field--outlined">
+											<span class="mdc-notched-outline mdc-notched-outline--no-label">
+											<span class="mdc-notched-outline__leading"></span>
+											<span class="mdc-notched-outline__notch">
+																					</span>
+											<span class="mdc-notched-outline__trailing"></span>
+										</span>
+									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? get_option( 'wps_wsfw_subscriptions_per_interval' ) : 1 ?>" placeholder="Enter comment amount">
+										</label>
+										<select id="wps_sfw_subscription_interval" name="wps_sfw_subscription_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo get_option( 'wps_sfw_subscription_interval', 'day' ) ?>">
+										<?php foreach($age as $x => $x_value) {
+		  									
+											  echo '<option '. ( $x == get_option( 'wps_sfw_subscription_interval', 'day' ) ? 'selected="selected"' : '' ) .' value="' . $x . '">' . $x_value . '</option>';
+											}	
+										?>
+										</select>
+										<span class="woocommerce-help-tip"></span>		</p>
+										
+
+
+										<label for="checkbox-1"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
+									</div>
+								</div>
+							</div>
+								<?php
+								break;
+								case 'subscription_select2':
+									?>
+								<div class="wps-form-group">
+									<div class="wps-form-group__label">
+										<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
+									</div>
+									<div class="wps-form-group__control wps-pl-4">
+										<div class="mdc-form-field">
+	
+										<p class="form-field wps_sfw_subscription_number_field ">
+											
+											<label class="mdc-text-field mdc-text-field--outlined">
+												<span class="mdc-notched-outline mdc-notched-outline--no-label">
+												<span class="mdc-notched-outline__leading"></span>
+												<span class="mdc-notched-outline__notch">i
+																						</span>
+												<span class="mdc-notched-outline__trailing"></span>
+											</span>
+										<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) : 1 ?>" placeholder="Enter comment amount">
+											</label>
+											<select id="wps_sfw_subscription_expiry_interval" disabled="disabled" name="wps_sfw_subscription_expiry_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) ?>">
+											<?php foreach($age as $x => $x_value) {
+		  									
+											  echo '<option '. ( $x == get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) ? 'selected="selected"' : '' ) .' value="' . $x . '">' . $x_value . '</option>';
+											}	
+											?>
+											</select>
+											<span class="woocommerce-help-tip"></span>		</p>
+											<label for="checkbox-1"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
+										</div>
+									</div>
+								</div>
+									<?php
+									break;
 
 						case 'multi':
 							?>
