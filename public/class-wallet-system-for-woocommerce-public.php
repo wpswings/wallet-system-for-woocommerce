@@ -125,18 +125,19 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
 			$wallet_amount  = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-
-			if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
-				unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-			} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
-				unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-				unset( $available_gateways['cod'] );
-			} elseif ( isset( $wallet_amount ) && $wallet_amount >= 0 ) {
-				if ( $wallet_amount < $wps_cart_total ) {
+			if ( ! empty( WC()->session ) ) {
+				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
+					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
+					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					unset( $available_gateways['cod'] );
+				} elseif ( isset( $wallet_amount ) && $wallet_amount >= 0 ) {
+					if ( $wallet_amount < $wps_cart_total ) {
+						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					}
+				} elseif ( isset( $wallet_amount ) && $wallet_amount <= 0 ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 				}
-			} elseif ( isset( $wallet_amount ) && $wallet_amount <= 0 ) {
-				unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 			}
 		}
 		return $available_gateways;
