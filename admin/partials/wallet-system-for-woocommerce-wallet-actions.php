@@ -41,7 +41,7 @@ $wsfw_wallet_action_comment_settings      = apply_filters( 'wsfw_wallet_action_s
 	<?php
 		  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_auto_topup_settings );
 		  echo wp_kses_post( $wsfw_wallet_action_html );
-	  ?>
+	?>
 	  </br>
   </div>
   <hr>

@@ -33,7 +33,7 @@ if ( is_array( $wsfw_min_max_value ) ) {
 			<input type="number" id="wps_wallet_recharge" step="0.01" data-min="<?php echo esc_attr( $min_value ); ?>" data-max="<?php echo esc_attr( $max_value ); ?>" name="wps_wallet_recharge_amount" required="">
 		</p>
 		<p class="error"></p>
-		<?php 
+		<?php
 		do_action( 'wsfw_make_wallet_recharge_subscription' );
 		?>
 		<p class="wps-wallet-field-container form-row">

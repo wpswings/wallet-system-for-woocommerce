@@ -25,11 +25,11 @@ $http_host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $
 $request_url = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 $current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
 if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wallet'] ) ) {
-	
+
 	$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
 	if ( wp_verify_nonce( $nonce ) ) {
 		unset( $_POST['wps_recharge_wallet'] );
-		
+
 		if ( empty( $_POST['wps_wallet_recharge_amount'] ) ) {
 			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		} else {
@@ -39,7 +39,7 @@ if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wal
 				$user_id = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 
 			}
-		
+
 			$product_id = ( isset( $_POST['product_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : '';
 			WC()->session->set(
 				'wallet_recharge',

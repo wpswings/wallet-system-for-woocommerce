@@ -339,7 +339,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$walletamount -= $debited_amount;
 					}
 					update_user_meta( $userid, 'wps_wallet', $walletamount );
-					update_post_meta( $order_id, 'wps_wallet_update_on_thankyou' ,'done' );
+					update_post_meta( $order_id, 'wps_wallet_update_on_thankyou', 'done' );
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
@@ -597,7 +597,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wps_update_price_cart( $cart_object ) {
-		
+
 		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 
 		$wps_wsfw_wallet_action_auto_topup_enable = get_option( 'wps_wsfw_wallet_action_auto_topup_enable', '' );
@@ -605,8 +605,6 @@ class Wallet_System_For_Woocommerce_Public {
 		$wps_wsfw_subscriptions_per_interval = get_option( 'wps_wsfw_subscriptions_per_interval', '' );
 		$wps_sfw_subscription_expiry_interval = get_option( 'wps_sfw_subscription_expiry_interval', '' );
 		$wps_wsfw_subscriptions_expiry_per_interval = get_option( 'wps_wsfw_subscriptions_expiry_per_interval', '' );
-		
-		
 
 		$cart_items = $cart_object->cart_contents;
 		if ( WC()->session->__isset( 'recharge_amount' ) ) {
@@ -616,60 +614,59 @@ class Wallet_System_For_Woocommerce_Public {
 				foreach ( $cart_items as $key => $value ) {
 
 					if ( $value['product_id'] == $wallet_id ) {
-						
+
 						if ( ! empty( $wps_wsfw_wallet_action_auto_topup_enable ) && 'on' == $wps_wsfw_wallet_action_auto_topup_enable ) {
 							$is_user_subscription = false;
 							$is_user_subscription = apply_filters( 'wps_wsfw_get_user_choice_of_subscription', $is_user_subscription );
-							
-							if ($is_user_subscription) {
+
+							if ( $is_user_subscription ) {
 								$user_id = get_current_user_id();
 								$user_choice = get_user_meta( $user_id, 'wps_wallet_recharge_as_subscription', true );
 
 								if ( 'yes' == $user_choice ) {
 									update_post_meta( $wallet_id, '_wps_sfw_product', 'yes' );
-					
+
 									update_post_meta( $wallet_id, 'wps_sfw_subscription_number', intval( $wps_wsfw_subscriptions_per_interval ) );
 									update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', $wps_sfw_subscription_interval );
-							
+
 									update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', intval( $wps_wsfw_subscriptions_expiry_per_interval ) );
 									update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', $wps_sfw_subscription_expiry_interval );
 									update_post_meta( $wallet_id, '_regular_price', $price );
-							
+
 								} else {
-									
+
 									update_post_meta( $wallet_id, '_wps_sfw_product', 'off' );
-					
-								update_post_meta( $wallet_id, 'wps_sfw_subscription_number', '' );
-								update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', '' );
-					
-								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', '' );
-								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
-								update_post_meta( $wallet_id, '_regular_price', '' );
+
+									update_post_meta( $wallet_id, 'wps_sfw_subscription_number', '' );
+									update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', '' );
+
+									update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', '' );
+									update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
+									update_post_meta( $wallet_id, '_regular_price', '' );
 
 								}
 							} else {
 								update_post_meta( $wallet_id, '_wps_sfw_product', 'yes' );
-					
+
 								update_post_meta( $wallet_id, 'wps_sfw_subscription_number', intval( $wps_wsfw_subscriptions_per_interval ) );
 								update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', $wps_sfw_subscription_interval );
-						
+
 								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', intval( $wps_wsfw_subscriptions_expiry_per_interval ) );
 								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', $wps_sfw_subscription_expiry_interval );
 								update_post_meta( $wallet_id, '_regular_price', $price );
-						
+
 							}
-							
-							} else{
-					
-								update_post_meta( $wallet_id, '_wps_sfw_product', 'off' );
-					
-								update_post_meta( $wallet_id, 'wps_sfw_subscription_number', '' );
-								update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', '' );
-					
-								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', '' );
-								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
-								update_post_meta( $wallet_id, '_regular_price', '' );
-							}
+						} else {
+
+							update_post_meta( $wallet_id, '_wps_sfw_product', 'off' );
+
+							update_post_meta( $wallet_id, 'wps_sfw_subscription_number', '' );
+							update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', '' );
+
+							update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', '' );
+							update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
+							update_post_meta( $wallet_id, '_regular_price', '' );
+						}
 					}
 
 					$value['data']->set_price( $price );
@@ -727,8 +724,8 @@ class Wallet_System_For_Woocommerce_Public {
 
 			}
 		}
-		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou' , true );
-		if ( $check_wallet_thankyou != 'done'){
+		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
+		if ( 'done' != $check_wallet_thankyou ) {
 			$this->wps_order_status_changed( $order );
 		}
 	}
@@ -1295,19 +1292,19 @@ class Wallet_System_For_Woocommerce_Public {
 		$fee_total = '';
 		$fee_total_tax = '';
 		$order_fee_array = $order->get_items( 'fee' );
-		
-			foreach ( $order_fee_array as $item_id => $item_fee ) {
 
-				if ( $item_fee->get_name() == 'Via wallet' ) {
-					$fee_name = $item_fee->get_name();
+		foreach ( $order_fee_array as $item_id => $item_fee ) {
 
-					$fee_total = $item_fee->get_total();
+			if ( $item_fee->get_name() == 'Via wallet' ) {
+				$fee_name = $item_fee->get_name();
 
-					$fee_total_tax = $item_fee->get_total_tax();
-					$order->remove_item( $item_id );
-					break;
-				}
+				$fee_total = $item_fee->get_total();
+
+				$fee_total_tax = $item_fee->get_total_tax();
+				$order->remove_item( $item_id );
+				break;
 			}
+		}
 		if ( ! empty( $fee_total_tax ) ) {
 			$order_id = $order->get_id();
 			$order_tax = get_post_meta( $order_id, '_order_tax', true );
@@ -1346,19 +1343,19 @@ class Wallet_System_For_Woocommerce_Public {
 	 * Listing of wallet order in subscription order list
 	 *
 	 * @param bool $wps_wsfw_is_order is a wallet order or not.
-	 * @param int $parent_order_id is parent order id of subscription.
-	 * @return void
+	 * @param int  $parent_order_id is parent order id of subscription.
+	 * @return bool
 	 */
 	public function wps_wsfw_check_parent_order_for_subscription_listing( $wps_wsfw_is_order, $parent_order_id ) {
 		if ( ! empty( $parent_order_id ) ) {
-			$check_order =  get_post_type( $parent_order_id );
+			$check_order = get_post_type( $parent_order_id );
 			if ( 'wallet_shop_order' == $check_order ) {
 					$wps_wsfw_is_order = true;
 			} else {
 					$wps_wsfw_is_order = false;
 			}
 		}
-		return 	$wps_wsfw_is_order;
+		return $wps_wsfw_is_order;
 	}
 
 }

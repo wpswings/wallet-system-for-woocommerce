@@ -186,9 +186,18 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		} else {
-			if ( ! empty( $submenu['wps-plugins'] ) ) {
+			$is_home_exists = false;
+			if ( ! empty( $submenu['wps-plugins'] ) ) {				
+				foreach ($submenu['wps-plugins'] as $key => $value) {
+					if ( !empty($value) && is_array($value)) {
+						if ( 'Home' == $value[0] ) {
+							$is_home_exists = true;
+						}
+					}
+				}
 
-				if ( ! in_array( 'Home', (array) $submenu['wps-plugins'] ) ) {
+				if ( ! $is_home_exists ) {
+				
 					add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wpswings_welcome_callback_function' ), 1 );
 				}
 			}
