@@ -18,6 +18,8 @@ if ( ! function_exists( 'show_message_on_form_submit' ) ) {
 	 * @param string $wpg_message message to be shown on form submission.
 	 * @param string $type error type.
 	 * @return void
+	 * 
+	 * 
 	 */
 	function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';

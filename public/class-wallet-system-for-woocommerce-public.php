@@ -250,7 +250,6 @@ class Wallet_System_For_Woocommerce_Public {
 				WC()->session->__unset( 'recharge_amount' );
 			}
 		}
-
 	}
 
 	/**
