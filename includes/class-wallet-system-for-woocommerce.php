@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.2.4';
+			$this->version = '2.2.5';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -676,8 +676,8 @@ class Wallet_System_For_Woocommerce {
 	 * @since  1.0.0
 	 */
 	public function wps_wsfw_plug_generate_html( $wsfw_components = array() ) {
-		$age = array("day"=>"Days", "week"=>"Weeks", "month"=>"Months", "year"=>"Years");
-
+		$subscription_duration = array( "day"=>"Days", "week"=>"Weeks" );
+		$subscription_duration = apply_filters( 'wsfw_subscription_type__array',$subscription_duration );
 		if ( is_array( $wsfw_components ) && ! empty( $wsfw_components ) ) {
 			foreach ( $wsfw_components as $wsfw_component ) {
 				if ( ! empty( $wsfw_component['type'] ) && ! empty( $wsfw_component['id'] ) ) {
@@ -978,7 +978,7 @@ class Wallet_System_For_Woocommerce {
 									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? get_option( 'wps_wsfw_subscriptions_per_interval' ) : 1 ?>" placeholder="Enter comment amount">
 										</label>
 										<select id="wps_sfw_subscription_interval" name="wps_sfw_subscription_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo get_option( 'wps_sfw_subscription_interval', 'day' ) ?>">
-										<?php foreach($age as $x => $x_value) {
+										<?php foreach($subscription_duration as $x => $x_value) {
 		  									
 											  echo '<option '. ( $x == get_option( 'wps_sfw_subscription_interval', 'day' ) ? 'selected="selected"' : '' ) .' value="' . $x . '">' . $x_value . '</option>';
 											}	
@@ -1015,7 +1015,7 @@ class Wallet_System_For_Woocommerce {
 										<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) : 1 ?>" placeholder="Enter comment amount">
 											</label>
 											<select id="wps_sfw_subscription_expiry_interval" disabled="disabled" name="wps_sfw_subscription_expiry_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) ?>">
-											<?php foreach($age as $x => $x_value) {
+											<?php foreach($subscription_duration as $x => $x_value) {
 		  									
 											  echo '<option '. ( $x == get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) ? 'selected="selected"' : '' ) .' value="' . $x . '">' . $x_value . '</option>';
 											}	

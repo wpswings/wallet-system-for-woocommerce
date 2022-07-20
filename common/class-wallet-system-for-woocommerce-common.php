@@ -203,6 +203,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
 			if ( wp_verify_nonce( $nonce ) ) {
 				unset( $_POST['wps_recharge_wallet'] );
+				
 				if ( empty( $_POST['wps_wallet_recharge_amount'] ) ) {
 					$this->show_message_on_wallet_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 				} else {

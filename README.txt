@@ -6,7 +6,7 @@ Requires at least: 5.1.0
 Tested up to: 6.0.0
 WC requires at least: 5.1.0
 WC tested up to: 6.5.1
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -233,7 +233,7 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 
 == Changelog ==
 
-= 2.2.4 - Released on 09 june 2022 =
+= 2.2.5 - Released on 09 june 2022 =
 * New: Bug Fixes.
 
 = 2.2.3 - Released on 25 May 2022 =
@@ -309,5 +309,5 @@ For more detail Please visit [**WP Swings Knowledge base**](https://support.wpsw
 * First version
 
 == Upgrade Notice ==
-= 2.2.4 - Released on 09 june 2022 =
+= 2.2.5 - Released on 09 june 2022 =
 * New: Bug Fixes.

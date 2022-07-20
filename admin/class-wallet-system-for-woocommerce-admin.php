@@ -130,7 +130,8 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
 			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.min.js', array(), time(), false );
-
+			wp_enqueue_script( 'wps-admin-wallet-action-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wallet-system-for-woocommerce-action.js', array(), time(), false );
+			
 		}
 
 		wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-wallet-recharge.js', array( 'jquery' ), $this->version, false );
@@ -485,17 +486,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				'id'          => 'wps_wsfw_subscriptions_expiry_interval',
 				'value'       => get_option( 'wps_wsfw_subscriptions_expiry_interval', 'days' ),
 				'class'       => 'wsfw-radio-switch-class',
-				'options'     => apply_filters(
-					'wsfw_cashback_type__array',
-					array(
-						'day'   => __( 'Days', 'wallet-system-for-woocommerce' ),
-						'week'  => __( 'Weeks', 'wallet-system-for-woocommerce' ),
-						'month' => __( 'Months', 'wallet-system-for-woocommerce' ),
-						'year'  => __( 'Years', 'wallet-system-for-woocommerce' ),
-					)
-				),
 			),
 		);
+	
 		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_auto_topup_extra_settings_array', $wsfw_settings_template );
 		return $wsfw_settings_template;
 	}
