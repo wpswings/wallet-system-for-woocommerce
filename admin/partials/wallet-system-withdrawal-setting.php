@@ -56,7 +56,7 @@ global $wsfw_wps_wsfw_obj;
 				<tr>
 					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Withdrawal ID', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'User ID', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'User Name', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Status1', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Withdrawal Amount', 'wallet-system-for-woocommerce' ); ?></th>
