@@ -79,11 +79,12 @@ global $wsfw_wps_wsfw_obj;
 					foreach ( $withdrawal_requests as $request ) {
 						$withdrawal_amount = get_post_meta( $request->ID, 'wps_wallet_withdrawal_amount', true );
 						$user_id           = get_post_meta( $request->ID, 'wallet_user_id', true );
+						$user_name         = get_the_author_meta('display_name', $user_id);
 						?>
 							<tr>
 								<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
 								<td><?php echo esc_html( $request->ID ); ?></td>
-								<td><?php echo esc_html( $user_id ); ?></td>
+								<td><a href="<?php  echo esc_url( get_edit_profile_url( $user_id ) ); ?>"><?php echo esc_html( $user_name );   ?></a></td>
 								<td><?php echo esc_html( $request->post_status ); ?></td>
 								<td>
 									<?php
