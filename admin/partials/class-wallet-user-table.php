@@ -121,6 +121,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatewallet'] ) ) {
 	unset( $_POST['confirm_updatewallet'] );
 	$update = true;
+
 	if ( empty( $_POST['wsfw_wallet_amount_for_users'] ) ) {
 		$wps_wsfw_error_text = esc_html__( 'Please enter any amount', 'wallet-system-for-woocommerce' );
 		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
@@ -151,7 +152,12 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 				if ( 'credit' === $wallet_option ) {
 					$wallet          += $wallet_amount;
 					$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
-					$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
+					if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
+						$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+					} else {
+						$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
+					}
+					
 					$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
 				} elseif ( 'debit' === $wallet_option ) {
 					if ( $wallet < $wallet_amount ) {

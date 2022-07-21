@@ -1792,7 +1792,16 @@ class Wallet_System_For_Woocommerce_Admin {
 					'debit'  => __( 'Debit', 'wallet-system-for-woocommerce' ),
 				),
 			),
-
+			array(
+				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce' ),
+				'type'        => 'textarea',
+				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_wallet_transaction_details_for_users',
+				'id'          => 'wsfw_wallet_transaction_details_for_users',
+				'value'       => '',
+				'class'       => 'wsfw-number-class',
+				'placeholder' => 'Transaction Detail',
+			),
 			array(
 				'type'        => 'button',
 				'name'        => 'update_wallet',
