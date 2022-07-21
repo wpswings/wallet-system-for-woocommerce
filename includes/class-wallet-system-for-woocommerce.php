@@ -262,6 +262,8 @@ class Wallet_System_For_Woocommerce {
 
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_admin, 'wps_wsfw_remove_customer_details_in_emails', 5, 1 );
+			$this->loader->add_action( 'wsfw_general_settings_before', $wsfw_plugin_admin, 'wsfw_general_settings_before_action' );
+			
 		}
 
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_withdrawal_post_type', 20 );
@@ -355,6 +357,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_cart_total', $wsfw_plugin_public, 'wsfw_wallet_cart_total', 10, 1 );
 			$this->loader->add_action( 'woocommerce_checkout_order_created', $wsfw_plugin_public, 'wsfw_wallet_add_order_detail' );
 			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
+		
 		}
 
 	}

@@ -1000,7 +1000,7 @@ class Wallet_System_For_Woocommerce_Common {
 	/**
 	 * Get the updated time.
 	 *
-	 * @name mwb_wsfw_last_send_time
+	 * @name wps_wsfw_last_send_time
 	 *
 	 * @since 1.0.0
 	 */

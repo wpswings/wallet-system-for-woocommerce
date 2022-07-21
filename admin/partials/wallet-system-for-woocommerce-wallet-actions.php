@@ -39,6 +39,7 @@ $wsfw_wallet_action_comment_settings      = apply_filters( 'wsfw_wallet_action_s
 	<div class="wsfw-secion-wallet-topup">
 	<span><b><?php esc_html_e( 'Wallet Auto Top up', 'wallet-system-for-woocommerce' ); ?></b></span>
 	<?php
+	do_action( 'wsfw_general_settings_before' );
 		  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_auto_topup_settings );
 		  echo wp_kses_post( $wsfw_wallet_action_html );
 	?>

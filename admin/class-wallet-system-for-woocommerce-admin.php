@@ -124,6 +124,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_ajax_error'           => __( 'An error occured!', 'wallet-system-for-woocommerce' ),
 					'wsfw_amount_error'         => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
 					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
+					'wsfw_is_subscription'		=> $this->wps_wsfw_subscription_active_plugin(),
 				)
 			);
 
@@ -146,6 +147,84 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_script( 'wallet-recharge-admin-js' );
 
 	}
+
+
+	/**
+	 * Check subscription plugin is active or not.
+	 *
+	 * @since   1.0.0
+	 */
+	public function wps_wsfw_subscription_active_plugin() {
+		$is_installed_msg = false;
+		$plugin_text_domain = 'subscriptions-for-woocommerce';
+		$installed_plugins = get_plugins();
+
+		foreach ( $installed_plugins as $key => $value ) {
+			if ( $value['TextDomain'] != $plugin_text_domain ) {
+				$is_installed_msg = true;
+			}
+		}
+		if ( false == $is_installed_msg ) {
+			return true;
+		}
+		if ( ! is_plugin_active( 'subscriptions-for-woocommerce/subscriptions-system-for-woocommerce.php' ) ) {
+			$is_installed_msg = true;
+		} else {
+			return false;
+		}
+		return $is_installed_msg;
+	}
+
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	public function wsfw_general_settings_before_action() {
+
+		$is_installed_msg = '';
+		$plugin_text_domain = 'subscriptions-for-woocommerce';
+		$installed_plugins = get_plugins();
+		$not_active = false;
+		foreach ( $installed_plugins as $key => $value ) {
+
+			if ( $value['TextDomain'] == $plugin_text_domain ) {
+					$not_active = true;
+			}
+		}
+
+		if ( false != $not_active ) {
+
+			if ( ! is_plugin_active( 'subscriptions-for-woocommerce/subscriptions-for-woocommerce.php' ) ) {
+				$is_installed_msg = __( 'To use this feature please activate Subscription Plugin', 'wallet-system-for-woocommerce' );
+			}
+		} else {
+			$is_installed_msg = __( 'To use this feature please install Subscription Plugin', 'wallet-system-for-woocommerce' );
+
+		}
+		?>
+			<div class="wps-c-modal">
+				<div class="wps-c-modal__cover"></div>
+				<div class="wps-c-modal__message">
+					<span class="wps-c-modal__close">+</span>
+					<div class="wps-c-modal__content">
+						<span class="wps-c-modal__content-text">
+							<?php
+							echo esc_html( $is_installed_msg );
+							if ( true != $not_active ) {
+								?>
+									<a href="https://wordpress.org/plugins/subscriptions-for-woocommerce/">
+							 <?php esc_html_e( 'click here', 'wallet-system-for-woocommerce' ); } ?>  </a>   </span>
+					</div>
+					<div class="wps-c-modal__confirm">
+					<span class="wps-c-modal__confirm-button wps-c-modal__yes">Close</span>
+					</div>
+				</div>
+			</div>
+			<?php
+	}
+
 
 	/**
 	 * Get wallet recharge order count.
@@ -1792,16 +1871,17 @@ class Wallet_System_For_Woocommerce_Admin {
 					'debit'  => __( 'Debit', 'wallet-system-for-woocommerce' ),
 				),
 			),
-			array(
-				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce' ),
-				'type'        => 'textarea',
-				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce' ),
+			
+			 array(
+				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'text',
+				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce-pro' ),
 				'name'        => 'wsfw_wallet_transaction_details_for_users',
 				'id'          => 'wsfw_wallet_transaction_details_for_users',
 				'value'       => '',
-				'class'       => 'wsfw-number-class',
-				'placeholder' => 'Transaction Detail',
-			),
+				'placeholder' => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
+				'class'       => 'wws-text-class',
+			 ),
 			array(
 				'type'        => 'button',
 				'name'        => 'update_wallet',

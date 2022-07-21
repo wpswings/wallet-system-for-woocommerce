@@ -295,4 +295,22 @@
 		}
 	});
 
+	$(document).on( 'click', '#wps_wsfw_wallet_action_auto_topup_enable', function() {
+		debugger;
+		
+		if ( wsfw_admin_param.wsfw_is_subscription == "1" ) {
+			if ( jQuery('#wps_wsfw_wallet_action_auto_topup_enable').prop('checked') == true ) {
+				jQuery('.wps-c-modal__cover').addClass('show-c_modal_cover');
+				jQuery('.wps-c-modal__message').addClass('show-c_modal_message');
+				jQuery('.wps-c-modal__cover, .wps-c-modal__close,.wps-c-modal__confirm-button').on('click', function() {
+					jQuery('.wps-c-modal__cover').removeClass('show-c_modal_cover');
+					jQuery('.wps-c-modal__message').removeClass('show-c_modal_message');
+				});
+				jQuery('#wps_wsfw_wallet_action_auto_topup_enable').prop('checked',false)
+			}
+		  }
+
+	});
+
+
 })( jQuery );
