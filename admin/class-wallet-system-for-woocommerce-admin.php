@@ -102,8 +102,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$screen = get_current_screen();
 
-		
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id  ) {
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-wsfw-metarial-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -131,7 +130,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
 			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.min.js', array(), time(), false );
 			wp_enqueue_script( 'wps-admin-wallet-action-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wallet-system-for-woocommerce-action.js', array(), time(), false );
-			
+
 		}
 
 		wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-wallet-recharge.js', array( 'jquery' ), $this->version, false );
@@ -187,9 +186,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 		} else {
 			$is_home_exists = false;
-			if ( ! empty( $submenu['wps-plugins'] ) ) {				
-				foreach ($submenu['wps-plugins'] as $key => $value) {
-					if ( !empty($value) && is_array($value)) {
+			if ( ! empty( $submenu['wps-plugins'] ) ) {
+				foreach ( $submenu['wps-plugins'] as $key => $value ) {
+					if ( ! empty( $value ) && is_array( $value ) ) {
 						if ( 'Home' == $value[0] ) {
 							$is_home_exists = true;
 						}
@@ -197,7 +196,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 
 				if ( ! $is_home_exists ) {
-				
+
 					add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wpswings_welcome_callback_function' ), 1 );
 				}
 			}
@@ -497,7 +496,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-radio-switch-class',
 			),
 		);
-	
+
 		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_auto_topup_extra_settings_array', $wsfw_settings_template );
 		return $wsfw_settings_template;
 	}
@@ -738,14 +737,14 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
 				$wsfw_wallet_action_settings_daily_visit      = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 				$wsfw_wallet_action_settings_comment_array    = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
-				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST[ 'wps_sfw_subscription_interval' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wps_sfw_subscription_interval' ] ) ) : '' );
-				update_option( 'wps_wsfw_subscriptions_per_interval', ! empty( $_POST[ 'wps_wsfw_subscriptions_per_interval' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wps_wsfw_subscriptions_per_interval' ] ) ) : '' );
-				update_option( 'wps_sfw_subscription_expiry_interval', ! empty( $_POST[ 'wps_sfw_subscription_interval' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wps_sfw_subscription_interval' ] ) ) : '' );
-				update_option( 'wps_wsfw_subscriptions_expiry_per_interval', ! empty( $_POST[ 'wps_wsfw_subscriptions_expiry_per_interval' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wps_wsfw_subscriptions_expiry_per_interval' ] ) ) : '' );
-			
+				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
+				update_option( 'wps_wsfw_subscriptions_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_per_interval'] ) ) : '' );
+				update_option( 'wps_sfw_subscription_expiry_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
+				update_option( 'wps_wsfw_subscriptions_expiry_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_expiry_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_expiry_per_interval'] ) ) : '' );
+
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_daily_visit );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_settings_wallet_action_auto_topup );
-				
+
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_comment_array );
 
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
@@ -753,8 +752,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wsfw_button_index = array_search( 'button', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
 				}
 				$this->wsfw_admin_save_data( $wsfw_settings_wallet_action_new_registration, $wps_wsfw_gen_flag );
-				
-				
+
 			} else {
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 			}
