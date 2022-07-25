@@ -291,3 +291,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .show-c_modal_message {
   left: 50%;
 }
+
+
+.wps_wallet_transaction_search th{
+  text-align: right;
+  flex: 1;
+  padding-right: 10px;
+}

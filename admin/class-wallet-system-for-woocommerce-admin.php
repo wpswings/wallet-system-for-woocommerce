@@ -145,7 +145,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 			wp_enqueue_script( 'wallet-recharge-admin-js' );
-
 	}
 
 
@@ -167,7 +166,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( false == $is_installed_msg ) {
 			return true;
 		}
-		if ( ! is_plugin_active( 'subscriptions-for-woocommerce/subscriptions-system-for-woocommerce.php' ) ) {
+		if ( ! is_plugin_active( 'subscriptions-for-woocommerce/subscriptions-for-woocommerce.php' ) ) {
 			$is_installed_msg = true;
 		} else {
 			return false;

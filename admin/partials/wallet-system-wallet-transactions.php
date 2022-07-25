@@ -21,8 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<table>
 			<tbody>
-				<tr>
-					<th><?php esc_html_e( 'Search', 'wallet-system-for-woocommerce' ); ?></td>
+				<tr class='wps_wallet_transaction_search'>
+					<th><?php esc_html_e( 'Search ', 'wallet-system-for-woocommerce' ); ?></td>
 					<td><input type="text" id="search_in_table" placeholder="Enter your Keyword"></td>
 				</tr>
 				<tr>
@@ -80,8 +80,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 						?>
 						<tr>
 						<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
-							<td><?php echo esc_html( $display_name ); ?></td>
-							<td><?php echo esc_html( $useremail ); ?></td>
+							<td><?php echo ! empty( esc_html( $display_name ) ) ? esc_html( $display_name ) : 'Guest#('.$transaction->user_id.')'; ?></td>
+							<td><?php echo ! empty( esc_html( $useremail ) ) ? esc_html( $useremail ) : '---'; ?></td>
 							<td><?php echo esc_html( $user_role ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td><?php echo wp_kses_post( $transaction->payment_method ); ?></td>
