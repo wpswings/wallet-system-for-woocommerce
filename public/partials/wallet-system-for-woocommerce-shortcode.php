@@ -18,8 +18,6 @@ if ( ! function_exists( 'show_message_on_form_submit' ) ) {
 	 * @param string $wpg_message message to be shown on form submission.
 	 * @param string $type error type.
 	 * @return void
-	 * 
-	 * 
 	 */
 	function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		$wpg_notice = '<div class="woocommerce"><p class="' . esc_attr( $type ) . '">' . $wpg_message . '</p>	</div>';
@@ -343,7 +341,7 @@ if ( ( $current_url == $main_url ) || ( $current_url == $page_url ) ) {
 	$flag = true;
 }
 $wallet_keys = array_keys( $wallet_tabs );
-do_action( 'wps_wcb_wallet_display_wrapper_for_QR' );
+do_action( 'wps_wcb_wallet_display_wrapper_for_qr' );
 ?>
 <div class="wps_wcb_wallet_display_wrapper">
 	<div class="wps_wcb_wallet_balance_container"> 

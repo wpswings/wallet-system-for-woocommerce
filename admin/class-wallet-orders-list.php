@@ -140,10 +140,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 			$post_status = isset( $_REQUEST['post_status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['post_status'] ) ) : '';
 
-			$table_name = $wpdb->prefix . 'posts';
-
+			$table_post = $wpdb->prefix . 'posts';
+			$table_pastmeta = $wpdb->prefix . 'posts';
+			$table_post_id = $wpdb->prefix . 'posts.ID';
+			$table_postmeta_id = $wpdb->prefix . 'posts.post_id';
 			$data = array();
-
 			if ( isset( $_REQUEST['s'] ) ) {
 
 				$search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
@@ -151,17 +152,21 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 				$search = trim( $search );
 
 				if ( isset( $post_status ) && ! empty( $post_status ) ) {
-					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT DISTINCT ID FROM ' . $wpdb->prefix . 'posts INNER JOIN ' . $wpdb->postmeta . ' ON ' . $wpdb->prefix . 'posts.ID = ' . $wpdb->postmeta . '.post_id WHERE `post_type` = "wallet_shop_order" AND `post_status` =  %s AND ( `ID` = %s OR ( ( `meta_key` = "_billing_first_name" OR `meta_key` = "_billing_last_name" OR `meta_key` = "_billing_address_1" OR `meta_key` = "_billing_address_2" OR `meta_key` = "_billing_city" OR `meta_key` = "_billing_postcode" OR `meta_key` = "_billing_country" OR `meta_key` = "_billing_state" OR `meta_key` = "_billing_company" OR `meta_key` = "_billing_email" OR `meta_key` = "_billing_phone" ) AND `meta_value` LIKE %s ) )', $post_status, $search, $search ) );
-				} else {
-					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT DISTINCT ID FROM ' . $wpdb->prefix . 'posts INNER JOIN ' . $wpdb->postmeta . ' ON ' . $wpdb->prefix . 'posts.ID = ' . $wpdb->postmeta . '.post_id WHERE `post_type` = "wallet_shop_order" AND ( NOT `post_status` = "auto-draft" && NOT `post_status` = "trash" ) AND ( `ID` = %s OR ( ( `meta_key` = "_billing_first_name" OR `meta_key` = "_billing_last_name" OR `meta_key` = "_billing_address_1" OR `meta_key` = "_billing_address_2" OR `meta_key` = "_billing_city" OR `meta_key` = "_billing_postcode" OR `meta_key` = "_billing_country" OR `meta_key` = "_billing_state" OR `meta_key` = "_billing_company" OR `meta_key` = "_billing_email" OR `meta_key` = "_billing_phone" ) AND `meta_value` LIKE %s ) )', $search, $search ) );
-				}
-			} else {
-				if ( isset( $post_status ) && ! empty( $post_status ) ) {
 					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND `post_status` = %s ORDER BY `ID` DESC', $post_status ) );
 				} else {
+					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND `post_status` = %s ORDER BY `ID` DESC', $post_status ) );
+				}
+			} else {
+
+				if ( isset( $post_status ) && ! empty( $post_status ) ) {
+
+					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND `post_status` = %s ORDER BY `ID` DESC', $post_status ) );
+				} else {
+
 					$orders = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND ( NOT `post_status` = "auto-draft" && NOT `post_status` = "trash" ) ORDER BY `ID` DESC' );
 				}
 			}
+
 			if ( ! empty( $orders ) && is_array( $orders ) ) {
 				foreach ( $orders as $order ) {
 					$order_data = wc_get_order( $order->ID );
@@ -187,9 +192,7 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 					);
 				}
 			}
-
 			return $data;
-
 		}
 
 		/**

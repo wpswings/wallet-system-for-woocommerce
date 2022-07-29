@@ -80,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						?>
 						<tr>
 						<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
-							<td><?php echo ! empty( esc_html( $display_name ) ) ? esc_html( $display_name ) : 'Guest#('.$transaction->user_id.')'; ?></td>
+							<td><?php echo ! empty( esc_html( $display_name ) ) ? esc_html( $display_name ) : 'Guest#(' . esc_html( $transaction->user_id ) . ')'; ?></td>
 							<td><?php echo ! empty( esc_html( $useremail ) ) ? esc_html( $useremail ) : '---'; ?></td>
 							<td><?php echo esc_html( $user_role ); ?></td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>

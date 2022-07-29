@@ -124,7 +124,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_ajax_error'           => __( 'An error occured!', 'wallet-system-for-woocommerce' ),
 					'wsfw_amount_error'         => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
 					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
-					'wsfw_is_subscription'		=> $this->wps_wsfw_subscription_active_plugin(),
+					'wsfw_is_subscription'      => $this->wps_wsfw_subscription_active_plugin(),
 				)
 			);
 
@@ -1870,8 +1870,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					'debit'  => __( 'Debit', 'wallet-system-for-woocommerce' ),
 				),
 			),
-			
-			 array(
+
+			array(
 				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
 				'type'        => 'text',
 				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce-pro' ),
@@ -1880,7 +1880,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => '',
 				'placeholder' => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
 				'class'       => 'wws-text-class',
-			 ),
+			),
 			array(
 				'type'        => 'button',
 				'name'        => 'update_wallet',

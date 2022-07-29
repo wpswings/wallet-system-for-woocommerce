@@ -157,7 +157,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					} else {
 						$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
 					}
-					
+
 					$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
 				} elseif ( 'debit' === $wallet_option ) {
 					if ( $wallet < $wallet_amount ) {
