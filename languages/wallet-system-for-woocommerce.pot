@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wallet System For WooCommerce 2.2.5\n"
-"POT-Creation-Date: 2022-08-02 12:42+0530\n"
+"POT-Creation-Date: 2022-08-02 16:21+0530\n"
 "PO-Revision-Date: 2022-06-09 09:49+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -549,7 +549,7 @@ msgstr ""
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:178
 #: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:133
 #: public/class-wallet-credit-payment-gateway.php:184
-#: public/class-wallet-system-for-woocommerce-public.php:345
+#: public/class-wallet-system-for-woocommerce-public.php:347
 #: public/partials/wallet-system-for-woocommerce-public-display.php:114
 #: public/partials/wallet-system-for-woocommerce-public-display.php:147
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:123
@@ -573,7 +573,7 @@ msgstr ""
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:178
 #: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:133
 #: public/class-wallet-credit-payment-gateway.php:184
-#: public/class-wallet-system-for-woocommerce-public.php:345
+#: public/class-wallet-system-for-woocommerce-public.php:347
 #: public/partials/wallet-system-for-woocommerce-public-display.php:114
 #: public/partials/wallet-system-for-woocommerce-public-display.php:147
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:123
@@ -602,10 +602,10 @@ msgstr ""
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:182
 #: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:137
 #: public/class-wallet-credit-payment-gateway.php:188
-#: public/class-wallet-system-for-woocommerce-public.php:303
-#: public/class-wallet-system-for-woocommerce-public.php:349
-#: public/class-wallet-system-for-woocommerce-public.php:1133
-#: public/class-wallet-system-for-woocommerce-public.php:1197
+#: public/class-wallet-system-for-woocommerce-public.php:305
+#: public/class-wallet-system-for-woocommerce-public.php:351
+#: public/class-wallet-system-for-woocommerce-public.php:1135
+#: public/class-wallet-system-for-woocommerce-public.php:1199
 #: public/partials/wallet-system-for-woocommerce-public-display.php:118
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:127
 msgid "Wallet updating notification"
@@ -634,8 +634,8 @@ msgstr ""
 #: admin/class-wallet-system-for-woocommerce-admin.php:1179
 #: admin/class-wallet-system-for-woocommerce-admin.php:1270
 #: admin/class-wallet-system-for-woocommerce-admin.php:2190
-#: public/class-wallet-system-for-woocommerce-public.php:329
-#: public/class-wallet-system-for-woocommerce-public.php:475
+#: public/class-wallet-system-for-woocommerce-public.php:331
+#: public/class-wallet-system-for-woocommerce-public.php:477
 msgid "Via wallet"
 msgstr ""
 
@@ -645,9 +645,9 @@ msgstr ""
 #: common/class-wallet-system-for-woocommerce-common.php:513
 #: common/class-wallet-system-for-woocommerce-common.php:822
 #: common/class-wallet-system-for-woocommerce-common.php:893
-#: public/class-wallet-system-for-woocommerce-public.php:300
-#: public/class-wallet-system-for-woocommerce-public.php:1130
-#: public/class-wallet-system-for-woocommerce-public.php:1194
+#: public/class-wallet-system-for-woocommerce-public.php:302
+#: public/class-wallet-system-for-woocommerce-public.php:1132
+#: public/class-wallet-system-for-woocommerce-public.php:1196
 #: public/partials/wallet-system-for-woocommerce-public-display.php:115
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:124
 msgid "Wallet credited by "
@@ -666,12 +666,12 @@ msgid "Manually by admin through refund"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1242
-#: public/class-wallet-system-for-woocommerce-public.php:300
+#: public/class-wallet-system-for-woocommerce-public.php:302
 msgid " through wallet recharging."
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1252
-#: public/class-wallet-system-for-woocommerce-public.php:311
+#: public/class-wallet-system-for-woocommerce-public.php:313
 msgid "Wallet credited through purchase "
 msgstr ""
 
@@ -682,7 +682,7 @@ msgstr ""
 #: common/class-wallet-system-for-woocommerce-common.php:635
 #: includes/class-wallet-system-for-woocommerce-dependency.php:69
 #: public/class-wallet-credit-payment-gateway.php:185
-#: public/class-wallet-system-for-woocommerce-public.php:346
+#: public/class-wallet-system-for-woocommerce-public.php:348
 #: public/partials/wallet-system-for-woocommerce-public-display.php:148
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:157
 msgid "Wallet debited by "
@@ -690,19 +690,19 @@ msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1286
 #: public/class-wallet-credit-payment-gateway.php:185
-#: public/class-wallet-system-for-woocommerce-public.php:346
+#: public/class-wallet-system-for-woocommerce-public.php:348
 msgid " from your wallet through purchasing."
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1297
 #: includes/class-wallet-system-for-woocommerce-dependency.php:49
 #: public/class-wallet-credit-payment-gateway.php:198
-#: public/class-wallet-system-for-woocommerce-public.php:358
+#: public/class-wallet-system-for-woocommerce-public.php:360
 msgid "Wallet debited through purchasing "
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1297
-#: public/class-wallet-system-for-woocommerce-public.php:358
+#: public/class-wallet-system-for-woocommerce-public.php:360
 msgid " as discount"
 msgstr ""
 
@@ -1931,7 +1931,7 @@ msgstr ""
 #: includes/class-wallet-system-for-woocommerce.php:459
 #: marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php:35
 #: marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php:51
-#: public/class-wallet-system-for-woocommerce-public.php:385
+#: public/class-wallet-system-for-woocommerce-public.php:387
 msgid "Wallet"
 msgstr ""
 
@@ -2222,64 +2222,64 @@ msgstr ""
 msgid "Pay by wallet ("
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:554
+#: public/class-wallet-system-for-woocommerce-public.php:556
 msgid ""
 "Sorry we cannot recharge wallet with other products, either empty cart or "
 "recharge later when cart is empty"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:555
-#: public/class-wallet-system-for-woocommerce-public.php:581
+#: public/class-wallet-system-for-woocommerce-public.php:557
+#: public/class-wallet-system-for-woocommerce-public.php:583
 msgid "empty"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:580
+#: public/class-wallet-system-for-woocommerce-public.php:582
 msgid ""
 "Sorry you cannot buy this product since wallet topup is added to cart. If "
 "you want to buy this product, please first remove wallet topup from cart."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:920
+#: public/class-wallet-system-for-woocommerce-public.php:922
 #, php-format
 msgid "Earn Cashback On Orders Above %s ."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:928
-#: public/class-wallet-system-for-woocommerce-public.php:945
+#: public/class-wallet-system-for-woocommerce-public.php:930
+#: public/class-wallet-system-for-woocommerce-public.php:947
 #, php-format
 msgid ""
 "Upon placing this order a cashback of %s will be credited to your wallet."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:935
-#: public/class-wallet-system-for-woocommerce-public.php:952
+#: public/class-wallet-system-for-woocommerce-public.php:937
+#: public/class-wallet-system-for-woocommerce-public.php:954
 #, php-format
 msgid ""
 "Please <a href=\"%1$s\">log in</a> to avail %2$s cashback from this order."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:994
 #: public/class-wallet-system-for-woocommerce-public.php:996
+#: public/class-wallet-system-for-woocommerce-public.php:998
 msgid " Cashback"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1085
+#: public/class-wallet-system-for-woocommerce-public.php:1087
 msgid "You will Get 1 Points on a successful Sign Up."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1130
+#: public/class-wallet-system-for-woocommerce-public.php:1132
 msgid " through successfully signup."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1141
+#: public/class-wallet-system-for-woocommerce-public.php:1143
 msgid "Wallet credited through signup "
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1194
+#: public/class-wallet-system-for-woocommerce-public.php:1196
 msgid " through visiting site."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1205
+#: public/class-wallet-system-for-woocommerce-public.php:1207
 msgid "Wallet credited through visiting site. "
 msgstr ""
 

@@ -242,13 +242,15 @@ class Wallet_System_For_Woocommerce_Public {
 	public function remove_wallet_session( $order_id ) {
 		$customer_id = get_current_user_id();
 		if ( $customer_id > 0 ) {
-			if ( WC()->session->__isset( 'custom_fee' ) ) {
-				WC()->session->__unset( 'custom_fee' );
-				WC()->session->__unset( 'is_wallet_partial_payment' );
-			}
+			if ( ! empty( WC()->session ) ) {
+				if ( WC()->session->__isset( 'custom_fee' ) ) {
+					WC()->session->__unset( 'custom_fee' );
+					WC()->session->__unset( 'is_wallet_partial_payment' );
+				}
 
-			if ( WC()->session->__isset( 'recharge_amount' ) ) {
-				WC()->session->__unset( 'recharge_amount' );
+				if ( WC()->session->__isset( 'recharge_amount' ) ) {
+					WC()->session->__unset( 'recharge_amount' );
+				}
 			}
 		}
 	}
