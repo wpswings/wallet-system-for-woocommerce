@@ -541,7 +541,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$wsfw_settings_template = array(
 			array(
-				'title'       => __( 'Enable Wallet Auto Up Settings', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Enable Wallet Auto Top Up Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_auto_topup_enable',
