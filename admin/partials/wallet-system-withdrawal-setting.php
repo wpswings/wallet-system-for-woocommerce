@@ -85,7 +85,7 @@ global $wsfw_wps_wsfw_obj;
 							<tr>
 								<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
 								<td><?php echo esc_html( $request->ID ); ?></td>
-								<td><a href="<?php echo ! empty( $user_name ) ? esc_url( get_edit_profile_url( $user_id ) ) : ''; ?>"><?php echo ! empty( esc_html( $user_name ) ) ? esc_html( $user_name ) : 'Guest#(' . esc_html( $user_id ) . ')'; ?></a></td>
+								<td><a href="<?php echo ! empty( $user_name ) ? esc_url( admin_url( 'user-edit.php?user_id=' . $user_id, 'http' ) ) : ''; ?>"><?php echo ! empty( esc_html( $user_name ) ) ? esc_html( $user_name ) : 'Guest#(' . esc_html( $user_id ) . ')'; ?></a></td>
 								<td><?php echo esc_html( $request->post_status ); ?></td>
 								<td>
 									<?php
