@@ -25,6 +25,7 @@ $http_host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $
 $request_url = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 $current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
 if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wallet'] ) ) {
+
 	$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
 	if ( wp_verify_nonce( $nonce ) ) {
 		unset( $_POST['wps_recharge_wallet'] );
@@ -38,6 +39,7 @@ if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wal
 				$user_id = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 
 			}
+
 			$product_id = ( isset( $_POST['product_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : '';
 			WC()->session->set(
 				'wallet_recharge',
@@ -179,6 +181,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 
 if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawal_request'] ) ) {
 	unset( $_POST['wps_withdrawal_request'] );
+
 	if ( ! empty( $_POST['wallet_user_id'] ) ) {
 		$user_id  = sanitize_text_field( wp_unslash( $_POST['wallet_user_id'] ) );
 		$user     = get_user_by( 'id', $user_id );
@@ -211,6 +214,7 @@ if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawa
 			}
 		}
 		update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
+
 		wp_register_script( 'wps-public-shortcode-dis', false, array(), '1.0.0', false );
 		wp_enqueue_script( 'wps-public-shortcode-dis' );
 		wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );

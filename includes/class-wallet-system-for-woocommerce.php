@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.2.4';
+			$this->version = '2.2.5';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -228,6 +228,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_registration_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_registration_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_daily_visit_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_daily_visit_settings_page', 10 );
 		$this->loader->add_action( 'wsfw_wallet_action_settings_comment_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_comment_array', 10 );
+		$this->loader->add_filter( 'wsfw_wallet_action_settings_auto_topup_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_auto_topup_settings_page', 10 );
 
 		$this->loader->add_filter( 'wsfw_general_settings_array', $wsfw_plugin_admin, 'wsfw_admin_general_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_cashback_settings_array', $wsfw_plugin_admin, 'wsfw_admin_cashback_settings_page', 10 );
@@ -261,6 +262,8 @@ class Wallet_System_For_Woocommerce {
 
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_admin, 'wps_wsfw_remove_customer_details_in_emails', 5, 1 );
+			$this->loader->add_action( 'wsfw_general_settings_before', $wsfw_plugin_admin, 'wsfw_general_settings_before_action' );
+			
 		}
 
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'register_withdrawal_post_type', 20 );
@@ -353,6 +356,8 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_cart_get_fee_taxes', $wsfw_plugin_public, 'wsfw_wallet_get_fee_taxes', 10, 1 );
 			$this->loader->add_filter( 'woocommerce_cart_total', $wsfw_plugin_public, 'wsfw_wallet_cart_total', 10, 1 );
 			$this->loader->add_action( 'woocommerce_checkout_order_created', $wsfw_plugin_public, 'wsfw_wallet_add_order_detail' );
+			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
+		
 		}
 
 	}
@@ -674,7 +679,11 @@ class Wallet_System_For_Woocommerce {
 	 * @since  1.0.0
 	 */
 	public function wps_wsfw_plug_generate_html( $wsfw_components = array() ) {
-
+		$subscription_duration = array(
+			'day' => 'Days',
+			'week' => 'Weeks',
+		);
+		$subscription_duration = apply_filters( 'wsfw_subscription_type__array', $subscription_duration );
 		if ( is_array( $wsfw_components ) && ! empty( $wsfw_components ) ) {
 			foreach ( $wsfw_components as $wsfw_component ) {
 				if ( ! empty( $wsfw_component['type'] ) && ! empty( $wsfw_component['id'] ) ) {
@@ -952,6 +961,82 @@ class Wallet_System_For_Woocommerce {
 						</div>
 
 							<?php
+							break;
+						case 'subscription_select1':
+							?>
+							<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
+								</div>
+								<div class="wps-form-group__control wps-pl-4">
+									<div class="mdc-form-field">
+									
+
+									<p class="form-field wps_sfw_subscription_number_field ">
+										
+										<label class="mdc-text-field mdc-text-field--outlined">
+											<span class="mdc-notched-outline mdc-notched-outline--no-label">
+											<span class="mdc-notched-outline__leading"></span>
+											<span class="mdc-notched-outline__notch">
+																					</span>
+											<span class="mdc-notched-outline__trailing"></span>
+										</span>
+									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+										</label>
+										<select id="wps_sfw_subscription_interval" name="wps_sfw_subscription_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_interval', 'day' ) ); ?>">
+									<?php
+									foreach ( $subscription_duration as $x => $x_value ) {
+
+										echo '<option ' . ( get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) == $x ? 'selected="selected"' : '' ) . ' value="' . esc_attr( $x ) . '">' . esc_attr( $x_value ) . '</option>';
+									}
+									?>
+										</select>
+										<span class="woocommerce-help-tip"></span>		</p>
+										
+
+
+										<label for="checkbox-1"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
+									</div>
+								</div>
+							</div>
+								<?php
+							break;
+						case 'subscription_select2':
+							?>
+								<div class="wps-form-group">
+									<div class="wps-form-group__label">
+										<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
+									</div>
+									<div class="wps-form-group__control wps-pl-4">
+										<div class="mdc-form-field">
+	
+										<p class="form-field wps_sfw_subscription_number_field ">
+											
+											<label class="mdc-text-field mdc-text-field--outlined">
+												<span class="mdc-notched-outline mdc-notched-outline--no-label">
+												<span class="mdc-notched-outline__leading"></span>
+												<span class="mdc-notched-outline__notch">i
+																						</span>
+												<span class="mdc-notched-outline__trailing"></span>
+											</span>
+										<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+											</label>
+											<select id="wps_sfw_subscription_expiry_interval" disabled="disabled" name="wps_sfw_subscription_expiry_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) ); ?>">
+									<?php
+									 $html_option = '';
+									foreach ( $subscription_duration as $x => $x_value ) {
+
+										echo '<option ' . ( get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) == $x ? 'selected="selected"' : '' ) . ' value="' . esc_attr( $x ) . '">' . esc_attr( $x_value ) . '</option>';
+									}
+
+									?>
+											</select>
+											<span class="woocommerce-help-tip"></span>		</p>
+											<label for="checkbox-1"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
+										</div>
+									</div>
+								</div>
+									<?php
 							break;
 
 						case 'multi':

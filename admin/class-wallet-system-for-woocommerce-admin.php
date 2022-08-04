@@ -102,8 +102,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$screen = get_current_screen();
 
-		
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id  ) {
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-wsfw-metarial-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -125,11 +124,13 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_ajax_error'           => __( 'An error occured!', 'wallet-system-for-woocommerce' ),
 					'wsfw_amount_error'         => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
 					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
+					'wsfw_is_subscription'      => $this->wps_wsfw_subscription_active_plugin(),
 				)
 			);
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
 			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-admin-wallet-action-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wallet-system-for-woocommerce-action.js', array(), time(), false );
 
 		}
 
@@ -144,8 +145,85 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 			wp_enqueue_script( 'wallet-recharge-admin-js' );
-
 	}
+
+
+	/**
+	 * Check subscription plugin is active or not.
+	 *
+	 * @since   1.0.0
+	 */
+	public function wps_wsfw_subscription_active_plugin() {
+		$is_installed_msg = false;
+		$plugin_text_domain = 'subscriptions-for-woocommerce';
+		$installed_plugins = get_plugins();
+
+		foreach ( $installed_plugins as $key => $value ) {
+			if ( $value['TextDomain'] != $plugin_text_domain ) {
+				$is_installed_msg = true;
+			}
+		}
+		if ( false == $is_installed_msg ) {
+			return true;
+		}
+		if ( ! is_plugin_active( 'subscriptions-for-woocommerce/subscriptions-for-woocommerce.php' ) ) {
+			$is_installed_msg = true;
+		} else {
+			return false;
+		}
+		return $is_installed_msg;
+	}
+
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	public function wsfw_general_settings_before_action() {
+
+		$is_installed_msg = '';
+		$plugin_text_domain = 'subscriptions-for-woocommerce';
+		$installed_plugins = get_plugins();
+		$not_active = false;
+		foreach ( $installed_plugins as $key => $value ) {
+
+			if ( $value['TextDomain'] == $plugin_text_domain ) {
+					$not_active = true;
+			}
+		}
+
+		if ( false != $not_active ) {
+
+			if ( ! is_plugin_active( 'subscriptions-for-woocommerce/subscriptions-for-woocommerce.php' ) ) {
+				$is_installed_msg = __( 'To use this feature please activate Subscription Plugin', 'wallet-system-for-woocommerce' );
+			}
+		} else {
+			$is_installed_msg = __( 'To use this feature please install Subscription Plugin', 'wallet-system-for-woocommerce' );
+
+		}
+		?>
+			<div class="wps-c-modal">
+				<div class="wps-c-modal__cover"></div>
+				<div class="wps-c-modal__message">
+					<span class="wps-c-modal__close">+</span>
+					<div class="wps-c-modal__content">
+						<span class="wps-c-modal__content-text">
+							<?php
+							echo esc_html( $is_installed_msg );
+							if ( true != $not_active ) {
+								?>
+									<a href="https://wordpress.org/plugins/subscriptions-for-woocommerce/">
+							 <?php esc_html_e( 'click here', 'wallet-system-for-woocommerce' ); } ?>  </a>   </span>
+					</div>
+					<div class="wps-c-modal__confirm">
+					<span class="wps-c-modal__confirm-button wps-c-modal__yes">Close</span>
+					</div>
+				</div>
+			</div>
+			<?php
+	}
+
 
 	/**
 	 * Get wallet recharge order count.
@@ -185,9 +263,18 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		} else {
+			$is_home_exists = false;
 			if ( ! empty( $submenu['wps-plugins'] ) ) {
+				foreach ( $submenu['wps-plugins'] as $key => $value ) {
+					if ( ! empty( $value ) && is_array( $value ) ) {
+						if ( 'Home' == $value[0] ) {
+							$is_home_exists = true;
+						}
+					}
+				}
 
-				if ( ! in_array( 'Home', (array) $submenu['wps-plugins'] ) ) {
+				if ( ! $is_home_exists ) {
+
 					add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wpswings_welcome_callback_function' ), 1 );
 				}
 			}
@@ -443,6 +530,56 @@ class Wallet_System_For_Woocommerce_Admin {
 		return $wsfw_settings_template;
 	}
 
+
+	/**
+	 * This function is used to create new registration html.
+	 *
+	 * @since    1.0.0
+	 * @param array $wsfw_settings_template Settings fields.
+	 */
+	public function wsfw_admin_wallet_action_auto_topup_settings_page( $wsfw_settings_template ) {
+
+		$wsfw_settings_template = array(
+			array(
+				'title'       => __( 'Enable Wallet Auto Top Up Settings', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_auto_topup_enable',
+				'id'          => 'wps_wsfw_wallet_action_auto_topup_enable',
+				'value'       => get_option( 'wps_wsfw_wallet_action_auto_topup_enable' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Enter Subscriptions Per Interval', 'wallet-system-for-woocommerce' ),
+				'type'        => 'subscription_select1',
+				'description' => __( 'Choose the subscriptions time interval for the product "for example 10 days".', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_subscriptions_per_interval',
+				'id'          => 'wps_wsfw_subscriptions_per_interval',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? get_option( 'wps_wsfw_subscriptions_per_interval' ) : 1,
+				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			),
+			array(
+				'title'       => __( 'Enter Subscriptions Expiry Interval', 'wallet-system-for-woocommerce' ),
+				'type'        => 'subscription_select2',
+				'description' => __( 'Choose the subscriptions expiry time interval for the product "leave empty for unlimited"', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_subscriptions_expiry_interval',
+				'id'          => 'wps_wsfw_subscriptions_expiry_interval',
+				'value'       => get_option( 'wps_wsfw_subscriptions_expiry_interval', 'days' ),
+				'class'       => 'wsfw-radio-switch-class',
+			),
+		);
+
+		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_auto_topup_extra_settings_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+	}
+
+
 	/**
 	 * This is used to create comment html.
 	 *
@@ -660,8 +797,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		return $wsfw_settings_general;
 	}
 
-
-
 	/**
 	 * Wallet System for WooCommerce save tab settings.
 	 *
@@ -671,15 +806,23 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		global $wsfw_wps_wsfw_obj;
 		if ( isset( $_POST['wsfw_button_wallet_action'] ) ) {
+
 			$nonce = ( isset( $_POST['updatenoncewallet_action'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_action'] ) ) : '';
 			if ( wp_verify_nonce( $nonce ) ) {
 
 				$wps_wsfw_gen_flag     = false;
+				$wsfw_settings_wallet_action_auto_topup = apply_filters( 'wsfw_wallet_action_settings_auto_topup_array', array() );
 				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
 				$wsfw_wallet_action_settings_daily_visit      = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 				$wsfw_wallet_action_settings_comment_array    = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
+				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
+				update_option( 'wps_wsfw_subscriptions_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_per_interval'] ) ) : '' );
+				update_option( 'wps_sfw_subscription_expiry_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
+				update_option( 'wps_wsfw_subscriptions_expiry_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_expiry_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_expiry_per_interval'] ) ) : '' );
 
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_daily_visit );
+				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_settings_wallet_action_auto_topup );
+
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_comment_array );
 
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
@@ -1728,6 +1871,16 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 
+			array(
+				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'text',
+				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wsfw_wallet_transaction_details_for_users',
+				'id'          => 'wsfw_wallet_transaction_details_for_users',
+				'value'       => '',
+				'placeholder' => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
+				'class'       => 'wws-text-class',
+			),
 			array(
 				'type'        => 'button',
 				'name'        => 'update_wallet',

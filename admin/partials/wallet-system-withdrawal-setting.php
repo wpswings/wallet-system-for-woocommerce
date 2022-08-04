@@ -56,7 +56,7 @@ global $wsfw_wps_wsfw_obj;
 				<tr>
 					<th><?php esc_html_e( '#', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Withdrawal ID', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'User ID', 'wallet-system-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'User Name', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Status1', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Withdrawal Amount', 'wallet-system-for-woocommerce' ); ?></th>
@@ -79,11 +79,13 @@ global $wsfw_wps_wsfw_obj;
 					foreach ( $withdrawal_requests as $request ) {
 						$withdrawal_amount = get_post_meta( $request->ID, 'wps_wallet_withdrawal_amount', true );
 						$user_id           = get_post_meta( $request->ID, 'wallet_user_id', true );
+						$user_name         = get_the_author_meta( 'display_name', $user_id );
+
 						?>
 							<tr>
 								<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
 								<td><?php echo esc_html( $request->ID ); ?></td>
-								<td><?php echo esc_html( $user_id ); ?></td>
+								<td><a href="<?php echo ! empty( $user_name ) ? esc_url( admin_url( 'user-edit.php?user_id=' . $user_id, 'http' ) ) : ''; ?>"><?php echo ! empty( esc_html( $user_name ) ) ? esc_html( $user_name ) : 'Guest#(' . esc_html( $user_id ) . ')'; ?></a></td>
 								<td><?php echo esc_html( $request->post_status ); ?></td>
 								<td>
 									<?php

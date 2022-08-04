@@ -92,10 +92,14 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 			$wallet_orders->views();
 
 			if ( isset( $_GET['s'] ) ) {
+
 				$wallet_orders->prepare_items( sanitize_text_field( wp_unslash( $_GET['s'] ) ) );
+
 			} else {
 				$wallet_orders->prepare_items();
 			}
+
+
 			$wallet_orders->search_box( __( 'Search Order', 'wallet-system-for-woocommerce' ), 'search_id' );
 			// Table of elements.
 			$wallet_orders->display();

@@ -126,6 +126,7 @@
 	
 					},
 					success: function( response ) {
+						window.location.reload();
 						$(document.body).trigger('update_checkout');
 					}
 	
@@ -186,6 +187,7 @@
 					if ( response.status == true ) {
 						$( '.ajax_msg' ).html(response.message);
 						$(document.body).trigger('update_checkout');
+						window.location.reload();
 					} else {
 						$( '.ajax_msg' ).html(response.message);
 						$( '.woocommerce-checkout-review-order-table .order-total' ).siblings('.fee').remove();
@@ -198,6 +200,7 @@
 							},
 							success: function( response ) {
 								$(document.body).trigger('update_checkout');
+								
 							}
 			
 						}) .fail(function ( response ) {
