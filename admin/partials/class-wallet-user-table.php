@@ -485,7 +485,7 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function wsfw_get_id( $user ) {
-		return $user->id;
+		return $user->ID;
 	}
 
 	/**
