@@ -6,7 +6,7 @@ Requires at least: 5.1.0
 Tested up to: 6.0.1
 WC requires at least: 5.1.0
 WC tested up to: 6.7.0
-Stable tag: 2.2.5
+Stable tag: 2.2.6
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -225,7 +225,11 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.2.5 - Released on 2 August 2022 =
+== Upgrade Notice ==
+= 2.2.6 - Released on 05 Aug 2022 =
+* New: Minor Bug  Issues Fixes.
+
+= 2.2.5 - Released on 28 July 2022 =
 * New: Wallet Auto Top up with(Day and Week)
 * New: Withdrawal Request showing user name with a link instead of the user id.
 
@@ -305,6 +309,6 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 * First version
 
 == Upgrade Notice ==
-= 2.2.5 - Released on 2 August 2022 =
-* New: Wallet Auto Top up. with(Day and Week)
-* New: Withdrawal Request showing user name with link instead of user id.
+= 2.2.6 - Released on 05 Aug 2022 =
+* New: Minor Bug  Issues Fixes.
+
