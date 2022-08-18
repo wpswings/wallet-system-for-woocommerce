@@ -206,7 +206,7 @@
 
 		// update wallet and status on changing status of wallet request
 		$(document).on( 'change', '.wsfw_restrict_user', function() {
-			debugger;
+		
 			var user_id='';
 			if ( $(this).length > 0 ) {
 				var user_name = $(this)[0].id;
@@ -227,7 +227,7 @@
 				},
 				datatType: 'JSON',
 				success: function( response ) {
-				debugger;
+		
 				loader.hide();
 				},
 
@@ -275,7 +275,7 @@
 		});
 		$('#wps_wsfw_cashback_type').on('change', function(){
 			var cash_back_rule = $(this).val();
-			// debugger;
+
 			if('fixed' == cash_back_rule ){
 				jQuery("#wps_wsfw_cashback_amount_max").parent().parent().parent().hide();
 				jQuery("#wps_wsfw_cart_amount_min").parent().parent().parent().hide();
@@ -296,7 +296,6 @@
 	});
 
 	$(document).on( 'click', '#wps_wsfw_wallet_action_auto_topup_enable', function() {
-		debugger;
 		
 		if ( wsfw_admin_param.wsfw_is_subscription == "1" ) {
 			if ( jQuery('#wps_wsfw_wallet_action_auto_topup_enable').prop('checked') == true ) {

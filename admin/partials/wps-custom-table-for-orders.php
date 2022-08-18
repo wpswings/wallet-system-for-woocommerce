@@ -86,7 +86,7 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 	<h1 class="wp-heading-inline"> <?php esc_html_e( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ); ?></h1>
 	<div id="wrapper" class="wps_wcb_all_trans_container meta-box-sortables ui-sortable wallet_shop_order">
 		<form action="" method="POST">
-
+		
 			<?php
 			$wallet_orders->display_header();
 			$wallet_orders->views();
@@ -99,18 +99,15 @@ if ( ! empty( $_REQUEST['bulk_action'] ) && ( 'delete' === $_REQUEST['bulk_actio
 				$wallet_orders->prepare_items();
 			}
 
-
-			$wallet_orders->search_box( __( 'Search Order', 'wallet-system-for-woocommerce' ), 'search_id' );
 			// Table of elements.
 			$wallet_orders->display();
 			?>
+			
 		</form>
 
 		<?php
 		// including datepicker jquery in custom order wp list table.
 		wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
-		wp_enqueue_script( 'wps-admin-custom-orders', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-custom-orders.js', array( 'jquery' ), $this->version, false );
-
 		?>
 
 	</div>
