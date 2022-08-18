@@ -618,12 +618,12 @@ class Wallet_User_Table extends WP_List_Table {
 				<div class="wps_wallet-edit-popup-amount">
 					<div class="wps_wallet-edit-popup-label">
 					<label for="wps_wallet-edit-popup-input" class="wps_wallet-edit-popup-input">
-							<?php echo esc_html__( 'Transaction Detail', 'wallet-system-for-woocommerce' ); ?>
+							<?php echo esc_html__( 'Transaction Detail:', 'wallet-system-for-woocommerce' ); ?>
 						</label>
 					</div>
 					<div class="wps_wallet-edit-popup-control">
 						<input type="text" name="wps_wallet-edit-popup-transaction-detail" id="wps_wallet-edit-popup-transaction-detail"  class="wps_wallet-edit-popup-fill">
-						<p class="error"></p>
+					
 					</div>
 				</div>
 				<div class="wps_wallet-edit-popup-amount">
