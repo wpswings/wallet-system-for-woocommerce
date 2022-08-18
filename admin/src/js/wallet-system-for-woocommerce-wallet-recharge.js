@@ -6,7 +6,7 @@ jQuery(document).ready(function($) {
 	});
 	
 
-	jQuery('.bulkactions').append('<select id="filter_member_status" ><option value="All">Filter By Status</option><option value="All">Show All</option><option value="processing">Processing</option><option value="checkout-draft">Checkout-Draft</option><option value="completed">Completed</option><option value="refunded">Refunded</option><option value="on-hold">On-Hold</option><option value="failed">Failed</option><option value="pending">Pending</option><option value="cancelled">Cancelled</option></select>');
+	jQuery('#doaction').parent().append('<select id="filter_member_status" ><option value="All">Filter By Status</option><option value="All">Show All</option><option value="processing">Processing</option><option value="checkout-draft">Checkout-Draft</option><option value="completed">Completed</option><option value="refunded">Refunded</option><option value="on-hold">On-Hold</option><option value="failed">Failed</option><option value="pending">Pending</option><option value="cancelled">Cancelled</option></select>');
 	
 	$(document).on('change', '#filter_member_status', function(e) {
 

@@ -69,7 +69,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			// Load the settings.
 			$this->init_form_fields();
 
-			//$this->init_settings();
+			// $this->init_settings();
 
 			// Define user set variables.
 			$this->title        = $this->get_option( 'title' );
