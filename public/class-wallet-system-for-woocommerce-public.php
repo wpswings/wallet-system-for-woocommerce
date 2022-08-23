@@ -158,8 +158,8 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-
-			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
+			$wps_wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings' );
+			if ( isset( $wallet_amount ) && $wallet_amount > 0 && 'yes' == $wps_wallet_payment_enable['enabled'] ) {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 						?>	
@@ -199,7 +199,8 @@ class Wallet_System_For_Woocommerce_Public {
 							}
 						}
 					}
-					if ( $wps_has_subscription ) {
+					$wps_wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings' );
+					if ( $wps_has_subscription && 'yes' == $wps_wallet_payment_enable['enabled'] ) {
 						?>
 							
 					<tr class="partial_payment">

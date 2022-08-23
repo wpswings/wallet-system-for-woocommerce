@@ -7,3 +7,7 @@ a.wps-wsfw-go-pro {
     border: 1px solid #05d5d8;
     border-radius: 5px;
 }
+
+select#filter_member_status {
+    position: absolute;
+}

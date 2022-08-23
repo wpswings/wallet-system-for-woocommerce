@@ -71,7 +71,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 						if ( $user ) {
 							$display_name = $user->display_name;
 							$useremail    = $user->user_email;
-							$user_role    = $user->roles[0];
+							$user_role = '';
+							if ( is_array( $user->roles ) && ! empty( $user->roles ) ) {
+								$user_role    = $user->roles[0];
+							}
+							
 						} else {
 							$display_name = '';
 							$useremail    = '';

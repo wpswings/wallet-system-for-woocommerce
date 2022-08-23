@@ -110,7 +110,6 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 
 			fclose( $file );
 
-
 		}
 	} else {
 		$wps_wsfw_error_text = esc_html__( 'Please select any CSV file', 'wallet-system-for-woocommerce' );
@@ -167,7 +166,12 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					}
 
 					$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
-					$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
+
+					if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
+						$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+					} else {
+						$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
+					}
 					$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 				}
 
@@ -256,7 +260,11 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			if ( 'credit' === $wallet_action ) {
 				$wallet          += $updated_amount;
 				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
-				$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
+				if ( isset( $_POST['wps_wallet-edit-popup-transaction-detail'] ) && ! empty( $_POST['wps_wallet-edit-popup-transaction-detail'] ) ) {
+					$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
+				} else {
+					$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
+				}
 				$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
 			} elseif ( 'debit' === $wallet_action ) {
 				if ( $wallet < $updated_amount ) {
@@ -265,7 +273,12 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 					$wallet -= $updated_amount;
 				}
 				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
-				$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
+
+				if ( isset( $_POST['wps_wallet-edit-popup-transaction-detail'] ) && ! empty( $_POST['wps_wallet-edit-popup-transaction-detail'] ) ) {
+					$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
+				} else {
+					$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
+				}
 				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 			}
 
@@ -485,7 +498,7 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function wsfw_get_id( $user ) {
-		return $user->id;
+		return $user->ID;
 	}
 
 	/**
@@ -600,6 +613,17 @@ class Wallet_User_Table extends WP_List_Table {
 					<div class="wps_wallet-edit-popup-control">
 						<input type="number" name="wps_wallet-edit-popup-input" step="0.01" id="wps_wallet-edit-popup-input"  class="wps_wallet-edit-popup-fill">
 						<p class="error"></p>
+					</div>
+				</div>
+				<div class="wps_wallet-edit-popup-amount">
+					<div class="wps_wallet-edit-popup-label">
+					<label for="wps_wallet-edit-popup-input" class="wps_wallet-edit-popup-input">
+							<?php echo esc_html__( 'Transaction Detail:', 'wallet-system-for-woocommerce' ); ?>
+						</label>
+					</div>
+					<div class="wps_wallet-edit-popup-control">
+						<input type="text" name="wps_wallet-edit-popup-transaction-detail" id="wps_wallet-edit-popup-transaction-detail"  class="wps_wallet-edit-popup-fill">
+					
 					</div>
 				</div>
 				<div class="wps_wallet-edit-popup-amount">

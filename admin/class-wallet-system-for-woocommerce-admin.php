@@ -90,6 +90,11 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin-home.min.css', array(), $this->version, 'all' );
 		}
 
+		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
+			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
+
+		}
+
 	}
 
 	/**
@@ -101,7 +106,6 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_enqueue_scripts( $hook ) {
 
 		$screen = get_current_screen();
-
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
@@ -134,7 +138,9 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		}
 
-		wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-wallet-recharge.js', array( 'jquery' ), $this->version, false );
+		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
+
+			wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-wallet-recharge.js', array( 'jquery' ), $this->version, false );
 
 			wp_localize_script(
 				'wallet-recharge-admin-js',
@@ -143,8 +149,9 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wallet_count'       => $this->wsfw_wallet_recharge_count(),
 				)
 			);
+		}
 
-			wp_enqueue_script( 'wallet-recharge-admin-js' );
+		wp_enqueue_script( 'wallet-recharge-admin-js' );
 	}
 
 
@@ -2516,6 +2523,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			remove_menu_page( 'mwb-plugins' );
 		}
 	}
+
 
 	/** End of Mgration code */
 

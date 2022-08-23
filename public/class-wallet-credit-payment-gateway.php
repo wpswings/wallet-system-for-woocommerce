@@ -28,11 +28,11 @@ if ( ! ( array_key_exists( 'woocommerce/woocommerce.php', $active_plugins ) || i
  */
 function wps_wsfw_wallet_gateway( $gateways ) {
 	$customer_id = get_current_user_id();
-	if ( $customer_id > 0 ) {
-		$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
-		if ( ! empty( $walletamount ) ) {
-			$gateways[] = 'Wallet_Credit_Payment_Gateway';
-		}
+	$wallet_amount = get_user_meta( $customer_id, 'wps_wallet', true );
+	$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
+
+	if ( $customer_id > 0 && $wallet_amount > 0 ) {
+		$gateways[] = 'Wallet_Credit_Payment_Gateway';
 	}
 	return $gateways;
 }
@@ -68,7 +68,8 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 			// Load the settings.
 			$this->init_form_fields();
-			$this->init_settings();
+
+			// $this->init_settings();
 
 			// Define user set variables.
 			$this->title        = $this->get_option( 'title' );
