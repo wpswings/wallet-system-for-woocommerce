@@ -592,6 +592,63 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 		return $passed;
 	}
+	//multicurreny
+	/**
+	 * Returns converted price of wallet balance.
+	 *
+	 * @param float $wallet_bal wallet balance.
+	 * @return float
+	 */
+	public function wps_wsfwp_show_converted_price( $wallet_bal ) {
+		// if ( function_exists( 'wps_mmcsfw_get_currenct_currency' ) ) {
+		// 	$current_currency = wps_mmcsfw_get_currenct_currency();
+		// 	if ( function_exists( 'wps_mmcsfw_admin_fetch_currency_rates_from_base_currency' ) ) {
+		// 		$amount = wps_mmcsfw_admin_fetch_currency_rates_from_base_currency( $current_currency, $wallet_bal );
+		// 		return $amount;
+
+		// 	}
+		// } else {
+		// 	return $wallet_bal;
+		// }
+		if (class_exists('WOOCS')) {
+			global $WOOCS;
+	
+			$amount = $WOOCS->woocs_exchange_value($wallet_bal);
+		}
+	
+		return $amount;
+	}
+	/**
+	 * Convert the amount into base currency amount.
+	 *
+	 * @param string $price price.
+	 * @return string
+	 */
+	public function wps_wsfwp_convert_to_base_price( $price ) {
+		// if ( function_exists( 'wps_mmcsfw_get_currenct_currency' ) ) {
+		// 	$current_currency = wps_mmcsfw_get_currenct_currency();
+		// 	if ( function_exists( 'wps_mmcsfw_admin_fetch_currency_rates_to_base_currency' ) ) {
+		// 		$base_amount = wps_mmcsfw_admin_fetch_currency_rates_to_base_currency( $current_currency, $price );
+		// 		return $base_amount;
+
+		// 	}
+		// } else {
+		// 	return $price;
+		// }
+		if (class_exists('WOOCS')) {
+			global $WOOCS;
+			if ($WOOCS->is_multiple_allowed) {
+				$currrent = $WOOCS->current_currency;
+				if ($currrent != $WOOCS->default_currency) {
+					$currencies = $WOOCS->get_currencies();
+					$rate = $currencies[$currrent]['rate'];
+					$amount = $price / ($rate);
+				}
+			}
+		}
+		return $amount;
+	}
+	//multicurreny
 
 	/**
 	 * Update wallet top price in cart and checkout page
@@ -857,6 +914,7 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 		}
+		$cashback_amount = $this->wps_wsfwp_show_converted_price($cashback_amount);
 		return apply_filters( 'wps_wsfw_wallet_form_cart_cashback_amount', $cashback_amount );
 	}
 
