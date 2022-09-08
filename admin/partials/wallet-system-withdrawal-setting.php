@@ -66,7 +66,7 @@ global $wsfw_wps_wsfw_obj;
 			</thead>
 			<tbody>
 				<?php
-				$args = array(						
+				$args = array(
 					'post_type'      => 'wallet_withdrawal',
 					'posts_per_page' => -1,
 					'order'          => 'DESC',

@@ -28,10 +28,7 @@ if ( ! ( array_key_exists( 'woocommerce/woocommerce.php', $active_plugins ) || i
  */
 function wps_wsfw_wallet_gateway( $gateways ) {
 	$customer_id = get_current_user_id();
-	$wallet_amount = get_user_meta( $customer_id, 'wps_wallet', true );
-	$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
-
-	if ( $customer_id > 0 && $wallet_amount > 0 ) {
+	if ( $customer_id > 0 ) {
 		$gateways[] = 'Wallet_Credit_Payment_Gateway';
 	}
 	return $gateways;

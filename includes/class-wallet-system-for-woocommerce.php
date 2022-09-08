@@ -273,6 +273,9 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
 		$this->loader->add_action( 'wp_ajax_restrict_user_from_wallet_access', $wsfw_plugin_admin, 'restrict_user_from_wallet_access' );
 
+		// download Pdf.
+		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
+
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
 			if ( wps_sfw_check_plugin_enable() ) {
 				$this->loader->add_filter( 'wsfw_general_extra_settings_array', $wsfw_plugin_admin, 'wps_wsfw_extra_settings_sfw', 30, 1 );
@@ -357,7 +360,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_checkout_order_created', $wsfw_plugin_public, 'wsfw_wallet_add_order_detail' );
 			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
 
-			//multicurrency comtabile
+			// multicurrency comtabile.
 			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
 

@@ -43,6 +43,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="wps-wpg-gen-section-table-wrap wps-wpg-transcation-section-table">
 	<h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
+	<form method="GET">
+	<input type="submit" class="btn button" name= "wps_wsfw_export_pdf" id="wps_wsfw_export_pdf" value="Export PDF">
+	</form>
 	<div class="wps-wpg-gen-section-table-container">
 		<table id="wps-wpg-gen-table_trasa" class="wps-wpg-gen-section-table dt-responsive wps-wpg-gen-table-all-transaction">
 			<thead>
@@ -75,7 +78,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 							if ( is_array( $user->roles ) && ! empty( $user->roles ) ) {
 								$user_role    = $user->roles[0];
 							}
-							
 						} else {
 							$display_name = '';
 							$useremail    = '';
