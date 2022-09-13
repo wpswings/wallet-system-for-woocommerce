@@ -63,6 +63,7 @@ $allowed_html = array(
 							$date_format = get_option( 'date_format', 'm/d/Y' );
 							$date        = date_create( $transaction->date );
 							echo esc_html( date_format( $date, $date_format ) );
+							echo ' ' . esc_html( date_format( $date, 'H:i:s' ) );
 							?>
 							</td>
 						</tr>

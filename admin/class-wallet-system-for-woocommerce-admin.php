@@ -1507,13 +1507,13 @@ class Wallet_System_For_Woocommerce_Admin {
 					$pdf_html .= '<td>' . $display_name . ' #' . $transaction->user_id . '</td>';
 					$pdf_html .= '<td>' . $useremail . '</td>';
 					$pdf_html .= '<td>' . $user_role . '</td>';
-					$pdf_html .= '<td>' . wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) . '</td>';
+					$pdf_html .= '<td>' . get_woocommerce_currency() . ' ' . $transaction->amount . '</td>';
 					$pdf_html .= '<td>' . $transaction->payment_method . '</td>';
 					$pdf_html .= '<td>' . html_entity_decode( $transaction->transaction_type ) . '</td>';
 					$pdf_html .= '<td>' . $transaction->id . '</td>';
 					$date_format = get_option( 'date_format', 'm/d/Y' );
 					$date        = date_create( $transaction->date );
-					$pdf_html .= '<td>' . date_format( $date, $date_format ) . '</td>';
+					$pdf_html .= '<td>' . date_format( $date, $date_format ) . ' ' . esc_html( date_format( $date, 'H:i:s' ) ) . '</td>';
 					$pdf_html .= '</tr>';
 					$i++;
 				}
@@ -2543,13 +2543,17 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public static function wsfw_rename_custom_table() {
 		global $wpdb;
+
 		$wsfw_rename_custom_table_check = get_option( 'wsfw_rename_custom_table_check', 'not_done' );
+
 		if ( 'not_done' === $wsfw_rename_custom_table_check ) {
 			$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+
 			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) ) == $table_name ) {
 				$old_table = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 				$new_table = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-				$rename_ok = $wpdb->query( $wpdb->prepare( "ALTER TABLE '{$wpdb->prefix}mwb_wsfw_wallet_transaction' RENAME TO '{$wpdb->prefix}wps_wsfw_wallet_transaction'" ) );
+				$rename = $wpdb->query( $wpdb->prepare( 'RENAME TABLE %1s TO %2s', $old_table, $new_table ) );
+
 			}
 			update_option( 'wsfw_rename_custom_table_check', 'done' );
 		}
