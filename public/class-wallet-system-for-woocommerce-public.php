@@ -614,18 +614,28 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return string
 	 */
 	public function wps_wsfwp_convert_to_base_price( $price ) {
-		if ( class_exists( 'WOOCS' ) ) {
-			global $WOOCS;
-			if ( $WOOCS->is_multiple_allowed ) {
-				$currrent = $WOOCS->current_currency;
-				if ( $currrent != $WOOCS->default_currency ) {
-					$currencies = $WOOCS->get_currencies();
-					$rate = $currencies[ $currrent ]['rate'];
-					$amount = $price / ( $rate );
+
+		$wps_sfw_active_plugins = get_option( 'active_plugins' );
+		if ( in_array( 'woocommerce-currency-switcher/index.php', $wps_sfw_active_plugins ) ) {
+
+			if ( class_exists( 'WOOCS' ) ) {
+				global $WOOCS;
+				$amount = '';
+				if ( $WOOCS->is_multiple_allowed ) {
+					 $currrent = $WOOCS->current_currency;
+					if ( $currrent != $WOOCS->default_currency ) {
+						$currencies = $WOOCS->get_currencies();
+						$rate = $currencies[ $currrent ]['rate'];
+						$amount = $price / ( $rate );
+						return $amount;
+					} else {
+						return $price;
+					}
 				}
 			}
 		}
-		return $amount;
+
+		return $price;
 	}
 
 	/**
@@ -648,6 +658,7 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( WC()->session->__isset( 'recharge_amount' ) ) {
 			$wallet_recharge = WC()->session->get( 'recharge_amount' );
 			$price           = $wallet_recharge;
+
 			if ( ! empty( $cart_items ) ) {
 				foreach ( $cart_items as $key => $value ) {
 

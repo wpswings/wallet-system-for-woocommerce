@@ -35,6 +35,7 @@ if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wal
 		} else {
 			$recharge_amount = sanitize_text_field( wp_unslash( $_POST['wps_wallet_recharge_amount'] ) );
 			$recharge_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $recharge_amount );
+
 			if ( ! empty( $_POST['user_id'] ) ) {
 				$user_id = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
 
