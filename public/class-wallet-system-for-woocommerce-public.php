@@ -158,8 +158,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-			$wps_wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings' );
-			if ( isset( $wallet_amount ) && $wallet_amount > 0 && 'yes' == $wps_wallet_payment_enable['enabled'] ) {
+			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 						?>	
@@ -199,8 +198,8 @@ class Wallet_System_For_Woocommerce_Public {
 							}
 						}
 					}
-					$wps_wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings' );
-					if ( $wps_has_subscription && 'yes' == $wps_wallet_payment_enable['enabled'] ) {
+					
+					if ( $wps_has_subscription ) {
 						?>
 							
 					<tr class="partial_payment">
@@ -1411,7 +1410,12 @@ class Wallet_System_For_Woocommerce_Public {
 
 
 
-
+/**
+ * Undocumented function
+ *
+ * @param [type] $order_id
+ * @return void
+ */
 public function wps_wsfw_woocommerce_thankyou_order_id($order_id){
 
 	$order = new WC_Order( $order_id );
@@ -1430,7 +1434,7 @@ public function wps_wsfw_woocommerce_thankyou_order_id($order_id){
 
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 				$_order_currency =	get_post_meta($order_id ,'_woocs_order_base_currency',true);
-if (! empty($_order_currency)) {
+			if (! empty($_order_currency)) {
 
 
 				 $total = $item->get_total();

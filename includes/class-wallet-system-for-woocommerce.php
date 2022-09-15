@@ -1224,7 +1224,7 @@ class Wallet_System_For_Woocommerce {
 
 			$insert_array = array(
 				'user_id'          => $transactiondata['user_id'],
-				'amount'           => $transactiondata['amount'],
+				'amount'           => apply_filters( 'wps_wsfw_convert_to_base_price',$transactiondata['amount']),
 				'currency'         => $transactiondata['currency'],
 				'transaction_type' => $transactiondata['transaction_type'],
 				'payment_method'   => $transactiondata['payment_method'],
