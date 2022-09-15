@@ -602,9 +602,10 @@ class Wallet_System_For_Woocommerce_Public {
 			global $WOOCS;
 
 			$amount = $WOOCS->woocs_exchange_value( $wallet_bal );
+			return $amount;
 		}
 
-		return $amount;
+		
 	}
 	/**
 	 * Convert the amount into base currency amount.
