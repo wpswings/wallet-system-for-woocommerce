@@ -1429,8 +1429,8 @@ public function wps_wsfw_woocommerce_thankyou_order_id($order_id){
 			//$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
 
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
-				$_order_currency =	get_post_meta($order_id ,' ',true);
-//if (! empty($_order_currency)) {
+				$_order_currency =	get_post_meta($order_id ,'_woocs_order_base_currency',true);
+if (! empty($_order_currency)) {
 
 
 				 $total = $item->get_total();
@@ -1453,7 +1453,7 @@ $_woocs_order_base_currency = get_post_meta($order_id, '_woocs_order_base_curren
 update_post_meta($order_id, '_order_currency', $_woocs_order_base_currency);
 // wc_add_order_item_meta($order_id, '_woocs_order_currency_changed_mannualy', 0, true);
 
-		//	}
+			}
 			}}
 
 
