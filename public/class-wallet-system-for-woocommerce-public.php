@@ -1419,7 +1419,8 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wsfw_woocommerce_thankyou_order_id( $order_id ) {
 
 		$order = new WC_Order( $order_id );
-
+		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
+		if ( 'done' != $check_wallet_thankyou ) {
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
 		$order_items            = $order->get_items();
@@ -1445,19 +1446,33 @@ class Wallet_System_For_Woocommerce_Public {
 					$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
 
 					update_post_meta( $order_id, '_order_currency', $_order_currency );
-					$order->save();
+					
 
 					$_woocs_order_base_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
 
 					update_post_meta( $order_id, '_order_currency', $_woocs_order_base_currency );
+					$order->save();
 					return $order_id;
 				}
 			}
 		
 		}
+	}
 
 		return $order_id;
 	}
 
-}
+	/**
+	 * Add wallet_djhop_order
+	 *
+	 * @param [type] $order_types is the order type.
+	 * @param [type] $for is for listing.
+	 * @return void
+	 */
+	function wps_wsfw_wc_order_types_( $order_types, $for ){
 
+		array_push($order_types,'wallet_shop_order');
+		return $order_types;
+		}
+
+}
