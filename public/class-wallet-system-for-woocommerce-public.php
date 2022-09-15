@@ -1430,7 +1430,6 @@ class Wallet_System_For_Woocommerce_Public {
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();
 			$total      = $item->get_total();
-			// $credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
 
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 				$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
@@ -1451,9 +1450,10 @@ class Wallet_System_For_Woocommerce_Public {
 					$_woocs_order_base_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
 
 					update_post_meta( $order_id, '_order_currency', $_woocs_order_base_currency );
-
+					return $order_id;
 				}
 			}
+		
 		}
 
 		return $order_id;
