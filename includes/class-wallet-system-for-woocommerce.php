@@ -979,7 +979,7 @@ class Wallet_System_For_Woocommerce {
 									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 								</div>
 								<div class="wps-form-group__control wps-pl-4">
-									<div class="mdc-form-field">
+									<div class="mdc-form-field wps_subscription_mdc_form">
 									
 
 									<p class="form-field wps_sfw_subscription_number_field ">
@@ -1002,10 +1002,8 @@ class Wallet_System_For_Woocommerce {
 									?>
 										</select>
 										<span class="woocommerce-help-tip"></span>		</p>
-										
-
-
-										<label for="checkbox-1"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
+										<div for="checkbox-1" class="wps_description_div"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+								
 									</div>
 								</div>
 							</div>
@@ -1018,7 +1016,7 @@ class Wallet_System_For_Woocommerce {
 										<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 									</div>
 									<div class="wps-form-group__control wps-pl-4">
-										<div class="mdc-form-field">
+										<div class="mdc-form-field wps_subscription_mdc_form">
 	
 										<p class="form-field wps_sfw_subscription_number_field ">
 											
@@ -1042,7 +1040,7 @@ class Wallet_System_For_Woocommerce {
 									?>
 											</select>
 											<span class="woocommerce-help-tip"></span>		</p>
-											<label for="checkbox-1"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
+											<label for="checkbox-1"  class="wps_description_div"> <?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></label>
 										</div>
 									</div>
 								</div>
