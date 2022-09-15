@@ -198,7 +198,7 @@ class Wallet_System_For_Woocommerce_Public {
 							}
 						}
 					}
-					
+
 					if ( $wps_has_subscription ) {
 						?>
 							
@@ -1410,15 +1410,15 @@ class Wallet_System_For_Woocommerce_Public {
 
 
 
-/**
- * Undocumented function
- *
- * @param [type] $order_id
- * @return void
- */
-public function wps_wsfw_woocommerce_thankyou_order_id($order_id){
+	/**
+	 * Function to change currency.
+	 *
+	 * @param [type] $order_id is the id of wallet_shop_order.
+	 * @return mixed
+	 */
+	public function wps_wsfw_woocommerce_thankyou_order_id( $order_id ) {
 
-	$order = new WC_Order( $order_id );
+		$order = new WC_Order( $order_id );
 
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
@@ -1430,41 +1430,34 @@ public function wps_wsfw_woocommerce_thankyou_order_id($order_id){
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();
 			$total      = $item->get_total();
-			//$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
+			// $credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
 
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
-				$_order_currency =	get_post_meta($order_id ,'_woocs_order_base_currency',true);
-			if (! empty($_order_currency)) {
+				$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
+				if ( ! empty( $_order_currency ) ) {
 
-
-				 $total = $item->get_total();
-				 $total =	apply_filters( 'wps_wsfw_convert_to_base_price', $total );
+					 $total = $item->get_total();
+					 $total = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
 					$subtotal = $item->get_subtotal();
-					$subtotal =	apply_filters( 'wps_wsfw_convert_to_base_price', $subtotal );
-					$item->set_total($total);
-					$item->set_subtotal($subtotal);
-					$order->set_total($total);
-					$_order_currency =	get_post_meta($order_id ,'_woocs_order_base_currency',true);
-					
-					update_post_meta( $order_id , '_order_currency', $_order_currency);
+					$subtotal = apply_filters( 'wps_wsfw_convert_to_base_price', $subtotal );
+					$item->set_total( $total );
+					$item->set_subtotal( $subtotal );
+					$order->set_total( $total );
+					$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
+
+					update_post_meta( $order_id, '_order_currency', $_order_currency );
 					$order->save();
-					
-//wc_add_order_item_meta($order_id, '_woocs_order_rate', $currencies[$this->current_currency]['rate'], true);
 
-$_woocs_order_base_currency = get_post_meta($order_id, '_woocs_order_base_currency',true);
-//wc_add_order_item_meta($order_id, '_woocs_order_base_currency', $this->default_currency, true);
+					$_woocs_order_base_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
 
-update_post_meta($order_id, '_order_currency', $_woocs_order_base_currency);
-// wc_add_order_item_meta($order_id, '_woocs_order_currency_changed_mannualy', 0, true);
+					update_post_meta( $order_id, '_order_currency', $_woocs_order_base_currency );
 
+				}
 			}
-			}}
+		}
 
-
-	
-
-	return $order_id;
-}
+		return $order_id;
+	}
 
 }
 
