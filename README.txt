@@ -225,7 +225,7 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.2.8 - Released on 17 Sep 2022 =
+= 2.2.8 - Released on 16 Sep 2022 =
 * New: Compatible with WooCommerce currency switcher plugin.
 * New: Download transaction details in pdf form.
 * New: Compatible with the latest WP and WC.
@@ -319,7 +319,7 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.2.8 - Released on 17 Sep 2022 =
+= 2.2.8 - Released on 16 Sep 2022 =
 * New: Compatible with WooCommerce currency switcher plugin.
 * New: Download transaction details in pdf form.
 * New: Compatible with the latest WP and WC.
