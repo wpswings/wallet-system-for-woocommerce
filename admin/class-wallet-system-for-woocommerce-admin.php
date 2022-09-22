@@ -9,6 +9,7 @@
  * @subpackage Wallet_System_For_Woocommerce/admin
  */
 
+use Dompdf\Dompdf;
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -1458,6 +1459,96 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	/**
+	 * Download Pdf Via Export Pdf Button function
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_download_pdf_file_callback() {
+		if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
+
+			global $wpdb;
+			$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+			$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
+			if ( ! empty( $transactions ) && is_array( $transactions ) ) {
+				$i = 1;
+				$pdf_html = '';
+				$pdf_html .= '<table>';
+				$pdf_html .= '<thead>';
+				$pdf_html .= '<tr>';
+				$pdf_html .= '<th>#</th>';
+				$pdf_html .= '<th>Name</th>';
+				$pdf_html .= '<th>Email</th>';
+				$pdf_html .= '<th>Role</th>';
+				$pdf_html .= '<th>Amount</th>';
+				$pdf_html .= '<th>Payment Method</th>';
+				$pdf_html .= '<th>Details</th>';
+				$pdf_html .= '<th>Transaction ID</th>';
+				$pdf_html .= '<th>Date</th>';
+				$pdf_html .= '</tr>';
+				$pdf_html .= '</thead>';
+				$pdf_html .= '<tbody>';
+				foreach ( $transactions as $transaction ) {
+					$user = get_user_by( 'id', $transaction->user_id );
+					if ( $user ) {
+						$display_name = $user->display_name;
+						$useremail    = $user->user_email;
+						$user_role = '';
+						if ( is_array( $user->roles ) && ! empty( $user->roles ) ) {
+							$user_role    = $user->roles[0];
+						}
+					} else {
+						$display_name = '';
+						$useremail    = '';
+						$user_role    = '';
+					}
+
+					$pdf_html .= '<tr>';
+					$pdf_html .= '<td>' . $i . '</td>';
+					$pdf_html .= '<td>' . $display_name . ' #' . $transaction->user_id . '</td>';
+					$pdf_html .= '<td>' . $useremail . '</td>';
+					$pdf_html .= '<td>' . $user_role . '</td>';
+					$pdf_html .= '<td>' . get_woocommerce_currency() . ' ' . $transaction->amount . '</td>';
+					$pdf_html .= '<td>' . $transaction->payment_method . '</td>';
+					$pdf_html .= '<td>' . html_entity_decode( $transaction->transaction_type ) . '</td>';
+					$pdf_html .= '<td>' . $transaction->id . '</td>';
+					$date_format = get_option( 'date_format', 'm/d/Y' );
+					$date        = date_create( $transaction->date );
+					$pdf_html .= '<td>' . date_format( $date, $date_format ) . ' ' . esc_html( date_format( $date, 'H:i:s' ) ) . '</td>';
+					$pdf_html .= '</tr>';
+					$i++;
+				}
+				$pdf_html .= '</tbody></table>';
+				require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
+				$dompdf = new Dompdf( array( 'enable_remote' => true ) );
+				$dompdf->setPaper( 'A4', 'landscape' );
+				$upload_dir_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR . '/transaction_pdf';
+				if ( ! is_dir( $upload_dir_path ) ) {
+					wp_mkdir_p( $upload_dir_path );
+					chmod( $upload_dir_path, 0775 );
+				}
+				$dompdf->loadHtml( $pdf_html );
+				@ob_end_clean(); // phpcs:ignore
+				$dompdf->render();
+				$dompdf->set_option( 'isRemoteEnabled', true );
+				$output = $dompdf->output();
+				$generated_pdf = file_put_contents( $upload_dir_path . '/transaction.pdf', $output );
+				$file = $upload_dir_path . '/transaction.pdf';
+				if ( file_exists( $file ) ) {
+					header( 'Content-Description: File Transfer' );
+					header( 'Content-Type: application/octet-stream' );
+					header( 'Content-Disposition: attachment; filename="' . basename( $file ) . '"' );
+					header( 'Expires: 0' );
+					header( 'Cache-Control: must-revalidate' );
+					header( 'Pragma: public' );
+					header( 'Content-Length: ' . filesize( $file ) );
+					readfile( $file );
+					exit;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Update wallet and status on changing status of wallet request
 	 *
 	 * @return void
@@ -2452,13 +2543,17 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public static function wsfw_rename_custom_table() {
 		global $wpdb;
+
 		$wsfw_rename_custom_table_check = get_option( 'wsfw_rename_custom_table_check', 'not_done' );
+
 		if ( 'not_done' === $wsfw_rename_custom_table_check ) {
 			$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+
 			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) ) == $table_name ) {
 				$old_table = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
 				$new_table = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-				$rename_ok = $wpdb->query( $wpdb->prepare( "ALTER TABLE '{$wpdb->prefix}mwb_wsfw_wallet_transaction' RENAME TO '{$wpdb->prefix}wps_wsfw_wallet_transaction'" ) );
+				$rename = $wpdb->query( $wpdb->prepare( 'RENAME TABLE %1s TO %2s', $old_table, $new_table ) );
+
 			}
 			update_option( 'wsfw_rename_custom_table_check', 'done' );
 		}
@@ -2528,3 +2623,5 @@ class Wallet_System_For_Woocommerce_Admin {
 	/** End of Mgration code */
 
 }
+
+

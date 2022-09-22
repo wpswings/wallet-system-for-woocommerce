@@ -298,3 +298,17 @@ body {font-family: Arial, Helvetica, sans-serif;}
   flex: 1;
   padding-right: 10px;
 }
+
+
+.wps_sfw_subscription_number_field select, .wps_sfw_subscription_number_field input[type=number], .wps_sfw_subscription_number_field label {
+  max-width: 200px;
+  margin: 5px 5px 5px 0;
+}
+
+.wps_subscription_mdc_form{
+  flex-wrap: wrap;
+
+}
+.wps_description_div{
+  flex:100%;
+}

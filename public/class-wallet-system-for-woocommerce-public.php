@@ -158,8 +158,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-			$wps_wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings' );
-			if ( isset( $wallet_amount ) && $wallet_amount > 0 && 'yes' == $wps_wallet_payment_enable['enabled'] ) {
+			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 						?>	
@@ -199,8 +198,8 @@ class Wallet_System_For_Woocommerce_Public {
 							}
 						}
 					}
-					$wps_wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings' );
-					if ( $wps_has_subscription && 'yes' == $wps_wallet_payment_enable['enabled'] ) {
+
+					if ( $wps_has_subscription ) {
 						?>
 							
 					<tr class="partial_payment">
@@ -592,6 +591,52 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 		return $passed;
 	}
+	/**
+	 * Returns converted price of wallet balance.
+	 *
+	 * @param float $wallet_bal wallet balance.
+	 * @return float
+	 */
+	public function wps_wsfwp_show_converted_price( $wallet_bal ) {
+		if ( class_exists( 'WOOCS' ) ) {
+			global $WOOCS;
+
+			$amount = $WOOCS->woocs_exchange_value( $wallet_bal );
+			return $amount;
+		}
+
+		
+	}
+	/**
+	 * Convert the amount into base currency amount.
+	 *
+	 * @param string $price price.
+	 * @return string
+	 */
+	public function wps_wsfwp_convert_to_base_price( $price ) {
+
+		$wps_sfw_active_plugins = get_option( 'active_plugins' );
+		if ( in_array( 'woocommerce-currency-switcher/index.php', $wps_sfw_active_plugins ) ) {
+
+			if ( class_exists( 'WOOCS' ) ) {
+				global $WOOCS;
+				$amount = '';
+				if ( $WOOCS->is_multiple_allowed ) {
+					 $currrent = $WOOCS->current_currency;
+					if ( $currrent != $WOOCS->default_currency ) {
+						$currencies = $WOOCS->get_currencies();
+						$rate = $currencies[ $currrent ]['rate'];
+						$amount = $price / ( $rate );
+						return $amount;
+					} else {
+						return $price;
+					}
+				}
+			}
+		}
+
+		return $price;
+	}
 
 	/**
 	 * Update wallet top price in cart and checkout page
@@ -613,6 +658,7 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( WC()->session->__isset( 'recharge_amount' ) ) {
 			$wallet_recharge = WC()->session->get( 'recharge_amount' );
 			$price           = $wallet_recharge;
+
 			if ( ! empty( $cart_items ) ) {
 				foreach ( $cart_items as $key => $value ) {
 
@@ -857,6 +903,7 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 		}
+		$cashback_amount = $this->wps_wsfwp_show_converted_price( $cashback_amount );
 		return apply_filters( 'wps_wsfw_wallet_form_cart_cashback_amount', $cashback_amount );
 	}
 
@@ -1360,5 +1407,73 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 		return $wps_wsfw_is_order;
 	}
+
+
+
+
+	/**
+	 * Function to change currency.
+	 *
+	 * @param [type] $order_id is the id of wallet_shop_order.
+	 * @return mixed
+	 */
+	public function wps_wsfw_woocommerce_thankyou_order_id( $order_id ) {
+
+		$order = new WC_Order( $order_id );
+		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
+		if ( 'done' != $check_wallet_thankyou ) {
+		$order_id               = $order->get_id();
+		$userid                 = $order->get_user_id();
+		$order_items            = $order->get_items();
+		$wallet_id              = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
+		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
+		$user                   = get_user_by( 'id', $userid );
+		foreach ( $order_items as $item_id => $item ) {
+			$product_id = $item->get_product_id();
+			$total      = $item->get_total();
+
+			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
+				$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
+				if ( ! empty( $_order_currency ) ) {
+
+					 $total = $item->get_total();
+					 $total = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
+					$subtotal = $item->get_subtotal();
+					$subtotal = apply_filters( 'wps_wsfw_convert_to_base_price', $subtotal );
+					$item->set_total( $total );
+					$item->set_subtotal( $subtotal );
+					$order->set_total( $total );
+					$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
+
+					update_post_meta( $order_id, '_order_currency', $_order_currency );
+					
+
+					$_woocs_order_base_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
+
+					update_post_meta( $order_id, '_order_currency', $_woocs_order_base_currency );
+					$order->save();
+					return $order_id;
+				}
+			}
+		
+		}
+	}
+
+		return $order_id;
+	}
+
+	/**
+	 * Add wallet_djhop_order
+	 *
+	 * @param [type] $order_types is the order type.
+	 * @param [type] $for is for listing.
+	 * @return void
+	 */
+	function wps_wsfw_wc_order_types_( $order_types, $for ){
+
+		array_push($order_types,'wallet_shop_order');
+		return $order_types;
+		}
 
 }
