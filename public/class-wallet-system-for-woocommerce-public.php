@@ -603,6 +603,8 @@ class Wallet_System_For_Woocommerce_Public {
 
 			$amount = $WOOCS->woocs_exchange_value( $wallet_bal );
 			return $amount;
+		} else{
+			return $wallet_bal;
 		}
 
 		
