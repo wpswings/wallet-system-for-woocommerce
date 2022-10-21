@@ -289,7 +289,7 @@ class Wallet_System_For_Woocommerce_Public {
 					} else {
 						$update_wallet_userid = $userid;
 					}
-					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
+					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', $order_id, '' );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
 					$walletamount  = empty( $walletamount ) ? 0 : $walletamount;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
@@ -1468,11 +1468,11 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Add wallet_djhop_order
 	 *
-	 * @param [type] $order_types is the order type.
-	 * @param [type] $for is for listing.
-	 * @return void
+	 * @param array $order_types is the order type.
+	 * @param array $for is for listing.
+	 * @return array
 	 */
-	function wps_wsfw_wc_order_types_( $order_types, $for ){
+	public function wps_wsfw_wc_order_types_( $order_types, $for ){
 
 		array_push($order_types,'wallet_shop_order');
 		return $order_types;

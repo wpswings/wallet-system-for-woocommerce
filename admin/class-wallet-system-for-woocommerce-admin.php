@@ -1238,7 +1238,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					} else {
 						$update_wallet_userid = $userid;
 					}
-					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
+					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', $order_id, '' );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
 					$walletamount  = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
