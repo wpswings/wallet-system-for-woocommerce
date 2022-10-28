@@ -20,7 +20,7 @@ The customers can add money to their WooCommerce wallet through the available wa
 The application of the WooCommerce Wallet will improve the overall user experience. It will speed up the checkout process as the customers will make transitions without entering their transaction details each time. The [**WooCommerce Wallet System**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-github-page&utm_campaign=wallet-pro) increases the ease and security of the payment process. It benefits both customers and the merchant.
   
  
-[**Wallet System for WooCommerce: Credit, Debit and Refund System for Free**](https://youtu.be/pyAxFDBcLDA)
+[**How To Add A Digital Wallet System and Implement Wallet Cashback With Wallet System For WooCommerce?**](https://youtu.be/C5mwA5kttRU)
  
 ##  WITH THE WOOCOMMERCE WALLET SYSTEM PLUGIN YOU CAN:
  
@@ -146,3 +146,5 @@ Create and Revamp your eCommerce store with [**WooCommerce Services**](https://w
  
  
  
+ 
+
