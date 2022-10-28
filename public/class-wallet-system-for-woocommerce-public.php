@@ -153,7 +153,11 @@ class Wallet_System_For_Woocommerce_Public {
 		$user_id        = get_current_user_id();
 		if ( $user_id ) {
 			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
+			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
 
+			if ( $wsfw_wallet_partial_payment_method_enable != 'on' ) {
+				return;
+			}
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
@@ -486,7 +490,7 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		} else {
 			$all_fees = wc()->cart->fees_api()->get_fees();
-			if ( isset( $all_fees['via_wallet_partial_payment'] ) ) {
+			if ( ! isset( $all_fees['via_wallet_partial_payment'] ) ) {
 				unset( $all_fees['via_wallet_partial_payment'] );
 				wc()->cart->fees_api()->set_fees( $all_fees );
 			}

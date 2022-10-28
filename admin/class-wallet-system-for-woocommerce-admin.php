@@ -427,6 +427,19 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Enable Wallet Partial Payment Method', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to allow customers to pay amount partially from their wallet.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_wallet_partial_payment_method_enabled',
+				'id'          => 'wsfw_wallet_partial_payment_method_enabled',
+				'value'       => '',
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
 				'title'       => __( 'Select Partial Payment Option', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
 				'name'        => 'wsfw_wallet_partial_payment_method_options',
@@ -2621,6 +2634,17 @@ class Wallet_System_For_Woocommerce_Admin {
 
 
 	/** End of Mgration code */
+
+	public function wsfw_admin_woocommerce_data_stores( $data_stores ) {
+		if ( ! empty( $data_stores  ) ) {
+		
+			$wallet_store = array('wallet_shop_order' => 'wallet_shop_order',);
+			$data_stores  = array_merge($wallet_store,$data_stores);
+			
+		return $data_stores;
+
+		}
+	}
 
 }
 
