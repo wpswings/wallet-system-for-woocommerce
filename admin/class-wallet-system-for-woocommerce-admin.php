@@ -452,6 +452,15 @@ class Wallet_System_For_Woocommerce_Admin {
 					'manual_pay'  => __( 'Manual Wallet Amount', 'wallet-system-for-woocommerce' ),
 				),
 			),
+			array(
+				'title'       => __( 'Wallet Shortcode', 'wallet-system-for-woocommerce' ),
+				'type'        => 'text',
+				'id'          => 'wsfw_wallet_shortcode',
+				'value'       => '[wps-wallet]',
+				'attr'        => 'readonly',
+				'class'       => 'wsfw-select-class',
+				'placeholder' => __( 'ShortCode For Wallet', 'wallet-system-for-woocommerce' ),
+			),
 		);
 		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
 		$wsfw_settings_general[] = array(

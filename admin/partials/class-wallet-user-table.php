@@ -413,7 +413,6 @@ class Wallet_User_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'       => '<input type="checkbox" />',
 			'id'       => esc_html__( 'ID', 'wallet-system-for-woocommerce' ),
 			'name'     => esc_html__( 'Name', 'wallet-system-for-woocommerce' ),
 			'email'    => esc_html__( 'Email', 'wallet-system-for-woocommerce' ),
