@@ -290,7 +290,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		add_submenu_page( '', 'Edit User Wallet', '', 'edit_posts', 'wps-edit-wallet', array( $this, 'edit_wallet_of_user' ) );
 
-		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', 'Wallet Recharge Orders', 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
+		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', __('Wallet Recharge Orders','wallet-system-for-woocommerce'), 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
 	}
 
 
@@ -1992,13 +1992,13 @@ class Wallet_System_For_Woocommerce_Admin {
 			),
 
 			array(
-				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
+				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce' ),
 				'type'        => 'text',
-				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce-pro' ),
+				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_wallet_transaction_details_for_users',
 				'id'          => 'wsfw_wallet_transaction_details_for_users',
 				'value'       => '',
-				'placeholder' => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
+				'placeholder' => __( 'Transaction Detail', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
 			array(
