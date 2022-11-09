@@ -274,12 +274,16 @@
 
 	$(document).on( 'blur','#wps_wallet_withdrawal_amount', function(){
 		var amount = $(this).val();
+		amount = parseFloat( amount );
 		var maxamount = $(this).data('max');
+		
+
 		if ( amount <= 0 ) {
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_amount_error);
 			$('#wps_withdrawal_request').prop('disabled', true);
 		} else if ( amount > maxamount ) {
+			
 			$('.error').show();
 			$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
 			$('#wps_withdrawal_request').prop('disabled', true);

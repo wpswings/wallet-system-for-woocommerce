@@ -153,7 +153,11 @@ class Wallet_System_For_Woocommerce_Public {
 		$user_id        = get_current_user_id();
 		if ( $user_id ) {
 			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
+			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
 
+			if ( $wsfw_wallet_partial_payment_method_enable != 'on' ) {
+				return;
+			}
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
@@ -289,7 +293,7 @@ class Wallet_System_For_Woocommerce_Public {
 					} else {
 						$update_wallet_userid = $userid;
 					}
-					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
+					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', $order_id, '' );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
 					$walletamount  = empty( $walletamount ) ? 0 : $walletamount;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
@@ -486,7 +490,7 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		} else {
 			$all_fees = wc()->cart->fees_api()->get_fees();
-			if ( isset( $all_fees['via_wallet_partial_payment'] ) ) {
+			if ( ! isset( $all_fees['via_wallet_partial_payment'] ) ) {
 				unset( $all_fees['via_wallet_partial_payment'] );
 				wc()->cart->fees_api()->set_fees( $all_fees );
 			}
@@ -603,6 +607,8 @@ class Wallet_System_For_Woocommerce_Public {
 
 			$amount = $WOOCS->woocs_exchange_value( $wallet_bal );
 			return $amount;
+		} else{
+			return $wallet_bal;
 		}
 
 		
@@ -1466,11 +1472,11 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Add wallet_djhop_order
 	 *
-	 * @param [type] $order_types is the order type.
-	 * @param [type] $for is for listing.
-	 * @return void
+	 * @param array $order_types is the order type.
+	 * @param array $for is for listing.
+	 * @return array
 	 */
-	function wps_wsfw_wc_order_types_( $order_types, $for ){
+	public function wps_wsfw_wc_order_types_( $order_types, $for ){
 
 		array_push($order_types,'wallet_shop_order');
 		return $order_types;

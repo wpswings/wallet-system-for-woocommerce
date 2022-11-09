@@ -276,6 +276,8 @@ class Wallet_System_For_Woocommerce {
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
 
+		$this->loader->add_filter( 'woocommerce_data_stores', $wsfw_plugin_admin, 'wsfw_admin_woocommerce_data_stores' );
+
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
 			if ( wps_sfw_check_plugin_enable() ) {
 				$this->loader->add_filter( 'wsfw_general_extra_settings_array', $wsfw_plugin_admin, 'wps_wsfw_extra_settings_sfw', 30, 1 );

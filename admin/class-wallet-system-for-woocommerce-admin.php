@@ -290,7 +290,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		add_submenu_page( '', 'Edit User Wallet', '', 'edit_posts', 'wps-edit-wallet', array( $this, 'edit_wallet_of_user' ) );
 
-		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', 'Wallet Recharge Orders', 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
+		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', __('Wallet Recharge Orders','wallet-system-for-woocommerce'), 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
 	}
 
 
@@ -427,6 +427,19 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Enable Wallet Partial Payment Method', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to allow customers to pay amount partially from their wallet.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_wallet_partial_payment_method_enabled',
+				'id'          => 'wsfw_wallet_partial_payment_method_enabled',
+				'value'       => '',
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
 				'title'       => __( 'Select Partial Payment Option', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
 				'name'        => 'wsfw_wallet_partial_payment_method_options',
@@ -438,6 +451,15 @@ class Wallet_System_For_Woocommerce_Admin {
 					'total_pay'   => __( 'Total Wallet Amount', 'wallet-system-for-woocommerce' ),
 					'manual_pay'  => __( 'Manual Wallet Amount', 'wallet-system-for-woocommerce' ),
 				),
+			),
+			array(
+				'title'       => __( 'Wallet Shortcode', 'wallet-system-for-woocommerce' ),
+				'type'        => 'text',
+				'id'          => 'wsfw_wallet_shortcode',
+				'value'       => '[wps-wallet]',
+				'attr'        => 'readonly',
+				'class'       => 'wsfw-select-class',
+				'placeholder' => __( 'ShortCode For Wallet', 'wallet-system-for-woocommerce' ),
 			),
 		);
 		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
@@ -1238,7 +1260,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					} else {
 						$update_wallet_userid = $userid;
 					}
-					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', '', $order_id );
+					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', $order_id, '' );
 					$walletamount  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
 					$walletamount  = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
@@ -1970,13 +1992,13 @@ class Wallet_System_For_Woocommerce_Admin {
 			),
 
 			array(
-				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
+				'title'       => __( 'Transaction Detail', 'wallet-system-for-woocommerce' ),
 				'type'        => 'text',
-				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce-pro' ),
+				'description' => __( 'Enter the details you want to show to user', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_wallet_transaction_details_for_users',
 				'id'          => 'wsfw_wallet_transaction_details_for_users',
 				'value'       => '',
-				'placeholder' => __( 'Transaction Detail', 'wallet-system-for-woocommerce-pro' ),
+				'placeholder' => __( 'Transaction Detail', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
 			array(
@@ -2621,6 +2643,17 @@ class Wallet_System_For_Woocommerce_Admin {
 
 
 	/** End of Mgration code */
+
+	public function wsfw_admin_woocommerce_data_stores( $data_stores ) {
+		if ( ! empty( $data_stores  ) ) {
+		
+			$wallet_store = array('wallet_shop_order' => 'wallet_shop_order',);
+			$data_stores  = array_merge($wallet_store,$data_stores);
+			
+		return $data_stores;
+
+		}
+	}
 
 }
 

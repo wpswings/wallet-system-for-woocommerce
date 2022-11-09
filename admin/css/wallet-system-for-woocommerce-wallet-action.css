@@ -312,3 +312,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .wps_description_div{
   flex:100%;
 }
+input#wps_wsfw_export_pdf {
+  margin: 0 0 10px;
+  border: none;
+  background: #2194ef;
+  color: #fff;
+  border-radius: 0;
+}
