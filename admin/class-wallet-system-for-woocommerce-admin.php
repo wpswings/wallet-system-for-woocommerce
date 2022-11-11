@@ -403,7 +403,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Refund To Wallet', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable to send refund amonut to wallet.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_allow_refund_to_wallet',
 				'id'          => 'wps_wsfw_allow_refund_to_wallet',
 				'value'       => 'on',
@@ -414,9 +414,22 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Enable Wallet Script For My Account Wallet.', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable if unable to select wallet option in my account section', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_wallet_script_for_account_enabled',
+				'id'          => 'wsfw_wallet_script_for_account_enabled',
+				'value'       => '',
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
 				'title'       => __( 'Send Email On Wallet Amount Update to Customers', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable to send email to the user.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_enable_email_notification_for_wallet_update',
 				'id'          => 'wps_wsfw_enable_email_notification_for_wallet_update',
 				'value'       => '',

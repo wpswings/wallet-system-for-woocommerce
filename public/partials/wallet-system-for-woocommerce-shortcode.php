@@ -383,6 +383,9 @@ do_action( 'wps_wcb_wallet_display_wrapper_for_qr' );
 					<ul class='tabs'>
 						<?php
 						$allowed_html = wps_wsfw_lite_allowed_html();
+						if ( $wallet_script_option == 'on' ) {
+							$wallet_link_enabled = "onclick=enable_wallet_link(this)";
+						}
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
@@ -390,14 +393,14 @@ do_action( 'wps_wcb_wallet_display_wrapper_for_qr' );
 								} else {
 									$class = '';
 								}
-								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo "<li ". esc_attr( $wallet_link_enabled ) ." class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo "<li ". esc_attr( $wallet_link_enabled ) ." class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
 							}
 						}
 						?>

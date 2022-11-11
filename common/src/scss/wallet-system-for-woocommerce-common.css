@@ -18,10 +18,13 @@
     max-width: 200px;
     flex: 1 0 calc(50% - 70px);
 }
+.wps_wcb_content_template .wallet-tabs ul li.active a {
+    background: #2196f3;
+    box-shadow: 0 10px 30px rgb(33 150 243 / 50%), inset -5px -5px 15px rgb(25 113 182 / 50%), inset 6px 8px 20px hsl(0deg 0% 100% / 40%);
+}
 
 .wps_wcb_body_template .wps_wcb_content_template .wallet-tabs ul li a {
     border-radius: 10px;
-    box-shadow: unset;
     display: block;
     width: 130px;
     height: 130px;

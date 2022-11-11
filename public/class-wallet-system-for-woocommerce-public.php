@@ -108,6 +108,12 @@ class Wallet_System_For_Woocommerce_Public {
 		global $wp_query;
 		wp_enqueue_script( 'wps-datatable', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/js/jquery.dataTables.min.js', array(), $this->version, true );
 		wp_enqueue_script( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/wps-public.min.js', array(), $this->version, 'all' );
+	
+		$wallet_script_option = get_option( 'wsfw_wallet_script_for_account_enabled', true );
+		if ( $wallet_script_option == 'on' ) {
+			wp_enqueue_script( 'wps-script-wallet', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-enable-link.js', array(), $this->version, true );
+		}
+						
 	}
 
 
