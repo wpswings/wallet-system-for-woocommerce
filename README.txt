@@ -6,7 +6,7 @@ Requires at least: 5.1.0
 Tested up to: 6.1.0
 WC requires at least: 5.1.0
 WC tested up to: 7.0.1
-Stable tag: 2.2.9
+Stable tag: 2.3.0
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -233,7 +233,7 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.2.9 - Released on 7 November 2022 =
+= 2.3.0 - Released on 7 November 2022 =
 * Fix: Issue fix with multi currency plugin.
 * Fix: Bug fix in for wallet recharge order [WooCommerce Analytics report]
 * New: WP and WC latest update.
@@ -335,7 +335,7 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.2.9 - Released on 7 November 2022 =
+= 2.3.0 - Released on 7 November 2022 =
 * Fix: Issue fix with multi currency plugin.
 * Fix: Bug fix in for wallet recharge order [WooCommerce Analytics report]
 * New: WP and WC latest update.
