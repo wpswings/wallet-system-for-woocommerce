@@ -2654,9 +2654,12 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 	}
 
-
-	/** End of Mgration code */
-
+	/**
+	 * to correct the data sy=tores in case of wallet recharge
+	 *
+	 * @param [type] $data_stores are the variable which contains all data stores.
+	 * @return void
+	 */
 	public function wsfw_admin_woocommerce_data_stores( $data_stores ) {
 		if ( ! empty( $data_stores  ) ) {
 		

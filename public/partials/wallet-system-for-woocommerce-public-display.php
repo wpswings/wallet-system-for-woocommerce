@@ -380,8 +380,8 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 					<ul class='tabs'>
 						<?php
 						$wallet_script_option = get_option( 'wsfw_wallet_script_for_account_enabled' );
-						
-						if ( $wallet_script_option == 'on' ) {
+						$wallet_link_enabled = '';
+						if ( 'on' == $wallet_script_option ) {
 							$wallet_link_enabled = "onclick=enable_wallet_link(this)";
 						}
 						

@@ -383,7 +383,9 @@ do_action( 'wps_wcb_wallet_display_wrapper_for_qr' );
 					<ul class='tabs'>
 						<?php
 						$allowed_html = wps_wsfw_lite_allowed_html();
-						if ( $wallet_script_option == 'on' ) {
+						$wallet_script_option = get_option( 'wsfw_wallet_script_for_account_enabled' );
+						$wallet_link_enabled = '';
+						if (  'on' == $wallet_script_option ) {
 							$wallet_link_enabled = "onclick=enable_wallet_link(this)";
 						}
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
