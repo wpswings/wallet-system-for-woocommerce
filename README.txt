@@ -6,7 +6,7 @@ Requires at least: 5.1.0
 Tested up to: 6.1.0
 WC requires at least: 5.1.0
 WC tested up to: 7.1.0
-Stable tag: 2.3.0
+Stable tag: 2.2.10
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -233,7 +233,7 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.3.0 - Released on 14 November 2022 =
+= 2.2.10 - Released on 14 November 2022 =
 * New: Latest WP and WC update.
 * Fix: CSS issue fix for wallet in my account section.
 * Fix: Addition of new script to enable click on option of wallet in case of CSS failure.
@@ -341,7 +341,7 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.3.0 - Released on 11 November 2022 =
+= 2.2.10 - Released on 11 November 2022 =
 * New: Latest WP and WC update.
 * Fix: CSS issue fix for wallet in my account section.
 * Fix: Addition of new script to enable click on option of wallet in case of CSS failure.
