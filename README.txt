@@ -341,7 +341,7 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.2.10 - Released on 11 November 2022 =
+= 2.2.10 - Released on 14 November 2022 =
 * New: Latest WP and WC update.
 * Fix: CSS issue fix for wallet in my account section.
 * Fix: Addition of new script to enable click on option of wallet in case of CSS failure.
