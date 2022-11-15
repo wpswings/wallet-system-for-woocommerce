@@ -379,6 +379,12 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				<nav class="wallet-tabs">
 					<ul class='tabs'>
 						<?php
+						$wallet_script_option = get_option( 'wsfw_wallet_script_for_account_enabled' );
+						$wallet_link_enabled = '';
+						if ( 'on' == $wallet_script_option ) {
+							$wallet_link_enabled = "onclick=enable_wallet_link(this)";
+						}
+						
 						$allowed_html = wps_wsfw_lite_allowed_html();
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( $flag ) {
@@ -387,14 +393,15 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 								} else {
 									$class = '';
 								}
-								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+
+								echo "<li ". esc_attr( $wallet_link_enabled ) ." class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo "<li class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo "<li ". esc_attr( $wallet_link_enabled ) ." class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
 							}
 						}
 						?>

@@ -5,8 +5,8 @@ Tags: digital wallet, cashback coupon, wallet topup, user wallet, woocommerce wa
 Requires at least: 5.1.0
 Tested up to: 6.1.0
 WC requires at least: 5.1.0
-WC tested up to: 7.0.1
-Stable tag: 2.2.9
+WC tested up to: 7.1.0
+Stable tag: 2.2.10
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -67,16 +67,16 @@ The Merchant can allow customers to review email notifications on the wallet rec
 **8. Flexible Payment Option**
 Customers can use their WooCommerce Wallets as a payment option if the wallet balance is higher than the total cart value. They can use it as a partial payment option when the wallet balance is lower than the total cart value.
 
-** Transaction History [User]**
+**9.Transaction History [User]**
 The customers’ wallet transactions history contains entries for wallet recharge, debit, credit, transfer, and withdrawal. The merchant can also see edits they’ve made to customers’ wallet accounts and the list of customers’ transactions.
 
-**9. Wallet Amount Transfer**
+**10. Wallet Amount Transfer**
 The customers can transfer their wallet amount into other customers’ wallets. It will help the merchants increase user interaction on their WooCommerce store and result in an increase in the wallet user base.
 
-**10. Wallet Cashback Reward** 
+**11. Wallet Cashback Reward** 
 The Wallet system for Woocommerce allows you to send cashback rewards to customers in their WooCommerce wallets. Even if the payment method used to purchase the product is other than the wallet plugin, customers will still receive cashback rewards. You can set the cashback type as percentage or fixed and offer it cart-wise or category-wise. 
 
-**11. Credit Amount on Daily User Visit, Commenting, and Sign Up**
+**12. Credit Amount on Daily User Visit, Commenting, and Sign Up**
 Our digital wallet plugin allows you to implement a WooCommerce credit system. You can decide a daily login reward amount and enable your customers to earn wallet credit daily by simply logging in to their wallets. 
 
 You can also let them earn wallet credit for submitting product reviews. For this feature, you can set the limit on how many comments a user can have per post, credit amount, and customize comment label text.
@@ -233,7 +233,13 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.2.9 - Released on 7 November 2022 =
+= 2.2.10 - Released on 14 November 2022 =
+* New: Latest WP and WC update.
+* Fix: CSS issue fix for wallet in my account section.
+* Fix: Addition of new script to enable click on option of wallet in case of CSS failure.
+
+
+= 2.2.9 - Released on 8 November 2022 =
 * Fix: Issue fix with multi currency plugin.
 * Fix: Bug fix in for wallet recharge order [WooCommerce Analytics report]
 * New: WP and WC latest update.
@@ -335,9 +341,9 @@ For more detail Please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.2.9 - Released on 7 November 2022 =
-* Fix: Issue fix with multi currency plugin.
-* Fix: Bug fix in for wallet recharge order [WooCommerce Analytics report]
-* New: WP and WC latest update.
-* New: Admin can enable/disable wallet partial payment.
-* New: Mention a wallet shortcode in general settings.
+= 2.2.10 - Released on 14 November 2022 =
+* New: Latest WP and WC update.
+* Fix: CSS issue fix for wallet in my account section.
+* Fix: Addition of new script to enable click on option of wallet in case of CSS failure.
+
+

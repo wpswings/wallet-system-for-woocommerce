@@ -108,6 +108,12 @@ class Wallet_System_For_Woocommerce_Public {
 		global $wp_query;
 		wp_enqueue_script( 'wps-datatable', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/js/jquery.dataTables.min.js', array(), $this->version, true );
 		wp_enqueue_script( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/wps-public.min.js', array(), $this->version, 'all' );
+	
+		$wallet_script_option = get_option( 'wsfw_wallet_script_for_account_enabled', true );
+		if ( 'on' == $wallet_script_option ) {
+			wp_enqueue_script( 'wps-script-wallet', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-enable-link.js', array(), $this->version, true );
+		}
+						
 	}
 
 
@@ -155,7 +161,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
 			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
 
-			if ( $wsfw_wallet_partial_payment_method_enable != 'on' ) {
+			if ( 'on' != $wsfw_wallet_partial_payment_method_enable ) {
 				return;
 			}
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
