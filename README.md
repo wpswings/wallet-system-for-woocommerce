@@ -133,7 +133,7 @@ Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswing
  
 If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-site&utm_medium=wallet-github-page&utm_campaign=here) or connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-wallet-query&utm_medium=wallet-github-page&utm_campaign=generate-a-ticket)
   
-Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-github-page&utm_campaign=woocommerce-services) 
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-github-page&utm_campaign=woocommerce-services) 
 
 
 ### MORE ABOUT WP SWINGS
