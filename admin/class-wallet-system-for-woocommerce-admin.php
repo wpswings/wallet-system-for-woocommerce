@@ -134,9 +134,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
-			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.min.js', array(), time(), false );
-			wp_enqueue_script( 'wps-admin-wallet-action-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wallet-system-for-woocommerce-action.js', array(), time(), false );
-
 		}
 
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
@@ -985,6 +982,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					$enable_tracking = ! empty( $_POST['wsfw_enable_tracking'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_enable_tracking'] ) ) : '';
 					update_option( 'wsfw_enable_tracking', $enable_tracking );
+
 					return;
 				}
 				$wps_wsfw_gen_flag     = false;
@@ -1621,13 +1619,20 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( 'approved' === $updated_status ) {
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 				$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
+				$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $withdrawal_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
 				if ( $user_id ) {
 					$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
 					$walletamount = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					if ( $walletamount < $withdrawal_amount ) {
 						$walletamount = 0;
 					} else {
-						$walletamount -= $withdrawal_amount;
+						if( $wps_wsfwp_wallet_withdrawal_fee_amount > 0){
+
+							$walletamount -= $withdrawal_amount + $wps_wsfwp_wallet_withdrawal_fee_amount;
+						}else{
+
+							$walletamount -= $withdrawal_amount;
+						}
 					}
 					$update_wallet = update_user_meta( $user_id, 'wps_wallet', $walletamount );
 					delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
@@ -1652,7 +1657,14 @@ class Wallet_System_For_Woocommerce_Admin {
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 						}
 					}
+					if( $wps_wsfwp_wallet_withdrawal_fee_amount > 0){
+						$withdrawal_amount = $withdrawal_amount+$wps_wsfwp_wallet_withdrawal_fee_amount .'( inculding '. $wps_wsfwp_wallet_withdrawal_fee_amount.')';
+					}
 					$transaction_type = __( 'Wallet debited through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $withdrawal_id . '</a>';
+					if( $wps_wsfwp_wallet_withdrawal_fee_amount ){
+
+						$transaction_type .= __( '( inculding Withdrawal Fee of ' .get_woocommerce_currency_symbol(). '' . $wps_wsfwp_wallet_withdrawal_fee_amount. ')');
+					}
 					$transaction_data = array(
 						'user_id'          => $user_id,
 						'amount'           => $withdrawal_amount,
@@ -1938,6 +1950,10 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 
 				$transaction_type = __( 'Wallet debited through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $post_id . '</a>';
+				if( $wps_wsfwp_wallet_withdrawal_fee_amount ){
+
+					$transaction_type .= __( '( inculding Withdrawal Fee of ' . get_woocommerce_currency_symbol(). ' ' . $wps_wsfwp_wallet_withdrawal_fee_amount. ')');
+				}
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $withdrawal_amount,

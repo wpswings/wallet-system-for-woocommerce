@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $wsfw_wps_wsfw_obj;
+$check = false;
+$check = apply_filters( 'wsfw_check_pro_plugin', $check );
 
 ?>
 <!--  template file for admin settings. -->
@@ -60,6 +62,14 @@ global $wsfw_wps_wsfw_obj;
 					<th><?php esc_html_e( 'Status1', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Withdrawal Amount', 'wallet-system-for-woocommerce' ); ?></th>
+					<?php
+					if ( $check ){
+					?>	<th><?php 
+						esc_html_e( 'Withdrawal Fee', 'wallet-system-for-woocommerce' );
+						?></th><?php
+					}
+					?>				
+					
 					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
 				</tr>
@@ -78,6 +88,7 @@ global $wsfw_wps_wsfw_obj;
 				if ( ! empty( $withdrawal_requests ) ) {
 					foreach ( $withdrawal_requests as $request ) {
 						$withdrawal_amount = get_post_meta( $request->ID, 'wps_wallet_withdrawal_amount', true );
+						$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $request->ID, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
 						$user_id           = get_post_meta( $request->ID, 'wallet_user_id', true );
 						$user_name         = get_the_author_meta( 'display_name', $user_id );
 
@@ -115,6 +126,14 @@ global $wsfw_wps_wsfw_obj;
 									?>
 								</td>
 								<td><?php echo wp_kses_post( wc_price( $withdrawal_amount ) ); ?></td>
+								<?php
+									if ( $check ){
+										?>	<td><?php 
+										echo wp_kses_post( wc_price( $wps_wsfwp_wallet_withdrawal_fee_amount ) );
+										?></td><?php
+										}
+								?>	
+							
 								<td>
 								<?php
 								$date_format = get_option( 'date_format', 'm/d/Y' );
