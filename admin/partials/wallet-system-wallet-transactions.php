@@ -50,15 +50,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<table id="wps-wpg-gen-table_trasa" class="wps-wpg-gen-section-table dt-responsive wps-wpg-gen-table-all-transaction">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th><?php esc_html_e( 'Name', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Email', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Role', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Details', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+				<th class = "all">#</th>
+					<th class = "all"><?php esc_html_e( 'Name', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Email', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Role', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Details', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 					<th class="hide_date" ><?php esc_html_e( 'Date1', 'wallet-system-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>

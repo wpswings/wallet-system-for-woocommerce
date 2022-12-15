@@ -40,4 +40,10 @@ jQuery(document).ready(function(){
     jQuery('#min, #max').change(function () {
         table1.draw();
     });
+
+    
+});
+
+jQuery(document).ready(function(){
+    jQuery("#wps-wpg-gen-table_trasa").wrap("<div class='wps_wsfwp_table_wrap'></div>");
 });
