@@ -181,7 +181,6 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 				$previous_wallet_amount = $wallet;
 				if ( $wallet < $wallet_amount ) {
 					
-					//$wallet = 0;
 				} else {
 					$wallet -= $wallet_amount;
 				}
@@ -192,9 +191,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
 				} else {
 					if ( $previous_wallet_amount < $wallet_amount ) {
-						//die('dsnskjdf');
 						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-						//$wallet = 0;
 					} else{
 						$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 					}
@@ -272,13 +269,10 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
 				} else {
 					if ( $previous_wallet_amount < $wallet_amount ) {
-						//die('dsnskjdf');
 						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-						//$wallet = 0;
 					} else{
 						$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-					}
-					
+					}	
 				}
 				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 			}
@@ -303,7 +297,6 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 
 				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 			}
-
 			$transaction_data = array(
 				'user_id'          => $user_id,
 				'amount'           => $updated_amount,
@@ -312,15 +305,12 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 				'transaction_type' => $transaction_type,
 				'order_id'         => '',
 				'note'             => '',
-
 			);
-
 			$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 
 			$number_of_users++;
 		}
 	}
-
 		}
 	}
 
