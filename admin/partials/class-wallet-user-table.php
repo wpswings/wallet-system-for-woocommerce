@@ -188,7 +188,11 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
 
 				if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
+					if ( $previous_wallet_amount < $wallet_amount ) {
+						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+					} else{
 					$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+					}
 				} else {
 					if ( $previous_wallet_amount < $wallet_amount ) {
 						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
@@ -257,8 +261,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 			} elseif ( 'debit' === $wallet_option ) {
 				$previous_wallet_amount = $wallet;
 				if ( $wallet < $wallet_amount ) {
-					//$wallet = 0;
-					
+										
 				} else {
 					$wallet -= $wallet_amount;
 				}
@@ -266,7 +269,11 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
 
 				if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
-					$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+					if ( $previous_wallet_amount < $wallet_amount ) {
+						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+					} else{
+						$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+					}
 				} else {
 					if ( $previous_wallet_amount < $wallet_amount ) {
 						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
@@ -368,18 +375,28 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				}
 				$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
 			} elseif ( 'debit' === $wallet_action ) {
+				$previous_wallet_amount = $wallet;
 				if ( $wallet < $updated_amount ) {
-					$wallet = 0;
 				} else {
 					$wallet -= $updated_amount;
 				}
 				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
 
 				if ( isset( $_POST['wps_wallet-edit-popup-transaction-detail'] ) && ! empty( $_POST['wps_wallet-edit-popup-transaction-detail'] ) ) {
-					$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
+					if ( $previous_wallet_amount < $updated_amount ) {
+						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+					} else{
+						$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+					}
+				
 				} else {
-					$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
+					if ( $previous_wallet_amount < $updated_amount ) {
+						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+					} else{
+						$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
+					}
 				}
+
 				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 			}
 

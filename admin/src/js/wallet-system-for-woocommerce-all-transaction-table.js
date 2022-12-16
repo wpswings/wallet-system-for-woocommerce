@@ -1,15 +1,3 @@
-jQuery.fn.dataTable.ext.search.push(
-    function (settings, data, dataIndex) {
-        var min = jQuery('#min').datepicker("getDate");
-        var max = jQuery('#max').datepicker("getDate");  
-        var startDate = new Date(data[9]);
-        if (min == null && max == null) { return true; }
-        if (min == null && startDate <= max) { return true;}
-        if(max == null && startDate >= min) {return true;}
-        if (startDate <= max && startDate >= min) { return true; }
-        return false;
-    }
-);
 
 jQuery(document).ready(function(){
 
@@ -43,6 +31,18 @@ jQuery(document).ready(function(){
 
     
 });
+jQuery.fn.dataTable.ext.search.push(
+    function (settings, data, dataIndex) {
+        var min = jQuery('#min').datepicker("getDate");
+        var max = jQuery('#max').datepicker("getDate");  
+        var startDate = new Date(data[9]);
+        if (min == null && max == null) { return true; }
+        if (min == null && startDate <= max) { return true;}
+        if(max == null && startDate >= min) {return true;}
+        if (startDate <= max && startDate >= min) { return true; }
+        return false;
+    }
+);
 
 jQuery(document).ready(function(){
     jQuery("#wps-wpg-gen-table_trasa").wrap("<div class='wps_wsfwp_table_wrap'></div>");
