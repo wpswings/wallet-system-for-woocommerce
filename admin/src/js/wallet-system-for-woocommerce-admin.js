@@ -151,8 +151,16 @@
 		$(document).on("click", ".edit_wallet", function(e){
 			e.preventDefault(e);
 			var userid = $(this).attr('data-userid');
+			var amount =  $(this).attr('user-amount');
+			debugger;
+			
 			$('.wps_wallet-edit--popupwrap').show();
-			$('.wps_wallet-edit--popupwrap').find('.wps_wallet-edit-popup-btn').before('<input class="userid" type="hidden" name="user_id" value="'+userid+'">');
+			if ( amount != '') {
+				
+			//	jQuery('#wps_wallet-edit-popup-input').attr('max',amount);
+			}
+			//jQuery('#wps_wallet-edit-popup-input').attr('min',1);
+			$('.wps_wallet-edit--popupwrap').find('.wps_wallet-edit-popup-btn').before('<input amount="'+amount+'" id="wallet-pop-up-user-id" class="userid" type="hidden" name="user_id" value="'+userid+'">');
 		});
 		$(document).on("click", ".edit_wallet-check", function(e){
 			e.preventDefault(e);
@@ -160,6 +168,24 @@
 			$('.wps_wallet-edit-check--popupwrap').show();
 			$('.wps_wallet-edit-check--popupwrap').find('.wps_wallet-edit-popup-btn-check').before('<input class="userid" type="hidden" name="user_id_check" value="'+userid+'">');
 		});
+		$(document).on("click", "#wps_wallet_submit_val", function(e){
+			e.preventDefault(e);
+			debugger;
+			var user_wallet_amount =  parseInt($('#wallet-pop-up-user-id').attr('amount'));
+			var wallet_amount =parseInt( $('#wps_wallet-edit-popup-input').val() );
+			if (jQuery('#debit').prop('checked') == true) {
+			if (wallet_amount > user_wallet_amount) {
+				$('.error').show();
+				$('.error').html(wsfw_admin_param.wsfw_amount_error_debit + user_wallet_amount);
+				return;
+			}
+				
+			}
+$('#wps_wallet_submit_val_submit').trigger('click');
+
+
+		});
+		
 
 		$(document).on("click", "#close_wallet_form", function(e) {
 			$('.wps_wallet-edit-popup-fill').val('');

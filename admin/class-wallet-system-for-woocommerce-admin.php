@@ -128,6 +128,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'datatable_info'            => __( '_START_ - _END_ of _TOTAL_', 'wallet-system-for-woocommerce' ),
 					'wsfw_ajax_error'           => __( 'An error occured!', 'wallet-system-for-woocommerce' ),
 					'wsfw_amount_error'         => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
+					'wsfw_amount_error_debit'         => __( 'Enter amount less than or equal to ', 'wallet-system-for-woocommerce' ),
 					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
 					'wsfw_is_subscription'      => $this->wps_wsfw_subscription_active_plugin(),
 				)
@@ -377,7 +378,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( '', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_enable',
 				'id'          => 'wps_wsfw_enable',
 				'value'       => 'on',
@@ -536,7 +537,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Signup Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( '', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_registration_enable',
 				'id'          => 'wps_wsfw_wallet_action_registration_enable',
 				'value'       => get_option( 'wps_wsfw_wallet_action_registration_enable' ),
@@ -586,7 +587,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet Auto Top Up Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( '', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_auto_topup_enable',
 				'id'          => 'wps_wsfw_wallet_action_auto_topup_enable',
 				'value'       => get_option( 'wps_wsfw_wallet_action_auto_topup_enable' ),
@@ -722,7 +723,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet Cashback', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( '', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_enable_cashback',
 				'id'          => 'wps_wsfw_enable_cashback',
 				'value'       => get_option( 'wps_wsfw_enable_cashback' ),
@@ -1661,12 +1662,12 @@ class Wallet_System_For_Woocommerce_Admin {
 						}
 					}
 					if( $wps_wsfwp_wallet_withdrawal_fee_amount > 0){
-						$withdrawal_amount = $withdrawal_amount+$wps_wsfwp_wallet_withdrawal_fee_amount .'( inculding '. $wps_wsfwp_wallet_withdrawal_fee_amount.')';
+						$withdrawal_amount = $withdrawal_amount+$wps_wsfwp_wallet_withdrawal_fee_amount . __( '( inculding ','wallet-system-for-woocommerce') . $wps_wsfwp_wallet_withdrawal_fee_amount. __( ')','wallet-system-for-woocommerce');
 					}
 					$transaction_type = __( 'Wallet debited through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $withdrawal_id . '</a>';
 					if( $wps_wsfwp_wallet_withdrawal_fee_amount ){
 
-						$transaction_type .= __( '( inculding Withdrawal Fee of ' .get_woocommerce_currency_symbol(). '' . $wps_wsfwp_wallet_withdrawal_fee_amount. ')');
+						$transaction_type .= __( '( inculding Withdrawal Fee of ','wallet-system-for-woocommerce') . get_woocommerce_currency_symbol() . '' . $wps_wsfwp_wallet_withdrawal_fee_amount. __( ')','wallet-system-for-woocommerce') ;
 					}
 					$transaction_data = array(
 						'user_id'          => $user_id,

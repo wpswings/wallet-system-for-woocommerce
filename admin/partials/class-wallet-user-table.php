@@ -386,7 +386,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 					if ( $previous_wallet_amount < $updated_amount ) {
 						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
 					} else{
-						$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+						$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
 					}
 				
 				} else {
@@ -671,9 +671,11 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function wsfw_get_action( $user ) {
+		$wallet_bal = get_user_meta( $user->ID, 'wps_wallet', true );
+		$wallet_bal = ! empty( $wallet_bal ) ? $wallet_bal : 0;
 		$data  = '';
 		$data .= '<span>';
-		$data .= '<a class="edit_wallet" data-userid="' . esc_attr( $user->ID ) . '" href="" title="Edit Wallet" >';
+		$data .= '<a class="edit_wallet" user-amount="' .esc_attr( $wallet_bal ) . '"  data-userid="' . esc_attr( $user->ID ) . '" href="" title="Edit Wallet" >';
 		$data .= '<img src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/edit.svg"></a>';
 		$data .= '<a href="' . esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wps-user-wallet-transactions&id=' . $user->ID ) . '" title="View Transactions" >';
 		$data .= '<img src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/eye.svg"></a>';
@@ -765,7 +767,9 @@ class Wallet_User_Table extends WP_List_Table {
 			<div class="wps_wallet-edit-popup-btn">
 				<input type="hidden" id="user_update_nonce" name="user_update_nonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 				
-				<input type="submit" name="update_wallet" class="wps-btn wps-btn__filled" value="<?php esc_html_e( 'Update Wallet', 'wallet-system-for-woocommerce' ); ?>">
+				<input type="button" id="wps_wallet_submit_val" name="update_wallet" class="wps-btn wps-btn__filled" value="<?php esc_html_e( 'Update Wallet', 'wallet-system-for-woocommerce' ); ?>">
+				<input type="submit" style="display:none" id="wps_wallet_submit_val_submit" name="update_wallet" class="wps-btn wps-btn__filled" value="<?php esc_html_e( 'Update Wallet', 'wallet-system-for-woocommerce' ); ?>">
+			
 			</div>
 		</form>
 	</div>

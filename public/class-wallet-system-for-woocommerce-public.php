@@ -123,6 +123,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @param array $available_gateways   all the available payment gateways.
 	 */
 	public function wps_wsfw_restrict_payment_gateway( $available_gateways ) {
+		//print_r( $available_gateways);
 		if ( isset( $available_gateways['wps_wcb_wallet_payment_gateway'] ) ) {
 
 			$wps_cart_total = WC()->cart->total;
