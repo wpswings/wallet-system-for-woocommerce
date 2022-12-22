@@ -63,12 +63,17 @@ $check = apply_filters( 'wsfw_check_pro_plugin', $check );
 					<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Withdrawal Amount', 'wallet-system-for-woocommerce' ); ?></th>
 					<?php
-					if ( $check ){
-					?>	<th><?php 
+					if ( $check ) {
+						?>
+						<th>
+						<?php
 						esc_html_e( 'Withdrawal Fee', 'wallet-system-for-woocommerce' );
-						?></th><?php
+						?>
+						</th>
+						<?php
 					}
-					?>				
+					?>
+									
 					
 					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
@@ -127,12 +132,17 @@ $check = apply_filters( 'wsfw_check_pro_plugin', $check );
 								</td>
 								<td><?php echo wp_kses_post( wc_price( $withdrawal_amount ) ); ?></td>
 								<?php
-									if ( $check ){
-										?>	<td><?php 
+								if ( $check ) {
+									?>
+											<td>
+										<?php
 										echo wp_kses_post( wc_price( $wps_wsfwp_wallet_withdrawal_fee_amount ) );
-										?></td><?php
-										}
-								?>	
+										?>
+										</td>
+										<?php
+								}
+								?>
+									
 							
 								<td>
 								<?php

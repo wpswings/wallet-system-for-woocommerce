@@ -41,7 +41,7 @@ $wsfw_tab_key = '';
 					array(
 						'title'       => __( 'Enable Tracking', 'wallet-system-for-woocommerce' ),
 						'type'        => 'radio-switch',
-						'description' => __( '', 'wallet-system-for-woocommerce' ),
+						'description' => '',
 						'name'        => 'wsfw_enable_tracking',
 						'id'          => 'wsfw_enable_tracking',
 						'value'       => get_option( 'wsfw_enable_tracking' ),

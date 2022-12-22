@@ -46,7 +46,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 		</p>
 		<p class="error"></p>
 		<?php
-		$wallet_transfer_fee_html = apply_filters( 'wps_wsfw_show_wallet_transfer_fee_content','');
+		$wallet_transfer_fee_html = apply_filters( 'wps_wsfw_show_wallet_transfer_fee_content', '' );
 		if ( ! empty( $wallet_transfer_fee_html ) ) {
 			echo wp_kses_post( $wallet_transfer_fee_html ); // phpcs:ignore
 		}

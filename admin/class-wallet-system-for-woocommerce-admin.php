@@ -291,7 +291,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		add_submenu_page( '', 'Edit User Wallet', '', 'edit_posts', 'wps-edit-wallet', array( $this, 'edit_wallet_of_user' ) );
 
-		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', __('Wallet Recharge Orders','wallet-system-for-woocommerce'), 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
+		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', __( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ), 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
 	}
 
 
@@ -378,7 +378,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( '', 'wallet-system-for-woocommerce' ),
+				'description' => '',
 				'name'        => 'wps_wsfw_enable',
 				'id'          => 'wps_wsfw_enable',
 				'value'       => 'on',
@@ -537,7 +537,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Signup Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( '', 'wallet-system-for-woocommerce' ),
+				'description' => '',
 				'name'        => 'wps_wsfw_wallet_action_registration_enable',
 				'id'          => 'wps_wsfw_wallet_action_registration_enable',
 				'value'       => get_option( 'wps_wsfw_wallet_action_registration_enable' ),
@@ -587,7 +587,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet Auto Top Up Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( '', 'wallet-system-for-woocommerce' ),
+				'description' => '',
 				'name'        => 'wps_wsfw_wallet_action_auto_topup_enable',
 				'id'          => 'wps_wsfw_wallet_action_auto_topup_enable',
 				'value'       => get_option( 'wps_wsfw_wallet_action_auto_topup_enable' ),
@@ -723,7 +723,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet Cashback', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( '', 'wallet-system-for-woocommerce' ),
+				'description' => '',
 				'name'        => 'wps_wsfw_enable_cashback',
 				'id'          => 'wps_wsfw_enable_cashback',
 				'value'       => get_option( 'wps_wsfw_enable_cashback' ),
@@ -856,10 +856,10 @@ class Wallet_System_For_Woocommerce_Admin {
 
 				$wps_wsfw_gen_flag     = false;
 				$wsfw_settings_wallet_action_auto_topup = apply_filters( 'wsfw_wallet_action_settings_auto_topup_array', array() );
-				//fee saving
+				// fee saving.
 				$wsfwp_wallet_action_settings_withdrawal_array = apply_filters( 'wsfwp_wallet_action_settings_withdrawal_array', array() );
 				$wsfwp_wallet_action_settings_transfer_array = apply_filters( 'wsfwp_wallet_action_settings_transfer_array', array() );
-				//fee saving.
+				// fee saving.
 				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
 				$wsfw_wallet_action_settings_daily_visit      = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 				$wsfw_wallet_action_settings_comment_array    = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
@@ -1630,10 +1630,10 @@ class Wallet_System_For_Woocommerce_Admin {
 					if ( $walletamount < $withdrawal_amount ) {
 						$walletamount = 0;
 					} else {
-						if( $wps_wsfwp_wallet_withdrawal_fee_amount > 0){
+						if ( $wps_wsfwp_wallet_withdrawal_fee_amount > 0 ) {
 
 							$walletamount -= $withdrawal_amount + $wps_wsfwp_wallet_withdrawal_fee_amount;
-						}else{
+						} else {
 
 							$walletamount -= $withdrawal_amount;
 						}
@@ -1661,13 +1661,13 @@ class Wallet_System_For_Woocommerce_Admin {
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 						}
 					}
-					if( $wps_wsfwp_wallet_withdrawal_fee_amount > 0){
-						$withdrawal_amount = $withdrawal_amount+$wps_wsfwp_wallet_withdrawal_fee_amount . __( '( inculding ','wallet-system-for-woocommerce') . $wps_wsfwp_wallet_withdrawal_fee_amount. __( ')','wallet-system-for-woocommerce');
+					if ( $wps_wsfwp_wallet_withdrawal_fee_amount > 0 ) {
+						$withdrawal_amount = $withdrawal_amount + $wps_wsfwp_wallet_withdrawal_fee_amount . __( '( inculding ', 'wallet-system-for-woocommerce' ) . $wps_wsfwp_wallet_withdrawal_fee_amount . __( ')', 'wallet-system-for-woocommerce' );
 					}
 					$transaction_type = __( 'Wallet debited through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $withdrawal_id . '</a>';
-					if( $wps_wsfwp_wallet_withdrawal_fee_amount ){
+					if ( $wps_wsfwp_wallet_withdrawal_fee_amount ) {
 
-						$transaction_type .= __( '( inculding Withdrawal Fee of ','wallet-system-for-woocommerce') . get_woocommerce_currency_symbol() . '' . $wps_wsfwp_wallet_withdrawal_fee_amount. __( ')','wallet-system-for-woocommerce') ;
+						$transaction_type .= __( '( inculding Withdrawal Fee of ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . '' . $wps_wsfwp_wallet_withdrawal_fee_amount . __( ')', 'wallet-system-for-woocommerce' );
 					}
 					$transaction_data = array(
 						'user_id'          => $user_id,
@@ -1954,9 +1954,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 
 				$transaction_type = __( 'Wallet debited through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $post_id . '</a>';
-				if( $wps_wsfwp_wallet_withdrawal_fee_amount ){
+				if ( $wps_wsfwp_wallet_withdrawal_fee_amount ) {
 
-					$transaction_type .= __( '( inculding Withdrawal Fee of ' . get_woocommerce_currency_symbol(). ' ' . $wps_wsfwp_wallet_withdrawal_fee_amount. ')');
+					$transaction_type .= __( '( inculding Withdrawal Fee of ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . ' ' . $wps_wsfwp_wallet_withdrawal_fee_amount . __( ')', 'wallet-system-for-woocommerce' );
 				}
 				$transaction_data = array(
 					'user_id'          => $user_id,
@@ -2681,18 +2681,18 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	/**
-	 * to correct the data sy=tores in case of wallet recharge
+	 * To correct the data sy=tores in case of wallet recharge.
 	 *
 	 * @param [type] $data_stores are the variable which contains all data stores.
-	 * @return void
+	 * @return string
 	 */
 	public function wsfw_admin_woocommerce_data_stores( $data_stores ) {
-		if ( ! empty( $data_stores  ) ) {
-		
-			$wallet_store = array('wallet_shop_order' => 'wallet_shop_order',);
-			$data_stores  = array_merge($wallet_store,$data_stores);
-			
-		return $data_stores;
+		if ( ! empty( $data_stores ) ) {
+
+			$wallet_store = array( 'wallet_shop_order' => 'wallet_shop_order' );
+			$data_stores  = array_merge( $wallet_store, $data_stores );
+
+			return $data_stores;
 
 		}
 	}
