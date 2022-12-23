@@ -17,7 +17,7 @@ Wallet System for WooCommerce is a digital wallet plugin.  It helps the merchant
  The [**WooCommerce Wallet System**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-github-page&utm_campaign=wallet-pro) increases the ease and security of the payment process. It benefits both customers and the merchant.
   
  
-[**How To Add A Digital Wallet System and Implement Wallet Cashback With Wallet System For WooCommerce? **](https://youtu.be/C5mwA5kttRU)
+[**How To Add A Digital Wallet System and Implement Wallet Cashback With Wallet System For WooCommerce?**](https://youtu.be/C5mwA5kttRU)
  
 ##  WITH THE WOOCOMMERCE WALLET SYSTEM PLUGIN YOU CAN:
  
@@ -93,7 +93,7 @@ Check out [**Wallet System Plugin Knowledge Base**](https://support.wpswings.com
  
 * [**WooCommerce Wallet System Backend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/get-your-personal-demo/?utm_source=wpswings-wallet-backend-demo&utm_medium=wallet-github-page&utm_campaign=wallet-backend-demo)
  
-##WOOCOMMERCE WALLET PLUGIN COMPATIBILITIES
+## WOOCOMMERCE WALLET PLUGIN COMPATIBILITIES
  
 * **Compatibility with Multi-Currency Switcher for WooCommerce**
 You can change the currency of the wallet due to its compatibility with the [**Multi-Currency Switcher**](https://wordpress.org/plugins/woocommerce-currency-switcher/) for Wallet for WooCommerce plugin. You can select any of the five currency types available, and transactions will happen in your chosen currency.
