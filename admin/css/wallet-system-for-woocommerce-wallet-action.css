@@ -319,3 +319,9 @@ input#wps_wsfw_export_pdf {
   color: #fff;
   border-radius: 0;
 }
+
+
+.wps_wsfwp_table_wrap {
+  width: 100%;
+  overflow-x: auto;
+}

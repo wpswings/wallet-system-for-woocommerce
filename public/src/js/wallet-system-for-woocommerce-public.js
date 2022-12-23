@@ -70,6 +70,7 @@
 							},
 							dataType: 'JSON',
 							success: function( response ) {
+								debugger;
 								if ( response.status == true ) {
 									$('#wps_wallet_show_total_msg').css('color', 'green');
 									$( '#wps_wallet_show_total_msg' ).html(response.message);

@@ -80,6 +80,12 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 				<input type="number" step="0.01" min="0" data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="wps_wallet_withdrawal_amount" name="wps_wallet_withdrawal_amount" required="">
 			</p>
 			<p class="error"></p>
+			<?php
+				$wallet_withdrawal_fee_html = apply_filters( 'wps_wsfw_show_wallet_withdrawal_fee_content', '' );
+			if ( ! empty( $wallet_withdrawal_fee_html ) ) {
+				echo wp_kses_post( $wallet_withdrawal_fee_html ); // phpcs:ignore
+			}
+			?>
 			<p class="wps-wallet-field-container form-row form-row-wide">
 				<label for="wps_wallet_note"><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></label>
 				<textarea id="wps_wallet_note" name="wps_wallet_note" required></textarea>
