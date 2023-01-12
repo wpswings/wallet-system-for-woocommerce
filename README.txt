@@ -6,7 +6,7 @@ Requires at least: 5.1.0
 Tested up to: 6.1.1
 WC requires at least: 5.1.0
 WC tested up to: 7.2.2
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -238,7 +238,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.3.0 - Released on 22 December 2022 =
+= 2.3.1 - Released on 22 December 2022 =
 * New: Bulk edit through checkbox to credit or debit amount
 * New: Latest WP and WC compatibility
 
@@ -349,7 +349,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.3.0 - Released on 22 December 2022 =
+= 2.3.1 - Released on 22 December 2022 =
 * New: Bulk edit through checkbox to credit or debit amount
 * New: latest WP and WC compatibility
 
