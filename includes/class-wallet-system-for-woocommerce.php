@@ -272,7 +272,10 @@ class Wallet_System_For_Woocommerce {
 		 $this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 30, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
 		$this->loader->add_action( 'wp_ajax_restrict_user_from_wallet_access', $wsfw_plugin_admin, 'restrict_user_from_wallet_access' );
-
+		
+		$this->loader->add_action( 'wp_ajax_woo_wallet_order_refund', $wsfw_plugin_admin, 'woo_wallet_order_refund' );
+		$this->loader->add_action( 'wp_ajax_woo_wallet_refund_partial_payment', $wsfw_plugin_admin, 'woo_wallet_refund_partial_payment' );
+           
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
 

@@ -84,3 +84,70 @@ if ( ! function_exists( 'wps_wsfw_update_user_wallet_balance' ) ) {
 
 	}
 }
+
+
+if ( ! function_exists( 'wps_is_wallet_rechargeable_order' ) ) {
+
+    /**
+     * Check if order contains rechargeable product
+     * @param WC_Order object $order
+     * @return boolean
+     */
+    function wps_is_wallet_rechargeable_order( $order ) {
+        $wps_is_wallet_rechargeable_order = false;
+		$wallet_recharge_id  = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+        if( $order instanceof WC_Order){
+            foreach ( $order->get_items( 'line_item' ) as $item ) {
+                $product_id = $item['product_id'];
+                if ( $product_id == $wallet_recharge_id ) {
+                    $wps_is_wallet_rechargeable_order = true;
+                    break;
+                }
+            }
+        }
+        return apply_filters( 'wps_wallet_is_wallet_rechargeable_order', $wps_is_wallet_rechargeable_order, $order );
+    }
+
+}
+
+
+if ( ! function_exists( 'get_order_partial_payment_amount' ) ) {
+    /**
+     * Get total partial payment amount from an order.
+     * @param Int $order_id
+     * @return Number
+     */
+    function get_order_partial_payment_amount( $order_id ) {
+        $via_wallet = 0;
+        $order = wc_get_order( $order_id );
+        if ( $order ) {
+            $line_items_fee = $order->get_items( 'fee' );
+            foreach ( $line_items_fee as $item_id => $item ) {
+                if(is_partial_payment_order_item($item_id, $item)){
+                    $via_wallet += $item->get_total( 'edit' ) + $item->get_total_tax( 'edit' );
+                }
+            }
+        }
+        return apply_filters('woo_wallet_order_partial_payment_amount', abs( $via_wallet ), $order_id);
+    }
+
+}
+
+if( !function_exists( 'is_partial_payment_order_item' ) ){
+    /**
+     * Check if order item is partial payment instance.
+     * @param Int $item_id
+     * @param WC_Order_Item_Fee $item
+     * @return boolean
+     */
+    function is_partial_payment_order_item($item_id, $item){
+        if( get_metadata( 'order_item', $item_id, '_legacy_fee_key', true ) && '_via_wallet_partial_payment' === get_metadata( 'order_item', $item_id, '_legacy_fee_key', true ) ){
+            return true;
+        }
+        else if ( 'via_wallet' === strtolower(str_replace( ' ', '_', $item->get_name( 'edit' ) ) ) ) {
+            return true;
+        }
+        return false;
+    }
+    
+}

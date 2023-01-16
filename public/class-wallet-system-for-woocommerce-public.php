@@ -761,6 +761,8 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 
+
+
 	/**
 	 * Change post type to wallet_shop_order if wallet is recharge during new order place
 	 *
@@ -1285,17 +1287,17 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return array
 	 */
 	public function wsfw_wallet_cart_totals_fee_html( $cart_totals_fee_html, $fees ) {
-
+	
 		foreach ( $fees as $key => $fee ) {
 
 			if ( 'Via wallet' == $fee ) {
 				// gets the data to recalculate the cart total.
 				$cart_totals_fee_html = $fees->amount;
-
+				return wc_price( $cart_totals_fee_html );
 				break;
 			}
 		}
-		return wc_price( $cart_totals_fee_html );
+		return wc_price( $fees );
 	}
 	/**
 	 * Fix cart total html.
@@ -1304,7 +1306,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return array
 	 */
 	public function wsfw_wallet_get_fee_taxes( $cart_totals_fee_html ) {
-
+		
 		if ( is_array( $cart_totals_fee_html ) && count( $cart_totals_fee_html ) > 0 ) {
 
 			$cart_totals_fee_html[1] = floatval( 0 );
@@ -1320,7 +1322,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return array
 	 */
 	public function wsfw_wallet_cart_total( $cart_totals_fee_html ) {
-
+		
 		$cart_total     = WC()->cart->get_total( '' );
 
 		 $fees = WC()->cart->get_fees();
@@ -1354,7 +1356,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$fee_total = '';
 		$fee_total_tax = '';
 		$order_fee_array = $order->get_items( 'fee' );
-
+	
 		foreach ( $order_fee_array as $item_id => $item_fee ) {
 
 			if ( $item_fee->get_name() == 'Via wallet' ) {

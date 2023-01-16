@@ -145,6 +145,26 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			}
 		}
 
+		  /**
+         * Process a refund if supported.
+         *
+         * @param  int    $order_id Order ID.
+         * @param  float  $amount Refund amount.
+         * @param  string $reason Refund reason.
+         * @return bool|WP_Error
+         */
+        public function process_refund( $order_id, $amount = null, $reason = '' ) {
+            $order = wc_get_order( $order_id );
+            $refund_reason = $reason ? $reason : __( 'Wallet refund #', 'woo-wallet' ) . $order->get_order_number();
+         
+			// $transaction_id = woo_wallet()->wallet->credit( $order->get_customer_id(), $amount, $refund_reason );
+            if ( !$transaction_id ) {
+                throw new Exception( __( 'Refund not credited to customer', 'woo-wallet' ) );
+            }
+            do_action( 'woo_wallet_order_refunded', $order, $amount, $transaction_id );
+            return true;
+        }
+
 		/**
 		 * Process the payment and return the result
 		 *
