@@ -559,15 +559,29 @@ class Wallet_User_Table extends WP_List_Table {
 			array(
 				'key'     => 'wps_wallet',
 				'compare' => 'NOT EXISTS',
-
 			),
 		);
+		$wps_paged_no           = ! empty( $_GET['paged'] ) ? sanitize_text_field( wp_unslash( $_GET['paged'] ) ) : 0;
+		$pagination_no          = 0;
+
+		if ( 1 == $wps_paged_no ) {
+			$pagination_no = 2;
+		} else {
+			$pagination_no = $wps_paged_no + 1;
+		}
+	
+		$pagination_no = $pagination_no * 10;
+		if ( $pagination_no == 10 ) {
+			$pagination_no = 11;
+		}
+		$args['number'] = $pagination_no;
 		if ( isset( $_REQUEST['s'] ) ) {
 			$wps_request_search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
 			$args['search']     = '*' . $wps_request_search . '*';
 		}
 		$user_data = new WP_User_Query( $args );
 		$user_data = $user_data->get_results();
+
 		if ( ! empty( $user_data ) ) {
 			foreach ( $user_data as $all_user ) {
 				$user               = get_user_by( 'id', $all_user->ID );
