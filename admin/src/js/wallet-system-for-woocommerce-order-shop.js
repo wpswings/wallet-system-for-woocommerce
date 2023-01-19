@@ -1,13 +1,38 @@
 
 jQuery(document).ready(function(){
-    debugger;
+  
 
     if (wps_wallet_admin_order_param.is_refundable) {
-        jQuery('.refund-actions .do-manual-refund').before('<button type="button" class="button button-primary do-wallet-refund">' + wps_wallet_admin_order_param.i18n.refund + ' <span class="wc-order-refund-amount">' + wps_wallet_admin_order_param.default_price + '</span> ' + wps_wallet_admin_order_param.i18n.via_wallet + '</button>');
+        jQuery('.refund-actions .do-manual-refund').before('<button type="button" class="button button-primary do-wallet-refund">' + wps_wallet_admin_order_param.i18n.refund + ' <span class="wps-wc-order-refund-amount">' + wps_wallet_admin_order_param.default_price + '</span> ' + wps_wallet_admin_order_param.i18n.via_wallet + '</button>');
     }
 
+    jQuery(document).on( 'click', '.refund-partial-payment', function() {
+        if (window.confirm(woocommerce_admin_meta_boxes.i18n_do_refund)) {
+           debugger;
+            var data = {
+                action: 'wps_wallet_refund_partial_payment',
+                order_id: woocommerce_admin_meta_boxes.post_id
+            };
+            jQuery.post(woocommerce_admin_meta_boxes.ajax_url, data, function (response) {
+                debugger;
+                if (true === response.success) {
+                    // Redirect to same page for show the refunded status
+                    window.location.href = window.location.href;
+                }
+            });
+        }
+    });
+
+
+
+    jQuery('#woocommerce-order-items').on( 'change', '#refund_amount', function() {
+
+    $refund_amount_val = jQuery('#refund_amount').val();
+        jQuery('.do-wallet-refund').html(wps_wallet_admin_order_param.i18n.refund + ' <span class="wps-wc-order-refund-amount"> <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol"> ' + wps_wallet_admin_order_param.currency_symbol + '</span>' + $refund_amount_val + ' </bdi></span></span> ' + wps_wallet_admin_order_param.i18n.via_wallet );
+    });
+
     jQuery('#woocommerce-order-items').on( 'click', '.refund-actions .do-wallet-refund', function() {
-		debugger;
+		
         if (window.confirm(woocommerce_admin_meta_boxes.i18n_do_refund)) {
         var refund_amount = jQuery('input#refund_amount').val();
         var refund_reason = jQuery('input#refund_reason').val();
@@ -41,7 +66,7 @@ jQuery(document).ready(function(){
                     }
                 });
                 var data = {
-                                action: 'woo_wallet_order_refund',
+                                action: 'wps_wallet_order_refund_action',
                                 order_id: woocommerce_admin_meta_boxes.post_id,
                                 refund_amount: refund_amount,
                                 refund_reason: refund_reason,
@@ -56,7 +81,7 @@ jQuery(document).ready(function(){
 
     jQuery.post(woocommerce_admin_meta_boxes.ajax_url, data, function (response) {
         if (true === response.success) {
-           // woo_wallet_order_items.reload_items();
+           // wpss_wallet_order_items.reload_items();
 
             if ('fully_refunded' === response.data.status) {
                 // Redirect to same page for show the refunded status
@@ -65,11 +90,11 @@ jQuery(document).ready(function(){
             window.location.href = window.location.href;
         } else {
             window.alert(response.data.error);
-        //    woo_wallet_order_items.unblock();
+     
         }
     });
 } else {
-   // woo_wallet_order_items.unblock();
+  
 }
 });
 

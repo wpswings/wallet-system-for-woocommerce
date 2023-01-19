@@ -158,14 +158,16 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		if (in_array( $screen_id, array( 'shop_order' ) ) ) {
 			wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-order-shop.js', array( 'jquery' ), $this->version, false );
-
+			global  $woocommerce;
+			$currency_symbol = get_woocommerce_currency_symbol();
 			$order = wc_get_order( $post->ID );
 			wp_enqueue_script( 'wallet-recharge-admin-js' );
 			$order_localizer = array(
 				'order_id' => $post->ID,
 				'payment_method' => $order->get_payment_method( 'edit' ),
 				'default_price' => wc_price( 0 ),
-				'is_refundable' => apply_filters( 'woo_wallet_is_order_refundable', ( ! wps_is_wallet_rechargeable_order( $order ) && $order->get_payment_method( 'edit' ) != 'wallet' ) && $order->get_customer_id( 'edit' ), $order ),
+				'currency_symbol' =>  $currency_symbol,
+				'is_refundable' => apply_filters( 'wps_wallet_is_order_refundable', ( ! wps_is_wallet_rechargeable_order( $order ) && $order->get_payment_method( 'edit' ) != 'wallet' ) && $order->get_customer_id( 'edit' ), $order ),
 				'i18n' => array(
 					'refund' => __( 'Refund', 'wallet-system-for-woocommerce' ),
 					'via_wallet' => __( 'to user wallet', 'wallet-system-for-woocommerce' )
@@ -177,6 +179,30 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		wp_enqueue_script( 'wallet-recharge-admin-js' );
 	}
+
+
+	 	/**
+         * Add refund button to WooCommerce order page.
+         * @param int $item_id
+         * @param Object $item
+         */
+        public function woocommerce_after_order_fee_item_name_callback( $item_id, $item ){
+            global $post, $thepostid;
+            
+            if( !is_partial_payment_order_item( $item_id, $item) ){
+                return;
+            }
+            if ( ! is_int( $thepostid ) ) {
+                    $thepostid = $post->ID;
+            }
+            
+            $order_id = $thepostid;
+            if ( get_post_meta($order_id, '_wps_wallet_partial_payment_refunded', true) ) {
+                echo '<small class="refunded">' . __('Refunded', 'wallet-system-for-woocommerce') . '</small>';
+            } else{
+                echo '<button type="button" class="button refund-partial-payment">'.__( 'Refund to Wallet', 'wallet-system-for-woocommerce').'</button>';
+            }
+        }
 
 
 	/**
@@ -2725,7 +2751,7 @@ class Wallet_System_For_Woocommerce_Admin {
          * @throws exception
          * @throws Exception
          */
-        public function woo_wallet_order_refund() {
+        public function wps_wallet_order_refund_action() {
 
 
             ob_start();
@@ -2759,7 +2785,7 @@ class Wallet_System_For_Woocommerce_Admin {
                 $max_refund = wc_format_decimal($order->get_total() - $order->get_total_refunded(), wc_get_price_decimals());
 
                 if (!$refund_amount || $max_refund < $refund_amount || 0 > $refund_amount) {
-                    throw new exception(__('Invalid refund amount', 'woo-wallet'));
+                    throw new exception(__('Invalid refund amount', 'wallet-system-for-woocommerce'));
                 }
                 // Prepare line items which we are refunding
                 $line_items = array();
@@ -2787,8 +2813,7 @@ class Wallet_System_For_Woocommerce_Admin {
                     'restock_items' => $restock_refunded_items,
                         ));
                 if (!is_wp_error($refund)) {
-                //    $transaction_id = woo_wallet()->wallet->credit($order->get_customer_id(), $refund_amount, $refund_reason);
-                   
+                 
 			$credited_amount = apply_filters( 'wps_wsfw_update_wallet_to_base_price', $refund_amount, $order_currency );
 			$walletamount   += $credited_amount;
 			$transaction_id = update_user_meta( $userid, 'wps_wallet', $walletamount );
@@ -2818,15 +2843,11 @@ class Wallet_System_For_Woocommerce_Admin {
 				'note'             => '',
 			);
 			$transaction_id = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-	
-					
-
-					
-					
+			
 					if (!$transaction_id) {
-                        throw new Exception(__('Refund not credited to customer', 'woo-wallet'));
+                        throw new Exception(__('Refund not credited to customer', 'wallet-system-for-woocommerce'));
                     } else {
-                        do_action('woo_wallet_order_refunded', $order, $refund, $transaction_id);
+                        do_action('wps_wallet_order_refund_actioned', $order, $refund, $transaction_id);
                     }
                 }
 
@@ -2850,10 +2871,10 @@ class Wallet_System_For_Woocommerce_Admin {
 		 /**
          * Wallet partial payment refund.
          */
-        public function woo_wallet_refund_partial_payment() {
+        public function wps_wallet_refund_partial_payment() {
 
 			
-            if (!current_user_can('edit_shop_orders')) {
+            if ( ! current_user_can('edit_shop_orders' ) ) {
                 wp_die(-1);
             }
 			$order_id = absint(filter_input(INPUT_POST, 'order_id'));
@@ -2861,15 +2882,14 @@ class Wallet_System_For_Woocommerce_Admin {
 			$userid         = $order->get_user_id();
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 			$wallet_id      = get_option( 'wps_wsfw_rechargeable_product_id', '' );
-		$walletamount   = get_user_meta( $userid, 'wps_wallet', true );
-		$walletamount   = empty( $walletamount ) ? 0 : $walletamount;
+			$walletamount   = get_user_meta( $userid, 'wps_wallet', true );
+			$walletamount   = empty( $walletamount ) ? 0 : $walletamount;
 	
             $response = array('success' => false);
           
         
             $partial_payment_amount = get_order_partial_payment_amount($order_id);
-           // $transaction_id = woo_wallet()->wallet->credit($order->get_customer_id(), $partial_payment_amount, __('Wallet refund #', 'woo-wallet') . $order->get_order_number());
-            $user                   = get_user_by( 'id', $userid );
+           $user                   = get_user_by( 'id', $userid );
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$order_currency = $order->get_currency();
 
@@ -2882,7 +2902,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $partial_payment_amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet Partial Payment credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $partial_payment_amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -2906,14 +2926,15 @@ class Wallet_System_For_Woocommerce_Admin {
 					);
 					$transaction_id=	$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 			
-					add_action('woo_wallet_partial_order_refunded', $order_id, $transaction_id);
-			// if ($transaction_id) {
-            //     $response['success'] = true;
-            //     $order->add_order_note(sprintf(__('%s refunded to customer wallet', 'woo-wallet'), wc_price($partial_payment_amount, woo_wallet_wc_price_args($order->get_customer_id()))));
-            //     update_post_meta($order_id, '_woo_wallet_partial_payment_refunded', true);
-            //     update_post_meta($order_id, '_partial_payment_refund_id', $transaction_id);
-            //     add_action('woo_wallet_partial_order_refunded', $order_id, $transaction_id);
-            // }
+					add_action('wps_wallet_partial_order_refunded', $order_id, $transaction_id);
+					if ($transaction_id){
+						$response = array('success' => true);
+						$order->add_order_note(sprintf(__('%s refunded to customer wallet', 'wallet-system-for-woocommerce'), wc_price($partial_payment_amount, wps_wallet_wc_price_args($order->get_customer_id()))));
+                update_post_meta($order_id, '_wps_wallet_partial_payment_refunded', true);
+                update_post_meta($order_id, '_partial_payment_refund_id', $transaction_id);
+                add_action('wps_wallet_partial_order_refunded', $order_id, $transaction_id);
+					}
+		
             wp_send_json($response);
         }
 

@@ -128,7 +128,7 @@ if ( ! function_exists( 'get_order_partial_payment_amount' ) ) {
                 }
             }
         }
-        return apply_filters('woo_wallet_order_partial_payment_amount', abs( $via_wallet ), $order_id);
+        return apply_filters('wps_wallet_order_partial_payment_amount', abs( $via_wallet ), $order_id);
     }
 
 }
@@ -150,4 +150,24 @@ if( !function_exists( 'is_partial_payment_order_item' ) ){
         return false;
     }
     
+}
+
+
+if (!function_exists('wps_wallet_wc_price_args')) {
+
+    function wps_wallet_wc_price_args($user_id = '') {
+        if (!$user_id) {
+            $user_id = get_current_user_id();
+        }
+        $args = apply_filters('wps_wallet_wc_price_args', array(
+            'ex_tax_label' => false,
+            'currency' => '',
+            'decimal_separator' => wc_get_price_decimal_separator(),
+            'thousand_separator' => wc_get_price_thousand_separator(),
+            'decimals' => wc_get_price_decimals(),
+            'price_format' => get_woocommerce_price_format(),
+                ), $user_id);
+        return $args;
+    }
+
 }

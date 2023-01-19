@@ -155,13 +155,12 @@ function wps_wsfw_wallet_payment_gateway_init() {
          */
         public function process_refund( $order_id, $amount = null, $reason = '' ) {
             $order = wc_get_order( $order_id );
-            $refund_reason = $reason ? $reason : __( 'Wallet refund #', 'woo-wallet' ) . $order->get_order_number();
+            $refund_reason = $reason ? $reason : __( 'Wallet refund #', 'wallet-system-for-woocommerce' ) . $order->get_order_number();
          
-			// $transaction_id = woo_wallet()->wallet->credit( $order->get_customer_id(), $amount, $refund_reason );
-            if ( !$transaction_id ) {
-                throw new Exception( __( 'Refund not credited to customer', 'woo-wallet' ) );
+			if ( !$transaction_id ) {
+                throw new Exception( __( 'Refund not credited to customer', 'wallet-system-for-woocommerce' ) );
             }
-            do_action( 'woo_wallet_order_refunded', $order, $amount, $transaction_id );
+            do_action( 'wps_wallet_order_refund_actioned', $order, $amount, $transaction_id );
             return true;
         }
 
@@ -227,7 +226,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				}
 			}
-
+	;
 			// Mark as on-hold (we're awaiting the payment).
 			$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
 

@@ -1108,7 +1108,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @param string $comment_data comment data.
 	 * @return string
 	 */
-	public function wps_wsfw_woo_show_comment_notice( $comment_data ) {
+	public function wps_wsfw_show_comment_notice( $comment_data ) {
 		global $current_user,$post;
 		if ( ! is_user_logged_in() ) {
 			return $comment_data;
@@ -1143,7 +1143,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 *
 	 * @return void
 	 */
-	public function wps_wsfw_woo_show_signup_notice() {
+	public function wps_wsfw_show_signup_notice() {
 		$wps_wsfw_wallet_action_registration_enable      = get_option( 'wps_wsfw_wallet_action_registration_enable', '' );
 		$wps_wsfw_wallet_action_registration_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_registration_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_amount' ) : 1;
 		$wps_wsfw_wallet_action_registration_description = ! empty( get_option( 'wps_wsfw_wallet_action_registration_description' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_description' ) : __( 'You will Get 1 Points on a successful Sign Up.', 'wallet-system-for-woocommerce' );
