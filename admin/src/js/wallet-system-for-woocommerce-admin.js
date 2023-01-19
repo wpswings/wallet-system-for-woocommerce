@@ -152,7 +152,7 @@
 			e.preventDefault(e);
 			var userid = $(this).attr('data-userid');
 			var amount =  $(this).attr('user-amount');
-			debugger;
+			 
 			
 			$('.wps_wallet-edit--popupwrap').show();
 			if ( amount != '') {
@@ -170,7 +170,7 @@
 		});
 		$(document).on("click", "#wps_wallet_submit_val", function(e){
 			e.preventDefault(e);
-			debugger;
+			 
 			var user_wallet_amount =  parseInt($('#wallet-pop-up-user-id').attr('amount'));
 			var wallet_amount =parseInt( $('#wps_wallet-edit-popup-input').val() );
 			if (jQuery('#debit').prop('checked') == true) {
@@ -342,7 +342,7 @@ $('#wps_wallet_submit_val_submit').trigger('click');
 
 
 function set_checked_value(obj){
-	debugger;
+	 
 	
 	var existing_array = jQuery('#user_check_box_ids').val();
 	

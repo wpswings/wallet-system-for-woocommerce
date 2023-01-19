@@ -1,5 +1,5 @@
   jQuery(document).ready(function() {
-    debugger;
+   
    jQuery( "#wps_sfw_subscription_interval" ).change(function() {
        
        var wps_sfw_subscription_interval = jQuery( "#wps_sfw_subscription_interval" ).val();        

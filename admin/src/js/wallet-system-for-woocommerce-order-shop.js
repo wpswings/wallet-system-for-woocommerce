@@ -8,13 +8,13 @@ jQuery(document).ready(function(){
 
     jQuery(document).on( 'click', '.refund-partial-payment', function() {
         if (window.confirm(woocommerce_admin_meta_boxes.i18n_do_refund)) {
-           debugger;
+            
             var data = {
                 action: 'wps_wallet_refund_partial_payment',
                 order_id: woocommerce_admin_meta_boxes.post_id
             };
             jQuery.post(woocommerce_admin_meta_boxes.ajax_url, data, function (response) {
-                debugger;
+                 
                 if (true === response.success) {
                     // Redirect to same page for show the refunded status
                     window.location.href = window.location.href;
