@@ -569,9 +569,9 @@ class Wallet_User_Table extends WP_List_Table {
 		} else {
 			$pagination_no = $wps_paged_no + 1;
 		}
-	
+
 		$pagination_no = $pagination_no * 10;
-		if ( $pagination_no == 10 ) {
+		if ( 10 == $pagination_no ) {
 			$pagination_no = 11;
 		}
 		$args['number'] = $pagination_no;

@@ -146,23 +146,23 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		}
 
 		  /**
-         * Process a refund if supported.
-         *
-         * @param  int    $order_id Order ID.
-         * @param  float  $amount Refund amount.
-         * @param  string $reason Refund reason.
-         * @return bool|WP_Error
-         */
-        public function process_refund( $order_id, $amount = null, $reason = '' ) {
-            $order = wc_get_order( $order_id );
-            $refund_reason = $reason ? $reason : __( 'Wallet refund #', 'wallet-system-for-woocommerce' ) . $order->get_order_number();
-         
-			if ( !$transaction_id ) {
-                throw new Exception( __( 'Refund not credited to customer', 'wallet-system-for-woocommerce' ) );
-            }
-            do_action( 'wps_wallet_order_refund_actioned', $order, $amount, $transaction_id );
-            return true;
-        }
+		   * Process a refund if supported.
+		   *
+		   * @param  int    $order_id Order ID.
+		   * @param  float  $amount Refund amount.
+		   * @param  string $reason Refund reason.
+		   * @return bool|WP_Error
+		   */
+		public function process_refund( $order_id, $amount = null, $reason = '' ) {
+			$order = wc_get_order( $order_id );
+			$refund_reason = $reason ? $reason : __( 'Wallet refund #', 'wallet-system-for-woocommerce' ) . $order->get_order_number();
+
+			if ( ! $transaction_id ) {
+				throw new Exception( __( 'Refund not credited to customer', 'wallet-system-for-woocommerce' ) );
+			}
+			do_action( 'wps_wallet_order_refund_actioned', $order, $amount, $transaction_id );
+			return true;
+		}
 
 		/**
 		 * Process the payment and return the result
@@ -225,8 +225,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				}
-			}
-	;
+			};
 			// Mark as on-hold (we're awaiting the payment).
 			$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
 
