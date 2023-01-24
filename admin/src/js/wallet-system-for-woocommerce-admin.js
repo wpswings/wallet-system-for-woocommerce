@@ -139,6 +139,13 @@
 		$(document).on( 'click', '#update_wallet', function(e) {
 			e.preventDefault(e);
 			$('.wps_wallet-update--popupwrap').show();
+			if (jQuery('#user_check_box_ids').val()!=''){
+				
+				$('#wps_all_selected_users').show();
+			} else{
+				
+				$('#wps_all_users').show();
+			}
 		});
 		$(document).on("click", "#confirm_updatewallet", function(){
 			$('.wps_wallet-update--popupwrap').hide();

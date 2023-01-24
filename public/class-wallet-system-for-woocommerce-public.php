@@ -899,8 +899,10 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		} else {
 			if ( wc()->cart->get_total( 'edit' ) > $wsfw_min_cart_amount ) {
+
 				if ( 'percent' === $wsfw_cashbak_type ) {
-					$total                        = wc()->cart->get_total( 'edit' );
+
+					 $total                        = wc()->cart->get_total( 'edit' );
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_total( 'edit' ) );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
 

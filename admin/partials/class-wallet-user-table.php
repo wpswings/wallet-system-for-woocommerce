@@ -462,15 +462,20 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 			</div>
 			<div class="wps_wallet-update--popupwrap">
 				<div class="wps_wallet-update-popup">
+					<div id="wps_all_users" style="display:none">
 					<h3><?php esc_html_e( 'Are you sure to update wallet of all users?', 'wallet-system-for-woocommerce' ); ?></h3>
+					</div>
+					<div id="wps_all_selected_users" style="display:none">
+					<h3><?php esc_html_e( 'Are you sure to update wallet of selected user?', 'wallet-system-for-woocommerce' ); ?></h3>
+					</div>
 					<div class="wps_wallet-update-popup-btn">
 						<input type="submit" class="wps-btn wps-btn__filled" name="confirm_updatewallet" id="confirm_updatewallet" value="<?php esc_html_e( 'Yes, I\'m Sure', 'wallet-system-for-woocommerce' ); ?>" >
 						<a href="javascript:void(0);" id="cancel_walletupdate" ><?php esc_html_e( 'Not now', 'wallet-system-for-woocommerce' ); ?></a>
 					</div>
-				</div>
+					</div>
 			</div>
 		</form>
-
+		
 		<button class="mdc-ripple-upgraded" id="export_user_wallet" > <img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/down-arrow.png" title="Download CSV file" >
 		</button>
 

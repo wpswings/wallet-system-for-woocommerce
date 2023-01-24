@@ -272,12 +272,12 @@ class Wallet_System_For_Woocommerce {
 		 $this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_admin, 'wsfw_order_status_changed_admin', 30, 3 );
 		$this->loader->add_action( 'wp_ajax_change_wallet_withdrawan_status', $wsfw_plugin_admin, 'change_wallet_withdrawan_status' );
 		$this->loader->add_action( 'wp_ajax_restrict_user_from_wallet_access', $wsfw_plugin_admin, 'restrict_user_from_wallet_access' );
-		
+
 		$this->loader->add_action( 'wp_ajax_wps_wallet_order_refund_action', $wsfw_plugin_admin, 'wps_wallet_order_refund_action' );
 		$this->loader->add_action( 'wp_ajax_wps_wallet_refund_partial_payment', $wsfw_plugin_admin, 'wps_wallet_refund_partial_payment' );
 
-		$this->loader->add_action( 'woocommerce_after_order_fee_item_name', $wsfw_plugin_admin, 'woocommerce_after_order_fee_item_name_callback', 10 ,2 );
-		 
+		$this->loader->add_action( 'woocommerce_after_order_fee_item_name', $wsfw_plugin_admin, 'woocommerce_after_order_fee_item_name_callback', 10, 2 );
+
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
 
@@ -1233,7 +1233,7 @@ class Wallet_System_For_Woocommerce {
 
 			$insert_array = array(
 				'user_id'          => $transactiondata['user_id'],
-				'amount'           => apply_filters( 'wps_wsfw_convert_to_base_price',$transactiondata['amount']),
+				'amount'           => apply_filters( 'wps_wsfw_convert_to_base_price', $transactiondata['amount'] ),
 				'currency'         => $transactiondata['currency'],
 				'transaction_type' => $transactiondata['transaction_type'],
 				'payment_method'   => $transactiondata['payment_method'],
