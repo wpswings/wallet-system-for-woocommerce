@@ -123,7 +123,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @param array $available_gateways   all the available payment gateways.
 	 */
 	public function wps_wsfw_restrict_payment_gateway( $available_gateways ) {
-		// print_r( $available_gateways);
+		
 		if ( isset( $available_gateways['wps_wcb_wallet_payment_gateway'] ) ) {
 
 			$wps_cart_total = WC()->cart->total;
@@ -761,6 +761,8 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 
+
+
 	/**
 	 * Change post type to wallet_shop_order if wallet is recharge during new order place
 	 *
@@ -897,8 +899,10 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		} else {
 			if ( wc()->cart->get_total( 'edit' ) > $wsfw_min_cart_amount ) {
+
 				if ( 'percent' === $wsfw_cashbak_type ) {
-					$total                        = wc()->cart->get_total( 'edit' );
+
+					 $total                        = wc()->cart->get_total( 'edit' );
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_total( 'edit' ) );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
 
@@ -1106,7 +1110,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @param string $comment_data comment data.
 	 * @return string
 	 */
-	public function wps_wsfw_woo_show_comment_notice( $comment_data ) {
+	public function wps_wsfw_show_comment_notice( $comment_data ) {
 		global $current_user,$post;
 		if ( ! is_user_logged_in() ) {
 			return $comment_data;
@@ -1141,7 +1145,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 *
 	 * @return void
 	 */
-	public function wps_wsfw_woo_show_signup_notice() {
+	public function wps_wsfw_show_signup_notice() {
 		$wps_wsfw_wallet_action_registration_enable      = get_option( 'wps_wsfw_wallet_action_registration_enable', '' );
 		$wps_wsfw_wallet_action_registration_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_registration_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_amount' ) : 1;
 		$wps_wsfw_wallet_action_registration_description = ! empty( get_option( 'wps_wsfw_wallet_action_registration_description' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_description' ) : __( 'You will Get 1 Points on a successful Sign Up.', 'wallet-system-for-woocommerce' );
@@ -1291,11 +1295,11 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( 'Via wallet' == $fee ) {
 				// gets the data to recalculate the cart total.
 				$cart_totals_fee_html = $fees->amount;
-
+				return wc_price( $cart_totals_fee_html );
 				break;
 			}
 		}
-		return wc_price( $cart_totals_fee_html );
+		return wc_price( $fees );
 	}
 	/**
 	 * Fix cart total html.

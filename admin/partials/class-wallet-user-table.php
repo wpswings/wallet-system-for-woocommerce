@@ -462,15 +462,20 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 			</div>
 			<div class="wps_wallet-update--popupwrap">
 				<div class="wps_wallet-update-popup">
+					<div id="wps_all_users" style="display:none">
 					<h3><?php esc_html_e( 'Are you sure to update wallet of all users?', 'wallet-system-for-woocommerce' ); ?></h3>
+					</div>
+					<div id="wps_all_selected_users" style="display:none">
+					<h3><?php esc_html_e( 'Are you sure to update wallet of selected user?', 'wallet-system-for-woocommerce' ); ?></h3>
+					</div>
 					<div class="wps_wallet-update-popup-btn">
 						<input type="submit" class="wps-btn wps-btn__filled" name="confirm_updatewallet" id="confirm_updatewallet" value="<?php esc_html_e( 'Yes, I\'m Sure', 'wallet-system-for-woocommerce' ); ?>" >
 						<a href="javascript:void(0);" id="cancel_walletupdate" ><?php esc_html_e( 'Not now', 'wallet-system-for-woocommerce' ); ?></a>
 					</div>
-				</div>
+					</div>
 			</div>
 		</form>
-
+		
 		<button class="mdc-ripple-upgraded" id="export_user_wallet" > <img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/down-arrow.png" title="Download CSV file" >
 		</button>
 
@@ -559,15 +564,29 @@ class Wallet_User_Table extends WP_List_Table {
 			array(
 				'key'     => 'wps_wallet',
 				'compare' => 'NOT EXISTS',
-
 			),
 		);
+		$wps_paged_no           = ! empty( $_GET['paged'] ) ? sanitize_text_field( wp_unslash( $_GET['paged'] ) ) : 0;
+		$pagination_no          = 0;
+
+		if ( 1 == $wps_paged_no ) {
+			$pagination_no = 2;
+		} else {
+			$pagination_no = $wps_paged_no + 1;
+		}
+
+		$pagination_no = $pagination_no * 10;
+		if ( 10 == $pagination_no ) {
+			$pagination_no = 11;
+		}
+		$args['number'] = $pagination_no;
 		if ( isset( $_REQUEST['s'] ) ) {
 			$wps_request_search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
 			$args['search']     = '*' . $wps_request_search . '*';
 		}
 		$user_data = new WP_User_Query( $args );
 		$user_data = $user_data->get_results();
+
 		if ( ! empty( $user_data ) ) {
 			foreach ( $user_data as $all_user ) {
 				$user               = get_user_by( 'id', $all_user->ID );
