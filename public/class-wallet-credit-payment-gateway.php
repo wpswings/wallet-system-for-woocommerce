@@ -184,7 +184,8 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			$debited_amount   = apply_filters( 'wps_wsfw_convert_to_base_price', $order_total );
 			$current_currency = apply_filters( 'wps_wsfw_get_current_currency', $order->get_currency() );
 			$customer_id      = get_current_user_id();
-			if ( $customer_id > 0 ) {
+			$is_auto_complete = get_option( 'wsfw_wallet_payment_order_status_checkout', '' );
+			$is_auto_complete_bool = true;
 				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				if ( $debited_amount <= $walletamount ) {
@@ -222,18 +223,33 @@ function wps_wsfw_wallet_payment_gateway_init() {
 						'order_id'         => $order_id,
 						'note'             => '',
 					);
+					
+					if ( isset( $is_auto_complete ) && 'on' == $is_auto_complete ) {
+						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+						// Mark as on-hold (we're awaiting the payment).
+						$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
+						// Reduce stock levels.
+						$order->reduce_order_stock();
+						// Remove cart.
+						WC()->cart->empty_cart();
+						$is_auto_complete_bool =false;
 
-					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+					}
+
 				}
-			};
-			// Mark as on-hold (we're awaiting the payment).
-			$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
+				if ( $is_auto_complete_bool ){
+					// Mark as on-hold (we're awaiting the payment).
+					$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
 
-			// Reduce stock levels.
-			$order->reduce_order_stock();
+					// Reduce stock levels.
+					$order->reduce_order_stock();
 
-			// Remove cart.
-			WC()->cart->empty_cart();
+					// Remove cart.
+					WC()->cart->empty_cart();
+
+				}
+	
+			
 
 			// Return thankyou redirect.
 			return array(

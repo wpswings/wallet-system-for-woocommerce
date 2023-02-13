@@ -6,7 +6,7 @@ Requires at least: 5.1.0
 Tested up to: 6.1.1
 WC requires at least: 5.1.0
 WC tested up to: 7.3.0
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -248,7 +248,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.3.1 - Released on 30 January 2023 =
+= 2.3.2 - Released on 30 January 2023 =
 * New: Full refund to wallet or partial payment refund to wallet
 * New: Compatible with [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/)
 * New: Compatible with [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-giftcards-pro&utm_medium=wallet-org-page&utm_campaign=giftcards-pro)
@@ -365,7 +365,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.3.1 - Released on 30 January 2023 =
+= 2.3.2 - Released on 30 January 2023 =
 * New: Full refund to wallet or partial payment refund to wallet
 * New: Compatible with [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/)
 * New: Compatible with [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-giftcards-pro&utm_medium=wallet-org-page&utm_campaign=giftcards-pro)
