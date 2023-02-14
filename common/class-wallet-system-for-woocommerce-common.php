@@ -405,6 +405,12 @@ class Wallet_System_For_Woocommerce_Common {
 		if ( 'on' != get_option( 'wps_wsfw_enable_cashback' ) ) {
 			return;
 		}
+		$order          = wc_get_order( $order_id );
+		$payment_method = $order->get_payment_method();
+		$restrict_gatewaay  = get_option( 'wps_wsfw_multiselect_cashback_restrict');
+		if ( in_array( $payment_method, $restrict_gatewaay ) ) {
+			return;
+		}
 
 		if ( $old_status != $new_status ) {
 

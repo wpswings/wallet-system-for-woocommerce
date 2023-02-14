@@ -503,6 +503,16 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Enter Email For Wallet Amount Update Send To Customers', 'wallet-system-for-woocommerce' ),
+				'type'        => 'text',
+				'description' => __( 'Enter Mail ID to send email to the customers.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_enable_email_address_value_for_wallet_amount',
+				'id'          => 'wps_wsfw_enable_email_address_value_for_wallet_amount',
+				'value'       => get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount', get_option('admin_email') ),
+				'class'       => 'wsfw-text-class',
+				'placeholder' => __( 'Enter Email Id', 'wallet-system-for-woocommerce' ),
+			),
+			array(
 				'title'       => __( 'Enable Wallet Partial Payment Method', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable to allow customers to pay amount partially from their wallet.', 'wallet-system-for-woocommerce' ),
@@ -779,8 +789,18 @@ class Wallet_System_For_Woocommerce_Admin {
 				$mwb_wsfw_cat_name[ $mwb_cat->name ] = $mwb_cat->name;
 			}
 		}
+		$wps_all_payment_gateway = array();
+		
+		foreach (WC()->payment_gateways()->payment_gateways() as $key => $value) {
+			if ( 'wallet' ==  $key ) {
+				continue;
+			}
+			$wps_all_payment_gateway[ $key] =$value->title;
+		}
+		
 
 		$wsfw_settings_general = array(
+			
 			// enable wallet cashback.
 			array(
 				'title'       => __( 'Enable Wallet Cashback', 'wallet-system-for-woocommerce' ),
@@ -890,6 +910,17 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20,
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
+			),
+			array(
+				'title'       => __( 'Restrict Wallet Cashback For Particular Gateway', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_multiselect_cashback_restrict',
+				'type'        => 'multiselect',
+				'description' => __( 'Select order status to apply Cashback.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_multiselect_cashback_restrict',
+				'value'       => get_option( 'wps_wsfw_multiselect_cashback_restrict'),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
+				'placeholder' => '',
+				'options' => $wps_all_payment_gateway,
 			),
 		);
 		$wsfw_settings_general   = apply_filters( 'wsfw_cashback_extra_settings_array', $wsfw_settings_general );

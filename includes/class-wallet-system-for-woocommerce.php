@@ -1267,6 +1267,11 @@ class Wallet_System_For_Woocommerce {
 	 */
 	public function send_mail_on_wallet_updation( $to, $subject, $mail_message, $headers ) {
 		// Here put your Validation and send mail.
+		$send_mail_through =get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount' );
+		if (get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount', get_option('admin_email') )) {
+			$headers = 'From: '. $send_mail_through . "\r\n" .
+			'Reply-To: ' . $send_mail_through . "\r\n";
+		}
 		wp_mail( $to, $subject, $mail_message, $headers );
 	}
 

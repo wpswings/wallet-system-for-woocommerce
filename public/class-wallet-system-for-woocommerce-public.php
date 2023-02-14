@@ -123,6 +123,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @param array $available_gateways   all the available payment gateways.
 	 */
 	public function wps_wsfw_restrict_payment_gateway( $available_gateways ) {
+	
 		
 		if ( isset( $available_gateways['wps_wcb_wallet_payment_gateway'] ) ) {
 
@@ -133,8 +134,11 @@ class Wallet_System_For_Woocommerce_Public {
 
 			$wallet_amount  = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
 			if ( ! empty( WC()->session ) ) {
+			
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
-					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					if ( $wallet_amount < $wps_cart_total ) {
+						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					}
 				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
@@ -404,6 +408,9 @@ class Wallet_System_For_Woocommerce_Public {
 	 *  Register new endpoint to use for My Account page.
 	 */
 	public function wps_wsfw_wallet_register_endpoint() {
+
+		
+		
 		global $wp_rewrite;
 		add_rewrite_endpoint( 'wps-wallet', EP_ROOT | EP_PAGES );
 		add_rewrite_endpoint( 'wallet-topup', EP_PERMALINK | EP_PAGES );
