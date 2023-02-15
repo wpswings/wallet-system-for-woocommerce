@@ -42,7 +42,7 @@ $allowed_html = array(
 						<tr>
 							<td><?php echo esc_html( $i ); ?></td>
 							<td><?php echo esc_html( $transaction_id ); ?></td>
-							<td><?php echo wp_kses_post( wc_price( apply_filters( 'wps_wsfw_show_converted_price', $transaction->amount ), array( 'currency' => $transaction->currency ) ) ); ?></td>
+							<td class='wps_wallet_<?php echo $transaction->transaction_type_1 ?>' ><?php echo wp_kses_post( wc_price( apply_filters( 'wps_wsfw_show_converted_price', $transaction->amount ), array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td class="details" ><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
 							<td>
 							<?php

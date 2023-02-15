@@ -194,6 +194,7 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 					'currency'         => $this->currency,
 					'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => $transaction_type,
+					'transaction_type_1' => 'credit',
 					'order_id'         => $for_commissions,
 					'note'             => '',
 				);

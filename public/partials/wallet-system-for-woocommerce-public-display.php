@@ -133,6 +133,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 				'currency'         => $current_currency,
 				'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 				'transaction_type' => $transaction_type,
+				'transaction_type_1' => 'credit',
 				'order_id'         => '',
 				'note'             => $transfer_note,
 
@@ -163,6 +164,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 					'currency'         => $current_currency,
 					'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => $transaction_type,
+					'transaction_type_1' => 'debit',
 					'order_id'         => '',
 					'note'             => $transfer_note,
 

@@ -1231,6 +1231,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'currency'         => get_woocommerce_currency(),
 					'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => $transaction_type,
+					'transaction_type_1' => $action,
 					'order_id'         => '',
 					'note'             => '',
 
@@ -1352,6 +1353,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'currency'         => $order->get_currency(),
 						'payment_method'   => esc_html__( 'Manually by admin through refund', 'wallet-system-for-woocommerce' ),
 						'transaction_type' => htmlentities( $transaction_type ),
+						'transaction_type_1' => 'credit',
 						'order_id'         => $order_id,
 						'note'             => '',
 					);
@@ -1400,6 +1402,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
+						'transaction_type_1' => 'credit',
 						'order_id'         => $order_id,
 						'note'             => $transfer_note,
 					);
@@ -1445,6 +1448,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
+						'transaction_type_1' => 'debit',
 						'order_id'         => $order_id,
 						'note'             => '',
 					);
@@ -1768,6 +1772,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						'currency'         => get_woocommerce_currency(),
 						'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
 						'transaction_type' => htmlentities( $transaction_type ),
+						'transaction_type_1' => 'debit',
 						'order_id'         => $withdrawal_id,
 						'note'             => '',
 
@@ -2015,7 +2020,8 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 			$withdrawal_amount      = get_post_meta( $post_id, 'wps_wallet_withdrawal_amount', true );
-
+			$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $post_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
+				
 			$user_id        = get_post_meta( $post_id, 'wallet_user_id', true );
 			$payment_method = get_post_meta( $post_id, 'wallet_payment_method', true );
 			if ( $user_id ) {
@@ -2024,7 +2030,13 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( $walletamount < $withdrawal_amount ) {
 					$walletamount = 0;
 				} else {
-					$walletamount -= $withdrawal_amount;
+					if ( $wps_wsfwp_wallet_withdrawal_fee_amount > 0 ) {
+
+						$walletamount -= $withdrawal_amount + $wps_wsfwp_wallet_withdrawal_fee_amount;
+					} else {
+
+						$walletamount -= $withdrawal_amount;
+					}
 				}
 				update_user_meta( $user_id, 'wps_wallet', $walletamount );
 				delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
@@ -2045,7 +2057,9 @@ class Wallet_System_For_Woocommerce_Admin {
 
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 				}
-
+				if ( $wps_wsfwp_wallet_withdrawal_fee_amount > 0 ) {
+					$withdrawal_amount = $withdrawal_amount + $wps_wsfwp_wallet_withdrawal_fee_amount . __( '( inculding ', 'wallet-system-for-woocommerce' ) . $wps_wsfwp_wallet_withdrawal_fee_amount . __( ')', 'wallet-system-for-woocommerce' );
+				}
 				$transaction_type = __( 'Wallet debited through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $post_id . '</a>';
 				if ( $wps_wsfwp_wallet_withdrawal_fee_amount ) {
 
@@ -2057,6 +2071,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'currency'         => get_woocommerce_currency(),
 					'payment_method'   => $payment_method,
 					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'debit',
 					'order_id'         => $post_id,
 					'note'             => '',
 
@@ -2503,6 +2518,7 @@ class Wallet_System_For_Woocommerce_Admin {
 								'currency'         => $currency,
 								'payment_method'   => $payment_method,
 								'transaction_type' => htmlentities( $transaction_type ),
+								'transaction_type_1' => 'debit',
 								'order_id'         => $order_id,
 								'note'             => '',
 							);
@@ -2590,6 +2606,17 @@ class Wallet_System_For_Woocommerce_Admin {
 		self::wsfw_upgrade_wp_options();
 		self::wsfw_rename_custom_table();
 		self::wsfw_remove_pro_menus();
+		self::wsfwp_uprage_transaction_table();
+	}
+
+	public static function wsfwp_uprage_transaction_table(){
+		$wsfwp_upgrade_wp_postmeta_check = get_option( 'wsfwp_uprage_transaction_table', 'not_done' );
+		if ( 'not_done' === $wsfwp_upgrade_wp_postmeta_check ) {
+		global  $wpdb;
+		
+  		$wpdb->query("ALTER TABLE wp_wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'");
+		  update_option( 'wsfwp_uprage_transaction_table', 'done' );	
+		}
 	}
 
 	/**
@@ -2894,6 +2921,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'currency'         => $order->get_currency(),
 					'payment_method'   => esc_html__( 'Manually by admin through refund', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'credit',
 					'order_id'         => $order_id,
 					'note'             => '',
 				);
@@ -2973,6 +3001,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'currency'         => $order->get_currency(),
 					'payment_method'   => esc_html__( 'Manually by admin through refund', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'credit',
 					'order_id'         => $order_id,
 					'note'             => '',
 				);

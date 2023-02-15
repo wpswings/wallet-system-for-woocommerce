@@ -220,6 +220,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 						'currency'         => $current_currency,
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
+						'transaction_type_1' => 'debit',
 						'order_id'         => $order_id,
 						'note'             => '',
 					);

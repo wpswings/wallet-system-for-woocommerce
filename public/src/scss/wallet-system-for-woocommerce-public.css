@@ -737,3 +737,11 @@ input[type="search"]:focus {
     letter-spacing: 0.4px;
     text-align: center;
 }
+
+.wps_wallet_debit{
+    color:red;
+  }
+  
+  .wps_wallet_credit{
+    color:green;
+  }

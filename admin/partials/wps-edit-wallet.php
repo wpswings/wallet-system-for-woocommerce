@@ -91,6 +91,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				'currency'         => get_woocommerce_currency(),
 				'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
 				'transaction_type' => $transaction_type,
+				'transaction_type_1' => $wallet_action,
 				'order_id'         => '',
 				'note'             => '',
 

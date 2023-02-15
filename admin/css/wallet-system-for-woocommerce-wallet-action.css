@@ -325,3 +325,11 @@ input#wps_wsfw_export_pdf {
   width: 100%;
   overflow-x: auto;
 }
+
+.wps_wallet_debit{
+  color:red;
+}
+
+.wps_wallet_credit{
+  color:green;
+}

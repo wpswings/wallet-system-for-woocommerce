@@ -332,6 +332,7 @@ class Wallet_System_For_Woocommerce_Public {
 						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
+						'transaction_type_1' => 'credit',
 						'order_id'         => $order_id,
 						'note'             => $transfer_note,
 					);
@@ -380,6 +381,7 @@ class Wallet_System_For_Woocommerce_Public {
 						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
+						'transaction_type_1' => 'debit',
 						'order_id'         => $order_id,
 						'note'             => '',
 					);
@@ -1218,6 +1220,7 @@ class Wallet_System_For_Woocommerce_Public {
 				'currency'         => $current_currency,
 				'payment_method'   => 'Sigup',
 				'transaction_type' => htmlentities( $transaction_type ),
+				'transaction_type_1' => 'credit',
 				'order_id'         => '',
 				'note'             => '',
 			);
@@ -1282,6 +1285,7 @@ class Wallet_System_For_Woocommerce_Public {
 				'currency'         => $current_currency,
 				'payment_method'   => 'Site visit',
 				'transaction_type' => htmlentities( $transaction_type ),
+				'transaction_type_1' => 'credit',
 				'order_id'         => '',
 				'note'             => '',
 			);

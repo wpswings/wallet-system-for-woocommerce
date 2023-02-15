@@ -343,6 +343,7 @@ class Wallet_System_For_Woocommerce_Common {
 						'currency'         => $current_currency,
 						'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 						'transaction_type' => $transaction_type,
+						'transaction_type_1' => 'credit',
 						'order_id'         => '',
 						'note'             => $transfer_note,
 					);
@@ -371,6 +372,7 @@ class Wallet_System_For_Woocommerce_Common {
 							'currency'         => $current_currency,
 							'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 							'transaction_type' => $transaction_type,
+							'transaction_type_1' => 'debit',
 							'order_id'         => '',
 							'note'             => $transfer_note,
 
@@ -534,6 +536,7 @@ class Wallet_System_For_Woocommerce_Common {
 							'currency'         => $order->get_currency(),
 							'payment_method'   => $payment_method,
 							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'credit',
 							'order_id'         => $order_id,
 							'note'             => '',
 						);
@@ -595,6 +598,7 @@ class Wallet_System_For_Woocommerce_Common {
 							'currency'         => $order->get_currency(),
 							'payment_method'   => $payment_method,
 							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'debit',
 							'order_id'         => $order_id,
 							'note'             => '',
 						);
@@ -656,6 +660,7 @@ class Wallet_System_For_Woocommerce_Common {
 							'currency'         => $order->get_currency(),
 							'payment_method'   => $payment_method,
 							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'debit',
 							'order_id'         => $order_id,
 							'note'             => '',
 						);
@@ -846,6 +851,7 @@ class Wallet_System_For_Woocommerce_Common {
 				'currency'         => $current_currency,
 				'payment_method'   => 'Product review',
 				'transaction_type' => htmlentities( $transaction_type ),
+				'transaction_type_1' => 'credit',
 				'order_id'         => $comment_ids,
 				'note'             => '',
 			);
@@ -917,6 +923,7 @@ class Wallet_System_For_Woocommerce_Common {
 				'currency'         => $current_currency,
 				'payment_method'   => 'Product review',
 				'transaction_type' => htmlentities( $transaction_type ),
+				'transaction_type_1' => 'credit',
 				'order_id'         => $comment_id,
 				'note'             => '',
 			);

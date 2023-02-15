@@ -57,6 +57,7 @@ if ( ! function_exists( 'wps_wsfw_update_user_wallet_balance' ) ) {
 					'currency'         => $currency,
 					'payment_method'   => $payment_method,
 					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'debit',
 					'order_id'         => $order_id,
 					'note'             => '',
 				);

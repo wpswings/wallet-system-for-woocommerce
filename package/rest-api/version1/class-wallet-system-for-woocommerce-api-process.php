@@ -149,6 +149,7 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 							'currency'         => get_woocommerce_currency(),
 							'payment_method'   => $payment_method,
 							'transaction_type' => $transaction_detail,
+							'transaction_type_1' => $wallet_action,
 							'order_id'         => $order_id,
 							'note'             => $note,
 
