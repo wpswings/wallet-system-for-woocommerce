@@ -260,7 +260,8 @@ $wallet_restrict_transfer = apply_filters( 'wallet_restrict_transfer', $user_id 
 $wallet_restrict_withdrawal = apply_filters( 'wallet_restrict_withdrawal', $user_id );
 $wallet_restrict_coupon = apply_filters( 'wallet_restrict_coupon', $user_id );
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
-
+$wps_wallet_restrict_message_to_user = apply_filters( 'wps_wallet_restrict_message_to_user', $user_id );
+$wps_wallet_restrict_message_for = apply_filters( 'wps_wallet_restrict_message_for', $user_id );
 $wallet_tabs = array();
 if ( 'restricted' !== $is_user_restricted ) {
 
@@ -353,25 +354,41 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		</p>
 	</div>
 	<?php
-	if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
-		?>
-		<div class="wsfw_show_user_restriction_notice">
-			<?php
-				esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
+	if ( 'on' != $wps_wallet_restrict_message_to_user) {
+
+
+		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
 			?>
-		</div>
-		<?php
-	}
-	?>
-	<?php
-	if ( 'restricted' === $is_user_restricted ) {
-		?>
-		<div class="wsfw_show_user_restriction_notice">
+			<div class="wsfw_show_user_restriction_notice">
+				<?php
+				if ( ! empty( $wps_wallet_restrict_message_for ) ) {
+					echo esc_html( $wps_wallet_restrict_message_for );
+
+				} else{
+					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
+				
+				}
+				?>
+			</div>
 			<?php
-				esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
-			?>
-		</div>
+		}
+		?>
 		<?php
+		if ( 'restricted' === $is_user_restricted ) {
+			?>
+			<div class="wsfw_show_user_restriction_notice">
+				<?php
+				if ( ! empty( $wps_wallet_restrict_message_for ) ) {
+					echo esc_html( $wps_wallet_restrict_message_for );
+
+				} else{
+					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
+				
+				}
+				?>
+			</div>
+			<?php
+		}
 	}
 	?>
 	<div class="wps_wcb_main_tabs_template">
