@@ -53,7 +53,7 @@ $wsfw_tab_key = '';
 					),
 					array(
 						'type'  => 'button',
-						'id'    => 'wsfw_button_demo',
+						'id'    => 'wsfw_button_demo_welcome',
 						'button_text' => __( 'Save', 'wallet-system-for-woocommerce' ),
 						'class' => 'wsfw-button-class',
 					),

@@ -85,7 +85,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$user_role    = '';
 						}
 						?>
-						<tr>
+						<tr class='wps_wallet_tr_<?php echo $transaction->transaction_type_1 ?>'>
 						<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
 							<td><?php echo ! empty( esc_html( $display_name ) ) ? esc_html( $display_name ) : 'Guest#(' . esc_html( $transaction->user_id ) . ')'; ?></td>
 							<td><?php echo ! empty( esc_html( $useremail ) ) ? esc_html( $useremail ) : '---'; ?></td>

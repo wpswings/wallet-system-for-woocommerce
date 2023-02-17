@@ -62,7 +62,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id  ) {
 
 			wp_enqueue_style( 'wps-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
 
@@ -79,17 +79,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_style( 'wps-wallet-action-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-wallet-action.css', array(), $this->version, 'all' );
 
 		}
-		if ( isset( $screen->id ) && 'wp-swings_page_home' == $screen->id ) {
-			wp_enqueue_style( 'wps-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
-
-			wp_enqueue_style( 'wps-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'wps-wsfw-meterial-css2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'wps-wsfw-meterial-lite', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
-
-			wp_enqueue_style( 'wps-wsfw-meterial-icons-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/icon.css', array(), time(), 'all' );
-
-			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin-home.min.css', array(), $this->version, 'all' );
-		}
+		
 
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
 			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
@@ -547,6 +537,15 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-select-class',
 				'placeholder' => __( 'ShortCode For Wallet', 'wallet-system-for-woocommerce' ),
 			),
+			array(
+				'title'       => __( 'Wallet Amount Shortcode', 'wallet-system-for-woocommerce' ),
+				'type'        => 'text',
+				'id'          => 'wsfw_wallet_shortcode',
+				'value'       => '[wps-wallet-amount]',
+				'attr'        => 'readonly',
+				'class'       => 'wsfw-select-class',
+				'placeholder' => __( 'ShortCode For Wallet', 'wallet-system-for-woocommerce' ),
+			),
 		);
 		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
 		$wsfw_settings_general[] = array(
@@ -915,7 +914,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title'       => __( 'Restrict Wallet Cashback For Particular Gateway', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_multiselect_cashback_restrict',
 				'type'        => 'multiselect',
-				'description' => __( 'Select order status to apply Cashback.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select any gateway to restrict cashbackpon placing this order a cas.', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_multiselect_cashback_restrict',
 				'value'       => get_option( 'wps_wsfw_multiselect_cashback_restrict'),
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
@@ -1068,20 +1067,26 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_save_tab_settings() {
 		global $wsfw_wps_wsfw_obj;
 
+		
+		if ( isset( $_POST['wsfw_button_demo_welcome'] ) ) {
+
+			$nonce = ( isset( $_POST['updatenonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenonce'] ) ) : '';
+			$screen = get_current_screen();
+			if ( isset( $screen->id ) && 'wp-swings_page_home' === $screen->id ) {
+
+				$enable_tracking = ! empty( $_POST['wsfw_enable_tracking'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_enable_tracking'] ) ) : '';
+				update_option( 'wsfw_enable_tracking', $enable_tracking );
+
+				return;
+			}
+		}
 		if ( isset( $_POST['wsfw_button_demo'] ) ) {
 
 			$nonce = ( isset( $_POST['updatenonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenonce'] ) ) : '';
 
 			if ( wp_verify_nonce( $nonce ) ) {
 
-				$screen = get_current_screen();
-				if ( isset( $screen->id ) && 'wp-swings_page_home' === $screen->id ) {
-
-					$enable_tracking = ! empty( $_POST['wsfw_enable_tracking'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_enable_tracking'] ) ) : '';
-					update_option( 'wsfw_enable_tracking', $enable_tracking );
-
-					return;
-				}
+				
 				$wps_wsfw_gen_flag     = false;
 				$wsfw_genaral_settings = apply_filters( 'wsfw_general_settings_array', array() );
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );

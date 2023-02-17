@@ -92,7 +92,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 		show_message_on_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		$update = false;
 	} elseif ( $another_user_email == $wps_current_user_email ) {
-		show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself dfsf.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		$update = false;
 	}
 	if ( $update ) {

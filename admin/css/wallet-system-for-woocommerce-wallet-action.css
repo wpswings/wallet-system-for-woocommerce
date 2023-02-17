@@ -333,3 +333,7 @@ input#wps_wsfw_export_pdf {
 .wps_wallet_credit{
   color:green;
 }
+
+table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
+  background-color: rgb(33 150 243 / 10%);
+}
