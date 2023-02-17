@@ -188,69 +188,66 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			$is_auto_complete_bool = true;
 				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
-				if ( $debited_amount <= $walletamount ) {
+			if ( $debited_amount <= $walletamount ) {
 
-					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-					$walletamount          -= $debited_amount;
-					$update_wallet          = update_user_meta( $customer_id, 'wps_wallet', abs( $walletamount ) );
+				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+				$walletamount          -= $debited_amount;
+				$update_wallet          = update_user_meta( $customer_id, 'wps_wallet', abs( $walletamount ) );
 
-					if ( $update_wallet ) {
-						$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-							$user       = get_user_by( 'id', $customer_id );
-							$name       = $user->first_name . ' ' . $user->last_name;
-							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total, array( 'currency' => $current_currency ) ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
-							$to         = $user->user_email;
-							$from       = get_option( 'admin_email' );
-							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-							$headers    = 'MIME-Version: 1.0' . "\r\n";
-							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-							$headers   .= 'From: ' . $from . "\r\n" .
-								'Reply-To: ' . $to . "\r\n";
-							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-
-						}
-					}
-
-					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
-					$transaction_data = array(
-						'user_id'          => $customer_id,
-						'amount'           => $order_total,
-						'currency'         => $current_currency,
-						'payment_method'   => $payment_method,
-						'transaction_type' => htmlentities( $transaction_type ),
-						'transaction_type_1' => 'debit',
-						'order_id'         => $order_id,
-						'note'             => '',
-					);
-					
-					if ( isset( $is_auto_complete ) && 'on' == $is_auto_complete ) {
-						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-						// Mark as on-hold (we're awaiting the payment).
-						$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
-						// Reduce stock levels.
-						$order->reduce_order_stock();
-						// Remove cart.
-						WC()->cart->empty_cart();
-						$is_auto_complete_bool =false;
+				if ( $update_wallet ) {
+					$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+						$user       = get_user_by( 'id', $customer_id );
+						$name       = $user->first_name . ' ' . $user->last_name;
+						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $order_total, array( 'currency' => $current_currency ) ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+						$to         = $user->user_email;
+						$from       = get_option( 'admin_email' );
+						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+						$headers    = 'MIME-Version: 1.0' . "\r\n";
+						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+						$headers   .= 'From: ' . $from . "\r\n" .
+							'Reply-To: ' . $to . "\r\n";
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
 					}
-
 				}
-				if ( $is_auto_complete_bool ){
-					// Mark as on-hold (we're awaiting the payment).
-					$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
 
+				$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+				$transaction_data = array(
+					'user_id'          => $customer_id,
+					'amount'           => $order_total,
+					'currency'         => $current_currency,
+					'payment_method'   => $payment_method,
+					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'debit',
+					'order_id'         => $order_id,
+					'note'             => '',
+				);
+
+				if ( isset( $is_auto_complete ) && 'on' == $is_auto_complete ) {
+					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+					// Mark as on-hold (we're awaiting the payment).
+					$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
 					// Reduce stock levels.
 					$order->reduce_order_stock();
-
 					// Remove cart.
 					WC()->cart->empty_cart();
+					$is_auto_complete_bool = false;
 
 				}
-	
-			
+			}
+			if ( $is_auto_complete_bool ) {
+				// Mark as on-hold (we're awaiting the payment).
+				$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
+
+				// Reduce stock levels.
+				$order->reduce_order_stock();
+
+				// Remove cart.
+				WC()->cart->empty_cart();
+
+			}
 
 			// Return thankyou redirect.
 			return array(

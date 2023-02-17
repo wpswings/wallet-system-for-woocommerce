@@ -176,7 +176,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 						if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
 							$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
 						} else {
-						
+
 							$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
 						}
 
@@ -203,7 +203,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 							if ( $previous_wallet_amount < $wallet_amount ) {
 								$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
 							} else {
-							
+
 								$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 							}
 						}

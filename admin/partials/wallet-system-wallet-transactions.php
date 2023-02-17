@@ -67,7 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				global $wpdb;
 				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
-				
+
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
@@ -84,22 +84,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$useremail    = '';
 							$user_role    = '';
 						}
+
+						$tranasction_symbol = '';
+						if ( 'credit' == $transaction->transaction_type_1 ) {
+							$tranasction_symbol = '+';
+						} elseif ( 'debit' == $transaction->transaction_type_1 ) {
+							$tranasction_symbol = '-';
+						}
 						?>
-						<tr class='wps_wallet_tr_<?php echo $transaction->transaction_type_1 ?>'>
+						<tr class='wps_wallet_tr_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>'>
 						<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
 							<td><?php echo ! empty( esc_html( $display_name ) ) ? esc_html( $display_name ) : 'Guest#(' . esc_html( $transaction->user_id ) . ')'; ?></td>
 							<td><?php echo ! empty( esc_html( $useremail ) ) ? esc_html( $useremail ) : '---'; ?></td>
 							<td><?php echo esc_html( $user_role ); ?></td>
-							<td class='wps_wallet_<?php echo $transaction->transaction_type_1 ?>'><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
+							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>'><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td><?php echo wp_kses_post( $transaction->payment_method ); ?></td>
 							<td><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
-							<td><?php echo esc_html( $transaction->id ); ?></td>
+							<td>
+							<?php
+							 esc_html( $transaction->id );
+							$date = date_create( $transaction->date );
+							echo esc_html( $date->getTimestamp() . $transaction->id );
+							?>
+							</td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
-
-							$date        = date_create( $transaction->date );
-
 							echo esc_html( date_format( $date, $date_format ) );
 							echo ' ' . esc_html( date_format( $date, 'H:i:s' ) );
 							?>

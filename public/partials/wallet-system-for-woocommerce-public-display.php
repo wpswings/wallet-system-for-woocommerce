@@ -354,7 +354,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		</p>
 	</div>
 	<?php
-	if ( 'on' == $wps_wallet_restrict_message_to_user) {
+	if ( 'on' == $wps_wallet_restrict_message_to_user ) {
 
 
 		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
@@ -364,9 +364,9 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				if ( ! empty( $wps_wallet_restrict_message_for ) ) {
 					echo esc_html( $wps_wallet_restrict_message_for );
 
-				} else{
+				} else {
 					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
-				
+
 				}
 				?>
 			</div>
@@ -381,9 +381,9 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				if ( ! empty( $wps_wallet_restrict_message_for ) ) {
 					echo esc_html( $wps_wallet_restrict_message_for );
 
-				} else{
+				} else {
 					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
-				
+
 				}
 				?>
 			</div>

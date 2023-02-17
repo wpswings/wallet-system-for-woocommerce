@@ -62,7 +62,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id  ) {
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 
 			wp_enqueue_style( 'wps-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
 
@@ -79,7 +79,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_style( 'wps-wallet-action-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-wallet-action.css', array(), $this->version, 'all' );
 
 		}
-		
 
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
 			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
@@ -498,7 +497,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter Mail ID to send email to the customers.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_enable_email_address_value_for_wallet_amount',
 				'id'          => 'wps_wsfw_enable_email_address_value_for_wallet_amount',
-				'value'       => get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount', get_option('admin_email') ),
+				'value'       => get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount', get_option( 'admin_email' ) ),
 				'class'       => 'wsfw-text-class',
 				'placeholder' => __( 'Enter Email Id', 'wallet-system-for-woocommerce' ),
 			),
@@ -789,17 +788,16 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 		}
 		$wps_all_payment_gateway = array();
-		
-		foreach (WC()->payment_gateways()->payment_gateways() as $key => $value) {
-			if ( 'wallet' ==  $key ) {
+
+		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
+			if ( 'wallet' == $key ) {
 				continue;
 			}
-			$wps_all_payment_gateway[ $key] =$value->title;
+			$wps_all_payment_gateway[ $key ] = $value->title;
 		}
-		
 
 		$wsfw_settings_general = array(
-			
+
 			// enable wallet cashback.
 			array(
 				'title'       => __( 'Enable Wallet Cashback', 'wallet-system-for-woocommerce' ),
@@ -916,7 +914,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'type'        => 'multiselect',
 				'description' => __( 'Select any gateway to restrict cashbackpon placing this order a cas.', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_multiselect_cashback_restrict',
-				'value'       => get_option( 'wps_wsfw_multiselect_cashback_restrict'),
+				'value'       => get_option( 'wps_wsfw_multiselect_cashback_restrict' ),
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
 				'placeholder' => '',
 				'options' => $wps_all_payment_gateway,
@@ -1067,7 +1065,6 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_save_tab_settings() {
 		global $wsfw_wps_wsfw_obj;
 
-		
 		if ( isset( $_POST['wsfw_button_demo_welcome'] ) ) {
 
 			$nonce = ( isset( $_POST['updatenonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenonce'] ) ) : '';
@@ -1086,7 +1083,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			if ( wp_verify_nonce( $nonce ) ) {
 
-				
 				$wps_wsfw_gen_flag     = false;
 				$wsfw_genaral_settings = apply_filters( 'wsfw_general_settings_array', array() );
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
@@ -2026,7 +2022,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 			$withdrawal_amount      = get_post_meta( $post_id, 'wps_wallet_withdrawal_amount', true );
 			$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $post_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
-				
+
 			$user_id        = get_post_meta( $post_id, 'wallet_user_id', true );
 			$payment_method = get_post_meta( $post_id, 'wallet_payment_method', true );
 			if ( $user_id ) {
@@ -2614,13 +2610,19 @@ class Wallet_System_For_Woocommerce_Admin {
 		self::wsfwp_uprage_transaction_table();
 	}
 
-	public static function wsfwp_uprage_transaction_table(){
+
+	/**
+	 * Upgrade to transaction table with new field.
+	 *
+	 * @return void
+	 */
+	public static function wsfwp_uprage_transaction_table() {
 		$wsfwp_upgrade_wp_postmeta_check = get_option( 'wsfwp_uprage_transaction_table', 'not_done' );
 		if ( 'not_done' === $wsfwp_upgrade_wp_postmeta_check ) {
-		global  $wpdb;
-		
-  		$wpdb->query("ALTER TABLE wp_wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'");
-		  update_option( 'wsfwp_uprage_transaction_table', 'done' );	
+			global  $wpdb;
+
+			$wpdb->query( "ALTER TABLE wp_wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'" );
+			update_option( 'wsfwp_uprage_transaction_table', 'done' );
 		}
 	}
 

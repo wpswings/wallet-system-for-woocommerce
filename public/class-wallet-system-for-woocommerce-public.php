@@ -123,8 +123,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @param array $available_gateways   all the available payment gateways.
 	 */
 	public function wps_wsfw_restrict_payment_gateway( $available_gateways ) {
-	
-		
+
 		if ( isset( $available_gateways['wps_wcb_wallet_payment_gateway'] ) ) {
 
 			$wps_cart_total = WC()->cart->total;
@@ -134,7 +133,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 			$wallet_amount  = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
 			if ( ! empty( WC()->session ) ) {
-			
+
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
 					if ( $wallet_amount < $wps_cart_total ) {
 						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
@@ -411,8 +410,6 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wps_wsfw_wallet_register_endpoint() {
 
-		
-		
 		global $wp_rewrite;
 		add_rewrite_endpoint( 'wps-wallet', EP_ROOT | EP_PAGES );
 		add_rewrite_endpoint( 'wallet-topup', EP_PERMALINK | EP_PAGES );
@@ -1009,15 +1006,15 @@ class Wallet_System_For_Woocommerce_Public {
 					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount ) );
 				} else {
 
-					$is_hide_cart = get_option('wps_wsfw_hide_cashback_cart',true);
-					$is_hide_checkout = get_option('wps_wsfw_hide_cashback_checkout',true);
-					if (is_cart()) {
-						if ('on' == $is_hide_cart ) {
+					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart', true );
+					$is_hide_checkout = get_option( 'wps_wsfw_hide_cashback_checkout', true );
+					if ( is_cart() ) {
+						if ( 'on' == $is_hide_cart ) {
 							return;
 						}
 					}
-					if (is_checkout()) {
-						if ('on' == $is_hide_checkout ) {
+					if ( is_checkout() ) {
+						if ( 'on' == $is_hide_checkout ) {
 							return;
 						}
 					}
@@ -1040,15 +1037,15 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			} elseif ( 'catwise' === $wps_wsfw_cashback_rule ) {
 				if ( is_user_logged_in() ) {
-					$is_hide_cart = get_option('wps_wsfw_hide_cashback_cart',true);
-					$is_hide_checkout = get_option('wps_wsfw_hide_cashback_checkout',true);
-					if (is_cart()) {
-						if ('on' == $is_hide_cart ) {
+					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart', true );
+					$is_hide_checkout = get_option( 'wps_wsfw_hide_cashback_checkout', true );
+					if ( is_cart() ) {
+						if ( 'on' == $is_hide_cart ) {
 							return;
 						}
 					}
-					if (is_checkout()) {
-						if ('on' == $is_hide_checkout ) {
+					if ( is_checkout() ) {
+						if ( 'on' == $is_hide_checkout ) {
 							return;
 						}
 					}

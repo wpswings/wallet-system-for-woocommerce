@@ -203,7 +203,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
 			if ( wp_verify_nonce( $nonce ) ) {
 				unset( $_POST['wps_recharge_wallet'] );
-				
+
 				if ( empty( $_POST['wps_wallet_recharge_amount'] ) ) {
 					$this->show_message_on_wallet_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 				} else {
@@ -409,7 +409,7 @@ class Wallet_System_For_Woocommerce_Common {
 		}
 		$order          = wc_get_order( $order_id );
 		$payment_method = $order->get_payment_method();
-		$restrict_gatewaay  = get_option( 'wps_wsfw_multiselect_cashback_restrict');
+		$restrict_gatewaay  = get_option( 'wps_wsfw_multiselect_cashback_restrict' );
 		if ( in_array( $payment_method, $restrict_gatewaay ) ) {
 			return;
 		}
@@ -691,7 +691,7 @@ class Wallet_System_For_Woocommerce_Common {
 			if ( $order_total > $wsfw_min_cart_amount ) {
 
 				if ( 'percent' === $wsfw_cashbak_type ) {
-					
+
 					$total                        = $order_total;
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
@@ -712,7 +712,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
 			if ( ! empty( $order_total ) ) {
 				if ( 'percent' === $wsfw_cashbak_type ) {
-					
+
 					$total                        = $order_total;
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
@@ -723,11 +723,9 @@ class Wallet_System_For_Woocommerce_Common {
 						} else {
 							$cashback_amount += $wsfw_max_cashbak_amount;
 						}
-					} else{
+					} else {
 						$cashback_amount += $wsfw_percent_cashback_amount;
 					}
-				
-					
 				} else {
 					if ( $wps_wsfwp_cashback_amount > 0 && ! ( is_array( $wps_wsfwp_cashback_amount ) ) ) {
 						$cashback_amount += $wps_wsfwp_cashback_amount;
@@ -737,7 +735,7 @@ class Wallet_System_For_Woocommerce_Common {
 				}
 			}
 		}
-		
+
 		return $cashback_amount;
 	}
 

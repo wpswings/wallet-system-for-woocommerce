@@ -6,6 +6,7 @@ node_modules/*
 .github
 .github/*
 .history
+vendor
 
 # ignore compiled files
 *.com
