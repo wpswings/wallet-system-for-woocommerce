@@ -440,19 +440,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Refund To Wallet', 'wallet-system-for-woocommerce' ),
-				'type'        => 'radio-switch',
-				'description' => __( 'Enable to send refund amonut to wallet.', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wps_wsfw_allow_refund_to_wallet',
-				'id'          => 'wps_wsfw_allow_refund_to_wallet',
-				'value'       => 'on',
-				'class'       => 'wsfw-radio-switch-class',
-				'options'     => array(
-					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
-					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
-				),
-			),
-			array(
 				'title'       => __( 'Auto Complete Wallet Payment Order Status.', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable if you want to autocomplete order paid by wallet gateway', 'wallet-system-for-woocommerce' ),
@@ -912,7 +899,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title'       => __( 'Restrict Wallet Cashback For Particular Gateway', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_multiselect_cashback_restrict',
 				'type'        => 'multiselect',
-				'description' => __( 'Select any gateway to restrict cashbackpon placing this order a cas.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select any gateway to restrict cashback upon placing order.', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_multiselect_cashback_restrict',
 				'value'       => get_option( 'wps_wsfw_multiselect_cashback_restrict' ),
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
@@ -1304,64 +1291,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-
-		$allow_refund_to_wallet = get_option( 'wps_wsfw_allow_refund_to_wallet', '' );
-		if ( isset( $allow_refund_to_wallet ) && 'on' === $allow_refund_to_wallet ) {
-			if ( 'refunded' === $new_status ) {
-				foreach ( $order_items as $item_id => $item ) {
-					$product_id = $item->get_product_id();
-					if ( isset( $product_id ) && ! empty( $product_id ) && $product_id != $wallet_id ) {
-						$allow_refund = true;
-					} else {
-						$allow_refund = false;
-					}
-				}
-
-				if ( $allow_refund ) {
-					$amount = $order_total;
-					foreach ( $order->get_fees() as $item_fee ) {
-						$fee_name    = $item_fee->get_name();
-						$fee_total   = $item_fee->get_total();
-						$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
-						if ( $wallet_name === $fee_name ) {
-							$fees   = abs( $fee_total );
-							$amount += $fees;
-							break;
-						}
-					}
-					$credited_amount = apply_filters( 'wps_wsfw_update_wallet_to_base_price', $amount, $order_currency );
-					$walletamount   += $credited_amount;
-					update_user_meta( $userid, 'wps_wallet', $walletamount );
-
-					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );
-						$to         = $user->user_email;
-						$from       = get_option( 'admin_email' );
-						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-						$headers   .= 'From: ' . $from . "\r\n" .
-							'Reply-To: ' . $to . "\r\n";
-						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-
-					}
-
-					$transaction_type = esc_html__( 'Wallet credited through order refund ', 'wallet-system-for-woocommerce' ) . '<a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
-					$transaction_data = array(
-						'user_id'          => $userid,
-						'amount'           => $amount,
-						'currency'         => $order->get_currency(),
-						'payment_method'   => esc_html__( 'Manually by admin through refund', 'wallet-system-for-woocommerce' ),
-						'transaction_type' => htmlentities( $transaction_type ),
-						'transaction_type_1' => 'credit',
-						'order_id'         => $order_id,
-						'note'             => '',
-					);
-					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-				}
-			}
-		}
 
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();
@@ -2840,6 +2769,8 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_die( -1 );
 		}
 		$order_id = ! empty( $_POST['order_id'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['order_id'] ) ) ) : '';
+		$order = wc_get_order( $order_id );
+
 		$refund_amount = ! empty( $_POST['refund_amount'] ) ? wc_format_decimal( sanitize_text_field( wp_unslash( $_POST['refund_amount'] ) ), wc_get_price_decimals() ) : '';
 		$refund_reason = ! empty( $_POST['refund_reason'] ) ? sanitize_text_field( wp_unslash( $_POST['refund_reason'] ) ) : '';
 		$line_item_qtys = ! empty( $_POST['line_item_qtys'] ) ? map_deep( wp_unslash( $_POST['line_item_qtys'] ), 'sanitize_text_field' ) : array();
@@ -2852,7 +2783,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		$restock_refunded_items = 'true' === $refund_restock;
 		$refund = false;
 		$response_data = array();
-		$order = wc_get_order( $order_id );
 		$userid         = $order->get_user_id();
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$wallet_id      = get_option( 'wps_wsfw_rechargeable_product_id', '' );
@@ -2906,7 +2836,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				$credited_amount = apply_filters( 'wps_wsfw_update_wallet_to_base_price', $refund_amount, $order_currency );
 				$walletamount   += $credited_amount;
 				$transaction_id = update_user_meta( $userid, 'wps_wallet', $walletamount );
-
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
 					$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $refund_amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );

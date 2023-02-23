@@ -135,9 +135,7 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! empty( WC()->session ) ) {
 
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
-					if ( $wallet_amount < $wps_cart_total ) {
-						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-					}
+					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
@@ -629,11 +627,17 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return float
 	 */
 	public function wps_wsfwp_show_converted_price( $wallet_bal ) {
+
 		if ( class_exists( 'WOOCS' ) ) {
 			global $WOOCS;
 
 			$amount = $WOOCS->woocs_exchange_value( $wallet_bal );
 			return $amount;
+		} else if ( function_exists( 'wmc_get_price' ) ) {
+
+			$wallet_bal = wmc_get_price( $wallet_bal );
+
+			return $wallet_bal;
 		} else {
 			return $wallet_bal;
 		}
@@ -665,6 +669,12 @@ class Wallet_System_For_Woocommerce_Public {
 					}
 				}
 			}
+		}
+
+		if ( function_exists( 'wmc_revert_price' ) ) {
+
+			$price = wmc_revert_price( $price );
+			return $price;
 		}
 
 		return $price;
@@ -1006,16 +1016,20 @@ class Wallet_System_For_Woocommerce_Public {
 					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount ) );
 				} else {
 
-					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart', true );
-					$is_hide_checkout = get_option( 'wps_wsfw_hide_cashback_checkout', true );
-					if ( is_cart() ) {
-						if ( 'on' == $is_hide_cart ) {
-							return;
+					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart' );
+					$is_hide_checkout = get_option( 'wps_wsfw_hide_cashback_checkout' );
+					$is_pro_plugin = false;
+					$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+					if ( $is_pro_plugin ) {
+						if ( is_cart() ) {
+							if ( 'on' == $is_hide_cart ) {
+								return;
+							}
 						}
-					}
-					if ( is_checkout() ) {
-						if ( 'on' == $is_hide_checkout ) {
-							return;
+						if ( is_checkout() ) {
+							if ( 'on' == $is_hide_checkout ) {
+								return;
+							}
 						}
 					}
 

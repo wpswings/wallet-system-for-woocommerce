@@ -368,14 +368,8 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
 			$this->loader->add_filter( 'woocommerce_thankyou_order_id', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_order_id', 99999 );
 			$this->loader->add_filter( 'wc_order_types', $wsfw_plugin_public, 'wps_wsfw_wc_order_types_', 20, 2 );
-
-			// multicurrency comtabile.
-			$wps_sfw_active_plugins = get_option( 'active_plugins' );
-			if ( in_array( 'woocommerce-currency-switcher/index.php', $wps_sfw_active_plugins ) ) {
-
-				$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
-				$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
-			}
+			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
+			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
 		}
 
 	}
