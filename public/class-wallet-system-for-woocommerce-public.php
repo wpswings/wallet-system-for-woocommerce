@@ -1370,7 +1370,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return array
 	 */
 	public function wsfw_wallet_get_fee_taxes( $cart_totals_fee_html ) {
-
+	
 		if ( is_array( $cart_totals_fee_html ) && count( $cart_totals_fee_html ) > 0 ) {
 
 			$cart_totals_fee_html[1] = floatval( 0 );
@@ -1402,9 +1402,10 @@ class Wallet_System_For_Woocommerce_Public {
 				break;
 			}
 		}
-		if ( ! empty( $fee_tax ) ) {
-			$cart_total = $cart_total - $fee_tax;
-		}
+		
+		// if ( ! empty( $fee_tax ) ) {
+		// 	$cart_total = $cart_total - $fee_tax;
+		// }
 
 		return wc_price( $cart_total );
 	}
@@ -1412,7 +1413,7 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Fix html via wallet at order details
 	 *
-	 * @param array $order as order.
+	 * @param object $order as order.
 	 * @return void
 	 */
 	public function wsfw_wallet_add_order_detail( $order ) {
@@ -1433,6 +1434,7 @@ class Wallet_System_For_Woocommerce_Public {
 				break;
 			}
 		}
+		
 		if ( ! empty( $fee_total_tax ) ) {
 			$order_id = $order->get_id();
 			$order_tax = get_post_meta( $order_id, '_order_tax', true );
