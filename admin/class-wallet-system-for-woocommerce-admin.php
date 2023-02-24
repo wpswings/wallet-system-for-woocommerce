@@ -1278,6 +1278,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function wsfw_order_status_changed_admin( $order_id, $old_status, $new_status ) {
+	
 		$order          = wc_get_order( $order_id );
 		$userid         = $order->get_user_id();
 		$order_items    = $order->get_items();
@@ -1291,7 +1292,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-
+		$order_curremncy = $order->get_currency();
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();
 			$total      = $item->get_total();
@@ -1299,7 +1300,12 @@ class Wallet_System_For_Woocommerce_Admin {
 				$order_status = array( 'pending', 'on-hold', 'processing' );
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount        = $total;
-					$credited_amount = apply_filters( 'wps_wsfw_update_wallet_to_base_price', $amount, $order_currency );
+					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount, $order_currency );
+					$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update',$credited_amount  );
+					if ( ! empty( $converted_ ) ){
+						$credited_amount = $converted_;
+						$order_curremncy = get_woocommerce_currency();
+					}
 					$wallet_userid = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
 					if ( $wallet_userid ) {
 						$update_wallet_userid = $wallet_userid;
@@ -1315,7 +1321,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
 						$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $credited_amount, array( 'currency' => $order_curremncy ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -1325,11 +1331,11 @@ class Wallet_System_For_Woocommerce_Admin {
 							'Reply-To: ' . $to . "\r\n";
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 					}
-					$transaction_type = __( 'Wallet credited through purchase ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+					$transaction_type = __( 'Wallet credited through purchased ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $update_wallet_userid,
-						'amount'           => $amount,
-						'currency'         => $order->get_currency(),
+						'amount'           => $credited_amount,
+						'currency'         => $order_curremncy,
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'transaction_type_1' => 'credit',
@@ -1351,7 +1357,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( in_array( $old_status, $order_status ) && in_array( $new_status, $payment_status ) ) {
 					$fees   = abs( $fee_total );
 					$amount = $fees;
-					$debited_amount = apply_filters( 'wps_wsfw_update_wallet_to_base_price', $fees, $order_currency );
+					$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees, $order_currency );
 					if ( $walletamount < $debited_amount ) {
 						$walletamount = 0;
 					} else {
@@ -2391,7 +2397,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			if ( ! empty( $amount_deduct_from_wallet ) ) {
 				$order_total = $wps_new_order->get_total();
-				$order_total = apply_filters( 'wps_wsfw_update_wallet_to_base_price', $order_total, $currency );
+				$order_total = apply_filters( 'wps_wsfw_convert_to_base_price', $order_total, $currency );
 				if ( 'fix' === $amount_type_for_wallet ) {
 					if ( $amount_deduct_from_wallet >= $order_total ) {
 						$amount_deduct = $order_total;
@@ -2833,7 +2839,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 			if ( ! is_wp_error( $refund ) ) {
 
-				$credited_amount = apply_filters( 'wps_wsfw_update_wallet_to_base_price', $refund_amount, $order_currency );
+				$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $refund_amount, $order_currency );
 				$walletamount   += $credited_amount;
 				$transaction_id = update_user_meta( $userid, 'wps_wallet', $walletamount );
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
@@ -2912,7 +2918,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 
-		$credited_amount = apply_filters( 'wps_wsfw_update_wallet_to_base_price', $partial_payment_amount, $order_currency );
+		$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $partial_payment_amount, $order_currency );
 				$walletamount   += $credited_amount;
 				update_user_meta( $userid, 'wps_wallet', $walletamount );
 

@@ -409,7 +409,7 @@ class Wallet_System_For_Woocommerce_Common {
 		}
 		$order          = wc_get_order( $order_id );
 		$payment_method = $order->get_payment_method();
-		$restrict_gatewaay  = get_option( 'wps_wsfw_multiselect_cashback_restrict' );
+		$restrict_gatewaay  = ! empty( get_option( 'wps_wsfw_multiselect_cashback_restrict' ) ) ? get_option( 'wps_wsfw_multiselect_cashback_restrict' ) : array();
 		if ( in_array( $payment_method, $restrict_gatewaay ) ) {
 			return;
 		}

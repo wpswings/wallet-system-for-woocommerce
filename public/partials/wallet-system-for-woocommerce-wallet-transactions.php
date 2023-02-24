@@ -31,6 +31,7 @@ $allowed_html = array(
 			<tbody>
 				<?php
 				global $wpdb;
+
 				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
@@ -53,7 +54,7 @@ $allowed_html = array(
 							echo esc_html( $date->getTimestamp() . $transaction->id );
 							?>
 							</td>
-							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>' ><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( apply_filters( 'wps_wsfw_show_converted_price', $transaction->amount ), array( 'currency' => $transaction->currency ) ) ); ?></td>
+							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>' ><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( apply_filters( 'wps_wsfw_show_converted_price', $transaction->amount ) ) ); ?></td>
 							<td class="details" ><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
 							<td>
 							<?php
