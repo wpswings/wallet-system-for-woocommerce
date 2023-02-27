@@ -1321,7 +1321,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
 						$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $credited_amount, array( 'currency' => $order_curremncy ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -1334,8 +1334,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_type = __( 'Wallet credited through purchased ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $update_wallet_userid,
-						'amount'           => $credited_amount,
-						'currency'         => $order_curremncy,
+						'amount'           => $amount,
+						'currency'         =>  $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'transaction_type_1' => 'credit',

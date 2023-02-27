@@ -298,7 +298,10 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( 'completed' == $new_status ) {
 					$amount          = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount );
-					
+					$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update',$credited_amount  );
+					if ( ! empty( $converted_ ) ){
+						$credited_amount = $converted_;
+					}
 				$wallet_userid   = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
 					if ( $wallet_userid ) {
 						$update_wallet_userid = $wallet_userid;
