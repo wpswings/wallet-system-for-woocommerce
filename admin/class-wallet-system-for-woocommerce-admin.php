@@ -2564,10 +2564,19 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public static function wsfwp_uprage_transaction_table() {
-		$wsfwp_upgrade_wp_postmeta_check = get_option( 'wsfwp_uprage_transaction_table', 'not_done' );
-		if ( 'not_done' === $wsfwp_upgrade_wp_postmeta_check ) {
-			global  $wpdb;
 
+
+		global  $wpdb;
+
+		$table_name = 'wp_wps_wsfw_wallet_transaction';
+		$column_name ='transaction_type_1';
+
+		$column = $wpdb->get_results( $wpdb->prepare(
+			"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s ",
+			DB_NAME, $table_name, $column_name
+		) );
+		
+		if ( empty( $column ) ) {
 			$wpdb->query( "ALTER TABLE wp_wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'" );
 			update_option( 'wsfwp_uprage_transaction_table', 'done' );
 		}
