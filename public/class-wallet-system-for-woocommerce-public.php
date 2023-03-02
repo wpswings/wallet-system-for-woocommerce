@@ -314,11 +314,11 @@ class Wallet_System_For_Woocommerce_Public {
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $credited_amount;
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
-
+					$balance   = $order->get_currency() . ' '.$amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-						$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
+						$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $amount ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -364,10 +364,10 @@ class Wallet_System_For_Woocommerce_Public {
 					
 					update_user_meta( $userid, 'wps_wallet', $walletamount );
 					update_post_meta( $order_id, 'wps_wallet_update_on_thankyou', 'done' );
-
+					$balance   = $order->get_currency() . ' '.$amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $order->get_currency() ) ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -1293,11 +1293,12 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 		}
+		$balance   = $current_currency . ' '.$amount;
 		if ( $updated ) {
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $current_currency ) ) . __( ' through successfully signup.', 'wallet-system-for-woocommerce' );
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through successfully signup.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
 				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -1358,11 +1359,12 @@ class Wallet_System_For_Woocommerce_Public {
 				$updated = true;
 			}
 		}
+		$balance   = $current_currency . ' '.$amount;
 		if ( $updated ) {
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $current_currency ) ) . __( ' through visiting site.', 'wallet-system-for-woocommerce' );
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through visiting site.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
 				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );

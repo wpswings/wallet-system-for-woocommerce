@@ -71,7 +71,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user       = get_user_by( 'id', $user_id );
 				$name       = $user->first_name . ' ' . $user->last_name;
-				$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
+				$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
 				$mail_text .= $mail_message;
 				$to         = $user->user_email;
 				$from       = get_option( 'admin_email' );

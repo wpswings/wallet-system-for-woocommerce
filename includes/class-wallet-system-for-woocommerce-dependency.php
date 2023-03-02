@@ -62,12 +62,13 @@ if ( ! function_exists( 'wps_wsfw_update_user_wallet_balance' ) ) {
 					'note'             => '',
 				);
 				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+				$balance   = $currency . ' '.$amount;
 
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$user       = get_user_by( 'id', $user_id );
 					$name       = $user->first_name . ' ' . $user->last_name;
-					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-					$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $currency ) ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
+					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+					$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 					$to         = $user->user_email;
 					$from       = get_option( 'admin_email' );
 					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );

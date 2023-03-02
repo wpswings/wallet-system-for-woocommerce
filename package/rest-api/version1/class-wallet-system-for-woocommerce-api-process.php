@@ -122,15 +122,18 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 							$wallet -= $updated_amount;
 						}
 						$update_wallet = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
-						$mail_message  = __( 'Your wallet has been debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
+						$currency  = get_woocommerce_currency();
+						$balance   = $currency . ' '.$updated_amount;
+						$mail_message  = __( 'Your wallet has been debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance );
 
 					}
 					if ( $update_wallet ) {
 						$wallet            = get_user_meta( $user_id, 'wps_wallet', true );
 						$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+						
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$name       = $user->first_name . ' ' . $user->last_name;
-							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
+							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
 							$mail_text .= $mail_message;
 							$to         = $user->user_email;
 							$from       = get_option( 'admin_email' );

@@ -172,11 +172,12 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 				update_user_meta( $vendor_id, 'wps_wallet', abs( $walletamount ) );
 
 				$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+				$balance   = $this->currency . ' '.$amount_to_pay;
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$user       = get_user_by( 'id', $vendor_id );
 					$name       = $user->first_name . ' ' . $user->last_name;
-					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-					$mail_text .= __( 'Wallet credited through Commission by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount_to_pay, array( 'currency' => $this->currency ) );
+					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+					$mail_text .= __( 'Wallet credited through Commission by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance );
 					$to         = $user->user_email;
 					$from       = get_option( 'admin_email' );
 					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
