@@ -40,5 +40,4 @@ wp_delete_post( $product_id, true );
 delete_option( 'wps_wsfw_rechargeable_product_id' );
 delete_option( 'wps_wsfw_enable' );
 delete_option( 'wsfw_enable_wallet_recharge' );
-delete_option( 'wps_wsfw_allow_refund_to_wallet' );
 delete_option( 'wps_wsfw_enable_email_notification_for_wallet_update' );

@@ -92,7 +92,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 		show_message_on_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		$update = false;
 	} elseif ( $another_user_email == $wps_current_user_email ) {
-		show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself dfsf.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		$update = false;
 	}
 	if ( $update ) {
@@ -110,10 +110,11 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 
 			$user2 = get_user_by( 'id', $user_id );
 			$name2 = $user2->first_name . ' ' . $user2->last_name;
+			$balance   = $current_currency . ' '.$transfer_amount;
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 
-				$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-				$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
+				$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . ",\r\n";
+				$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
 				$to1         = $user1->user_email;
 				$from        = get_option( 'admin_email' );
 				$subject     = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -133,6 +134,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 				'currency'         => $current_currency,
 				'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 				'transaction_type' => $transaction_type,
+				'transaction_type_1' => 'credit',
 				'order_id'         => '',
 				'note'             => $transfer_note,
 
@@ -143,10 +145,10 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 			$wallet_bal -= $wallet_transfer_amount;
 			$update_user = update_user_meta( $user_id, 'wps_wallet', abs( $wallet_bal ) );
 			if ( $update_user ) {
-
+				$balance   = $current_currency . ' '.$transfer_amount;
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-					$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-					$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
+					$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . ",\r\n";
+					$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
 					$to2         = $user2->user_email;
 					$headers2    = 'MIME-Version: 1.0' . "\r\n";
 					$headers2   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
@@ -163,6 +165,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 					'currency'         => $current_currency,
 					'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 					'transaction_type' => $transaction_type,
+					'transaction_type_1' => 'debit',
 					'order_id'         => '',
 					'note'             => $transfer_note,
 
@@ -258,6 +261,15 @@ $wallet_restrict_transfer = apply_filters( 'wallet_restrict_transfer', $user_id 
 $wallet_restrict_withdrawal = apply_filters( 'wallet_restrict_withdrawal', $user_id );
 $wallet_restrict_coupon = apply_filters( 'wallet_restrict_coupon', $user_id );
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
+$is_pro_plugin = false;
+$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+$wps_wallet_restrict_message_to_user = 'on';
+$wps_wallet_restrict_message_for = '';
+if ($is_pro_plugin){
+	$wps_wallet_restrict_message_to_user = apply_filters( 'wps_wallet_restrict_message_to_user', $user_id );
+	$wps_wallet_restrict_message_for = apply_filters( 'wps_wallet_restrict_message_for', $user_id );
+}
+
 
 $wallet_tabs = array();
 if ( 'restricted' !== $is_user_restricted ) {
@@ -346,30 +358,47 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<p>
 		<?php
 		$wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
+
 		echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
 		?>
 		</p>
 	</div>
 	<?php
-	if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
-		?>
-		<div class="wsfw_show_user_restriction_notice">
-			<?php
-				esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
+	if ( 'on' == $wps_wallet_restrict_message_to_user ) {
+
+
+		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
 			?>
-		</div>
-		<?php
-	}
-	?>
-	<?php
-	if ( 'restricted' === $is_user_restricted ) {
-		?>
-		<div class="wsfw_show_user_restriction_notice">
+			<div class="wsfw_show_user_restriction_notice">
+				<?php
+				if ( ! empty( $wps_wallet_restrict_message_for ) ) {
+					echo esc_html( $wps_wallet_restrict_message_for );
+
+				} else {
+					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
+
+				}
+				?>
+			</div>
 			<?php
-				esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
-			?>
-		</div>
+		}
+		?>
 		<?php
+		if ( 'restricted' === $is_user_restricted ) {
+			?>
+			<div class="wsfw_show_user_restriction_notice">
+				<?php
+				if ( ! empty( $wps_wallet_restrict_message_for ) ) {
+					echo esc_html( $wps_wallet_restrict_message_for );
+
+				} else {
+					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
+
+				}
+				?>
+			</div>
+			<?php
+		}
 	}
 	?>
 	<div class="wps_wcb_main_tabs_template">

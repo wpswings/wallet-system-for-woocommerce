@@ -674,9 +674,9 @@ input[type="search"]:focus {
     width: 100%;
 }
 
-.woocommerce-error,
-.woocommerce-info,
-.woocommerce-message {
+.wps-woocommerce-error,
+.wps-woocommerce-info,
+.wps-woocommerce-message {
     margin-bottom: 2.617924em;
     background-color: #0f834d;
     margin-left: 0;
@@ -690,25 +690,25 @@ input[type="search"]:focus {
     list-style: none outside;
 }
 
-.woocommerce-error a:hover,
-.woocommerce-info a:hover,
-.woocommerce-message a:hover {
+.wps-woocommerce-error a:hover,
+.wps-woocommerce-info a:hover,
+.wps-woocommerce-message a:hover {
     color: white !important;
     text-decoration: none;
 }
 
-.woocommerce-error {
+.wps-woocommerce-error {
     background-color: #e2401c !important;
     padding: 16px 32px 16px 55px !important;
     border-top-color: #b81c23 !important;
 }
 
-.woocommerce-message {
+.wps-woocommerce-message {
     background-color: #0f834d !important;
     margin: 0 auto 50px;
 }
 
-.woocommerce-info {
+.wps-woocommerce-info {
     background-color: #3d9cd2 !important;
 }
 
@@ -736,4 +736,16 @@ input[type="search"]:focus {
     font-size: 12px;
     letter-spacing: 0.4px;
     text-align: center;
+}
+
+.wps_wallet_debit{
+    color:red;
+  }
+  
+  .wps_wallet_credit{
+    color:green;
+  }
+
+  #transactions_table_wrapper td,#transactions_table_wrapper th {
+    display: table-cell!important;
 }

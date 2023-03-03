@@ -29,7 +29,7 @@ $user = get_user_by( 'id', $user_id );
 					<td><input type="text" id="search_in_table" placeholder="Enter your Keyword"></td>
 				</tr>
 				<tr>
-					<td><input name="min" id="min" type="text" placeholder="From" autocomplete="off"></td>
+					<td><input name="min" id="min" type="text" placeholder="From"  autocomplete="off"></td>
 				</tr>
 				<tr>
 					<td><input name="max" id="max" type="text" placeholder="To" autocomplete="off"></td>

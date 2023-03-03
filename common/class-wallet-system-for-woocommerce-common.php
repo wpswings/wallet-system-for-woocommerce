@@ -203,7 +203,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
 			if ( wp_verify_nonce( $nonce ) ) {
 				unset( $_POST['wps_recharge_wallet'] );
-				
+
 				if ( empty( $_POST['wps_wallet_recharge_amount'] ) ) {
 					$this->show_message_on_wallet_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 				} else {
@@ -321,10 +321,11 @@ class Wallet_System_For_Woocommerce_Common {
 
 					$user2 = get_user_by( 'id', $user_id );
 					$name2 = $user2->first_name . ' ' . $user2->last_name;
+					$balance   = $current_currency . ' '.$transfer_amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 
-						$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-						$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
+						$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . ",\r\n";
+						$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet transfer by ', 'wallet-system-for-woocommerce' ) . $name2;
 						$to1         = $user1->user_email;
 						$from        = get_option( 'admin_email' );
 						$subject     = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -343,6 +344,7 @@ class Wallet_System_For_Woocommerce_Common {
 						'currency'         => $current_currency,
 						'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 						'transaction_type' => $transaction_type,
+						'transaction_type_1' => 'credit',
 						'order_id'         => '',
 						'note'             => $transfer_note,
 					);
@@ -352,10 +354,10 @@ class Wallet_System_For_Woocommerce_Common {
 					$wallet_bal -= $wallet_transfer_amount;
 					$update_user = update_user_meta( $user_id, 'wps_wallet', abs( $wallet_bal ) );
 					if ( $update_user ) {
-
+						$balance   = $current_currency . ' '.$transfer_amount;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-							$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . __( ',<br/>', 'wallet-system-for-woocommerce' );
-							$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $transfer_amount, array( 'currency' => $current_currency ) ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
+							$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . ",\r\n";
+							$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
 							$to2         = $user2->user_email;
 							$headers2    = 'MIME-Version: 1.0' . "\r\n";
 							$headers2   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
@@ -371,6 +373,7 @@ class Wallet_System_For_Woocommerce_Common {
 							'currency'         => $current_currency,
 							'payment_method'   => __( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 							'transaction_type' => $transaction_type,
+							'transaction_type_1' => 'debit',
 							'order_id'         => '',
 							'note'             => $transfer_note,
 
@@ -403,6 +406,12 @@ class Wallet_System_For_Woocommerce_Common {
 			return;
 		}
 		if ( 'on' != get_option( 'wps_wsfw_enable_cashback' ) ) {
+			return;
+		}
+		$order          = wc_get_order( $order_id );
+		$payment_method = $order->get_payment_method();
+		$restrict_gatewaay  = ! empty( get_option( 'wps_wsfw_multiselect_cashback_restrict' ) ) ? get_option( 'wps_wsfw_multiselect_cashback_restrict' ) : array();
+		if ( in_array( $payment_method, $restrict_gatewaay ) ) {
 			return;
 		}
 
@@ -508,10 +517,11 @@ class Wallet_System_For_Woocommerce_Common {
 						}
 					}
 					if ( $wps_send_mail ) {
+						$balance   = $order->get_currency() . ' '.$cashback_amount_order;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-							$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-							$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $cashback_amount_order, array( 'currency' => $order->get_currency() ) ) . __( ' through cashback.', 'wallet-system-for-woocommerce' );
+							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+							$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through cashback.', 'wallet-system-for-woocommerce' );
 							$to         = $wallet_user->user_email;
 							$from       = get_option( 'admin_email' );
 							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -528,6 +538,7 @@ class Wallet_System_For_Woocommerce_Common {
 							'currency'         => $order->get_currency(),
 							'payment_method'   => $payment_method,
 							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'credit',
 							'order_id'         => $order_id,
 							'note'             => '',
 						);
@@ -569,10 +580,11 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 
 					if ( $updated ) {
+						$balance   = $order->get_currency() . ' '.$wps_cashback_receive_amount;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-							$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $wps_cashback_receive_amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order refunded.', 'wallet-system-for-woocommerce' );
+							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through order refunded.', 'wallet-system-for-woocommerce' );
 							$to         = $wallet_user->user_email;
 							$from       = get_option( 'admin_email' );
 							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -589,6 +601,7 @@ class Wallet_System_For_Woocommerce_Common {
 							'currency'         => $order->get_currency(),
 							'payment_method'   => $payment_method,
 							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'debit',
 							'order_id'         => $order_id,
 							'note'             => '',
 						);
@@ -630,10 +643,11 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 
 					if ( $updated ) {
+						$balance   = $order->get_currency() . ' '.$wps_cashback_receive_amount;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-							$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . wc_price( $wps_cashback_receive_amount, array( 'currency' => $order->get_currency() ) ) . __( ' through order cancelled.', 'wallet-system-for-woocommerce' );
+							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through order cancelled.', 'wallet-system-for-woocommerce' );
 							$to         = $wallet_user->user_email;
 							$from       = get_option( 'admin_email' );
 							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -650,6 +664,7 @@ class Wallet_System_For_Woocommerce_Common {
 							'currency'         => $order->get_currency(),
 							'payment_method'   => $payment_method,
 							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'debit',
 							'order_id'         => $order_id,
 							'note'             => '',
 						);
@@ -680,7 +695,7 @@ class Wallet_System_For_Woocommerce_Common {
 			if ( $order_total > $wsfw_min_cart_amount ) {
 
 				if ( 'percent' === $wsfw_cashbak_type ) {
-					
+
 					$total                        = $order_total;
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
@@ -701,7 +716,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
 			if ( ! empty( $order_total ) ) {
 				if ( 'percent' === $wsfw_cashbak_type ) {
-					
+
 					$total                        = $order_total;
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', $order_total );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
@@ -712,11 +727,9 @@ class Wallet_System_For_Woocommerce_Common {
 						} else {
 							$cashback_amount += $wsfw_max_cashbak_amount;
 						}
-					} else{
+					} else {
 						$cashback_amount += $wsfw_percent_cashback_amount;
 					}
-				
-					
 				} else {
 					if ( $wps_wsfwp_cashback_amount > 0 && ! ( is_array( $wps_wsfwp_cashback_amount ) ) ) {
 						$cashback_amount += $wps_wsfwp_cashback_amount;
@@ -726,7 +739,7 @@ class Wallet_System_For_Woocommerce_Common {
 				}
 			}
 		}
-		
+
 		return $cashback_amount;
 	}
 
@@ -819,10 +832,11 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 		}
 		if ( $updated ) {
+			$balance   = $current_currency . ' '.$amount;
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $current_currency ) ) . __( ' through product review.', 'wallet-system-for-woocommerce' );
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through product review.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
 				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -840,6 +854,7 @@ class Wallet_System_For_Woocommerce_Common {
 				'currency'         => $current_currency,
 				'payment_method'   => 'Product review',
 				'transaction_type' => htmlentities( $transaction_type ),
+				'transaction_type_1' => 'credit',
 				'order_id'         => $comment_ids,
 				'note'             => '',
 			);
@@ -890,10 +905,11 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 		}
 		if ( $updated ) {
+			$balance   = $current_currency . ' '.$amount;
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s,<br/>', $user_name );
-				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . wc_price( $amount, array( 'currency' => $current_currency ) ) . __( ' through product review.', 'wallet-system-for-woocommerce' );
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through product review.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
 				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -911,6 +927,7 @@ class Wallet_System_For_Woocommerce_Common {
 				'currency'         => $current_currency,
 				'payment_method'   => 'Product review',
 				'transaction_type' => htmlentities( $transaction_type ),
+				'transaction_type_1' => 'credit',
 				'order_id'         => $comment_id,
 				'note'             => '',
 			);

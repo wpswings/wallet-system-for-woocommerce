@@ -17,7 +17,7 @@ $allowed_html = array(
 
 <div class='content active'>
 	<div class="wps-wallet-transaction-container">
-		<table class="wps-wsfw-wallet-field-table dt-responsive" id="transactions_table">
+		<table class="wps-wsfw-wallet-field-table " id="transactions_table">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -31,6 +31,7 @@ $allowed_html = array(
 			<tbody>
 				<?php
 				global $wpdb;
+
 				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 				$transactions = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction WHERE user_id = %s ORDER BY `Id` DESC', $user_id ) );
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
@@ -38,11 +39,22 @@ $allowed_html = array(
 					foreach ( $transactions as $transaction ) {
 						$user           = get_user_by( 'id', $transaction->user_id );
 						$transaction_id = $transaction->id;
+						$tranasction_symbol = '';
+						if ( 'credit' == $transaction->transaction_type_1 ) {
+							$tranasction_symbol = '+';
+						} elseif ( 'debit' == $transaction->transaction_type_1 ) {
+							$tranasction_symbol = '-';
+						}
 						?>
 						<tr>
 							<td><?php echo esc_html( $i ); ?></td>
-							<td><?php echo esc_html( $transaction_id ); ?></td>
-							<td><?php echo wp_kses_post( wc_price( apply_filters( 'wps_wsfw_show_converted_price', $transaction->amount ), array( 'currency' => $transaction->currency ) ) ); ?></td>
+							<td>
+							<?php
+							$date = date_create( $transaction->date );
+							echo esc_html( $date->getTimestamp() . $transaction->id );
+							?>
+							</td>
+							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>' ><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td class="details" ><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
 							<td>
 							<?php

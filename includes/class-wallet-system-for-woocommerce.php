@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.3.1';
+			$this->version = '2.3.3';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -363,19 +363,14 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wp', $wsfw_plugin_public, 'wps_wsfw_daily_visit_balance', 100 );
 			$this->loader->add_filter( 'woocommerce_cart_totals_fee_html', $wsfw_plugin_public, 'wsfw_wallet_cart_totals_fee_html', 10, 2 );
 			$this->loader->add_filter( 'woocommerce_cart_get_fee_taxes', $wsfw_plugin_public, 'wsfw_wallet_get_fee_taxes', 10, 1 );
-			$this->loader->add_filter( 'woocommerce_cart_total', $wsfw_plugin_public, 'wsfw_wallet_cart_total', 10, 1 );
-			$this->loader->add_action( 'woocommerce_checkout_order_created', $wsfw_plugin_public, 'wsfw_wallet_add_order_detail' );
+			//$this->loader->add_filter( 'woocommerce_cart_total', $wsfw_plugin_public, 'wsfw_wallet_cart_total', 10, 1 );
+			//$this->loader->add_action( 'woocommerce_checkout_order_created', $wsfw_plugin_public, 'wsfw_wallet_add_order_detail' );
 			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
 			$this->loader->add_filter( 'woocommerce_thankyou_order_id', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_order_id', 99999 );
 			$this->loader->add_filter( 'wc_order_types', $wsfw_plugin_public, 'wps_wsfw_wc_order_types_', 20, 2 );
-
-			// multicurrency comtabile.
-			$wps_sfw_active_plugins = get_option( 'active_plugins' );
-			if ( in_array( 'woocommerce-currency-switcher/index.php', $wps_sfw_active_plugins ) ) {
-
-				$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
-				$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
-			}
+			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
+			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
+			$this->loader->add_action( 'woocommerce_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders', 90 );
 		}
 
 	}
@@ -1240,6 +1235,7 @@ class Wallet_System_For_Woocommerce {
 				'transaction_id'   => $transactiondata['order_id'],
 				'note'             => $transactiondata['note'],
 				'date'             => gmdate( 'Y-m-d H:i:s' ),
+				'transaction_type_1'   => $transactiondata['transaction_type_1'],
 			);
 
 			$results        = $wpdb->insert(
@@ -1266,7 +1262,12 @@ class Wallet_System_For_Woocommerce {
 	 * @return void
 	 */
 	public function send_mail_on_wallet_updation( $to, $subject, $mail_message, $headers ) {
-		// Here put your Validation and send mail.
+		//Here put your Validation and send mail.
+		$send_mail_through =get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount' );
+		if (get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount', true )) {
+		$headers = 'From: '. $send_mail_through . "\r\n" .
+		'Reply-To: ' . $send_mail_through . "\r\n";
+		}
 		wp_mail( $to, $subject, $mail_message, $headers );
 	}
 

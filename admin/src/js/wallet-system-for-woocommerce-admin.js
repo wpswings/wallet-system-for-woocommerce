@@ -45,6 +45,8 @@
         });
 		jQuery('.wps-wsfw-number').append('<input type="hidden" id="user_check_box_ids" name="user_check_box_ids" value="" />')
     
+		jQuery('#wsfw_wallet_amount_for_users').attr('step','any');
+
 		// hide show category fields.
 		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
 		if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {
@@ -188,9 +190,7 @@
 			}
 				
 			}
-$('#wps_wallet_submit_val_submit').trigger('click');
-
-
+			$('#wps_wallet_submit_val_submit').trigger('click');
 		});
 		
 
@@ -277,10 +277,15 @@ $('#wps_wallet_submit_val_submit').trigger('click');
 			table.search($(this).val()).draw() ;
 		});
 
+		$('#min_table').keyup(function(){
+			var table = $('#wps-wpg-gen-table').DataTable();
+			table.search($(this).val()).draw() ;
+		});
+
 		$(document).on('click', '#clear_table', function(){
 			$('#search_in_table').val('');
-			$('#min').val('');
-			$('#max').val('');
+			$('#min_table').val('');
+			$('#max_table').val('');
 			$('#filter_status').prop('selectedIndex',0);
 			var table = $('.wps-wpg-gen-section-table').DataTable();
 			table.search( '' ).columns().search( '' ).draw();
