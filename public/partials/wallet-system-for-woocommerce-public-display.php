@@ -279,11 +279,10 @@ if ( 'restricted' !== $is_user_restricted ) {
 			$wallet_tabs['wallet_recharge'] = array(
 				'title'     => esc_html__( 'Add Balance', 'wallet-system-for-woocommerce' ),
 				'url'       => $topup_url,
-				'icon'      => '<path d="M28 10V4C28 3.46957 27.7893 2.96086 27.4142 2.58579C27.0391 2.21071 26.5304 2 26 2H6C4.93913 2 3.92172 2.42143 3.17157 3.17157C2.42143 3.92172 2 4.93913 2 6M2 6C2 7.06087 2.42143 8.07828 3.17157 8.82843C3.92172 9.57857 4.93913 10 6 10H30C30.5304 10 31.0391 10.2107 31.4142 10.5858C31.7893 10.9609 32 11.4696 32 12V18M2 6V27.5M32 26V32C32 32.5304 31.7893 33.0391 31.4142 33.4142C31.0391 33.7893 30.5304 34 30 34H8" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-								<circle cx="8.5" cy="27.5" r="6.5" stroke="#1D201F" stroke-width="2.5"/>
-								<path d="M9.75 25.3333C9.75 24.643 9.19036 24.0833 8.5 24.0833C7.80964 24.0833 7.25 24.643 7.25 25.3333H9.75ZM7.25 29.6666C7.25 30.357 7.80964 30.9166 8.5 30.9166C9.19036 30.9166 9.75 30.357 9.75 29.6666H7.25ZM7.25 25.3333V29.6666H9.75V25.3333H7.25Z" fill="#1D201F"/>
-								<path d="M10.6666 28.75C11.357 28.75 11.9166 28.1904 11.9166 27.5C11.9166 26.8096 11.357 26.25 10.6666 26.25L10.6666 28.75ZM6.33329 26.25C5.64294 26.25 5.08329 26.8096 5.08329 27.5C5.08329 28.1904 5.64294 28.75 6.33329 28.75L6.33329 26.25ZM10.6666 26.25L6.33329 26.25L6.33329 28.75L10.6666 28.75L10.6666 26.25Z" fill="#1D201F"/>
-								<path d="M34 18.0001V26.0001H26C24.9391 26.0001 23.9217 25.5786 23.1716 24.8285C22.4214 24.0783 22 23.0609 22 22.0001C22 20.9392 22.4214 19.9218 23.1716 19.1716C23.9217 18.4215 24.9391 18.0001 26 18.0001H34Z" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
+				'className' => 'wps_wallet_recharge_tab',
+				'icon'      => '<path fill-rule="evenodd" clip-rule="evenodd" d="M31.8202 20C31.8202 13.4719 26.5281 8.17985 20 8.17985C13.4719 8.17985 8.17983 13.4719 8.17983 20C8.17983 26.5281 13.4719 31.8202 20 31.8202C26.5281 31.8202 31.8202 26.5281 31.8202 20ZM20 5.71429C27.8898 5.71429 34.2857 12.1102 34.2857 20C34.2857 27.8898 27.8898 34.2857 20 34.2857C12.1102 34.2857 5.71428 27.8898 5.71428 20C5.71428 12.1102 12.1102 5.71429 20 5.71429Z" fill="black"/>
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9999 12.9659C20.6807 12.9659 21.2327 13.5178 21.2327 14.1987V25.8013C21.2327 26.4821 20.6807 27.0341 19.9999 27.0341C19.319 27.0341 18.7671 26.4821 18.7671 25.8013V14.1987C18.7671 13.5178 19.319 12.9659 19.9999 12.9659Z" fill="#483DE0"/>
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M12.9659 20.0001C12.9659 19.3193 13.5178 18.7674 14.1987 18.7674H25.8013C26.4821 18.7674 27.034 19.3193 27.034 20.0001C27.034 20.681 26.4821 21.2329 25.8013 21.2329H14.1987C13.5178 21.2329 12.9659 20.681 12.9659 20.0001Z" fill="#483DE0"/>',
 				'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-recharge.php',
 			);
 		}
@@ -293,11 +292,11 @@ if ( 'restricted' !== $is_user_restricted ) {
 		$wallet_tabs['wallet_transfer'] = array(
 			'title'     => esc_html__( 'Wallet Transfer', 'wallet-system-for-woocommerce' ),
 			'url'       => $wallet_url,
-			'icon'      => '<rect x="2" y="12" width="32" height="15.5458" rx="1.5" stroke="#1D201F" stroke-width="2.5"/>
-							<path d="M28 17V22M8 22V17" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-							<circle cx="18.1246" cy="19.5" r="3.5" stroke="#1D201F" stroke-width="2.5"/>
-							<path d="M14.2556 34.1923L12.0164 31.9204L24.1429 31.9204" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-							<path d="M21.7444 5.80768L23.9836 8.0796L11.8571 8.0796" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
+			'className' => 'wps_wallet_transfer_tab',
+			'icon'      => '<rect width="40" height="40" rx="6" fill="#F6F5FD"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M19.827 18.9013C19.2591 18.3334 19.2591 17.4126 19.827 16.8447L29.5051 7.16658C30.073 6.59867 30.9938 6.59867 31.5617 7.16658C32.1296 7.73449 32.1296 8.65526 31.5617 9.22318L21.8836 18.9013C21.3157 19.4692 20.3949 19.4692 19.827 18.9013Z" fill="#483DE0"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M23.0331 6.98231C23.0331 6.17916 23.6842 5.52808 24.4873 5.52808L30.0685 5.52808C31.8165 5.52808 33.2335 6.94514 33.2335 8.69318L33.2335 14.2456C33.2335 15.0488 32.5825 15.6999 31.7793 15.6999C30.9762 15.6999 30.3251 15.0488 30.3251 14.2456L30.3251 8.69318C30.3251 8.55144 30.2102 8.43655 30.0685 8.43655L24.4873 8.43655C23.6842 8.43655 23.0331 7.78546 23.0331 6.98231Z" fill="#483DE0"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M14.0119 7.90847C11.0355 7.90847 8.6227 10.3213 8.6227 13.2977V25.2737C8.6227 28.2501 11.0355 30.663 14.0119 30.663H25.988C28.9644 30.663 31.3772 28.2501 31.3772 25.2737V19.1635C31.3772 18.3604 32.0283 17.7093 32.8314 17.7093C33.6346 17.7093 34.2857 18.3604 34.2857 19.1635V25.2737C34.2857 29.8564 30.5707 33.5714 25.988 33.5714H14.0119C9.42923 33.5714 5.71423 29.8564 5.71423 25.2737V13.2977C5.71423 8.715 9.42924 5 14.0119 5H18.839C19.6422 5 20.2932 5.65108 20.2932 6.45423C20.2932 7.25739 19.6422 7.90847 18.839 7.90847H14.0119Z" fill="black"/>',
 			'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transfer.php',
 		);
 	}
@@ -306,11 +305,11 @@ if ( 'restricted' !== $is_user_restricted ) {
 		$wallet_tabs['wallet_withdrawal'] = array(
 			'title'     => esc_html__( 'Wallet Withdrawal Request', 'wallet-system-for-woocommerce' ),
 			'url'       => $withdrawal_url,
-			'icon'      => '<path d="M25.826 6.5L25.826 30.5652C25.826 31.3936 25.1545 32.0652 24.326 32.0652L11.1044 32.0652C10.2759 32.0652 9.60437 31.3936 9.60437 30.5652L9.60437 6.5" stroke="#1D201F" stroke-width="2.5"/>
-							<path d="M6 5.77173C5.30964 5.77173 4.75 6.33137 4.75 7.02173C4.75 7.71208 5.30964 8.27173 6 8.27173V5.77173ZM30 8.27173C30.6904 8.27173 31.25 7.71208 31.25 7.02173C31.25 6.33137 30.6904 5.77173 30 5.77173V8.27173ZM6 8.27173H30V5.77173H6V8.27173Z" fill="#1D201F"/>
-							<path d="M20.6086 25.8043L15.3913 25.8043" stroke="#1D201F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-							<circle cx="18" cy="15.4996" r="3.65217" transform="rotate(90 18 15.4996)" stroke="#1D201F" stroke-width="2.5"/>
-							<path d="M25 13H32C33.1046 13 34 12.1046 34 11V4C34 2.89543 33.1046 2 32 2H4C2.89543 2 2 2.89543 2 4V11C2 12.1046 2.89543 13 4 13H10" stroke="#1D201F" stroke-width="2.5"/>',
+			'className' => 'wps_wallet_withdrawal_tab',
+			'icon'      => '<rect width="40" height="40" rx="6" fill="#E5E3FA"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9162 19.0872C19.0883 19.0872 18.4171 19.7584 18.4171 20.5864L18.4171 34.6957C18.4171 35.5237 19.0883 36.1948 19.9162 36.1948C20.7442 36.1948 21.4154 35.5237 21.4154 34.6957L21.4154 20.5864C21.4154 19.7584 20.7442 19.0872 19.9162 19.0872Z" fill="#483DE0"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M13.5653 30.112C12.9798 30.6974 12.9798 31.6466 13.5653 32.2321L17.6335 36.3003C18.9077 37.5745 20.9736 37.5745 22.2478 36.3003L26.2952 32.253C26.8806 31.6675 26.8806 30.7183 26.2952 30.1329C25.7097 29.5475 24.7605 29.5475 24.1751 30.1329L20.1278 34.1803C20.0244 34.2836 19.8569 34.2836 19.7536 34.1803L15.6854 30.112C15.0999 29.5265 14.1507 29.5265 13.5653 30.112Z" fill="#483DE0"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M14.6252 24.3783C11.557 24.3783 9.06965 21.891 9.06965 18.8228V11.7681C9.06965 8.69984 11.557 6.21253 14.6252 6.21253H26.0891C29.1573 6.21253 31.6446 8.69984 31.6446 11.7681V18.8228C31.6446 21.891 29.1573 24.3783 26.0891 24.3783H24.0104C23.1825 24.3783 22.5113 25.0495 22.5113 25.8774C22.5113 26.7054 23.1825 27.3766 24.0104 27.3766H26.0891C30.8132 27.3766 34.6428 23.5469 34.6428 18.8228V11.7681C34.6428 7.04396 30.8132 3.2143 26.0891 3.2143H14.6252C9.90108 3.2143 6.07141 7.04396 6.07141 11.7681V18.8228C6.07141 23.5469 9.90108 27.3766 14.6252 27.3766H15.7905C16.6184 27.3766 17.2896 26.7054 17.2896 25.8774C17.2896 25.0495 16.6184 24.3783 15.7905 24.3783H14.6252Z" fill="black"/>',
 			'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php',
 		);
 	}
@@ -324,10 +323,10 @@ if ( 'on' != $wallet_restrict_transaction ) {
 	$wallet_tabs['wallet_transactions'] = array(
 		'title'     => esc_html__( 'Transactions', 'wallet-system-for-woocommerce' ),
 		'url'       => $transaction_url,
-		'icon'      => '<path d="M2 7C2 4.23858 4.23858 2 7 2H23C25.7614 2 28 4.23858 28 7V28.6227C28 30.476 25.6972 31.3325 24.4861 29.9296L22.4665 27.5901C21.7195 26.7249 20.4005 26.6606 19.5729 27.4491L16.1765 30.6854C15.404 31.4215 14.1897 31.4215 13.4172 30.6854L10.067 27.4931C9.22232 26.6883 7.87085 26.7743 7.1351 27.6799L5.55223 29.628C4.36484 31.0894 2 30.2498 2 28.3668V7Z" stroke="#1D201F" stroke-width="2.5"/>
-						<path d="M19 9.25C19.6904 9.25 20.25 8.69036 20.25 8C20.25 7.30964 19.6904 6.75 19 6.75V9.25ZM11 6.75C10.3096 6.75 9.75 7.30964 9.75 8C9.75 8.69036 10.3096 9.25 11 9.25V6.75ZM19 6.75H11V9.25H19V6.75Z" fill="#1D201F"/>
-						<path d="M23 15.25C23.6904 15.25 24.25 14.6904 24.25 14C24.25 13.3096 23.6904 12.75 23 12.75V15.25ZM7 12.75C6.30964 12.75 5.75 13.3096 5.75 14C5.75 14.6904 6.30964 15.25 7 15.25V12.75ZM23 12.75H7V15.25H23V12.75Z" fill="#1D201F"/>
-						<path d="M21 21.25C21.6904 21.25 22.25 20.6904 22.25 20C22.25 19.3096 21.6904 18.75 21 18.75V21.25ZM9 18.75C8.30964 18.75 7.75 19.3096 7.75 20C7.75 20.6904 8.30964 21.25 9 21.25V18.75ZM21 18.75H9V21.25H21V18.75Z" fill="#1D201F"/>',
+		'className' => 'wps_wallet_transactions_tab',
+		'icon'      => '<path fill-rule="evenodd" clip-rule="evenodd" d="M6.40263 9.52276C8.21174 6.39535 11.5966 4.28571 15.4762 4.28571H24.5238C30.3097 4.28571 35 8.97598 35 14.7619V23.8095C35 29.5954 30.3097 34.2857 24.5238 34.2857H15.4762C9.69028 34.2857 5 29.5954 5 23.8095V19.2857C5 18.4967 5.63959 17.8571 6.42857 17.8571C7.21755 17.8571 7.85714 18.4967 7.85714 19.2857V23.8095C7.85714 28.0175 11.2682 31.4286 15.4762 31.4286H24.5238C28.7318 31.4286 32.1429 28.0175 32.1429 23.8095V14.7619C32.1429 10.5539 28.7318 7.14285 24.5238 7.14285H15.4762C12.6578 7.14285 10.1953 8.67244 8.87578 10.9534C8.48072 11.6364 7.60683 11.8697 6.92388 11.4747C6.24094 11.0796 6.00756 10.2057 6.40263 9.52276Z" fill="#1E1E1E"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9996 11.0717C20.7885 11.0717 21.4281 11.7112 21.4281 12.5002V18.694L25.5335 22.7994C26.0914 23.3573 26.0914 24.2618 25.5335 24.8197C24.9756 25.3776 24.0711 25.3776 23.5132 24.8197L18.9894 20.2959C18.7215 20.028 18.571 19.6646 18.571 19.2857V12.5002C18.571 11.7112 19.2106 11.0717 19.9996 11.0717Z" fill="#483DE0"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M7.48138 3.93726C8.26561 4.02374 8.83124 4.72959 8.74476 5.51381L8.36239 8.98116L11.8297 9.36352C12.614 9.45001 13.1796 10.1559 13.0931 10.9401C13.0066 11.7243 12.3008 12.2899 11.5166 12.2035L6.62926 11.6645C5.84503 11.578 5.2794 10.8722 5.36588 10.0879L5.90483 5.20064C5.99131 4.41641 6.69716 3.85078 7.48138 3.93726Z" fill="#1E1E1E"/>',
 		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transactions.php',
 	);
 }
@@ -352,17 +351,32 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 }
 
 ?>
-<div class="wps_wcb_wallet_display_wrapper">
-	<div class="wps_wcb_wallet_balance_container"> 
-		<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
-		<p>
-		<?php
-		$wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 
-		echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
-		?>
-		</p>
+
+
+
+	<div class="wps_wcb_wallet_display_wrapper_with_qr">
+		<div class="wps_wcb_wallet_balance_container"> 
+			<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
+			<p>
+			<?php
+			$wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
+
+			echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
+			?>
+			</p>
+			</p>
+		<?php if ( 'on' != $wallet_restrict_transaction ) {?>
+		<div class=""><a href="http://localhost:10129/my-account/wps-wallet/wallet-transactions/"><h4> View Transactions</h4></a>
+		</div>
+<?php } ?>
+		</div>
+		<?php echo do_action('wallet_qr_vode') ?>
 	</div>
+
+
+
+
 	<?php
 	if ( 'on' == $wps_wallet_restrict_message_to_user ) {
 
@@ -416,6 +430,9 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 
 						$allowed_html = wps_wsfw_lite_allowed_html();
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
+							if ( 'wallet_transactions' == $key ) {
+								continue;
+							}
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
 									$class = 'active';
@@ -423,14 +440,14 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 									$class = '';
 								}
 
-								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) ."' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg></a><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></li>';
+								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) ."' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							}
 						}
 						?>
