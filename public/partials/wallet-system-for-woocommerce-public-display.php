@@ -352,9 +352,6 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 
 ?>
 
-
-
-
 	<div class="wps_wcb_wallet_display_wrapper_with_qr">
 		<div class="wps_wcb_wallet_balance_container"> 
 			<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
@@ -367,9 +364,9 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 			</p>
 			</p>
 		<?php if ( 'on' != $wallet_restrict_transaction ) {?>
-		<div class=""><a href="http://localhost:10129/my-account/wps-wallet/wallet-transactions/"><h4> View Transactions</h4></a>
-		</div>
-<?php } ?>
+			<div class=""><a href="<?php echo esc_url($transaction_url); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
+			</div>
+		<?php } ?>
 		</div>
 		<?php echo do_action('wallet_qr_vode') ?>
 	</div>

@@ -2567,8 +2567,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 
 		global  $wpdb;
-
-		$table_name = 'wp_wps_wsfw_wallet_transaction';
+		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 		$column_name ='transaction_type_1';
 
 		$column = $wpdb->get_results( $wpdb->prepare(
@@ -2577,7 +2576,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		) );
 		
 		if ( empty( $column ) ) {
-			$wpdb->query( "ALTER TABLE wp_wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'" );
+			$wpdb->query( "ALTER TABLE $wpdb->prefix . 'wps_wsfw_wallet_transaction' ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'" );
 			update_option( 'wsfwp_uprage_transaction_table', 'done' );
 		}
 	}
