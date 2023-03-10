@@ -191,9 +191,15 @@ input[type=submit].wps-btn__filled:hover {
 }
 
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:first-of-type,
+.wps_wcb_content_template ul.wps_wcb_content_template ul.tabs li .wps_wallet_transfer_tab path:last-of-type,
+.wps_wcb_content_template ul.tabs li .wps_wallet_withdrawal_tab path:last-of-type,
+.wps_wcb_content_template ul.tabs li .wps_wallet_recharge_tab path:first-of-type,
+.wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:first-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:last-of-type {
-  fill: #000;
+    fill: #000;
 }
+
+
 
 
 /* Notifications start */
