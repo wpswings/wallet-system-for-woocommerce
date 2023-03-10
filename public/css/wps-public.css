@@ -464,5 +464,13 @@ input[type=submit].wps-btn__filled:hover {
   }
 }
 
+.wps_wallet_debit{
+  color:red !important;
+}
+
+.wps_wallet_credit{
+  color:green !important;
+}
+
 
 /*=====  End of Transaction Section  ======*/

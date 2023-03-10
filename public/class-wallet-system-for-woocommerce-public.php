@@ -61,7 +61,6 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wsfw_public_enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/scss/wallet-system-for-woocommerce-public.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/wps-public.css', array(), $this->version, 'all' );
 		if ( is_account_page() ) {
 			wp_enqueue_style( 'dashicons' );
@@ -302,7 +301,7 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( ! empty( $converted_ ) ){
 						$credited_amount = $converted_;
 					}
-				$wallet_userid   = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
+					$wallet_userid   = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
 					if ( $wallet_userid ) {
 						$update_wallet_userid = $wallet_userid;
 					} else {
