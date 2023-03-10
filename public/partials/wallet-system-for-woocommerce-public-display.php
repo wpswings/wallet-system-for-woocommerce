@@ -351,7 +351,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 }
 
 ?>
-
+<div class="wps_wcb_wallet_display_wrapper">
 	<div class="wps_wcb_wallet_display_wrapper_with_qr">
 		<div class="wps_wcb_wallet_balance_container"> 
 			<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
@@ -369,6 +369,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<?php } ?>
 		</div>
 		<?php echo do_action('wallet_qr_vode') ?>
+		
 	</div>
 
 

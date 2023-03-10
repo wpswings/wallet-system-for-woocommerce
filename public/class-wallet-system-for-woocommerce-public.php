@@ -445,6 +445,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * Add content to the new endpoint.
 	 */
 	public function wps_wsfw_display_wallet_endpoint_content() {
+		
 		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-public-display.php';
 	}
 
