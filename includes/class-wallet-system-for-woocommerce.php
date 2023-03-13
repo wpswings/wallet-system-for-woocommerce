@@ -303,8 +303,6 @@ class Wallet_System_For_Woocommerce {
 
 		$wsfw_plugin_common = new Wallet_System_For_Woocommerce_Common( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_styles' );
-
 		$this->loader->add_action( 'wp_enqueue_scripts', $wsfw_plugin_common, 'wsfw_common_enqueue_scripts' );
 
 		$this->loader->add_filter( 'woocommerce_is_purchasable', $wsfw_plugin_common, 'wps_wsfw_wallet_recharge_product_purchasable', 1, 2 );

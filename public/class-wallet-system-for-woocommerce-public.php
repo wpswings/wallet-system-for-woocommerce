@@ -61,7 +61,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wsfw_public_enqueue_styles() {
 
-		wp_enqueue_style( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/wps-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/wps-public-min.css', array(), $this->version, 'all' );
 		if ( is_account_page() ) {
 			wp_enqueue_style( 'dashicons' );
 		}
@@ -134,7 +134,9 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! empty( WC()->session ) ) {
 
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
-					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					if ( $wallet_amount < $wps_cart_total ) {
+						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					}
 				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
