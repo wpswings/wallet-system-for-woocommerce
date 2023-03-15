@@ -431,6 +431,13 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 							if ( 'wallet_transactions' == $key ) {
 								continue;
 							}
+						
+							if ( 'wallet_giftcard' == $key ) {
+								$wallet_tab['className'] = 'none';
+							}
+							if ( 'wallet_coupon' == $key ) {
+								$wallet_tab['className'] = 'none';
+							}
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
 									$class = 'active';
@@ -445,6 +452,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 								} else {
 									$class = '';
 								}
+
 								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) ."' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							}
 						}
