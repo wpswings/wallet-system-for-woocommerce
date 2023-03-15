@@ -484,4 +484,15 @@ input[type=submit].wps-btn__filled:hover {
   text-align: center;
 }
 
+.wps_view_withdrawal span {
+  color: #483DE0;
+  text-decoration: underline;
+  margin-bottom: 20px;
+  display: block;
+  cursor: pointer;
+}
+.wps_withdrawal_table{
+  display: none;
+}
+
 /*=====  End of Transaction Section  ======*/

@@ -93,11 +93,12 @@ class Wallet_System_For_Woocommerce_Activator {
 				update_option( 'wps_wsfw_rechargeable_product_id', $product_id );
 
 			}
+			
 		}
 
 		// create custom table named wp-db-prefix_wps_wsfw_wallet_transaction.
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'mwb_wsfw_wallet_transaction';
+		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) ) !== $table_name ) {
 			$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 			$wpdb_collate = $wpdb->collate;
@@ -107,6 +108,7 @@ class Wallet_System_For_Woocommerce_Activator {
 				amount double,
 				currency varchar( 20 ) NOT NULL,
 				transaction_type varchar(200) NULL,
+				transaction_type_1 varchar(200) NULL,
 				payment_method varchar(50) NULL,
 				transaction_id varchar(50) NULL,
 				note varchar(500) Null,

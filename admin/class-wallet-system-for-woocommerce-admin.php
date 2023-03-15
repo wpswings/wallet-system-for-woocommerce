@@ -1658,10 +1658,24 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 			$update = false;
 		}
+		$withdrawal_id      = ( isset( $_POST['withdrawal_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['withdrawal_id'] ) ) : '';
+		$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
+			
+		$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
+		$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
+		$updated_status     = ( isset( $_POST['status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+		if ( 'approved' === $updated_status ) {	
+			if ( $walletamount < $withdrawal_amount ) {
+				$wps_wsfw_error_text = esc_html__( 'Wallet Amount is not sufficient for widthdrawal.', 'wallet-system-for-woocommerce' );
+				$message             = array(
+					'msg'     => $wps_wsfw_error_text,
+					'msgType' => 'error',
+				);
+			$update = false;
+			}
+		}
+		
 		if ( $update ) {
-			$updated_status     = ( isset( $_POST['status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
-			$withdrawal_id      = ( isset( $_POST['withdrawal_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['withdrawal_id'] ) ) : '';
-			$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
 			$withdrawal_request = get_post( $withdrawal_id );
 			if ( 'approved' === $updated_status ) {
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -2321,6 +2335,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				amount double,
 				currency varchar( 20 ) NOT NULL,
 				transaction_type varchar(200) NULL,
+				transaction_type_1 varchar(200) NULL,
 				payment_method varchar(50) NULL,
 				transaction_id varchar(50) NULL,
 				note varchar(500) Null,

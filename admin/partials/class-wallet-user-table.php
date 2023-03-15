@@ -57,8 +57,8 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 								$net_balance = $balance - $current_balance;
 								$transaction_type_1 = 'credit';
 								$transaction_type = esc_html__( 'Wallet credited during importing wallet', 'wallet-system-for-woocommerce' );
-								$balance   = $currency . ' '.$net_balance;
-								$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance );
+								$balance_mail   = $currency . ' '.$net_balance;
+								$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance_mail );
 							} elseif ( $current_balance == $balance ) {
 								$net_balance      = 0;
 								$transaction_type = esc_html__( 'No money is added/deducted from wallet', 'wallet-system-for-woocommerce' );
@@ -67,8 +67,8 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 								$net_balance = floatval ($current_balance ) -floatval( $balance );
 								$transaction_type_1 = 'debit';
 								$transaction_type = esc_html__( 'Wallet debited during importing wallet', 'wallet-system-for-woocommerce' );
-								$balance   = $currency . ' '.$net_balance;
-								$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
+								$balance_mail   = $currency . ' '.$net_balance;
+								$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance_mail ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 							}
 							$updated_wallet = update_user_meta( $user_id, 'wps_wallet', $net_balance );
 
