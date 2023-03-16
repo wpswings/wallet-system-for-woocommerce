@@ -168,13 +168,16 @@ class Wallet_System_For_Woocommerce {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'common/class-wallet-system-for-woocommerce-common.php';
 
+		
+		$enable = get_option( 'wps_wsfw_enable', '' );
+		if ( isset( $enable ) && 'on' === $enable ) {
+
 		/**
 		 * The class responsible for creating the wallet payment method.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wallet-credit-payment-gateway.php';
 
-		$enable = get_option( 'wps_wsfw_enable', '' );
-		if ( isset( $enable ) && 'on' === $enable ) {
+
 			if ( class_exists( 'WCMp' ) ) {
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php';
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php';
