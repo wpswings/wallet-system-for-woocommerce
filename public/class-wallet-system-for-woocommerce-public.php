@@ -283,7 +283,12 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
-		$name                   = $user->first_name . ' ' . $user->last_name;
+		if ( ! empty( $user ) ){
+			$name                   = $user->first_name . ' ' . $user->last_name;
+		} else{
+			$name = '';
+		}
+		
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 		
@@ -1364,7 +1369,7 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( $updated ) {
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
 				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through visiting site.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
