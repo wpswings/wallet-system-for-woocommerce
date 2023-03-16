@@ -1338,6 +1338,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$wps_wsfw_wallet_action_daily_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_daily_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_daily_amount' ) : 1;
 		$current_currency                         = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
 		$updated                                  = false;
+		$amount                                   = 0;
 		if ( get_transient( 'wps_wsfw_wallet_site_visit_' . $user_id ) ) {
 			return;
 		}
