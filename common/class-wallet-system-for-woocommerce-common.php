@@ -53,15 +53,6 @@ class Wallet_System_For_Woocommerce_Common {
 	}
 
 	/**
-	 * Register the stylesheets for the common side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function wsfw_common_enqueue_styles() {
-		wp_enqueue_style( $this->plugin_name . 'common', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'common/src/scss/wallet-system-for-woocommerce-common.css', array(), $this->version, 'all' );
-	}
-
-	/**
 	 * Register the JavaScript for the common side of the site.
 	 *
 	 * @since    1.0.0

@@ -113,6 +113,13 @@
 			});
 			
 		});
+
+		
+		// Unset manually amount in partial payment.
+		$(document).on( 'click','#wps_withdrawal_table_div', function(){
+			jQuery('.wps_withdrawal_table').show();
+			
+		});
 		
 		// Unset manually amount in partial payment.
 		$(document).on( 'click','#partial_payment_wallet', function(){

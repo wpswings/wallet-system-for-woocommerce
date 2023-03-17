@@ -225,9 +225,9 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					'order_id'         => $order_id,
 					'note'             => '',
 				);
-
+				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				if ( isset( $is_auto_complete ) && 'on' == $is_auto_complete ) {
-					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+					
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
 					// Reduce stock levels.

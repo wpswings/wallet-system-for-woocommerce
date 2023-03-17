@@ -53,23 +53,24 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 
 							$current_balance = get_user_meta( $user_id, 'wps_wallet', true );
 							$current_balance = ( ! empty( $current_balance ) ) ? $current_balance : 0;
-							if ( $current_balance < $balance ) {
+							if (floatval( $current_balance ) < floatval( $balance ) ) {
 								$net_balance = $balance - $current_balance;
 								$transaction_type_1 = 'credit';
 								$transaction_type = esc_html__( 'Wallet credited during importing wallet', 'wallet-system-for-woocommerce' );
-								$balance   = $currency . ' '.$net_balance;
-								$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance );
+								$balance_mail   = $currency . ' '.$net_balance;
+								$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance_mail );
 							} elseif ( $current_balance == $balance ) {
 								$net_balance      = 0;
 								$transaction_type = esc_html__( 'No money is added/deducted from wallet', 'wallet-system-for-woocommerce' );
 							} else {
-								$net_balance = $current_balance - $balance;
+
+								$net_balance = floatval ($current_balance ) -floatval( $balance );
 								$transaction_type_1 = 'debit';
 								$transaction_type = esc_html__( 'Wallet debited during importing wallet', 'wallet-system-for-woocommerce' );
-								$balance   = $currency . ' '.$net_balance;
-								$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
+								$balance_mail   = $currency . ' '.$net_balance;
+								$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance_mail ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 							}
-							$updated_wallet = update_user_meta( $user_id, 'wps_wallet', $balance );
+							$updated_wallet = update_user_meta( $user_id, 'wps_wallet', $net_balance );
 
 							if ( $updated_wallet ) {
 								$updated_users++;
@@ -86,7 +87,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 									$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 									$headers   .= 'From: ' . $from . "\r\n" .
 										'Reply-To: ' . $to . "\r\n";
-
+									$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 									$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 								}
 							}
@@ -193,7 +194,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 							$wallet -= $wallet_amount;
 						}
 
-						$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
+						$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
 
 						if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
 							if ( $previous_wallet_amount < $wallet_amount ) {
@@ -280,7 +281,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 							$wallet -= $wallet_amount;
 						}
 
-						$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
+						$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
 
 						if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
 							if ( $previous_wallet_amount < $wallet_amount ) {
@@ -400,7 +401,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				} else {
 					$wallet -= $updated_amount;
 				}
-				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
+				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
 
 				if ( isset( $_POST['wps_wallet-edit-popup-transaction-detail'] ) && ! empty( $_POST['wps_wallet-edit-popup-transaction-detail'] ) ) {
 					if ( $previous_wallet_amount < $updated_amount ) {

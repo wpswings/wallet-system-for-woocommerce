@@ -5,8 +5,8 @@ Tags: digital wallet, cashback coupon, wallet topup, user wallet, woocommerce wa
 Requires at least: 5.1.0
 Tested up to: 6.1.1
 WC requires at least: 5.1.0
-WC tested up to: 7.4.1
-Stable tag: 2.3.3
+WC tested up to: 7.5.0
+Stable tag: 2.3.4
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -267,9 +267,14 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
+= 2.3.4 - Released on 16 March 2023 =
+* New: UI/UX update
+* New: Latest WP [6.1.1] and WC [7.5.0] update.
+* Fix: Bug fix in case of import wallet
+
 = 2.3.3 - Released on 2 March 2023=
 * New: Bug fix in case of mails.
-* New: Transaction table display issue in case of user transaction.
+* New: Transaction table display issue in case of the user transaction.
 * New: Latest WP [6.1.1] and WC [7.4.1] update.
 
 = 2.3.2 - Released on 28 February 2023 =
@@ -395,10 +400,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.3.3 - Released on 2 March 2023 =
-* Fix: Bug fix in case of mails.
-* Fix: Transaction table display issue in case of user transaction.
-* New: Latest WP [6.1.1] and WC [7.4.1] update.
-
-
-
+= 2.3.4 - Released on 16 March 2023 =
+* New: UI/UX update
+* New: Latest WP [6.1.1] and WC [7.5.0] update.
+* Fix: Bug fix in case of import wallet

@@ -1658,10 +1658,24 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 			$update = false;
 		}
+		$withdrawal_id      = ( isset( $_POST['withdrawal_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['withdrawal_id'] ) ) : '';
+		$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
+			
+		$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
+		$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
+		$updated_status     = ( isset( $_POST['status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+		if ( 'approved' === $updated_status ) {	
+			if ( $walletamount < $withdrawal_amount ) {
+				$wps_wsfw_error_text = esc_html__( 'Wallet Amount is not sufficient for widthdrawal.', 'wallet-system-for-woocommerce' );
+				$message             = array(
+					'msg'     => $wps_wsfw_error_text,
+					'msgType' => 'error',
+				);
+			$update = false;
+			}
+		}
+		
 		if ( $update ) {
-			$updated_status     = ( isset( $_POST['status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
-			$withdrawal_id      = ( isset( $_POST['withdrawal_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['withdrawal_id'] ) ) : '';
-			$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
 			$withdrawal_request = get_post( $withdrawal_id );
 			if ( 'approved' === $updated_status ) {
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -2321,6 +2335,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				amount double,
 				currency varchar( 20 ) NOT NULL,
 				transaction_type varchar(200) NULL,
+				transaction_type_1 varchar(200) NULL,
 				payment_method varchar(50) NULL,
 				transaction_id varchar(50) NULL,
 				note varchar(500) Null,
@@ -2567,19 +2582,18 @@ class Wallet_System_For_Woocommerce_Admin {
 
 
 		global  $wpdb;
-
-		$table_name = 'wp_wps_wsfw_wallet_transaction';
+		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 		$column_name ='transaction_type_1';
-
+		//$wpdb->esc_like( $table_name )
 		$column = $wpdb->get_results( $wpdb->prepare(
 			"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s ",
 			DB_NAME, $table_name, $column_name
 		) );
 		
 		if ( empty( $column ) ) {
-			$wpdb->query( "ALTER TABLE wp_wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'" );
-			update_option( 'wsfwp_uprage_transaction_table', 'done' );
+			$wpdb->query( "ALTER TABLE  `{$table_name}` ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'");
 		}
+		
 	}
 
 	/**

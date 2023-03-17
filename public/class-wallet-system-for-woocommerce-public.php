@@ -61,8 +61,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wsfw_public_enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/scss/wallet-system-for-woocommerce-public.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/wps-public.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/css/wps-public.css', array(), $this->version, 'all' );
 		if ( is_account_page() ) {
 			wp_enqueue_style( 'dashicons' );
 		}
@@ -135,7 +134,7 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! empty( WC()->session ) ) {
 
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
-					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
@@ -284,7 +283,12 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
-		$name                   = $user->first_name . ' ' . $user->last_name;
+		if ( ! empty( $user ) ){
+			$name                   = $user->first_name . ' ' . $user->last_name;
+		} else{
+			$name = '';
+		}
+		
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 		
@@ -302,7 +306,7 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( ! empty( $converted_ ) ){
 						$credited_amount = $converted_;
 					}
-				$wallet_userid   = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
+					$wallet_userid   = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
 					if ( $wallet_userid ) {
 						$update_wallet_userid = $wallet_userid;
 					} else {
@@ -445,6 +449,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * Add content to the new endpoint.
 	 */
 	public function wps_wsfw_display_wallet_endpoint_content() {
+		
 		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-public-display.php';
 	}
 
@@ -1338,6 +1343,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$wps_wsfw_wallet_action_daily_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_daily_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_daily_amount' ) : 1;
 		$current_currency                         = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
 		$updated                                  = false;
+		$amount                                   = 0;
 		if ( get_transient( 'wps_wsfw_wallet_site_visit_' . $user_id ) ) {
 			return;
 		}
@@ -1363,7 +1369,7 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( $updated ) {
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
 				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through visiting site.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
