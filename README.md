@@ -1,4 +1,4 @@
-[![BuildStatus](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.1.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-7.4.1-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.3.5-blue)
+[![BuildStatus](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.1.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-7.5.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.3.5-blue)
 # Wallet System for WooCommerce – Digital Wallet, Cashback Rewards, Recharge User Wallets, View Transition History, woocommerce gift cards, gift vouchers
 ![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png?rev=2671995)
 * Contributors: WP Swings
@@ -60,6 +60,7 @@ You can choose a separate email address to send email notifications to your WooC
 **3. Auto Order Complete** 
 You can enable the auto-complete feature for orders placed with wallet payment. It will speed up the order fulfillment process as the Woo Wallet paid orders will be automatically marked “Complete”. 
 
+
 **4. Selectively Bulk Edit Wallet Balance**
 You can credit and debit value into customers' wallets selectively. From the user list, you can choose any number of users in bulk and edit their wallet balance as you need. This will allow you to target and nurture users as a part of your marketing campaign or penalize them.
 
@@ -102,6 +103,8 @@ The Wallet system for Woocommerce allows you to send cashback rewards to custome
 **17. Credit Amount on Daily User Visit, Commenting, and Sign Up**
 Our digital wallet plugin allows you to implement a WooCommerce credit system. You can decide a daily login reward amount and enable your customers to earn wallet credit daily by simply logging in to their wallets. 
 
+
+ 
 You can also let them earn wallet credit on submitting product reviews. For this feature, you can set the limit on how many comments a user can have per post, credit amount, and customize comment label text. 
  
 Lastly, allow your users to receive wallet credit upon signing up for the wallet system. Set the signup reward amount and description that is shown to the users on signup. 
@@ -116,7 +119,7 @@ Check out [**Wallet System Plugin Knowledge Base**](https://support.wpswings.com
  
 * [**WooCommerce Wallet System Backend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/get-your-personal-demo/?utm_source=wpswings-wallet-backend-demo&utm_medium=wallet-github-page&utm_campaign=wallet-backend-demo)
  
-## WOOCOMMERCE WALLET PLUGIN COMPATIBILITIES
+##WOOCOMMERCE WALLET PLUGIN COMPATIBILITIES
 
 
 * **Compatibility with Ultimate Gift Cards for WooCommerce**
@@ -129,6 +132,9 @@ You can change the currency of the wallet due to its compatibility with the [**M
 * **Compatibility with Subscriptions for WooCommerce**
 The WooCommerce Wallet is compatible with the [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) and  [**Subscription for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-subscription-pro&utm_medium=wallet-github-page&utm_campaign=subscription-pro) plugin.Customers can use the Wallet partial payment feature to buy and renew subscription products & services. They can set a subscription renewal amount as a fix or percentage value to renew the subscription orders. 
 
+
+ 
+ 
 * **Compatibility with Multi-Vendor Marketplace Solution for WooCommerce**
 The Wallet System for WooCommerce is compatible with the [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/)  Solution for the WooCommerce plugin.You can select a wallet as a payment method for your vendors to receive the sales commission.
  
@@ -138,6 +144,7 @@ The Wallet System for WooCommerce is compatible with [**RMA Return Refund & Exch
 * The Wallet System for WooCommerce is compatible with the latest version of the WPML plugin and supports WordPress multisite network. 
  
 ## WHAT PREMIUM VERSION OF WOOCOMMERCE WALLET SYSTEM OFFERS
+
 
 * Customization of the feature restriction message. 
 * Display cashback restriction messages on the use of skipped payment gateways.
@@ -165,10 +172,10 @@ Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswing
 ### **SUPPORT**
  
 If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-site&utm_medium=wallet-github-page&utm_campaign=here) or connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-wallet-query&utm_medium=wallet-github-page&utm_campaign=generate-a-ticket)
-
->  If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=wallet-github-page&utm_campaign=forum )
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=wallet-github-page&utm_campaign=forum )
   
->Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-github-page&utm_campaign=woocommerce-services) 
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-github-page&utm_campaign=woocommerce-services) 
+
 
 ### MORE ABOUT WP SWINGS
  
