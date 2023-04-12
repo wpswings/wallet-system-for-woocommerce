@@ -1466,10 +1466,6 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		
-		// if ( ! empty( $fee_tax ) ) {
-		// 	$cart_total = $cart_total - $fee_tax;
-		// }
-
 		return wc_price( $cart_total );
 	}
 
