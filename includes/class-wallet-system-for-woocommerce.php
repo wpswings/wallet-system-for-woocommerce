@@ -317,6 +317,13 @@ class Wallet_System_For_Woocommerce {
 		}
 		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
 		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );
+	
+		$enable = get_option( 'wps_wsfw_enable', '' );
+		if ( isset( $enable ) && 'on' === $enable ) {
+			$this->loader->add_filter( 'mvx_vendor_payment_mode', $wsfw_plugin_common, 'wsfw_admin_mvx_list_mxfdxfodules' );
+			$this->loader->add_filter( 'mvx_parent_order_to_vendor_order_statuses_to_sync', $wsfw_plugin_common, 'wsfw_mvx_parent_order_to_vendor_order_statuses_to_sync', 10, 1 );
+			$this->loader->add_filter( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_wpr_commission_ordeer_status_change', 10, 3 );
+		}
 	}
 
 	/**
@@ -370,7 +377,8 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
 			$this->loader->add_action( 'woocommerce_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders', 90 );
-		}
+			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules',10 );
+	}
 
 	}
 

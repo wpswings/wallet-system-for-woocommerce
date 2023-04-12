@@ -806,6 +806,13 @@ class Wallet_System_For_Woocommerce_Public {
 	}
 
 
+
+	/**
+	 * 
+	 *
+	 * @param [type] $order_id
+	 * @return void
+	 */
 	public function wps_wocuf_initate_upsell_orders( $order_id  ) {
 		$order     = wc_get_order( $order_id );
 		$order_id               = $order->get_id();
@@ -835,9 +842,8 @@ class Wallet_System_For_Woocommerce_Public {
 					update_post_meta( $order_id, 'wps_converted_currency_update',$credited_amount  );
 				}
 					
-				}
 			}
-		
+		}
 	}
 
 
@@ -879,6 +885,11 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return array
 	 */
 	public function wps_wsfw_remove_billing_from_checkout( $fields ) {
+		$enable_wallet_fields = get_option( 'wsfw_wallet_payment_checkout_field_checkout' );
+		if ( $enable_wallet_fields == 'on' ) {
+			return $fields;
+		}
+		
 		$wallet_product_id = get_option( 'wps_wsfw_rechargeable_product_id' );
 		$only_virtual      = false;
 		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
@@ -1606,6 +1617,29 @@ class Wallet_System_For_Woocommerce_Public {
 		return $order_types;
 	}
 
+
+	
+	/**
+	 * add wallet module function.
+	 *
+	 * @param [type] $payment_mode payment method.
+	 * @return void
+	 */
+	public function wsfw_admin_mvx_list_modules( $payment_mode ){
+		$payment_mode['wallet_payment'] = __('Wallet', 'multivendorx');
+		return $payment_mode;
+	
+	}
+
+
+	
+	
+
 }
+
+
+
+
+
 
 

@@ -453,6 +453,19 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Enable Checkout Fields at checkout page', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable if you want to autocomplete order paid by wallet gateway', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_wallet_payment_checkout_field_checkout',
+				'id'          => 'wsfw_wallet_payment_checkout_field_checkout',
+				'value'       => '',
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
 				'title'       => __( 'Enable Wallet Script For My Account Wallet.', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable if unable to select wallet option in my account section', 'wallet-system-for-woocommerce' ),
@@ -2929,9 +2942,9 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 	}
 
-		 /**
-		  * Wallet partial payment refund.
-		  */
+	 /**
+     * Wallet partial payment refund.
+	 */
 	public function wps_wallet_refund_partial_payment() {
 
 		if ( ! current_user_can( 'edit_shop_orders' ) ) {

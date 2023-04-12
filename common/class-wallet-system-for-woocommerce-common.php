@@ -1019,4 +1019,112 @@ class Wallet_System_For_Woocommerce_Common {
 		return apply_filters( 'wpswings_tracker_last_send_time', get_option( 'wpswings_tracker_last_send', false ) );
 	}
 
+
+	/**
+	 * Add wallet for vendor module function.
+	 *
+	 * @param [type] $payment_mode is the payment method.
+	 * @return void
+	 */
+	function wsfw_admin_mvx_list_mxfdxfodules( $payment_mode ){
+		$payment_mode['wallet_payment'] = __('Wallet', 'multivendorx');
+		return  $payment_mode;
+
+	}
+
+	/**
+	 * Add status to order function
+	 *
+	 * @param [type] $payment_mode is the payment status.
+	 * @return void
+	 */
+	function wsfw_mvx_parent_order_to_vendor_order_statuses_to_sync( $payment_mode ){
+		$payment_mode=	array('on-hold', 'pending', 'processing', 'cancelled', 'failed','completed');
+		return  $payment_mode;
+
+	}
+
+	/**
+	 * Add status to order function through multivendor
+	 *
+	 * @param [type] $payment_mode
+	 * @return void
+	 */
+	function wsfw_wpr_commission_ordeer_status_change($order_id, $old_status, $new_status){
+
+
+		$is_vendor_order = ($order_id) ? mvx_get_order($order_id) : false;
+		$parent_order_id = wp_get_post_parent_id( $order_id );
+		if ( ! empty( $is_vendor_order ) ) {
+			if ( ! empty( $is_vendor_order->order ) ) {
+				if ( ! empty ( $is_vendor_order->order->parent_id ) ) {
+					$parent_order_id = $is_vendor_order->order->parent_id;
+				}
+
+			}
+
+		}		
+			if($parent_order_id){
+			
+				if ( class_exists('MVX_Commission')) {
+					$wallet_paid= get_post_meta($order_id, '_paid_status_through_wallet', true);
+					if ( $wallet_paid == 'paid'){
+						return;
+					}
+
+					$obj = new MVX_Commission();
+					$commission_id= get_post_meta($order_id, '_commission_id', true);
+					$commission = $obj->get_commission($commission_id);
+			
+           			$vendor = $commission->vendor;
+			
+          			$commission_status = get_post_meta($commission_id, '_paid_status', true);
+           			$commission_amount = get_post_meta($commission_id, '_commission_amount', true);
+					$payment_method = get_user_meta($vendor->id, '_vendor_payment_mode', true);
+					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+					
+					update_post_meta($commission_id, '_paid_status', 'paid');
+			   
+				
+					if (empty( $commission_amount )){
+						return;			
+					}
+					
+					if ( $payment_method  == 'wallet_payment' ||  $payment_method  == 'wallet'){
+						$walletamount           = get_user_meta( $vendor->id, 'wps_wallet', true );
+						$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
+						$walletamount= $walletamount+ $commission_amount;
+
+						update_user_meta( $vendor->id, 'wps_wallet', $walletamount );
+						update_post_meta($order_id, '_paid_status_through_wallet', 'paid');
+					
+
+						$transaction_type = esc_html__( 'Wallet credited through Commission ', 'wallet-system-for-woocommerce' ). ' <a href="' . admin_url( 'comment.php?action=editcomment&c=' . $order_id ) . '" >#' . $order_id . '</a>';
+						$transaction_data = array(
+							'user_id'          => $vendor->id,
+							'amount'           => $commission_amount,
+							'currency'         => '',
+							'payment_method'   => esc_html__( 'Commission', 'wallet-system-for
+							-woocommerce' ),
+							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'credit',
+							'order_id'         => '',
+							'note'             => '',
+						);
+						$transaction_id = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+						$obj->add_commission_note($commission_id, __('Commission paid to vendor through wallet', 'multivendorx'),  $vendor->id);
+
+					}
+
+				}
+				
+				
+			}
+
+	
+	}
+
 }
+
+
+
