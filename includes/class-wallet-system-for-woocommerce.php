@@ -168,15 +168,13 @@ class Wallet_System_For_Woocommerce {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'common/class-wallet-system-for-woocommerce-common.php';
 
-		
 		$enable = get_option( 'wps_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 
-		/**
-		 * The class responsible for creating the wallet payment method.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wallet-credit-payment-gateway.php';
-
+			/**
+			 * The class responsible for creating the wallet payment method.
+			 */
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wallet-credit-payment-gateway.php';
 
 			if ( class_exists( 'WCMp' ) ) {
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php';
@@ -317,7 +315,7 @@ class Wallet_System_For_Woocommerce {
 		}
 		$this->loader->add_action( 'comment_post', $wsfw_plugin_common, 'wps_wsfw_comment_amount_function', 10, 2 );
 		$this->loader->add_action( 'transition_comment_status', $wsfw_plugin_common, 'wps_wsfw_give_amount_on_comment', 10, 3 );
-	
+
 		$enable = get_option( 'wps_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 			$this->loader->add_filter( 'mvx_vendor_payment_mode', $wsfw_plugin_common, 'wsfw_admin_mvx_list_mxfdxfodules' );
@@ -377,8 +375,8 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
 			$this->loader->add_action( 'woocommerce_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders', 90 );
-			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules',10 );
-	}
+			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules', 10 );
+		}
 
 	}
 
@@ -1269,11 +1267,11 @@ class Wallet_System_For_Woocommerce {
 	 * @return void
 	 */
 	public function send_mail_on_wallet_updation( $to, $subject, $mail_message, $headers ) {
-		//Here put your Validation and send mail.
-		$send_mail_through =get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount' );
-		if (get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount', true )) {
-		$headers = 'From: '. $send_mail_through . "\r\n" .
-		'Reply-To: ' . $send_mail_through . "\r\n";
+		// Here put your Validation and send mail.
+		$send_mail_through = get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount' );
+		if ( get_option( 'wps_wsfw_enable_email_address_value_for_wallet_amount', true ) ) {
+			$headers = 'From: ' . $send_mail_through . "\r\n" .
+			'Reply-To: ' . $send_mail_through . "\r\n";
 		}
 		wp_mail( $to, $subject, $mail_message, $headers );
 	}

@@ -1199,7 +1199,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( 'credit' === $action ) {
 					$wps_wallet       = floatval( $wps_wallet ) + floatval( $wallet_amount );
 					$transaction_type = esc_html__( 'Credited by admin', 'wallet-system-for-woocommerce' );
-					$balance   = $currency . ' '.$wallet_amount;
+					$balance   = $currency . ' ' . $wallet_amount;
 					$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance );
 				} elseif ( 'debit' === $action ) {
 					if ( $wps_wallet < $wallet_amount ) {
@@ -1208,7 +1208,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wps_wallet = floatval( $wps_wallet ) - floatval( $wallet_amount );
 					}
 					$transaction_type = esc_html__( 'Debited by admin', 'wallet-system-for-woocommerce' );
-					$balance   = $currency . ' '.$wallet_amount;
+					$balance   = $currency . ' ' . $wallet_amount;
 					$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 				}
 				update_user_meta( $user_id, 'wps_wallet', abs( $wps_wallet ) );
@@ -1294,7 +1294,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function wsfw_order_status_changed_admin( $order_id, $old_status, $new_status ) {
-	
+
 		$order          = wc_get_order( $order_id );
 		$userid         = $order->get_user_id();
 		$order_items    = $order->get_items();
@@ -1317,8 +1317,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount        = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount, $order_currency );
-					$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update',$credited_amount  );
-					if ( ! empty( $converted_ ) ){
+					$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update', $credited_amount );
+					if ( ! empty( $converted_ ) ) {
 						$credited_amount = $converted_;
 						$order_curremncy = get_woocommerce_currency();
 					}
@@ -1334,12 +1334,13 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $credited_amount;
 
-					$balance   = $order->get_currency() . ' '.$amount;
+					$balance   = $order->get_currency() . ' ' . $amount;
 					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-						$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+						$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+						;
 						$mail_text .= $mail_message;
 						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
@@ -1354,7 +1355,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_data = array(
 						'user_id'          => $update_wallet_userid,
 						'amount'           => $amount,
-						'currency'         =>  $order->get_currency(),
+						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
 						'transaction_type_1' => 'credit',
@@ -1382,10 +1383,10 @@ class Wallet_System_For_Woocommerce_Admin {
 					} else {
 						$walletamount -= $debited_amount;
 					}
-					$balance   = $order->get_currency() . ' '.$amount;
-					
+					$balance   = $order->get_currency() . ' ' . $amount;
+
 					$mail_message = __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
-						
+
 					update_user_meta( $userid, 'wps_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
@@ -1673,21 +1674,21 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		$withdrawal_id      = ( isset( $_POST['withdrawal_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['withdrawal_id'] ) ) : '';
 		$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
-			
+
 		$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
 		$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
 		$updated_status     = ( isset( $_POST['status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
-		if ( 'approved' === $updated_status ) {	
+		if ( 'approved' === $updated_status ) {
 			if ( $walletamount < $withdrawal_amount ) {
 				$wps_wsfw_error_text = esc_html__( 'Wallet Amount is not sufficient for widthdrawal.', 'wallet-system-for-woocommerce' );
 				$message             = array(
 					'msg'     => $wps_wsfw_error_text,
 					'msgType' => 'error',
 				);
-			$update = false;
+				$update = false;
 			}
 		}
-		
+
 		if ( $update ) {
 			$withdrawal_request = get_post( $withdrawal_id );
 			if ( 'approved' === $updated_status ) {
@@ -1714,7 +1715,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$withdrawal_request->post_status = 'approved';
 						wp_update_post( $withdrawal_request );
 						$currency  = get_woocommerce_currency();
-						$balance   = $currency . ' '.$withdrawal_amount;
+						$balance   = $currency . ' ' . $withdrawal_amount;
 						$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user       = get_user_by( 'id', $user_id );
@@ -2015,7 +2016,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				update_user_meta( $user_id, 'wps_wallet', $walletamount );
 				delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
 				$currency  = get_woocommerce_currency();
-				$balance   = $currency . ' '.$withdrawal_amount;
+				$balance   = $currency . ' ' . $withdrawal_amount;
 				$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$user       = get_user_by( 'id', $user_id );
@@ -2499,7 +2500,7 @@ class Wallet_System_For_Woocommerce_Admin {
 								'note'             => '',
 							);
 							$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-							$balance   = $currency . ' '.$walletamount;
+							$balance   = $currency . ' ' . $walletamount;
 							if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 								$user       = get_user_by( 'id', $user_id );
 								$name       = $user->first_name . ' ' . $user->last_name;
@@ -2593,20 +2594,23 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public static function wsfwp_uprage_transaction_table() {
 
-
 		global  $wpdb;
 		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-		$column_name ='transaction_type_1';
-		//$wpdb->esc_like( $table_name )
-		$column = $wpdb->get_results( $wpdb->prepare(
-			"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s ",
-			DB_NAME, $table_name, $column_name
-		) );
-		
+		$column_name = 'transaction_type_1';
+		// $wpdb->esc_like( $table_name )
+		$column = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s ',
+				DB_NAME,
+				$table_name,
+				$column_name
+			)
+		);
+
 		if ( empty( $column ) ) {
-			$wpdb->query( "ALTER TABLE  `{$table_name}` ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'");
+			$wpdb->query( "ALTER TABLE  `{$table_name}` ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'" );
 		}
-		
+
 	}
 
 	/**
@@ -2890,7 +2894,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $refund_amount, $order_currency );
 				$walletamount   += $credited_amount;
 				$transaction_id = update_user_meta( $userid, 'wps_wallet', $walletamount );
-				$balance   = $order->get_currency() . ' '.$refund_amount;
+				$balance   = $order->get_currency() . ' ' . $refund_amount;
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
 					$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );
@@ -2943,8 +2947,8 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	 /**
-     * Wallet partial payment refund.
-	 */
+	  * Wallet partial payment refund.
+	  */
 	public function wps_wallet_refund_partial_payment() {
 
 		if ( ! current_user_can( 'edit_shop_orders' ) ) {
@@ -2970,7 +2974,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $partial_payment_amount, $order_currency );
 		$walletamount   += $credited_amount;
 		update_user_meta( $userid, 'wps_wallet', $walletamount );
-		$balance   = $order->get_currency() . ' '.$partial_payment_amount;
+		$balance   = $order->get_currency() . ' ' . $partial_payment_amount;
 		if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 			$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
 			$mail_text .= __( 'Wallet Partial Payment credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through order refund.', 'wallet-system-for-woocommerce' );

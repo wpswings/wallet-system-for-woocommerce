@@ -73,11 +73,13 @@ $user = get_user_by( 'id', $user_id );
 						?>
 						<tr>
 							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
-							<td><?php
+							<td>
+							<?php
 							 esc_html( $transaction->id );
 							$date = date_create( $transaction->date );
 							echo esc_html( $date->getTimestamp() . $transaction->id );
-							?></td>
+							?>
+							</td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td><?php echo wp_kses_post( $transaction->payment_method ); ?></td>
 							<td><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>

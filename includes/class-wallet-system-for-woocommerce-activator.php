@@ -93,7 +93,6 @@ class Wallet_System_For_Woocommerce_Activator {
 				update_option( 'wps_wsfw_rechargeable_product_id', $product_id );
 
 			}
-			
 		}
 
 		// create custom table named wp-db-prefix_wps_wsfw_wallet_transaction.

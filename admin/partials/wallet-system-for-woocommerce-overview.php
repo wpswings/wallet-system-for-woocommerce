@@ -21,26 +21,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="wps-overview__banner">
 
 
-	<?php 
+	<?php
 		$check = false;
-		$check  = apply_filters('wsfw_check_pro_plugin',$check );
+		$check  = apply_filters( 'wsfw_check_pro_plugin', $check );
 
-		if ( $check ){
-			?>
+	if ( $check ) {
+		?>
 				<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/Wallet-System-for-WooCommerce-Pro-banner-1200x389.webp" alt="Overview banner image">
 			<?php
 
-		} else{
-			?>
+	} else {
+		?>
 				<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/org-banner.jpg" alt="Overview banner image">
 			<?php
-		}
-		
-		?>
+	}
+
+	?>
 
 <?php
 		$additional_content = apply_filters( 'wps_wsfw_overview_additional_content', '' );
-		?>
+?>
 	</div>
 	<div class="wps-overview__content">
 		<div class="wps-overview__content-description">

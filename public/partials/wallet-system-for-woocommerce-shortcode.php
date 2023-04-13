@@ -118,7 +118,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 
 			$user2 = get_user_by( 'id', $user_id );
 			$name2 = $user2->first_name . ' ' . $user2->last_name;
-			$balance   = $current_currency . ' '.$transfer_amount;
+			$balance   = $current_currency . ' ' . $transfer_amount;
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 
 				$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . ",\r\n";
@@ -153,7 +153,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 			$wallet_bal -= $wallet_transfer_amount;
 			$update_user = update_user_meta( $user_id, 'wps_wallet', abs( $wallet_bal ) );
 			if ( $update_user ) {
-				$balance   = $current_currency . ' '.$transfer_amount;
+				$balance   = $current_currency . ' ' . $transfer_amount;
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . ",\r\n";
 					$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
@@ -357,12 +357,12 @@ $wallet_keys = array_keys( $wallet_tabs );
 			?>
 			</p>
 			</p>
-		<?php if ( 'on' != $wallet_restrict_transaction ) {?>
-			<div class=""><a href="<?php echo esc_url($transaction_url); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
+		<?php if ( 'on' != $wallet_restrict_transaction ) { ?>
+			<div class=""><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
 			</div>
 		<?php } ?>
 		</div>
-		<?php echo do_action('wallet_qr_vode_shotcode') ?>
+		<?php echo do_action( 'wallet_qr_vode_shotcode' ); ?>
 	</div>
 	<?php
 	if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
@@ -409,14 +409,14 @@ $wallet_keys = array_keys( $wallet_tabs );
 								} else {
 									$class = '';
 								}
-								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) ."' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
+								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) . "' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) ."' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
+								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) . "' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							}
 						}
 						?>
