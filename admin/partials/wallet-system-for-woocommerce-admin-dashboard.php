@@ -33,12 +33,25 @@ if ( ! $wallet_payment_enable || 'no' == $wallet_payment_enable['enabled'] ) {
 	</div>
 	<?php
 }
-
 ?>
-
 <header>
 	<div class="wps-header-container wps-bg-white wps-r-8">
-		<h1 class="wps-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $wsfw_wps_wsfw_obj->wsfw_get_plugin_name() ) ) ); ?></h1>
+		<?php 
+		$check = false;
+		$check  = apply_filters('wsfw_check_pro_plugin',$check );
+
+		if ( $check ){
+			?>
+				<h1  class="wps-header-title"><?php echo esc_attr__( 'WALLET SYSTEM FOR WOOCOMMERCE PRO', 'wallet-system-for-woocommerce'  ); ?></h1>
+			<?php
+
+		} else{
+			?>
+				<h1  class="wps-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $wsfw_wps_wsfw_obj->wsfw_get_plugin_name() ) ) ); ?></h1>
+			<?php
+		}
+		
+		?>
 		<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
 		<span>|</span>
 		<a href="https://wpswings.com/contact-us/" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>

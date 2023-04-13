@@ -19,7 +19,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="wps-overview__wrapper">
 	<div class="wps-overview__banner">
-		<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/org-banner.jpg" alt="Overview banner image">
+
+
+	<?php 
+		$check = false;
+		$check  = apply_filters('wsfw_check_pro_plugin',$check );
+
+		if ( $check ){
+			?>
+				<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/Wallet-System-for-WooCommerce-Pro-banner-1200x389.webp" alt="Overview banner image">
+			<?php
+
+		} else{
+			?>
+				<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/org-banner.jpg" alt="Overview banner image">
+			<?php
+		}
+		
+		?>
+
+<?php
+		$additional_content = apply_filters( 'wps_wsfw_overview_additional_content', '' );
+		?>
 	</div>
 	<div class="wps-overview__content">
 		<div class="wps-overview__content-description">
@@ -33,8 +54,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				?>
 			</p>
 			<div class="wps-wsfsw-iframe-box">
-				<iframe src="https://www.youtube.com/embed/pyAxFDBcLDA" title="Wallet System For Woocommerce" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			</div>
+
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/C5mwA5kttRU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+				</div>
 			<h3><?php esc_html_e( 'With our Wallet System for WooCommerce, You Can:', 'wallet-system-for-woocommerce' ); ?></h3>
 			<ul class="wps-overview__features">
 				<li><?php esc_html_e( 'Add or remove funds to the wallets of your customers in bulk', 'wallet-system-for-woocommerce' ); ?></li>
@@ -45,7 +67,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<li>
 				<?php
 				esc_html_e( 'Have compatibility with the ', 'wallet-system-for-woocommerce' );
-				echo '<a href="https://wordpress.org/plugins/invoice-system-for-woocommerce/" target="blank" >Invoice System for WooCommerce</a>.';
+				echo '<a href="https://wordpress.org/plugins/woocommerce-currency-switcher/" target="blank" >FOX – Currency Switcher Professional for WooCommerce</a>.';
+				?>
+				</li>
+				<li>
+				<?php
+				esc_html_e( 'Have compatibility with the ', 'wallet-system-for-woocommerce' );
+				echo '<a href="https://wordpress.org/plugins/woo-gift-cards-lite/" target="blank" >Ultimate Gift Cards for WooCommerce </a>.';
+				?>
+				</li>
+				<li>
+				<?php
+				esc_html_e( 'Have compatibility with the ', 'wallet-system-for-woocommerce' );
+				echo '<a href="https://wpswings.com/product/gift-cards-for-woocommerce-pro/?utm_source=wpswings-giftcards-pro&utm_medium=wallet-org-backend&utm_campaign=giftcards-pro" target="blank" >Gift Cards For WooCommerce Pro </a>.';
 				?>
 				</li>
 				<li>
@@ -151,8 +185,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 			</div>
 		</div>
-		<?php
-		$additional_content = apply_filters( 'wps_wsfw_overview_additional_content', '' );
-		?>
+		
 	</div>
 </div>
