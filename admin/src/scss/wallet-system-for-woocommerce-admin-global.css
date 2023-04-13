@@ -213,7 +213,7 @@ select {
     letter-spacing: 0.3px;
     color: var(--mdc-theme-primary);
     flex: 0 0 100%;
-    max-width: calc(100% - 200px);
+    max-width: calc(100% - 270px);
 }
 
 .wps-navbar {

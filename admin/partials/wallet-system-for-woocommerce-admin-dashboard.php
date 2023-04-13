@@ -54,6 +54,8 @@ if ( ! $wallet_payment_enable || 'no' == $wallet_payment_enable['enabled'] ) {
 		?>
 		<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
 		<span>|</span>
+		<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank" class="wps-link"><?php esc_html_e( 'Video', 'wallet-system-for-woocommerce' ); ?></a>
+		<span>|</span>
 		<a href="https://wpswings.com/contact-us/" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
 	</div>
 </header>
