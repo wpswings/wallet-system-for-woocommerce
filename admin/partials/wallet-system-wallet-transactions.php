@@ -114,8 +114,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 							$wps_wsfw_time_zone = get_option( 'timezone_string' );
 							if ( ! empty( $wps_wsfw_time_zone ) ) {
-
-								$date        = date_create( $date );
+								$date = date_create( $transaction->date );
 								echo esc_html( date_format( $date, $date_format ) );
 								// extra code.( need validation if require).
 								$date->setTimezone( new DateTimeZone( get_option( 'timezone_string' ) ) );
