@@ -50,8 +50,21 @@ $allowed_html = array(
 							<td><?php echo esc_html( $i ); ?></td>
 							<td>
 							<?php
-							$date = date_create( $transaction->date );
-							echo esc_html( $date->getTimestamp() . $transaction->id );
+							$wps_wsfw_time_zone = get_option('timezone_string');
+							if ( !empty( $wps_wsfw_time_zone ) ){
+
+								$date_format = get_option( 'date_format', 'm/d/Y' );
+								$date        = date_create( $transaction->date );
+								echo esc_html( date_format( $date, $date_format ) );
+								//extra code.( need validation if require)	
+								$date->setTimezone(new DateTimeZone( get_option('timezone_string') ));
+								//extra code.
+								echo ' ' . esc_html( date_format( $date, 'H:i:s' ) );
+							} else {
+
+								$date = date_create( $transaction->date );
+	                 		    echo esc_html( $date->getTimestamp() . $transaction->id );
+							 }
 							?>
 							</td>
 							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>' ><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
