@@ -45,6 +45,7 @@ add_filter( 'woocommerce_payment_gateways', 'wps_wsfw_wallet_gateway', 10, 1 );
  * @extends WC_Payment_Gateway
  * @version 1.0.0
  * @package Wallet_System_For_Woocommerce
+ * @throws Exception excption.
  */
 function wps_wsfw_wallet_payment_gateway_init() {
 
@@ -151,6 +152,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		   * @param  int    $order_id Order ID.
 		   * @param  float  $amount Refund amount.
 		   * @param  string $reason Refund reason.
+		   * @throws Exception exception.
 		   * @return bool|WP_Error
 		   */
 		public function process_refund( $order_id, $amount = null, $reason = '' ) {

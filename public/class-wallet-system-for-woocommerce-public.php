@@ -644,9 +644,10 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wsfwp_show_converted_price( $wallet_bal ) {
 
 		if ( class_exists( 'WOOCS' ) ) {
-			global $WOOCS;
+			global $WOOCS; // phpcs:ignore issues due to plugin compatibility.
 
-			$amount = $WOOCS->woocs_exchange_value( $wallet_bal );
+			$amount = $WOOCS->woocs_exchange_value( $wallet_bal ); // phpcs:ignore issues due to plugin compatibility.
+
 			return $amount;
 		} else if ( function_exists( 'wmc_get_price' ) ) {
 
@@ -670,12 +671,12 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( in_array( 'woocommerce-currency-switcher/index.php', $wps_sfw_active_plugins ) ) {
 
 			if ( class_exists( 'WOOCS' ) ) {
-				global $WOOCS;
+				global $WOOCS; // phpcs:ignore issues due to plugin compatibility.
 				$amount = '';
-				if ( $WOOCS->is_multiple_allowed ) {
-					 $currrent = $WOOCS->current_currency;
-					if ( $currrent != $WOOCS->default_currency ) {
-						$currencies = $WOOCS->get_currencies();
+				if ( $WOOCS->is_multiple_allowed ) { // phpcs:ignore issues due to plugin compatibility.
+					 $currrent = $WOOCS->current_currency; // phpcs:ignore issues due to plugin compatibility.
+					if ( $currrent != $WOOCS->default_currency ) { // phpcs:ignore issues due to plugin compatibility.
+						$currencies = $WOOCS->get_currencies(); // phpcs:ignore issues due to plugin compatibility.
 						$rate = $currencies[ $currrent ]['rate'];
 						$amount = $price / ( $rate );
 						return $amount;
