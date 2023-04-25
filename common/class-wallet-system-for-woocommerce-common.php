@@ -1057,7 +1057,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @return void
 	 */
 	public function wsfw_wpr_commission_ordeer_status_change( $order_id, $old_status, $new_status ) {
-		
+
 		if ( function_exists( 'mvx_get_order' ) ) {
 			$is_vendor_order = ( $order_id ) ? mvx_get_order( $order_id ) : false;
 			$parent_order_id = wp_get_post_parent_id( $order_id );
@@ -1069,7 +1069,7 @@ class Wallet_System_For_Woocommerce_Common {
 				}
 			}
 		}
-		
+
 		if ( $parent_order_id ) {
 
 			if ( class_exists( 'MVX_Commission' ) ) {

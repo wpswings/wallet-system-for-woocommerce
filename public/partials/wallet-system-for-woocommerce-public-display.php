@@ -368,7 +368,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 			</div>
 		<?php } ?>
 		</div>
-		<?php echo do_action( 'wallet_qr_vode' ); ?>
+		<?php do_action( 'wallet_qr_vode' ); ?>
 		
 	</div>
 

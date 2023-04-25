@@ -362,7 +362,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 			</div>
 		<?php } ?>
 		</div>
-		<?php echo do_action( 'wallet_qr_vode_shotcode' ); ?>
+		<?php do_action( 'wallet_qr_vode_shotcode' ); ?>
 	</div>
 	<?php
 	if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {

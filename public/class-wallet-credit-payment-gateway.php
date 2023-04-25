@@ -196,7 +196,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 				if ( $update_wallet ) {
 					$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-					$balance   = $current_currency . ' '.$order_total;
+					$balance   = $current_currency . ' ' . $order_total;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user       = get_user_by( 'id', $customer_id );
 						$name       = $user->first_name . ' ' . $user->last_name;
@@ -227,7 +227,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				);
 				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 				if ( isset( $is_auto_complete ) && 'on' == $is_auto_complete ) {
-					
+
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
 					// Reduce stock levels.
@@ -237,22 +237,22 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					$is_auto_complete_bool = false;
 
 				}
-			
-			if ( $is_auto_complete_bool ) {
-				// Mark as on-hold (we're awaiting the payment).
-				$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
 
-				// Reduce stock levels.
-				$order->reduce_order_stock();
+				if ( $is_auto_complete_bool ) {
+					// Mark as on-hold (we're awaiting the payment).
+					$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
 
-				// Remove cart.
-				WC()->cart->empty_cart();
+					// Reduce stock levels.
+					$order->reduce_order_stock();
+
+					// Remove cart.
+					WC()->cart->empty_cart();
+
+				}
+			} else {
+				$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
 
 			}
-		} else{
-			$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
-					
-		}
 			// Return thankyou redirect.
 			return array(
 				'result'   => 'success',
