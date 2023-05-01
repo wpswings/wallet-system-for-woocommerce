@@ -62,7 +62,7 @@ if ( ! function_exists( 'wps_wsfw_update_user_wallet_balance' ) ) {
 					'note'             => '',
 				);
 				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-				$balance   = $currency . ' '.$amount;
+				$balance   = $currency . ' ' . $amount;
 
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$user       = get_user_by( 'id', $user_id );

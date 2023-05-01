@@ -273,7 +273,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wps_order_status_changed( $order ) {
-		
+
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
 		$payment_method         = $order->get_payment_method();
@@ -283,17 +283,17 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
-		if ( ! empty( $user ) ){
+		if ( ! empty( $user ) ) {
 			$name                   = $user->first_name . ' ' . $user->last_name;
-		} else{
+		} else {
 			$name = '';
 		}
-		
+
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-		
+
 		foreach ( $order_items as $item_id => $item ) {
-			
+
 			$product_id = $item->get_product_id();
 			$total      = $item->get_total();
 
@@ -302,8 +302,8 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( 'completed' == $new_status ) {
 					$amount          = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount );
-					$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update',$credited_amount  );
-					if ( ! empty( $converted_ ) ){
+					$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update', $credited_amount );
+					if ( ! empty( $converted_ ) ) {
 						$credited_amount = $converted_;
 					}
 					$wallet_userid   = apply_filters( 'wsfw_check_order_meta_for_userid', $userid, $order_id );
@@ -318,10 +318,11 @@ class Wallet_System_For_Woocommerce_Public {
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $credited_amount;
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
-					$balance   = $order->get_currency() . ' '.$amount;
+					$balance   = $order->get_currency() . ' ' . $amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-						$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+						$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+						;
 						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $amount ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
@@ -354,21 +355,21 @@ class Wallet_System_For_Woocommerce_Public {
 			$fee_total   = $item_fee->get_total();
 			$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
 			if ( $wallet_name === $fee_name ) {
-				$payment_status = array( 'processing', 'completed','on-hold' );
+				$payment_status = array( 'processing', 'completed', 'on-hold' );
 				if ( in_array( $new_status, $payment_status ) ) {
 					$fees   = abs( $fee_total );
 					$amount = $fees;
 					$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
-			
+
 					if ( $walletamount < $debited_amount ) {
 						$walletamount = 0;
 					} else {
 						$walletamount -= $debited_amount;
 					}
-					
+
 					update_user_meta( $userid, 'wps_wallet', $walletamount );
 					update_post_meta( $order_id, 'wps_wallet_update_on_thankyou', 'done' );
-					$balance   = $order->get_currency() . ' '.$amount;
+					$balance   = $order->get_currency() . ' ' . $amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
 						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
@@ -449,7 +450,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * Add content to the new endpoint.
 	 */
 	public function wps_wsfw_display_wallet_endpoint_content() {
-		
+
 		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-public-display.php';
 	}
 
@@ -643,9 +644,10 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wsfwp_show_converted_price( $wallet_bal ) {
 
 		if ( class_exists( 'WOOCS' ) ) {
-			global $WOOCS;
+			global $WOOCS; // phpcs:ignore issues due to plugin compatibility.
 
-			$amount = $WOOCS->woocs_exchange_value( $wallet_bal );
+			$amount = $WOOCS->woocs_exchange_value( $wallet_bal ); // phpcs:ignore issues due to plugin compatibility.
+
 			return $amount;
 		} else if ( function_exists( 'wmc_get_price' ) ) {
 
@@ -669,12 +671,12 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( in_array( 'woocommerce-currency-switcher/index.php', $wps_sfw_active_plugins ) ) {
 
 			if ( class_exists( 'WOOCS' ) ) {
-				global $WOOCS;
+				global $WOOCS; // phpcs:ignore issues due to plugin compatibility.
 				$amount = '';
-				if ( $WOOCS->is_multiple_allowed ) {
-					 $currrent = $WOOCS->current_currency;
-					if ( $currrent != $WOOCS->default_currency ) {
-						$currencies = $WOOCS->get_currencies();
+				if ( $WOOCS->is_multiple_allowed ) { // phpcs:ignore issues due to plugin compatibility.
+					 $currrent = $WOOCS->current_currency; // phpcs:ignore issues due to plugin compatibility.
+					if ( $currrent != $WOOCS->default_currency ) { // phpcs:ignore issues due to plugin compatibility.
+						$currencies = $WOOCS->get_currencies(); // phpcs:ignore issues due to plugin compatibility.
 						$rate = $currencies[ $currrent ]['rate'];
 						$amount = $price / ( $rate );
 						return $amount;
@@ -806,7 +808,13 @@ class Wallet_System_For_Woocommerce_Public {
 	}
 
 
-	public function wps_wocuf_initate_upsell_orders( $order_id  ) {
+
+	/** Order in case of currency.
+	 *
+	 * @param [type] $order_id is the current order id.
+	 * @return void
+	 */
+	public function wps_wocuf_initate_upsell_orders( $order_id ) {
 		$order     = wc_get_order( $order_id );
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
@@ -820,24 +828,21 @@ class Wallet_System_For_Woocommerce_Public {
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-		
+
 		foreach ( $order_items as $item_id => $item ) {
-			
+
 			$product_id = $item->get_product_id();
 			$total      = $item->get_total();
 
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 
-				//if ( 'completed' == $new_status ) {
 					$amount          = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount );
-				if ( $credited_amount != $amount  ) {
-					update_post_meta( $order_id, 'wps_converted_currency_update',$credited_amount  );
-				}
-					
+				if ( $credited_amount != $amount ) {
+					update_post_meta( $order_id, 'wps_converted_currency_update', $credited_amount );
 				}
 			}
-		
+		}
 	}
 
 
@@ -865,7 +870,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 			}
 		}
-		
+
 		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
 		if ( 'done' != $check_wallet_thankyou ) {
 			$this->wps_order_status_changed( $order );
@@ -879,6 +884,11 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return array
 	 */
 	public function wps_wsfw_remove_billing_from_checkout( $fields ) {
+		$enable_wallet_fields = get_option( 'wsfw_wallet_payment_checkout_field_checkout' );
+		if ( 'on' == $enable_wallet_fields ) {
+			return $fields;
+		}
+
 		$wallet_product_id = get_option( 'wps_wsfw_rechargeable_product_id' );
 		$only_virtual      = false;
 		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
@@ -1298,11 +1308,12 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 		}
-		$balance   = $current_currency . ' '.$amount;
+		$balance   = $current_currency . ' ' . $amount;
 		if ( $updated ) {
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+				;
 				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through successfully signup.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
@@ -1365,7 +1376,7 @@ class Wallet_System_For_Woocommerce_Public {
 				$updated = true;
 			}
 		}
-		$balance   = $current_currency . ' '.$amount;
+		$balance   = $current_currency . ' ' . $amount;
 		if ( $updated ) {
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
@@ -1422,7 +1433,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return array
 	 */
 	public function wsfw_wallet_get_fee_taxes( $cart_totals_fee_html ) {
-	
+
 		if ( is_array( $cart_totals_fee_html ) && count( $cart_totals_fee_html ) > 0 ) {
 
 			$cart_totals_fee_html[1] = floatval( 0 );
@@ -1454,10 +1465,6 @@ class Wallet_System_For_Woocommerce_Public {
 				break;
 			}
 		}
-		
-		// if ( ! empty( $fee_tax ) ) {
-		// 	$cart_total = $cart_total - $fee_tax;
-		// }
 
 		return wc_price( $cart_total );
 	}
@@ -1486,7 +1493,7 @@ class Wallet_System_For_Woocommerce_Public {
 				break;
 			}
 		}
-		
+
 		if ( ! empty( $fee_total_tax ) ) {
 			$order_id = $order->get_id();
 			$order_tax = get_post_meta( $order_id, '_order_tax', true );
@@ -1539,9 +1546,6 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 		return $wps_wsfw_is_order;
 	}
-
-
-
 
 	/**
 	 * Function to change currency.
@@ -1606,6 +1610,24 @@ class Wallet_System_For_Woocommerce_Public {
 		return $order_types;
 	}
 
+
+
+	/** Add wallet module function
+	 *
+	 * @param [type] $payment_mode payment method.
+	 * @return mixed
+	 */
+	public function wsfw_admin_mvx_list_modules( $payment_mode ) {
+		$payment_mode['wallet_payment'] = __( 'Wallet', 'multivendorx' );
+		return $payment_mode;
+
+	}
+
 }
+
+
+
+
+
 
 

@@ -59,7 +59,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 							<td>' . esc_html( $i ) . '</td>
                             <td>' . esc_html( $request_id ) . '</td>
                             <td>' . wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) . '</td>
-                            <td class="wps_wallet_widthdrawal_' . $withdrawal_status  . '"> <img src=" '. esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/'.$withdrawal_status.'.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
+                            <td class="wps_wallet_widthdrawal_' . esc_html( $withdrawal_status ) . '"> <img src=" ' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ) . '.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
                             <td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>
                             <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
                             </tr>';
@@ -107,15 +107,15 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 			</div>
 			<div class="wps_withdrawal_table">
 				<?php
-			$args               = array(
-			'numberposts' => -1,
-			'post_type'   => 'wallet_withdrawal',
-			'orderby'     => 'ID',
-			'order'       => 'DESC',
-			'post_status' => array( 'any' ),
-		);
-		$withdrawal_request = get_posts( $args );
-		?>
+				$args               = array(
+					'numberposts' => -1,
+					'post_type'   => 'wallet_withdrawal',
+					'orderby'     => 'ID',
+					'order'       => 'DESC',
+					'post_status' => array( 'any' ),
+				);
+				$withdrawal_request = get_posts( $args );
+				?>
 		<div class="wps-wallet-transaction-container">
 			<table class="wps-wsfw-wallet-field-table dt-responsive" id="transactions_table" >
 				<thead>
@@ -147,9 +147,9 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 							<td>' . esc_html( $i ) . '</td>
                             <td>' . esc_html( $request_id ) . '</td>
                             <td>' . wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) . '</td>
-                            <td class="wps_wallet_widthdrawal_' . $withdrawal_status  . '"> <img src=" '. esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/'.$withdrawal_status.'.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
+                            <td class="wps_wallet_widthdrawal_' . esc_html( $withdrawal_status ) . '"> <img src=" ' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ) . '.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
                             <td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>
-                            <td>' .	 esc_html( date_format( $date, $date_format ) ) . '</td>
+                            <td>' . esc_html( date_format( $date, $date_format ) ) . '</td>
                             </tr>';
 							$i++;
 						}
@@ -172,15 +172,15 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 				</div>
 				<div class="wps_withdrawal_table">
 					<?php
-				$args               = array(
-				'numberposts' => -1,
-				'post_type'   => 'wallet_withdrawal',
-				'orderby'     => 'ID',
-				'order'       => 'DESC',
-				'post_status' => array( 'any' ),
-			);
-			$withdrawal_request = get_posts( $args );
-			?>
+					$args               = array(
+						'numberposts' => -1,
+						'post_type'   => 'wallet_withdrawal',
+						'orderby'     => 'ID',
+						'order'       => 'DESC',
+						'post_status' => array( 'any' ),
+					);
+					$withdrawal_request = get_posts( $args );
+					?>
 			<div class="wps-wallet-transaction-container">
 				<table class="wps-wsfw-wallet-field-table dt-responsive" id="transactions_table" >
 					<thead>
@@ -212,9 +212,9 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 								<td>' . esc_html( $i ) . '</td>
 								<td>' . esc_html( $request_id ) . '</td>
 								<td>' . wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) . '</td>
-								<td class="wps_wallet_widthdrawal_' . $withdrawal_status  . '"> <img src=" '. esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/'.$withdrawal_status.'.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
+								<td class="wps_wallet_widthdrawal_' . esc_html( $withdrawal_status ) . '"> <img src=" ' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ) . '.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
 								<td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>
-								<td>' .	 esc_html( date_format( $date, $date_format ) ) . '</td>
+								<td>' . esc_html( date_format( $date, $date_format ) ) . '</td>
 								</tr>';
 								$i++;
 							}
@@ -228,7 +228,6 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 			</p>
 			<?php
 		}
-
 	}
 	?>
 

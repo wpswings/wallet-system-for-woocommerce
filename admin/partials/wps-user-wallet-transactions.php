@@ -73,19 +73,34 @@ $user = get_user_by( 'id', $user_id );
 						?>
 						<tr>
 							<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
-							<td><?php
+							<td>
+							<?php
 							 esc_html( $transaction->id );
 							$date = date_create( $transaction->date );
 							echo esc_html( $date->getTimestamp() . $transaction->id );
-							?></td>
+							?>
+							</td>
 							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td><?php echo wp_kses_post( $transaction->payment_method ); ?></td>
 							<td><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
 							<td>
 							<?php
 							$date_format = get_option( 'date_format', 'm/d/Y' );
-							echo esc_html( date_format( $date, $date_format ) );
-							echo ' ' . esc_html( date_format( $date, 'H:i:s' ) );
+							$wps_wsfw_time_zone = get_option( 'timezone_string' );
+							if ( ! empty( $wps_wsfw_time_zone ) ) {
+
+								$date_format = get_option( 'date_format', 'm/d/Y' );
+								$date        = date_create( $transaction->date );
+								echo esc_html( date_format( $date, $date_format ) );
+								// extra code.( need validation if require).
+								$date->setTimezone( new DateTimeZone( get_option( 'timezone_string' ) ) );
+								// extra code.
+								echo ' ' . esc_html( date_format( $date, 'H:i:s' ) );
+							} else {
+
+								echo esc_html( date_format( $date, $date_format ) );
+								echo ' ' . esc_html( date_format( $date, 'H:i:s' ) );
+							}
 							?>
 							</td>
 							<td class="hide_date" >

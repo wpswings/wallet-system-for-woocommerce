@@ -87,7 +87,7 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 		 * @return boolean
 		 */
 		public function validate_request() {
-			global $WCMp; // phpcs:ignore
+			global $WCMp; // phpcs:ignore due to compatibility issue.
 			if ( 'Enable' != $this->enabled ) {
 				$this->message[] = array(
 					'message' => __( 'Invalid payment method', 'wallet-system-for-woocommerce' ),
@@ -98,7 +98,7 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 			// phpcs:ignore
 			if ( 'admin' != $this->transaction_mode ) {
 				/* handle thesold time */
-				$threshold_time = isset( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold_time'] : 0; // phpcs:ignore
+				$threshold_time = isset( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold_time'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold_time'] : 0; // phpcs:ignore due to compatibility issue.
 				if ( $threshold_time > 0 ) {
 					foreach ( $this->commissions as $index => $commission ) {
 						if ( intval( ( gmdate( 'U' ) - get_the_date( 'U', $commission ) ) / ( 3600 * 24 ) ) < $threshold_time ) {
@@ -107,7 +107,7 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 					}
 				}
 				/* handle thesold amount */
-				$thesold_amount = isset( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold'] : 0; // phpcs:ignore
+				$thesold_amount = isset( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) && ! empty( $WCMp->vendor_caps->payment_cap['commission_threshold'] ) ? $WCMp->vendor_caps->payment_cap['commission_threshold'] : 0; // phpcs:ignore due to compatibility issue.
 				if ( $this->wps_get_transaction_total() > $thesold_amount ) {
 					return true;
 				} else {
@@ -172,7 +172,7 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 				update_user_meta( $vendor_id, 'wps_wallet', abs( $walletamount ) );
 
 				$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-				$balance   = $this->currency . ' '.$amount_to_pay;
+				$balance   = $this->currency . ' ' . $amount_to_pay;
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$user       = get_user_by( 'id', $vendor_id );
 					$name       = $user->first_name . ' ' . $user->last_name;

@@ -312,7 +312,7 @@ class Wallet_System_For_Woocommerce_Common {
 
 					$user2 = get_user_by( 'id', $user_id );
 					$name2 = $user2->first_name . ' ' . $user2->last_name;
-					$balance   = $current_currency . ' '.$transfer_amount;
+					$balance   = $current_currency . ' ' . $transfer_amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 
 						$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . ",\r\n";
@@ -345,7 +345,7 @@ class Wallet_System_For_Woocommerce_Common {
 					$wallet_bal -= $wallet_transfer_amount;
 					$update_user = update_user_meta( $user_id, 'wps_wallet', abs( $wallet_bal ) );
 					if ( $update_user ) {
-						$balance   = $current_currency . ' '.$transfer_amount;
+						$balance   = $current_currency . ' ' . $transfer_amount;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . ",\r\n";
 							$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet transfer to ', 'wallet-system-for-woocommerce' ) . $name1;
@@ -508,10 +508,11 @@ class Wallet_System_For_Woocommerce_Common {
 						}
 					}
 					if ( $wps_send_mail ) {
-						$balance   = $order->get_currency() . ' '.$cashback_amount_order;
+						$balance   = $order->get_currency() . ' ' . $cashback_amount_order;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+							;
 							$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through cashback.', 'wallet-system-for-woocommerce' );
 							$to         = $wallet_user->user_email;
 							$from       = get_option( 'admin_email' );
@@ -571,10 +572,11 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 
 					if ( $updated ) {
-						$balance   = $order->get_currency() . ' '.$wps_cashback_receive_amount;
+						$balance   = $order->get_currency() . ' ' . $wps_cashback_receive_amount;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+							;
 							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through order refunded.', 'wallet-system-for-woocommerce' );
 							$to         = $wallet_user->user_email;
 							$from       = get_option( 'admin_email' );
@@ -634,10 +636,11 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 
 					if ( $updated ) {
-						$balance   = $order->get_currency() . ' '.$wps_cashback_receive_amount;
+						$balance   = $order->get_currency() . ' ' . $wps_cashback_receive_amount;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 							$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+							;
 							$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through order cancelled.', 'wallet-system-for-woocommerce' );
 							$to         = $wallet_user->user_email;
 							$from       = get_option( 'admin_email' );
@@ -823,10 +826,11 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 		}
 		if ( $updated ) {
-			$balance   = $current_currency . ' '.$amount;
+			$balance   = $current_currency . ' ' . $amount;
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+				;
 				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through product review.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
@@ -896,10 +900,11 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 		}
 		if ( $updated ) {
-			$balance   = $current_currency . ' '.$amount;
+			$balance   = $current_currency . ' ' . $amount;
 			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+				;
 				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through product review.', 'wallet-system-for-woocommerce' );
 				$to         = $wallet_user->user_email;
 				$from       = get_option( 'admin_email' );
@@ -1019,4 +1024,110 @@ class Wallet_System_For_Woocommerce_Common {
 		return apply_filters( 'wpswings_tracker_last_send_time', get_option( 'wpswings_tracker_last_send', false ) );
 	}
 
+
+	/**
+	 * Add wallet for vendor module function.
+	 *
+	 * @param [type] $payment_mode is the payment method.
+	 * @return mixed
+	 */
+	public function wsfw_admin_mvx_list_mxfdxfodules( $payment_mode ) {
+		$payment_mode['wallet_payment'] = __( 'Wallet', 'multivendorx' );
+		return $payment_mode;
+	}
+
+	/**
+	 * Add status to order function
+	 *
+	 * @param [type] $payment_mode is the payment status.
+	 * @return mixed
+	 */
+	public function wsfw_mvx_parent_order_to_vendor_order_statuses_to_sync( $payment_mode ) {
+		$payment_mode = array( 'on-hold', 'pending', 'processing', 'cancelled', 'failed', 'completed' );
+		return $payment_mode;
+
+	}
+
+	/**
+	 * Add status to order function through multivendor
+	 *
+	 * @param [type] $order_id is the order id.
+	 * @param [type] $old_status is the previous status.
+	 * @param [type] $new_status is the new status.
+	 * @return void
+	 */
+	public function wsfw_wpr_commission_ordeer_status_change( $order_id, $old_status, $new_status ) {
+
+		if ( function_exists( 'mvx_get_order' ) ) {
+			$is_vendor_order = ( $order_id ) ? mvx_get_order( $order_id ) : false;
+			$parent_order_id = wp_get_post_parent_id( $order_id );
+			if ( ! empty( $is_vendor_order ) ) {
+				if ( ! empty( $is_vendor_order->order ) ) {
+					if ( ! empty( $is_vendor_order->order->parent_id ) ) {
+						$parent_order_id = $is_vendor_order->order->parent_id;
+					}
+				}
+			}
+		}
+
+		if ( $parent_order_id ) {
+
+			if ( class_exists( 'MVX_Commission' ) ) {
+				$wallet_paid = get_post_meta( $order_id, '_paid_status_through_wallet', true );
+				if ( 'paid' == $wallet_paid ) {
+					return;
+				}
+
+				$obj = new MVX_Commission();
+				$commission_id = get_post_meta( $order_id, '_commission_id', true );
+				$commission = $obj->get_commission( $commission_id );
+
+				$vendor = $commission->vendor;
+
+				$commission_status = get_post_meta( $commission_id, '_paid_status', true );
+				$commission_amount = get_post_meta( $commission_id, '_commission_amount', true );
+				$payment_method = get_user_meta( $vendor->id, '_vendor_payment_mode', true );
+				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+
+				update_post_meta( $commission_id, '_paid_status', 'paid' );
+
+				if ( empty( $commission_amount ) ) {
+					return;
+				}
+
+				if ( 'wallet_payment' == $payment_method || 'wallet' == $payment_method ) {
+					$walletamount           = get_user_meta( $vendor->id, 'wps_wallet', true );
+					$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
+					$walletamount = $walletamount + $commission_amount;
+
+					update_user_meta( $vendor->id, 'wps_wallet', $walletamount );
+					update_post_meta( $order_id, '_paid_status_through_wallet', 'paid' );
+
+					$transaction_type = esc_html__( 'Wallet credited through Commission ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'comment.php?action=editcomment&c=' . $order_id ) . '" >#' . $order_id . '</a>';
+					$transaction_data = array(
+						'user_id'          => $vendor->id,
+						'amount'           => $commission_amount,
+						'currency'         => '',
+						'payment_method'   => esc_html__(
+							'Commission',
+							'wallet-system-for
+							-woocommerce'
+						),
+						'transaction_type' => htmlentities( $transaction_type ),
+						'transaction_type_1' => 'credit',
+						'order_id'         => '',
+						'note'             => '',
+					);
+					$transaction_id = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+					$obj->add_commission_note( $commission_id, __( 'Commission paid to vendor through wallet', 'multivendorx' ), $vendor->id );
+
+				}
+			}
+		}
+
+	}
+
 }
+
+
+
