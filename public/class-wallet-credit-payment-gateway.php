@@ -45,7 +45,7 @@ add_filter( 'woocommerce_payment_gateways', 'wps_wsfw_wallet_gateway', 10, 1 );
  * @extends WC_Payment_Gateway
  * @version 1.0.0
  * @package Wallet_System_For_Woocommerce
- * @throws Exception excption.
+ * @throws Exception Excption.
  */
 function wps_wsfw_wallet_payment_gateway_init() {
 
@@ -152,7 +152,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		   * @param  int    $order_id Order ID.
 		   * @param  float  $amount Refund amount.
 		   * @param  string $reason Refund reason.
-		   * @throws Exception exception.
+		   * @throws Exception Exception.
 		   * @return bool|WP_Error
 		   */
 		public function process_refund( $order_id, $amount = null, $reason = '' ) {
@@ -211,8 +211,21 @@ function wps_wsfw_wallet_payment_gateway_init() {
 						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
-						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
+						if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
+
+							$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+							if ( ! empty( $customer_email ) ) {
+								$user       = get_user_by( 'id', $customer_id );
+								$currency  = get_woocommerce_currency();
+								$balance_mail = $balance;
+								$user_name       = $user->first_name . ' ' . $user->last_name;
+								$email_status = $customer_email->trigger( $customer_id, $user_name, $balance_mail, '' );
+							}
+						} else {
+
+							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+						}
 					}
 				}
 

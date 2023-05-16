@@ -56,6 +56,15 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				$wallet           = update_user_meta( $user_id, 'wps_wallet', $wallet );
 				$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
 				$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
+				if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+					if ( ! empty( $customer_email ) ) {
+						$user       = get_user_by( 'id', $user_id );
+						$balance_mail = $currency . ' ' . $updated_amount;
+						$user_name       = $user->first_name . ' ' . $user->last_name;
+						$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+					}
+				}
 			} elseif ( 'debit' === $wallet_action ) {
 				if ( $wallet < $updated_amount ) {
 					$wallet = 0;
@@ -65,25 +74,47 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				$wallet           = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
 				$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
+				if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
+
+					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+					if ( ! empty( $customer_email ) ) {
+						$user       = get_user_by( 'id', $user_id );
+						$currency  = get_woocommerce_currency();
+						$balance_mail = $currency . ' ' . $updated_amount;
+						$user_name       = $user->first_name . ' ' . $user->last_name;
+						$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+					}
+				}
 			}
 
 			$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-				$user       = get_user_by( 'id', $user_id );
-				$name       = $user->first_name . ' ' . $user->last_name;
-				$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
-				$mail_text .= $mail_message;
-				$to         = $user->user_email;
-				$from       = get_option( 'admin_email' );
 
-				$subject  = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-				$headers  = 'MIME-Version: 1.0' . "\r\n";
-				$headers .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-				$headers .= 'From: ' . $from . "\r\n" .
-					'Reply-To: ' . $to . "\r\n";
+			if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
-				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+				$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+				$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+
+				if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
+
+					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+						$user       = get_user_by( 'id', $user_id );
+						$name       = $user->first_name . ' ' . $user->last_name;
+						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+						$mail_text .= $mail_message;
+						$to         = $user->user_email;
+						$from       = get_option( 'admin_email' );
+
+						$subject  = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+						$headers  = 'MIME-Version: 1.0' . "\r\n";
+						$headers .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+						$headers .= 'From: ' . $from . "\r\n" .
+							'Reply-To: ' . $to . "\r\n";
+
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+					}
+				}
 			}
+
 
 			$transaction_data = array(
 				'user_id'          => $user_id,
