@@ -1412,7 +1412,7 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 
 			if ( $updated ) {
-				$balance   = $current_currency.'-B' . ' '.$amount;
+				$balance   = $current_currency.' '.$amount;
 				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 					$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
 					$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";;
@@ -1424,7 +1424,20 @@ class Wallet_System_For_Woocommerce_Public {
 					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to . "\r\n";
-					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+
+						if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+							$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+							if ( ! empty( $customer_email ) ) {
+								$user       = get_user_by( 'id', $customer_id );
+								$balance_mail = $balance;
+								$user_name       = $user->first_name . ' ' . $user->last_name;
+								$customer_email->trigger( $customer_id, $user_name, $balance_mail, '' );
+							}
+						} else {
+		
+							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+						}
 				}
 	
 				$transaction_type = __( 'Wallet credited through referral to a friend ', 'wallet-system-for-woocommerce' );
