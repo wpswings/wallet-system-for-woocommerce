@@ -33,6 +33,17 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 		if ( ! empty( $show_additional_content ) ) {
 			echo wp_kses_post( $show_additional_content ); // phpcs:ignore
 		}
+		$is_pro_plugin = false;
+		$wsfwp_min_wallet_transfer_amount = 0;
+		$wsfwp_max_wallet_transfer_amount = 0;
+		$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+		if ( $is_pro_plugin ) {
+			$wps_wsfwp_wallet_transfer_restriction_enable = get_option( 'wps_wsfwp_wallet_transfer_restriction_enable' );
+			if ( 'on' == $wps_wsfwp_wallet_transfer_restriction_enable ){
+				$wsfwp_min_wallet_transfer_amount = get_option( 'wsfwp_min_wallet_transfer_amount' );
+				$wsfwp_max_wallet_transfer_amount = get_option( 'wsfwp_max_wallet_transfer_amount' );
+			}
+		}
 		?>
 	<form method="post" action="" id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
@@ -42,7 +53,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 		<p class="transfer-error"></p>
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_transfer_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . ')'; ?></label>
-			<input type="number" step="0.01" min="0" data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="wps_wallet_transfer_amount" name="wps_wallet_transfer_amount" required="">
+			<input type="number" step="0.01" min="0" data-mintransfer="<?php echo esc_attr( $wsfwp_min_wallet_transfer_amount ); ?>"data-maxtransfer="<?php echo esc_attr( $wsfwp_max_wallet_transfer_amount ); ?>"data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="wps_wallet_transfer_amount" name="wps_wallet_transfer_amount" required="">
 		</p>
 		<p class="error"></p>
 		<?php

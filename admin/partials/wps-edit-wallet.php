@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $wsfw_wps_wsfw_obj;
-
+$currency  = get_woocommerce_currency();
 
 if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 	$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
@@ -54,8 +54,9 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			if ( 'credit' === $wallet_action ) {
 				$wallet          += $updated_amount;
 				$wallet           = update_user_meta( $user_id, 'wps_wallet', $wallet );
+				$balance_mail = $currency . ' ' . $updated_amount;
 				$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
-				$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount );
+				$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . $balance_mail;
 				if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 					if ( ! empty( $customer_email ) ) {
@@ -73,7 +74,8 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				}
 				$wallet           = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
 				$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . wc_price( $updated_amount ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
+				$balance_mail   = $currency . ' ' . $net_balance;
+				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . $balance_mail. __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 				if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
 
 					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];

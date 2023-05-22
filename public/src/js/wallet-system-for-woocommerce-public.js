@@ -266,40 +266,118 @@
 	$(document).on( 'blur','#wps_wallet_transfer_amount', function(){
 		var amount = $(this).val();
 		var maxamount = $(this).data('max');
-		if ( amount <= 0 ) {
-			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_amount_error);
-			$('#wps_proceed_transfer').prop('disabled', true);
-		} else if ( amount > maxamount ) {
-			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_transfer_amount_error);
-			$('#wps_proceed_transfer').prop('disabled', true);
-		} else {
-			$('.error').hide();
-			$('#wps_proceed_transfer').prop('disabled', false);
-		}
+
+		var min_transfer_amount = $(this).data('mintransfer');
+		var max_transfer_amount = $(this).data('maxtransfer');
+
+		if ( min_transfer_amount >= amount ){
+			if( min_transfer_amount !=0 ){
+
+				$('.error').show();
+				$('.error').html(wsfw_public_param.wsfw_min_wallet_transfer +' '+min_transfer_amount );
+				$('#wps_proceed_transfer').prop('disabled', true);
+			}
+
+		} else if( amount > max_transfer_amount ) {
+			if( max_transfer_amount !=0 ){
+
+				$('.error').show();
+				$('.error').html(wsfw_public_param.wsfw_max_wallet_transfer +' '+max_transfer_amount );
+				$('#wps_proceed_transfer').prop('disabled', true);
+			} else {
+
+				if ( amount <= 0 ) {
+					$('.error').show();
+					$('.error').html(wsfw_public_param.wsfw_amount_error);
+					$('#wps_proceed_transfer').prop('disabled', true);
+				} else if ( amount > maxamount ) {
+					$('.error').show();
+					$('.error').html(wsfw_public_param.wsfw_transfer_amount_error);
+					$('#wps_proceed_transfer').prop('disabled', true);
+				} else {
+					$('.error').hide();
+					$('#wps_proceed_transfer').prop('disabled', false);
+				}
+			}
+			 
+		} 
 	});
 
 	$(document).on( 'blur','#wps_wallet_withdrawal_amount', function(){
 		var amount = $(this).val();
 		amount = parseFloat( amount );
 		var maxamount = $(this).data('max');
-		
 
-		if ( amount <= 0 ) {
-			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_amount_error);
-			$('#wps_withdrawal_request').prop('disabled', true);
-		} else if ( amount > maxamount ) {
-			
-			$('.error').show();
-			$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
-			$('#wps_withdrawal_request').prop('disabled', true);
-		} else {
-			$('.error').hide();
-			$('#wps_withdrawal_request').prop('disabled', false);
-		}
+		var min_withdrwal_amount = $(this).data('minwithdrawal');
+		var max_withdrwal_amount = $(this).data('maxwithdrawal');
+
+		if ( min_withdrwal_amount >= amount ){
+			if( min_withdrwal_amount !=0 ){
+
+				$('.error').show();
+				$('.error').html(wsfw_public_param.wsfw_min_wallet_withdrawal +' '+min_withdrwal_amount );
+				$('#wps_withdrawal_request').prop('disabled', true);
+			}
+
+		} else if( amount > max_withdrwal_amount ) {
+			if( max_withdrwal_amount !=0 ){
+
+				$('.error').show();
+				$('.error').html(wsfw_public_param.wsfw_max_wallet_withdrawal +' '+max_withdrwal_amount );
+				$('#wps_withdrawal_request').prop('disabled', true);
+			} else {
+
+				if ( amount <= 0 ) {
+					$('.error').show();
+					$('.error').html(wsfw_public_param.wsfw_amount_error );
+					$('#wps_withdrawal_request').prop('disabled', true);
+				} else if ( amount > maxamount ) {
+					
+					$('.error').show();
+					$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
+					$('#wps_withdrawal_request').prop('disabled', true);
+				} else {
+					$('.error').hide();
+					$('#wps_withdrawal_request').prop('disabled', false);
+				}
+			}
+			 
+		} 
+
 		
 	});
 
 })( jQuery );
+
+
+function copyshareurl() {
+	// Get the text field.
+	var copyText = jQuery( '#wps_wpr_copy' ).html();
+
+	/* Get the text field */
+	var copyText = document.getElementById( "wps_wpr_copy" );
+
+	/* Prevent iOS keyboard from opening */
+	copyText.readOnly = true;
+
+	/* Change the input's type to text so its text becomes selectable */
+	copyText.type = 'text';
+
+	/* Select the text field */
+	copyText.select();
+	copyText.setSelectionRange( 0, 99999 ); /* For mobile devices */
+
+	/* Copy the text inside the text field */
+	navigator.clipboard.writeText( copyText.value );
+
+	/* Replace the tooltip's text */
+	var tooltip       = document.getElementById( "myTooltip" );
+	tooltip.innerHTML = "Copied: " + copyText.value;
+
+	/* Change the input's type back to hidden */
+	copyText.type     = 'hidden';
+	var tooltip       = document.getElementById( "myTooltip" );
+	tooltip.innerHTML = "       Copied!";
+	jQuery( '.wps_wpr_btn_copy' ).hide();
+	// Alert the copied text.
+}

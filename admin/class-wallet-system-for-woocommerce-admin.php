@@ -750,6 +750,20 @@ class Wallet_System_For_Woocommerce_Admin {
 			),
 		);
 		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_comment_extra_settings_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+	}
+
+
+
+	/**
+	 * This is used to create comment html.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_wallet_action_settings_submit_button_setting_page( $wsfw_settings_template ) {
+	
+		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_submit_button_extra_settings_array', $wsfw_settings_template );
 		$wsfw_settings_template[] = array(
 			'type'        => 'submit',
 			'name'        => 'wsfw_button_wallet_action',
@@ -759,6 +773,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 		return $wsfw_settings_template;
 	}
+	
 
 	/**
 	 * This function is used to
@@ -946,13 +961,16 @@ class Wallet_System_For_Woocommerce_Admin {
 
 				$wps_wsfw_gen_flag     = false;
 				$wsfw_settings_wallet_action_auto_topup = apply_filters( 'wsfw_wallet_action_settings_auto_topup_array', array() );
-				// fee saving.
+				// fee saving start.
 				$wsfwp_wallet_action_settings_withdrawal_array = apply_filters( 'wsfwp_wallet_action_settings_withdrawal_array', array() );
 				$wsfwp_wallet_action_settings_transfer_array = apply_filters( 'wsfwp_wallet_action_settings_transfer_array', array() );
-				// fee saving.
+				// fee saving end.
 				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
 				$wsfw_wallet_action_settings_daily_visit      = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 				$wsfw_wallet_action_settings_comment_array    = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
+				// wallet referal start.
+				$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
+				// wallet referal end.	
 				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
 				update_option( 'wps_wsfw_subscriptions_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_per_interval'] ) ) : '' );
 				update_option( 'wps_sfw_subscription_expiry_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
@@ -965,6 +983,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfwp_wallet_action_settings_withdrawal_array );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfwp_wallet_action_settings_transfer_array );
+				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_refer_friend_settings );
 
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
 				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
