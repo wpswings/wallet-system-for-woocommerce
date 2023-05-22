@@ -1748,11 +1748,23 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 
+	/**
+	 * Make Wallet Rechargable Product tax free.
+	 *
+	 * @param [type] $tax_class is tax class to make free.
+	 * @param [type] $product is the product on which free tax will be applied.
+	 * @return void
+	 */
 	public function wsfw_admin_recharge_product_tax_class($tax_class, $product) {
+		
 		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
-		if ( ! empty( $product ) ) {
-			if ( $product->get_id() == $wallet_id  ) {
-				$tax_class = 'zero-rate'; 
+		$_is_enabled_wallet_recharege = get_option('wsfw_enable_wallet_recharge_tax_free',true);
+	
+		if ( 'on' == $_is_enabled_wallet_recharege ) {
+			if ( ! empty( $product ) ) {
+				if ( $product->get_id() == $wallet_id  ) {
+					$tax_class = 'zero-rate'; 
+				}
 			}
 		}
 		return $tax_class;

@@ -409,8 +409,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_general_settings_page( $wsfw_settings_general ) {
 
-		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
-
+		$wsfw_settings_general = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
 		$wsfw_settings_general = array(
 			// enable wallet.
 			array(
@@ -429,9 +428,22 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Wallet Recharge', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable to allow customers to recharge their wallet', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable to allow customers to recharge their wallet', 'wallet-system-for-woocommerce' ).$recharge_product,
 				'name'        => 'wsfw_enable_wallet_recharge',
 				'id'          => 'wsfw_enable_wallet_recharge',
+				'value'       => 'on',
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Make Wallet Recharge Product Tax Free', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to allow customers to recharge their wallet without tax applied', 'wallet-system-for-woocommerce' ).$recharge_product,
+				'name'        => 'wsfw_enable_wallet_recharge_tax_free',
+				'id'          => 'wsfw_enable_wallet_recharge_tax_free',
 				'value'       => 'on',
 				'class'       => 'wsfw-radio-switch-class',
 				'options'     => array(
@@ -453,9 +465,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Enable Checkout Fields at checkout page', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Enable Checkout Fields at checkout page For Wallet Rechargable Product', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable if you want to autocomplete order paid by wallet gateway', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable if you to show checkout fields for Wallet Rechargable Product', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_wallet_payment_checkout_field_checkout',
 				'id'          => 'wsfw_wallet_payment_checkout_field_checkout',
 				'value'       => '',

@@ -285,7 +285,6 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
 
 		$this->loader->add_filter( 'woocommerce_data_stores', $wsfw_plugin_admin, 'wsfw_admin_woocommerce_data_stores' );
-		$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_admin, 'wsfw_admin_recharge_product_tax_class' );
 		
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
 			if ( wps_sfw_check_plugin_enable() ) {
@@ -379,6 +378,8 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
 			$this->loader->add_action( 'woocommerce_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders', 90 );
 			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules', 10 );
+			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class',10,2 );
+		
 		}
 
 	}

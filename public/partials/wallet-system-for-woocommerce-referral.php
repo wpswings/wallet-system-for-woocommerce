@@ -62,6 +62,7 @@ function wps_wpr_create_referral_code_wallet() {
   }
   return $pkey;
   }
+ 
 ?>
 
 <div class='content active'>

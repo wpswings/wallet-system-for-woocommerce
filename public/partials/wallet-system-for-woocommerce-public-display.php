@@ -286,6 +286,9 @@ $wallet_restrict_transfer = apply_filters( 'wallet_restrict_transfer', $user_id 
 $wallet_restrict_withdrawal = apply_filters( 'wallet_restrict_withdrawal', $user_id );
 $wallet_restrict_coupon = apply_filters( 'wallet_restrict_coupon', $user_id );
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
+$wallet_restrict_referral = apply_filters( 'wallet_restrict_referral', $user_id );
+$wallet_restrict_qrcode = apply_filters( 'wallet_restrict_qrcode', $user_id );
+
 $is_pro_plugin = false;
 $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 $wps_wallet_restrict_message_to_user = 'on';
@@ -357,7 +360,7 @@ if ( 'on' != $wallet_restrict_transaction ) {
 	);
 }
 
-if ( 'on' != $wallet_restrict_transaction ) {
+if ( 'on' != $wallet_restrict_referral ) {
 
 	$wallet_tabs['wallet_referral'] = array(
 		'title'     => esc_html__( 'Wallet Referral', 'wallet-system-for-woocommerce' ),
@@ -405,10 +408,18 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<?php if ( 'on' != $wallet_restrict_transaction ) { ?>
 			<div class=""><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
 			</div>
-		<?php } ?>
+		<?php }  
+		
+		if ( 'on' != $wallet_restrict_referral ) { 
+		?>
 		<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
-		</div>
-		<?php do_action( 'wallet_qr_vode' ); ?>
+	<?php } ?>	
+	</div>
+		<?php
+		if ( 'on' != $wallet_restrict_qrcode ) {
+			do_action( 'wallet_qr_vode' );
+		}
+		 ?>
 		
 	</div>
 
@@ -479,9 +490,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 							if ( 'wallet_giftcard' == $key ) {
 								$wallet_tab['className'] = 'none';
 							}
-							if ( 'wallet_coupon' == $key ) {
-								$wallet_tab['className'] = 'none';
-							}
+							
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
 									$class = 'active';

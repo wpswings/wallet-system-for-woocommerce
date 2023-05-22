@@ -284,6 +284,7 @@ $topup_url       = add_query_arg( 'wps-wallet', 'wallet-topup', $page_url );
 $wallet_url      = add_query_arg( 'wps-wallet', 'wallet-transfer', $page_url );
 $withdrawal_url  = add_query_arg( 'wps-wallet', 'wallet-withdrawal', $page_url );
 $transaction_url = add_query_arg( 'wps-wallet', 'wallet-transactions', $page_url );
+$wallet_referal_url     = add_query_arg( 'wps-wallet', 'wallet-referral',$page_url );
 
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'wps_wsfw_rechargeable_product_id', '' );
@@ -297,6 +298,8 @@ $wallet_restrict_transfer = apply_filters( 'wallet_restrict_transfer', $user_id 
 $wallet_restrict_withdrawal = apply_filters( 'wallet_restrict_withdrawal', $user_id );
 $wallet_restrict_coupon = apply_filters( 'wallet_restrict_coupon', $user_id );
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
+$wallet_restrict_referral = apply_filters( 'wallet_restrict_referral', $user_id );
+$wallet_restrict_qrcode = apply_filters( 'wallet_restrict_qrcode', $user_id );
 
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
@@ -362,6 +365,19 @@ if ( 'on' != $wallet_restrict_transaction ) {
 	);
 }
 
+if ( 'on' != $wallet_restrict_referral ) {
+
+	$wallet_tabs['wallet_referral'] = array(
+		'title'     => esc_html__( 'Wallet Referral', 'wallet-system-for-woocommerce' ),
+		'url'       => $wallet_referal_url,
+		'className' => 'wps_wallet_transactions_tab',
+		'icon'      => '<path fill-rule="evenodd" clip-rule="evenodd" d="M6.40263 9.52276C8.21174 6.39535 11.5966 4.28571 15.4762 4.28571H24.5238C30.3097 4.28571 35 8.97598 35 14.7619V23.8095C35 29.5954 30.3097 34.2857 24.5238 34.2857H15.4762C9.69028 34.2857 5 29.5954 5 23.8095V19.2857C5 18.4967 5.63959 17.8571 6.42857 17.8571C7.21755 17.8571 7.85714 18.4967 7.85714 19.2857V23.8095C7.85714 28.0175 11.2682 31.4286 15.4762 31.4286H24.5238C28.7318 31.4286 32.1429 28.0175 32.1429 23.8095V14.7619C32.1429 10.5539 28.7318 7.14285 24.5238 7.14285H15.4762C12.6578 7.14285 10.1953 8.67244 8.87578 10.9534C8.48072 11.6364 7.60683 11.8697 6.92388 11.4747C6.24094 11.0796 6.00756 10.2057 6.40263 9.52276Z" fill="#1E1E1E"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9996 11.0717C20.7885 11.0717 21.4281 11.7112 21.4281 12.5002V18.694L25.5335 22.7994C26.0914 23.3573 26.0914 24.2618 25.5335 24.8197C24.9756 25.3776 24.0711 25.3776 23.5132 24.8197L18.9894 20.2959C18.7215 20.028 18.571 19.6646 18.571 19.2857V12.5002C18.571 11.7112 19.2106 11.0717 19.9996 11.0717Z" fill="#483DE0"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M7.48138 3.93726C8.26561 4.02374 8.83124 4.72959 8.74476 5.51381L8.36239 8.98116L11.8297 9.36352C12.614 9.45001 13.1796 10.1559 13.0931 10.9401C13.0066 11.7243 12.3008 12.2899 11.5166 12.2035L6.62926 11.6645C5.84503 11.578 5.2794 10.8722 5.36588 10.0879L5.90483 5.20064C5.99131 4.41641 6.69716 3.85078 7.48138 3.93726Z" fill="#1E1E1E"/>',
+		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-referral.php',
+	);
+}
+
 $flag = false;
 if ( ( $current_url == $main_url ) || ( $current_url == $page_url ) ) {
 	$flag = true;
@@ -385,7 +401,12 @@ $wallet_keys = array_keys( $wallet_tabs );
 		<?php if ( 'on' != $wallet_restrict_transaction ) { ?>
 			<div class=""><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
 			</div>
-		<?php } ?>
+		<?php }
+		if ( 'on' != $wallet_restrict_referral ) { 
+		?>
+		<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
+	<?php } ?>	
+
 		</div>
 		<?php do_action( 'wallet_qr_vode_shotcode' ); ?>
 	</div>
@@ -428,6 +449,13 @@ $wallet_keys = array_keys( $wallet_tabs );
 							if ( 'wallet_transactions' == $key ) {
 								continue;
 							}
+							if ( 'wallet_referral' == $key ) {
+								continue;
+								
+							}
+							if ( 'wallet_giftcard' == $key ) {
+								$wallet_tab['className'] = 'none';
+							}
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
 									$class = 'active';
@@ -454,10 +482,12 @@ $wallet_keys = array_keys( $wallet_tabs );
 				foreach ( $wallet_tabs as $key => $wallet_tab ) {
 					if ( $flag ) {
 						if ( $key === $wallet_keys[0] ) {
+							
 							include_once $wallet_tab['file-path'];
 						}
 					} else {
 						if ( $current_url === $wallet_tab['url'] ) {
+							
 							include_once $wallet_tab['file-path'];
 						}
 					}
