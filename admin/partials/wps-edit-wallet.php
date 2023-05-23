@@ -75,7 +75,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				$wallet           = update_user_meta( $user_id, 'wps_wallet', abs( $wallet ) );
 				$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 				$balance_mail   = $currency . ' ' . $net_balance;
-				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . $balance_mail. __( ' from your wallet.', 'wallet-system-for-woocommerce' );
+				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . $balance_mail . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 				if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
 
 					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];

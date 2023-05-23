@@ -428,7 +428,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Wallet Recharge', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable to allow customers to recharge their wallet', 'wallet-system-for-woocommerce' ).$recharge_product,
+				'description' => __( 'Enable to allow customers to recharge their wallet', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_recharge',
 				'id'          => 'wsfw_enable_wallet_recharge',
 				'value'       => 'on',
@@ -441,7 +441,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Make Wallet Recharge Product Tax Free', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable to allow customers to recharge their wallet without tax applied', 'wallet-system-for-woocommerce' ).$recharge_product,
+				'description' => __( 'Enable to allow customers to recharge their wallet without tax applied', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_recharge_tax_free',
 				'id'          => 'wsfw_enable_wallet_recharge_tax_free',
 				'value'       => 'on',
@@ -774,7 +774,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return array
 	 */
 	public function wsfw_wallet_action_settings_submit_button_setting_page( $wsfw_settings_template ) {
-	
+
 		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_submit_button_extra_settings_array', $wsfw_settings_template );
 		$wsfw_settings_template[] = array(
 			'type'        => 'submit',
@@ -785,7 +785,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 		return $wsfw_settings_template;
 	}
-	
+
 
 	/**
 	 * This function is used to
@@ -982,7 +982,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_wallet_action_settings_comment_array    = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
 				// wallet referal start.
 				$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
-				// wallet referal end.	
+				// wallet referal end.
 				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
 				update_option( 'wps_wsfw_subscriptions_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_per_interval'] ) ) : '' );
 				update_option( 'wps_sfw_subscription_expiry_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
@@ -2580,7 +2580,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 
 		if ( empty( $column ) ) {
-			$wpdb->query( "ALTER TABLE  `{$table_name}` ADD transaction_type_1 VARCHAR(50) NULL DEFAULT 'null'" );
+			$column = $wpdb->query( $wpdb->prepare( "ALTER TABLE  {$wpdb->prefix}wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT NULL" ) );
 		}
 
 	}
@@ -2788,8 +2788,8 @@ class Wallet_System_For_Woocommerce_Admin {
 	/**
 	 * Process refund through wallet.
 	 *
-	 * @throws MyOtherException Value Handle.
-	 * @throws Exception Handle.
+	 * @throws Exception When validation fails.
+	 * @throws exception Error message.
 	 */
 	public function wps_wallet_order_refund_action() {
 

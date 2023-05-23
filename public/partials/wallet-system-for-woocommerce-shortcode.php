@@ -284,7 +284,7 @@ $topup_url       = add_query_arg( 'wps-wallet', 'wallet-topup', $page_url );
 $wallet_url      = add_query_arg( 'wps-wallet', 'wallet-transfer', $page_url );
 $withdrawal_url  = add_query_arg( 'wps-wallet', 'wallet-withdrawal', $page_url );
 $transaction_url = add_query_arg( 'wps-wallet', 'wallet-transactions', $page_url );
-$wallet_referal_url     = add_query_arg( 'wps-wallet', 'wallet-referral',$page_url );
+$wallet_referal_url     = add_query_arg( 'wps-wallet', 'wallet-referral', $page_url );
 
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'wps_wsfw_rechargeable_product_id', '' );
@@ -401,9 +401,10 @@ $wallet_keys = array_keys( $wallet_tabs );
 		<?php if ( 'on' != $wallet_restrict_transaction ) { ?>
 			<div class=""><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
 			</div>
-		<?php }
-		if ( 'on' != $wallet_restrict_referral ) { 
-		?>
+			<?php
+		}
+		if ( 'on' != $wallet_restrict_referral ) {
+			?>
 		<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
 	<?php } ?>	
 
@@ -451,7 +452,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 							}
 							if ( 'wallet_referral' == $key ) {
 								continue;
-								
+
 							}
 							if ( 'wallet_giftcard' == $key ) {
 								$wallet_tab['className'] = 'none';
@@ -482,12 +483,12 @@ $wallet_keys = array_keys( $wallet_tabs );
 				foreach ( $wallet_tabs as $key => $wallet_tab ) {
 					if ( $flag ) {
 						if ( $key === $wallet_keys[0] ) {
-							
+
 							include_once $wallet_tab['file-path'];
 						}
 					} else {
 						if ( $current_url === $wallet_tab['url'] ) {
-							
+
 							include_once $wallet_tab['file-path'];
 						}
 					}

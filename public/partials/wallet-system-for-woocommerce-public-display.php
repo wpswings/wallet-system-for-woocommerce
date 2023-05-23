@@ -315,7 +315,7 @@ if ( 'restricted' !== $is_user_restricted ) {
 			);
 		}
 	}
-	
+
 
 	if ( 'on' != $wallet_restrict_transfer ) {
 		$wallet_tabs['wallet_transfer'] = array(
@@ -408,10 +408,11 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<?php if ( 'on' != $wallet_restrict_transaction ) { ?>
 			<div class=""><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
 			</div>
-		<?php }  
-		
-		if ( 'on' != $wallet_restrict_referral ) { 
-		?>
+			<?php
+		}
+
+		if ( 'on' != $wallet_restrict_referral ) {
+			?>
 		<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
 	<?php } ?>	
 	</div>
@@ -419,7 +420,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		if ( 'on' != $wallet_restrict_qrcode ) {
 			do_action( 'wallet_qr_vode' );
 		}
-		 ?>
+		?>
 		
 	</div>
 
@@ -481,16 +482,16 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( 'wallet_transactions' == $key ) {
 								continue;
-							
+
 							}
 							if ( 'wallet_referral' == $key ) {
 								continue;
-								
+
 							}
 							if ( 'wallet_giftcard' == $key ) {
 								$wallet_tab['className'] = 'none';
 							}
-							
+
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
 									$class = 'active';
