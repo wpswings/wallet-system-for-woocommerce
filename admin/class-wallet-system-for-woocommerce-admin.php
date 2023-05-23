@@ -2569,7 +2569,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		global  $wpdb;
 		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 		$column_name = 'transaction_type_1';
-		// $wpdb->esc_like( $table_name )
 		$column = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s ',

@@ -279,27 +279,25 @@ if ( function_exists( 'is_shop' ) ) {
 }
 $page_url = get_permalink( $page_id );
 
-$main_url        = wc_get_endpoint_url( 'wps-wallet' );
-$topup_url       = add_query_arg( 'wps-wallet', 'wallet-topup', $page_url );
-$wallet_url      = add_query_arg( 'wps-wallet', 'wallet-transfer', $page_url );
-$withdrawal_url  = add_query_arg( 'wps-wallet', 'wallet-withdrawal', $page_url );
-$transaction_url = add_query_arg( 'wps-wallet', 'wallet-transactions', $page_url );
-$wallet_referal_url     = add_query_arg( 'wps-wallet', 'wallet-referral', $page_url );
-
-$enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
-$product_id             = get_option( 'wps_wsfw_rechargeable_product_id', '' );
-$user_id                = get_current_user_id();
-$wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
-$is_user_restricted     = get_user_meta( $user_id, 'user_restriction_for_wallet', true );
-$is_user_restricted  = apply_filters( 'wsfw_user_restrict_pro_check', $is_user_restricted );
-
-$wallet_restrict_topup = apply_filters( 'wallet_restrict_topup', $user_id );
-$wallet_restrict_transfer = apply_filters( 'wallet_restrict_transfer', $user_id );
-$wallet_restrict_withdrawal = apply_filters( 'wallet_restrict_withdrawal', $user_id );
-$wallet_restrict_coupon = apply_filters( 'wallet_restrict_coupon', $user_id );
+$main_url                    = wc_get_endpoint_url( 'wps-wallet' );
+$topup_url                   = add_query_arg( 'wps-wallet', 'wallet-topup', $page_url );
+$wallet_url                  = add_query_arg( 'wps-wallet', 'wallet-transfer', $page_url );
+$withdrawal_url              = add_query_arg( 'wps-wallet', 'wallet-withdrawal', $page_url );
+$transaction_url             = add_query_arg( 'wps-wallet', 'wallet-transactions', $page_url );
+$wallet_referal_url          = add_query_arg( 'wps-wallet', 'wallet-referral', $page_url );
+$enable_wallet_recharge      = get_option( 'wsfw_enable_wallet_recharge', '' );
+$product_id                  = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+$user_id                     = get_current_user_id();
+$wallet_bal                  = get_user_meta( $user_id, 'wps_wallet', true );
+$is_user_restricted          = get_user_meta( $user_id, 'user_restriction_for_wallet', true );
+$is_user_restricted          = apply_filters( 'wsfw_user_restrict_pro_check', $is_user_restricted );
+$wallet_restrict_topup       = apply_filters( 'wallet_restrict_topup', $user_id );
+$wallet_restrict_transfer    = apply_filters( 'wallet_restrict_transfer', $user_id );
+$wallet_restrict_withdrawal  = apply_filters( 'wallet_restrict_withdrawal', $user_id );
+$wallet_restrict_coupon      = apply_filters( 'wallet_restrict_coupon', $user_id );
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
-$wallet_restrict_referral = apply_filters( 'wallet_restrict_referral', $user_id );
-$wallet_restrict_qrcode = apply_filters( 'wallet_restrict_qrcode', $user_id );
+$wallet_restrict_referral    = apply_filters( 'wallet_restrict_referral', $user_id );
+$wallet_restrict_qrcode      = apply_filters( 'wallet_restrict_qrcode', $user_id );
 
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;

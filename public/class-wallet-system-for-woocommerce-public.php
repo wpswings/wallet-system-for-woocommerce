@@ -1539,12 +1539,14 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 	}
+
+
 	/**
 	 * Fee html for cart total.
 	 *
-	 * @param array              $cart_totals_fee_html as cart html.
-	 * @param object fees as fee.
-	 * @return array
+	 * @param [type] $cart_totals_fee_html as cart html.
+	 * @param [type] $fees is the fees applied on checkout.
+	 * @return mixed
 	 */
 	public function wsfw_wallet_cart_totals_fee_html( $cart_totals_fee_html, $fees ) {
 
@@ -1559,6 +1561,7 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 		return wc_price( $fees );
 	}
+
 	/**
 	 * Fix cart total html.
 	 *
@@ -1759,9 +1762,9 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Make Wallet Rechargable Product tax free.
 	 *
-	 * @param [type] $tax_class is tax class to make free.
+	 * @param string $tax_class is tax class to make free.
 	 * @param [type] $product is the product on which free tax will be applied.
-	 * @return void
+	 * @return string
 	 */
 	public function wsfw_admin_recharge_product_tax_class( $tax_class, $product ) {
 

@@ -81,8 +81,6 @@ jQuery(document).ready(function(){
 
     jQuery.post(woocommerce_admin_meta_boxes.ajax_url, data, function (response) {
         if (true === response.success) {
-           // wpss_wallet_order_items.reload_items();
-
             if ('fully_refunded' === response.data.status) {
                 // Redirect to same page for show the refunded status
                 window.location.href = window.location.href;

@@ -166,9 +166,8 @@
 			$('.wps_wallet-edit--popupwrap').show();
 			if ( amount != '') {
 				
-			//	jQuery('#wps_wallet-edit-popup-input').attr('max',amount);
 			}
-			//jQuery('#wps_wallet-edit-popup-input').attr('min',1);
+
 			$('.wps_wallet-edit--popupwrap').find('.wps_wallet-edit-popup-btn').before('<input amount="'+amount+'" id="wallet-pop-up-user-id" class="userid" type="hidden" name="user_id" value="'+userid+'">');
 		});
 		$(document).on("click", ".edit_wallet-check", function(e){
