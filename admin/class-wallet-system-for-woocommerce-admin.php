@@ -467,7 +467,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Checkout Fields at checkout page For Wallet Rechargable Product', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable if you to show checkout fields for Wallet Rechargable Product', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable if you want to show checkout fields for Wallet Rechargable Product', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_wallet_payment_checkout_field_checkout',
 				'id'          => 'wsfw_wallet_payment_checkout_field_checkout',
 				'value'       => '',
