@@ -357,6 +357,7 @@
 
 
 function copyshareurl() {
+	debugger;
 	// Get the text field.
 	var copyText = jQuery( '#wps_wpr_copy' ).html();
 
@@ -377,12 +378,12 @@ function copyshareurl() {
 	navigator.clipboard.writeText( copyText.value );
 
 	/* Replace the tooltip's text */
-	var tooltip       = document.getElementById( "myTooltip" );
+	var tooltip       = document.getElementById( "myTooltip_referral" );
 	tooltip.innerHTML = "Copied: " + copyText.value;
 
 	/* Change the input's type back to hidden */
 	copyText.type     = 'hidden';
-	var tooltip       = document.getElementById( "myTooltip" );
+	var tooltip       = document.getElementById( "myTooltip_referral" );
 	tooltip.innerHTML = "       Copied!";
 	jQuery( '.wps_wpr_btn_copy' ).hide();
 	// Alert the copied text.

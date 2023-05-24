@@ -104,7 +104,7 @@ if ( ! function_exists( 'wps_wpr_create_referral_code_wallet' ) ) {
 		<button onclick="copyshareurl()" class="wps_wpr_btn_copy wps_tooltip" data-clipboard-target="#wps_notify_user_copy" aria-label="copied">
 		<span  class="wps_tooltiptext"><?php esc_html_e( 'Copy', 'ultimate-woocommerce-points-and-rewards' ); ?></span>
 		<img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'public/images/copy.png'; ?>" alt="Copy to clipboard"></button>
-		<span class="wps_tooltiptext_scl" id="myTooltip"></span>
+		<span class="wps_tooltiptext_scl" id="myTooltip_referral"></span>
 	  </div>
 	</div>
 	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get 1 points to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
