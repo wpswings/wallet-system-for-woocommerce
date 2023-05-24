@@ -411,10 +411,17 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 			<?php
 		}
 
-		if ( 'on' != $wallet_restrict_referral ) {
-			?>
+		if ( $is_pro_plugin ) {
+
+
+			if ( 'on' != $wallet_restrict_referral ) {
+				?>
 		<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
-	<?php } ?>	
+				<?php
+			}
+		}
+		?>
+		
 	</div>
 		<?php
 		if ( 'on' != $wallet_restrict_qrcode ) {
