@@ -107,7 +107,7 @@ if ( ! function_exists( 'wps_wpr_create_referral_code_wallet' ) ) {
 		<span class="wps_tooltiptext_scl" id="myTooltip"></span>
 	  </div>
 	</div>
-	<div class="wps-wallet-referral-notification">  <?php __( 'You will get 1 points to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
+	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get 1 points to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
 </div>
 
 </div>

@@ -1458,6 +1458,33 @@ class Wallet_System_For_Woocommerce_Public {
 	}
 
 	/**
+	 * The function is used for set the cookie for referee
+	 *
+	 * @name wps_wpr_referral_link_using_cookie
+	 * @since 1.0.0
+	 * @author WP Swings <webmaster@wpswings.com>
+	 * @link https://www.wpswings.com/
+	 */
+	public function wps_wpr_referral_link_using_cookie() {
+
+		if ( ! is_user_logged_in() ) {
+			$wps_wpr_ref_link_expiry ='';
+			if ( empty( $wps_wpr_ref_link_expiry ) ) {
+				$wps_wpr_ref_link_expiry = 365;
+			}
+			if ( isset( $_GET['pkey'] ) && ! empty( $_GET['pkey'] ) ) {// phpcs:ignore WordPress.Security.NonceVerification
+				$wps_referral_key = sanitize_text_field( wp_unslash( $_GET['pkey'] ) );// phpcs:ignore WordPress.Security.NonceVerification
+
+				$referral_link = trim( $wps_referral_key );// phpcs:ignore WordPress.Security.NonceVerification
+
+				if ( isset( $wps_wpr_ref_link_expiry ) && ! empty( $wps_wpr_ref_link_expiry ) && ! empty( $referral_link ) ) {
+					setcookie( 'wps_wpr_cookie_set', $referral_link, time() + ( 86400 * $wps_wpr_ref_link_expiry ), '/' );
+				}
+			}
+		}
+	}
+
+	/**
 	 * This functions is used to give amount on daily basis.
 	 *
 	 * @return void
