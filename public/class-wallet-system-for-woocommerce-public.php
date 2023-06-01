@@ -1468,7 +1468,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wpr_referral_link_using_cookie() {
 
 		if ( ! is_user_logged_in() ) {
-			$wps_wpr_ref_link_expiry ='';
+			$wps_wpr_ref_link_expiry = '';
 			if ( empty( $wps_wpr_ref_link_expiry ) ) {
 				$wps_wpr_ref_link_expiry = 365;
 			}
