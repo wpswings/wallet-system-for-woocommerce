@@ -622,7 +622,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => '',
 				'name'        => 'wps_wsfw_wallet_action_registration_enable',
 				'id'          => 'wps_wsfw_wallet_action_registration_enable',
-				'value'       => get_option( 'wps_wsfw_wallet_action_registration_enable' ),
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_registration_enable' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_enable' ) : 'off',
 				'class'       => 'wsfw-radio-switch-class',
 				'options'     => array(
 					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
@@ -978,6 +978,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfwp_wallet_action_settings_transfer_array = apply_filters( 'wsfwp_wallet_action_settings_transfer_array', array() );
 				// fee saving end.
 				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
+
 				$wsfw_wallet_action_settings_daily_visit      = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 				$wsfw_wallet_action_settings_comment_array    = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
 				// wallet referal start.
@@ -1002,6 +1003,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wsfw_button_index = array_search( 'button', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
 				}
 				$this->wsfw_admin_save_data( $wsfw_settings_wallet_action_new_registration, $wps_wsfw_gen_flag );
+
+				update_option( 'wps_wsfw_wallet_action_registration_enable', ! empty( $_POST['wps_wsfw_wallet_action_registration_enable'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_wallet_action_registration_enable'] ) ) : '' );
 
 			} else {
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
