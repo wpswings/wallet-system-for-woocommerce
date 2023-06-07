@@ -21,11 +21,13 @@ if ( ! function_exists( 'wps_wpr_get_referral_link_wallet' ) ) {
 		$get_referral        = get_user_meta( $user_id, 'wps_points_referral', true );
 		$get_referral_invite = get_user_meta( $user_id, 'wps_points_referral_invite', true );
 		if ( empty( $get_referral ) && empty( $get_referral_invite ) ) {
-
-			$referral_key = wps_wpr_create_referral_code_wallet();
-			$referral_invite = 0;
-			update_user_meta( $user_id, 'wps_points_referral', $referral_key );
-			update_user_meta( $user_id, 'wps_points_referral_invite', $referral_invite );
+			$referral_key = '';
+			if (class_exists('wps_wpr_create_referral_code_wallet')){
+				$referral_key = wps_wpr_create_referral_code_wallet();
+				$referral_invite = 0;
+				update_user_meta( $user_id, 'wps_points_referral', $referral_key );
+				update_user_meta( $user_id, 'wps_points_referral_invite', $referral_invite );
+			}	
 		}
 		$referral_link = get_user_meta( $user_id, 'wps_points_referral', true );
 		return $referral_link;
@@ -63,7 +65,6 @@ $wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 
 
-if ( ! function_exists( 'wps_wpr_create_referral_code_wallet' ) ) {
 	/**
 	 * Get referral Code function.
 	 *
@@ -83,7 +84,6 @@ if ( ! function_exists( 'wps_wpr_create_referral_code_wallet' ) ) {
 		}
 		return $pkey;
 	}
-}
 
 
 

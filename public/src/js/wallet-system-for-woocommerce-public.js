@@ -315,7 +315,12 @@
 		var max_withdrwal_amount = $(this).data('maxwithdrawal');
 		var data_max = $(this).data('data-max');
 
-		
+		if(amount > maxamount){
+			$('.error').show();
+					$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
+					$('#wps_withdrawal_request').prop('disabled', true);
+					return;
+		} 
 
 		if ( min_withdrwal_amount >= amount ){
 			if( min_withdrwal_amount !=0 ){
@@ -343,12 +348,7 @@
 				}
 			}
 			 
-		} else if(amount > maxamount){
-			$('.error').show();
-					$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
-					$('#wps_withdrawal_request').prop('disabled', true);
-
-		} else{
+		}else{
 			$('.error').hide();
 			$('#wps_withdrawal_request').prop('disabled', false);
 		}

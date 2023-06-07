@@ -24,6 +24,8 @@ if ( ! function_exists( 'show_message_on_form_submit' ) ) {
 		echo wp_kses_post( $wpg_notice );
 	}
 }
+
+
 global $wp;
 $logged_in_user = wp_get_current_user();
 if ( ! empty( $logged_in_user ) ) {
