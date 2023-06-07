@@ -2834,31 +2834,15 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 			// Prepare line items which we are refunding.
 			$line_items = array();
-			$item_ids = array_unique( array_merge( array_keys( $line_item_qtys, $line_item_totals ) ) );
 
-			foreach ( $item_ids as $item_id ) {
-				$line_items[ $item_id ] = array(
-					'qty' => 0,
-					'refund_total' => 0,
-					'refund_tax' => array(),
-				);
-			}
-			foreach ( $line_item_qtys as $item_id => $qty ) {
-				$line_items[ $item_id ]['qty'] = max( $qty, 0 );
-			}
-			foreach ( $line_item_totals as $item_id => $total ) {
-				$line_items[ $item_id ]['refund_total'] = wc_format_decimal( $total );
-			}
-			foreach ( $line_item_tax_totals as $item_id => $tax_totals ) {
-				$line_items[ $item_id ]['refund_tax'] = array_filter( array_map( 'wc_format_decimal', $tax_totals ) );
-			}
+			
 			// Create the refund object.
 			$refund = wc_create_refund(
 				array(
 					'amount' => $refund_amount,
 					'reason' => $refund_reason,
 					'order_id' => $order_id,
-					'line_items' => $line_items,
+					'line_items' => array(),
 					'refund_payment' => $api_refund,
 					'restock_items' => $restock_refunded_items,
 				)

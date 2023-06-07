@@ -331,4 +331,3 @@ if ( $activated ) {
 		<?php
 	}
 }
-
