@@ -2808,9 +2808,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wps_line_item_qtys         = isset( $_POST['wps_line_item_qtys'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['wps_line_item_qtys'] ) ), true ) : array();
 		$wps_line_item_totals       = isset( $_POST['wps_line_item_totals'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['wps_line_item_totals'] ) ), true ) : array();
 		$wps_line_item_tax_totals   = isset( $_POST['wps_line_item_tax_totals'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['wps_line_item_tax_totals'] ) ), true ) : array();
-		
 
-	
 		$refund_api = ! empty( $_POST['api_refund'] ) ? sanitize_text_field( wp_unslash( $_POST['api_refund'] ) ) : '';
 		$refund_restock = ! empty( $_POST['restock_refunded_items'] ) ? sanitize_text_field( wp_unslash( $_POST['restock_refunded_items'] ) ) : '';
 		$api_refund = 'true' === $refund_api;
@@ -2855,7 +2853,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wps_line_items[ $item_id ]['refund_tax'] = array_filter( array_map( 'wc_format_decimal', $tax_totals ) );
 			}
 			$refund_reason = $refund_reason ? $refund_reason : __( 'Refunded to wallet #', 'wallet-system-for-woocommerce' ) . $order->get_order_number();
-			
 
 			// Create the refund object.
 			$refund = wc_create_refund(
