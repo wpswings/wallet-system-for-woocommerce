@@ -2805,10 +2805,12 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$refund_amount = ! empty( $_POST['refund_amount'] ) ? wc_format_decimal( sanitize_text_field( wp_unslash( $_POST['refund_amount'] ) ), wc_get_price_decimals() ) : '';
 		$refund_reason = ! empty( $_POST['refund_reason'] ) ? sanitize_text_field( wp_unslash( $_POST['refund_reason'] ) ) : '';
-		$line_item_qtys = ! empty( $_POST['line_item_qtys'] ) ? map_deep( wp_unslash( $_POST['line_item_qtys'] ), 'sanitize_text_field' ) : array();
-		$line_item_totals = ! empty( $_POST['line_item_totals'] ) ? map_deep( wp_unslash( $_POST['line_item_totals'] ), 'sanitize_text_field' ) : array();
-		$line_item_tax_totals = ! empty( $_POST['line_item_tax_totals'] ) ? map_deep( wp_unslash( $_POST['line_item_tax_totals'] ), 'sanitize_text_field' ) : array();
+		$wps_line_item_qtys         = isset( $_POST['wps_line_item_qtys'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['wps_line_item_qtys'] ) ), true ) : array();
+		$wps_line_item_totals       = isset( $_POST['wps_line_item_totals'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['wps_line_item_totals'] ) ), true ) : array();
+		$wps_line_item_tax_totals   = isset( $_POST['wps_line_item_tax_totals'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['wps_line_item_tax_totals'] ) ), true ) : array();
+		
 
+	
 		$refund_api = ! empty( $_POST['api_refund'] ) ? sanitize_text_field( wp_unslash( $_POST['api_refund'] ) ) : '';
 		$refund_restock = ! empty( $_POST['restock_refunded_items'] ) ? sanitize_text_field( wp_unslash( $_POST['restock_refunded_items'] ) ) : '';
 		$api_refund = 'true' === $refund_api;
@@ -2833,16 +2835,35 @@ class Wallet_System_For_Woocommerce_Admin {
 				throw new exception( __( 'Invalid refund amount', 'wallet-system-for-woocommerce' ) );
 			}
 			// Prepare line items which we are refunding.
-			$line_items = array();
+			$wps_line_items = array();
+			$item_ids   = array_unique( array_merge( array_keys( $wps_line_item_qtys ), array_keys( $wps_line_item_totals ) ) );
 
+			foreach ( $item_ids as $item_id ) {
+				$wps_line_items[ $item_id ] = array(
+					'qty'          => 0,
+					'refund_total' => 0,
+					'refund_tax'   => array(),
+				);
+			}
+			foreach ( $wps_line_item_qtys as $item_id => $qty ) {
+				$wps_line_items[ $item_id ]['qty'] = max( $qty, 0 );
+			}
+			foreach ( $wps_line_item_totals as $item_id => $total ) {
+				$wps_line_items[ $item_id ]['refund_total'] = wc_format_decimal( $total );
+			}
+			foreach ( $wps_line_item_tax_totals as $item_id => $tax_totals ) {
+				$wps_line_items[ $item_id ]['refund_tax'] = array_filter( array_map( 'wc_format_decimal', $tax_totals ) );
+			}
+			$refund_reason = $refund_reason ? $refund_reason : __( 'Refunded to wallet #', 'wallet-system-for-woocommerce' ) . $order->get_order_number();
 			
+
 			// Create the refund object.
 			$refund = wc_create_refund(
 				array(
 					'amount' => $refund_amount,
 					'reason' => $refund_reason,
 					'order_id' => $order_id,
-					'line_items' => array(),
+					'line_items' => $wps_line_items,
 					'refund_payment' => $api_refund,
 					'restock_items' => $restock_refunded_items,
 				)

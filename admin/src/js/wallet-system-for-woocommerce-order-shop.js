@@ -1,5 +1,5 @@
 
-jQuery(document).ready(function(){
+jQuery(document).ready(function($){
   
 
     if (wps_wallet_admin_order_param.is_refundable) {
@@ -37,42 +37,42 @@ jQuery(document).ready(function(){
         var refund_amount = jQuery('input#refund_amount').val();
         var refund_reason = jQuery('input#refund_reason').val();
           //Get line item refunds
-                var line_item_qtys = {};
-                var line_item_totals = {};
-                var line_item_tax_totals = {};
-                jQuery('.refund input.refund_order_item_qty').each(function (index, item) {
-                    if (jQuery(item).closest('tr').data('order_item_id')) {
-                        if (item.value) {
-                            line_item_qtys[ jQuery(item).closest('tr').data('order_item_id') ] = item.value;
-                        }
-                    }
-                });
+          var wps_line_item_qtys = {};
+          var wps_line_item_totals = {};
+          var wps_line_item_tax_totals = {};
+          $('.refund input.refund_order_item_qty').each(function (index, item) {
+              if ($(item).closest('tr').data('order_item_id')) {
+                  if (item.value) {
+                      wps_line_item_qtys[ $(item).closest('tr').data('order_item_id') ] = item.value;
+                  }
+              }
+          });
 
-                jQuery('.refund input.refund_line_total').each(function (index, item) {
-                    if (jQuery(item).closest('tr').data('order_item_id')) {
-                        line_item_totals[ jQuery(item).closest('tr').data('order_item_id') ] = accounting.unformat(item.value, woocommerce_admin.mon_decimal_point);
-                    }
-                });
+          $('.refund input.refund_line_total').each(function (index, item) {
+              if ($(item).closest('tr').data('order_item_id')) {
+                  wps_line_item_totals[ $(item).closest('tr').data('order_item_id') ] = accounting.unformat(item.value, woocommerce_admin.mon_decimal_point);
+              }
+          });
 
-                jQuery('.refund input.refund_line_tax').each(function (index, item) {
-                    if (jQuery(item).closest('tr').data('order_item_id')) {
-                        var tax_id = jQuery(item).data('tax_id');
+          $('.refund input.refund_line_tax').each(function (index, item) {
+              if ($(item).closest('tr').data('order_item_id')) {
+                  var tax_id = $(item).data('tax_id');
 
-                        if (!line_item_tax_totals[ jQuery(item).closest('tr').data('order_item_id') ]) {
-                            line_item_tax_totals[ jQuery(item).closest('tr').data('order_item_id') ] = {};
-                        }
+                  if (!wps_line_item_tax_totals[ $(item).closest('tr').data('order_item_id') ]) {
+                      wps_line_item_tax_totals[ $(item).closest('tr').data('order_item_id') ] = {};
+                  }
 
-                        line_item_tax_totals[ jQuery(item).closest('tr').data('order_item_id') ][ tax_id ] = accounting.unformat(item.value, woocommerce_admin.mon_decimal_point);
-                    }
-                });
+                  wps_line_item_tax_totals[ $(item).closest('tr').data('order_item_id') ][ tax_id ] = accounting.unformat(item.value, woocommerce_admin.mon_decimal_point);
+              }
+          });
                 var data = {
                                 action: 'wps_wallet_order_refund_action',
                                 order_id: woocommerce_admin_meta_boxes.post_id,
                                 refund_amount: refund_amount,
                                 refund_reason: refund_reason,
-                                line_item_qtys: JSON.stringify(line_item_qtys, null, ''),
-                                line_item_totals: JSON.stringify(line_item_totals, null, ''),
-                                line_item_tax_totals: JSON.stringify(line_item_tax_totals, null, ''),
+                                wps_line_item_qtys: JSON.stringify(wps_line_item_qtys, null, ''),
+                                wps_line_item_totals: JSON.stringify(wps_line_item_totals, null, ''),
+                                wps_line_item_tax_totals: JSON.stringify(wps_line_item_tax_totals, null, ''),
                                 api_refund: jQuery(this).is('.do-api-refund'),
                                 restock_refunded_items: jQuery('#restock_refunded_items:checked').length ? 'true' : 'false',
                                 security: woocommerce_admin_meta_boxes.order_item_nonce
