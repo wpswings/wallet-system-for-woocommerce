@@ -195,3 +195,56 @@ if ( ! function_exists( 'wps_wallet_wc_price_args' ) ) {
 		return $args;
 	}
 }
+
+
+
+
+
+if ( ! function_exists( 'wps_wpr_get_referral_link_wallet' ) ) {
+	/**
+	 * Referral code for wallet.
+	 *
+	 * @param [type] $user_id is the current user id.
+	 * @return mixed
+	 */
+	function wps_wpr_get_referral_link_wallet( $user_id ) {
+
+		$get_referral        = get_user_meta( $user_id, 'wps_points_referral', true );
+		$get_referral_invite = get_user_meta( $user_id, 'wps_points_referral_invite', true );
+		if ( empty( $get_referral ) && empty( $get_referral_invite ) ) {
+			$referral_key = '';
+
+				$referral_key = wps_wpr_create_referral_code_wallet();
+				$referral_invite = 0;
+				update_user_meta( $user_id, 'wps_points_referral', $referral_key );
+				update_user_meta( $user_id, 'wps_points_referral_invite', $referral_invite );
+
+		}
+		$referral_link = get_user_meta( $user_id, 'wps_points_referral', true );
+		return $referral_link;
+	}
+}
+
+
+if ( ! function_exists( 'wps_wpr_create_referral_code_wallet' ) ) {
+
+	/**
+	 * Get referral Code function.
+	 *
+	 * @return string
+	 */
+	function wps_wpr_create_referral_code_wallet() {
+
+		$length      = 10;
+		$pkey        = '';
+		$alphabets   = range( 'A', 'Z' );
+		$numbers     = range( '0', '9' );
+		$final_array = array_merge( $alphabets, $numbers );
+
+		while ( $length-- ) {
+			$key   = array_rand( $final_array );
+			$pkey .= $final_array[ $key ];
+		}
+		return $pkey;
+	}
+}
