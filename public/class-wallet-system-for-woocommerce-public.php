@@ -1393,7 +1393,7 @@ class Wallet_System_For_Woocommerce_Public {
 					),
 				);
 				$refere_data = get_users( $args );
-				$refere_id   = $customer_id;
+				$refere_id = $refere_data[0]->data->ID;
 				
 
 				
