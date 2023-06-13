@@ -36,7 +36,7 @@ $site_url = apply_filters( 'wps_wpr_referral_link_url', $wps_wpr_page_url );
 $wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
 $wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
-
+$wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wallet_action_referal_amount' );
 
 
 ?>
@@ -59,7 +59,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 		<span class="wps_tooltiptext_scl" id="myTooltip_referral"></span>
 	  </div>
 	</div>
-	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get 1 points to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
+	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ' ,'wallet-system-for-woocommerce').wc_price ($wps_wsfw_wallet_action_registration_amount ) . __(' amount to refer a friend', 'wallet-system-for-woocommerce'); ?></div>
 </div>
 
 </div>
