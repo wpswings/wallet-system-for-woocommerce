@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 $wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
 $wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
+$check = false;
+$check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
 
 ?>
 
@@ -38,6 +40,18 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 						<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
 						<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 						<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
+						<?php
+						
+					if ( $check ) {
+						?>
+						<th>
+						<?php
+						esc_html_e( 'Withdrawal Fee', 'wallet-system-for-woocommerce' );
+						?>
+						</th>
+						<?php
+					}
+					?>
 						<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 					</tr>
 				</thead>
@@ -54,6 +68,8 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 							} else {
 								$withdrawal_status = $pending->post_status;
 							}
+							$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $request_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
+						
 							$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_withdrawal_amount', true ) );
 							echo '<tr>
 							<td>' . esc_html( $i ) . '</td>
@@ -136,6 +152,17 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 						<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
 						<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 						<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
+						<?php
+					if ( $check ) {
+						?>
+						<th>
+						<?php
+						esc_html_e( 'Withdrawal Fee', 'wallet-system-for-woocommerce' );
+						?>
+						</th>
+						<?php
+					}
+					?>
 						<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 					</tr>
 				</thead>
@@ -153,14 +180,23 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 							} else {
 								$withdrawal_status = $pending->post_status;
 							}
+							$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $request_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
+						
 							$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_withdrawal_amount', true ) );
 							echo '<tr>
 							<td>' . esc_html( $i ) . '</td>
                             <td>' . esc_html( $request_id ) . '</td>
                             <td>' . wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) . '</td>
                             <td class="wps_wallet_widthdrawal_' . esc_html( $withdrawal_status ) . '"> <img src=" ' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ) . '.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
-                            <td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>
-                            <td>' . esc_html( date_format( $date, $date_format ) ) . '</td>
+                            <td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>';
+							
+								if ( $check ) {
+									
+							echo '<td>'	.wp_kses_post( wc_price( $wps_wsfwp_wallet_withdrawal_fee_amount ) ).	'</td>';
+										
+								}
+							
+                           echo' <td>' . esc_html( date_format( $date, $date_format ) ) . '</td>
                             </tr>';
 							$i++;
 						}
@@ -224,8 +260,15 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 								<td>' . esc_html( $request_id ) . '</td>
 								<td>' . wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) . '</td>
 								<td class="wps_wallet_widthdrawal_' . esc_html( $withdrawal_status ) . '"> <img src=" ' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ) . '.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
-								<td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>
-								<td>' . esc_html( date_format( $date, $date_format ) ) . '</td>
+								<td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>';
+							
+								if ( $check ) {
+									
+							echo '<td>'	.wp_kses_post( wc_price( $wps_wsfwp_wallet_withdrawal_fee_amount ) ).	'</td>';
+										
+								}
+							
+                           echo' <td>' . esc_html( date_format( $date, $date_format ) ) . '</td>
 								</tr>';
 								$i++;
 							}
