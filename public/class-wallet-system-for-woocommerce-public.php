@@ -1394,9 +1394,7 @@ class Wallet_System_For_Woocommerce_Public {
 				);
 				$refere_data = get_users( $args );
 				$refere_id = $refere_data[0]->data->ID;
-				
 
-				
 				if ( ! empty( $refere_id ) ) {
 
 					$walletamount           = get_user_meta( $refere_id, 'wps_wallet', true );
@@ -1412,7 +1410,7 @@ class Wallet_System_For_Woocommerce_Public {
 						update_user_meta( $refere_id, 'wps_wallet', $walletamount );
 						$updated = true;
 					}
-					
+
 					if ( $updated ) {
 						$balance   = $current_currency . ' ' . $amount;
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {

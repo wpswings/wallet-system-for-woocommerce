@@ -59,7 +59,7 @@ $wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wal
 		<span class="wps_tooltiptext_scl" id="myTooltip_referral"></span>
 	  </div>
 	</div>
-	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ' ,'wallet-system-for-woocommerce').wc_price ($wps_wsfw_wallet_action_registration_amount ) . __(' amount to refer a friend', 'wallet-system-for-woocommerce'); ?></div>
+	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency() ) . ( esc_html( $wps_wsfw_wallet_action_registration_amount ) ) . esc_html__( ' amount to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
 </div>
 
 </div>
