@@ -93,6 +93,10 @@ class Wallet_System_For_Woocommerce_Public {
 				),
 				'wsfw_ajax_error'               => __( 'An error occured!', 'wallet-system-for-woocommerce' ),
 				'wsfw_amount_error'             => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
+				'wsfw_min_wallet_withdrawal'    => __( 'Wallet Withdrawal Amount Must Be Greater Than', 'wallet-system-for-woocommerce' ),
+				'wsfw_max_wallet_withdrawal'    => __( 'Wallet Withdrawal Amount Should Be Less Than', 'wallet-system-for-woocommerce' ),
+				'wsfw_min_wallet_transfer'      => __( 'Wallet Transfer Amount Must Be Greater Than', 'wallet-system-for-woocommerce' ),
+				'wsfw_max_wallet_transfer'      => __( 'Wallet Transfer Amount Should Be Less Than', 'wallet-system-for-woocommerce' ),
 				'wsfw_partial_payment_msg'      => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
 				'wsfw_apply_wallet_msg'         => __( 'Apply wallet', 'wallet-system-for-woocommerce' ),
 				'wsfw_transfer_amount_error'    => __( 'Transfer amount should be less than or equal to wallet balance.', 'wallet-system-for-woocommerce' ),
@@ -331,8 +335,20 @@ class Wallet_System_For_Woocommerce_Public {
 						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
-						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
+						if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+							$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+							if ( ! empty( $customer_email ) ) {
+								$user       = get_user_by( 'id', $update_wallet_userid );
+								$balance_mail = $balance;
+								$user_name       = $user->first_name . ' ' . $user->last_name;
+								$customer_email->trigger( $update_wallet_userid, $user_name, $balance_mail, '' );
+							}
+						} else {
+
+							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+						}
 					}
 					$transaction_type = __( 'Wallet credited through purchase ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
@@ -380,8 +396,21 @@ class Wallet_System_For_Woocommerce_Public {
 						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
-						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
+						if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
+
+							$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+							if ( ! empty( $customer_email ) ) {
+								$user       = get_user_by( 'id', $userid );
+								$currency  = get_woocommerce_currency();
+								$balance_mail = $balance;
+								$user_name       = $user->first_name . ' ' . $user->last_name;
+								$customer_email->trigger( $userid, $user_name, $balance_mail, '' );
+							}
+						} else {
+
+							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+						}
 					}
 
 					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
@@ -1322,7 +1351,20 @@ class Wallet_System_For_Woocommerce_Public {
 				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 				$headers   .= 'From: ' . $from . "\r\n" .
 					'Reply-To: ' . $to . "\r\n";
-				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+
+				if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+					if ( ! empty( $customer_email ) ) {
+						$user       = get_user_by( 'id', $customer_id );
+						$balance_mail = $balance;
+						$user_name       = $user->first_name . ' ' . $user->last_name;
+						$customer_email->trigger( $customer_id, $user_name, $balance_mail, '' );
+					}
+				} else {
+
+					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+				}
 			}
 
 			$transaction_type = __( 'Wallet credited through signup ', 'wallet-system-for-woocommerce' );
@@ -1338,6 +1380,109 @@ class Wallet_System_For_Woocommerce_Public {
 			);
 			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 		}
+
+		if ( get_option( 'wps_wsfw_wallet_action_refer_friend_enable' ) == 'on' ) {
+			$cookie_val   = isset( $_COOKIE['wps_wpr_cookie_set'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wps_wpr_cookie_set'] ) ) : '';
+			$retrive_data = $cookie_val;
+			if ( ! empty( $retrive_data ) ) {
+				$args['meta_query'] = array(
+					array(
+						'key'     => 'wps_points_referral',
+						'value'   => trim( $retrive_data ),
+						'compare' => '==',
+					),
+				);
+				$refere_data = get_users( $args );
+				$refere_id = $refere_data[0]->data->ID;
+
+				if ( ! empty( $refere_id ) ) {
+
+					$walletamount           = get_user_meta( $refere_id, 'wps_wallet', true );
+					$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
+					$wallet_user            = get_user_by( 'id', $refere_id );
+					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+					$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+					$wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wallet_action_referal_amount' );
+					if ( $wps_wsfw_wallet_action_registration_amount > 0 ) {
+						$amount          = $wps_wsfw_wallet_action_registration_amount;
+						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_registration_amount );
+						$walletamount    += $credited_amount;
+						update_user_meta( $refere_id, 'wps_wallet', $walletamount );
+						$updated = true;
+					}
+
+					if ( $updated ) {
+						$balance   = $current_currency . ' ' . $amount;
+						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+							$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+							$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through successfully signup.', 'wallet-system-for-woocommerce' );
+							$to         = $wallet_user->user_email;
+							$from       = get_option( 'admin_email' );
+							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+							$headers    = 'MIME-Version: 1.0' . "\r\n";
+							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+							$headers   .= 'From: ' . $from . "\r\n" .
+							'Reply-To: ' . $to . "\r\n";
+
+							if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+								$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+								if ( ! empty( $customer_email ) ) {
+									$user       = get_user_by( 'id', $customer_id );
+									$balance_mail = $balance;
+									$user_name       = $user->first_name . ' ' . $user->last_name;
+									$customer_email->trigger( $customer_id, $user_name, $balance_mail, '' );
+								}
+							} else {
+
+								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+							}
+						}
+
+						$transaction_type = __( 'Wallet credited through referral to a friend ', 'wallet-system-for-woocommerce' );
+						$transaction_data = array(
+							'user_id'          => $refere_id,
+							'amount'           => $amount,
+							'currency'         => $current_currency,
+							'payment_method'   => 'Referral',
+							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'credit',
+							'order_id'         => '',
+							'note'             => '',
+						);
+						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * The function is used for set the cookie for referee
+	 *
+	 * @name wps_wpr_referral_link_using_cookie
+	 * @since 1.0.0
+	 * @author WP Swings <webmaster@wpswings.com>
+	 * @link https://www.wpswings.com/
+	 */
+	public function wps_wpr_referral_link_using_cookie() {
+
+		if ( ! is_user_logged_in() ) {
+			$wps_wpr_ref_link_expiry = '';
+			if ( empty( $wps_wpr_ref_link_expiry ) ) {
+				$wps_wpr_ref_link_expiry = 365;
+			}
+			if ( isset( $_GET['pkey'] ) && ! empty( $_GET['pkey'] ) ) {// phpcs:ignore WordPress.Security.NonceVerification
+				$wps_referral_key = sanitize_text_field( wp_unslash( $_GET['pkey'] ) );// phpcs:ignore WordPress.Security.NonceVerification
+
+				$referral_link = trim( $wps_referral_key );// phpcs:ignore WordPress.Security.NonceVerification
+
+				if ( isset( $wps_wpr_ref_link_expiry ) && ! empty( $wps_wpr_ref_link_expiry ) && ! empty( $referral_link ) ) {
+					setcookie( 'wps_wpr_cookie_set', $referral_link, time() + ( 86400 * $wps_wpr_ref_link_expiry ), '/' );
+				}
+			}
+		}
 	}
 
 	/**
@@ -1346,6 +1491,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wps_wsfw_daily_visit_balance() {
+
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
@@ -1355,18 +1501,19 @@ class Wallet_System_For_Woocommerce_Public {
 		$current_currency                         = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
 		$updated                                  = false;
 		$amount                                   = 0;
-		if ( get_transient( 'wps_wsfw_wallet_site_visit_' . $user_id ) ) {
-			return;
-		}
-		if ( ! headers_sent() && did_action( 'wp_loaded' ) ) {
-			set_transient( 'wps_wsfw_wallet_site_visit_' . $user_id, true, DAY_IN_SECONDS );
-		}
 		if ( 'on' === $wps_wsfw_wallet_action_daily_enable ) {
-			$wallet_amount          = get_user_meta( $user_id, 'wps_wallet', true );
-			$wallet_amount          = empty( $wallet_amount ) ? 0 : $wallet_amount;
-			$wallet_user            = get_user_by( 'id', $user_id );
-			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-			$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+			if ( get_transient( 'wps_wsfw_wallet_site_visit_' . $user_id ) ) {
+				return;
+			}
+
+			if ( ! headers_sent() && did_action( 'wp_loaded' ) ) {
+				set_transient( 'wps_wsfw_wallet_site_visit_' . $user_id, true, DAY_IN_SECONDS );
+			}
+				$wallet_amount          = get_user_meta( $user_id, 'wps_wallet', true );
+				$wallet_amount          = empty( $wallet_amount ) ? 0 : $wallet_amount;
+				$wallet_user            = get_user_by( 'id', $user_id );
+				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 
 			if ( $wps_wsfw_wallet_action_daily_amount > 0 ) {
 				$amount          = $wps_wsfw_wallet_action_daily_amount;
@@ -1375,49 +1522,65 @@ class Wallet_System_For_Woocommerce_Public {
 				update_user_meta( $user_id, 'wps_wallet', $wallet_amount );
 				$updated = true;
 			}
-		}
-		$balance   = $current_currency . ' ' . $amount;
-		if ( $updated ) {
-			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
-				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
-				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through visiting site.', 'wallet-system-for-woocommerce' );
-				$to         = $wallet_user->user_email;
-				$from       = get_option( 'admin_email' );
-				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-				$headers    = 'MIME-Version: 1.0' . "\r\n";
-				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-				$headers   .= 'From: ' . $from . "\r\n" .
-					'Reply-To: ' . $to . "\r\n";
-				$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-			}
 
-			$transaction_type = __( 'Wallet credited through visiting site. ', 'wallet-system-for-woocommerce' );
-			$transaction_data = array(
-				'user_id'          => $user_id,
-				'amount'           => $amount,
-				'currency'         => $current_currency,
-				'payment_method'   => 'Site visit',
-				'transaction_type' => htmlentities( $transaction_type ),
-				'transaction_type_1' => 'credit',
-				'order_id'         => '',
-				'note'             => '',
-			);
-			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+			$balance   = $current_currency . ' ' . $amount;
+			if ( $updated ) {
+				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+					$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+					$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+					$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through visiting site.', 'wallet-system-for-woocommerce' );
+					$to         = $wallet_user->user_email;
+					$from       = get_option( 'admin_email' );
+					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+					$headers    = 'MIME-Version: 1.0' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+					$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+
+					if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+						if ( ! empty( $customer_email ) ) {
+							$user       = get_user_by( 'id', $user_id );
+							$balance_mail = $balance;
+							$user_name       = $user->first_name . ' ' . $user->last_name;
+							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+						}
+					} else {
+
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+					}
+				}
+
+				$transaction_type = __( 'Wallet credited through visiting site. ', 'wallet-system-for-woocommerce' );
+				$transaction_data = array(
+					'user_id'          => $user_id,
+					'amount'           => $amount,
+					'currency'         => $current_currency,
+					'payment_method'   => 'Site visit',
+					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'credit',
+					'order_id'         => '',
+					'note'             => '',
+				);
+				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+			}
 		}
 	}
+
+
 	/**
 	 * Fee html for cart total.
 	 *
-	 * @param array $cart_totals_fee_html as cart html.
-	 * @param array $fees as fee.
-	 * @return array
+	 * @param [type] $cart_totals_fee_html as cart html.
+	 * @param [type] $fees is the fees applied on checkout.
+	 * @return mixed
 	 */
 	public function wsfw_wallet_cart_totals_fee_html( $cart_totals_fee_html, $fees ) {
 
 		foreach ( $fees as $key => $fee ) {
 
-			if ( 'Via wallet' == $fee ) {
+			if ( 'via_wallet_partial_payment' == $fee ) {
 				// gets the data to recalculate the cart total.
 				$cart_totals_fee_html = $fees->amount;
 				return wc_price( $cart_totals_fee_html );
@@ -1426,6 +1589,7 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 		return wc_price( $fees );
 	}
+
 	/**
 	 * Fix cart total html.
 	 *
@@ -1618,16 +1782,32 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return mixed
 	 */
 	public function wsfw_admin_mvx_list_modules( $payment_mode ) {
-		$payment_mode['wallet_payment'] = __( 'Wallet', 'multivendorx' );
+		$payment_mode['wallet_payment'] = __( 'Wallet', 'wallet-system-for-woocommerce' );
 		return $payment_mode;
 
 	}
 
+	/**
+	 * Make Wallet Rechargable Product tax free.
+	 *
+	 * @param string $tax_class is tax class to make free.
+	 * @param [type] $product is the product on which free tax will be applied.
+	 * @return string
+	 */
+	public function wsfw_admin_recharge_product_tax_class( $tax_class, $product ) {
+
+		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+		$_is_enabled_wallet_recharege = get_option( 'wsfw_enable_wallet_recharge_tax_free', true );
+
+		if ( 'on' == $_is_enabled_wallet_recharege ) {
+			if ( ! empty( $product ) ) {
+				if ( $product->get_id() == $wallet_id ) {
+					$tax_class = 'zero-rate';
+				}
+			}
+		}
+		return $tax_class;
+	}
+
 }
-
-
-
-
-
-
 

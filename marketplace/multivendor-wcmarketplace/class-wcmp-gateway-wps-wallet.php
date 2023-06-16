@@ -185,8 +185,21 @@ if ( ! class_exists( 'WCMp_Gateway_Wps_Wallet' ) && class_exists( 'WCMp_Payment_
 					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to . "\r\n";
-					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 
+					if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+						if ( ! empty( $customer_email ) ) {
+							$user       = get_user_by( 'id', $vendor_id );
+							$currency  = get_woocommerce_currency();
+							$balance_mail = $balance;
+							$user_name       = $user->first_name . ' ' . $user->last_name;
+							$customer_email->trigger( $vendor_id, $user_name, $balance_mail, '' );
+						}
+					} else {
+
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+					}
 				}
 				$transaction_type = __( 'Wallet credited through Commission received from commission id ', 'wallet-system-for-woocommerce' ) . $for_commissions;
 				$transaction_data = array(

@@ -76,7 +76,21 @@ if ( ! function_exists( 'wps_wsfw_update_user_wallet_balance' ) ) {
 					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to . "\r\n";
-					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+
+					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
+
+						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+						if ( ! empty( $customer_email ) ) {
+							$user       = get_user_by( 'id', $user_id );
+							$currency  = get_woocommerce_currency();
+							$balance_mail = $balance;
+							$user_name       = $user->first_name . ' ' . $user->last_name;
+							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+						}
+					} else {
+
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+					}
 				}
 				return true;
 			} else {
@@ -179,5 +193,58 @@ if ( ! function_exists( 'wps_wallet_wc_price_args' ) ) {
 			$user_id
 		);
 		return $args;
+	}
+}
+
+
+
+
+
+if ( ! function_exists( 'wps_wpr_get_referral_link_wallet' ) ) {
+	/**
+	 * Referral code for wallet.
+	 *
+	 * @param [type] $user_id is the current user id.
+	 * @return mixed
+	 */
+	function wps_wpr_get_referral_link_wallet( $user_id ) {
+
+		$get_referral        = get_user_meta( $user_id, 'wps_points_referral', true );
+		$get_referral_invite = get_user_meta( $user_id, 'wps_points_referral_invite', true );
+		if ( empty( $get_referral ) && empty( $get_referral_invite ) ) {
+			$referral_key = '';
+
+				$referral_key = wps_wpr_create_referral_code_wallet();
+				$referral_invite = 0;
+				update_user_meta( $user_id, 'wps_points_referral', $referral_key );
+				update_user_meta( $user_id, 'wps_points_referral_invite', $referral_invite );
+
+		}
+		$referral_link = get_user_meta( $user_id, 'wps_points_referral', true );
+		return $referral_link;
+	}
+}
+
+
+if ( ! function_exists( 'wps_wpr_create_referral_code_wallet' ) ) {
+
+	/**
+	 * Get referral Code function.
+	 *
+	 * @return string
+	 */
+	function wps_wpr_create_referral_code_wallet() {
+
+		$length      = 10;
+		$pkey        = '';
+		$alphabets   = range( 'A', 'Z' );
+		$numbers     = range( '0', '9' );
+		$final_array = array_merge( $alphabets, $numbers );
+
+		while ( $length-- ) {
+			$key   = array_rand( $final_array );
+			$pkey .= $final_array[ $key ];
+		}
+		return $pkey;
 	}
 }
