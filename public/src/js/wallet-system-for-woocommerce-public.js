@@ -362,10 +362,10 @@
 function copyshareurl() {
 	debugger;
 	// Get the text field.
-	var copyText = jQuery( '#wps_wpr_copy' ).html();
+	var copyText = jQuery( '#wps_wsfw_copy' ).html();
 
 	/* Get the text field */
-	var copyText = document.getElementById( "wps_wpr_copy" );
+	var copyText = document.getElementById( "wps_wsfw_copy" );
 
 	/* Prevent iOS keyboard from opening */
 	copyText.readOnly = true;
@@ -388,6 +388,6 @@ function copyshareurl() {
 	copyText.type     = 'hidden';
 	var tooltip       = document.getElementById( "myTooltip_referral" );
 	tooltip.innerHTML = "       Copied!";
-	jQuery( '.wps_wpr_btn_copy' ).hide();
+	jQuery( '.wps_wsfw_btn_copy' ).hide();
 	// Alert the copied text.
 }

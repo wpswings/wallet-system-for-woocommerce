@@ -289,6 +289,7 @@ $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $us
 $wallet_restrict_referral = apply_filters( 'wallet_restrict_referral', $user_id );
 $wallet_restrict_qrcode = apply_filters( 'wallet_restrict_qrcode', $user_id );
 
+
 $is_pro_plugin = false;
 $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 $wps_wallet_restrict_message_to_user = 'on';
@@ -413,12 +414,17 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 
 		if ( $is_pro_plugin ) {
 
+			$is_refer_option = get_option('wps_wsfw_wallet_action_refer_friend_enable');
+			if ( 'on' == $is_refer_option){
 
-			if ( 'on' != $wallet_restrict_referral ) {
-				?>
-		<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
-				<?php
+				if ( 'on' != $wallet_restrict_referral ) {
+					?>
+						<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
+					<?php
+				}
+
 			}
+			
 		}
 		?>
 		

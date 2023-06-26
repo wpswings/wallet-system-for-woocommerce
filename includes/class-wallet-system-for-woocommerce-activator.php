@@ -59,15 +59,15 @@ class Wallet_System_For_Woocommerce_Activator {
 	public static function create_table_and_product() {
 		// create wallet metakey in usermeta of users.
 		$users = get_users();
-		if ( ! empty( $users ) && is_array( $users ) ) {
-			foreach ( $users as $user ) {
-				$user_id = $user->ID;
-				$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
-				if ( empty( $wallet ) ) {
-					$wallet = update_user_meta( $user_id, 'wps_wallet', 0 );
-				}
-			}
-		}
+		// if ( ! empty( $users ) && is_array( $users ) ) {
+		// 	foreach ( $users as $user ) {
+		// 		$user_id = $user->ID;
+		// 		$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
+		// 		if ( empty( $wallet ) ) {
+		// 			$wallet = update_user_meta( $user_id, 'wps_wallet', 0 );
+		// 		}
+		// 	}
+		// }
 		// create product named as wallet topup.
 		if ( ! wc_get_product( get_option( 'wps_wsfw_rechargeable_product_id' ) ) ) {
 			$product = array(

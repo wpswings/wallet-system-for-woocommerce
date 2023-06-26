@@ -574,7 +574,7 @@ padding: 5px 14px;
   padding: 5px;
 }
 
-.wps-wallet-referral-wrapper button.wps_wpr_btn_copy {
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -586,13 +586,13 @@ padding: 5px 14px;
   color: #483de0;
 }
 
-.wps-wallet-referral-wrapper button.wps_wpr_btn_copy:focus {
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy:focus {
   outline: none;
   box-shadow: none;
 }
 
 
-.wps-wallet-referral-wrapper button.wps_wpr_btn_copy img {
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy img {
   width: auto;
   height: 18px;
 }

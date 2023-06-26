@@ -663,16 +663,15 @@ class Wallet_User_Table extends WP_List_Table {
 	public function prepare_items() {
 		$per_page     = 10;
 		$columns      = $this->get_columns();
-		$data         = $this->table_data();
 		$current_page = $this->get_pagenum();
-		$total_items  = count( $data );
+		$data         = $this->table_data( $current_page, $per_page );
+		$total_items  = count_users()['total_users'];
 		$this->set_pagination_args(
 			array(
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
 			)
 		);
-		$data                  = array_slice( $data, ( ( $current_page - 1 ) * $per_page ), $per_page );
 		$hidden                = array();
 		$sortable              = array();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
@@ -705,42 +704,24 @@ class Wallet_User_Table extends WP_List_Table {
 	 *
 	 * @return array
 	 */
-	public function table_data() {
-		$args['meta_query'] = array(
-			'relation' => 'OR',
-			array(
-				'key'     => 'wps_wallet',
-				'compare' => 'EXISTS',
-			),
-			array(
-				'key'     => 'wps_wallet',
-				'compare' => 'NOT EXISTS',
-			),
+	public function table_data( $current_page, $per_page ) {
+
+		$args = array(
+			'number' => $per_page,
+			'offset' => ( $current_page - 1 ) * $per_page,
+			'fields' => 'ID',
 		);
-		$wps_paged_no           = ! empty( $_GET['paged'] ) ? sanitize_text_field( wp_unslash( $_GET['paged'] ) ) : 0;
-		$pagination_no          = 0;
 
-		if ( 1 == $wps_paged_no ) {
-			$pagination_no = 2;
-		} else {
-			$pagination_no = $wps_paged_no + 1;
-		}
-
-		$pagination_no = $pagination_no * 10;
-		if ( 10 == $pagination_no ) {
-			$pagination_no = 11;
-		}
-		$args['number'] = $pagination_no;
 		if ( isset( $_REQUEST['s'] ) ) {
 			$wps_request_search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
 			$args['search']     = '*' . $wps_request_search . '*';
 		}
+
 		$user_data = new WP_User_Query( $args );
 		$user_data = $user_data->get_results();
-
 		if ( ! empty( $user_data ) ) {
 			foreach ( $user_data as $all_user ) {
-				$user               = get_user_by( 'id', $all_user->ID );
+				$user               = get_user_by( 'id', $all_user );
 				$x      = array(
 					'id'       => $this->wsfw_get_id( $user ),
 					'name'     => $this->wsfw_get_name( $user ),

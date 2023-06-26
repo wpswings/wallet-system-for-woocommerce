@@ -222,7 +222,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'admin_menu', $wsfw_plugin_admin, 'wps_wsfw_remove_default_submenu', 50 );
 
 		// This can be use to migrate db keys.
-		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wsfw_db_migrate_key' );
+		//$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wsfw_db_migrate_key' );
 
 		// All admin actions and filters after License Validation goes here.
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
@@ -321,7 +321,7 @@ class Wallet_System_For_Woocommerce {
 		if ( isset( $enable ) && 'on' === $enable ) {
 			$this->loader->add_filter( 'mvx_vendor_payment_mode', $wsfw_plugin_common, 'wsfw_admin_mvx_list_mxfdxfodules' );
 			$this->loader->add_filter( 'mvx_parent_order_to_vendor_order_statuses_to_sync', $wsfw_plugin_common, 'wsfw_mvx_parent_order_to_vendor_order_statuses_to_sync', 10, 1 );
-			$this->loader->add_filter( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_wpr_commission_ordeer_status_change', 10, 3 );
+			$this->loader->add_filter( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_wsfw_commission_ordeer_status_change', 10, 3 );
 		}
 	}
 
@@ -376,7 +376,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
 			$this->loader->add_action( 'woocommerce_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders', 90 );
-			$this->loader->add_action( 'wp_loaded', $wsfw_plugin_public, 'wps_wpr_referral_link_using_cookie' );
+			$this->loader->add_action( 'wp_loaded', $wsfw_plugin_public, 'wps_wsfw_referral_link_using_cookie' );
 			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules', 10 );
 			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class', 10, 2 );
 

@@ -1141,7 +1141,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @param [type] $new_status is the new status.
 	 * @return void
 	 */
-	public function wsfw_wpr_commission_ordeer_status_change( $order_id, $old_status, $new_status ) {
+	public function wsfw_wsfw_commission_ordeer_status_change( $order_id, $old_status, $new_status ) {
 
 		if ( function_exists( 'mvx_get_order' ) ) {
 			$is_vendor_order = ( $order_id ) ? mvx_get_order( $order_id ) : false;
