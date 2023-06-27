@@ -74,7 +74,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			wp_enqueue_style( $this->plugin_name . '-admin-global', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/scss/wallet-system-for-woocommerce-admin-global.css', array( 'wps-wsfw-meterial-icons-css' ), time(), 'all' );
 
-			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wps-datatable-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/css/jquery.dataTables.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wps-wallet-action-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-wallet-action.css', array(), $this->version, 'all' );
 
@@ -111,6 +111,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'wsfw_admin_param',
 				array(
 					'ajaxurl'                   => admin_url( 'admin-ajax.php' ),
+					'wps_wsfw_user_count'         => $this->wps_wsfw_user_count(),
 					'nonce'                     => wp_create_nonce( 'wp_rest' ),
 					'reloadurl'                 => admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ),
 					'wsfw_gen_tab_enable'       => get_option( 'wps_wsfw_enable' ),
@@ -165,6 +166,16 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 
 		wp_enqueue_script( 'wallet-recharge-admin-js' );
+	}
+
+	/**
+	 * Count users.
+	 *
+	 * @return string
+	 */
+	public function wps_wsfw_user_count() {
+
+		return count_users()['total_users'];
 	}
 
 
@@ -1446,6 +1457,12 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 	}
 
+
+
+	public function wps_wsfw_update_wallet_amount_data(){
+
+	}
+
 	/**
 	 * Wallet Payment Gateway impoting wallet page.
 	 *
@@ -1541,19 +1558,51 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function export_users_wallet() {
 
-		$userdata    = array();
-		$userdata[0] = array( 'User Id', 'Wallet Balance' );
-		$users       = get_users();
-		foreach ( $users as $key => $user ) {
-			$user_id        = $user->ID;
-			$wallet_balance = get_user_meta( $user_id, 'wps_wallet', true );
-			if ( empty( $wallet_balance ) ) {
-				$userdata[] = array( $user_id, 0 );
-			} else {
-				$userdata[] = array( $user_id, $wallet_balance );
+		$per_user     = ! empty( $_POST['wps_wsfw_per_user'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_per_user'] ) ) : 0;
+		$current_page = ! empty( $_POST['wps_wsfw_current_page'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_current_page'] ) ) : 1;
+		$csv_data = ! empty( $_POST['csv_data'] ) ?  map_deep( wp_unslash( $_POST['csv_data'] ), 'sanitize_text_field' )  : array();
+
+								
+			$args = array(
+				'fields'     => 'ID',
+				'meta_query' => array(
+					array(
+						'key'     => 'wps_wallet',
+						'compare' => 'EXISTS',
+					),
+				),
+			);
+
+			$args['number'] = $per_user;
+			$args['offset'] = ( $current_page - 1 ) * $per_user;
+			$user_data      = new WP_User_Query( $args );
+			$user_data      = $user_data->get_results();
+
+			if ( ! empty ( $csv_data ) ) {
+				$userdata = $csv_data;
 			}
-		}
-		wp_send_json( $userdata );
+
+	if ( ! empty( $user_data ) && is_array( $user_data ) ) {
+				foreach ( $user_data as $key => $user_id ) {
+					$wallet_balance = get_user_meta( $user_id, 'wps_wallet', true );
+					if ( empty( $wallet_balance ) ) {
+						$userdata[] = array( $user_id, 0 );
+					} else {
+						$userdata[] = array( $user_id, $wallet_balance );
+					}
+			
+				}
+			}
+
+			$data = array(
+				'per_user'     => $per_user,
+				'current_page' => $current_page + 1,
+				'offset'       => ( $current_page - 1 ) * $per_user,
+				'csv_data' 	   =>$userdata,
+			);
+	
+		wp_send_json( $data );
+		wp_die();
 
 	}
 

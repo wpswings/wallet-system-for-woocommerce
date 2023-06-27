@@ -66,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				global $wpdb;
 				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
+				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC ' );
 
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;

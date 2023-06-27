@@ -342,3 +342,10 @@ table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
   position: sticky;
   bottom: 10px;
 }
+
+.wps_wsfw_export_user_loader,
+.wps_wsfw_reset_user_loader {
+  vertical-align: middle;
+  height: 35px;
+  display: none;
+}

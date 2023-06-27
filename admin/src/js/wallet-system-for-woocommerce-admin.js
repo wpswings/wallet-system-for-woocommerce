@@ -76,31 +76,71 @@
 
 		// on clicking call ajax for getting user's wallet details
 		$(document).on( 'click', '#export_user_wallet', function() {
+			
+			var user_count = wsfw_admin_param.wps_wsfw_user_count;
+			var current_page = '';
+			wps_wsfw_export_wallet_data( user_count, current_page);
+		});
+
+
+		function wps_wsfw_export_wallet_data(user_count, current_page,csv_data=''){
+			var get_count = 500;
+			if ( user_count > get_count ) {
+
+				get_count = get_count;
+			} else {
+				get_count = user_count;
+			}
+			jQuery('.wps-div-loader-wrapper').show();
+			jQuery('.wps_wsfw_reset_user_notice').show();
+			jQuery('.wps_wsfw_reset_user_loader').show();
 			$.ajax({
 				type: 'POST',
 				url: wsfw_admin_param.ajaxurl,
 				data: {
 					action: 'export_users_wallet',
-
+					'wps_wsfw_current_page' : current_page,
+					'wps_wsfw_per_user'     : get_count,
+					'csv_data'     : csv_data,
 				},
 				datatType: 'JSON',
 				success: function( response ) {
-					var filename = 'users_wallet.csv';
-					let csvContent = "data:text/csv;charset=utf-8,";
-					response.forEach(function(rowArray) {
-						let row = rowArray.join(",");
-						csvContent += row + "\r\n";
-					});
+
+					if ( parseInt( user_count ) >= parseInt( response.offset ) + parseInt( response.per_user ) ) {
+
+						if ( response.offset <= 0 ) {
+		
+							var reset_status = get_count;
+						} else {
+		
+							reset_status = parseFloat( response.offset ) + parseFloat( get_count );
+						}
+		
+						jQuery('.wps_wsfw_reset_user_notice').html( reset_status + ' user wallet has been successfully exported' );
+				
+						wps_wsfw_export_wallet_data( user_count, response.current_page , response.csv_data);
+					} else {
+		
+						var filename = 'users_wallet.csv';
+						let csvContent = "data:text/csv;charset=utf-8,";
+						response.csv_data.forEach(function(rowArray) {
+							let row = rowArray.join(",");
+							csvContent += row + "\r\n";
+						});
 					
-					var encodedUri = encodeURI(csvContent);
-					download(filename, encodedUri);
+						var encodedUri = encodeURI(csvContent);
+						download(filename, encodedUri);
+						jQuery('.wps-div-loader-wrapper').hide();
+						jQuery('.wps_wsfw_reset_user_notice').hide();
+						jQuery('.wps_wsfw_reset_user_loader').show();
+					}
 				}
 
 			})
 			.fail(function ( response ) {
 				$( '#export_user_wallet' ).after('<span style="color:red;" >' + wsfw_admin_param.wsfw_ajax_error + '</span>');	
 			});
-		});
+		}
 
 		// Download the user's wallet csv file on clicking button
 		function download(filename, text) {
@@ -151,7 +191,64 @@
 		});
 		$(document).on("click", "#confirm_updatewallet", function(){
 			$('.wps_wallet-update--popupwrap').hide();
+			debugger;
+			//var user_count = wsfw_admin_param.wps_wsfw_user_count;
+			//var current_page = '';
+			//wps_wsfw_update_wallet_amount_data( user_count, current_page);
+
 		});
+
+		function wps_wsfw_update_wallet_amount_data(user_count, current_page){
+
+			var get_count = 500;
+			if ( user_count > get_count ) {
+
+				get_count = get_count;
+			} else {
+				get_count = user_count;
+			}
+			jQuery('.wps_wsfw_reset_user_loader').show();
+			jQuery('.wps_wsfw_reset_user_notice').show();
+			$.ajax({
+				type: 'POST',
+				url: wsfw_admin_param.ajaxurl,
+				data: {
+					action: 'wps_wsfw_update_wallet_amount_data',
+					'wps_wsfw_current_page' : current_page,
+					'wps_wsfw_per_user'     : get_count,
+				
+				},
+				datatType: 'JSON',
+				success: function( response ) {
+
+					if ( parseInt( user_count ) >= parseInt( response.offset ) + parseInt( response.per_user ) ) {
+
+						if ( response.offset <= 0 ) {
+		
+							var reset_status = get_count;
+						} else {
+		
+							reset_status = parseFloat( response.offset ) + parseFloat( get_count );
+						}
+		
+						jQuery('.wps_wsfw_reset_user_notice').html( reset_status + ' user wallet has been successfully exported' );
+				
+						wps_wsfw_update_wallet_amount_data( user_count, response.current_page , response.csv_data);
+					} else {
+						jQuery('.wps_wsfw_reset_user_loader').hide();
+						jQuery('.wps_wsfw_reset_user_notice').hide();
+					}
+				}
+
+			})
+			.fail(function ( response ) {
+				$( '#export_user_wallet' ).after('<span style="color:red;" >' + wsfw_admin_param.wsfw_ajax_error + '</span>');	
+			});
+
+		}
+
+
+
 	
 		$(document).on("click", "#cancel_walletupdate", function(){
 			$('.wps_wallet-update--popupwrap').hide();

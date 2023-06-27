@@ -18,6 +18,8 @@ global $wsfw_wps_wsfw_obj;
 $currency  = get_woocommerce_currency();
 if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) {
 	unset( $_POST['import_wallets'] );
+
+
 	if ( ! empty( $_FILES['import_wallet_for_users'] ) ) {
 		$image_name      = ( isset( $_FILES['import_wallet_for_users']['name'] ) ) ? sanitize_text_field( wp_unslash( $_FILES['import_wallet_for_users']['name'] ) ) : '';
 		$image_size      = ( isset( $_FILES['import_wallet_for_users']['size'] ) ) ? sanitize_text_field( wp_unslash( $_FILES['import_wallet_for_users']['size'] ) ) : '';
@@ -33,6 +35,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 			$first_row    = fgetcsv( $file );
 			$user_id      = $first_row[0];
 			$balance      = $first_row[1];
+			$type      = $first_row[2];
 			if ( 'User Id' != $user_id || 'Wallet Balance' != $balance ) {
 				$wps_wsfw_error_text = esc_html__( 'You have not selected correct file(fields are not matching)', 'wallet-system-for-woocommerce' );
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
@@ -41,23 +44,35 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 				$number_of_users = 0;
 				while ( ! feof( $file ) ) {
 					$user_data   = fgetcsv( $file );
+					
 					if ( is_array( $user_data ) ) {
 						$user_id = $user_data[0];
 						$balance = $user_data[1];
+						$type      = $user_data[2];
 					}
-					if ( 'User Id' === $user_id && 'Wallet Balance' === $balance ) {
+					if ( 'User Id' === $user_id && 'Wallet Balance' === $balance && 'Type' == $type ) {
 						continue;
 					} else {
 						$user = get_user_by( 'id', $user_id );
 						if ( $user ) {
 
+							if ( empty( $user_data ) ) {
+								continue;
+							}
+
 							$current_balance = get_user_meta( $user_id, 'wps_wallet', true );
 							$current_balance = ( ! empty( $current_balance ) ) ? $current_balance : 0;
-							if ( floatval( $current_balance ) < floatval( $balance ) ) {
-								$net_balance = $balance - $current_balance;
+							$net_balance = '';
+							$transaction_type_1 = '';
+							$transaction_type='';
+							$balance_mail='';
+							$mail_message = '';
+
+							if ( 'credit' == $type ) {
+								$net_balance = floatval( $balance ) + floatval( $current_balance );
 								$transaction_type_1 = 'credit';
 								$transaction_type = esc_html__( 'Wallet credited during importing wallet', 'wallet-system-for-woocommerce' );
-								$balance_mail   = $currency . ' ' . $net_balance;
+								$balance_mail   = $currency . ' ' . $balance;
 								$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance_mail );
 
 								if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
@@ -66,20 +81,16 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 									if ( ! empty( $customer_email ) ) {
 										$user       = get_user_by( 'id', $user_id );
 										$currency  = get_woocommerce_currency();
-										$balance_mail = $currency . ' ' . $net_balance;
+										$balance_mail = $currency . ' ' . $balance;
 										$user_name       = $user->first_name . ' ' . $user->last_name;
 										$email_status = $customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
 									}
 								}
-							} elseif ( $current_balance == $balance ) {
-								$net_balance      = 0;
-								$transaction_type = esc_html__( 'No money is added/deducted from wallet', 'wallet-system-for-woocommerce' );
-							} else {
-
+							} elseif( 'debit' == $type ){
 								$net_balance = floatval( $current_balance ) - floatval( $balance );
 								$transaction_type_1 = 'debit';
 								$transaction_type = esc_html__( 'Wallet debited during importing wallet', 'wallet-system-for-woocommerce' );
-								$balance_mail   = $currency . ' ' . $net_balance;
+								$balance_mail   = $currency . ' ' . $balance;
 								$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance_mail ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 
 								if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
@@ -88,13 +99,14 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 									if ( ! empty( $customer_email ) ) {
 										$user       = get_user_by( 'id', $user_id );
 										$currency  = get_woocommerce_currency();
-										$balance_mail = $currency . ' ' . $updated_amount;
+										$balance_mail = $currency . ' ' . $net_balance;
 										$user_name       = $user->first_name . ' ' . $user->last_name;
 										$email_status = $customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
 									}
 								}
+
 							}
-							$updated_wallet = update_user_meta( $user_id, 'wps_wallet', $net_balance );
+						 	$updated_wallet = update_user_meta( $user_id, 'wps_wallet', $net_balance );						
 
 							if ( $updated_wallet ) {
 								$updated_users++;
@@ -128,7 +140,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 
 							$transaction_data = array(
 								'user_id'          => $user_id,
-								'amount'           => $net_balance,
+								'amount'           => $balance,
 								'currency'         => get_woocommerce_currency(),
 								'payment_method'   => esc_html__( 'Through importing Wallet', 'wallet-system-for-woocommerce' ),
 								'transaction_type' => $transaction_type,
@@ -447,6 +459,9 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 	}
 }
 
+
+
+
 do_action( 'user_restriction_saving' );
 
 if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
@@ -626,10 +641,9 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 					</div>
 			</div>
 		</form>
-		
-		<button class="mdc-ripple-upgraded" id="export_user_wallet" > <img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/down-arrow.png" title="Download CSV file" >
-		</button>
 
+		
+							
 		<form action="" method="POST" class="wps-wpg-gen-section-form" enctype="multipart/form-data">
 			<div class="wpg-secion-wrap">
 				<h3><?php esc_html_e( 'Import wallets for user', 'wallet-system-for-woocommerce' ); ?></h3>
@@ -638,7 +652,18 @@ $wsfw_import_settings       = apply_filters( 'wsfw_import_wallet_array', array()
 				echo esc_html( $wsfw_general_html );
 				?>
 			</div>
+			
 		</form>
+		<div class="wps-wpg-gen-section-form-ex-btn">
+			<button class="mdc-ripple-upgraded" id="export_user_wallet" > <img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/down-arrow.png" title="Download CSV file" >
+			Download CSV file</button>
+		<a href="<?php echo esc_url( plugin_dir_url( __FILE__ ) ); ?>/uploads/wps_wsfw_wallet_demo_data_sample.csv">	<button class="mdc-ripple-upgraded" id="export_user_wallet_sample_data" > <img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/down-arrow.png" title="Download CSV file" >
+		Download CSV Demo file	</button></a>
+		<div class="wps-div-loader-wrapper">
+		<img class="wps_wsfw_reset_user_loader" src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/loader.gif' ?>">
+		<span class="wps_wsfw_reset_user_notice"></span>
+			</div>
+			</div>
 	</div>
 </div>
 
