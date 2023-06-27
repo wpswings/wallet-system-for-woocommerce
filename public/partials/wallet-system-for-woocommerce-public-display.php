@@ -434,16 +434,9 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 			do_action( 'wallet_qr_vode' );
 		}
 		?>
-		
 	</div>
-
-
-
-
 	<?php
 	if ( 'on' == $wps_wallet_restrict_message_to_user ) {
-
-
 		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
 			?>
 			<div class="wsfw_show_user_restriction_notice">
@@ -453,7 +446,6 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 
 				} else {
 					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
-
 				}
 				?>
 			</div>
@@ -467,10 +459,8 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				<?php
 				if ( ! empty( $wps_wallet_restrict_message_for ) ) {
 					echo esc_html( $wps_wallet_restrict_message_for );
-
 				} else {
 					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
-
 				}
 				?>
 			</div>
@@ -481,7 +471,6 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 	<div class="wps_wcb_main_tabs_template">
 		<div class="wps_wcb_body_template">
 			<div class="wps_wcb_content_template">
-
 				<nav class="wallet-tabs">
 					<ul class='tabs'>
 						<?php
@@ -490,16 +479,13 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 						if ( 'on' == $wallet_script_option ) {
 							$wallet_link_enabled = 'onclick=enable_wallet_link(this)';
 						}
-
 						$allowed_html = wps_wsfw_lite_allowed_html();
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( 'wallet_transactions' == $key ) {
 								continue;
-
 							}
 							if ( 'wallet_referral' == $key ) {
 								continue;
-
 							}
 							if ( 'wallet_giftcard' == $key ) {
 								$wallet_tab['className'] = 'none';
@@ -511,7 +497,6 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 								} else {
 									$class = '';
 								}
-
 								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) . "' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
@@ -519,7 +504,6 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 								} else {
 									$class = '';
 								}
-
 								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) . "' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							}
 						}
