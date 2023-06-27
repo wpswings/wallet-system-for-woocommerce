@@ -526,6 +526,10 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 						?>
 					</ul>
 				</nav>
+				<div class="wallet-promotion-tab">
+
+				wallet-promotion-tab
+				</div>
 
 				<div class='content-section'>
 

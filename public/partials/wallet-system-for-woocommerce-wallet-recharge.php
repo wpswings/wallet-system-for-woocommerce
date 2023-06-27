@@ -27,6 +27,10 @@ if ( is_array( $wsfw_min_max_value ) ) {
 ?>
 
 <div class='content active'>
+<div class="wallet-recharge-tab">
+wallet-recharge-tab
+
+</div>
 	<form method="post" action="" id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . '):'; ?></label>
