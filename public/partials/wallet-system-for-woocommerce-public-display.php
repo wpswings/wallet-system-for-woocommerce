@@ -510,10 +510,99 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 						?>
 					</ul>
 				</nav>
-				<div class="wallet-promotion-tab">
+				<script type="text/javascript">
 
-				wallet-promotion-tab
+setInterval(function time(){
+  var d = new Date();
+
+  var hours = 24 - d.getHours();
+  var min = 60 - d.getMinutes();
+  if((min + '').length == 1){
+    min = '0' + min;
+  }
+  var sec = 60 - d.getSeconds();
+  if((sec + '').length == 1){
+        sec = '0' + sec;
+  }
+  jQuery('#the-final-countdown').html(hours+'h:'+min+'m:'+sec+'s')
+}, 1000);
+					
+				</script>
+	<?php wp_cache_set( 'wps_upsell_countdown_timer', 'true' ); ?>
+
+
+	<?php
+
+$is_wallet_recharge_enabled=get_option('wps_wsfwp_wallet_promotion_tab_enable');
+if ( 'on' == $is_wallet_recharge_enabled ) {
+?>
+
+
+				<div class="wallet-promotion-tab">
+					<div class="wps-wsfw__prom-tab-head">
+						<h3><span class="wps-pr-title"><?php echo esc_html__( 'Wallet Promotion', 'wallet-system-for-woocommerce' ) ?></span></h3>
+						<?php
+
+$is_wallet_recharge_enabled=get_option('wps_wsfwp_wallet_promotion_tab_limited_offer_enable');
+if ( 'on' == $is_wallet_recharge_enabled ) {
+?>
+						<p class="wps-pr-sub"><?php echo esc_html__( 'Limited Time Only:', 'wallet-system-for-woocommerce' ) ?> <span  class="wps-pr-time" id="the-final-countdown"></span></p>
+						<?php
+
+}
+?>
+					</div>
+					<div class="wps-wsfw__prom-tab-wrap">
+
+
+<?php
+
+					$wallet_promotions_data_title = get_option('wallet_promotions_data_title');
+
+			$wallet_promotions_data_content = get_option('wallet_promotions_data_content');
+			
+			if (! empty( $wallet_promotions_data_title ) && is_array( $wallet_promotions_data_title ) ) {
+			if ( $wallet_promotions_data_title[0] == '') {
+				$wallet_promotions_data_title = array();
+			}
+			} else{
+				$wallet_promotions_data_title = array();
+			}
+			if (! empty( $wallet_promotions_data_content ) && is_array( $wallet_promotions_data_content ) ) {
+				if ( $wallet_promotions_data_content[0] == '') {
+					$wallet_promotions_data_content = array();
+				}
+				} else{
+					$wallet_promotions_data_content = array();
+				}
+				$wps_wallet_recharge_tab_cashback_type = get_option('wps_wallet_recharge_tab_cashback_type');
+			
+				if ( ! empty( $wallet_promotions_data_title ) && is_array( $wallet_promotions_data_title ) ) {
+					$index = 0;
+					for ($i=0; $i < count($wallet_promotions_data_title) ; $i++) { 
+			?>
+					
+
+
+
+				<div class="wps-wsfw__prom-tab-item wps-active">
+							<div class="wps-pr__item-wrap">
+								<span class="wps-pr-offer"><?php echo $wallet_promotions_data_title[$i]; ?></span>
+								<p class="wps-pr-offer-desc"><?php echo esc_html( $wallet_promotions_data_content[$i] ); ?></p>
+							</div>
+						</div>
+			<?php
+					}}
+			?>
+
+
+						
+					</div>
 				</div>
+
+				<?php
+}
+?>
 
 				<div class='content-section'>
 

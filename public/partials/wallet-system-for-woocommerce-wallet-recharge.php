@@ -24,13 +24,71 @@ if ( is_array( $wsfw_min_max_value ) ) {
 	}
 }
 
+
+
 ?>
 
 <div class='content active'>
-<div class="wallet-recharge-tab">
-wallet-recharge-tab
 
-</div>
+
+<?php
+
+	$is_wallet_recharge_enabled=get_option('wps_wsfwp_wallet_recharge_tab_enable');
+	if ( 'on' == $is_wallet_recharge_enabled ) {
+?>
+
+
+<div class="wallet-recharge-tab">
+		<div class="wps-wsfw__re-tab-head">
+			<h3><span class="wps-re-title">Add Balance</span></h3>
+		</div>
+		<div class="wps-wsfw__re-tab-wrap">
+
+<?
+$wps_wallet_recharge_tab_array = get_option('wps_wallet_action_recharge_tab_array');
+if (! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_tab_array ) ) {
+	if ( $wps_wallet_recharge_tab_array[0] == '') {
+		$wps_wallet_recharge_tab_array = array();
+	}
+	} else{
+		$wps_wallet_recharge_tab_array = array();
+	}
+
+
+		if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_tab_array ) ) {
+						$index = 0;
+		
+		
+		
+						
+		
+						for ($i=0; $i < count($wps_wallet_recharge_tab_array) ; $i++) { 
+
+							?>
+							
+							<div class="wps-wsfw__re-tab-item wps-active">
+				<div class="wps-re__item-wrap">
+					<p class="wps-re-offer-desc wps_wallet_top_up_custom_button" recharge_amount="<?php echo $wps_wallet_recharge_tab_array[$i]; ?>"><?php echo wc_price($wps_wallet_recharge_tab_array[$i]); ?></p>
+				</div>
+			</div>
+							<?php
+
+						}
+
+}
+?>
+
+		
+			
+
+
+
+
+		</div>
+	</div>
+<?php
+}
+	?>
 	<form method="post" action="" id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . '):'; ?></label>

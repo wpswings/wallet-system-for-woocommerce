@@ -606,3 +606,77 @@ padding: 5px 14px;
   margin: 5px 0 0;
   color: #0c8603;
 }
+
+/* Promotion tab start */
+
+.wallet-recharge-tab,
+.wallet-promotion-tab {
+    margin: 0 0 20px;
+}
+
+.wps-wsfw__prom-tab-item,
+.wps-wsfw__re-tab-item {
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.wps-wsfw__prom-tab-item .wps-pr__item-wrap,
+.wps-wsfw__re-tab-item .wps-re__item-wrap {
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 0;
+}
+
+.wps-wsfw__prom-tab-item.wps-active .wps-pr__item-wrap,
+.wps-wsfw__re-tab-item.wps-active .wps-re__item-wrap {
+    border:1px solid #483de0;
+    background: #f6f5fd;
+}
+.wps-wsfw__prom-tab-item .wps-pr-offer,
+.wps-wsfw__re-tab-item .wps-re-offer {
+    border-radius: 5px 0 5px 0;
+    padding: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #483de0;
+    color: #fff;
+}
+
+.wps-wsfw__prom-tab-item .wps-pr-offer-desc,
+.wps-wsfw__re-tab-item .wps-re-offer-desc {
+    padding: 5px 15px;
+    margin: 0;
+}
+
+.wps-wsfw__re-tab-item .wps-re-offer-desc {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.wps-wsfw__prom-tab-head,
+.wps-wsfw__re-tab-head {
+    margin: 0 0 25px;
+}
+
+.wps-wsfw__prom-tab-head h3,
+.wps-wsfw__re-tab-head h3 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0 0 10px;
+}
+
+.wps-wsfw__prom-tab-head .wps-pr-sub {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.wps-wsfw__prom-tab-head .wps-pr-time {
+    color: #483de0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* Promotion tab and recharge end */
