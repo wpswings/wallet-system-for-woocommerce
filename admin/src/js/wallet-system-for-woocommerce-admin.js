@@ -132,7 +132,7 @@
 						download(filename, encodedUri);
 						jQuery('.wps-div-loader-wrapper').hide();
 						jQuery('.wps_wsfw_reset_user_notice').hide();
-						jQuery('.wps_wsfw_reset_user_loader').show();
+						jQuery('.wps_wsfw_reset_user_loader').hide();
 					}
 				}
 
@@ -192,6 +192,9 @@
 		$(document).on("click", "#confirm_updatewallet", function(){
 			$('.wps_wallet-update--popupwrap').hide();
 			debugger;
+			jQuery('.wps-div-loader-wrapper').show();
+			jQuery('.wps_wsfw_reset_user_notice').show();
+			jQuery('.wps_wsfw_reset_user_loader').show();
 			//var user_count = wsfw_admin_param.wps_wsfw_user_count;
 			//var current_page = '';
 			//wps_wsfw_update_wallet_amount_data( user_count, current_page);
