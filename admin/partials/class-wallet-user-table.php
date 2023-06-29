@@ -234,10 +234,6 @@ for ($i=0; $i < $loop_count; $i++) {
 		$result  = true;
 	} 
 }
-		
-	
-
-
 	if ( $result ) {
 		?>
 

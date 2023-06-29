@@ -290,6 +290,7 @@ $wallet_restrict_referral = apply_filters( 'wallet_restrict_referral', $user_id 
 $wallet_restrict_qrcode = apply_filters( 'wallet_restrict_qrcode', $user_id );
 
 
+
 $is_pro_plugin = false;
 $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 $wps_wallet_restrict_message_to_user = 'on';

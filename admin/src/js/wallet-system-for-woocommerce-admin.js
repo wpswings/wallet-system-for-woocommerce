@@ -195,63 +195,8 @@
 			jQuery('.wps-div-loader-wrapper').show();
 			jQuery('.wps_wsfw_reset_user_notice').show();
 			jQuery('.wps_wsfw_reset_user_loader').show();
-			//var user_count = wsfw_admin_param.wps_wsfw_user_count;
-			//var current_page = '';
-			//wps_wsfw_update_wallet_amount_data( user_count, current_page);
 
 		});
-
-		function wps_wsfw_update_wallet_amount_data(user_count, current_page){
-
-			var get_count = 500;
-			if ( user_count > get_count ) {
-
-				get_count = get_count;
-			} else {
-				get_count = user_count;
-			}
-			jQuery('.wps_wsfw_reset_user_loader').show();
-			jQuery('.wps_wsfw_reset_user_notice').show();
-			$.ajax({
-				type: 'POST',
-				url: wsfw_admin_param.ajaxurl,
-				data: {
-					action: 'wps_wsfw_update_wallet_amount_data',
-					'wps_wsfw_current_page' : current_page,
-					'wps_wsfw_per_user'     : get_count,
-				
-				},
-				datatType: 'JSON',
-				success: function( response ) {
-
-					if ( parseInt( user_count ) >= parseInt( response.offset ) + parseInt( response.per_user ) ) {
-
-						if ( response.offset <= 0 ) {
-		
-							var reset_status = get_count;
-						} else {
-		
-							reset_status = parseFloat( response.offset ) + parseFloat( get_count );
-						}
-		
-						jQuery('.wps_wsfw_reset_user_notice').html( reset_status + ' user wallet has been successfully exported' );
-				
-						wps_wsfw_update_wallet_amount_data( user_count, response.current_page , response.csv_data);
-					} else {
-						jQuery('.wps_wsfw_reset_user_loader').hide();
-						jQuery('.wps_wsfw_reset_user_notice').hide();
-					}
-				}
-
-			})
-			.fail(function ( response ) {
-				$( '#export_user_wallet' ).after('<span style="color:red;" >' + wsfw_admin_param.wsfw_ajax_error + '</span>');	
-			});
-
-		}
-
-
-
 	
 		$(document).on("click", "#cancel_walletupdate", function(){
 			$('.wps_wallet-update--popupwrap').hide();

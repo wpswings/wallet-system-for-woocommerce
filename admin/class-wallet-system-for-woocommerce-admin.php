@@ -1204,7 +1204,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				</td>
 			</tr>
 			<tr>
-				<th><label for="wps_wallet">Action</label></th>
+				<th><label for="wps_wallet"><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></label></th>
 				<td>
 					<select name="wps_edit_wallet_action" id="wps_edit_wallet_action">
 						<option><?php esc_html_e( 'Select any', 'wallet-system-for-woocommerce' ); ?></option>
@@ -1457,11 +1457,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 	}
 
-
-
-	public function wps_wsfw_update_wallet_amount_data(){
-
-	}
 
 	/**
 	 * Wallet Payment Gateway impoting wallet page.

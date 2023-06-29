@@ -301,6 +301,15 @@ $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $us
 $wallet_restrict_referral    = apply_filters( 'wallet_restrict_referral', $user_id );
 $wallet_restrict_qrcode      = apply_filters( 'wallet_restrict_qrcode', $user_id );
 
+$is_pro_plugin = false;
+$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+$wps_wallet_restrict_message_to_user = 'on';
+$wps_wallet_restrict_message_for = '';
+if ( $is_pro_plugin ) {
+	$wps_wallet_restrict_message_to_user = apply_filters( 'wps_wallet_restrict_message_to_user', $user_id );
+	$wps_wallet_restrict_message_for = apply_filters( 'wps_wallet_restrict_message_for', $user_id );
+}
+
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
 }
@@ -412,11 +421,18 @@ $wallet_keys = array_keys( $wallet_tabs );
 		<?php do_action( 'wallet_qr_vode_shotcode' ); ?>
 	</div>
 	<?php
+
+if ( 'on' == $wps_wallet_restrict_message_to_user ) {
 	if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
 		?>
 		<div class="wsfw_show_user_restriction_notice">
 			<?php
-				esc_html_e( 'Some functionality are restricted by Admin !!', 'wallet-system-for-woocommerce' );
+			if ( ! empty( $wps_wallet_restrict_message_for ) ) {
+				echo esc_html( $wps_wallet_restrict_message_for );
+
+			} else {
+				esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
+			}
 			?>
 		</div>
 		<?php
@@ -427,11 +443,16 @@ $wallet_keys = array_keys( $wallet_tabs );
 		?>
 		<div class="wsfw_show_user_restriction_notice">
 			<?php
-				esc_html_e( 'Some functionality are restricted by Admin !!', 'wallet-system-for-woocommerce' );
+			if ( ! empty( $wps_wallet_restrict_message_for ) ) {
+				echo esc_html( $wps_wallet_restrict_message_for );
+			} else {
+				esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
+			}
 			?>
 		</div>
 		<?php
 	}
+}
 	?>
 	<div class="wps_wcb_main_tabs_template">
 		<div class="wps_wcb_body_template">
