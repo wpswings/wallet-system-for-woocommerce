@@ -1,290 +1,157 @@
+<?php
+/**
+ * Provide a admin area view for the plugin
+ *
+ * This file is used to show wallet transactions.
+ *
+ * @link       https://wpswings.com/
+ * @since      1.0.0
+ *
+ * @package    Wallet_System_For_Woocommerce
+ * @subpackage Wallet_System_For_Woocommerce/admin/partials
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+?>
+
+<div class="wps-wpg-transcation-section-search">
+
+	<table>
+			<tbody>
+				<tr class='wps_wallet_transaction_search'>
+					<th><?php esc_html_e( 'Search ', 'wallet-system-for-woocommerce' ); ?></td>
+					<td><input type="text" id="search_in_table" placeholder="Enter your Keyword"></td>
+				</tr>
+				<tr>
+					<td><input name="min" id="min" type="text" placeholder="From"  autocomplete="off"></td>
+				</tr>
+				<tr>
+					<td><input name="max" id="max" type="text" placeholder="To" autocomplete="off"></td>
+				</tr>
+				<tr>
+					<td><span id="clear_table" ><?php esc_html_e( 'Clear', 'wallet-system-for-woocommerce' ); ?></span></td>
+				</tr>
+			</tbody>
+		</table>
 
 
+</div>
 
+
+<div class="wps-wpg-gen-section-table-wrap wps-wpg-transcation-section-table">
+	<h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
+	<form method="GET">
+	<input type="submit" class="btn button" name= "wps_wsfw_export_pdf" id="wps_wsfw_export_pdf" value="<?php esc_html_e( 'Export Pdf', 'wallet-system-for-woocommerce' ); ?>">
+	</form>
+	<div class="wps-wpg-gen-section-table-container">
+		<table id="wps-wpg-gen-table_trasa" class="wps-wpg-gen-section-table dt-responsive wps-wpg-gen-table-all-transaction">
+			<thead>
+				<tr>
+				<th class = "all">#</th>
+					<th class = "all"><?php esc_html_e( 'Name', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Email', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Role', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Details', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class="hide_date" ><?php esc_html_e( 'Date1', 'wallet-system-for-woocommerce' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				global $wpdb;
+				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
+
+				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
+					$i = 1;
+					foreach ( $transactions as $transaction ) {
+						$user = get_user_by( 'id', $transaction->user_id );
+						if ( $user ) {
+							$display_name = $user->display_name;
+							$useremail    = $user->user_email;
+							$user_role = '';
+							if ( is_array( $user->roles ) && ! empty( $user->roles ) ) {
+								$user_role    = $user->roles[0];
+							}
+						} else {
+							$display_name = '';
+							$useremail    = '';
+							$user_role    = '';
+						}
+
+						$tranasction_symbol = '';
+						if ( 'credit' == $transaction->transaction_type_1 ) {
+							$tranasction_symbol = '+';
+						} elseif ( 'debit' == $transaction->transaction_type_1 ) {
+							$tranasction_symbol = '-';
+						}
+						?>
+						<tr class='wps_wallet_tr_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>'>
+						<td><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/eva_close-outline.svg"><?php echo esc_html( $i ); ?></td>
+							<td><?php echo ! empty( esc_html( $display_name ) ) ? esc_html( $display_name ) : 'Guest#(' . esc_html( $transaction->user_id ) . ')'; ?></td>
+							<td><?php echo ! empty( esc_html( $useremail ) ) ? esc_html( $useremail ) : '---'; ?></td>
+							<td><?php echo esc_html( $user_role ); ?></td>
+							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>'><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
+							<td><?php echo wp_kses_post( $transaction->payment_method ); ?></td>
+							<td><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
+							<td>
+							<?php
+							 esc_html( $transaction->id );
+							$date = date_create( $transaction->date );
+							echo esc_html( $date->getTimestamp() . $transaction->id );
+							?>
+							</td>
+							<td>
+							<?php
+							$date_format = get_option( 'date_format', 'm/d/Y' );
+
+
+							$wps_wsfw_time_zone = get_option( 'timezone_string' );
+							if ( ! empty( $wps_wsfw_time_zone ) ) {
+								$date = date_create( $transaction->date );
+								echo esc_html( date_format( $date, $date_format ) );
+								// extra code.( need validation if require).
+								$date->setTimezone( new DateTimeZone( get_option( 'timezone_string' ) ) );
+								// extra code.
+								echo ' ' . esc_html( date_format( $date, 'H:i:s' ) );
+							} else {
+
+								echo esc_html( date_format( $date, $date_format ) );
+								echo ' ' . esc_html( date_format( $date, 'H:i:s' ) );
+							}
+							?>
+							</td>
+							<td class="hide_date" >
+							<?php
+							$date = date_create( $transaction->date );
+							echo esc_html( date_format( $date, 'm/d/Y' ) );
+							?>
+							</td>
+						</tr>
+						<?php
+						$i++;
+					}
+				}
+
+				?>
+			
+			</tbody>
+		</table>
+	</div>
+</div>
 
 <?php
-if ( ! class_exists( 'WP_List_Table' ) ) {
-	include_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
-}
-
-/**
- * Extending Wp_List_Table class to create segment table.
- */
-class Wallet_User_Table extends WP_List_Table {
-
-	/**
-	 * Prepare the items for the table to process.
-	 *
-	 * @return void
-	 */
-	public function prepare_items() {
-		global $wpdb;
-		$per_page     = 10;
-		$columns      = $this->get_columns();
-		$current_page = $this->get_pagenum();
-		$data         = $this->table_data( $current_page, $per_page );
-		$transactions = $wpdb->get_results( 'SELECT  count(id) as total  FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction' );
-				
-		if ( ! empty($transactions) ) {
-			$total_items  = $transactions[0]->total;
-		}
-		$this->set_pagination_args(
-			array(
-				'total_items' => $total_items,
-				'per_page'    => $per_page,
-			)
-		);
-		$hidden                = array();
-		$sortable              = array();
-		$this->_column_headers = array( $columns, $hidden, $sortable );
-		$this->items           = $data;
-	}
-
-	/**
-	 * This function is used to get columns.
-	 *
-	 * @return array
-	 */
-	public function get_columns() {
-		$columns = array(
-		
-			'id'       => esc_html__( 'ID', 'wallet-system-for-woocommerce' ),
-			'name'     => esc_html__( 'Name', 'wallet-system-for-woocommerce' ),
-			'email'    => esc_html__( 'Email', 'wallet-system-for-woocommerce' ),
-			'role'     => esc_html__( 'Role', 'wallet-system-for-woocommerce' ),
-			'amount'   => esc_html__( 'Amount', 'wallet-system-for-woocommerce' ),
-			'payment_method'   => esc_html__( 'Payment Method', 'wallet-system-for-woocommerce' ),
-			'details'   => esc_html__( 'Details', 'wallet-system-for-woocommerce' ),
-			'transaction_id'   => esc_html__( 'Transaction ID', 'wallet-system-for-woocommerce' ),
-			'date' => esc_html__( 'Date', 'wallet-system-for-woocommerce' ),
-		);
-		return $columns;
-	}
-
-	/**
-	 * This function is used to filter product.
-	 *
-	 * @return array
-	 */
-	public function table_data( $current_page, $per_page ) {
-
-		$args = array(
-			'number' => $per_page,
-			'offset' => ( $current_page - 1 ) * $per_page,
-			'fields' => 'ID',
-		);
-
-		if ( isset( $_REQUEST['s'] ) ) {
-			$wps_request_search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
-			$args['search']     = '*' . $wps_request_search . '*';
-		}
-		global $wpdb;
-	
-		$transactions = $wpdb->get_results( 'SELECT  count(id) as total  FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction' );
-				
-		if ( ! empty($transactions) ) {
-			$total_items  = $transactions[0]->total;
-		}
-
-		if ( ! empty( $current_page ) ) {
-			$min =  ($current_page-1)*10;
-			$max =  $current_page*10;
-		}
-
-
-		global $wpdb;
-		$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-		$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction WHERE id >= '.$min.' AND id <= '.$max.' ORDER BY id LIMIT 100 ' );
-		
-		
-		if ( ! empty( $transactions ) ) {
-			foreach ( $transactions as $transaction ) {
-				$user = get_user_by( 'id', $transaction->user_id );
-				$tranasction_symbol = '';
-				if ( 'credit' == $transaction->transaction_type_1 ) {
-					$tranasction_symbol = '+';
-				} elseif ( 'debit' == $transaction->transaction_type_1 ) {
-					$tranasction_symbol = '-';
-				}
-				$x      = array(
-					'id'       => $this->wsfw_get_id( $user ),
-					'name'     => $this->wsfw_get_name( $user ),
-					'email'    => $this->wsfw_get_email( $user ),
-					'role'     => $this->wsfw_get_role( $user ),
-					'amount'   => $this->wsfw_get_amount( $transaction ),
-					'payment_method'   => $this->wsfw_get_payment_method( $transaction ),
-					'details' => $this->wsfw_get_details( $transaction ),
-					'transaction_id' => $this->wsfw_get_transaction_id( $transaction ),
-					'date' => $this->wsfw_get_date( $transaction ),
-				);
-				$data[] = $x;
-			}
-		}
-		return $data;
-	}
-
-	/**
-	 * This function is used to show checkbox.
-	 *
-	 * @param int $item item id.
-	 * @return string
-	 */
-	public function column_cb( $item ) {
-		return sprintf(
-			'<input type="checkbox" onclick="set_checked_value(this)" id="wps_wallet_ids[]" name="wps_wallet_ids[]" value="%s" />',
-			$item['id']
-		);
-	}
-
-	/**
-	 * This function is used to show columns.
-	 *
-	 * @param string $item item.
-	 * @param string $column_name column name.
-	 * @return string
-	 */
-	public function column_default( $item, $column_name ) {
-		return sprintf( $item[ $column_name ], true );
-	}
-
-	/**
-	 * Show user id.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_id( $user ) {
-		return $user->ID;
-	}
-
-	/**
-	 * This function is used to show user name.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_name( $user ) {
-		if ( $user ) {
-			$display_name = $user->display_name;
-			
-		} else {
-			$display_name = '';
-		
-		}
-		$display_name =! empty( esc_html( $display_name ) ) ? esc_html( $display_name ) : 'Guest#(' . esc_html( $user->user_id );
-		return $display_name;
-	}
-
-	/**
-	 * This function is used to show user email.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_email( $user ) {
-		return $user->user_email;
-	}
-
-	/**
-	 * This functions is used to show user role.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_role( $user ) {
-		return ! empty( $user->roles[0] ) ? $user->roles[0] : '-';
-	}
-
-	/**
-	 * This functions is used to show user role.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_transaction_id( $transaction ) {
-		esc_html( $transaction->id );
-		$date = date_create( $transaction->date );
-		$transaction_data = esc_html( $date->getTimestamp() . $transaction->id );
-		return $transaction_data;
-	}
-
-
-	/**
-	 * This functions is used to show user role.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_date( $transaction ) {
-		$date_data = '';
-		$date_format = get_option( 'date_format', 'm/d/Y' );
-		$date = date_create( $transaction->date );
-
-					$wps_wsfw_time_zone = get_option( 'timezone_string' );
-					if ( ! empty( $wps_wsfw_time_zone ) ) {
-						$date = date_create( $transaction->date );
-						echo esc_html( date_format( $date, $date_format ) );
-						// extra code.( need validation if require).
-						$date->setTimezone( new DateTimeZone( get_option( 'timezone_string' ) ) );
-						// extra code.
-						$date_data = ' ' . esc_html( date_format( $date, 'H:i:s' ) );
-					} else {
-
-						$date_data = esc_html( date_format( $date, $date_format ) );
-						$date_data .= ' ' . esc_html( date_format( $date, 'H:i:s' ) );
-					}
-		return $date_data;
-	}
-
-
-	/**
-	 * This function ia used to show user wallet amount.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_amount( $transaction ) {
-		$tranasction_symbol = '';
-		if ( 'credit' == $transaction->transaction_type_1 ) {
-			$tranasction_symbol = '+';
-		} elseif ( 'debit' == $transaction->transaction_type_1 ) {
-			$tranasction_symbol = '-';
-		}
-		$amount = esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) );
-		
-		return $amount;
-	}
-
-	/**
-	 * This function is to edit user wallet and show transactions.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_payment_method( $transaction ) {
-		$data = wp_kses_post( $transaction->payment_method ); 
-		return $data;
-	}
-
-	/**
-	 * This function is used to restrict user.
-	 *
-	 * @param object $user user.
-	 * @return string
-	 */
-	public function wsfw_get_details( $transaction ) {
-		$html= wp_kses_post( html_entity_decode( $transaction->transaction_type ) );
-		return $html;
-	}
-
+// including datepicker jquery for input tag.
+wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
+$check = false;
+$check = apply_filters( 'wsfw_check_pro_plugin', $check );
+if ( false == $check ) {
+	wp_enqueue_script( 'wps-admin-all-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-all-transaction-table.js', array( 'jquery' ), $this->version, false );
 }
 ?>
-<form method="post">
-	<?php
-		$wallet_user_table = new Wallet_User_Table();
-		$wallet_user_table->prepare_items();
-		$wallet_user_table->search_box( __( 'Search', 'wallet-system-for-woocommerce' ), 'search_id' );
-		$wallet_user_table->display();
-	?>
-</form>
-</div>
