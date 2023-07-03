@@ -422,9 +422,9 @@ $wallet_keys = array_keys( $wallet_tabs );
 	</div>
 	<?php
 
-if ( 'on' == $wps_wallet_restrict_message_to_user ) {
-	if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
-		?>
+	if ( 'on' == $wps_wallet_restrict_message_to_user ) {
+		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
+			?>
 		<div class="wsfw_show_user_restriction_notice">
 			<?php
 			if ( ! empty( $wps_wallet_restrict_message_for ) ) {
@@ -435,12 +435,12 @@ if ( 'on' == $wps_wallet_restrict_message_to_user ) {
 			}
 			?>
 		</div>
-		<?php
-	}
-	?>
-	<?php
-	if ( 'restricted' === $is_user_restricted ) {
+			<?php
+		}
 		?>
+		<?php
+		if ( 'restricted' === $is_user_restricted ) {
+			?>
 		<div class="wsfw_show_user_restriction_notice">
 			<?php
 			if ( ! empty( $wps_wallet_restrict_message_for ) ) {
@@ -450,9 +450,9 @@ if ( 'on' == $wps_wallet_restrict_message_to_user ) {
 			}
 			?>
 		</div>
-		<?php
+			<?php
+		}
 	}
-}
 	?>
 	<div class="wps_wcb_main_tabs_template">
 		<div class="wps_wcb_body_template">

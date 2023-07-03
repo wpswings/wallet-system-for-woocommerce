@@ -100,6 +100,7 @@
 				data: {
 					action: 'export_users_wallet',
 					'wps_wsfw_current_page' : current_page,
+					nonce: wsfw_admin_param.nonce,
 					'wps_wsfw_per_user'     : get_count,
 					'csv_data'     : csv_data,
 				},

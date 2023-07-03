@@ -1552,12 +1552,11 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function export_users_wallet() {
-
+		check_ajax_referer( 'wp_rest', 'nonce' );
 		$per_user     = ! empty( $_POST['wps_wsfw_per_user'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_per_user'] ) ) : 0;
 		$current_page = ! empty( $_POST['wps_wsfw_current_page'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_current_page'] ) ) : 1;
-		$csv_data = ! empty( $_POST['csv_data'] ) ?  map_deep( wp_unslash( $_POST['csv_data'] ), 'sanitize_text_field' )  : array();
+		$csv_data = ! empty( $_POST['csv_data'] ) ? map_deep( wp_unslash( $_POST['csv_data'] ), 'sanitize_text_field' ) : '';
 
-								
 			$args = array(
 				'fields'     => 'ID',
 				'meta_query' => array(
@@ -1567,37 +1566,44 @@ class Wallet_System_For_Woocommerce_Admin {
 					),
 				),
 			);
-
+			$user_data_array = array();
 			$args['number'] = $per_user;
 			$args['offset'] = ( $current_page - 1 ) * $per_user;
 			$user_data      = new WP_User_Query( $args );
 			$user_data      = $user_data->get_results();
 
-			if ( ! empty ( $csv_data ) ) {
-				$userdata = $csv_data;
+			$zsdsd = array();
+
+			if ( ! empty( $user_data ) && is_array( $user_data ) ) {
+				foreach ( $user_data as $key => $user_id ) {
+
+					$wallet_balance = get_user_meta( $user_id, 'wps_wallet', true );
+
+					if ( empty( $wallet_balance ) ) {
+						$zsdsd[] = array( $user_id, 0 );
+					} else {
+
+						$zsdsd[] = array( $user_id, $wallet_balance );
+					}
+				}
 			}
 
-	if ( ! empty( $user_data ) && is_array( $user_data ) ) {
-				foreach ( $user_data as $key => $user_id ) {
-					$wallet_balance = get_user_meta( $user_id, 'wps_wallet', true );
-					if ( empty( $wallet_balance ) ) {
-						$userdata[] = array( $user_id, 0 );
-					} else {
-						$userdata[] = array( $user_id, $wallet_balance );
-					}
-			
-				}
+			if ( ! empty( $csv_data ) ) {
+				$user_data_array  = array_merge( $csv_data, $zsdsd );
+				// $user_data = $csv_data;
+			} else {
+				$user_data_array  = $zsdsd;
 			}
 
 			$data = array(
 				'per_user'     => $per_user,
 				'current_page' => $current_page + 1,
 				'offset'       => ( $current_page - 1 ) * $per_user,
-				'csv_data' 	   =>$userdata,
+				'csv_data'     => $user_data_array,
 			);
-	
-		wp_send_json( $data );
-		wp_die();
+
+			wp_send_json( $data );
+			wp_die();
 
 	}
 
