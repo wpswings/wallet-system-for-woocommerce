@@ -68,7 +68,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 							$balance_mail = '';
 							$mail_message = '';
 
-							if ( 'credit' == $type ) {
+							if ( 'credit' == $amount_type ) {
 								$net_balance = floatval( $balance ) + floatval( $current_balance );
 								$transaction_type_1 = 'credit';
 								$transaction_type = esc_html__( 'Wallet credited during importing wallet', 'wallet-system-for-woocommerce' );
@@ -86,7 +86,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 										$email_status = $customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
 									}
 								}
-							} elseif ( 'debit' == $type ) {
+							} elseif ( 'debit' == $amount_type ) {
 								$net_balance = floatval( $current_balance ) - floatval( $balance );
 								$transaction_type_1 = 'debit';
 								$transaction_type = esc_html__( 'Wallet debited during importing wallet', 'wallet-system-for-woocommerce' );
