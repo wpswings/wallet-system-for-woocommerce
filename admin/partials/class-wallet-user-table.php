@@ -239,7 +239,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_updated_count = '' ) {
 	$currency  = get_woocommerce_currency();
 	$update = true;
-	
+
 	$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce ) ) {
 		return false;

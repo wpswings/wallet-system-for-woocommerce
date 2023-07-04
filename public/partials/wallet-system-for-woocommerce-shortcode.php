@@ -536,8 +536,6 @@ setInterval(function time(){
 	$is_wallet_recharge_enabled = get_option( 'wps_wsfwp_wallet_promotion_tab_enable' );
 	if ( 'on' == $is_wallet_recharge_enabled ) {
 		?>
-
-
 				<div class="wallet-promotion-tab">
 					<div class="wps-wsfw__prom-tab-head">
 						<h3><span class="wps-pr-title"><?php echo esc_html__( 'Wallet Promotion', 'wallet-system-for-woocommerce' ); ?></span></h3>
@@ -562,14 +560,14 @@ setInterval(function time(){
 			$wallet_promotions_data_content = get_option( 'wallet_promotions_data_content' );
 
 		if ( ! empty( $wallet_promotions_data_title ) && is_array( $wallet_promotions_data_title ) ) {
-			if ( $wallet_promotions_data_title[0] == '' ) {
+			if ( '' == $wallet_promotions_data_title[0] ) {
 				$wallet_promotions_data_title = array();
 			}
 		} else {
 			$wallet_promotions_data_title = array();
 		}
 		if ( ! empty( $wallet_promotions_data_content ) && is_array( $wallet_promotions_data_content ) ) {
-			if ( $wallet_promotions_data_content[0] == '' ) {
+			if ( '' == $wallet_promotions_data_content[0] ) {
 				$wallet_promotions_data_content = array();
 			}
 		} else {
@@ -579,16 +577,21 @@ setInterval(function time(){
 
 		if ( ! empty( $wallet_promotions_data_title ) && is_array( $wallet_promotions_data_title ) ) {
 			$index = 0;
-			for ( $i = 0; $i < count( $wallet_promotions_data_title ); $i++ ) {
-				?>
+			$count_data = count( $wallet_promotions_data_title );
+			if ( $count_data > 0 ) {
+
+
+				for ( $i = 0; $i < $count_data; $i++ ) {
+					?>
 					
 				<div class="wps-wsfw__prom-tab-item wps-active">
 							<div class="wps-pr__item-wrap">
-								<span class="wps-pr-offer"><?php echo $wallet_promotions_data_title[ $i ]; ?></span>
+								<span class="wps-pr-offer"><?php echo esc_html( $wallet_promotions_data_title[ $i ] ); ?></span>
 								<p class="wps-pr-offer-desc"><?php echo esc_html( $wallet_promotions_data_content[ $i ] ); ?></p>
 							</div>
 						</div>
-				<?php
+					<?php
+				}
 			}
 		}
 		?>

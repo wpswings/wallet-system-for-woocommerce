@@ -578,25 +578,24 @@ setInterval(function time(){
 
 		if ( ! empty( $wallet_promotions_data_title ) && is_array( $wallet_promotions_data_title ) ) {
 			$index = 0;
-			for ( $i = 0; $i < count( $wallet_promotions_data_title ); $i++ ) {
-				?>
-					
+			$count_data = count( $wallet_promotions_data_title );
+			if ( $count_data > 0 ) {
 
 
-
+				for ( $i = 0; $i < $count_data; $i++ ) {
+					?>
 				<div class="wps-wsfw__prom-tab-item wps-active">
 							<div class="wps-pr__item-wrap">
-								<span class="wps-pr-offer"><?php echo $wallet_promotions_data_title[ $i ]; ?></span>
+								<span class="wps-pr-offer"><?php echo esc_html( $wallet_promotions_data_title[ $i ] ); ?></span>
 								<p class="wps-pr-offer-desc"><?php echo esc_html( $wallet_promotions_data_content[ $i ] ); ?></p>
 							</div>
 						</div>
-				<?php
+					<?php
+				}
 			}
 		}
 		?>
-
-
-						
+								
 					</div>
 				</div>
 

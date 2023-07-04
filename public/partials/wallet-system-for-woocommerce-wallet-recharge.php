@@ -41,7 +41,7 @@ if ( 'on' != $is_wallet_recharge_enabled ) {
 
 <div class="wallet-recharge-tab">
 		<div class="wps-wsfw__re-tab-head">
-			<h3><span class="wps-re-title"><?php echo esc_html__( 'Add Balance :', 'wallet-system-for-woocommerce' ) ?></span></h3>
+			<h3><span class="wps-re-title"><?php echo esc_html__( 'Add Balance :', 'wallet-system-for-woocommerce' ); ?></span></h3>
 		</div>
 		<div class="wps-wsfw__re-tab-wrap">
 
@@ -55,21 +55,23 @@ if (! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_
 		$wps_wallet_recharge_tab_array = array();
 	}
 
+	$count_data =count($wps_wallet_recharge_tab_array);
+	if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_tab_array ) ) {
+		if ( $count_data > 0 ) {
 
-		if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_tab_array ) ) {
-			for ($i=0; $i < count($wps_wallet_recharge_tab_array) ; $i++) { 
-				?>							
-				<div class="wps-wsfw__re-tab-item wps-active">
-				<div class="wps-re__item-wrap">
-					<p class="wps-re-offer-desc wps_wallet_top_up_custom_button" recharge_amount="<?php echo esc_attr( $wps_wallet_recharge_tab_array[ $i ] ); ?>"><?php echo wp_kses_post( wc_price( $wps_wallet_recharge_tab_array[ $i ] ) ); ?></p>
-				</div>
-				</div>
-				<?php
+			$html_data = '';
+			for ($i=0; $i < $count_data; $i++) { 
+										
+				$html_data .= 	'<div class="wps-wsfw__re-tab-item wps-active">';
+				$html_data .=	'<div class="wps-re__item-wrap">';
+				$html_data .=	'<p class="wps-re-offer-desc wps_wallet_top_up_custom_button" recharge_amount="'. esc_attr( $wps_wallet_recharge_tab_array[ $i ] ).'">'. wp_kses_post( wc_price( $wps_wallet_recharge_tab_array[ $i ] ) ).'</p>';
+				$html_data .= '</div></div>';
+				
 
 				}
-
-				}
-
+		}
+		echo wp_kses_post($html_data );
+	}
 				?>
 
 		</div>
