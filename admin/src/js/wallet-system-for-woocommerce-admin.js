@@ -267,11 +267,13 @@
 				},
 				datatType: 'JSON',
 				success: function( response ) {
+					debugger;
 					$( '.wps-wpg-withdrawal-section-table' ).before('<div class="notice notice-' + response.msgType + ' is-dismissible wps-errorr-8"><p>' + response.msg + '</p></div>');		
+				
 					loader.hide();
 					setTimeout(function () {
 						location.reload();
-					}, 1000);
+					}, 2000);
 					
 
 				},

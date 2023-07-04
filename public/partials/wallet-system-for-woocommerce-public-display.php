@@ -509,6 +509,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 						?>
 					</ul>
 				</nav>
+				
 				<script type="text/javascript">
 
 setInterval(function time(){
