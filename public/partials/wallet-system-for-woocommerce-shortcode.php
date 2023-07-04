@@ -412,10 +412,18 @@ $wallet_keys = array_keys( $wallet_tabs );
 			</div>
 			<?php
 		}
-		if ( 'on' != $wallet_restrict_referral ) {
-			?>
-		<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
-	<?php } ?>	
+		if ( $is_pro_plugin ) {
+
+			$is_refer_option = get_option( 'wps_wsfw_wallet_action_refer_friend_enable' );
+			if ( 'on' == $is_refer_option ) {
+
+				if ( 'on' != $wallet_restrict_referral ) {
+					?>
+						<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
+					<?php
+				}
+			}
+		}?>	
 
 		</div>
 		<?php do_action( 'wallet_qr_vode_shotcode' ); ?>
