@@ -37,12 +37,11 @@ if ( is_array( $wsfw_min_max_value ) ) {
 if ( 'on' != $is_wallet_recharge_enabled ) {
 	return;
 }
-	?>
-
+?>
 
 <div class="wallet-recharge-tab">
 		<div class="wps-wsfw__re-tab-head">
-			<h3><span class="wps-re-title">Add Balance</span></h3>
+			<h3><span class="wps-re-title"><?php echo esc_html__( 'Add Balance :', 'wallet-system-for-woocommerce' ) ?></span></h3>
 		</div>
 		<div class="wps-wsfw__re-tab-wrap">
 
@@ -67,11 +66,11 @@ if (! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_
 				</div>
 				<?php
 
-			}
+				}
 
-		}
-	
-?>
+				}
+
+				?>
 
 		</div>
 	</div>

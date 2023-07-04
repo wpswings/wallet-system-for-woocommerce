@@ -540,7 +540,7 @@ setInterval(function time(){
 
 				<div class="wallet-promotion-tab">
 					<div class="wps-wsfw__prom-tab-head">
-						<h3><span class="wps-pr-title"><?php echo esc_html__( 'Wallet Promotion', 'wallet-system-for-woocommerce' ); ?></span></h3>
+						<h3><span class="wps-pr-title"><?php echo esc_html__( 'Wallet Promotion :', 'wallet-system-for-woocommerce' ); ?></span></h3>
 						<?php
 
 						$is_wallet_recharge_enabled = get_option( 'wps_wsfwp_wallet_promotion_tab_limited_offer_enable' );
@@ -562,14 +562,14 @@ setInterval(function time(){
 			$wallet_promotions_data_content = get_option( 'wallet_promotions_data_content' );
 
 		if ( ! empty( $wallet_promotions_data_title ) && is_array( $wallet_promotions_data_title ) ) {
-			if ( $wallet_promotions_data_title[0] == '' ) {
+			if ( '' == $wallet_promotions_data_title[0] ) {
 				$wallet_promotions_data_title = array();
 			}
 		} else {
 			$wallet_promotions_data_title = array();
 		}
 		if ( ! empty( $wallet_promotions_data_content ) && is_array( $wallet_promotions_data_content ) ) {
-			if ( $wallet_promotions_data_content[0] == '' ) {
+			if ( '' == $wallet_promotions_data_content[0] ) {
 				$wallet_promotions_data_content = array();
 			}
 		} else {

@@ -423,7 +423,9 @@ $wallet_keys = array_keys( $wallet_tabs );
 					<?php
 				}
 			}
-		}?>	
+		}
+		?>
+			
 
 		</div>
 		<?php do_action( 'wallet_qr_vode_shotcode' ); ?>
