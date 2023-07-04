@@ -530,7 +530,6 @@ setInterval(function time(){
 				</script>
 	<?php wp_cache_set( 'wps_upsell_countdown_timer', 'true' ); ?>
 
-
 	<?php
 
 	$is_wallet_recharge_enabled = get_option( 'wps_wsfwp_wallet_promotion_tab_enable' );
