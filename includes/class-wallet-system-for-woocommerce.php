@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.3.6';
+			$this->version = '2.3.7';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';

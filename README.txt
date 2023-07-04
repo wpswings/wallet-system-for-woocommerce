@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.2.2
 WC requires at least: 5.5.0
 WC tested up to: 7.8.0
-Stable tag: 2.3.6
+Stable tag: 2.3.7
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -266,7 +266,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.3.6 - Released on 14 June 2023 =
+= 2.3.7 - Released on 14 June 2023 =
 * New: Make rechargeable product tax free
 * Fix: Resolved translation issue for partial payment
 * Fix: Refund issue resolved
@@ -405,7 +405,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.3.6 - Released on 14 June 2023 =
+= 2.3.7 - Released on 14 June 2023 =
 * New: Make rechargeable product tax free
 * Fix: Resolved translation issue for partial payment 
 * Fix: Refund issue resolved
