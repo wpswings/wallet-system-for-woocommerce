@@ -76,8 +76,14 @@ $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
                             <td>' . esc_html( $request_id ) . '</td>
                             <td>' . wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) . '</td>
                             <td class="wps_wallet_widthdrawal_' . esc_html( $withdrawal_status ) . '"> <img src=" ' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ) . '.svg" title="' . esc_html( $withdrawal_status ) . '"></td>
-                            <td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>
-                            <td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
+                            <td>' . esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) . '</td>';
+
+							if ( $check ) {
+
+								echo '<td>' . wp_kses_post( wc_price( $wps_wsfwp_wallet_withdrawal_fee_amount ) ) . '</td>';
+
+							}
+							echo '<td>' . esc_html( date_format( $date, 'd/m/Y' ) ) . '</td>
                             </tr>';
 							$i++;
 						}

@@ -35,9 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/org-banner.jpg" alt="Overview banner image">
 			<?php
 	}
-
 	?>
-
 <?php
 		$additional_content = apply_filters( 'wps_wsfw_overview_additional_content', '' );
 ?>
