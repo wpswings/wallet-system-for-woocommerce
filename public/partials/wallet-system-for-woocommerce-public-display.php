@@ -123,8 +123,20 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 				$headers1   .= 'From: ' . $from . "\r\n" .
 					'Reply-To: ' . $to1 . "\r\n";
 
-				$wallet_payment_gateway->send_mail_on_wallet_updation( $to1, $subject, $mail_text1, $headers1 );
+				if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
+					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+					if ( ! empty( $customer_email ) ) {
+						$user       = get_user_by( 'id', $another_user_id );
+						$currency  = get_woocommerce_currency();
+						$balance_mail = $balance;
+						$user_name       = $user->first_name . ' ' . $user->last_name;
+						$email_status = $customer_email->trigger( $another_user_id, $user_name, $balance_mail, '' );
+					}
+				} else {
+
+					$wallet_payment_gateway->send_mail_on_wallet_updation( $to1, $subject, $mail_text1, $headers1 );
+				}
 			}
 
 			$transaction_type     = __( 'Wallet credited by user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
@@ -154,8 +166,20 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 					$headers2   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers2   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to2 . "\r\n";
+					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
 
-					$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
+						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+						if ( ! empty( $customer_email ) ) {
+							$user       = get_user_by( 'id', $user_id );
+							$currency  = get_woocommerce_currency();
+							$balance_mail = $balance;
+							$user_name       = $user->first_name . ' ' . $user->last_name;
+							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+						}
+					} else {
+
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
+					}
 				}
 
 				$transaction_type = __( 'Wallet debited from user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' wallet, transferred to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
@@ -244,6 +268,7 @@ if ( isset( $_POST['wps_coupon_wallet'] ) && ! empty( $_POST['wps_coupon_wallet'
 $main_url               = wc_get_endpoint_url( 'wps-wallet' );
 $topup_url              = wc_get_endpoint_url( 'wps-wallet', 'wallet-topup' );
 $wallet_url             = wc_get_endpoint_url( 'wps-wallet', 'wallet-transfer' );
+$wallet_referal_url     = wc_get_endpoint_url( 'wps-wallet', 'wallet-referral' );
 $withdrawal_url         = wc_get_endpoint_url( 'wps-wallet', 'wallet-withdrawal' );
 $transaction_url        = wc_get_endpoint_url( 'wps-wallet', 'wallet-transactions' );
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
@@ -261,6 +286,11 @@ $wallet_restrict_transfer = apply_filters( 'wallet_restrict_transfer', $user_id 
 $wallet_restrict_withdrawal = apply_filters( 'wallet_restrict_withdrawal', $user_id );
 $wallet_restrict_coupon = apply_filters( 'wallet_restrict_coupon', $user_id );
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
+$wallet_restrict_referral = apply_filters( 'wallet_restrict_referral', $user_id );
+$wallet_restrict_qrcode = apply_filters( 'wallet_restrict_qrcode', $user_id );
+
+
+
 $is_pro_plugin = false;
 $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 $wps_wallet_restrict_message_to_user = 'on';
@@ -287,6 +317,7 @@ if ( 'restricted' !== $is_user_restricted ) {
 			);
 		}
 	}
+
 
 	if ( 'on' != $wallet_restrict_transfer ) {
 		$wallet_tabs['wallet_transfer'] = array(
@@ -331,6 +362,19 @@ if ( 'on' != $wallet_restrict_transaction ) {
 	);
 }
 
+if ( 'on' != $wallet_restrict_referral ) {
+
+	$wallet_tabs['wallet_referral'] = array(
+		'title'     => esc_html__( 'Wallet Referral', 'wallet-system-for-woocommerce' ),
+		'url'       => $wallet_referal_url,
+		'className' => 'wps_wallet_transactions_tab',
+		'icon'      => '<path fill-rule="evenodd" clip-rule="evenodd" d="M6.40263 9.52276C8.21174 6.39535 11.5966 4.28571 15.4762 4.28571H24.5238C30.3097 4.28571 35 8.97598 35 14.7619V23.8095C35 29.5954 30.3097 34.2857 24.5238 34.2857H15.4762C9.69028 34.2857 5 29.5954 5 23.8095V19.2857C5 18.4967 5.63959 17.8571 6.42857 17.8571C7.21755 17.8571 7.85714 18.4967 7.85714 19.2857V23.8095C7.85714 28.0175 11.2682 31.4286 15.4762 31.4286H24.5238C28.7318 31.4286 32.1429 28.0175 32.1429 23.8095V14.7619C32.1429 10.5539 28.7318 7.14285 24.5238 7.14285H15.4762C12.6578 7.14285 10.1953 8.67244 8.87578 10.9534C8.48072 11.6364 7.60683 11.8697 6.92388 11.4747C6.24094 11.0796 6.00756 10.2057 6.40263 9.52276Z" fill="#1E1E1E"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9996 11.0717C20.7885 11.0717 21.4281 11.7112 21.4281 12.5002V18.694L25.5335 22.7994C26.0914 23.3573 26.0914 24.2618 25.5335 24.8197C24.9756 25.3776 24.0711 25.3776 23.5132 24.8197L18.9894 20.2959C18.7215 20.028 18.571 19.6646 18.571 19.2857V12.5002C18.571 11.7112 19.2106 11.0717 19.9996 11.0717Z" fill="#483DE0"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M7.48138 3.93726C8.26561 4.02374 8.83124 4.72959 8.74476 5.51381L8.36239 8.98116L11.8297 9.36352C12.614 9.45001 13.1796 10.1559 13.0931 10.9401C13.0066 11.7243 12.3008 12.2899 11.5166 12.2035L6.62926 11.6645C5.84503 11.578 5.2794 10.8722 5.36588 10.0879L5.90483 5.20064C5.99131 4.41641 6.69716 3.85078 7.48138 3.93726Z" fill="#1E1E1E"/>',
+		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-referral.php',
+	);
+}
+
 
 $wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs', $wallet_tabs );
 $flag = false;
@@ -366,19 +410,32 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<?php if ( 'on' != $wallet_restrict_transaction ) { ?>
 			<div class=""><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
 			</div>
-		<?php } ?>
-		</div>
-		<?php do_action( 'wallet_qr_vode' ); ?>
+			<?php
+		}
+
+		if ( $is_pro_plugin ) {
+
+			$is_refer_option = get_option( 'wps_wsfw_wallet_action_refer_friend_enable' );
+			if ( 'on' == $is_refer_option ) {
+
+				if ( 'on' != $wallet_restrict_referral ) {
+					?>
+						<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
+					<?php
+				}
+			}
+		}
+		?>
 		
 	</div>
-
-
-
-
+		<?php
+		if ( 'on' != $wallet_restrict_qrcode ) {
+			do_action( 'wallet_qr_vode' );
+		}
+		?>
+	</div>
 	<?php
 	if ( 'on' == $wps_wallet_restrict_message_to_user ) {
-
-
 		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
 			?>
 			<div class="wsfw_show_user_restriction_notice">
@@ -388,7 +445,6 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 
 				} else {
 					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
-
 				}
 				?>
 			</div>
@@ -402,10 +458,8 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				<?php
 				if ( ! empty( $wps_wallet_restrict_message_for ) ) {
 					echo esc_html( $wps_wallet_restrict_message_for );
-
 				} else {
 					esc_html_e( 'Some functionalities are restricted by Admin but you can use your wallet amount !!', 'wallet-system-for-woocommerce' );
-
 				}
 				?>
 			</div>
@@ -416,7 +470,6 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 	<div class="wps_wcb_main_tabs_template">
 		<div class="wps_wcb_body_template">
 			<div class="wps_wcb_content_template">
-
 				<nav class="wallet-tabs">
 					<ul class='tabs'>
 						<?php
@@ -425,26 +478,24 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 						if ( 'on' == $wallet_script_option ) {
 							$wallet_link_enabled = 'onclick=enable_wallet_link(this)';
 						}
-
 						$allowed_html = wps_wsfw_lite_allowed_html();
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( 'wallet_transactions' == $key ) {
 								continue;
 							}
-
+							if ( 'wallet_referral' == $key ) {
+								continue;
+							}
 							if ( 'wallet_giftcard' == $key ) {
 								$wallet_tab['className'] = 'none';
 							}
-							if ( 'wallet_coupon' == $key ) {
-								$wallet_tab['className'] = 'none';
-							}
+
 							if ( $flag ) {
 								if ( $key === $wallet_keys[0] ) {
 									$class = 'active';
 								} else {
 									$class = '';
 								}
-
 								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) . "' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							} else {
 								if ( $current_url === $wallet_tab['url'] ) {
@@ -452,13 +503,109 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 								} else {
 									$class = '';
 								}
-
 								echo '<li ' . esc_attr( $wallet_link_enabled ) . " class='" . esc_html( $class ) . "'><a href='" . esc_url( $wallet_tab['url'] ) . "'><svg class='" . wp_kses( $wallet_tab['className'], $allowed_html ) . "' width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>" . wp_kses( $wallet_tab['icon'], $allowed_html ) . '</svg><h3>' . esc_html( $wallet_tab['title'] ) . '</h3></a></li>';
 							}
 						}
 						?>
 					</ul>
 				</nav>
+				
+				<script type="text/javascript">
+
+setInterval(function time(){
+  var d = new Date();
+
+  var hours = 24 - d.getHours();
+  var min = 60 - d.getMinutes();
+  if((min + '').length == 1){
+	min = '0' + min;
+  }
+  var sec = 60 - d.getSeconds();
+  if((sec + '').length == 1){
+		sec = '0' + sec;
+  }
+  jQuery('#the-final-countdown').html(hours+'h:'+min+'m:'+sec+'s')
+}, 1000);
+					
+				</script>
+	<?php wp_cache_set( 'wps_upsell_countdown_timer', 'true' ); ?>
+
+	<?php
+
+	$is_wallet_recharge_enabled = get_option( 'wps_wsfwp_wallet_promotion_tab_enable' );
+	$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+	if ( ! $is_pro_plugin  ) {
+		$is_wallet_recharge_enabled =false;
+	}
+	if ( 'on' == $is_wallet_recharge_enabled ) {
+		?>
+
+
+				<div class="wallet-promotion-tab">
+					<div class="wps-wsfw__prom-tab-head">
+						<h3><span class="wps-pr-title"><?php echo esc_html__( 'Wallet Promotion :', 'wallet-system-for-woocommerce' ); ?></span></h3>
+						<?php
+
+						$is_wallet_recharge_enabled = get_option( 'wps_wsfwp_wallet_promotion_tab_limited_offer_enable' );
+						if ( 'on' == $is_wallet_recharge_enabled ) {
+							?>
+						<p class="wps-pr-sub"><?php echo esc_html__( 'Limited Time Only:', 'wallet-system-for-woocommerce' ); ?> <span  class="wps-pr-time" id="the-final-countdown"></span></p>
+							<?php
+
+						}
+						?>
+					</div>
+					<div class="wps-wsfw__prom-tab-wrap">
+
+
+		<?php
+
+					$wallet_promotions_data_title = get_option( 'wallet_promotions_data_title' );
+
+			$wallet_promotions_data_content = get_option( 'wallet_promotions_data_content' );
+
+		if ( ! empty( $wallet_promotions_data_title ) && is_array( $wallet_promotions_data_title ) ) {
+			if ( '' == $wallet_promotions_data_title[0] ) {
+				$wallet_promotions_data_title = array();
+			}
+		} else {
+			$wallet_promotions_data_title = array();
+		}
+		if ( ! empty( $wallet_promotions_data_content ) && is_array( $wallet_promotions_data_content ) ) {
+			if ( '' == $wallet_promotions_data_content[0] ) {
+				$wallet_promotions_data_content = array();
+			}
+		} else {
+			$wallet_promotions_data_content = array();
+		}
+				$wps_wallet_recharge_tab_cashback_type = get_option( 'wps_wallet_recharge_tab_cashback_type' );
+
+		if ( ! empty( $wallet_promotions_data_title ) && is_array( $wallet_promotions_data_title ) ) {
+			$index = 0;
+			$count_data = count( $wallet_promotions_data_title );
+			if ( $count_data > 0 ) {
+
+
+				for ( $i = 0; $i < $count_data; $i++ ) {
+					?>
+				<div class="wps-wsfw__prom-tab-item wps-active">
+							<div class="wps-pr__item-wrap">
+								<span class="wps-pr-offer"><?php echo esc_html( $wallet_promotions_data_title[ $i ] ); ?></span>
+								<p class="wps-pr-offer-desc"><?php echo esc_html( $wallet_promotions_data_content[ $i ] ); ?></p>
+							</div>
+						</div>
+					<?php
+				}
+			}
+		}
+		?>
+								
+					</div>
+				</div>
+
+				<?php
+	}
+	?>
 
 				<div class='content-section'>
 

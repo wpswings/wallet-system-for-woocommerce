@@ -121,6 +121,7 @@ input[type=submit].wps-btn__filled:hover {
 }
 
 .wps_wcb_wallet_balance_container {
+  position: relative;
   padding: 10px 12px;
   border-radius: 6px;
   background-color: #483DE0;
@@ -496,3 +497,186 @@ input[type=submit].wps-btn__filled:hover {
 }
 
 /*=====  End of Transaction Section  ======*/
+
+.wps-show-cashback-notice-on-shop-page {
+  border: none;
+  color: #000;
+padding: 5px 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  background-image: linear-gradient(180deg, #d4ecc4, #ebf6c9);
+  border-bottom: 2px solid #a9cd3a;
+  position: relative;
+}
+
+.wsfw_comment_section_notice{
+  color: green;
+  font-weight: 600;
+}
+
+.wps-show-cashback-notice-on-shop-page:after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  background-color: #a9cd3a;
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* Referal start */
+.wps_wcb_wallet_balance_container .wps_wallet_referral_friend_link {
+  text-decoration: none!important;
+}
+
+.wps_wallet_referral_friend.dashicons {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.wps-wallet-referral-wrapper h4 {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.wps-wallet-popup-right-rewards {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+
+.wps-wallet-referral-wrapper code {
+  word-wrap: break-word;
+  white-space: break-spaces;
+  background: transparent;
+  line-height: 1.25;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.wps-wallet-referral-wrapper #wps_notify_user_copy {
+  margin: 0;
+  padding: 5px;
+}
+
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  background: #F6F5FD;
+  cursor: pointer;
+  color: #483de0;
+}
+
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy img {
+  width: auto;
+  height: 18px;
+}
+
+.wps-wallet-popup-right-rewards .wps_tooltiptext_scl {
+  color: #f78200;
+}
+
+.wps-wallet-referral-wrapper .wps-wallet-referral-notification {
+  font-size: 14px;
+  margin: 5px 0 0;
+  color: #0c8603;
+}
+
+/* Promotion tab start */
+
+.wallet-recharge-tab,
+.wallet-promotion-tab {
+    margin: 0 0 20px;
+}
+
+.wps-wsfw__prom-tab-item,
+.wps-wsfw__re-tab-item {
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.wps-wsfw__prom-tab-item .wps-pr__item-wrap,
+.wps-wsfw__re-tab-item .wps-re__item-wrap {
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 0;
+}
+
+.wps-wsfw__prom-tab-item.wps-active .wps-pr__item-wrap,
+.wps-wsfw__re-tab-item.wps-active .wps-re__item-wrap {
+    border:1px solid #483de0;
+    background: #f6f5fd;
+}
+.wps-wsfw__prom-tab-item .wps-pr-offer,
+.wps-wsfw__re-tab-item .wps-re-offer {
+    border-radius: 5px 0 5px 0;
+    padding: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #483de0;
+    color: #fff;
+}
+
+.wps-wsfw__prom-tab-item .wps-pr-offer-desc,
+.wps-wsfw__re-tab-item .wps-re-offer-desc {
+    padding: 5px 15px;
+    margin: 0;
+}
+
+.wps-wsfw__re-tab-item .wps-re-offer-desc {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.wps-wsfw__prom-tab-head,
+.wps-wsfw__re-tab-head {
+    margin: 0 0 25px;
+}
+
+.wps-wsfw__prom-tab-head h3,
+.wps-wsfw__re-tab-head h3 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0 0 10px;
+}
+
+.wps-wsfw__prom-tab-head .wps-pr-sub {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.wps-wsfw__prom-tab-head .wps-pr-time {
+    color: #483de0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* Promotion tab and recharge end */

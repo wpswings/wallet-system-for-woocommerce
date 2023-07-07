@@ -878,16 +878,60 @@ ul {
   color: #f32121;
   margin: 0 10px;
 }
-
-.wps-wpg-gen-section-form-wrapper #export_user_wallet {
-  background-color: #ffffff;
-  border: 0;
-  bottom: 28%;
-  cursor: pointer;
-  height: auto;
+/* new export button */
+.wps-wpg-gen-section-form-ex-btn {
+  padding: 25px 0 10px;
+  text-align: right;
+  flex: 1;
   position: absolute;
-  right: 3%;
+  bottom: 0;
+  right: 20px;
 }
+
+.wps-wpg-gen-section-form-ex-btn button {
+  padding: 5px 10px;
+  cursor: pointer;
+  border: 1px solid #2196f3;
+  border-radius: 4px;
+  background: transparent;
+  color: #2196f3;
+  margin: 0 0 5px;
+}
+
+.wps-wpg-gen-section-form-ex-btn button img {
+  height: 16px;
+  filter: invert(49%) sepia(56%) saturate(3480%) hue-rotate(185deg) brightness(100%) contrast(91%);
+}
+
+.wps-wpg-gen-section-form-ex-btn .wps_wsfw_reset_user_loader,.wps-wpg-gen-section-form-ex-btn .wps_wsfw_reset_user_notice {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+  width: 80px;
+  height: auto;
+
+}
+
+.wps-div-loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 99999;
+  display: none;
+}
+
+.wps-wpg-gen-section-form-ex-btn .wps_wsfw_reset_user_notice {
+  top: calc(50% + 50px);
+  width: 100%;
+  text-align: center;
+  color:rgb(244, 242, 242);
+}
+/* new export button end */
 
 .wps_wallet-edit--popupwrap {
   bottom: 0;
@@ -1424,3 +1468,5 @@ ul {
 }
 
 }
+
+
