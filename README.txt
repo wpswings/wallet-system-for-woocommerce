@@ -5,8 +5,8 @@ Tags: digital wallet, cashback coupon, wallet topup, user wallet, woocommerce wa
 Requires at least: 5.5.0
 Tested up to: 6.2.2
 WC requires at least: 5.5.0
-WC tested up to: 7.8.1
-Stable tag: 2.3.7
+WC tested up to: 7.8.2
+Stable tag: 2.3.8
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -271,6 +271,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
+= 2.3.8 - Released on 07 July 2023 = 
+* Fix: Wallet Add Balance issue related to section display.
+
 = 2.3.7 - Released on 06 July 2023 = 
 * New: CSV file upload button added 
 * New: Compatibile with latest WP[6.2.2] and WC[7.8.2]
@@ -419,9 +422,8 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.3.7 - Released on 06 July 2023 = 
-* New: CSV file upload button added 
-* New: Compatibile with latest WP[6.2.2] and WC[7.8.2]
+= 2.3.8 - Released on 07 July 2023 = 
+* Fix: Wallet Add Balance issue related to section display.
 
 
 
