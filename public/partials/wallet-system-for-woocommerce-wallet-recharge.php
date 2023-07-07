@@ -80,7 +80,6 @@ if (! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_
 
 		</div>
 	</div>
-
 	<?php
 	}
 	?>

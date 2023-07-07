@@ -64,15 +64,7 @@ if ( $activated ) {
 
 		$wp_upload = wp_upload_dir();
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR', $wp_upload['basedir'] );
-<<<<<<< HEAD
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.3.8' );
-=======
-<<<<<<< HEAD
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.3.7' );
-=======
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.3.6' );
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
->>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -301,15 +293,7 @@ if ( $activated ) {
 		if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
 			$links_array[] = '<a href="https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-backend&utm_campaign=wallet-demo" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Demo.svg" class="wps-info-img" alt="Demo image">' . __( 'Demo', 'wallet-system-for-woocommerce' ) . '</a>';
 			$links_array[] = '<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Documentation.svg" class="wps-info-img" alt="documentation image">' . __( 'Documentation', 'wallet-system-for-woocommerce' ) . '</a>';
-<<<<<<< HEAD
 			$links_array[] = '<a href="https://www.youtube.com/watch?v=C5mwA5kttRU&feature=youtu.be" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/YouTube.png" class="wps-info-img" alt="video image">' . __( 'Video', 'wallet-system-for-woocommerce' ) . '</a>';
-=======
-<<<<<<< HEAD
-			$links_array[] = '<a href="https://www.youtube.com/watch?v=C5mwA5kttRU&feature=youtu.be" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/YouTube.png" class="wps-info-img" alt="video image">' . __( 'Video', 'wallet-system-for-woocommerce' ) . '</a>';
-=======
-			$links_array[] = '<a href="https://www.youtube.com/watch?v=C5mwA5kttRU&feature=youtu.be" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/YouTube 32px.png" class="wps-info-img" alt="video image">' . __( 'Video', 'wallet-system-for-woocommerce' ) . '</a>';
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
->>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2
 			$links_array[] = '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-wallet-query&utm_medium=wallet-org-backend&utm_campaign=submit-query" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Support.svg" class="wps-info-img" alt="support image">' . __( 'Support', 'wallet-system-for-woocommerce' ) . '</a>';
 			$links_array[] = '<a href="https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-org-backend&utm_campaign=woocommerce-services" target="_blank"><img src="' . esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/Services.svg" class="wps-info-img" alt="support image">' . __( 'Services', 'wallet-system-for-woocommerce' ) . '</a>';
 		}
@@ -347,4 +331,3 @@ if ( $activated ) {
 		<?php
 	}
 }
-

@@ -19,7 +19,6 @@ if ( ! empty( $logged_in_user ) ) {
 	$current_user_email = '';
 }
 $current_currency = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
-
 $http_host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
 
 $request_url = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
