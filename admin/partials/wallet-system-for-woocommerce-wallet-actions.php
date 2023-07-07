@@ -32,6 +32,7 @@ $wsfw_wallet_action_auto_topup_settings = apply_filters( 'wsfw_wallet_action_set
 $wsfw_wallet_action_registration_settings = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
 $wsfw_wallet_action_daily_visit_settings  = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 $wsfw_wallet_action_comment_settings      = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
+$wsfw_wallet_action_settings_submit_button_array      = apply_filters( 'wsfw_wallet_action_settings_submit_button_array', array() );
 $wsfw_wallet_action_html = '';
 ?>
 <!--  template file for admin settings. -->
@@ -75,6 +76,12 @@ $wsfw_wallet_action_html = '';
 		  echo wp_kses_post( $wsfw_wallet_action_html );
 		?>
 	</div>
+
+	<?php
+	  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_settings_submit_button_array );
+	  echo wp_kses_post( $wsfw_wallet_action_html );
+	?>
+
 		<input type="hidden" id="updatenoncewallet_action" name="updatenoncewallet_action" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 	</div>
 </form>

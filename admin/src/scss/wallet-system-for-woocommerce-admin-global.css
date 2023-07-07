@@ -428,9 +428,9 @@ select {
 .wpg-secion-wrap .enable_paypal_sandbox {
     display:none;
 }
-#export_user_wallet {
+/* #export_user_wallet {
 	float:right;
-}
+} */
 
 .table-view-list tr .column-status {
     text-transform: capitalize;

@@ -52,7 +52,7 @@ $allowed_html = array(
 							<?php
 								$date = date_create( $transaction->date );
 								echo esc_html( $date->getTimestamp() . $transaction->id );
-						
+
 							?>
 							</td>
 							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>' ><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
