@@ -341,6 +341,7 @@ table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
 .wps-wsfw-gen-section-form #wsfw_button_wallet_action {
   position: sticky;
   bottom: 10px;
+<<<<<<< HEAD
 }
 
 .wps_wsfw_export_user_loader,
@@ -348,4 +349,6 @@ table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
   vertical-align: middle;
   height: 35px;
   display: none;
+=======
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 }

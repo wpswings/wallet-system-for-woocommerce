@@ -74,6 +74,25 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 								$transaction_type = esc_html__( 'Wallet credited during importing wallet', 'wallet-system-for-woocommerce' );
 								$balance_mail   = $currency . ' ' . $balance;
 								$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance_mail );
+<<<<<<< HEAD
+=======
+
+								if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+									$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+									if ( ! empty( $customer_email ) ) {
+										$user       = get_user_by( 'id', $user_id );
+										$currency  = get_woocommerce_currency();
+										$balance_mail = $currency . ' ' . $net_balance;
+										$user_name       = $user->first_name . ' ' . $user->last_name;
+										$email_status = $customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+									}
+								}
+							} elseif ( $current_balance == $balance ) {
+								$net_balance      = 0;
+								$transaction_type = esc_html__( 'No money is added/deducted from wallet', 'wallet-system-for-woocommerce' );
+							} else {
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 								if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
@@ -99,7 +118,11 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 									if ( ! empty( $customer_email ) ) {
 										$user       = get_user_by( 'id', $user_id );
 										$currency  = get_woocommerce_currency();
+<<<<<<< HEAD
 										$balance_mail = $currency . ' ' . $net_balance;
+=======
+										$balance_mail = $currency . ' ' . $updated_amount;
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 										$user_name       = $user->first_name . ' ' . $user->last_name;
 										$email_status = $customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
 									}
@@ -385,6 +408,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_up
 						}
 					}
 
+
 					$transaction_data = array(
 						'user_id'          => $user_id,
 						'amount'           => $updated_amount,
@@ -417,8 +441,30 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_up
 					$updated_users = $user_updated_count;
 				}
 
+<<<<<<< HEAD
 				if ( ! empty( $user_data ) && is_array( $user_data ) ) {
 					foreach ( $user_data as $key => $user_id ) {
+=======
+						if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+							$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+							if ( ! empty( $customer_email ) ) {
+								$user       = get_user_by( 'id', $user_id );
+								$currency  = get_woocommerce_currency();
+								$balance_mail = $currency . ' ' . $updated_amount;
+								$user_name       = $user->first_name . ' ' . $user->last_name;
+								$email_status = $customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+							}
+						}
+					} elseif ( 'debit' === $wallet_option ) {
+						$previous_wallet_amount = $wallet;
+						$transaction_type_1 = 'debit';
+						if ( $wallet < $wallet_amount ) {
+							$previous_wallet_amount = $wallet;
+						} else {
+							$wallet -= $wallet_amount;
+						}
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 						$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
 						$wallet  = ( ! empty( $wallet ) ) ? $wallet : 0;
@@ -484,14 +530,71 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_up
 								}
 							}
 						}
+<<<<<<< HEAD
+=======
+						$balance   = $currency . ' ' . $updated_amount;
+						$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
+						if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
+
+							$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+							if ( ! empty( $customer_email ) ) {
+								$user       = get_user_by( 'id', $user_id );
+								$currency  = get_woocommerce_currency();
+								$balance_mail = $currency . ' ' . $updated_amount;
+								$user_name       = $user->first_name . ' ' . $user->last_name;
+								$email_status = $customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+							}
+						}
+					}
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 						if ( $updated_wallet ) {
 							$updated_users++;
 						}
 
+<<<<<<< HEAD
 						$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 
 						if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+=======
+					$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+
+					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+						$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+						$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+
+						if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
+
+							if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+								$user       = get_user_by( 'id', $user_id );
+								$name       = $user->first_name . ' ' . $user->last_name;
+								$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+								$mail_text .= $mail_message;
+								$to         = $user->user_email;
+								$from       = get_option( 'admin_email' );
+								$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+								$headers    = 'MIME-Version: 1.0' . "\r\n";
+								$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+								$headers   .= 'From: ' . $from . "\r\n" .
+								'Reply-To: ' . $to . "\r\n";
+
+								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+							}
+						}
+					}
+					$transaction_data = array(
+						'user_id'          => $user_id,
+						'amount'           => $updated_amount,
+						'currency'         => get_woocommerce_currency(),
+						'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
+						'transaction_type' => $transaction_type,
+						'transaction_type_1' => $transaction_type_1,
+						'order_id'         => '',
+						'note'             => '',
+					);
+					$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 							$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 							$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
