@@ -273,7 +273,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 = 2.3.7 - Released on 06 July 2023 = 
 * New: CSV file upload button added 
-* New: Compatibile with latest WP[6.2.2] and WC[7.8.1]
+* New: Compatibile with latest WP[6.2.2] and WC[7.8.2]
 
 = 2.3.6 - Released on 14 June 2023 =
 * New: Make rechargeable product tax free
