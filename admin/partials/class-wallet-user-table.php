@@ -385,6 +385,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_up
 						}
 					}
 
+
 					$transaction_data = array(
 						'user_id'          => $user_id,
 						'amount'           => $updated_amount,

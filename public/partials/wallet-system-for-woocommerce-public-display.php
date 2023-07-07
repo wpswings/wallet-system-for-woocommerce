@@ -482,9 +482,17 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 						foreach ( $wallet_tabs as $key => $wallet_tab ) {
 							if ( 'wallet_transactions' == $key ) {
 								continue;
+
 							}
 							if ( 'wallet_referral' == $key ) {
 								continue;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
+>>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2
 							}
 							if ( 'wallet_giftcard' == $key ) {
 								$wallet_tab['className'] = 'none';
@@ -533,10 +541,13 @@ setInterval(function time(){
 	<?php
 
 	$is_wallet_recharge_enabled = get_option( 'wps_wsfwp_wallet_promotion_tab_enable' );
+<<<<<<< HEAD
 	$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 	if ( ! $is_pro_plugin  ) {
 		$is_wallet_recharge_enabled =false;
 	}
+=======
+>>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2
 	if ( 'on' == $is_wallet_recharge_enabled ) {
 		?>
 

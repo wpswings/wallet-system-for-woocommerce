@@ -574,7 +574,15 @@ padding: 5px 14px;
   padding: 5px;
 }
 
+<<<<<<< HEAD
 .wps-wallet-referral-wrapper button.wps_wsfw_btn_copy {
+=======
+<<<<<<< HEAD
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy {
+=======
+.wps-wallet-referral-wrapper button.wps_wpr_btn_copy {
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
+>>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2
   display: flex;
   align-items: center;
   justify-content: center;
@@ -586,13 +594,29 @@ padding: 5px 14px;
   color: #483de0;
 }
 
+<<<<<<< HEAD
 .wps-wallet-referral-wrapper button.wps_wsfw_btn_copy:focus {
+=======
+<<<<<<< HEAD
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy:focus {
+=======
+.wps-wallet-referral-wrapper button.wps_wpr_btn_copy:focus {
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
+>>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2
   outline: none;
   box-shadow: none;
 }
 
 
+<<<<<<< HEAD
 .wps-wallet-referral-wrapper button.wps_wsfw_btn_copy img {
+=======
+<<<<<<< HEAD
+.wps-wallet-referral-wrapper button.wps_wsfw_btn_copy img {
+=======
+.wps-wallet-referral-wrapper button.wps_wpr_btn_copy img {
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
+>>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2
   width: auto;
   height: 18px;
 }
@@ -605,6 +629,10 @@ padding: 5px 14px;
   font-size: 14px;
   margin: 5px 0 0;
   color: #0c8603;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2
 }
 
 /* Promotion tab start */
@@ -679,4 +707,11 @@ padding: 5px 14px;
     line-height: 1.5;
 }
 
+<<<<<<< HEAD
 /* Promotion tab and recharge end */
+=======
+/* Promotion tab and recharge end */
+=======
+}
+>>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
+>>>>>>> a8e52ee1966fce588d904ca20d47ea1a4d21bdb2

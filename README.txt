@@ -110,7 +110,7 @@ The Wallet system for Woocommerce allows you to send Wallet cashback rewards to 
 You can bulk or individually recharge users' wallets by importing a CSV file containing their User ID, balance, and transaction type details. While editing the sample .csv file, you can specify the value and transaction type as either credit or debit. Then, upload the file to update customers' wallet balances. 
 
 
-**19. Credit Amount on Daily User Visit, Commenting, and Sign Up**
+**18. Credit Amount on Daily User Visit, Commenting, and Sign Up**
 Our digital wallet plugin allows you to implement a WooCommerce credit system. You can decide a daily login reward amount and enable your customers to earn wallet credit daily by simply logging in to their wallets. 
 
 You can also let them earn wallet credit for submitting product reviews. For this feature, you can set the limit on how many comments a user can have per post, credit amount, and customize comment label text.
