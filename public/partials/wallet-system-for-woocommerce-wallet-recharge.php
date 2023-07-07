@@ -34,9 +34,13 @@ if ( is_array( $wsfw_min_max_value ) ) {
 <?php
 
 	$is_wallet_recharge_enabled = get_option( 'wps_wsfwp_wallet_recharge_tab_enable' );
-if ( 'on' != $is_wallet_recharge_enabled ) {
-	return;
-}
+	$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+	if ( ! $is_pro_plugin  ) {
+		$is_wallet_recharge_enabled =false;
+	}
+if ( 'on' == $is_wallet_recharge_enabled ) {
+	
+
 ?>
 
 <div class="wallet-recharge-tab">
@@ -76,6 +80,10 @@ if (! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_
 
 		</div>
 	</div>
+
+	<?php
+	}
+	?>
 	<form method="post" action="" id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . '):'; ?></label>
