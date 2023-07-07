@@ -300,7 +300,6 @@ $wallet_restrict_coupon      = apply_filters( 'wallet_restrict_coupon', $user_id
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
 $wallet_restrict_referral    = apply_filters( 'wallet_restrict_referral', $user_id );
 $wallet_restrict_qrcode      = apply_filters( 'wallet_restrict_qrcode', $user_id );
-<<<<<<< HEAD
 
 $is_pro_plugin = false;
 $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
@@ -310,8 +309,6 @@ if ( $is_pro_plugin ) {
 	$wps_wallet_restrict_message_to_user = apply_filters( 'wps_wallet_restrict_message_to_user', $user_id );
 	$wps_wallet_restrict_message_for = apply_filters( 'wps_wallet_restrict_message_for', $user_id );
 }
-=======
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
@@ -415,7 +412,6 @@ $wallet_keys = array_keys( $wallet_tabs );
 			</div>
 			<?php
 		}
-<<<<<<< HEAD
 		if ( $is_pro_plugin ) {
 
 			$is_refer_option = get_option( 'wps_wsfw_wallet_action_refer_friend_enable' );
@@ -430,12 +426,6 @@ $wallet_keys = array_keys( $wallet_tabs );
 		}
 		?>
 			
-=======
-		if ( 'on' != $wallet_restrict_referral ) {
-			?>
-		<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
-	<?php } ?>	
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 		</div>
 		<?php do_action( 'wallet_qr_vode_shotcode' ); ?>

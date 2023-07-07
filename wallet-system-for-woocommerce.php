@@ -15,22 +15,14 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce
  * Description:       <code><strong>Wallet System for WooCommerce</strong></code> is a digital wallet plugin where users can add or delete balances in bulk, give refunds and earn cashback. <a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-shop&utm_medium=wallet-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>.
-<<<<<<< HEAD
  * Version:           2.3.7
-=======
- * Version:           2.3.6
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
  * WC Requires at least: 5.5.0
-<<<<<<< HEAD
  * WC tested up to: 7.8.2
-=======
- * WC tested up to: 7.8.0
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
  * WP Requires at least: 5.5.0
  * WP tested up to: 6.2.2
  * Requires PHP: 7.3.5 or Higher

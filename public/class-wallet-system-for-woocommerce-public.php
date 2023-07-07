@@ -1389,11 +1389,7 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 
 		if ( get_option( 'wps_wsfw_wallet_action_refer_friend_enable' ) == 'on' ) {
-<<<<<<< HEAD
 			$cookie_val   = isset( $_COOKIE['wps_wsfw_cookie_set'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wps_wsfw_cookie_set'] ) ) : '';
-=======
-			$cookie_val   = isset( $_COOKIE['wps_wpr_cookie_set'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wps_wpr_cookie_set'] ) ) : '';
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 			$retrive_data = $cookie_val;
 			if ( ! empty( $retrive_data ) ) {
 				$args['meta_query'] = array(
@@ -1472,43 +1468,25 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * The function is used for set the cookie for referee
 	 *
-<<<<<<< HEAD
 	 * @name wps_wsfw_referral_link_using_cookie
-=======
-	 * @name wps_wpr_referral_link_using_cookie
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 	 * @since 1.0.0
 	 * @author WP Swings <webmaster@wpswings.com>
 	 * @link https://www.wpswings.com/
 	 */
-<<<<<<< HEAD
 	public function wps_wsfw_referral_link_using_cookie() {
 
 		if ( ! is_user_logged_in() ) {
 			$wps_wsfw_ref_link_expiry = '';
 			if ( empty( $wps_wsfw_ref_link_expiry ) ) {
 				$wps_wsfw_ref_link_expiry = 365;
-=======
-	public function wps_wpr_referral_link_using_cookie() {
-
-		if ( ! is_user_logged_in() ) {
-			$wps_wpr_ref_link_expiry = '';
-			if ( empty( $wps_wpr_ref_link_expiry ) ) {
-				$wps_wpr_ref_link_expiry = 365;
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 			}
 			if ( isset( $_GET['pkey'] ) && ! empty( $_GET['pkey'] ) ) {// phpcs:ignore WordPress.Security.NonceVerification
 				$wps_referral_key = sanitize_text_field( wp_unslash( $_GET['pkey'] ) );// phpcs:ignore WordPress.Security.NonceVerification
 
 				$referral_link = trim( $wps_referral_key );// phpcs:ignore WordPress.Security.NonceVerification
 
-<<<<<<< HEAD
 				if ( isset( $wps_wsfw_ref_link_expiry ) && ! empty( $wps_wsfw_ref_link_expiry ) && ! empty( $referral_link ) ) {
 					setcookie( 'wps_wsfw_cookie_set', $referral_link, time() + ( 86400 * $wps_wsfw_ref_link_expiry ), '/' );
-=======
-				if ( isset( $wps_wpr_ref_link_expiry ) && ! empty( $wps_wpr_ref_link_expiry ) && ! empty( $referral_link ) ) {
-					setcookie( 'wps_wpr_cookie_set', $referral_link, time() + ( 86400 * $wps_wpr_ref_link_expiry ), '/' );
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 				}
 			}
 		}

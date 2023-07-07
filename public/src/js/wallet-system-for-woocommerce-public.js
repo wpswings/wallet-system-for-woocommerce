@@ -362,17 +362,10 @@
 function copyshareurl() {
 	debugger;
 	// Get the text field.
-<<<<<<< HEAD
 	var copyText = jQuery( '#wps_wsfw_copy' ).html();
 
 	/* Get the text field */
 	var copyText = document.getElementById( "wps_wsfw_copy" );
-=======
-	var copyText = jQuery( '#wps_wpr_copy' ).html();
-
-	/* Get the text field */
-	var copyText = document.getElementById( "wps_wpr_copy" );
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 	/* Prevent iOS keyboard from opening */
 	copyText.readOnly = true;
@@ -395,10 +388,6 @@ function copyshareurl() {
 	copyText.type     = 'hidden';
 	var tooltip       = document.getElementById( "myTooltip_referral" );
 	tooltip.innerHTML = "       Copied!";
-<<<<<<< HEAD
 	jQuery( '.wps_wsfw_btn_copy' ).hide();
-=======
-	jQuery( '.wps_wpr_btn_copy' ).hide();
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 	// Alert the copied text.
 }

@@ -5,13 +5,8 @@ Tags: digital wallet, cashback coupon, wallet topup, user wallet, woocommerce wa
 Requires at least: 5.5.0
 Tested up to: 6.2.2
 WC requires at least: 5.5.0
-<<<<<<< HEAD
 WC tested up to: 7.8.1
 Stable tag: 2.3.7
-=======
-WC tested up to: 7.8.0
-Stable tag: 2.3.6
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -95,16 +90,10 @@ The Wallet Recharge Orders sub-menu is added to the WooCommerce section upon the
 
 **12. Wallet Balance Withdrawal** 
 Customers can file a withdrawal request to withdraw their wallet balance into their bank account or other payment applications. The merchant has the power to approve or reject these requests in the wallet Withdrawal tab, but they have to address each request individually. The request table will also show the username and profile link.
-<<<<<<< HEAD
 
 **13. Email Notifications**
 The Merchant can allow customers to review email notifications on the wallet recharge, the WooCommerce customer credit, and the deduction of the wallet balance. Our WordPress payment plugin will keep your users updated about the current values of their wallets. 
 
-=======
-**13. Email Notifications**
-The Merchant can allow customers to review email notifications on the wallet recharge, the WooCommerce customer credit, and the deduction of the wallet balance. Our WordPress payment plugin will keep your users updated about the current values of their wallets. 
-
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 **14. Flexible Payment Option**
 Customers can use their WooCommerce Wallets as a payment option if the wallet balance is higher than the total cart value. They can use it as a partial payment option when the wallet balance is lower than the total cart value.
 
@@ -116,13 +105,10 @@ The customers can transfer their wallet amount into other customers’ wallets. 
 
 **17. Wallet Cashback Reward** 
 The Wallet system for Woocommerce allows you to send Wallet cashback rewards to customers in their WooCommerce wallets. Even if the payment method used to purchase the product is other than the wallet plugin, customers will still receive cashback rewards. You can set the cashback type as percentage or fixed and offer it cart-wise or category-wise. 
-<<<<<<< HEAD
 
 **18.  Recharge Wallet Accounts With A CSV File**
 You can bulk or individually recharge users' wallets by importing a CSV file containing their User ID, balance, and transaction type details. While editing the sample .csv file, you can specify the value and transaction type as either credit or debit. Then, upload the file to update customers' wallet balances. 
 
-=======
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 **18. Credit Amount on Daily User Visit, Commenting, and Sign Up**
 Our digital wallet plugin allows you to implement a WooCommerce credit system. You can decide a daily login reward amount and enable your customers to earn wallet credit daily by simply logging in to their wallets. 
@@ -285,26 +271,20 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-<<<<<<< HEAD
 = 2.3.7 - Released on 06 July 2023 = 
 * New: CSV file upload button added 
 * New: Compatibile with latest WP[6.2.2] and WC[7.8.1]
 
-=======
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 = 2.3.6 - Released on 14 June 2023 =
 * New: Make rechargeable product tax free
 * Fix: Resolved translation issue for partial payment
 * Fix: Refund issue resolved
 * New: Latest WP [6.2.2] and WC [7.8.0] update
-<<<<<<< HEAD
 
 = 2.3.5 - Released on 19 April 2023 =
 * New: Compatibility with multi vendors.
 * New: Add hide or show button for checkout field.
 * New: Video icon in plugin settings page
-=======
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 = 2.3.4 - Released on 16 March 2023 =
 * New: UI/UX update
@@ -439,18 +419,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-<<<<<<< HEAD
 = 2.3.7 - Released on 06 July 2023 = 
 * New: CSV file upload button added 
 * New: Compatibile with latest WP[6.2.2] and WC[7.8.1]
-=======
-= 2.3.6 - Released on 14 June 2023 =
-* New: Make rechargeable product tax free
-* Fix: Resolved translation issue for partial payment 
-* Fix: Refund issue resolved
-* New: Latest WP [6.2.2] and WC [7.8.0] update.
-
->>>>>>> 53efcbfb95861080ab5b45d9a4a99f18d98fc569
 
 
 
