@@ -192,7 +192,7 @@
 		});
 		$(document).on("click", "#confirm_updatewallet", function(){
 			$('.wps_wallet-update--popupwrap').hide();
-			debugger;
+		
 			jQuery('.wps-div-loader-wrapper').show();
 			jQuery('.wps_wsfw_reset_user_notice').show();
 			jQuery('.wps_wsfw_reset_user_loader').show();
@@ -267,7 +267,7 @@
 				},
 				datatType: 'JSON',
 				success: function( response ) {
-					debugger;
+				
 					$( '.wps-wpg-withdrawal-section-table' ).before('<div class="notice notice-' + response.msgType + ' is-dismissible wps-errorr-8"><p>' + response.msg + '</p></div>');		
 				
 					loader.hide();
