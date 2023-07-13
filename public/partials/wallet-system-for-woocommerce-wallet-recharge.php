@@ -44,7 +44,7 @@ if ( is_array( $wsfw_min_max_value ) ) {
 				<?php
 				$wps_wallet_recharge_tab_array = get_option( 'wps_wallet_action_recharge_tab_array' );
 				if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_tab_array ) ) {
-					if ( $wps_wallet_recharge_tab_array[0] == '' ) {
+					if ( '' == $wps_wallet_recharge_tab_array[0] ) {
 
 						$wps_wallet_recharge_tab_array = array();
 					}
