@@ -170,7 +170,25 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 
 if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatewallet'] ) ) {
 	unset( $_POST['confirm_updatewallet'] );
+	$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce ) ) {
+		return false;
+	}
+	global $wsfw_wps_wsfw_obj;
 	$update = true;
+	if ( empty( $_POST['wsfw_wallet_amount_for_users'] ) ) {
+		$wps_wsfw_error_text = esc_html__( 'Please enter any amount', 'wallet-system-for-woocommerce' );
+		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
+		$update = false;
+	}
+	if ( empty( $_POST['wsfw_wallet_action_for_users'] ) ) {
+		$wps_wsfw_error_text = esc_html__( 'Please select any action', 'wallet-system-for-woocommerce' );
+		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
+		$update = false;
+	}
+	if ($update){
+
+
 	$user_count = count_users()['total_users'];
 	$current_page  = 1;
 	$reset_status  = '';
@@ -185,7 +203,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 		$loop_count = 0;
 	}
 
-	$data = confirm_updatewallet_for_all_user( $get_count, $current_page );
+	$data = confirm_updatewallet_for_all_user( $get_count, $current_page, '', $update );
 
 	if ( $loop_count > 0 ) {
 
@@ -202,7 +220,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 					$reset_status = floatval( $data['offset'] ) + floatval( $get_count );
 				}
 
-				$data = confirm_updatewallet_for_all_user( $data['per_user'], $data['current_page'], $data['updated_users'] );
+				$data = confirm_updatewallet_for_all_user( $data['per_user'], $data['current_page'], $data['updated_users'], $update );
 
 
 				$result  = false;
@@ -226,6 +244,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
 	}
 }
+}
 
 
 /**
@@ -236,7 +255,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
  * @param string $user_updated_count updated count.
  * @return array
  */
-function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_updated_count = '' ) {
+function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_updated_count = '', $update ) {
 	$currency  = get_woocommerce_currency();
 	$update = true;
 
@@ -245,16 +264,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_up
 		return false;
 	}
 	global $wsfw_wps_wsfw_obj;
-	if ( empty( $_POST['wsfw_wallet_amount_for_users'] ) ) {
-		$wps_wsfw_error_text = esc_html__( 'Please enter any amount', 'wallet-system-for-woocommerce' );
-		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
-		$update = false;
-	}
-	if ( empty( $_POST['wsfw_wallet_action_for_users'] ) ) {
-		$wps_wsfw_error_text = esc_html__( 'Please select any action', 'wallet-system-for-woocommerce' );
-		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
-		$update = false;
-	}
+	
 	if ( $update ) {
 
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();

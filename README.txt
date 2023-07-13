@@ -271,7 +271,10 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.3.9 - Released on 07 July 2023 = 
+= 2.3.9 - Released on 13 July 2023 = 
+* Fix: Partial Payment issue fixed
+
+= 2.3.8 - Released on 07 July 2023 = 
 * Fix: Wallet Add Balance issue related to section display.
 
 = 2.3.7 - Released on 06 July 2023 = 
@@ -422,13 +425,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.3.9 - Released on 07 July 2023 = 
-* Fix: Wallet Add Balance issue related to section display.
-
-
-
-
-
-
-
-
+= 2.3.9 - Released on 13 July 2023 = 
+* Fix: Partial Payment issue fixed
