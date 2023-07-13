@@ -534,8 +534,8 @@ setInterval(function time(){
 
 	$is_wallet_recharge_enabled = get_option( 'wps_wsfwp_wallet_promotion_tab_enable' );
 	$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
-	if ( ! $is_pro_plugin  ) {
-		$is_wallet_recharge_enabled =false;
+	if ( ! $is_pro_plugin ) {
+		$is_wallet_recharge_enabled = false;
 	}
 	if ( 'on' == $is_wallet_recharge_enabled ) {
 		?>
