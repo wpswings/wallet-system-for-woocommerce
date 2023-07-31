@@ -1956,6 +1956,23 @@ class Wallet_System_For_Woocommerce_Admin {
 			)
 		);
 
+
+		global  $wpdb;
+		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+		$column_name = 'transaction_type_1';
+		$column = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s ',
+				DB_NAME,
+				$table_name,
+				$column_name
+			)
+		);
+
+		if ( empty( $column ) ) {
+			$column = $wpdb->query( $wpdb->prepare( "ALTER TABLE  {$wpdb->prefix}wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT NULL" ) );
+		}
+
 		// Check transaction table is updated with new field or not.
 		$updated_transaction_table = get_option( 'wps_wsfw_updated_transaction_table' );
 		if ( ! $updated_transaction_table ) {
