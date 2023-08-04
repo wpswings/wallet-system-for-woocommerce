@@ -301,6 +301,31 @@ if ( $activated ) {
 	}
 	add_filter( 'plugin_row_meta', 'wallet_system_for_woocommerce_custom_settings_at_plugin_tab', 10, 2 );
 
+	add_filter( 'woocommerce_data_stores', 'wsfw_admin_woocommerce_data_storehjgjgs' );
+ function wsfw_admin_woocommerce_data_storehjgjgs( $data_stores ) {
+	if ( ! empty( $data_stores ) ) {
+		
+		require_once plugin_dir_path( __FILE__ ) . 'admin/partials/class-wc-wallet-shop-order-data-store-cpt.php';
+		// return $data_stores_data;
+		return array_merge(
+			$data_stores,
+			array(
+				'wallet_shop_order'    => 'WC_Wallet_Shop_Order_Data_Store',
+				
+			)
+		);
+
+	}
+}
+
+add_action( 'before_woocommerce_init', function() {
+	if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+	\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+} );
+
+
+
 } else {
 	// To deactivate plugin if woocommerce is not installed.
 	add_action( 'admin_init', 'wps_wsfw_plugin_deactivate' );
@@ -332,12 +357,5 @@ if ( $activated ) {
 	}
 }
 
-add_action( 'before_woocommerce_init', function() {
-	if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-	\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
-	}
-} );
 
 
-ini_set('display_errors',1);
-error_reporting(E_ALL);

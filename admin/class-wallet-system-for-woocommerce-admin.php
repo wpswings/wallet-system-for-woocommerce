@@ -2621,11 +2621,16 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_woocommerce_data_stores( $data_stores ) {
 		if ( ! empty( $data_stores ) ) {
-
-			$wallet_store = array( 'wallet_shop_order' => 'wallet_shop_order' );
-			$data_stores  = array_merge( $wallet_store, $data_stores );
-
-			return $data_stores;
+			
+			
+			// return $data_stores_data;
+			return array_merge(
+				$data_stores,
+				array(
+					'wallet-shop-order'    => 'WC_Wallet_Shop_Order_Data_Store',
+					
+				)
+			);
 
 		}
 	}
@@ -2865,5 +2870,20 @@ class Wallet_System_For_Woocommerce_Admin {
 
 				wp_send_json( $response );
 	}
+
+}
+
+
+
+
+
+add_filter( 'woocommerce_wallet_shop_order_data_store', 'xfgdxfg' );
+
+function xfgdxfg($data){
+	  // LOAD THE WC LOGGER
+	  $logger = wc_get_logger();
+    
+	  // LOG THE FAILED ORDER TO CUSTOM "failed-orders" LOG
+	  $logger->info( wc_print_r( $data, true ), array( 'source' => 'wallettttt-failed-orders' ) );
 
 }

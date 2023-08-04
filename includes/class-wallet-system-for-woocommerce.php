@@ -137,7 +137,8 @@ class Wallet_System_For_Woocommerce {
 
 			// The class responsible for defining all actions that occur in the admin area.
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wallet-system-for-woocommerce-admin.php';
-
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/class-wc-wallet-shop-order-data-store-cpt.php';
+			
 			// The class responsible for on-boarding steps for plugin.
 			if ( is_dir( plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Wallet_System_For_Woocommerce_Onboarding_Steps' ) ) {
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-onboarding-steps.php';
@@ -280,8 +281,6 @@ class Wallet_System_For_Woocommerce {
 
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
-
-		$this->loader->add_filter( 'woocommerce_data_stores', $wsfw_plugin_admin, 'wsfw_admin_woocommerce_data_stores' );
 
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
 			if ( wps_sfw_check_plugin_enable() ) {
