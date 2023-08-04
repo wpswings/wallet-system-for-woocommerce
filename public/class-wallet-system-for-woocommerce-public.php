@@ -308,6 +308,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$product_id = $item->get_product_id();
 			$total      = $item->get_total();
 
+
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 
 				if ( 'completed' == $new_status ) {
@@ -333,7 +334,6 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
 						$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
-						;
 						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $amount ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
 						$to         = $wallet_user->user_email;
 						$from       = get_option( 'admin_email' );
@@ -385,11 +385,15 @@ class Wallet_System_For_Woocommerce_Public {
 					$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
 
 					if ( $walletamount < $debited_amount ) {
-						$walletamount = 0;
+						$debited_amount = $walletamount;
+						$walletamount = '0';
+					
+						$order->add_order_note( 'Wallet partial amount is less than wallet amount for partial payment.' );
 					} else {
 						$walletamount -= $debited_amount;
+						
 					}
-
+					
 					update_user_meta( $userid, 'wps_wallet', $walletamount );
 					update_post_meta( $order_id, 'wps_wallet_update_on_thankyou', 'done' );
 					$balance   = $order->get_currency() . ' ' . $amount;
@@ -434,6 +438,7 @@ class Wallet_System_For_Woocommerce_Public {
 					);
 
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+				
 				}
 			}
 		}
@@ -549,8 +554,17 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_add_wallet_discount() {
 
 		if ( WC()->session->__isset( 'custom_fee' ) ) {
-
 			$discount = (float) WC()->session->get( 'custom_fee' );
+			$customer_id = get_current_user_id();
+			if ( $customer_id > 0 ) {
+				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
+				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
+				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
+			}
+			if ( $discount > $walletamount ){
+				$discount = $walletamount;
+			}
+			
 			if ( $discount ) {
 				$fee = array(
 					'id'     => 'via_wallet_partial_payment',

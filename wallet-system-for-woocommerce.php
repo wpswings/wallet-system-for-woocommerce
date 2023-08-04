@@ -24,7 +24,7 @@
  * WC Requires at least: 5.5.0
  * WC tested up to: 8.0.0
  * WP Requires at least: 5.5.0
- * WP tested up to: 6.2.2
+ * WP tested up to: 6.3
  * Requires PHP: 7.3.5 or Higher
  *
  * License:           GNU General Public License v3.0
@@ -337,3 +337,7 @@ add_action( 'before_woocommerce_init', function() {
 	\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 	}
 } );
+
+
+ini_set('display_errors',1);
+error_reporting(E_ALL);

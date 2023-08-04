@@ -1143,6 +1143,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 */
 	public function wsfw_wsfw_commission_ordeer_status_change( $order_id, $old_status, $new_status ) {
 
+		$parent_order_id = '';
 		if ( function_exists( 'mvx_get_order' ) ) {
 			$is_vendor_order = ( $order_id ) ? mvx_get_order( $order_id ) : false;
 			$parent_order_id = wp_get_post_parent_id( $order_id );
