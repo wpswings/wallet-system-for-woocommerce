@@ -203,7 +203,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 			$loop_count = 0;
 		}
 
-		$data = confirm_updatewallet_for_all_user( $get_count, $current_page,  $update, '');
+		$data = confirm_updatewallet_for_all_user( $get_count, $current_page, $update, '' );
 
 		if ( $loop_count > 0 ) {
 
@@ -220,7 +220,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 						$reset_status = floatval( $data['offset'] ) + floatval( $get_count );
 					}
 
-					$data = confirm_updatewallet_for_all_user( $data['per_user'], $data['current_page'], $update,  $data['updated_users'] );
+					$data = confirm_updatewallet_for_all_user( $data['per_user'], $data['current_page'], $update, $data['updated_users'] );
 
 
 					$result  = false;
@@ -252,11 +252,11 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
  *
  * @param [type] $user_count is the all user number.
  * @param [type] $current_page is the current page.
- * @param string $user_updated_count updated count.
  * @param bool   $update is the bool variable to update wallet.
+ * @param string $user_updated_count updated count.
  * @return array
  */
-function confirm_updatewallet_for_all_user( $user_count, $current_page,  $update, $user_updated_count = '' ) {
+function confirm_updatewallet_for_all_user( $user_count, $current_page, $update, $user_updated_count = '' ) {
 	$currency  = get_woocommerce_currency();
 	$update = true;
 

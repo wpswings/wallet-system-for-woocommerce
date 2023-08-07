@@ -1956,7 +1956,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			)
 		);
 
-
 		global  $wpdb;
 		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 		$column_name = 'transaction_type_1';
@@ -2845,20 +2844,5 @@ class Wallet_System_For_Woocommerce_Admin {
 
 				wp_send_json( $response );
 	}
-
-}
-
-
-
-
-
-add_filter( 'woocommerce_wallet_shop_order_data_store', 'xfgdxfg' );
-
-function xfgdxfg($data){
-	  // LOAD THE WC LOGGER
-	  $logger = wc_get_logger();
-    
-	  // LOG THE FAILED ORDER TO CUSTOM "failed-orders" LOG
-	  $logger->info( wc_print_r( $data, true ), array( 'source' => 'wallettttt-failed-orders' ) );
 
 }
