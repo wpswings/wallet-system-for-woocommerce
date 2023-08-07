@@ -2612,31 +2612,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		return $wsfw_settings_general;
 	}
 
-
-	/**
-	 * To correct the data sy=tores in case of wallet recharge.
-	 *
-	 * @param [type] $data_stores are the variable which contains all data stores.
-	 * @return string
-	 */
-	public function wsfw_admin_woocommerce_data_stores( $data_stores ) {
-		if ( ! empty( $data_stores ) ) {
-			
-			
-			// return $data_stores_data;
-			return array_merge(
-				$data_stores,
-				array(
-					'wallet-shop-order'    => 'WC_Wallet_Shop_Order_Data_Store',
-					
-				)
-			);
-
-		}
-	}
-
-
-
 	/**
 	 * Process refund through wallet.
 	 *
