@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.3.8';
+			$this->version = '2.4.0';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -280,8 +280,6 @@ class Wallet_System_For_Woocommerce {
 
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
-
-		$this->loader->add_filter( 'woocommerce_data_stores', $wsfw_plugin_admin, 'wsfw_admin_woocommerce_data_stores' );
 
 		if ( function_exists( 'wps_sfw_check_plugin_enable' ) ) {
 			if ( wps_sfw_check_plugin_enable() ) {

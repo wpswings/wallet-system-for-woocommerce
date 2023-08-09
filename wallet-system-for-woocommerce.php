@@ -15,16 +15,16 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce
  * Description:       <code><strong>Wallet System for WooCommerce</strong></code> is a digital wallet plugin where users can add or delete balances in bulk, give refunds and earn cashback. <a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-shop&utm_medium=wallet-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>.
- * Version:           2.3.8
+ * Version:           2.4.0
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  *
  * WC Requires at least: 5.5.0
- * WC tested up to: 7.8.2
+ * WC tested up to: 8.0.0
  * WP Requires at least: 5.5.0
- * WP tested up to: 6.2.2
+ * WP tested up to: 6.3
  * Requires PHP: 7.3.5 or Higher
  *
  * License:           GNU General Public License v3.0
@@ -64,7 +64,7 @@ if ( $activated ) {
 
 		$wp_upload = wp_upload_dir();
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR', $wp_upload['basedir'] );
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.3.8' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.4.0' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -301,6 +301,39 @@ if ( $activated ) {
 	}
 	add_filter( 'plugin_row_meta', 'wallet_system_for_woocommerce_custom_settings_at_plugin_tab', 10, 2 );
 
+	add_filter( 'woocommerce_data_stores', 'wsfw_admin_woocommerce_data_store_file' );
+	/**
+	 * This is used to assign wallet order data store.
+	 *
+	 * @param [type] $data_stores data stores.
+	 * @return array
+	 */
+	function wsfw_admin_woocommerce_data_store_file( $data_stores ) {
+		if ( ! empty( $data_stores ) ) {
+
+			require_once plugin_dir_path( __FILE__ ) . 'admin/partials/class-wc-wallet-shop-order-data-store.php';
+			return array_merge(
+				$data_stores,
+				array(
+					'wallet_shop_order'    => 'WC_Wallet_Shop_Order_Data_Store',
+
+				)
+			);
+
+		}
+	}
+
+	add_action(
+		'before_woocommerce_init',
+		function() {
+			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+			}
+		}
+	);
+
+
+
 } else {
 	// To deactivate plugin if woocommerce is not installed.
 	add_action( 'admin_init', 'wps_wsfw_plugin_deactivate' );
@@ -331,3 +364,6 @@ if ( $activated ) {
 		<?php
 	}
 }
+
+
+

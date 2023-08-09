@@ -170,81 +170,12 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 
 if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatewallet'] ) ) {
 	unset( $_POST['confirm_updatewallet'] );
-	$update = true;
-	$user_count = count_users()['total_users'];
-	$current_page  = 1;
-	$reset_status  = '';
-	$get_count = 500;
-	$result = '';
-	if ( $user_count > $get_count ) {
-
-		$get_count = $get_count;
-		$loop_count = $user_count / $get_count;
-	} else {
-		$get_count = $user_count;
-		$loop_count = 0;
-	}
-
-	$data = confirm_updatewallet_for_all_user( $get_count, $current_page );
-
-	if ( $loop_count > 0 ) {
-
-
-		for ( $i = 0; $i < $loop_count; $i++ ) {
-
-			if ( intval( $user_count ) >= intval( $data['offset'] ) + intval( $data['per_user'] ) ) {
-
-				if ( $data['offset'] <= 0 ) {
-
-					 $reset_status = $get_count;
-				} else {
-
-					$reset_status = floatval( $data['offset'] ) + floatval( $get_count );
-				}
-
-				$data = confirm_updatewallet_for_all_user( $data['per_user'], $data['current_page'], $data['updated_users'] );
-
-
-				$result  = false;
-
-			} else {
-
-				$result  = true;
-			}
-		}
-	} else {
-		$result  = true;
-	}
-	if ( $result ) {
-		?>
-
-		<?php
-		$wps_wsfw_error_text = esc_html__( 'Updated wallet of ', 'wallet-system-for-woocommerce' ) . $data['updated_users'] . esc_html__( ' users out of ', 'wallet-system-for-woocommerce' ) . $user_count;
-		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'success' );
-	} else {
-		$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
-		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
-	}
-}
-
-
-/**
- * Update user data.
- *
- * @param [type] $user_count is the all user number.
- * @param [type] $current_page is the current page.
- * @param string $user_updated_count updated count.
- * @return array
- */
-function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_updated_count = '' ) {
-	$currency  = get_woocommerce_currency();
-	$update = true;
-
 	$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce ) ) {
 		return false;
 	}
 	global $wsfw_wps_wsfw_obj;
+	$update = true;
 	if ( empty( $_POST['wsfw_wallet_amount_for_users'] ) ) {
 		$wps_wsfw_error_text = esc_html__( 'Please enter any amount', 'wallet-system-for-woocommerce' );
 		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
@@ -257,9 +188,89 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_up
 	}
 	if ( $update ) {
 
+
+		$user_count = count_users()['total_users'];
+		$current_page  = 1;
+		$reset_status  = '';
+		$get_count = 500;
+		$result = '';
+		if ( $user_count > $get_count ) {
+
+			$get_count = $get_count;
+			$loop_count = $user_count / $get_count;
+		} else {
+			$get_count = $user_count;
+			$loop_count = 0;
+		}
+
+		$data = confirm_updatewallet_for_all_user( $get_count, $current_page, $update, '' );
+
+		if ( $loop_count > 0 ) {
+
+
+			for ( $i = 0; $i < $loop_count; $i++ ) {
+
+				if ( intval( $user_count ) >= intval( $data['offset'] ) + intval( $data['per_user'] ) ) {
+
+					if ( $data['offset'] <= 0 ) {
+
+						 $reset_status = $get_count;
+					} else {
+
+						$reset_status = floatval( $data['offset'] ) + floatval( $get_count );
+					}
+
+					$data = confirm_updatewallet_for_all_user( $data['per_user'], $data['current_page'], $update, $data['updated_users'] );
+
+
+					$result  = false;
+
+				} else {
+
+					$result  = true;
+				}
+			}
+		} else {
+			$result  = true;
+		}
+		if ( $result ) {
+			?>
+
+			<?php
+			$wps_wsfw_error_text = esc_html__( 'Updated wallet of ', 'wallet-system-for-woocommerce' ) . $data['updated_users'] . esc_html__( ' users out of ', 'wallet-system-for-woocommerce' ) . $user_count;
+			$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'success' );
+		} else {
+			$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+			$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
+		}
+	}
+}
+
+
+/**
+ * Update user data.
+ *
+ * @param [type] $user_count is the all user number.
+ * @param [type] $current_page is the current page.
+ * @param bool   $update is the bool variable to update wallet.
+ * @param string $user_updated_count updated count.
+ * @return array
+ */
+function confirm_updatewallet_for_all_user( $user_count, $current_page, $update, $user_updated_count = '' ) {
+	$currency  = get_woocommerce_currency();
+	$update = true;
+
+	$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce ) ) {
+		return false;
+	}
+	global $wsfw_wps_wsfw_obj;
+
+	if ( $update ) {
+
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-		$updated_amount         = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_amount_for_users'] ) );
-		$wallet_action          = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_action_for_users'] ) );
+		$updated_amount         = ! empty( $_POST['wsfw_wallet_amount_for_users'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_amount_for_users'] ) ) : '';
+		$wallet_action          = ! empty( $_POST['wsfw_wallet_action_for_users'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_action_for_users'] ) ) : '';
 		update_option( 'wsfw_wallet_amount_for_users', $updated_amount );
 		update_option( 'wsfw_wallet_action_for_users', $wallet_action );
 		$wallet_amount = get_option( 'wsfw_wallet_amount_for_users', '' );
@@ -385,7 +396,6 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_up
 						}
 					}
 
-
 					$transaction_data = array(
 						'user_id'          => $user_id,
 						'amount'           => $updated_amount,
@@ -402,6 +412,11 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $user_up
 
 					$number_of_users++;
 				}
+				$data = array(
+					'per_user'     => $number_of_users,
+					'updated_users' => $updated_users,
+				);
+				return $data;
 			} else {
 
 				$args = array(
