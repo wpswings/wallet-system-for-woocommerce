@@ -688,3 +688,8 @@ form#wps_wallet_transfer_form {
 }
 
 /* Promotion tab and recharge end */
+
+.payment_method_wallet{
+  padding-left: 3rem;
+  margin-top: 1rem;
+}

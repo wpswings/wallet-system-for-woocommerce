@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.4.0';
+			$this->version = '2.5.0';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -286,6 +286,15 @@ class Wallet_System_For_Woocommerce {
 				$this->loader->add_filter( 'wsfw_general_extra_settings_array', $wsfw_plugin_admin, 'wps_wsfw_extra_settings_sfw', 30, 1 );
 				$this->loader->add_action( 'wps_sfw_renewal_order_creation', $wsfw_plugin_admin, 'wps_sfw_renewal_order_creation', 10, 2 );
 			}
+		}
+
+		$is_pro = false;
+		$is_pro = apply_filters('wsfw_check_pro_plugin',$is_pro);
+		if ( ! $is_pro ) {
+			$this->loader->add_filter( 'wsfwp_wallet_action_settings_withdrawal_array', $wsfw_plugin_admin, 'wps_wsfws_admin_wallet_action_withdrawal_settings_page_org', 10 );
+			$this->loader->add_filter( 'wsfwp_wallet_action_settings_transfer_array', $wsfw_plugin_admin, 'wps_wsfws_admin_wallet_action_transfer_settings_page_org', 10 );
+			$this->loader->add_action( 'wsfw_wallet_action_settings_refer_friend_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_refer_friend_array_org', 10 );
+
 		}
 
 	}
@@ -502,6 +511,29 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'wallet-system-for-woocommerce-wallet-actions',
 		);
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
+
+
+		$is_pro = false;
+		$is_pro = apply_filters('wsfw_check_pro_plugin',$is_pro);
+		if ( ! $is_pro ) {
+			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-restriction'] = array(
+				'title'     => esc_html__( 'Wallet Regulation', 'wallet-system-for-woocommerce-pro' ),
+				'name'      => 'wallet-system-for-woocommerce-org-wallet-restriction',
+				//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-pro-wallet-restriction.php',
+			);
+			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-promotions'] = array(
+				'title'     => esc_html__( 'Wallet Promotions', 'wallet-system-for-woocommerce-pro' ),
+				'name'      => 'wallet-system-for-woocommerce-org-wallet-promotions',
+				//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-pro-wallet-promotions.php',
+			);
+			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-recharge-tab'] = array(
+				'title'     => esc_html__( 'Wallet Quick Recharge', 'wallet-system-for-woocommerce-pro' ),
+				'name'      => 'wallet-system-for-woocommerce-org-wallet-recharge-tab',
+				//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-pro-wallet-recharge-tab.php',
+			);
+		//return $default_tabs;
+		}
+
 
 		$wsfw_default_tabs['wallet-system-rest-api'] = array(
 			'title' => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),

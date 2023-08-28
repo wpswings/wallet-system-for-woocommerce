@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.3
 WC requires at least: 5.5.0
 WC tested up to: 8.0.0
-Stable tag: 2.4.0
+Stable tag: 2.5.0
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -265,7 +265,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.4.0 - Released on 07 August 2023 =
+= 2.5.0 - Released on 07 August 2023 =
 * Fix: Issue fixed in Partial payment when admin deduct amount while placing order.
 * Fix: Fixed error while adding balance manually from wallet table.
 * Fix: Fixed Notification Error when admin deducts more than existent value from wallet table.
@@ -426,7 +426,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.4.0 - Released on 07 August 2023 =
+= 2.5.0 - Released on 07 August 2023 =
 * Fix: Issue fixed in Partial payment when admin deduct amount while placing order.
 * Fix: Fixed error while adding balance manually from wallet table.
 * Fix: Fixed Notification Error when admin deducts more than existent value from wallet table.

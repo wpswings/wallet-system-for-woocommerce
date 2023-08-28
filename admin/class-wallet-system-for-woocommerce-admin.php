@@ -96,6 +96,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_enqueue_scripts( $hook ) {
 		global $post;
 		$screen = get_current_screen();
+		$is_plugin = false;
 		$screen_id = $screen ? $screen->id : '';
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
@@ -122,6 +123,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_amount_error_debit'         => __( 'Enter amount less than or equal to ', 'wallet-system-for-woocommerce' ),
 					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
 					'wsfw_is_subscription'      => $this->wps_wsfw_subscription_active_plugin(),
+					'is_negative_balance'       => get_option( 'wsfw_enable_wallet_negative_balance' ),
+					'is_pro_plugin'             => apply_filters('wsfw_check_pro_plugin',$is_plugin),
 				)
 			);
 
@@ -196,7 +199,15 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 
 		$order_id = $thepostid;
-		if ( get_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true ) ) {
+		$is_refunded = false;
+		$order     = wc_get_order( $order_id );
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// HPOS usage is enabled.
+			$is_refunded = 	$order->get_meta('_wps_wallet_partial_payment_refunded', true );
+		} else {
+			$is_refunded =  get_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
+		}
+		if ( $is_refunded ) {
 			$html = '<small class="refunded">' . __( 'Refunded', 'wallet-system-for-woocommerce' ) . '</small>';
 		} else {
 			$html = '<button type="button" class="button refund-partial-payment">' . __( 'Refund to Wallet', 'wallet-system-for-woocommerce' ) . '</button>';
@@ -421,6 +432,8 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_general_settings_page( $wsfw_settings_general ) {
 
 		$wsfw_settings_general = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
+		
+		
 		$wsfw_settings_general = array(
 			// enable wallet.
 			array(
@@ -448,6 +461,39 @@ class Wallet_System_For_Woocommerce_Admin {
 					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
+			),
+			array(
+				'title'       => __( 'Enable Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to allow customers use wallet in negative balance', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_enable_wallet_negative_balance',
+				'id'          => 'wsfw_enable_wallet_negative_balance',
+				'value'       => 'on',
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Limit for Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter limit upto customer can use balance in negative', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_enable_wallet_negative_balance_limit',
+				'id'          => 'wsfw_enable_wallet_negative_balance_limit',
+				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit', '0' ),
+				'class'       => 'wsfw-text-class',
+				'placeholder' => __( 'Enter Amount Limit upto user can use negative balance', 'wallet-system-for-woocommerce' ),
+			),
+			array(
+				'title'       => __( 'Limit order number for Wallet Negative Balance Use', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter limit upto customer can use balance in negative', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_enable_wallet_negative_balance_limit_order',
+				'id'          => 'wsfw_enable_wallet_negative_balance_limit_order',
+				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit_order', 0 ),
+				'class'       => 'wsfw-text-class',
+				'placeholder' => __( 'Enter Order Limit after which user can use negative balance at checkout', 'wallet-system-for-woocommerce' ),
 			),
 			array(
 				'title'       => __( 'Make Wallet Recharge Product Tax Free', 'wallet-system-for-woocommerce' ),
@@ -568,8 +614,31 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-select-class',
 				'placeholder' => __( 'ShortCode For Wallet', 'wallet-system-for-woocommerce' ),
 			),
+			array(
+				'title'       => __( 'Message For Customer', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'text',
+				'description' => __( 'Enter message for customer at the time of withdrawal request', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wsfwp_withdrawal_page_message',
+				'id'          => 'wsfwp_withdrawal_page_message',
+				'value'       => get_option( 'wsfwp_withdrawal_page_message' ),
+				'placeholder' => __( 'message', 'wallet-system-for-woocommerce-pro' ),
+				'class'       => 'wws-text-class',
+			),
+			array(
+				'title'       => __( 'Admin Email for wallet Withdrawal Request', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'text',
+				'description' => __( 'Enter the admin mail id to get the update of withdrawal request', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wsfwp_withdrawal_admin_withdrawal_request_email',
+				'id'          => 'wsfwp_withdrawal_admin_withdrawal_request_email',
+				'value'       => get_option( 'wsfwp_withdrawal_admin_withdrawal_request_email' ),
+				'placeholder' => __( 'Enter Email Id of Admin', 'wallet-system-for-woocommerce-pro' ),
+				'class'       => 'wws-text-class',
+			),
+
 		);
-		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
+		//$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
+		
+
 		$wsfw_settings_general[] = array(
 			'type'        => 'submit',
 			'name'        => 'wsfw_button_demo',
@@ -957,6 +1026,46 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => '',
 				'options' => $wps_all_payment_gateway,
 			),
+			array(
+				'title'       => __( 'Show Gateway Restriction Message at Checkout Page', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'radio-switch',
+				'description' => '',
+				'name'        => 'wps_wsfw_Gateway_Restriction_message_checkout',
+				'id'          => 'wps_wsfw_Gateway_Restriction_message_checkout',
+				'value'       => get_option( 'wps_wsfw_Gateway_Restriction_message_checkout' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				),
+			),
+			array(
+				'title'       => __( 'Hide Wallet Cashback Message at Cart Page', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'radio-switch',
+				'description' => '',
+				'name'        => 'wps_wsfw_hide_cashback_cart',
+				'id'          => 'wps_wsfw_hide_cashback_cart',
+				'value'       => get_option( 'wps_wsfw_hide_cashback_cart' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				),
+			),
+			array(
+				'title'       => __( 'Hide Wallet Cashback Message at Checkout Page', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'radio-switch',
+				'description' => '',
+				'name'        => 'wps_wsfw_hide_cashback_checkout',
+				'id'          => 'wps_wsfw_hide_cashback_checkout',
+				'value'       => get_option( 'wps_wsfw_hide_cashback_checkout' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				),
+			),
+			
 		);
 		$wsfw_settings_general   = apply_filters( 'wsfw_cashback_extra_settings_array', $wsfw_settings_general );
 		$wsfw_settings_general[] = array(
@@ -1392,7 +1501,12 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount        = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount, $order_currency );
-					$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update', $credited_amount );
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$converted_ = 	$order->get_meta('wps_converted_currency_update', $credited_amount );
+					} else {
+						$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update', $credited_amount );
+					}
 					if ( ! empty( $converted_ ) ) {
 						$credited_amount = $converted_;
 						$order_curremncy = get_woocommerce_currency();
@@ -2837,12 +2951,184 @@ class Wallet_System_For_Woocommerce_Admin {
 					// order refund data added to order notes.
 					$text_order_note = wc_price( $partial_payment_amount, wps_wallet_wc_price_args( $order->get_customer_id() ) ) . esc_html__( 'refunded to customer wallet', 'wallet-system-for-woocommerce' );
 					$order->add_order_note( $text_order_note );
-					update_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
-					update_post_meta( $order_id, '_partial_payment_refund_id', $transaction_id );
+
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$order->update_meta_data( '_wps_wallet_partial_payment_refunded', true );
+						$order->update_meta_data( '_partial_payment_refund_id', $transaction_id );
+						$order->save();
+	
+					} else {
+						
+						update_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
+						update_post_meta( $order_id, '_partial_payment_refund_id', $transaction_id );
+					}
+
+					
 					add_action( 'wps_wallet_partial_order_refunded', $order_id, $transaction_id );
 				}
 
 				wp_send_json( $response );
 	}
+
+	/**
+	 * Function for withdrawal setting.
+	 *
+	 * @return array
+	 */
+	public function wps_wsfws_admin_wallet_action_withdrawal_settings_page_org() {
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable Wallet withdrawal Extra Fee Settings', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfwp_wallet_action_withdrawal_enable',
+				'id'          => 'wps_wsfwp_wallet_action_withdrawal_enable',
+				'value'       => get_option( 'wps_wsfwp_wallet_action_withdrawal_enable' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				),
+			),
+			array(
+				'title'       => __( 'Wallet Withdrawal Fee Type', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'select',
+				'description' => __( 'Select Withdrawal Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfwp_cashback_withdrawal_fee_type',
+				'id'          => 'wps_wsfwp_cashback_withdrawal_fee_type',
+				'value'       => get_option( 'wps_wsfwp_cashback_withdrawal_fee_type', 'percent' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => apply_filters(
+					'wsfw_cashback_type__array',
+					array(
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce-pro' ),
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce-pro' ),
+					)
+				),
+			),
+			array(
+				'title'       => __( 'Enter Fee For Wallet withdrawal Process', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'number',
+				'description' => __( 'Enter Fee For Wallet withdrawal Process', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfwp_wallet_withdrawal_fee_amount',
+				'id'          => 'wps_wsfwp_wallet_withdrawal_fee_amount',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfwp_wallet_withdrawal_fee_amount' ) ) ? get_option( 'wps_wsfwp_wallet_withdrawal_fee_amount' ) : 1,
+				'placeholder' => __( 'Enter wallet Transfer Fee amount', 'wallet-system-for-woocommerce-pro' ),
+				'class'       => 'wws-text-class',
+			),
+		);
+
+		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_auto_withdrawal_settings_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+	}
+
+	/**
+	 * Function fpor Transfer settings.
+	 *
+	 * @return array
+	 */
+	public function wps_wsfws_admin_wallet_action_transfer_settings_page_org() {
+
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable Wallet transfer Extra Fee Settings', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfwp_wallet_action_transfer_enable',
+				'id'          => 'wps_wsfwp_wallet_action_transfer_enable',
+				'value'       => get_option( 'wps_wsfwp_wallet_action_transfer_enable' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				),
+			),
+			array(
+				'title'       => __( 'Wallet Transfer Fee Type', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'select',
+				'description' => __( 'Select Transfer Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfwp_cashback_transfer_fee_type',
+				'id'          => 'wps_wsfwp_cashback_transfer_fee_type',
+				'value'       => get_option( 'wps_wsfwp_cashback_transfer_fee_type', 'percent' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => apply_filters(
+					'wsfw_cashback_type__array',
+					array(
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce-pro' ),
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce-pro' ),
+					)
+				),
+			),
+			array(
+				'title'       => __( 'Enter Fee For Wallet Transfer Process', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'number',
+				'description' => __( 'Enter Fee For Wallet Transfer Process', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfwp_wallet_transfer_fee_amount',
+				'id'          => 'wps_wsfwp_wallet_transfer_fee_amount',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfwp_wallet_transfer_fee_amount' ) ) ? get_option( 'wps_wsfwp_wallet_transfer_fee_amount' ) : 1,
+				'placeholder' => __( 'Enter wallet Transfer Fee amount', 'wallet-system-for-woocommerce-pro' ),
+				'class'       => 'wws-text-class',
+			),
+		);
+
+		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_auto_transfer_settings_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+	}
+
+	/**
+	 * This is used to create comment html.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_admin_wallet_action_settings_refer_friend_array_org( $wsfw_settings_template ) {
+		$wsfw_settings_template = array(
+			array(
+				'title'       => __( 'Enable Referral Settings', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Check this box to enable the Comment Amount when comment is approved..', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfw_wallet_action_refer_friend_enable',
+				'id'          => 'wps_wsfw_wallet_action_refer_friend_enable',
+				'value'       => '',
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				),
+			),
+			array(
+				'title'       => __( 'Enter Referral Amount', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'number',
+				'description' => __( 'The amount which new customers will get after their comments are approved..', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfw_wallet_action_referal_amount',
+				'id'          => 'wps_wsfw_wallet_action_referal_amount',
+				'step'        => '0.01',
+				'value'       => '',
+				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce-pro' ),
+				'class'       => 'wws-text-class',
+			),
+			array(
+				'title'       => __( 'Enter Referral Description', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'textarea',
+				'description' => __( 'Enter message for user that display on product page.', 'wallet-system-for-woocommerce-pro' ),
+				'name'        => 'wps_wsfw_wallet_action_referral_description',
+				'id'          => 'wps_wsfw_wallet_action_referral_description',
+				'step'        => '0.01',
+				'value'       => '',
+				'placeholder' => __( 'Enter comment description', 'wallet-system-for-woocommerce-pro' ),
+				'class'       => 'wws-text-class',
+			),
+
+		);
+
+		return $wsfw_settings_template;
+	}
+
+
 
 }

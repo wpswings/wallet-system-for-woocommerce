@@ -235,7 +235,15 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 					foreach ( $order_ids as $order_id ) {
 						$order        = wc_get_order( $order_id );
 						$order_status = $order->get_status();
-						update_post_meta( $order_id, 'wallet_order_status', $order_status );
+						if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+							// HPOS usage is enabled.
+							$order->update_meta_data( 'wallet_order_status', $order_status );
+							$order->save();
+		
+						} else {
+							update_post_meta( $order_id, 'wallet_order_status', $order_status );
+						}
+						
 						if ( wp_trash_post( $order_id ) ) {
 							$count++;
 						} else {
@@ -247,10 +255,24 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 				case 'untrash':
 					foreach ( $order_ids as $order_id ) {
 						$order        = wc_get_order( $order_id );
-						$order_status = get_post_meta( $order_id, 'wallet_order_status', true );
+						
+						if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+							// HPOS usage is enabled.
+							$order_status = 	$order->get_meta('wallet_order_status', true );
+						} else {
+							$order_status = get_post_meta( $order_id, 'wallet_order_status', true );
+						}
 						if ( $order_status ) {
 							$status = $order->update_status( $order_status );
-							delete_post_meta( $order_id, 'wallet_order_status' );
+							if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+								// HPOS usage is enabled.
+								$order->delete_meta_data( 'wallet_order_status' );
+								$order->save();
+			
+							} else {
+								delete_post_meta( $order_id, 'wallet_order_status' );
+							}
+							
 						}
 						if ( $status ) {
 							$count++;

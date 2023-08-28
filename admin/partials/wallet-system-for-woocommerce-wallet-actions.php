@@ -38,17 +38,16 @@ $wsfw_wallet_action_html = '';
 <!--  template file for admin settings. -->
 <form action="" method="POST" class="wps-wsfw-gen-section-form">
 	<div class="wsfw-secion-wrap">
-	<?php
-	$wsfw_wallet_action_settings_fee_setting = '';
-		$wsfw_wallet_action_settings_fee_setting = apply_filters( 'wsfw_wallet_action_settings_fee_setting', $wsfw_wallet_action_settings_fee_setting );
-		echo wp_kses_post( $wsfw_wallet_action_settings_fee_setting );
-	?>
+	
 	<div class="wsfw-secion-wallet-topup">
 	<span><b><?php esc_html_e( 'Wallet Auto Top up', 'wallet-system-for-woocommerce' ); ?></b></span>
 	<?php
 		do_action( 'wsfw_general_settings_before' );
 		$wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_auto_topup_settings );
-		echo wp_kses_post( $wsfw_wallet_action_html );
+		if ( ! empty( $wsfw_wallet_action_html ) ) {
+			echo wp_kses_post( $wsfw_wallet_action_html );
+		}
+		
 	?>
 	  </br>
   </div>
@@ -56,30 +55,115 @@ $wsfw_wallet_action_html = '';
 	<div class="wsfw-secion-daily-visit">
 	  <span><b><?php esc_html_e( 'Credit Amount On User Daily Visit', 'wallet-system-for-woocommerce' ); ?></b></span>
 		<?php
-		  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_daily_visit_settings );
-		  echo wp_kses_post( $wsfw_wallet_action_html );
+			$wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_daily_visit_settings );
+			if ( ! empty( $wsfw_wallet_action_html ) ) {
+				echo wp_kses_post( $wsfw_wallet_action_html );
+			}
 		?>
 	</div>
 	<hr>
 	<div class="wsfw-secion-registration">
 	  <span><b><?php esc_html_e( 'Credit Amount On New User Registration', 'wallet-system-for-woocommerce' ); ?></b></span>
 		<?php
-		  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_registration_settings );
-		  echo wp_kses_post( $wsfw_wallet_action_html );
+			$wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_registration_settings );
+			if ( ! empty( $wsfw_wallet_action_html ) ) {
+				echo wp_kses_post( $wsfw_wallet_action_html );
+			}
 		?>
 	</div>
 	<hr>
 	<div class="wsfw-secion-daily-visit">
 	  <span><b><?php esc_html_e( 'Credit Amount On Comment', 'wallet-system-for-woocommerce' ); ?></b></span>
 		<?php
-		  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_comment_settings );
-		  echo wp_kses_post( $wsfw_wallet_action_html );
+			$wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_comment_settings );
+			if ( ! empty( $wsfw_wallet_action_html ) ) {
+				echo wp_kses_post( $wsfw_wallet_action_html );
+			}
 		?>
 	</div>
+	<hr>
+	<?php
+	$is_pro = false;
+	$is_pro = apply_filters('wsfw_check_pro_plugin',$is_pro);
+	if ( $is_pro ) {
+		$wsfw_wallet_action_settings_fee_setting = '';
+		$wsfw_wallet_action_settings_fee_setting = apply_filters( 'wsfw_wallet_action_settings_fee_setting', $wsfw_wallet_action_settings_fee_setting );
+		if ( ! empty( $wsfw_wallet_action_settings_fee_setting ) ) {
+			echo wp_kses_post( $wsfw_wallet_action_settings_fee_setting );
+		}
+
+	} else{
+			$wsfw_wallet_action_withdrawal_fee_settings = apply_filters( 'wsfwp_wallet_action_settings_withdrawal_array', array() );
+			$wsfw_wallet_action_transfer_fee_settings = apply_filters( 'wsfwp_wallet_action_settings_transfer_array', array() );
+			$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
+			global $wsfwp_wps_wsfwp_obj;
+			$wallet_id          = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+		?>
+
+		<div class="wsfw-secion-refer-customize-wallet">
+				<span><b><?php esc_html_e( 'Customize Your Wallet Rechargeable Product', 'wallet-system-for-woocommerce-pro' ); ?></b></span>
+				<div class="wps-form-group">
+					<div class="wps-form-group__label">
+						<label for="" class="wps-form-label"><?php esc_html_e( 'Wallet Recharge Product', 'wallet-system-for-woocommerce-pro' ); ?></label>
+					</div>
+					<div class="wps-form-group__control">
+						<a  href="#"><div> <?php esc_html_e( 'Click Here', 'wallet-system-for-woocommerce-pro' ); ?></div></a>
+					</div>
+				</div>
+			</div>
+			<hr>
+
+			<div class="wsfw-secion-refer-withdrawal-fees">
+				<span><b><?php esc_html_e( 'Wallet Withdrawal Fee Setting', 'wallet-system-for-woocommerce-pro' ); ?></b></span>
+				<?php
+					$wsfw_wallet_action_html =  $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_withdrawal_fee_settings );
+					
+					if ( ! empty( $wsfw_wallet_action_html ) ) {
+						echo wp_kses_post( $wsfw_wallet_action_html );
+					}
+				?>
+				</br>
+			</div>
+			<hr>
+			<div class="wsfw-secion-refer-transfer-fees">
+			<span><b><?php esc_html_e( 'Wallet Transfer Fee Setting', 'wallet-system-for-woocommerce-pro' ); ?></b></span>
+				<?php
+					$wsfw_wallet_action_html =  $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_transfer_fee_settings );
+					if ( ! empty( $wsfw_wallet_action_html ) ) {
+						echo wp_kses_post( $wsfw_wallet_action_html );
+					}
+				?>
+				</br>
+			</div>
+			<hr>
+			<div class="wsfw-secion-refer-friend">
+			  <span><b><?php esc_html_e( 'Credit Amount On Refer A Friend', 'wallet-system-for-woocommerce-pro' ); ?></b></span>
+				<?php
+					  $wsfw_wallet_action_html =  $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_refer_friend_settings );
+					  if ( ! empty( $wsfw_wallet_action_html ) ) {
+						echo wp_kses_post( $wsfw_wallet_action_html );
+					}
+				?>
+		</div>
+		<hr>
+
+
+
+
+		<?php
+	}
+	
+
+
+	?>
+
+
 
 	<?php
-	  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_settings_submit_button_array );
-	  echo wp_kses_post( $wsfw_wallet_action_html );
+		$wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_settings_submit_button_array );
+		if ( ! empty( $wsfw_wallet_action_html ) ) {
+			echo wp_kses_post( $wsfw_wallet_action_html );
+		}
 	?>
 
 		<input type="hidden" id="updatenoncewallet_action" name="updatenoncewallet_action" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
