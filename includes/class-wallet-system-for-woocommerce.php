@@ -531,7 +531,7 @@ class Wallet_System_For_Woocommerce {
 				'name'      => 'wallet-system-for-woocommerce-org-wallet-recharge-tab',
 				//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-pro-wallet-recharge-tab.php',
 			);
-		//return $default_tabs;
+		
 		}
 
 

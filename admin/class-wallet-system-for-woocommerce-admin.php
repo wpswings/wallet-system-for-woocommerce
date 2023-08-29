@@ -488,12 +488,22 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Limit order number for Wallet Negative Balance Use', 'wallet-system-for-woocommerce' ),
 				'type'        => 'number',
-				'description' => __( 'Enter limit upto customer can use balance in negative', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enter order limit after customer can avail balance in negative', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_negative_balance_limit_order',
 				'id'          => 'wsfw_enable_wallet_negative_balance_limit_order',
 				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit_order', 0 ),
 				'class'       => 'wsfw-text-class',
 				'placeholder' => __( 'Enter Order Limit after which user can use negative balance at checkout', 'wallet-system-for-woocommerce' ),
+			),
+			array(
+				'title'       => __( 'Email reminder to recharge negative balance', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter number of days after the user will get reminder to recharge their wallet for negative balance', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_enable_wallet_negative_balance_email_order',
+				'id'          => 'wsfw_enable_wallet_negative_balance_email_order',
+				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_email_order', 0 ),
+				'class'       => 'wsfw-text-class',
+				'placeholder' => __( 'Enter number of days.', 'wallet-system-for-woocommerce' ),
 			),
 			array(
 				'title'       => __( 'Make Wallet Recharge Product Tax Free', 'wallet-system-for-woocommerce' ),
