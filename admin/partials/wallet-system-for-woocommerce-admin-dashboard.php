@@ -74,7 +74,7 @@ if ( ! $wallet_payment_enable || 'no' == $wallet_payment_enable['enabled'] ) {
 						$wsfw_tab_classes .= 'active';
 					}
 					?>
-					<li>
+					<li class="wps_class_li_<?php echo esc_attr( $wsfw_tab_key ); ?>">
 						<a id="<?php echo esc_attr( $wsfw_tab_key ); ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=' . esc_attr( $wsfw_tab_key ) ); ?>" class="<?php echo esc_attr( $wsfw_tab_classes ); ?>"><?php echo esc_html( $wsfw_default_tabs['title'] ); ?></a>
 					</li>
 					<?php

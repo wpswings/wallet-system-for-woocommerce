@@ -1,4 +1,5 @@
 <?php
+use Automattic\WooCommerce\Utilities\OrderUtil;
 /**
  * The common functionality of the plugin.
  *

@@ -57,6 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<th class = "all"><?php esc_html_e( 'Details', 'wallet-system-for-woocommerce' ); ?></th>
 					<th class = "all"><?php esc_html_e( 'Transaction ID', 'wallet-system-for-woocommerce' ); ?></th>
 					<th class = "all"><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+					<th class = "all"><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></th>
 					<th class="hide_date" ><?php esc_html_e( 'Date1', 'wallet-system-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>
@@ -125,6 +126,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							}
 							?>
 							</td>
+							<td>delete</td>
 							<td class="hide_date" >
 							<?php
 							$date = date_create( $transaction->date );

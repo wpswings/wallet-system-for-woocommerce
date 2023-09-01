@@ -277,6 +277,10 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_wps_wallet_refund_partial_payment', $wsfw_plugin_admin, 'wps_wallet_refund_partial_payment' );
 
 		$this->loader->add_action( 'woocommerce_after_order_fee_item_name', $wsfw_plugin_admin, 'woocommerce_after_order_fee_item_name_callback', 10, 2 );
+		// Adding Upsell Orders column in Orders table in backend.
+		$this->loader->add_filter( 'manage_edit-shop_order_columns', $wsfw_plugin_admin, 'wps_wsfw_wallet_add_columns_to_admin_orders', 11 );
+	// Populating Upsell Orders column with Single Order or Upsell order.
+	$this->loader->add_action( 'manage_shop_order_posts_custom_column', $wsfw_plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
 
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
@@ -294,6 +298,11 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wsfwp_wallet_action_settings_withdrawal_array', $wsfw_plugin_admin, 'wps_wsfws_admin_wallet_action_withdrawal_settings_page_org', 10 );
 			$this->loader->add_filter( 'wsfwp_wallet_action_settings_transfer_array', $wsfw_plugin_admin, 'wps_wsfws_admin_wallet_action_transfer_settings_page_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_settings_refer_friend_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_refer_friend_array_org', 10 );
+			$this->loader->add_filter( 'wsfw_wallet_restriction_withdrawal_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_withdrawal_restriction_settings_page_org', 10 );
+			$this->loader->add_filter( 'wsfw_wallet_restriction_transfer_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_transfer_restriction_settings_page_org', 10 );
+			$this->loader->add_filter( 'wsfw_wallet_restriction_recharge_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_recharge_restriction_settings_page_org', 10 );
+			$this->loader->add_action( 'wsfw_wallet_action_recharge_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_recharge_enable_settings_tab_org', 10 );
+			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
 
 		}
 
@@ -511,29 +520,22 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'wallet-system-for-woocommerce-wallet-actions',
 		);
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
-
-
 		$is_pro = false;
 		$is_pro = apply_filters('wsfw_check_pro_plugin',$is_pro);
 		if ( ! $is_pro ) {
 			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-restriction'] = array(
 				'title'     => esc_html__( 'Wallet Regulation', 'wallet-system-for-woocommerce-pro' ),
 				'name'      => 'wallet-system-for-woocommerce-org-wallet-restriction',
-				//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-pro-wallet-restriction.php',
 			);
 			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-promotions'] = array(
 				'title'     => esc_html__( 'Wallet Promotions', 'wallet-system-for-woocommerce-pro' ),
 				'name'      => 'wallet-system-for-woocommerce-org-wallet-promotions',
-				//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-pro-wallet-promotions.php',
 			);
 			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-recharge-tab'] = array(
 				'title'     => esc_html__( 'Wallet Quick Recharge', 'wallet-system-for-woocommerce-pro' ),
 				'name'      => 'wallet-system-for-woocommerce-org-wallet-recharge-tab',
-				//'file_path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-pro-wallet-recharge-tab.php',
 			);
-		
 		}
-
 
 		$wsfw_default_tabs['wallet-system-rest-api'] = array(
 			'title' => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),
