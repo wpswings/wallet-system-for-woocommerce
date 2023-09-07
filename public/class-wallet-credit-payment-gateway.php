@@ -126,13 +126,12 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
 				echo '<b>' . __( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wc_price( $walletamount ) . ']</b>';
-				$order_number = get_user_meta( $customer_id , 'wsfw_enable_wallet_negative_balance_limit_order',true);
-				$order_limit = get_option('wsfw_enable_wallet_negative_balance_limit_order');
-				
+				$order_number = get_user_meta( $customer_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
+				$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
+
 				if ( intval( $order_number ) >= intval( $order_limit ) ) {
-					do_action('wps_wsfw_for_limit_negative_balance');
+					do_action( 'wps_wsfw_for_limit_negative_balance' );
 				}
-				
 			}
 		}
 
@@ -196,24 +195,21 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 			$is_condition_true = false;
 
+			if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
+				$is_condition_true = true;
 
-				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' )){
-					
+			} else {
+				if ( $debited_amount <= $walletamount ) {
 					$is_condition_true = true;
-
-				} else{
-					if ($debited_amount <= $walletamount){
-						$is_condition_true = true;
-					}
-				}	
-
+				}
+			}
 
 			if ( $is_condition_true ) {
 
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-			
-				$walletamount = abs($walletamount) - abs($debited_amount);
+
+				$walletamount = abs( $walletamount ) - abs( $debited_amount );
 				$update_wallet          = update_user_meta( $customer_id, 'wps_wallet', ( $walletamount ) );
 
 				if ( $update_wallet ) {

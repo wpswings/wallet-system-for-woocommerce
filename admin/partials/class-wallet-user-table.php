@@ -87,7 +87,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 									}
 								}
 							} elseif ( 'debit' == $amount_type ) {
-								
+
 								$net_balance = abs( $current_balance ) - abs( $balance );
 								$transaction_type_1 = 'debit';
 								$transaction_type = esc_html__( 'Wallet debited during importing wallet', 'wallet-system-for-woocommerce' );
@@ -464,7 +464,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								}
 							}
 						} elseif ( 'debit' === $wallet_option ) {
-							
+
 							$previous_wallet_amount = $wallet;
 							$transaction_type_1 = 'debit';
 							if ( $wallet < $wallet_amount ) {
@@ -577,10 +577,10 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			$update = false;
 		}
 
-		
+
 		if ( 'on' != get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
-		
+
 			if ( $_POST['wps_wallet-edit-popup-input'] < 0 ) {
 				$msfw_wpg_error_text = esc_html__( 'Please enter amount in positive value.', 'wallet-system-for-woocommerce' );
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $msfw_wpg_error_text, 'error' );
@@ -637,15 +637,14 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 						$previous_wallet_amount = $wallet;
 					} else {
 						$is_negative = true;
-						$wallet -= abs($wallet) - abs( $updated_amount );
+						$wallet -= abs( $wallet ) - abs( $updated_amount );
 					}
-
-				} else{
+				} else {
 					$wallet = $wallet - $updated_amount;
 				}
 				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
 
-				if ( ! $is_negative ){
+				if ( ! $is_negative ) {
 					if ( isset( $_POST['wps_wallet-edit-popup-transaction-detail'] ) && ! empty( $_POST['wps_wallet-edit-popup-transaction-detail'] ) ) {
 						if ( $previous_wallet_amount < $updated_amount ) {
 							$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
@@ -659,9 +658,8 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 							$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 						}
 					}
-
 				}
-				
+
 				$balance   = $currency . ' ' . $updated_amount;
 				$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 

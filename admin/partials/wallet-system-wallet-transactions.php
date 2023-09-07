@@ -70,6 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
+
 						$user = get_user_by( 'id', $transaction->user_id );
 						if ( $user ) {
 							$display_name = $user->display_name;
@@ -126,7 +127,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							}
 							?>
 							</td>
-							<td>delete</td>
+							<td class="wps_wallet_delete_action" onclick="wps_wallet_delete_function(<?php echo esc_attr( $transaction->id ); ?>)"><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
 							<td class="hide_date" >
 							<?php
 							$date = date_create( $transaction->date );

@@ -41,7 +41,7 @@ if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge
   
 	<div class="wps-form-group-recharge-tab">
 		<div class="wsfw-secion-daily-visit">
-		<h4>  <?php esc_html_e( 'Wallet Recharge', 'wallet-system-for-woocommerce-pro' ); ?>:</h4>
+		<h4>  <?php esc_html_e( 'Wallet Recharge', 'wallet-system-for-woocommerce' ); ?>:</h4>
 		<div class="wsfw-secion-refer-customize-wallet">
 			<?php
 			$wsfw_wallet_action_recharge_enable_settings      = apply_filters( 'wsfw_wallet_action_recharge_enable_settings_org', array() );
@@ -51,15 +51,15 @@ if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge
 				echo wp_kses_post( $wsfw_wallet_action_recharge_enable_settings );
 
 			}
-			
+
 
 			?>
 	  <div class="wsfw-secion-table-label-wrap">
 	  
 		<table border='2' id="wps_wallet_action_recharge_tab_table" >
 			<tr>
-				<th><?php esc_html_e( 'Wallet Amount', 'wallet-system-for-woocommerce-pro' ); ?></th>
-				<th><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce-pro' ); ?></th>
+				<th><?php esc_html_e( 'Wallet Amount', 'wallet-system-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></th>
 			</tr>
 			<tr>
 				<td>
@@ -69,7 +69,7 @@ if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge
 							<span class="mdc-notched-outline__leading"></span>
 							<span class="mdc-notched-outline__notch">
 								<!-- dynamic inline style will be added -->
-								<span class="mdc-floating-label" id="my-label-id" style=""><?php esc_html_e( 'Enter Wallet Amount', 'wallet-system-for-woocommerce-pro' ); ?></span>	
+								<span class="mdc-floating-label" id="my-label-id" style=""><?php esc_html_e( 'Enter Wallet Amount', 'wallet-system-for-woocommerce' ); ?></span>	
 							</span>
 							<span class="mdc-notched-outline__trailing"></span>
 						</span>
@@ -87,9 +87,40 @@ if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge
 				</div>
 
 				</td>
-				<td><input type="button" id="wps_wallet_bookie" value="PRO"></td>
+				<td><input type="button" id="wps_wallet_bookie" class="wps_pro_settings" value="PRO"></td>
 			</tr>
 		</table>
+	</div>
+	<div class="wps_wallet_lite_go_pro_popup_wrap ">
+		<!-- Go pro popup main start. -->
+		<div class="wps_wallet_lite_go_pro_popup">
+			<!-- Main heading. -->
+			<div class="wps_wallet_lite_go_pro_popup_head">
+				<h2>Want More? Go Pro !!</h2>
+				<!-- Close button. -->
+				<a href="javascript:void(0)" class="wps_wallet_lite_go_pro_popup_close">
+					<span>×</span>
+				</a>
+			</div>  
+
+			<!-- Notice icon. -->
+			<div class="wps_wallet_lite_go_pro_popup_head"><img src="http://new-site.local/wp-content/plugins/woo-one-click-upsell-funnel-3.3.0/admin/resources/icons/pro.png ">
+			</div>
+
+			<!-- Notice. -->
+			<div class="wps_wallet_lite_go_pro_popup_content">
+				<p class="wps_wallet_lite_go_pro_popup_text">
+					Stucked with Limited Gateway access? Unlock your power to explore more.				</p>
+				<p class="wps_wallet_lite_go_pro_popup_text">
+					Go with our premium version and make unlimited numbers of Upsells. Get more smart features and make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates.				</p>
+			</div>
+
+			<!-- Go pro button. -->
+			<div class="wps_wallet_lite_go_pro_popup_button">
+				<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=wpswings-upsell-funnel-pro&amp;utm_medium=upsell-funnel-org-backend&amp;utm_campaign=WPS-upsell-funnel-pro">Upgrade to Premium <span class="dashicons dashicons-arrow-right-alt"></span></a>
+			</div>
+		</div>
+		<!-- Go pro popup main end. -->
 	</div>
 		<input type="hidden" id="updatenoncewallet_action" name="updatenoncewallet_action" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 	</div>

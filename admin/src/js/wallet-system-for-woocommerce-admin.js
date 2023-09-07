@@ -68,17 +68,32 @@
 			jQuery('#wps_wsfwp_wallet_recharge_tab_enable').attr('disabled',true);
 			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('disabled',true);
 			jQuery('#wps_wsfw_intrest_type_amount_negative_balance').attr('disabled',true);
+			jQuery('#wps_wsfw_intrest_text_name_amount_negative_balance').attr('disabled',true);
 			
 			
 		
 		}
 
 		
-			// on clicking element change the input type password to text or vice-versa
-			$(document).on( 'click', '.wps_pro_settings', function() {
-				$(this).prop("checked", false);
-				alert('pro');
-			});
+		// on clicking element change the input type password to text or vice-versa
+		$(document).on( 'click', '.wps_pro_settings', function() {
+			if (wsfw_admin_param.is_pro_plugin != 1){
+			$(this).prop("checked", false);
+			$('.wps_wallet_lite_go_pro_popup_wrap').addClass('wps_wallet_lite_go_pro_popup_show');
+			}
+		});
+
+		$(document).on( 'click', '.wps_wallet_lite_go_pro_popup_close', function() {
+			$('.wps_wallet_lite_go_pro_popup_wrap').removeClass('wps_wallet_lite_go_pro_popup_show');
+		});
+		
+			// // on clicking element change the input type password to text or vice-versa
+			// $(document).on( 'click', '.wps_pro_settings', function() {
+				
+			// 		$(this).prop("checked", false);
+			// 		alert('pro');
+			// 	}
+			// });
 		
 		// hide show category fields.
 		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
@@ -287,6 +302,7 @@
 
 		});
 
+		
 		// update wallet and status on changing status of wallet request
 		$(document).on( 'change', 'select#wps-wpg-gen-table_status', function() {
 			var withdrawal_id = $(this).siblings('input[name=withdrawal_id]').val();
@@ -439,6 +455,38 @@
 
 	});
 })( jQuery );
+
+
+function wps_wallet_delete_function(transaction_id){
+
+	let text;
+	if (confirm("Do You want to delete transaction!") == true) {
+		jQuery.ajax({
+			type: 'POST',
+			url: wsfw_admin_param.ajaxurl,
+			data: {
+				action: 'wps_wallet_delete_user_tranasactions',
+				nonce: wsfw_admin_param.nonce,
+				transaction_id: transaction_id,			
+			},
+			datatType: 'JSON',
+			success: function( response ) {
+				if ( 'success' == response.msg ) {
+					alert('Transaction is deleted!');
+					location.reload();
+				}
+			
+			},
+	
+		})
+		.fail(function ( response ) {
+			loader.hide();
+		});
+	} else {
+	text = "You canceled!";
+	}
+
+}
 
 
 

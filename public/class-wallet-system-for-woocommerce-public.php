@@ -1,4 +1,13 @@
 <?php
+/**
+ * Order Factory
+ *
+ * The WooCommerce order factory creating the right order objects.
+ *
+ * @version 2.5.0
+ * @package Wallet_System_For_Woocommerce
+ */
+
 use Automattic\WooCommerce\Utilities\OrderUtil;
 /**
  * The public-facing functionality of the plugin.
@@ -151,39 +160,33 @@ class Wallet_System_For_Woocommerce_Public {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
 				} elseif ( isset( $wallet_amount ) ) {
-					
-					
-					
-					if ( 'on' ==  get_option( 'wsfw_enable_wallet_negative_balance' )){
-						$limit = get_option( 'wsfw_enable_wallet_negative_balance_limit' );
-						$order_number = get_user_meta( $user_id , 'wsfw_enable_wallet_negative_balance_limit_order',true);
-						$order_limit = get_option('wsfw_enable_wallet_negative_balance_limit_order');
-				
-						$is_pro = false;
-						$is_pro = apply_filters('wps_wsfwp_pro_plugin_check',$is_pro);
-						if ($is_pro){
 
-						
+					if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+						$limit = get_option( 'wsfw_enable_wallet_negative_balance_limit' );
+						$order_number = get_user_meta( $user_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
+						$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
+
+						$is_pro = false;
+						$is_pro = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro );
+						if ( $is_pro ) {
+
 							if ( intval( $order_number ) < intval( $order_limit ) ) {
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
 
-							if ($wallet_amount > (-$limit) ){
+							if ( $wallet_amount > ( -$limit ) ) {
 
-							}else{
+							} else {
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
-						}else{
+						} else {
 							unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 						}
-
-					} else{
+					} else {
 						if ( $wallet_amount < $wps_cart_total ) {
 							unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 						}
-
 					}
-					
 				} elseif ( isset( $wallet_amount ) && $wallet_amount <= 0 ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 				}
@@ -340,16 +343,34 @@ class Wallet_System_For_Woocommerce_Public {
 			$total      = $item->get_total();
 
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
+				$wps_wsfw_wallet_order_auto_process       = get_option( 'wps_wsfw_wallet_order_auto_process' );
+				$wps_wsfw_wallet_order_auto_process       = is_array( $wps_wsfw_wallet_order_auto_process ) && ! empty( $wps_wsfw_wallet_order_auto_process ) ? $wps_wsfw_wallet_order_auto_process : array( 'completed' );
+				$is_pro_plugin = false;
+				$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+				if ( ! $is_pro_plugin ) {
+					$wps_wsfw_wallet_order_auto_process = array( 'completed' );
+				}
 
-				if ( 'completed' == $new_status ) {
+				if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+					// HPOS usage is enabled.
+
+					$order->update_meta_data( 'wps_wallet_recharge_order', 'yes' );
+					$order->save();
+				} else {
+					update_post_meta( $order_id, 'wps_wallet_recharge_order', 'yes' );
+				}
+				if ( ! empty( $wps_wsfw_wallet_order_auto_process ) && in_array( $new_status, $wps_wsfw_wallet_order_auto_process ) ) {
+
 					$amount          = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount );
-					
+
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
-						$converted_ = 	$order->get_meta('wps_converted_currency_update', $credited_amount );
+						$converted_ = $order->get_meta( 'wps_converted_currency_update' );
+						$order->update_meta_data( 'wps_wallet_recharge_order', 'yes' );
+						$order->save();
 					} else {
-						$converted_ = 	get_post_meta( $order_id, 'wps_converted_currency_update', $credited_amount );
+						$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update', true );
 					}
 					if ( ! empty( $converted_ ) ) {
 						$credited_amount = $converted_;
@@ -365,7 +386,28 @@ class Wallet_System_For_Woocommerce_Public {
 					$walletamount  = empty( $walletamount ) ? 0 : $walletamount;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $credited_amount;
+
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
+
+					$is_pro_plugin = false;
+					$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+					if ( $is_pro_plugin ) {
+						$is_auto_complete = get_option( 'wsfw_wallet_recharge_order_status_checkout', '' );
+					
+						if ( isset( $is_auto_complete ) && 'on' == $is_auto_complete ) {
+
+							// Mark as on-hold (we're awaiting the payment).
+							$order->update_status( 'completed', __( 'Wallet Recharge Payment Completed', 'wallet-system-for-woocommerce' ) );
+							// Remove cart.
+							WC()->cart->empty_cart();
+							
+						}
+
+					}
+						
+					
+					
+
 					$balance   = $order->get_currency() . ' ' . $amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
@@ -421,15 +463,15 @@ class Wallet_System_For_Woocommerce_Public {
 					$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
 
 					if ( $walletamount < $debited_amount ) {
-						
-						if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' )){
-							$walletamount = abs($walletamount) - abs($debited_amount);
 
-						} else{
+						if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+							$walletamount = abs( $walletamount ) - abs( $debited_amount );
+
+						} else {
 							$debited_amount = $walletamount;
 							$walletamount = '0';
 							$order->add_order_note( 'Wallet partial amount is less than wallet amount for partial payment.' );
-						}						
+						}
 					} else {
 						$walletamount -= $debited_amount;
 
@@ -440,11 +482,11 @@ class Wallet_System_For_Woocommerce_Public {
 						// HPOS usage is enabled.
 						$order->update_meta_data( 'wps_wallet_update_on_thankyou', 'done' );
 						$order->save();
-	
+
 					} else {
 						update_post_meta( $order_id, 'wps_wallet_update_on_thankyou', 'done' );
 					}
-					
+
 					$balance   = $order->get_currency() . ' ' . $amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
@@ -632,6 +674,55 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! isset( $all_fees['via_wallet_partial_payment'] ) ) {
 				unset( $all_fees['via_wallet_partial_payment'] );
 				wc()->cart->fees_api()->set_fees( $all_fees );
+			}
+		}
+
+		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+		$wsfw_enable_wallet_negative_balance_enabled_interest = get_option( 'wsfw_enable_wallet_negative_balance_enabled_interest', '' );
+
+		if ( 'on' == $wsfw_enable_wallet_negative_balance_enabled_interest ) {
+
+			if ( ! empty( $wallet_id ) ) {
+				if ( ! WC()->cart->is_empty() ) {
+					foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
+						$_product = $values['data'];
+						if ( $_product->get_id() == $wallet_id ) {
+							$customer_id = get_current_user_id();
+							if ( $customer_id > 0 ) {
+								$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
+								$walletamount = empty( $walletamount ) ? 0 : $walletamount;
+								$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
+								if ( $walletamount < 0 ) {
+
+									$wps_wsfw_intrest_amount_negative_balance = get_option( 'wps_wsfw_intrest_amount_negative_balance' );
+
+									$wps_wsfw_intrest_type_amount_negative_balance = get_option( 'wps_wsfw_intrest_type_amount_negative_balance' );
+									$cashback_amount = '';
+									$wsfw_percent_cashback_amount = abs( $walletamount ) * ( $wps_wsfw_intrest_amount_negative_balance / 100 );
+
+									if ( 'percent' == $wps_wsfw_intrest_type_amount_negative_balance && $wps_wsfw_intrest_type_amount_negative_balance ) {
+
+										$cashback_amount = $wsfw_percent_cashback_amount;
+
+									} else {
+										if ( $wps_wsfw_intrest_amount_negative_balance > 0 && ! ( is_array( $wps_wsfw_intrest_amount_negative_balance ) ) ) {
+											$cashback_amount = $wps_wsfw_intrest_amount_negative_balance;
+										} else if ( $wps_wsfw_intrest_type_amount_negative_balance > 0 ) {
+											$cashback_amount = $wps_wsfw_intrest_type_amount_negative_balance;
+										}
+									}
+
+									if ( $cashback_amount ) {
+										$all_fees = wc()->cart->fees_api()->get_fees();
+										$wps_wsfw_intrest_text_name_amount_negative_balance = get_option( 'wps_wsfw_intrest_text_name_amount_negative_balance', 'Interest wallet' );
+										WC()->cart->add_fee( $wps_wsfw_intrest_text_name_amount_negative_balance, abs( $cashback_amount ), true, '' );
+
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -928,8 +1019,8 @@ class Wallet_System_For_Woocommerce_Public {
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-		$order_number = get_user_meta( $userid , 'wsfw_enable_wallet_negative_balance_limit_order',true);
-		update_user_meta($userid, 'wsfw_enable_wallet_negative_balance_limit_order',intval($order_number)+1 );
+		$order_number = get_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', true );
+		update_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', intval( $order_number ) + 1 );
 		foreach ( $order_items as $item_id => $item ) {
 
 			$product_id = $item->get_product_id();
@@ -940,12 +1031,12 @@ class Wallet_System_For_Woocommerce_Public {
 					$amount          = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount );
 				if ( $credited_amount != $amount ) {
-					
+
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
 						$order->update_meta_data( 'wps_converted_currency_update', $credited_amount );
 						$order->save();
-	
+
 					} else {
 						update_post_meta( $order_id, 'wps_converted_currency_update', $credited_amount );
 					}
@@ -963,8 +1054,6 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function change_order_type( $order_id ) {
 
-
-		
 		$order     = wc_get_order( $order_id );
 		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 		foreach ( $order->get_items() as $item ) {
@@ -976,13 +1065,13 @@ class Wallet_System_For_Woocommerce_Public {
 					}
 					</style>';
 
-				}
+			}
 		}
 
 		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 			// HPOS usage is enabled.
-			$check_wallet_thankyou = $order->get_meta('wps_wallet_update_on_thankyou');
+			$check_wallet_thankyou = $order->get_meta( 'wps_wallet_update_on_thankyou' );
 		} else {
 			$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
 		}
@@ -1748,15 +1837,13 @@ class Wallet_System_For_Woocommerce_Public {
 			$order_tax = '';
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				// HPOS usage is enabled.
-				$order_tax = 	$order->get_meta('_order_tax', true );
+				$order_tax = $order->get_meta( '_order_tax', true );
 			} else {
 				$order_tax = get_post_meta( $order_id, '_order_tax', true );
 			}
-			
 
 			$order_tax = ( floatval( $order_tax ) + abs( ( $fee_total_tax ) ) );
 
-			
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				// HPOS usage is enabled.
 				$order->update_meta_data( '_order_tax', $order_tax );
@@ -1766,17 +1853,15 @@ class Wallet_System_For_Woocommerce_Public {
 				update_post_meta( $order_id, '_order_tax', $order_tax );
 			}
 
-			
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				// HPOS usage is enabled.
-				$_order_total = 	$order->get_meta('_order_total', true );
+				$_order_total = $order->get_meta( '_order_total', true );
 			} else {
 				$_order_total = get_post_meta( $order_id, '_order_total', true );
 			}
 
 			$_order_total = ( floatval( $_order_total ) + abs( ( $fee_total_tax ) ) );
 
-			
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				// HPOS usage is enabled.
 				$order->update_meta_data( '_order_total', $_order_total );
@@ -1851,7 +1936,7 @@ class Wallet_System_For_Woocommerce_Public {
 					$_order_currency = '';
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
-						$_order_currency = 	$order->get_meta('_woocs_order_base_currency', true );
+						$_order_currency = $order->get_meta( '_woocs_order_base_currency', true );
 					} else {
 						$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
 					}
@@ -1868,8 +1953,8 @@ class Wallet_System_For_Woocommerce_Public {
 						$_woocs_order_base_currency = '';
 						if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 							// HPOS usage is enabled.
-							$_order_currency = 	$order->get_meta('_woocs_order_base_currency', true );
-							$_woocs_order_base_currency = 	$order->get_meta('_woocs_order_base_currency', true );
+							$_order_currency = $order->get_meta( '_woocs_order_base_currency', true );
+							$_woocs_order_base_currency = $order->get_meta( '_woocs_order_base_currency', true );
 							$order->update_meta_data( '_order_currency', $_order_currency );
 							$order->update_meta_data( '_order_currency', $_woocs_order_base_currency );
 							$order->save();
@@ -1879,7 +1964,7 @@ class Wallet_System_For_Woocommerce_Public {
 							update_post_meta( $order_id, '_order_currency', $_order_currency );
 							update_post_meta( $order_id, '_order_currency', $_woocs_order_base_currency );
 						}
-						
+
 						$order->save();
 						return $order_id;
 					}
