@@ -175,7 +175,7 @@ class Wallet_System_For_Woocommerce_Public {
 							}
 
 							if ( $wallet_amount > ( -$limit ) ) {
-
+								$user_id        = get_current_user_id();
 							} else {
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
@@ -393,20 +393,16 @@ class Wallet_System_For_Woocommerce_Public {
 					$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 					if ( $is_pro_plugin ) {
 						$is_auto_complete = get_option( 'wsfw_wallet_recharge_order_status_checkout', '' );
-					
+
 						if ( isset( $is_auto_complete ) && 'on' == $is_auto_complete ) {
 
 							// Mark as on-hold (we're awaiting the payment).
 							$order->update_status( 'completed', __( 'Wallet Recharge Payment Completed', 'wallet-system-for-woocommerce' ) );
 							// Remove cart.
 							WC()->cart->empty_cart();
-							
-						}
 
+						}
 					}
-						
-					
-					
 
 					$balance   = $order->get_currency() . ' ' . $amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {

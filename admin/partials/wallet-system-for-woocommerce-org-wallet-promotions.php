@@ -98,13 +98,11 @@ if ( ! empty( $wps_wallet_bookie_cashback_array ) && is_array( $wps_wallet_booki
 							>
 						</label><br>
 						<div class="mdc-text-field-helper-line">
-									<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+							<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
 						</div>
 					</div>
-
 				</td>
 				<td>
-
 					<div class="wps-form-group__control">
 						<label class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea mdc-text-field--no-label">
 							<span class="mdc-notched-outline">
@@ -132,7 +130,7 @@ if ( ! empty( $wps_wallet_bookie_cashback_array ) && is_array( $wps_wallet_booki
 		<div class="wps_wallet_lite_go_pro_popup">
 			<!-- Main heading. -->
 			<div class="wps_wallet_lite_go_pro_popup_head">
-				<h2><?php _e( 'Unlock Seamless Payments With Wallet System for WooCommerce Pro!', 'wallet-system-for-woocommerce' ) ?></h2>
+				<h2><?php _e( 'Unlock Seamless Payments With Wallet System for WooCommerce Pro!', 'wallet-system-for-woocommerce' ); ?></h2>
 				<!-- Close button. -->
 				<a href="javascript:void(0)" class="wps_wallet_lite_go_pro_popup_close">
 					<span>×</span>
@@ -147,18 +145,24 @@ if ( ! empty( $wps_wallet_bookie_cashback_array ) && is_array( $wps_wallet_booki
 			<!-- Notice. -->
 			<div class="wps_wallet_lite_go_pro_popup_content">
 				<p class="wps_wallet_lite_go_pro_popup_text">
-				<?php _e( 'Upgrade now to enjoy advanced features like full or partial payment methods, QR code payments, loyalty credits, cashback rewards, quick recharge buttons, & promotional offers. 
-					Stucked with Limited Gateway access? Unlock your power to explore more.', 'wallet-system-for-woocommerce' ) ?>			</p>
+				<?php
+				_e(
+					'Upgrade now to enjoy advanced features like full or partial payment methods, QR code payments, loyalty credits, cashback rewards, quick recharge buttons, & promotional offers. 
+					Stucked with Limited Gateway access? Unlock your power to explore more.',
+					'wallet-system-for-woocommerce'
+				)
+				?>
+							</p>
 					
 					<p class="wps_wallet_lite_go_pro_popup_text">
 					
-					<?php _e( 'Manage funds in bulk, view transaction history, send email notifications, & offer refunds directly to customer wallets. Elevate the digital payment experience.', 'wallet-system-for-woocommerce' ) ?>			
+					<?php _e( 'Manage funds in bulk, view transaction history, send email notifications, & offer refunds directly to customer wallets. Elevate the digital payment experience.', 'wallet-system-for-woocommerce' ); ?>			
 
 				</div>
 
 			<!-- Go pro button. -->
 			<div class="wps_wallet_lite_go_pro_popup_button">
-				<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend-page&utm_campaign=wallet-pro">	<?php _e( 'Upgrade To Premium today!', 'wallet-system-for-woocommerce' ) ?> </p>
+				<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend-page&utm_campaign=wallet-pro">	<?php _e( 'Upgrade To Premium today!', 'wallet-system-for-woocommerce' ); ?> </p>
 			<span class="dashicons dashicons-arrow-right-alt"></span></a>
 			</div>
 		</div>

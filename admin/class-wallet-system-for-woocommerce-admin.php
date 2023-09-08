@@ -3415,7 +3415,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wps_wsfw_wallet_add_columns_to_admin_orders( $columns ) {
 
-		$columns['wps-wallet-recharge-orders'] = esc_html__( 'Wallet Recharge', 'woo-one-click-upsell-funnel' );
+		$columns['wps-wallet-recharge-orders'] = esc_html__( 'Wallet Recharge', 'wallet-system-for-woocommerce' );
 
 		return $columns;
 	}
