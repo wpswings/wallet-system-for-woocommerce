@@ -1275,7 +1275,7 @@ class Wallet_System_For_Woocommerce {
 
 						<!-- Go pro button. -->
 						<div class="wps_wallet_lite_go_pro_popup_button">
-							<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=wpswings-upsell-funnel-pro&amp;utm_medium=upsell-funnel-org-backend&amp;utm_campaign=WPS-upsell-funnel-pro">	<?php _e( 'Upgrade To Premium today!', 'wallet-system-for-woocommerce' ) ?> </p>
+							<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend-page&utm_campaign=wallet-pro">	<?php _e( 'Upgrade To Premium today!', 'wallet-system-for-woocommerce' ) ?> </p>
 						<span class="dashicons dashicons-arrow-right-alt"></span></a>
 						</div>
 					</div>
