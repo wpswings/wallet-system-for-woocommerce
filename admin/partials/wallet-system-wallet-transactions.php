@@ -127,7 +127,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 							}
 							?>
 							</td>
-							<td class="wps_wallet_delete_action" onclick="wps_wallet_delete_function(<?php echo esc_attr( $transaction->id ); ?>)"><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
+							<?php
+								$is_pro = false;
+								$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
+								if ( ! $is_pro ) {
+									?>
+									<td class="wps_wallet_delete_action wps_pro_settings" ><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
+									<?php
+								} else{
+									?>
+									<td class="wps_wallet_delete_action" onclick="wps_wallet_delete_function(<?php echo esc_attr( $transaction->id ); ?>)"><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
+									<?php
+								}
+
+							?>
 							<td class="hide_date" >
 							<?php
 							$date = date_create( $transaction->date );
@@ -146,6 +159,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</table>
 	</div>
 </div>
+
+<div class="wps_wallet_lite_go_pro_popup_wrap ">
+		<!-- Go pro popup main start. -->
+		<div class="wps_wallet_lite_go_pro_popup">
+			<!-- Main heading. -->
+			<div class="wps_wallet_lite_go_pro_popup_head">
+				<h2><?php _e( 'Unlock Seamless Payments With Wallet System for WooCommerce Pro!', 'wallet-system-for-woocommerce' ) ?></h2>
+				<!-- Close button. -->
+				<a href="javascript:void(0)" class="wps_wallet_lite_go_pro_popup_close">
+					<span>×</span>
+				</a>
+			</div>  
+
+			<!-- Notice icon. -->
+			<div class="wps_wallet_lite_go_pro_popup_head"><img class="wps_go_pro_images" src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/go-pro.png' ); ?>">
+			</div>
+			
+				
+			<!-- Notice. -->
+			<div class="wps_wallet_lite_go_pro_popup_content">
+				<p class="wps_wallet_lite_go_pro_popup_text">
+				<?php _e( 'Upgrade now to enjoy advanced features like full or partial payment methods, QR code payments, loyalty credits, cashback rewards, quick recharge buttons, & promotional offers. 
+					Stucked with Limited Gateway access? Unlock your power to explore more.', 'wallet-system-for-woocommerce' ) ?>			</p>
+					
+					<p class="wps_wallet_lite_go_pro_popup_text">
+					
+					<?php _e( 'Manage funds in bulk, view transaction history, send email notifications, & offer refunds directly to customer wallets. Elevate the digital payment experience.', 'wallet-system-for-woocommerce' ) ?>			
+
+				</div>
+
+			<!-- Go pro button. -->
+			<div class="wps_wallet_lite_go_pro_popup_button">
+				<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=wpswings-upsell-funnel-pro&amp;utm_medium=upsell-funnel-org-backend&amp;utm_campaign=WPS-upsell-funnel-pro">	<?php _e( 'Upgrade To Premium today!', 'wallet-system-for-woocommerce' ) ?> </p>
+			<span class="dashicons dashicons-arrow-right-alt"></span></a>
+			</div>
+		</div>
+		<!-- Go pro popup main end. -->
+	</div>
 
 <?php
 // including datepicker jquery for input tag.

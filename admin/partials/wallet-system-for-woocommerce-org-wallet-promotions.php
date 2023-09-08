@@ -132,7 +132,7 @@ if ( ! empty( $wps_wallet_bookie_cashback_array ) && is_array( $wps_wallet_booki
 		<div class="wps_wallet_lite_go_pro_popup">
 			<!-- Main heading. -->
 			<div class="wps_wallet_lite_go_pro_popup_head">
-				<h2>Want More? Go Pro !!</h2>
+				<h2><?php _e( 'Unlock Seamless Payments With Wallet System for WooCommerce Pro!', 'wallet-system-for-woocommerce' ) ?></h2>
 				<!-- Close button. -->
 				<a href="javascript:void(0)" class="wps_wallet_lite_go_pro_popup_close">
 					<span>×</span>
@@ -140,20 +140,26 @@ if ( ! empty( $wps_wallet_bookie_cashback_array ) && is_array( $wps_wallet_booki
 			</div>  
 
 			<!-- Notice icon. -->
-			<div class="wps_wallet_lite_go_pro_popup_head"><img src="http://new-site.local/wp-content/plugins/woo-one-click-upsell-funnel-3.3.0/admin/resources/icons/pro.png ">
+			<div class="wps_wallet_lite_go_pro_popup_head"><img class="wps_go_pro_images" src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/go-pro.png' ); ?>">
 			</div>
-
+			
+				
 			<!-- Notice. -->
 			<div class="wps_wallet_lite_go_pro_popup_content">
 				<p class="wps_wallet_lite_go_pro_popup_text">
-					Stucked with Limited Gateway access? Unlock your power to explore more.				</p>
-				<p class="wps_wallet_lite_go_pro_popup_text">
-					Go with our premium version and make unlimited numbers of Upsells. Get more smart features and make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates.				</p>
-			</div>
+				<?php _e( 'Upgrade now to enjoy advanced features like full or partial payment methods, QR code payments, loyalty credits, cashback rewards, quick recharge buttons, & promotional offers. 
+					Stucked with Limited Gateway access? Unlock your power to explore more.', 'wallet-system-for-woocommerce' ) ?>			</p>
+					
+					<p class="wps_wallet_lite_go_pro_popup_text">
+					
+					<?php _e( 'Manage funds in bulk, view transaction history, send email notifications, & offer refunds directly to customer wallets. Elevate the digital payment experience.', 'wallet-system-for-woocommerce' ) ?>			
+
+				</div>
 
 			<!-- Go pro button. -->
 			<div class="wps_wallet_lite_go_pro_popup_button">
-				<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=wpswings-upsell-funnel-pro&amp;utm_medium=upsell-funnel-org-backend&amp;utm_campaign=WPS-upsell-funnel-pro">Upgrade to Premium <span class="dashicons dashicons-arrow-right-alt"></span></a>
+				<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=wpswings-upsell-funnel-pro&amp;utm_medium=upsell-funnel-org-backend&amp;utm_campaign=WPS-upsell-funnel-pro">	<?php _e( 'Upgrade To Premium today!', 'wallet-system-for-woocommerce' ) ?> </p>
+			<span class="dashicons dashicons-arrow-right-alt"></span></a>
 			</div>
 		</div>
 		<!-- Go pro popup main end. -->

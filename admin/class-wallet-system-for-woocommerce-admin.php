@@ -594,7 +594,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title'       => __( 'Process Wallet Recharge Order', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_order_auto_process',
 				'type'        => 'multiselect',
-				'description' => __( 'Select order status to apply Cashback.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select order status to recharge wallet.', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_wallet_order_auto_process',
 				'value'       => get_option( 'wps_wsfw_wallet_order_auto_process', array( 'completed' ) ),
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
