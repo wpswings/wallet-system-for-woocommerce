@@ -597,7 +597,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Select order status to recharge wallet.', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_wallet_order_auto_process',
 				'value'       => get_option( 'wps_wsfw_wallet_order_auto_process', array( 'completed' ) ),
-				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
 				'placeholder' => '',
 				'options' => apply_filters(
 					'wps_wsfw_wallet_order_auto_process_pre',
