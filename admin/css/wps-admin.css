@@ -1595,3 +1595,10 @@ ul {
 }
 
 
+.ui-state-active {
+  color: red;
+}
+#ui-datepicker-div{
+  border : 1px solid ;
+  border-top:none;
+}

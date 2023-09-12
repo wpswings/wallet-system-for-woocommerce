@@ -420,7 +420,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 
 				if ( 'on' != $wallet_restrict_referral ) {
 					?>
-						<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
+						<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share "><?php esc_html_e( 'Refer a Friend', 'wallet-system-for-woocommerce' ); ?> </span></a>
 					<?php
 				}
 			}

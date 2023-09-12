@@ -3427,13 +3427,13 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @param    array $column    Array of available columns.
 	 * @param    int   $post_id   Current Order post id.
 	 */
-	public function wps_wocuf_pro_populate_upsell_order_column( $column, $post_id ) {
+	public function wps_wocuf_pro_populate_wallet_order_column( $column, $post_id ) {
 
-		$upsell_order = get_post_meta( $post_id, 'wps_wallet_recharge_order', true );
+		$wallet_order = get_post_meta( $post_id, 'wps_wallet_recharge_order', true );
 		switch ( $column ) {
 
 			case 'wps-wallet-recharge-orders':
-				if ( 'yes' === $upsell_order ) :
+				if ( 'yes' === $wallet_order ) :
 					?>
 					<a href="<?php echo esc_url( get_edit_post_link( $post_id ) ); ?>" ><?php esc_html_e( 'Wallet Recharge Order', 'wallet-system-for-woocommerce' ); ?></a>
 				<?php else : ?>

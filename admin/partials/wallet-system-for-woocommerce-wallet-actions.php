@@ -145,18 +145,9 @@ $wsfw_wallet_action_html = '';
 				?>
 		</div>
 		<hr>
-
-
-
-
-			<?php
+	<?php
 	}
-
-
-
 	?>
-
-
 
 	<?php
 		$wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_settings_submit_button_array );

@@ -24,7 +24,7 @@ $user = get_user_by( 'id', $user_id );
 <div class="wps-wpg-transcation-section-search">
 	<table>
 			<tbody>
-				<tr>
+				<tr class='wps_wallet_transaction_search'>
 					<th><?php esc_html_e( 'Search', 'wallet-system-for-woocommerce' ); ?></th>
 					<td><input type="text" id="search_in_table" placeholder="Enter your Keyword"></td>
 				</tr>
@@ -59,6 +59,7 @@ $user = get_user_by( 'id', $user_id );
 					<th><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Details', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+					<th ><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></th>
 					<th class="hide_date" ><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>
@@ -103,6 +104,20 @@ $user = get_user_by( 'id', $user_id );
 							}
 							?>
 							</td>
+							<?php
+								$is_pro = false;
+								$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
+							if ( ! $is_pro ) {
+								?>
+									<td class="wps_wallet_delete_action wps_pro_settings" ><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
+									<?php
+							} else {
+								?>
+									<td class="wps_wallet_delete_action" onclick="wps_wallet_delete_function(<?php echo esc_attr( $transaction->id ); ?>)"><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
+									<?php
+							}
+
+							?>
 							<td class="hide_date" >
 							<?php
 							$date = date_create( $transaction->date );
@@ -120,6 +135,8 @@ $user = get_user_by( 'id', $user_id );
 	</div>
 </div>
 <?php
+include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';
+
 // enqueue datepicker js.
 wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
 wp_enqueue_script( 'wps-admin-user-transaction-table', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-user-transaction-table.js', array( 'jquery' ), $this->version, false );

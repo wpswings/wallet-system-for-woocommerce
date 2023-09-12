@@ -168,14 +168,16 @@ class Wallet_System_For_Woocommerce_Public {
 						$is_pro = false;
 						$is_pro = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro );
 						if ( $is_pro ) {
-
+						
 							if ( intval( $order_number ) < intval( $order_limit ) ) {
+							
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
 
-							if ( $wallet_amount > ( -$limit ) ) {
+							if ( ( $wallet_amount ) < ( $limit ) ) {
 								$user_id        = get_current_user_id();
 							} else {
+							
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
 						} else {
@@ -209,7 +211,10 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( $user_id ) {
 			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
 			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
+			if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+				return;
 
+			} 
 			if ( 'on' != $wsfw_wallet_partial_payment_method_enable ) {
 				return;
 			}
