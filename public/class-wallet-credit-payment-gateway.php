@@ -125,7 +125,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
-				echo '<b>' . __( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wc_price( $walletamount ) . ']</b>';
+				echo '<b>' . esc_html__( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wp_kses_post( wc_price( $walletamount ) ) . ']</b>';
 				$order_number = get_user_meta( $customer_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
 				$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
 

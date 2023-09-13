@@ -168,27 +168,32 @@ class Wallet_System_For_Woocommerce_Public {
 						$is_pro = false;
 						$is_pro = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro );
 						if ( $is_pro ) {
-						
+
 							if ( intval( $order_number ) < intval( $order_limit ) ) {
-							
+
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
 
 							if ( ( $wallet_amount ) < ( $limit ) ) {
+								$total_balance = $wallet_amount+ $limit;
+								if ( $total_balance < $wps_cart_total ) {
+
+									unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+								}
 								$user_id        = get_current_user_id();
 							} else {
-							
+
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
 						} else {
 							if ( $wallet_amount < $wps_cart_total ) {
-							
+
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
 						}
 					} else {
 						if ( $wallet_amount < $wps_cart_total ) {
-							
+
 							unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 						}
 					}
@@ -211,10 +216,15 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( $user_id ) {
 			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
 			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
-			if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
-				return;
+			$is_pro_plugin = false;
+			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+			if ( $is_pro_plugin ) {
+				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+					return;
 
-			} 
+				}
+			}
+
 			if ( 'on' != $wsfw_wallet_partial_payment_method_enable ) {
 				return;
 			}
@@ -1023,8 +1033,11 @@ class Wallet_System_For_Woocommerce_Public {
 		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-		$order_number = get_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', true );
-		update_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', intval( $order_number ) + 1 );
+		if ( ! empty( get_option( 'wsfw_enable_wallet_negative_balance_limit_order' ) ) ) {
+			$order_number = get_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', true );
+			update_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', intval( $order_number ) + 1 );
+
+		}
 		foreach ( $order_items as $item_id => $item ) {
 
 			$product_id = $item->get_product_id();

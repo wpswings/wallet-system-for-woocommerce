@@ -501,7 +501,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable to allow customers use wallet in negative balance', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable to credit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_negative_balance',
 				'id'          => 'wsfw_enable_wallet_negative_balance',
 				'value'       => get_option( 'wsfw_enable_wallet_negative_balance', 'no' ),
@@ -530,16 +530,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit_order', 0 ),
 				'class'       => 'wsfw-text-class wps_pro_settings',
 				'placeholder' => __( 'Enter Order Limit after which user can use negative balance at checkout', 'wallet-system-for-woocommerce' ),
-			),
-			array(
-				'title'       => __( 'Email reminder to recharge negative balance', 'wallet-system-for-woocommerce' ),
-				'type'        => 'number',
-				'description' => __( 'Enter number of days after the user will get reminder to recharge their wallet for negative balance', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wsfw_enable_wallet_negative_balance_email_order',
-				'id'          => 'wsfw_enable_wallet_negative_balance_email_order',
-				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_email_order', 0 ),
-				'class'       => 'wsfw-text-class wps_pro_settings',
-				'placeholder' => __( 'Enter number of days.', 'wallet-system-for-woocommerce' ),
 			),
 			array(
 				'title'       => __( 'Enable Wallet Interest for Negative Balance Recharge', 'wallet-system-for-woocommerce' ),

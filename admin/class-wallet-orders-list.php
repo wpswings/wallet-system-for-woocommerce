@@ -1,5 +1,15 @@
 <?php
 /**
+ * Order Factory
+ *
+ * The WooCommerce order factory creating the right order objects.
+ *
+ * @version 2.5.0
+ * @package Wallet_System_For_Woocommerce
+ */
+
+ use Automattic\WooCommerce\Utilities\OrderUtil;
+/**
  * Exit if accessed directly
  *
  * @package Wallet_System_For_Woocommerce

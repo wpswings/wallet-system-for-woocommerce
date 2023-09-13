@@ -82,8 +82,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 .wsfw-secion-wrap #wsfw_button_demo,
-.wsfw-secion-wrap #wsfw_button_cashback,
-.wsfw-secion-wrap #wsfw_button_wallet_action {
+.wsfw-secion-wrap #wsfw_button_cashback{
   margin-top: 35px;
 }
 
@@ -338,9 +337,12 @@ table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
   background-color: rgb(33 150 243 / 10%);
 }
 
-.wps-wsfw-gen-section-form #wsfw_button_wallet_action {
+
+.wps-wsfw-gen-section-form .wps-wallet-action-wrap {
   position: sticky;
-  bottom: 10px;
+  bottom: 0px;
+  background-color: white;
+  padding: 10px 0px 20px;
 }
 
 .wps_wsfw_export_user_loader,
@@ -348,4 +350,11 @@ table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
   vertical-align: middle;
   height: 35px;
   display: none;
+}
+
+#wsfw_button_demo{
+  position: sticky;
+  bottom: 10px;
+  
+  
 }

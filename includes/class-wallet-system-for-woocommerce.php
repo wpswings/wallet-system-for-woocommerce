@@ -276,8 +276,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_wps_wallet_order_refund_action', $wsfw_plugin_admin, 'wps_wallet_order_refund_action' );
 		$this->loader->add_action( 'wp_ajax_wps_wallet_refund_partial_payment', $wsfw_plugin_admin, 'wps_wallet_refund_partial_payment' );
 		$this->loader->add_action( 'wp_ajax_wps_wallet_delete_user_tranasactions', $wsfw_plugin_admin, 'wps_wallet_delete_user_tranasactions' );
-		
-		
+
 		$this->loader->add_action( 'woocommerce_after_order_fee_item_name', $wsfw_plugin_admin, 'woocommerce_after_order_fee_item_name_callback', 10, 2 );
 		// Adding Upsell Orders column in Orders table in backend.
 		$this->loader->add_filter( 'manage_edit-shop_order_columns', $wsfw_plugin_admin, 'wps_wsfw_wallet_add_columns_to_admin_orders', 11 );
@@ -760,7 +759,7 @@ class Wallet_System_For_Woocommerce {
 							?>
 														
 						
-						<div class="wps-form-group <?php echo $pro_group_tag; ?> wps-wsfw-<?php echo esc_attr( $wsfw_component['type'] ); ?> ">
+						<div class="wps-form-group <?php echo esc_attr( $pro_group_tag ); ?> wps-wsfw-<?php echo esc_attr( $wsfw_component['type'] ); ?> ">
 							<div class="wps-form-group__label">
 								<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
 							</div>

@@ -145,16 +145,18 @@ $wsfw_wallet_action_html = '';
 				?>
 		</div>
 		<hr>
-	<?php
+		<?php
 	}
 	?>
-
+<div class="wps-wallet-action-wrap">
 	<?php
+
 		$wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_settings_submit_button_array );
 	if ( ! empty( $wsfw_wallet_action_html ) ) {
 		echo wp_kses_post( $wsfw_wallet_action_html );
 	}
 	?>
+	</div>
 
 		<input type="hidden" id="updatenoncewallet_action" name="updatenoncewallet_action" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 	</div>

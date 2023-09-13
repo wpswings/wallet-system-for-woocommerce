@@ -52,10 +52,6 @@
 			jQuery('#wsfw_enable_wallet_negative_balance_limit_order').attr('disabled',true);
 			jQuery('#wsfwp_withdrawal_page_message').attr('disabled',true);
 			jQuery('#wsfwp_withdrawal_admin_withdrawal_request_email').attr('disabled',true);
-			// jQuery('#wps_wsfw_Gateway_Restriction_message_checkout').attr('disabled',true);
-			// jQuery('#wps_wsfw_hide_cashback_cart').attr('disabled',true);
-			// jQuery('#wps_wsfw_hide_cashback_checkout').attr('disabled',true);
-
 			jQuery('#wps_wsfwp_cashback_withdrawal_fee_type').attr('disabled',true);
 			jQuery('#wps_wsfwp_wallet_withdrawal_fee_amount').attr('disabled',true);
 			jQuery('#wps_wsfwp_cashback_transfer_fee_type').attr('disabled',true);
@@ -63,8 +59,6 @@
 			jQuery('#wps_wsfw_wallet_action_referal_amount').attr('disabled',true);
 			jQuery('#wps_wsfw_wallet_action_referral_description').attr('disabled',true);
 			jQuery('#wps_wsfw_wallet_order_auto_process').attr('disabled',true);
-			jQuery('#wsfw_enable_wallet_negative_balance_email_order').attr('disabled',true);
-
 			jQuery('#wps_wsfwp_wallet_recharge_tab_enable').attr('disabled',true);
 			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('disabled',true);
 			jQuery('#wps_wsfw_intrest_type_amount_negative_balance').attr('disabled',true);
@@ -86,15 +80,7 @@
 		$(document).on( 'click', '.wps_wallet_lite_go_pro_popup_close', function() {
 			$('.wps_wallet_lite_go_pro_popup_wrap').removeClass('wps_wallet_lite_go_pro_popup_show');
 		});
-		
-			// // on clicking element change the input type password to text or vice-versa
-			// $(document).on( 'click', '.wps_pro_settings', function() {
-				
-			// 		$(this).prop("checked", false);
-			// 		alert('pro');
-			// 	}
-			// });
-		
+						
 		// hide show category fields.
 		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
 		if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {
