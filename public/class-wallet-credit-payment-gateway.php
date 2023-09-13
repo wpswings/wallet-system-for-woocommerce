@@ -198,12 +198,12 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
 				$is_condition_true = true;
-
+								
 			} else {
 				if ( $debited_amount <= $walletamount ) {
 					$is_condition_true = true;
 				}
-			}
+			}	
 
 			if ( $is_condition_true ) {
 
