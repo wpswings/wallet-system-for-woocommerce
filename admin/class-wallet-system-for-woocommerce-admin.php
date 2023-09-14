@@ -218,8 +218,10 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( ! is_partial_payment_order_item( $item_id, $item ) ) {
 			return;
 		}
-		if ( ! is_int( $thepostid ) ) {
+		if ( ! empty( $post ) ) {
+			if ( ! is_int( $thepostid ) ) {
 				$thepostid = $post->ID;
+			}
 		}
 
 		$order_id = $thepostid;

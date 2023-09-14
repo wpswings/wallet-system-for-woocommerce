@@ -198,18 +198,25 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
 				$is_condition_true = true;
-								
+
 			} else {
 				if ( $debited_amount <= $walletamount ) {
 					$is_condition_true = true;
 				}
-			}	
+			}
 
 			if ( $is_condition_true ) {
 
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 
-				$walletamount = abs( $walletamount ) - abs( $debited_amount );
+				if ( $walletamount < 0 ) {
+					$walletamount = ( ( $walletamount ) - ( $debited_amount ) );
+
+				} else {
+
+					$walletamount = abs( $walletamount ) - abs( $debited_amount );
+				}
+
 				$update_wallet          = update_user_meta( $customer_id, 'wps_wallet', ( $walletamount ) );
 
 				if ( $update_wallet ) {
