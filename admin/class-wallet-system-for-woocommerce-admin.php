@@ -3421,7 +3421,14 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wps_wocuf_pro_populate_wallet_order_column( $column, $post_id ) {
 
-		$wallet_order = get_post_meta( $post_id, 'wps_wallet_recharge_order', true );
+		$order = wc_get_order( $post_id );
+		$wallet_order = '';
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// HPOS usage is enabled.
+			$wallet_order = $order->get_meta( 'wps_wallet_recharge_order', true );
+		} else {
+			$wallet_order = get_post_meta( $post_id, 'wps_wallet_recharge_order', true );
+		}
 		switch ( $column ) {
 
 			case 'wps-wallet-recharge-orders':

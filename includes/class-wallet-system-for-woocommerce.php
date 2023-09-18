@@ -283,6 +283,11 @@ class Wallet_System_For_Woocommerce {
 		// Populating Upsell Orders column with Single Order or Upsell order.
 		$this->loader->add_action( 'manage_shop_order_posts_custom_column', $wsfw_plugin_admin, 'wps_wocuf_pro_populate_wallet_order_column', 10, 2 );
 
+		$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $wsfw_plugin_admin, 'wps_wocuf_pro_populate_wallet_order_column', 10, 2 );
+		$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $wsfw_plugin_admin, 'wps_wsfw_wallet_add_columns_to_admin_orders', 99 );
+		
+		
+
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
 
