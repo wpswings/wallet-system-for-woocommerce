@@ -323,17 +323,6 @@ if ( $activated ) {
 		}
 	}
 
-	add_action(
-		'before_woocommerce_init',
-		function() {
-			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
-			}
-		}
-	);
-
-
-
 } else {
 	// To deactivate plugin if woocommerce is not installed.
 	add_action( 'admin_init', 'wps_wsfw_plugin_deactivate' );
@@ -366,7 +355,12 @@ if ( $activated ) {
 }
 
 
-ini_set('display_errors',1);
-error_reporting(E_ALL);
 
-
+add_action(
+	'before_woocommerce_init',
+	function() {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
+	}
+);
