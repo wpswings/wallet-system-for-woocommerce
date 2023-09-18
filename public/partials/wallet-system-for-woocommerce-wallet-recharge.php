@@ -75,7 +75,7 @@ if ( is_array( $wsfw_min_max_value ) ) {
 	<form method="post" action="" id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . '):'; ?></label>
-			<input type="number" id="wps_wallet_recharge" step="0.01" data-min="<?php echo esc_attr( $min_value ); ?>" data-max="<?php echo esc_attr( $max_value ); ?>" name="wps_wallet_recharge_amount" required="">
+			<input type="number" id="wps_wallet_recharge" step="0.01" min="<?php echo esc_attr( $min_value ); ?>" data-min="<?php echo esc_attr( $min_value ); ?>" data-max="<?php echo esc_attr( $max_value ); ?>" name="wps_wallet_recharge_amount" required="">
 		</p>
 		<p class="error"></p>
 		<?php
