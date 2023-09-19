@@ -383,7 +383,7 @@ if ( $current_url == $main_url ) {
 }
 $wallet_keys = array_keys( $wallet_tabs );
 /**
- * Show message on form submit
+ * Show message on form submit.
  *
  * @param string $wpg_message message to be shown on form submission.
  * @param string $type error type.
