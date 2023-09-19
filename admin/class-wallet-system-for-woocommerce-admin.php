@@ -490,7 +490,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Auto Complete Wallet Recharge Order Status.', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable if you want to autocomplete order paid by wallet gateway', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable if you want to autocomplete wallet recharge order paid by different gateways.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_wallet_recharge_order_status_checkout',
 				'id'          => 'wsfw_wallet_recharge_order_status_checkout',
 				'value'       => get_option( 'wsfw_wallet_recharge_order_status_checkout', 'no' ),
@@ -514,7 +514,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Limit for Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Limit for Wallet Negative Balance (Pay Later Amount )', 'wallet-system-for-woocommerce' ),
 				'type'        => 'number',
 				'description' => __( 'Enter limit upto customer can use balance in negative', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_negative_balance_limit',
@@ -583,7 +583,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
 			array(
-				'title'       => __( 'Process Wallet Recharge Order', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Process Wallet Recharge Amount on Order Status', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_order_auto_process',
 				'type'        => 'multiselect',
 				'description' => __( 'Select order status to recharge wallet.', 'wallet-system-for-woocommerce' ),
