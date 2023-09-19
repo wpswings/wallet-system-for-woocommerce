@@ -322,7 +322,6 @@ if ( $activated ) {
 
 		}
 	}
-
 } else {
 	// To deactivate plugin if woocommerce is not installed.
 	add_action( 'admin_init', 'wps_wsfw_plugin_deactivate' );
@@ -364,3 +363,4 @@ add_action(
 		}
 	}
 );
+

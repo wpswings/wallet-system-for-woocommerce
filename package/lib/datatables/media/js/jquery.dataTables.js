@@ -6249,11 +6249,11 @@
 	}
 	
 	
-	// Get the data to sort a column, be it from cache, fresh (populating the
-	// cache), or from a sort formatter
+	// Get the data to sort a column, be it from cache, fresh (populating the.
+	// cache), or from a sort formatter.
 	function _fnSortData( settings, idx )
 	{
-		// Custom sorting function - provided by the sort data type
+		// Custom sorting function - provided by the sort data type.
 		var column = settings.aoColumns[ idx ];
 		var customSort = DataTable.ext.order[ column.sSortDataType ];
 		var customData;
@@ -6264,7 +6264,7 @@
 			);
 		}
 	
-		// Use / populate cache
+		// Use / populate cache.
 		var row, cellData;
 		var formatter = DataTable.ext.type.order[ column.sType+"-pre" ];
 	

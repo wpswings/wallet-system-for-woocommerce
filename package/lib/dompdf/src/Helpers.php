@@ -626,7 +626,7 @@ class Helpers
 
         [$width, $height, $type] = getimagesize($filename);
 
-        // Custom types
+        // Custom types.
         $types = [
             IMAGETYPE_JPEG => "jpeg",
             IMAGETYPE_GIF  => "gif",
