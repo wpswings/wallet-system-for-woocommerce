@@ -642,6 +642,27 @@ class Wallet_System_For_Woocommerce_Public {
 			$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 			$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
 		}
+		//custom work.
+		$current_currency = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
+		$wps_wsfwp_wallet_user_currency_setting = get_option( 'wps_wsfwp_wallet_user_currency_setting' );
+		if ( 'yes' == $wps_wsfwp_wallet_user_currency_setting ){
+			$wps_wallet_last_order_currency = get_user_meta( $customer_id,'wps_wallet_last_order_currency', true );
+			if ( $wps_wallet_last_order_currency == $current_currency ){
+				$walletamount = $walletamount;	
+			} else {
+				$walletamount =0;
+			}
+		} else if ( 'no' == $wps_wsfwp_wallet_user_currency_setting ){
+			$wps_wallet_order_geolocation_currency = get_user_meta( $customer_id,'wps_wallet_order_geolocation_currency', true );
+			if ( $wps_wallet_order_geolocation_currency == $current_currency ){
+				$walletamount = $walletamount;
+			} else {
+				$walletamount =0;	
+			}
+		} else {
+			$walletamount = $walletamount;
+		}
+		//custom work.
 		return wc_price( $walletamount );
 	}
 
@@ -1974,7 +1995,11 @@ class Wallet_System_For_Woocommerce_Public {
 					} else {
 						$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
 					}
-					if ( ! empty( $_order_currency ) ) {
+					//custom work.
+					$valid = true ;
+					$wps_wsfw_custom_check = apply_filters( 'wps_check_order_currency_custom_work' ,$valid );
+					//custom work.
+					if ( ! empty( $_order_currency ) && $wps_wsfw_custom_check ) {
 
 						 $total = $item->get_total();
 						 $total = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
