@@ -278,7 +278,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 = 2.5.1 - Released on 22 September 2023 =
 * New: Latest WP[6.3.1] and WC[8.1.1] Update
-* Fix:- Mail bug fixes 
+* Fix: Mail bug fixes 
 
 = 2.5.0 - Released on 20 September 2023 =
 * New: Negative wallet amount support
@@ -447,5 +447,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 = 2.5.1 - Released on 22 September 2023 =
 * New: Latest WP[6.3.1] and WC[8.1.1] Update
-* Fix:- Mail bug fixes 
+* Fix: Mail bug fixes 
 
