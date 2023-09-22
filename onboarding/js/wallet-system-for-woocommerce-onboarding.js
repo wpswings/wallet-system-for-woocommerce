@@ -1,5 +1,7 @@
 jQuery(document).ready(function($) {
-
+    if ('plugins.php' == wps_wsfw_onboarding.wsfw_current_screen) {
+    jQuery('.wps_wallet_lite_go_pro_popup_wrap ').hide();
+    }
     const MDCText = mdc.textField.MDCTextField;
     const textField = [].map.call(document.querySelectorAll('.mdc-text-field'), function(el) {
         return new MDCText(el);

@@ -1506,12 +1506,14 @@ class Wallet_System_For_Woocommerce_Admin {
 				update_user_meta( $user_id, 'wps_wallet', abs( $wps_wallet ) );
 
 				$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-
+				$customer_email_credit = '';
+				$customer_email_debit = '';
+				
 				if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 					$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 					$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
-
+				}
 					if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
 
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
@@ -1530,7 +1532,7 @@ class Wallet_System_For_Woocommerce_Admin {
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 						}
 					}
-				}
+				
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $wallet_amount,

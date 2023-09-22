@@ -111,31 +111,32 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 							if ( $updated_wallet ) {
 								$updated_users++;
 								$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-
+								$customer_email_credit = '';
+								$customer_email_debit = '';
 								if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 									$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 									$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+								}
+								if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
 
-									if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
-
-										if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-											$user       = get_user_by( 'id', $user_id );
-											$name       = $user->first_name . ' ' . $user->last_name;
-											$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
-											$mail_text .= $mail_message;
-											$to         = $user->user_email;
-											$from       = get_option( 'admin_email' );
-											$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-											$headers    = 'MIME-Version: 1.0' . "\r\n";
-											$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-											$headers   .= 'From: ' . $from . "\r\n" .
-												'Reply-To: ' . $to . "\r\n";
-											$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-											$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-										}
+									if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+										$user       = get_user_by( 'id', $user_id );
+										$name       = $user->first_name . ' ' . $user->last_name;
+										$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+										$mail_text .= $mail_message;
+										$to         = $user->user_email;
+										$from       = get_option( 'admin_email' );
+										$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+										$headers    = 'MIME-Version: 1.0' . "\r\n";
+										$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+										$headers   .= 'From: ' . $from . "\r\n" .
+											'Reply-To: ' . $to . "\r\n";
+										$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+										$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 									}
 								}
+								
 							}
 
 							$transaction_data = array(
@@ -372,30 +373,33 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 					}
 
 					$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+					$customer_email_credit = '';
+					$customer_email_debit = '';
+					
 					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 						$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 						$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+					}
+					if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
 
-						if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
+						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+							$user       = get_user_by( 'id', $user_id );
+							$name       = $user->first_name . ' ' . $user->last_name;
+							$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+							$mail_text .= $mail_message;
+							$to         = $user->user_email;
+							$from       = get_option( 'admin_email' );
+							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+							$headers    = 'MIME-Version: 1.0' . "\r\n";
+							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+							$headers   .= 'From: ' . $from . "\r\n" .
+							'Reply-To: ' . $to . "\r\n";
 
-							if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-								$user       = get_user_by( 'id', $user_id );
-								$name       = $user->first_name . ' ' . $user->last_name;
-								$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
-								$mail_text .= $mail_message;
-								$to         = $user->user_email;
-								$from       = get_option( 'admin_email' );
-								$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-								$headers    = 'MIME-Version: 1.0' . "\r\n";
-								$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-								$headers   .= 'From: ' . $from . "\r\n" .
-								'Reply-To: ' . $to . "\r\n";
-
-								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-							}
+							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 						}
 					}
+				
 
 					$transaction_data = array(
 						'user_id'          => $user_id,
@@ -509,31 +513,33 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 						}
 
 						$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-
+						$customer_email_credit = '';
+						$customer_email_debit = '';
+						
 						if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 							$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 							$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+						}
+						if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
 
-							if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
+							if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+								$user       = get_user_by( 'id', $user_id );
+								$name       = $user->first_name . ' ' . $user->last_name;
+								$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+								$mail_text .= $mail_message;
+								$to         = $user->user_email;
+								$from       = get_option( 'admin_email' );
+								$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+								$headers    = 'MIME-Version: 1.0' . "\r\n";
+								$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+								$headers   .= 'From: ' . $from . "\r\n" .
+								'Reply-To: ' . $to . "\r\n";
 
-								if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-									$user       = get_user_by( 'id', $user_id );
-									$name       = $user->first_name . ' ' . $user->last_name;
-									$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
-									$mail_text .= $mail_message;
-									$to         = $user->user_email;
-									$from       = get_option( 'admin_email' );
-									$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-									$headers    = 'MIME-Version: 1.0' . "\r\n";
-									$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-									$headers   .= 'From: ' . $from . "\r\n" .
-									'Reply-To: ' . $to . "\r\n";
-
-									$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-								}
+								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 							}
 						}
+						
 						$transaction_data = array(
 							'user_id'          => $user_id,
 							'amount'           => $updated_amount,
@@ -675,28 +681,31 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 				}
 			}
 			$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+			$customer_email_credit = '';
+			$customer_email_debit = '';
+						
 			if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 				$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 				$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
-
-				if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
-					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$user       = get_user_by( 'id', $user_id );
-						$name       = $user->first_name . ' ' . $user->last_name;
-						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
-						$mail_text .= $mail_message;
-						$to         = $user->user_email;
-						$from       = get_option( 'admin_email' );
-						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-						$headers   .= 'From: ' . $from . "\r\n" .
-							'Reply-To: ' . $to . "\r\n";
-						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-					}
+			}
+			if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
+				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+					$user       = get_user_by( 'id', $user_id );
+					$name       = $user->first_name . ' ' . $user->last_name;
+					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+					$mail_text .= $mail_message;
+					$to         = $user->user_email;
+					$from       = get_option( 'admin_email' );
+					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+					$headers    = 'MIME-Version: 1.0' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+					$headers   .= 'From: ' . $from . "\r\n" .
+						'Reply-To: ' . $to . "\r\n";
+					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 				}
 			}
+			
 
 			$transaction_data = array(
 				'user_id'          => $user_id,
