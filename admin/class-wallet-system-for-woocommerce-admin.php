@@ -1,5 +1,15 @@
 <?php
 /**
+ * Order Factory
+ *
+ * The WooCommerce order factory creating the right order objects.
+ *
+ * @version 2.5.0
+ * @package Wallet_System_For_Woocommerce
+ */
+
+use Automattic\WooCommerce\Utilities\OrderUtil;
+/**
  * The admin-specific functionality of the plugin.
  *
  * @link       https://wpswings.com/
@@ -85,6 +95,13 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		}
 
+		$is_pro_plugin = false;
+		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+		if ( ! $is_pro_plugin ) {
+			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-pro', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/css/wallet-system-for-woocommerce-wallet-pro-css.css', array(), time(), 'all' );
+
+		}
+
 	}
 
 	/**
@@ -96,6 +113,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_enqueue_scripts( $hook ) {
 		global $post;
 		$screen = get_current_screen();
+		$is_plugin = false;
 		$screen_id = $screen ? $screen->id : '';
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
@@ -122,6 +140,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_amount_error_debit'         => __( 'Enter amount less than or equal to ', 'wallet-system-for-woocommerce' ),
 					'wsfw_partial_payment_msg'  => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
 					'wsfw_is_subscription'      => $this->wps_wsfw_subscription_active_plugin(),
+					'is_negative_balance'       => get_option( 'wsfw_enable_wallet_negative_balance' ),
+					'is_pro_plugin'             => apply_filters( 'wsfw_check_pro_plugin', $is_plugin ),
 				)
 			);
 
@@ -129,6 +149,13 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.min.js', array(), time(), false );
 			wp_enqueue_script( 'wps-admin-wallet-action-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wallet-system-for-woocommerce-action.js', array(), time(), false );
 
+			wp_localize_script(
+				'wps-admin-wallet-action-js',
+				'wsfw_admin_action_param',
+				array(
+					'is_pro_plugin'             => apply_filters( 'wsfw_check_pro_plugin', $is_plugin ),
+				)
+			);
 		}
 
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
@@ -191,12 +218,22 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( ! is_partial_payment_order_item( $item_id, $item ) ) {
 			return;
 		}
-		if ( ! is_int( $thepostid ) ) {
+		if ( ! empty( $post ) ) {
+			if ( ! is_int( $thepostid ) ) {
 				$thepostid = $post->ID;
+			}
 		}
 
 		$order_id = $thepostid;
-		if ( get_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true ) ) {
+		$is_refunded = false;
+		$order     = wc_get_order( $order_id );
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// HPOS usage is enabled.
+			$is_refunded = $order->get_meta( '_wps_wallet_partial_payment_refunded', true );
+		} else {
+			$is_refunded = get_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
+		}
+		if ( $is_refunded ) {
 			$html = '<small class="refunded">' . __( 'Refunded', 'wallet-system-for-woocommerce' ) . '</small>';
 		} else {
 			$html = '<button type="button" class="button refund-partial-payment">' . __( 'Refund to Wallet', 'wallet-system-for-woocommerce' ) . '</button>';
@@ -421,6 +458,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_general_settings_page( $wsfw_settings_general ) {
 
 		$wsfw_settings_general = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
+
 		$wsfw_settings_general = array(
 			// enable wallet.
 			array(
@@ -449,6 +487,121 @@ class Wallet_System_For_Woocommerce_Admin {
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
 			),
+			array(
+				'title'       => __( 'Auto Complete Wallet Recharge Order Status.', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable if you want to autocomplete wallet recharge order paid by different gateways.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_wallet_recharge_order_status_checkout',
+				'id'          => 'wsfw_wallet_recharge_order_status_checkout',
+				'value'       => get_option( 'wsfw_wallet_recharge_order_status_checkout', 'no' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Enable Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to credit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_enable_wallet_negative_balance',
+				'id'          => 'wsfw_enable_wallet_negative_balance',
+				'value'       => get_option( 'wsfw_enable_wallet_negative_balance', 'no' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Limit for Wallet Negative Balance (Pay Later Amount )', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter limit upto customer can use balance in negative', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_enable_wallet_negative_balance_limit',
+				'id'          => 'wsfw_enable_wallet_negative_balance_limit',
+				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit', '0' ),
+				'class'       => 'wsfw-text-class wps_pro_settings',
+				'placeholder' => __( 'Enter Amount Limit upto user can use negative balance', 'wallet-system-for-woocommerce' ),
+			),
+			array(
+				'title'       => __( 'Limit order number for Wallet Negative Balance Use', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter order limit after customer can avail balance in negative', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_enable_wallet_negative_balance_limit_order',
+				'id'          => 'wsfw_enable_wallet_negative_balance_limit_order',
+				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit_order', 0 ),
+				'class'       => 'wsfw-text-class wps_pro_settings',
+				'placeholder' => __( 'Enter Order Limit after which user can use negative balance at checkout', 'wallet-system-for-woocommerce' ),
+			),
+			array(
+				'title'       => __( 'Enable Wallet Interest for Negative Balance Recharge', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to allow customers get charge for wallet recharge in negative balance', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_enable_wallet_negative_balance_enabled_interest',
+				'id'          => 'wsfw_enable_wallet_negative_balance_enabled_interest',
+				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_enabled_interest', 'no' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Enter name to add on checkout page for interest of Wallet negative balance', 'wallet-system-for-woocommerce' ),
+				'type'        => 'text',
+				'description' => __( 'Enter name of fee to add for wallet.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_intrest_text_name_amount_negative_balance',
+				'id'          => 'wps_wsfw_intrest_text_name_amount_negative_balance',
+				'value'       => get_option( 'wps_wsfw_intrest_text_name_amount_negative_balance', 'Interest wallet' ),
+				'class'       => 'wsfw-text-class wps_pro_settings',
+				'placeholder' => __( 'Enter Interest Name', 'wallet-system-for-woocommerce' ),
+			),
+			array(
+				'title'       => __( 'Wallet interest Type for negative balance', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'description' => __( 'Select type of interest on Wallet Negative Balance recharge.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_intrest_type_amount_negative_balance',
+				'id'          => 'wps_wsfw_intrest_type_amount_negative_balance',
+				'value'       => get_option( 'wps_wsfw_intrest_type_amount_negative_balance', 'percent' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => apply_filters(
+					'wsfw_cashback_type__array',
+					array(
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			array(
+				'title'       => __( 'Enter Wallet interest Amount for negative balance', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Charge interest on Wallet Negative Balance recharge.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_intrest_amount_negative_balance',
+				'id'          => 'wps_wsfw_intrest_amount_negative_balance',
+				'value'       => ! empty( get_option( 'wps_wsfw_intrest_amount_negative_balance' ) ) ? get_option( 'wps_wsfw_intrest_amount_negative_balance' ) : 10,
+				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings',
+			),
+			array(
+				'title'       => __( 'Process Wallet Recharge Amount on Order Status', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_order_auto_process',
+				'type'        => 'multiselect',
+				'description' => __( 'Select order status to recharge wallet.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_wallet_order_auto_process',
+				'value'       => get_option( 'wps_wsfw_wallet_order_auto_process', array( 'completed' ) ),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
+				'placeholder' => '',
+				'options' => apply_filters(
+					'wps_wsfw_wallet_order_auto_process_pre',
+					array(
+						'pending' => __( 'Pending payment', 'wallet-system-for-woocommerce' ),
+						'on-hold' => __( 'On hold', 'wallet-system-for-woocommerce' ),
+						'processing' => __( 'Processing', 'wallet-system-for-woocommerce' ),
+						'completed' => __( 'Completed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+
 			array(
 				'title'       => __( 'Make Wallet Recharge Product Tax Free', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
@@ -568,8 +721,30 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-select-class',
 				'placeholder' => __( 'ShortCode For Wallet', 'wallet-system-for-woocommerce' ),
 			),
+			array(
+				'title'       => __( 'Message For Customer', 'wallet-system-for-woocommerce' ),
+				'type'        => 'text',
+				'description' => __( 'Enter message for customer at the time of withdrawal request', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfwp_withdrawal_page_message',
+				'id'          => 'wsfwp_withdrawal_page_message',
+				'value'       => get_option( 'wsfwp_withdrawal_page_message' ),
+				'placeholder' => __( 'message', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings',
+			),
+			array(
+				'title'       => __( 'Admin Email for wallet Withdrawal Request', 'wallet-system-for-woocommerce' ),
+				'type'        => 'text',
+				'description' => __( 'Enter the admin mail id to get the update of withdrawal request', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfwp_withdrawal_admin_withdrawal_request_email',
+				'id'          => 'wsfwp_withdrawal_admin_withdrawal_request_email',
+				'value'       => get_option( 'wsfwp_withdrawal_admin_withdrawal_request_email' ),
+				'placeholder' => __( 'Enter Email Id of Admin', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings',
+			),
+
 		);
-		$wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
+		// $wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
+
 		$wsfw_settings_general[] = array(
 			'type'        => 'submit',
 			'name'        => 'wsfw_button_demo',
@@ -957,6 +1132,46 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => '',
 				'options' => $wps_all_payment_gateway,
 			),
+			array(
+				'title'       => __( 'Show Gateway Restriction Message at Checkout Page', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => '',
+				'name'        => 'wps_wsfw_Gateway_Restriction_message_checkout',
+				'id'          => 'wps_wsfw_Gateway_Restriction_message_checkout',
+				'value'       => get_option( 'wps_wsfw_Gateway_Restriction_message_checkout' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Hide Wallet Cashback Message at Cart Page', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => '',
+				'name'        => 'wps_wsfw_hide_cashback_cart',
+				'id'          => 'wps_wsfw_hide_cashback_cart',
+				'value'       => get_option( 'wps_wsfw_hide_cashback_cart' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Hide Wallet Cashback Message at Checkout Page', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => '',
+				'name'        => 'wps_wsfw_hide_cashback_checkout',
+				'id'          => 'wps_wsfw_hide_cashback_checkout',
+				'value'       => get_option( 'wps_wsfw_hide_cashback_checkout' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+
 		);
 		$wsfw_settings_general   = apply_filters( 'wsfw_cashback_extra_settings_array', $wsfw_settings_general );
 		$wsfw_settings_general[] = array(
@@ -988,6 +1203,11 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfwp_wallet_action_settings_withdrawal_array = apply_filters( 'wsfwp_wallet_action_settings_withdrawal_array', array() );
 				$wsfwp_wallet_action_settings_transfer_array = apply_filters( 'wsfwp_wallet_action_settings_transfer_array', array() );
 				// fee saving end.
+
+				// custom work.
+				$wsfwp_wallet_action_settings_user_currency_array = apply_filters( 'wsfwp_wallet_action_settings_user_currency_array', array() );
+				// custom work.
+
 				$wsfw_settings_wallet_action_new_registration = apply_filters( 'wsfw_wallet_action_settings_registration_array', array() );
 
 				$wsfw_wallet_action_settings_daily_visit      = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
@@ -1004,7 +1224,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_settings_wallet_action_auto_topup );
 
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_comment_array );
-
+				// custom work.
+				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfwp_wallet_action_settings_user_currency_array );
+				// custom work.
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfwp_wallet_action_settings_withdrawal_array );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfwp_wallet_action_settings_transfer_array );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_refer_friend_settings );
@@ -1140,7 +1362,12 @@ class Wallet_System_For_Woocommerce_Admin {
 						foreach ( $wsfw_genaral_settings as $wsfw_genaral_setting ) {
 							if ( isset( $wsfw_genaral_setting['id'] ) && '' !== $wsfw_genaral_setting['id'] ) {
 								if ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
-									update_option( $wsfw_genaral_setting['id'], sanitize_text_field( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ) ) );
+
+									if ( 'wps_wsfw_wallet_order_auto_process' == $wsfw_genaral_setting['id'] ) {
+										update_option( $wsfw_genaral_setting['id'], map_deep( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) );
+									} else {
+										update_option( $wsfw_genaral_setting['id'], sanitize_text_field( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ) ) );
+									}
 								} else {
 									update_option( $wsfw_genaral_setting['id'], '' );
 								}
@@ -1279,12 +1506,14 @@ class Wallet_System_For_Woocommerce_Admin {
 				update_user_meta( $user_id, 'wps_wallet', abs( $wps_wallet ) );
 
 				$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-
+				$customer_email_credit = '';
+				$customer_email_debit = '';
+				
 				if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 					$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 					$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
-
+				}
 					if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
 
 						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
@@ -1303,7 +1532,7 @@ class Wallet_System_For_Woocommerce_Admin {
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 						}
 					}
-				}
+				
 				$transaction_data = array(
 					'user_id'          => $user_id,
 					'amount'           => $wallet_amount,
@@ -1392,7 +1621,12 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
 					$amount        = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount, $order_currency );
-					$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update', $credited_amount );
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$converted_ = $order->get_meta( 'wps_converted_currency_update', true );
+					} else {
+						$converted_ = get_post_meta( $order_id, 'wps_converted_currency_update', true );
+					}
 					if ( ! empty( $converted_ ) ) {
 						$credited_amount = $converted_;
 						$order_curremncy = get_woocommerce_currency();
@@ -1404,13 +1638,14 @@ class Wallet_System_For_Woocommerce_Admin {
 						$update_wallet_userid = $userid;
 					}
 					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', $order_id, '' );
-					$walletamount  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
-					$walletamount  = ( ! empty( $walletamount ) ) ? $walletamount : 0;
+					$walletamount_user  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
+					$walletamount_user  = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $credited_amount;
+					// $walletamount = abs($walletamount_user) - abs($credited_amount);;
 
 					$balance   = $order->get_currency() . ' ' . $amount;
-					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharging.', 'wallet-system-for-woocommerce' );
+					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharge.', 'wallet-system-for-woocommerce' );
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
@@ -2837,12 +3072,486 @@ class Wallet_System_For_Woocommerce_Admin {
 					// order refund data added to order notes.
 					$text_order_note = wc_price( $partial_payment_amount, wps_wallet_wc_price_args( $order->get_customer_id() ) ) . esc_html__( 'refunded to customer wallet', 'wallet-system-for-woocommerce' );
 					$order->add_order_note( $text_order_note );
-					update_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
-					update_post_meta( $order_id, '_partial_payment_refund_id', $transaction_id );
+
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$order->update_meta_data( '_wps_wallet_partial_payment_refunded', true );
+						$order->update_meta_data( '_partial_payment_refund_id', $transaction_id );
+						$order->save();
+
+					} else {
+
+						update_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
+						update_post_meta( $order_id, '_partial_payment_refund_id', $transaction_id );
+					}
+
 					add_action( 'wps_wallet_partial_order_refunded', $order_id, $transaction_id );
 				}
 
 				wp_send_json( $response );
 	}
+
+	/**
+	 * Function for withdrawal setting.
+	 *
+	 * @return array
+	 */
+	public function wps_wsfws_admin_wallet_action_withdrawal_settings_page_org() {
+
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable Wallet withdrawal Extra Fee Settings', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_action_withdrawal_enable',
+				'id'          => 'wps_wsfwp_wallet_action_withdrawal_enable',
+				'value'       => get_option( 'wps_wsfwp_wallet_action_withdrawal_enable' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Wallet Withdrawal Fee Type', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'description' => __( 'Select Withdrawal Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_cashback_withdrawal_fee_type',
+				'id'          => 'wps_wsfwp_cashback_withdrawal_fee_type',
+				'value'       => get_option( 'wps_wsfwp_cashback_withdrawal_fee_type', 'percent' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => apply_filters(
+					'wsfw_cashback_type__array',
+					array(
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			array(
+				'title'       => __( 'Enter Fee For Wallet withdrawal Process', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter Fee For Wallet withdrawal Process', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_withdrawal_fee_amount',
+				'id'          => 'wps_wsfwp_wallet_withdrawal_fee_amount',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfwp_wallet_withdrawal_fee_amount' ) ) ? get_option( 'wps_wsfwp_wallet_withdrawal_fee_amount' ) : 1,
+				'placeholder' => __( 'Enter wallet Transfer Fee amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings',
+			),
+		);
+
+		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_auto_withdrawal_settings_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+	}
+
+	/**
+	 * Function fpor Transfer settings.
+	 *
+	 * @return array
+	 */
+	public function wps_wsfws_admin_wallet_action_transfer_settings_page_org() {
+
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable Wallet transfer Extra Fee Settings', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_action_transfer_enable',
+				'id'          => 'wps_wsfwp_wallet_action_transfer_enable',
+				'value'       => get_option( 'wps_wsfwp_wallet_action_transfer_enable' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Wallet Transfer Fee Type', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'description' => __( 'Select Transfer Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_cashback_transfer_fee_type',
+				'id'          => 'wps_wsfwp_cashback_transfer_fee_type',
+				'value'       => get_option( 'wps_wsfwp_cashback_transfer_fee_type', 'percent' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => apply_filters(
+					'wsfw_cashback_type__array',
+					array(
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			array(
+				'title'       => __( 'Enter Fee For Wallet Transfer Process', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter Fee For Wallet Transfer Process', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_transfer_fee_amount',
+				'id'          => 'wps_wsfwp_wallet_transfer_fee_amount',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfwp_wallet_transfer_fee_amount' ) ) ? get_option( 'wps_wsfwp_wallet_transfer_fee_amount' ) : 1,
+				'placeholder' => __( 'Enter wallet Transfer Fee amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings wps_pro_settings',
+			),
+		);
+
+		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_auto_transfer_settings_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+	}
+
+	/**
+	 * This is used to create comment html.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_admin_wallet_action_settings_refer_friend_array_org( $wsfw_settings_template ) {
+		$wsfw_settings_template = array(
+			array(
+				'title'       => __( 'Enable Referral Settings', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Check this box to enable the Comment Amount when comment is approved..', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_refer_friend_enable',
+				'id'          => 'wps_wsfw_wallet_action_refer_friend_enable',
+				'value'       => '',
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Enter Referral Amount', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'The amount which new customers will get after their comments are approved..', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_referal_amount',
+				'id'          => 'wps_wsfw_wallet_action_referal_amount',
+				'step'        => '0.01',
+				'value'       => '',
+				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings wps_pro_settings',
+			),
+			array(
+				'title'       => __( 'Enter Referral Description', 'wallet-system-for-woocommerce' ),
+				'type'        => 'textarea',
+				'description' => __( 'Enter message for user that display on product page.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_referral_description',
+				'id'          => 'wps_wsfw_wallet_action_referral_description',
+				'step'        => '0.01',
+				'value'       => '',
+				'placeholder' => __( 'Enter comment description', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings',
+			),
+
+		);
+
+		return $wsfw_settings_template;
+	}
+
+
+	/**
+	 * Settings for wallet restriction.
+	 *
+	 * @return array
+	 */
+	public function wps_wsfw_admin_wallet_withdrawal_restriction_settings_page_org() {
+
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable Wallet Withdrawal Restriction Settings', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_withdrawal_restriction_enable',
+				'id'          => 'wps_wsfwp_wallet_withdrawal_restriction_enable',
+				'value'       => get_option( 'wps_wsfwp_wallet_withdrawal_restriction_enable' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+
+			array(
+				'title'       => __( 'Minimum Amount For Wallet Withdrawal ( ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . ' )',
+				'type'        => 'number',
+				'description' => __( 'Minimum amount needed to wallet withdrawal.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfwp_min_wallet_withdrawal_amount',
+				'id'          => 'wsfwp_min_wallet_withdrawal_amount',
+				'value'       => get_option( 'wsfwp_min_wallet_withdrawal_amount', '' ),
+				'class'       => 'wpg-number-class wps_pro_settings',
+			),
+			array(
+				'title'       => __( 'Maximum Amount For Wallet Withdrawal ( ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . ' )',
+				'type'        => 'number',
+				'description' => __( 'Maximum amount for wallet withdrawal.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfwp_max_wallet_withdrawal_amount',
+				'id'          => 'wsfwp_max_wallet_withdrawal_amount',
+				'value'       => get_option( 'wsfwp_max_wallet_withdrawal_amount', '' ),
+				'class'       => 'wpg-number-class wps_pro_settings',
+			),
+
+			array(
+				'type'        => 'submit',
+				'name'        => 'wsfw_button_wallet_restriction',
+				'id'          => 'wsfw_button_wallet_restriction',
+				'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wsfw-button-class wps_pro_settings',
+			),
+
+		);
+
+		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_wallet_restriction_settings_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+
+	}
+
+
+
+
+		/**
+		 * Setting for transfer wallet restriction.
+		 *
+		 * @return mixed
+		 */
+	public function wps_wsfw_admin_wallet_recharge_restriction_settings_page_org() {
+
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable Wallet Recharge Restriction Settings', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to restrict wallet recharge', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_recharge_restriction_enable',
+				'id'          => 'wps_wsfwp_wallet_recharge_restriction_enable',
+				'value'       => get_option( 'wps_wsfwp_wallet_recharge_restriction_enable' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+
+			array(
+				'title'       => __( 'Minimum Wallet Recharge Amount ( ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . ' )',
+				'type'        => 'number',
+				'description' => __( 'Minimum amount needed to recharge wallet.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfwp_min_wallet_recharge_amount',
+				'id'          => 'wsfwp_min_wallet_recharge_amount',
+				'value'       => get_option( 'wsfwp_min_wallet_recharge_amount', '' ),
+				'class'       => 'wpg-number-class wps_pro_settings',
+			),
+			array(
+				'title'       => __( 'Maximum Wallet Recharge Amount ( ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . ' )',
+				'type'        => 'number',
+				'description' => __( 'Maximum amount for wallet recharge.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfwp_max_wallet_recharge_amount',
+				'id'          => 'wsfwp_max_wallet_recharge_amount',
+				'value'       => get_option( 'wsfwp_max_wallet_recharge_amount', '' ),
+				'class'       => 'wpg-number-class wps_pro_settings',
+			),
+		);
+
+		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_auto_transfer_restriction_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+
+	}
+
+	/**
+	 * Setting for transfer wallet restriction.
+	 *
+	 * @return mixed
+	 */
+	public function wps_wsfw_admin_wallet_transfer_restriction_settings_page_org() {
+
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable Wallet Transfer Restriction Settings', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_transfer_restriction_enable',
+				'id'          => 'wps_wsfwp_wallet_transfer_restriction_enable',
+				'value'       => get_option( 'wps_wsfwp_wallet_transfer_restriction_enable' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+
+			array(
+				'title'       => __( 'Minimum Amount For Wallet Transfer ( ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . ' )',
+				'type'        => 'number',
+				'description' => __( 'Minimum amount needed to recharge transfer.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfwp_min_wallet_transfer_amount',
+				'id'          => 'wsfwp_min_wallet_transfer_amount',
+				'value'       => get_option( 'wsfwp_min_wallet_transfer_amount', '' ),
+				'class'       => 'wpg-number-class wps_pro_settings',
+			),
+			array(
+				'title'       => __( 'Maximum Amount For Wallet Transfer ( ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . ' )',
+				'type'        => 'number',
+				'description' => __( 'Maximum amount for wallet transfer.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfwp_max_wallet_transfer_amount',
+				'id'          => 'wsfwp_max_wallet_transfer_amount',
+				'value'       => get_option( 'wsfwp_max_wallet_transfer_amount', '' ),
+				'class'       => 'wpg-number-class wps_pro_settings',
+			),
+		);
+
+		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_auto_transfer_restriction_array', $wsfw_settings_template );
+		return $wsfw_settings_template;
+
+	}
+
+	/**
+	 * Adding custom column in orders table at backend
+	 *
+	 * @since    1.0.0
+	 * @param    array $columns    array of columns on orders table.
+	 * @return   array    $columns    array of columns on orders table alongwith upsell column
+	 */
+	public function wps_wsfw_wallet_add_columns_to_admin_orders( $columns ) {
+
+		$columns['wps-wallet-recharge-orders'] = esc_html__( 'Wallet Recharge', 'wallet-system-for-woocommerce' );
+
+		return $columns;
+	}
+
+	/**
+	 * Populating Upsell Orders column with Single Order or Upsell order.
+	 *
+	 * @since    1.0.0
+	 * @param    array $column    Array of available columns.
+	 * @param    int   $post_id   Current Order post id.
+	 */
+	public function wps_wocuf_pro_populate_wallet_order_column( $column, $post_id ) {
+
+		$order = wc_get_order( $post_id );
+		$wallet_order = '';
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// HPOS usage is enabled.
+			$wallet_order = $order->get_meta( 'wps_wallet_recharge_order', true );
+		} else {
+			$wallet_order = get_post_meta( $post_id, 'wps_wallet_recharge_order', true );
+		}
+		switch ( $column ) {
+
+			case 'wps-wallet-recharge-orders':
+				if ( 'yes' === $wallet_order ) :
+					?>
+					<a href="<?php echo esc_url( get_edit_post_link( $post_id ) ); ?>" ><?php esc_html_e( 'Wallet Recharge Order', 'wallet-system-for-woocommerce' ); ?></a>
+				<?php else : ?>
+					<?php esc_html_e( '----', 'wallet-system-for-woocommerce' ); ?>
+					<?php
+				endif;
+				break;
+		}
+	}
+
+
+	/**
+	 * This is used to enable wallet recharge.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_wallet_action_recharge_enable_settings_tab_org( $wsfw_settings_template ) {
+
+		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_comment_extra_settings_array', $wsfw_settings_template );
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable Wallet Recharge Tab', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => '',
+			'name'        => 'wps_wsfwp_wallet_recharge_tab_enable',
+			'id'          => 'wps_wsfwp_wallet_recharge_tab_enable',
+			'value'       => 'on',
+			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+		);
+		return $wsfw_settings_template;
+	}
+
+
+
+	/**
+	 * This is used to enable wallet promotions.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_wallet_action_promotion_enable_settings_tab_org( $wsfw_settings_template ) {
+
+		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_comment_extra_settings_array', $wsfw_settings_template );
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable Wallet Promotions Tab', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => '',
+			'name'        => 'wps_wsfwp_wallet_promotion_tab_enable',
+			'id'          => 'wps_wsfwp_wallet_promotion_tab_enable',
+			'value'       => 'on',
+			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable Wallet Limited Offer Timer', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => '',
+			'name'        => 'wps_wsfwp_wallet_promotion_tab_limited_offer_enable',
+			'id'          => 'wps_wsfwp_wallet_promotion_tab_limited_offer_enable',
+			'value'       => 'on',
+			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+
+		);
+		return $wsfw_settings_template;
+	}
+
+
+
+	/**
+	 * Delete transaction fror user.
+	 *
+	 * @return void
+	 */
+	public function wps_wallet_delete_user_tranasactions() {
+		$update = true;
+		check_ajax_referer( 'wp_rest', 'nonce' );
+
+		$transaction_id = ! empty( $_POST['transaction_id'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['transaction_id'] ) ) ) : '';
+		global $wpdb;
+		$transaction_executed = $wpdb->delete( $wpdb->prefix . 'wps_wsfw_wallet_transaction', array( 'id' => $transaction_id ), array( '%d' ) );
+
+		if ( $transaction_executed ) {
+			$message       = array(
+				'msg'     => 'success',
+				'msgType' => 'success',
+			);
+
+			wp_send_json( $message );
+		} else {
+			$message       = array(
+				'msg'     => 'fail',
+				'msgType' => 'fail',
+			);
+
+			wp_send_json( $message );
+		}
+	}
+
+
 
 }

@@ -125,7 +125,13 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
-				return '<b>' . __( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wc_price( $walletamount ) . ']</b>';
+				echo '<b>' . esc_html__( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wp_kses_post( wc_price( $walletamount ) ) . ']</b>';
+				$order_number = get_user_meta( $customer_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
+				$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
+
+				if ( intval( $order_number ) >= intval( $order_limit ) ) {
+					do_action( 'wps_wsfw_for_limit_negative_balance' );
+				}
 			}
 		}
 
@@ -185,13 +191,33 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			$customer_id      = get_current_user_id();
 			$is_auto_complete = get_option( 'wsfw_wallet_payment_order_status_checkout', '' );
 			$is_auto_complete_bool = true;
-				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
-				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
-			if ( $debited_amount <= $walletamount ) {
+			$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
+			$walletamount = empty( $walletamount ) ? 0 : $walletamount;
+			$is_condition_true = false;
+
+			if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+
+				$is_condition_true = true;
+
+			} else {
+				if ( $debited_amount <= $walletamount ) {
+					$is_condition_true = true;
+				}
+			}
+
+			if ( $is_condition_true ) {
 
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-				$walletamount          -= $debited_amount;
-				$update_wallet          = update_user_meta( $customer_id, 'wps_wallet', abs( $walletamount ) );
+
+				if ( $walletamount < 0 ) {
+					$walletamount = ( ( $walletamount ) - ( $debited_amount ) );
+
+				} else {
+
+					$walletamount = abs( $walletamount ) - abs( $debited_amount );
+				}
+
+				$update_wallet          = update_user_meta( $customer_id, 'wps_wallet', ( $walletamount ) );
 
 				if ( $update_wallet ) {
 					$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );

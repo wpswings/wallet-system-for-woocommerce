@@ -1470,3 +1470,135 @@ ul {
 }
 
 
+
+.wps_pro_settings_tag,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction {
+  position: relative;
+}
+
+.wps_pro_settings_tag:before,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab:before,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions:before,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction:before {
+  clip-path: polygon(100% 0, 0 0, 0 100%);
+  background-color: #008000;
+  position: absolute;
+  content: '';
+  left: 0;
+  top: 0;
+  width: 32px;
+  aspect-ratio: 1;
+  z-index: 99;
+}
+.wps_pro_settings_tag:after,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab:after,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions:after,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction:after {
+  position: absolute;
+  content: 'pro';
+  left: 0px;
+  padding: 0px 2px;
+  transform: rotate(-45deg);
+  z-index: 999;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: capitalize;
+  top: 0;
+  color: #fff;
+}
+.wps_wallet_lite_go_pro_popup_wrap {
+  align-items: center;
+  background-color: rgb(0 0 0 / 24%);
+  bottom: 0;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: 0.3s linear all;
+  visibility: hidden;
+  width: 100%;
+  z-index: 999;
+}
+.wps_wallet_lite_go_pro_popup_wrap.wps_wallet_lite_go_pro_popup_show {
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s linear all;
+}
+.wps_wallet_lite_go_pro_popup {
+  background-color: #ffffff;
+  max-width: 800px;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  margin-left: 160px;
+}
+.wps_wallet_lite_go_pro_popup_head h2 {
+  background-color: #7979f6;
+  border-radius: 5px 5px 0 0;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.7;
+  margin: -20px -20px 30px -20px;
+  padding: 10px;
+}
+.wps_wallet_lite_go_pro_popup_close {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  opacity: 0.8;
+  width: 25px;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 22px;
+  border: 1px solid rgba(255,255,255,0.6);
+  height: 25px;
+  line-height: 21px;
+  border-radius: 50%;
+}
+.wps_wallet_lite_go_pro_popup_button .wps_ubo_lite_overview_go_pro_button, .button.wps_ubo_lite_overview_go_pro_button {
+  background-color: #78c900;
+  color: #ffffff;
+
+  height: auto;
+  border: none;
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+  box-shadow: none;
+}
+.wps_wallet_lite_go_pro_popup_button .wps_ubo_lite_overview_go_pro_button span, .button.wps_ubo_lite_overview_go_pro_button span {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.wps_wallet_lite_go_pro_popup_text {
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.wps_wallet_lite_go_pro_popup_head{
+  margin-bottom: 30px;
+}
+
+
+.wps_wallet_delete_action{
+  color:red;
+  cursor: pointer;
+}
+
+
+.ui-state-active {
+  color: red;
+}
+#ui-datepicker-div{
+  border : 1px solid ;
+  border-top:none;
+}

@@ -1,0 +1,141 @@
+
+
+#wps_wallet_promotions_table .wps-form-group__control .mdc-text-field-helper-line {
+    margin: 0;
+  }
+  
+  #wps_wallet_promotions_table input[type=button] {
+    background-color: #2196f3;
+    border-radius: 50px;
+    border: 1px solid #2196f3;
+    cursor: pointer;
+    display: inline-block;
+    font-family: NunitoSans-Regular;
+    font-size: 14px;
+    font-weight: 400;
+    min-width: 100px;
+    outline: 0;
+    padding: 8px 16px;
+    margin: 10px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #fff;
+  }
+  
+  #wps_wallet_promotions_table tbody tr td .wps-form-group__control {
+    padding: 15px;
+    max-width: unset;
+    width: 100%;
+  }
+  
+  #wps_wallet_promotions_table {
+    border: none;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  
+  #wps_wallet_promotions_table th{
+    padding: 10px 5px;
+  }
+  
+  #wps_wallet_promotions_table td{
+    vertical-align: top;
+  }
+  
+
+
+  /* wallet recharge tab */
+
+  #wps_wallet_action_recharge_tab_table .wps-form-group__control .mdc-text-field-helper-line {
+    margin: 0;
+  }
+  
+  #wps_wallet_action_recharge_tab_table input[type=button] {
+    background-color: #2196f3;
+    border-radius: 50px;
+    border: 1px solid #2196f3;
+    cursor: pointer;
+    display: inline-block;
+    font-family: NunitoSans-Regular;
+    font-size: 14px;
+    font-weight: 400;
+    min-width: 100px;
+    outline: 0;
+    padding: 8px 16px;
+    margin: 10px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #fff;
+  }
+  
+  #wps_wallet_action_recharge_tab_table tbody tr td .wps-form-group__control {
+    padding: 15px;
+    max-width: unset;
+    width: 100%;
+  }
+  
+  #wps_wallet_action_recharge_tab_table {
+    border: none;
+    border-collapse: collapse;
+    margin: 15px 0;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .wps-wallet-text{
+  width:349px;
+  }
+  
+  .wps-wallet-content{
+    width:493px;
+  }
+
+
+  .wsfw-secion-refer-customize-wallet{
+    margin:10px;
+  }
+  
+
+  /* resolving issues 2.2.0 start*/
+
+.wps-wsfw-gen-section-form {
+    padding: 30px 30px 30px;
+  }
+  
+  #wps_wallet_action_recharge_tab_table {
+    margin: 15px 0 25px;
+  }
+  
+  #wps_wallet_action_recharge_tab_table td {
+    text-align: center;
+    padding: 15px;
+  }
+  
+  #wps_wallet_action_recharge_tab_table th {
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  .wps-form-group-recharge-tab h4 {
+    font-size: 20px;
+    font-weight: 600;
+    padding: 30px 0 0;
+  }
+  
+  .wps-form-group-recharge-tab .wsfw-secion-refer-customize-wallet {
+    margin: 0;
+  }
+  
+  /* resolving issues 2.2.0 end*/
+
+  #wps_wallet_bookie{
+    background-color: green !important;
+    border: 1px solid green ! important;
+  }
+
+  .wps_go_pro_images{
+    width: 18%;
+  }
+
+
+ 

@@ -383,7 +383,7 @@ if ( $current_url == $main_url ) {
 }
 $wallet_keys = array_keys( $wallet_tabs );
 /**
- * Show message on form submit
+ * Show message on form submit.
  *
  * @param string $wpg_message message to be shown on form submission.
  * @param string $type error type.
@@ -402,8 +402,40 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 			<p>
 			<?php
 			$wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
+			// custom.
+			$wps_wsfwp_wallet_user_currency_setting = get_option( 'wps_wsfwp_wallet_user_currency_setting' );
+			if ( 'yes' == $wps_wsfwp_wallet_user_currency_setting ) {
 
-			echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
+				$wps_wallet_last_order_currency = get_user_meta( $user_id, 'wps_wallet_last_order_currency', true );
+				if ( $wps_wallet_last_order_currency == $current_currency ) {
+
+					echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
+
+				} else {
+
+					$wallet_bal = 0;
+					echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
+
+				}
+			} else if ( 'no' == $wps_wsfwp_wallet_user_currency_setting ) {
+
+				$wps_wallet_order_geolocation_currency = get_user_meta( $user_id, 'wps_wallet_order_geolocation_currency', true );
+				if ( $wps_wallet_order_geolocation_currency == $current_currency ) {
+
+					echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
+
+				} else {
+
+					$wallet_bal = 0;
+					echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
+				}
+			} else {
+
+				echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
+
+			}
+			// custom work.
+
 			?>
 			</p>
 			</p>
@@ -420,7 +452,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 
 				if ( 'on' != $wallet_restrict_referral ) {
 					?>
-						<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
+						<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share "><?php esc_html_e( 'Refer a Friend', 'wallet-system-for-woocommerce' ); ?> </span></a>
 					<?php
 				}
 			}

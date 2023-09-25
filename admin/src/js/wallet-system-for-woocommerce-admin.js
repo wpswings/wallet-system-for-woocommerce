@@ -43,10 +43,44 @@
         const switchControl = [].map.call(document.querySelectorAll('.mdc-switch'), function(el) {
             return new MDCSwitch(el);
         });
-		jQuery('.wps-wsfw-number').append('<input type="hidden" id="user_check_box_ids" name="user_check_box_ids" value="" />')
+		jQuery('.wps-wsfw-number').append('<input type="hidden" id="user_check_box_ids" name="user_check_box_ids" value="" />');
     
 		jQuery('#wsfw_wallet_amount_for_users').attr('step','any');
+		console.log(wsfw_admin_param.is_pro_plugin);
+		if (wsfw_admin_param.is_pro_plugin != 1){
+			jQuery('#wsfw_enable_wallet_negative_balance_limit').attr('disabled',true);
+			jQuery('#wsfw_enable_wallet_negative_balance_limit_order').attr('disabled',true);
+			jQuery('#wsfwp_withdrawal_page_message').attr('disabled',true);
+			jQuery('#wsfwp_withdrawal_admin_withdrawal_request_email').attr('disabled',true);
+			jQuery('#wps_wsfwp_cashback_withdrawal_fee_type').attr('disabled',true);
+			jQuery('#wps_wsfwp_wallet_withdrawal_fee_amount').attr('disabled',true);
+			jQuery('#wps_wsfwp_cashback_transfer_fee_type').attr('disabled',true);
+			jQuery('#wps_wsfwp_wallet_transfer_fee_amount').attr('disabled',true);
+			jQuery('#wps_wsfw_wallet_action_referal_amount').attr('disabled',true);
+			jQuery('#wps_wsfw_wallet_action_referral_description').attr('disabled',true);
+			jQuery('#wps_wsfw_wallet_order_auto_process').attr('disabled',true);
+			jQuery('#wps_wsfwp_wallet_recharge_tab_enable').attr('disabled',true);
+			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('disabled',true);
+			jQuery('#wps_wsfw_intrest_type_amount_negative_balance').attr('disabled',true);
+			jQuery('#wps_wsfw_intrest_text_name_amount_negative_balance').attr('disabled',true);
+			
+			
+		
+		}
 
+		
+		// on clicking element change the input type password to text or vice-versa
+		$(document).on( 'click', '.wps_pro_settings', function() {
+			if (wsfw_admin_param.is_pro_plugin != 1){
+			$(this).prop("checked", false);
+			$('.wps_wallet_lite_go_pro_popup_wrap').addClass('wps_wallet_lite_go_pro_popup_show');
+			}
+		});
+
+		$(document).on( 'click', '.wps_wallet_lite_go_pro_popup_close', function() {
+			$('.wps_wallet_lite_go_pro_popup_wrap').removeClass('wps_wallet_lite_go_pro_popup_show');
+		});
+						
 		// hide show category fields.
 		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
 		if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {
@@ -160,6 +194,11 @@
 		}
 
 		$(document).on( 'blur','#wsfw_wallet_amount_for_users', function(){
+
+			
+			if ('on' != wsfw_admin_param.is_negative_balance ) {
+
+			
 			var amount = $('#wsfw_wallet_amount_for_users').val();
 			if( amount == '' ) {
 				$('.error').hide();
@@ -176,7 +215,7 @@
 				$('.error').hide();
 				$('#update_wallet').prop('disabled', false);
 			}
-			
+		}
 		
 		});
 		$(document).on( 'click', '#update_wallet', function(e) {
@@ -228,11 +267,13 @@
 			var user_wallet_amount =  parseInt($('#wallet-pop-up-user-id').attr('amount'));
 			var wallet_amount =parseInt( $('#wps_wallet-edit-popup-input').val() );
 			if (jQuery('#debit').prop('checked') == true) {
+				if ('on' != wsfw_admin_param.is_negative_balance ) {
 			if (wallet_amount > user_wallet_amount) {
 				$('.error').show();
 				$('.error').html(wsfw_admin_param.wsfw_amount_error_debit + user_wallet_amount);
 				return;
 			}
+		}
 				
 			}
 			$('#wps_wallet_submit_val_submit').trigger('click');
@@ -247,6 +288,7 @@
 
 		});
 
+		
 		// update wallet and status on changing status of wallet request
 		$(document).on( 'change', 'select#wps-wpg-gen-table_status', function() {
 			var withdrawal_id = $(this).siblings('input[name=withdrawal_id]').val();
@@ -340,6 +382,7 @@
 		});
 
 		$('#wps_wallet-edit-popup-input').keyup(function() {
+			if ('on' != wsfw_admin_param.is_negative_balance ) {
 			$('.error').hide();
 			$('span.error-keyup-1').hide();
 			var inputVal = $(this).val();
@@ -348,15 +391,16 @@
 				$('.error').show();
 				$('.error').html(wsfw_admin_param.wsfw_amount_error);
 			}
+		}
 		});
 
 		// Hide show category fields on select option.
 		$('#wps_wsfw_cashback_rule').on('change', function(){
 			var cash_back_rule = $(this).val();
 			if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {
-				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide()
+				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).hide();
 			} else {
-				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show()
+				jQuery(jQuery('#wps_wsfw_multiselect_category_rule').parent().parent().parent()).show();
 			}
 		});
 		$('#wps_wsfw_cashback_type').on('change', function(){
@@ -391,12 +435,44 @@
 					jQuery('.wps-c-modal__cover').removeClass('show-c_modal_cover');
 					jQuery('.wps-c-modal__message').removeClass('show-c_modal_message');
 				});
-				jQuery('#wps_wsfw_wallet_action_auto_topup_enable').prop('checked',false)
+				jQuery('#wps_wsfw_wallet_action_auto_topup_enable').prop('checked',false);
 			}
 		  }
 
 	});
 })( jQuery );
+
+
+function wps_wallet_delete_function(transaction_id){
+
+	let text;
+	if (confirm("Do You want to delete transaction!") == true) {
+		jQuery.ajax({
+			type: 'POST',
+			url: wsfw_admin_param.ajaxurl,
+			data: {
+				action: 'wps_wallet_delete_user_tranasactions',
+				nonce: wsfw_admin_param.nonce,
+				transaction_id: transaction_id,			
+			},
+			datatType: 'JSON',
+			success: function( response ) {
+				if ( 'success' == response.msg ) {
+					alert('Transaction is deleted!');
+					location.reload();
+				}
+			
+			},
+	
+		})
+		.fail(function ( response ) {
+			loader.hide();
+		});
+	} else {
+	text = "You canceled!";
+	}
+
+}
 
 
 
