@@ -638,7 +638,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			} elseif ( 'debit' === $wallet_action ) {
 				$previous_wallet_amount = $wallet;
 				$transaction_type_1 = 'debit';
-				if ( 'on' != get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 					if ( $wallet < $updated_amount ) {
 						$previous_wallet_amount = $wallet;
 					} else {
