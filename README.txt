@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.3.1
 WC requires at least: 5.5.0
 WC tested up to: 8.1.1
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -276,6 +276,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
+= 2.5.2 - Released on 26 September 2023 =
+* Fix: Bug fix in case of debit amount from particular user.
+
 = 2.5.1 - Released on 22 September 2023 =
 * New: Latest WP[6.3.1] and WC[8.1.1] Update
 * Fix: Mail bug fixes 
@@ -445,7 +448,8 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.1 - Released on 22 September 2023 =
-* New: Latest WP[6.3.1] and WC[8.1.1] Update
-* Fix: Mail bug fixes 
+= 2.5.2 - Released on 26 September 2023 =
+* Fix: Bug fix in case of debit amount from particular user.
+
+
 
