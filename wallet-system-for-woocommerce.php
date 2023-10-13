@@ -404,7 +404,7 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 }
 add_action( 'admin_notices', 'wps_wsfw_banner_notification_html' );
 /**
- * Function to show banner image based on subscription.
+ * Function to show banner image based on wallet.
  *
  * @return void
  */
