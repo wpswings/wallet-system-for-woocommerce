@@ -115,6 +115,16 @@ class Wallet_System_For_Woocommerce_Admin {
 		$screen = get_current_screen();
 		$is_plugin = false;
 		$screen_id = $screen ? $screen->id : '';
+
+		$wps_wsfw_branner_notice = array(
+			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+			'wps_wsfw_nonce' => wp_create_nonce( 'wp_rest' ),
+		);
+		wp_register_script( $this->plugin_name . 'admin-notice', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-wsfw-wallet-card-notices.js', array( 'jquery' ), $this->version, false );
+
+		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_wsfw_branner_notice', $wps_wsfw_branner_notice );
+		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
+
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
@@ -3549,6 +3559,92 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 			wp_send_json( $message );
+		}
+	}
+
+	/**
+	 * Function to set Cron for branner image function.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_set_cron_for_plugin_notification() {
+		$wps_sfw_offset = get_option( 'gmt_offset' );
+		$wps_sfw_time   = time() + $wps_sfw_offset * 60 * 60;
+		if ( ! wp_next_scheduled( 'wps_wgm_check_for_notification_update' ) ) {
+			wp_schedule_event( $wps_sfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
+		}
+	}
+
+	/**
+	 * Function to save response from server in terms of banner function.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_save_notice_message() {
+		$wps_notification_data = $this->wps_wsfw_get_update_notification_data();
+		if ( is_array( $wps_notification_data ) && ! empty( $wps_notification_data ) ) {
+			$banner_id      = array_key_exists( 'notification_id', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_id'] : '';
+			$banner_image = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_image'] : '';
+			$banner_url = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_url'] : '';
+			$banner_type = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_type'] : '';
+			update_option( 'wps_wgm_notify_new_banner_id', $banner_id );
+			update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
+			update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
+			if ( 'regular' == $banner_type ) {
+				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
+			}
+		}
+
+	}
+
+
+	/**
+	 * This function is used to get notification data from server.
+	 *
+	 * @since    2.0.0
+	 * @author WP Swings <webmaster@wpswings.com>
+	 * @link https://www.wpswings.com/
+	 */
+	public function wps_wsfw_get_update_notification_data() {
+		$wps_notification_data = array();
+		$url                   = 'https://demo.wpswings.com/client-notification/woo-gift-cards-lite/wps-client-notify.php';
+		$attr                  = array(
+			'action'         => 'wps_notification_fetch',
+			'plugin_version' => WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION,
+		);
+		$query                 = esc_url_raw( add_query_arg( $attr, $url ) );
+		$response              = wp_remote_get(
+			$query,
+			array(
+				'timeout'   => 20,
+				'sslverify' => false,
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			echo '<p><strong>Something went wrong: ' . esc_html( stripslashes( $error_message ) ) . '</strong></p>';
+		} else {
+			$wps_notification_data = json_decode( wp_remote_retrieve_body( $response ), true );
+		}
+		return $wps_notification_data;
+	}
+
+	/**
+	 * Ajax callback to hide banner image.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_dismiss_notice_banner_callback() {
+		if ( isset( $_REQUEST['wps_wsfw_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_wsfw_nonce'] ) ), 'wp_rest' ) ) {
+
+			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+
+			if ( isset( $banner_id ) && '' != $banner_id ) {
+				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
+			}
+
+			wp_send_json_success();
 		}
 	}
 
