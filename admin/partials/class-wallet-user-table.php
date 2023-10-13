@@ -136,7 +136,6 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 										$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 									}
 								}
-								
 							}
 
 							$transaction_data = array(
@@ -375,7 +374,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 					$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 					$customer_email_credit = '';
 					$customer_email_debit = '';
-					
+
 					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 						$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
@@ -399,7 +398,6 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 						}
 					}
-				
 
 					$transaction_data = array(
 						'user_id'          => $user_id,
@@ -515,7 +513,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 						$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 						$customer_email_credit = '';
 						$customer_email_debit = '';
-						
+
 						if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 							$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
@@ -539,7 +537,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 							}
 						}
-						
+
 						$transaction_data = array(
 							'user_id'          => $user_id,
 							'amount'           => $updated_amount,
@@ -683,7 +681,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 			$customer_email_credit = '';
 			$customer_email_debit = '';
-						
+
 			if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 				$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
@@ -705,7 +703,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 				}
 			}
-			
+
 
 			$transaction_data = array(
 				'user_id'          => $user_id,

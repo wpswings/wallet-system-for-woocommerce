@@ -500,10 +500,9 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'class-wallet-user-table',
 		);
 
-		
-		$wsfw_default_tabs['wallet-system-wallet-transactions-data'] = array(
+		$wsfw_default_tabs['class-wallet-transaction-list-table'] = array(
 			'title' => esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ),
-			'name'  => 'wallet-system-wallet-transactions-data',
+			'name'  => 'class-wallet-transaction-list-table',
 		);
 
 		// added tab for wallet withdrawal settings.

@@ -60,7 +60,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			'transaction_id'         => __( 'Transaction ID', 'wallet-system-for-woocommerce' ),
 			'date'        => __( 'Date', 'wallet-system-for-woocommerce' ),
 			'action'        => __( 'Action', 'wallet-system-for-woocommerce' ),
-			//'date1_other'        => __( 'Date1', 'wallet-system-for-woocommerce' ),
+			// 'date1_other'        => __( 'Date1', 'wallet-system-for-woocommerce' ),
 		);
 		return $columns;
 	}
@@ -76,46 +76,40 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	 * @param string $column_name name of the colmn.
 	 */
 	public function column_default( $item, $column_name ) {
-		
+
 		$wps_user = get_user_by( 'id', $item['id'] );
 		$points   = ! empty( get_user_meta( $item['id'], 'wps_wpr_points', true ) ) ? get_user_meta( $item['id'], 'wps_wpr_points', true ) : 0;
 
-	
 		switch ( $column_name ) {
 
 			case 'user_id':
-				return '<b>' . $item['user_id'].'</b>';
+				return '<b>' . $item['user_id'] . '</b>';
 			case 'user_name':
-				
-				return '<b>' .$item['user_name'].'</b>' ;
+				return '<b>' . $item['user_name'] . '</b>';
 			case 'user_email':
-				return '<b>' .  $item['user_email'] . '</b>';
+				return '<b>' . $item['user_email'] . '</b>';
 			case 'user_amount':
-				return '<b class="wps_wallet_'. esc_attr( $item['details_amount'] ).'">' .  wc_price( $item['user_amount'] ) . '</b>';
+				return '<b class="wps_wallet_' . esc_attr( $item['details_amount'] ) . '">' . wc_price( $item['user_amount'] ) . '</b>';
 			case 'payment_method':
-				return '<b>' .  $item['payment_method'] . '</b>';
+				return '<b>' . $item['payment_method'] . '</b>';
 			case 'details':
-				return '<b>' .  (html_entity_decode( $item['details'] ) ) . '</b>';
+				return '<b>' . ( html_entity_decode( $item['details'] ) ) . '</b>';
 			case 'transaction_id':
-				return '<b>' .  $item['transaction_id'] . '</b>';
+				return '<b>' . $item['transaction_id'] . '</b>';
 			case 'date':
-				return '<b>' .  $item['date'] . '</b>';
+				return '<b>' . $item['date'] . '</b>';
 			case 'action':
-				
 				$is_pro = false;
 				$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
-			if ( ! $is_pro ) {
-				
-				return	'<span class="wps_wallet_delete_action wps_pro_settings" >'. esc_html__( 'Delete', 'wallet-system-for-woocommerce' ).'</span>';
-				
-			} else {
-				
-				return	' <span class="wps_wallet_delete_action" onclick="wps_wallet_delete_function('. esc_attr( $item['id'] ).')">'. esc_html__( 'Delete', 'wallet-system-for-woocommerce' ).'</span>';
-					
-			}
+				if ( ! $is_pro ) {
 
-			
-			
+					return '<span class="wps_wallet_delete_action wps_pro_settings" >' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
+
+				} else {
+
+					return ' <span class="wps_wallet_delete_action" onclick="wps_wallet_delete_function(' . esc_attr( $item['id'] ) . ')">' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
+
+				}
 
 			default:
 				return false;
@@ -164,37 +158,36 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function wps_wpr_sort_user_table( $data ) {
-		
+
 		$index = 1;
 		$points_data = array();
 		if ( ! empty( $data ) ) {
 			foreach ( $data as $sort_id ) {
-				
-			
-				$user          = get_userdata( $sort_id['user_id'] );								
-				$date = date_create(  $sort_id['date'] );
+
+				$user          = get_userdata( $sort_id['user_id'] );
+				$date = date_create( $sort_id['date'] );
 				$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
 				$points_data[] = array(
 					'user_id'        => $index,
 					'id'             => $sort_id['id'],
 					'user_name'      => $user->display_name,
 					'user_email'     => $user->user_email,
-					'user_amount'    =>  $sort_id['amount'],
-					'payment_method' =>  $sort_id['payment_method'],
+					'user_amount'    => $sort_id['amount'],
+					'payment_method' => $sort_id['payment_method'],
 					'details'        => $sort_id['transaction_type'],
 					'transaction_id' => $transaction_data,
 					'date'           => $sort_id['date'],
 					'action'         => '',
-					//'date1_other'    => $sort_id['date'],
+					// 'date1_other'    => $sort_id['date'],
 					'details_amount'        => $sort_id['transaction_type_1'],
 				);
 				$index++;
 			}
 		}
 
-		return $points_data ;
+		return $points_data;
 	}
-	
+
 
 	/**
 	 * Prepare items for sorting.
@@ -207,7 +200,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	public function prepare_items() {
 
 		$per_page              = 10;
-		
+
 		$columns               = $this->get_columns();
 		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
@@ -219,10 +212,10 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 		$transactions_total_count = $wpdb->get_results( 'SELECT count(id) as total_count FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction' );
 		if ( ! empty( $transactions_total_count ) ) {
 			$transactions_total_count_data = $transactions_total_count[0]->total_count;
-		}		
+		}
 		$sort_data = $this->wps_wpr_sort_user_table( $data );
-		usort( $sort_data, array( $this, 'wps_wpr_usort_reorder' ) );		
-		$this->items = $sort_data;		
+		usort( $sort_data, array( $this, 'wps_wpr_usort_reorder' ) );
+		$this->items = $sort_data;
 		$total_items = $transactions_total_count_data;
 
 		$this->set_pagination_args(
@@ -302,81 +295,63 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	 */
 	public function get_users_wallet_transaction( $current_page, $per_page ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction'; // Replace 'your_custom_table' with your custom table name
+		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction'; // Replace 'your_custom_table' with your custom table name.
 		$table_name2 = $wpdb->prefix . 'users';
-		$per_page = 10;  // Number of rows per page
-		// Calculate the offset
-		$offset = ($current_page - 1) * $per_page;	
+		$per_page = 10;  // Number of rows per page.
+		// Calculate the offset.
+		$offset = ( $current_page - 1 ) * $per_page;
 		$args = array(
 			'number' => $per_page,
 			'offset' => ( $current_page - 1 ) * $per_page,
 			'fields' => 'ID',
 		);
 
-
 		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
-	
-			if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
-	
-				$per_page      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '10';
-		
+			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
+			if ( ! wp_verify_nonce( $nonce ) ) {
+				return false;
 			}
-				
-				// SQL query
-				$sql = $wpdb->prepare(
-					"SELECT *
-					FROM $table_name  ORDER BY id DESC
-					LIMIT %d OFFSET %d" ,
-					$per_page,
-					$offset
-				);
-		} elseif ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] ) ) {
-	
-			$date_from = sanitize_text_field( wp_unslash( $_POST['hidden_from_date'] ) );
-			$date_to = sanitize_text_field( wp_unslash( $_POST['hidden_to_date'] ) );
+			if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
+				$per_page      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '10';
+			}
+			// SQL query.
 			$sql = $wpdb->prepare(
 				"SELECT *
-				FROM $table_name table1 JOIN $table_name2 table2 on table1.`user_id` =  table2.`ID` WHERE 
-				table1.date BETWEEN '{$date_from}  00:00:00' AND '{$date_to} 23:59:59'
-				ORDER BY table1.id DESC
-				LIMIT %d OFFSET %d" ,
+				FROM {$wpdb->prefix}wps_wsfw_wallet_transaction  ORDER BY id DESC
+				LIMIT %d OFFSET %d",
 				$per_page,
 				$offset
 			);
-		}
-		elseif ( isset( $_REQUEST['s'] ) ) {
+		} elseif ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] ) ) {
+			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
+			if ( ! wp_verify_nonce( $nonce ) ) {
+				return false;
+			}
 
+			$date_from = ! empty( $_POST['hidden_from_date'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_from_date'] ) ) : '';
+			$date_to   = ! empty( $_POST['hidden_to_date'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_to_date'] ) ) : '';
+			$sql = $wpdb->prepare(
+				"SELECT *
+				FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE 
+				table1.date BETWEEN '{$date_from} 00:00:00' AND '{$date_to} 23:59:59'
+				ORDER BY table1.id DESC
+				LIMIT %d OFFSET %d",
+				$per_page,
+				$offset
+			);
+			
+		} elseif ( isset( $_REQUEST['s'] ) ) {
+			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
+			if ( ! wp_verify_nonce( $nonce ) ) {
+				return false;
+			}
 			$wps_request_search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
-			$wps_request_search = '%'.$wps_request_search.'%';
-			
+			$wps_request_search = '%' . $wps_request_search . '%';
 
-			
-
-			
-
-		
-
-			// // SQL query
-			// $sql = $wpdb->prepare(
-			// 	"SELECT *
-			// 	FROM $table_name WHERE (`id` LIKE '$wps_request_search'	 OR
-			// 	`user_id` LIKE '$wps_request_search' OR
-			// 	`amount` LIKE '$wps_request_search' OR
-			// 	`currency` LIKE '$wps_request_search' OR
-			// 	`transaction_type` LIKE '$wps_request_search' OR
-			// 	`payment_method` LIKE '$wps_request_search' OR
-			// 	`note` LIKE '$wps_request_search' OR
-			// 	`transaction_type_1` LIKE '$wps_request_search')
-			// 	ORDER BY id DESC
-			// 	LIMIT %d OFFSET %d" ,
-			// 	$per_page,
-			// 	$offset
-			// );
-			//echo  $_REQUEST['s'] ;
 			// SQL query
 			$sql = $wpdb->prepare(
 				"SELECT *
-				FROM $table_name table1 JOIN $table_name2 table2 on table1.`user_id` =  table2.`ID` WHERE (table1.`id` LIKE '$wps_request_search'	 OR
+				FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE (table1.`id` LIKE '$wps_request_search'	 OR
 				`user_id` LIKE '$wps_request_search' OR
 				`amount` LIKE '$wps_request_search' OR
 				`currency` LIKE '$wps_request_search' OR
@@ -387,37 +362,43 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 				`display_name` LIKE '$wps_request_search' OR
 				`transaction_type_1` LIKE '$wps_request_search')
 				ORDER BY table1.id DESC
-				LIMIT %d OFFSET %d" ,
+				LIMIT %d OFFSET %d",
 				$per_page,
 				$offset
 			);
-			
-		} else{
-			
+
+		} else {
+
 			// SQL query
 			$sql = $wpdb->prepare(
 				"SELECT *
 				FROM $table_name  ORDER BY id DESC
-				LIMIT %d OFFSET %d" ,
+				LIMIT %d OFFSET %d",
 				$per_page,
 				$offset
 			);
+
 		}
 
-		// Execute the query
-		$results = $wpdb->get_results($sql, ARRAY_A);
+		// Execute the query.
+		$results = $wpdb->get_results( $sql, ARRAY_A );
 
-	return $results;
+		return $results;
 	}
 }
 
 
 if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] ) ) {
 
-	$date_from = sanitize_text_field( wp_unslash( $_POST['hidden_from_date'] ) );
-	$date_to = sanitize_text_field( wp_unslash( $_POST['hidden_to_date'] ) );
+	$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce ) ) {
+		return false;
+	}
+	$date_from = ! empty( $_POST['hidden_from_date'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_from_date'] ) ) : '';
+	$date_to   = ! empty( $_POST['hidden_to_date'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_to_date'] ) ) : '';
+
 }
-			
+
 ?>
 
 
@@ -444,10 +425,10 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		<div class="dataTables_length_wallet_custom_table" id="wps-wsfw-wallet-trabsacstion-numbers">
 			<label><?php esc_html_e( 'Rows per page', 'wallet-system-for-woocommerce' ); ?>
 				<select name="wps-wsfw-wallet-trabsacstion-numbers-drodown" id ="wps-wsfw-wallet-trabsacstion-numbers-drodown" aria-controls="wps-wpg-gen-table_trasa" >
-					<option value="10" <?php echo ($limit_for_transaction == '10' ? 'selected="selected"':'') ?>>10</option>
-					<option value="25" <?php echo ($limit_for_transaction == '25' ? 'selected="selected"':'') ?>>25</option>
-					<option value="50" <?php echo ($limit_for_transaction == '50' ? 'selected="selected"':'') ?>>50</option>
-					<option value="100" <?php echo ($limit_for_transaction == '100' ? 'selected="selected"':'') ?>>100</option>
+					<option value="10" <?php echo ( '10' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>10</option>
+					<option value="25" <?php echo ( '25' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>25</option>
+					<option value="50" <?php echo ( '50' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>50</option>
+					<option value="100" <?php echo ( '100' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>100</option>
 				</select>
 			</label>
 		</div>
@@ -457,10 +438,10 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 						<tr>
 						</tr>
 						<tr>
-							<td><input type="date" id="fromdate_transaction" name="min" id="min"  placeholder="From" value="<?php echo esc_attr( $date_from ) ?>"  autocomplete="off"></td>
+							<td><input type="date" id="fromdate_transaction" name="min" id="min"  placeholder="From" value="<?php echo esc_attr( $date_from ); ?>"  autocomplete="off"></td>
 						</tr>
 						<tr>
-							<td><input type="date"  id="todate_transaction" name="max" id="max"  placeholder="To" value="<?php echo esc_attr( $date_to ) ?>" autocomplete="off"></td>
+							<td><input type="date"  id="todate_transaction" name="max" id="max"  placeholder="To" value="<?php echo esc_attr( $date_to ); ?>" autocomplete="off"></td>
 						</tr>
 						<tr>
 							<td><span id="clear_table" class="btn button"><?php esc_html_e( 'Clear', 'wallet-system-for-woocommerce' ); ?></span></td>
@@ -475,7 +456,8 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 			<input type="hidden" id="hidden_transaction_number" name="hidden_transaction_number" value=""/>
 			<input type="hidden" id="hidden_from_date" name="hidden_from_date" />
 			<input type="hidden" id="hidden_to_date" name="hidden_to_date" />
-				
+			<input type="hidden" id="updatenoncewallet_creation" name="updatenoncewallet_creation" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+		
 			<input type="hidden" name="page" value="<?php esc_html_e( 'wallet_log_list_table', 'wallet-system-for-woocommerce' ); ?>">
 			<?php wp_nonce_field( 'wallet-transaction-log', 'wallet-transaction-log' ); ?>
 			<?php
@@ -489,4 +471,4 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 </div>
 	<?php
 
-include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';
+	include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';

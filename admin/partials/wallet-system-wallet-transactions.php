@@ -67,19 +67,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				global $wpdb;
 				$limit_for_transaction = '10';
-				echo $_POST['hidden_transaction_current_number'];
-			if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
-		
-				$limit_for_transaction      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '';
-		
-			}
-			
-				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC LIMIT '.$limit_for_transaction );
 
 
-				$transactions_total_count_data = '';
-				$transactions_total_count = $wpdb->get_results( 'SELECT count(id) as total_count FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction' );
+
 
 				if ( ! empty( $transactions_total_count ) ) {
 					$transactions_total_count_data = $transactions_total_count[0]->total_count;
@@ -180,10 +170,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="dataTables_length_wallet_custom_table" id="wps-wsfw-wallet-trabsacstion-numbers">
 			<label><?php esc_html_e( 'Rows per page', 'wallet-system-for-woocommerce' ); ?>
 				<select name="wps-wsfw-wallet-trabsacstion-numbers-drodown" id ="wps-wsfw-wallet-trabsacstion-numbers-drodown" aria-controls="wps-wpg-gen-table_trasa" >
-					<option value="10" <?php echo ($limit_for_transaction == '10' ? 'selected="selected"':'') ?>>10</option>
-					<option value="25" <?php echo ($limit_for_transaction == '25' ? 'selected="selected"':'') ?>>25</option>
-					<option value="50" <?php echo ($limit_for_transaction == '50' ? 'selected="selected"':'') ?>>50</option>
-					<option value="100" <?php echo ($limit_for_transaction == '100' ? 'selected="selected"':'') ?>>100</option>
+					<option value="10" <?php echo ( '10' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>10</option>
+					<option value="25" <?php echo ( '25' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>25</option>
+					<option value="50" <?php echo ( '50' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>50</option>
+					<option value="100" <?php echo ( '100' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>100</option>
 				</select>
 			</label>
 		</div>
