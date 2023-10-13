@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.5.2';
+			$this->version = '2.5.3';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -500,9 +500,10 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'class-wallet-user-table',
 		);
 
-		$wsfw_default_tabs['wallet-system-wallet-transactions'] = array(
+		
+		$wsfw_default_tabs['wallet-system-wallet-transactions-data'] = array(
 			'title' => esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ),
-			'name'  => 'wallet-system-wallet-transactions',
+			'name'  => 'wallet-system-wallet-transactions-data',
 		);
 
 		// added tab for wallet withdrawal settings.

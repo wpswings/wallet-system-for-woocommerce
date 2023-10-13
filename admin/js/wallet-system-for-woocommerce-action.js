@@ -18,6 +18,51 @@
 			jQuery('.wps_wallet_lite_go_pro_popup_wrap').removeClass('wps_wallet_lite_go_pro_popup_show');
 		});
 
+    jQuery(document).on( 'change', '#wps-wsfw-wallet-trabsacstion-numbers-drodown', function() {
+			debugger;
+      jQuery('#hidden_transaction_number').val(jQuery('#wps-wsfw-wallet-trabsacstion-numbers-drodown').val());
+      jQuery('#wps_wsfw_data_number').trigger('click');
+		});
+    jQuery(document).on( 'change', '#fromdate_transaction', function() {
+			debugger;
+      $is_from = jQuery('#fromdate_transaction').val();
+     
+      jQuery('#todate_transaction').attr('min', jQuery('#fromdate_transaction').val());
 
+
+
+    
+    
+    //  jQuery('#wps_wsfw_data_number').trigger('click');
+		});
+    jQuery(document).on( 'change', '#todate_transaction', function() {
+			debugger;
+      $is_from = jQuery('#fromdate_transaction').val();
+      $to_from = jQuery('#todate_transaction').val();
+     if ( $is_from == '' ) {
+      jQuery('#todate_transaction').val('');
+      jQuery('#fromdate_transaction').focus();
+      return;
+     } else if( $to_from == '' ){
+      jQuery('#todate_transaction').focus();
+      return;
+     }
+    
+     jQuery('#hidden_from_date').val($is_from);
+     jQuery('#hidden_to_date').val($to_from);
+     
+    
+     
+      jQuery('#wps_wsfw_data_number').trigger('click');
+		});
+
+    jQuery(document).on( 'click', '#clear_table', function() {
+      jQuery('#fromdate_transaction').val('');
+      jQuery('#todate_transaction').val('');
+		});
+    
+
+    
+    
 });
 

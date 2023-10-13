@@ -1,4 +1,7 @@
 <?php
+namespace Twilio\Tests\Unit\TwiML;
+namespace Twilio;
+
 /**
  * Order Factory
  *
@@ -1977,6 +1980,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wsfw_woocommerce_thankyou_order_id( $order_id ) {
 
 		$order = new WC_Order( $order_id );
+		$this->wsfw_wallet_add_order_detail($order);
 		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
 		if ( 'done' != $check_wallet_thankyou ) {
 			$order_id               = $order->get_id();
