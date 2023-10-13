@@ -295,17 +295,9 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	 */
 	public function get_users_wallet_transaction( $current_page, $per_page ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction'; // Replace 'your_custom_table' with your custom table name.
-		$table_name2 = $wpdb->prefix . 'users';
 		$per_page = 10;  // Number of rows per page.
-		// Calculate the offset.
-		$offset = ( $current_page - 1 ) * $per_page;
-		$args = array(
-			'number' => $per_page,
-			'offset' => ( $current_page - 1 ) * $per_page,
-			'fields' => 'ID',
-		);
-
+		$offset = ( $current_page - 1 ) * $per_page;// Calculate the offset.
+		$results = '';
 		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {
@@ -315,12 +307,15 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 				$per_page      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '10';
 			}
 			// SQL query.
-			$sql = $wpdb->prepare(
-				"SELECT *
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT *
 				FROM {$wpdb->prefix}wps_wsfw_wallet_transaction  ORDER BY id DESC
 				LIMIT %d OFFSET %d",
-				$per_page,
-				$offset
+					$per_page,
+					$offset
+				),
+				ARRAY_A
 			);
 		} elseif ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
@@ -330,16 +325,21 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 
 			$date_from = ! empty( $_POST['hidden_from_date'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_from_date'] ) ) : '';
 			$date_to   = ! empty( $_POST['hidden_to_date'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_to_date'] ) ) : '';
-			$sql = $wpdb->prepare(
-				"SELECT *
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT *
 				FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE 
-				table1.date BETWEEN '{$date_from} 00:00:00' AND '{$date_to} 23:59:59'
+				table1.date BETWEEN %s AND %s
 				ORDER BY table1.id DESC
 				LIMIT %d OFFSET %d",
-				$per_page,
-				$offset
+					$date_from . ' 00:00:00',
+					$date_to . ' 23:59:59',
+					$per_page,
+					$offset
+				),
+				ARRAY_A
 			);
-			
+
 		} elseif ( isset( $_REQUEST['s'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {
@@ -347,41 +347,53 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			}
 			$wps_request_search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
 			$wps_request_search = '%' . $wps_request_search . '%';
-
-			// SQL query
-			$sql = $wpdb->prepare(
-				"SELECT *
-				FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE (table1.`id` LIKE '$wps_request_search'	 OR
-				`user_id` LIKE '$wps_request_search' OR
-				`amount` LIKE '$wps_request_search' OR
-				`currency` LIKE '$wps_request_search' OR
-				`transaction_type` LIKE '$wps_request_search' OR
-				`payment_method` LIKE '$wps_request_search' OR
-				`note` LIKE '$wps_request_search' OR
-				`user_email` LIKE '$wps_request_search' OR
-				`display_name` LIKE '$wps_request_search' OR
-				`transaction_type_1` LIKE '$wps_request_search')
+			// SQL query.
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT *
+				FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE (table1.`id` LIKE %s	 OR
+				`user_id` LIKE %s OR
+				`amount` LIKE %s OR
+				`currency` LIKE %s OR
+				`transaction_type` LIKE %s OR
+				`payment_method` LIKE %s OR
+				`note` LIKE %s OR
+				`user_email` LIKE %s OR
+				`display_name` LIKE %s OR
+				`transaction_type_1` LIKE %s)
 				ORDER BY table1.id DESC
 				LIMIT %d OFFSET %d",
-				$per_page,
-				$offset
+					$wps_request_search,
+					$wps_request_search,
+					$wps_request_search,
+					$wps_request_search,
+					$wps_request_search,
+					$wps_request_search,
+					$wps_request_search,
+					$wps_request_search,
+					$wps_request_search,
+					$wps_request_search,
+					$per_page,
+					$offset
+				),
+				ARRAY_A
 			);
 
 		} else {
 
-			// SQL query
-			$sql = $wpdb->prepare(
-				"SELECT *
-				FROM $table_name  ORDER BY id DESC
+			// SQL query.
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT *
+				FROM {$wpdb->prefix}wps_wsfw_wallet_transaction  ORDER BY id DESC
 				LIMIT %d OFFSET %d",
-				$per_page,
-				$offset
+					$per_page,
+					$offset
+				),
+				ARRAY_A
 			);
 
 		}
-
-		// Execute the query.
-		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
 	}
