@@ -641,7 +641,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 						$previous_wallet_amount = $wallet;
 					} else {
 						$is_negative = true;
-						$wallet -= abs( $wallet ) - abs( $updated_amount );
+						$wallet = abs( $wallet ) - abs( $updated_amount );
 					}
 				} else {
 					$wallet = $wallet - $updated_amount;
@@ -661,6 +661,12 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 						} else {
 							$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 						}
+					}
+				} else {
+					if ( $previous_wallet_amount < $updated_amount ) {
+						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+					} else {
+						$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 					}
 				}
 
