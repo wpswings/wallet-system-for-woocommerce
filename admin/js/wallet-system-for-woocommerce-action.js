@@ -1,12 +1,13 @@
   jQuery(document).ready(function() {
    
-   jQuery( "#wps_sfw_subscription_interval" ).change(function() {
+    jQuery('.action').addClass('wps_pro_settings_tag');
+    jQuery( "#wps_sfw_subscription_interval" ).change(function() {
        
-       var wps_sfw_subscription_interval = jQuery( "#wps_sfw_subscription_interval" ).val();        
-        jQuery('#wps_sfw_subscription_expiry_interval').val(wps_sfw_subscription_interval).attr("selected", "selected");
-      });
+    var wps_sfw_subscription_interval = jQuery( "#wps_sfw_subscription_interval" ).val();        
+      jQuery('#wps_sfw_subscription_expiry_interval').val(wps_sfw_subscription_interval).attr("selected", "selected");
+    });
 
-      // on clicking element change the input type password to text or vice-versa
+    // on clicking element change the input type password to text or vice-versa
 		jQuery(document).on( 'click', '.wps_pro_settings', function() {
 			if (wsfw_admin_action_param.is_pro_plugin != 1){
         jQuery(this).prop("checked", false);
@@ -26,14 +27,7 @@
     jQuery(document).on( 'change', '#fromdate_transaction', function() {
 			debugger;
       $is_from = jQuery('#fromdate_transaction').val();
-     
       jQuery('#todate_transaction').attr('min', jQuery('#fromdate_transaction').val());
-
-
-
-    
-    
-    //  jQuery('#wps_wsfw_data_number').trigger('click');
 		});
     jQuery(document).on( 'change', '#todate_transaction', function() {
 			debugger;
@@ -48,8 +42,8 @@
       return;
      }
     
-     jQuery('#hidden_from_date').val($is_from);
-     jQuery('#hidden_to_date').val($to_from);
+    jQuery('#hidden_from_date').val($is_from);
+    jQuery('#hidden_to_date').val($to_from);
      
     
      
@@ -59,6 +53,7 @@
     jQuery(document).on( 'click', '#clear_table', function() {
       jQuery('#fromdate_transaction').val('');
       jQuery('#todate_transaction').val('');
+      jQuery('#wps_wsfw_data_number').trigger('click');
 		});
     
 

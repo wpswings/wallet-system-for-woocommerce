@@ -80,6 +80,12 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 		$wps_user = get_user_by( 'id', $item['id'] );
 		$points   = ! empty( get_user_meta( $item['id'], 'wps_wpr_points', true ) ) ? get_user_meta( $item['id'], 'wps_wpr_points', true ) : 0;
 
+		$tranasction_symbol = '';
+		if ( 'credit' == $item['details_amount'] ) {
+			$tranasction_symbol = '+';
+		} elseif ( 'debit' == $item['details_amount'] ) {
+			$tranasction_symbol = '-';
+		}
 		switch ( $column_name ) {
 
 			case 'user_id':
@@ -89,7 +95,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			case 'user_email':
 				return '<b>' . $item['user_email'] . '</b>';
 			case 'user_amount':
-				return '<b class="wps_wallet_' . esc_attr( $item['details_amount'] ) . '">' . wc_price( $item['user_amount'] ) . '</b>';
+				return '<b class="wps_wallet_' . esc_attr( $item['details_amount'] ) . '">' . $tranasction_symbol . wc_price( $item['user_amount'] ) . '</b>';
 			case 'payment_method':
 				return '<b>' . $item['payment_method'] . '</b>';
 			case 'details':
@@ -103,7 +109,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 				$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
 				if ( ! $is_pro ) {
 
-					return '<span class="wps_wallet_delete_action wps_pro_settings" >' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
+					return '<span class="wps_wallet_delete_action wps_pro_settings" >&nbsp&nbsp&nbsp' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
 
 				} else {
 
@@ -200,6 +206,19 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	public function prepare_items() {
 
 		$per_page              = 10;
+		$limit_for_transaction = '10';
+
+		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
+
+			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
+			if ( ! wp_verify_nonce( $nonce ) ) {
+				return false;
+			}
+			$limit_for_transaction      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '';
+		}
+		if ( ! empty( $limit_for_transaction ) ) {
+			$per_page = $limit_for_transaction;
+		}
 
 		$columns               = $this->get_columns();
 		$hidden                = array();
@@ -413,22 +432,20 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 
 ?>
 
-
-
-
 <div class="wps-wpg-gen-section-table-wrap wps-wpg-transcation-section-table">
 	<h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
-	<form method="GET">
-		<input type="submit" class="btn button" name= "wps_wsfw_export_pdf" id="wps_wsfw_export_pdf" value="<?php esc_html_e( 'Export Pdf', 'wallet-system-for-woocommerce' ); ?>">
-	</form>
+	
 	<?php
 
-		$limit_for_transaction = '10';
+	$limit_for_transaction = '10';
 
 	if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 
+		$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce ) ) {
+			return false;
+		}
 		$limit_for_transaction      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '';
-
 	}
 
 
@@ -443,6 +460,7 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 					<option value="100" <?php echo ( '100' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>100</option>
 				</select>
 			</label>
+			
 		</div>
 		<form method="post">
 			<table>
@@ -463,6 +481,9 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		</form>
 	</div>
 	<div class="dataTables_length_wallet_custom_search_table">
+	<form method="GET" class="wps_form_get_export_pdf">
+		<input type="submit" class="btn button" name= "wps_wsfw_export_pdf" id="wps_wsfw_export_pdf" value="<?php esc_html_e( 'Export Pdf', 'wallet-system-for-woocommerce' ); ?>">
+	</form>
 		<form method="post">
 			<input type="submit"  class="btn button" name= "wps_wsfw_data_number" id="wps_wsfw_data_number" value="" >
 			<input type="hidden" id="hidden_transaction_number" name="hidden_transaction_number" value=""/>
@@ -479,7 +500,9 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 			$mylisttable->display();
 			?>
 		</form>
+		
 	</div>
+
 </div>
 	<?php
 
