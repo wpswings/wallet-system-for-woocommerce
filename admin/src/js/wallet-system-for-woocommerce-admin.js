@@ -49,6 +49,7 @@
 		console.log(wsfw_admin_param.is_pro_plugin);
 		if (wsfw_admin_param.is_pro_plugin != 1){
 			jQuery('#wsfw_enable_wallet_negative_balance_limit').attr('disabled',true);
+			jQuery('#wps_wsfw_multiselect_wallet_recharge_restrict').attr('disabled',true);		
 			jQuery('#wsfw_enable_wallet_negative_balance_limit_order').attr('disabled',true);
 			jQuery('#wsfwp_withdrawal_page_message').attr('disabled',true);
 			jQuery('#wsfwp_withdrawal_admin_withdrawal_request_email').attr('disabled',true);
@@ -63,9 +64,7 @@
 			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('disabled',true);
 			jQuery('#wps_wsfw_intrest_type_amount_negative_balance').attr('disabled',true);
 			jQuery('#wps_wsfw_intrest_text_name_amount_negative_balance').attr('disabled',true);
-			
-			
-		
+
 		}
 
 		

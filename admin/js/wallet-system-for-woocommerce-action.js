@@ -1,6 +1,15 @@
   jQuery(document).ready(function() {
-   
-    jQuery('.action').addClass('wps_pro_settings_tag');
+  
+    if (wsfw_admin_action_param.is_pro_plugin != 1){
+    jQuery('#action_user_trasaction').addClass('wps_pro_settings_tag');
+    jQuery('#action_user_trasaction').html('&nbsp;&nbsp'+wsfw_admin_action_param.is_action);
+
+    jQuery('#user_transaction_action').addClass('wps_pro_settings_tag');
+    jQuery('#user_transaction_action').html('&nbsp;&nbsp'+wsfw_admin_action_param.is_action);
+
+    }
+
+    
     jQuery( "#wps_sfw_subscription_interval" ).change(function() {
        
     var wps_sfw_subscription_interval = jQuery( "#wps_sfw_subscription_interval" ).val();        

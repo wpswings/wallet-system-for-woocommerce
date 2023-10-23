@@ -164,6 +164,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'wsfw_admin_action_param',
 				array(
 					'is_pro_plugin'             => apply_filters( 'wsfw_check_pro_plugin', $is_plugin ),
+					'is_action'             => __( 'Action', 'wallet-system-for-woocommerce' ),
 				)
 			);
 		}
@@ -469,6 +470,13 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$wsfw_settings_general = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
 
+		$wps_all_payment_gateway = array();
+		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
+			if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+				continue;
+			}
+			$wps_all_payment_gateway[ $key ] = $value->title;
+		}
 		$wsfw_settings_general = array(
 			// enable wallet.
 			array(
@@ -496,6 +504,17 @@ class Wallet_System_For_Woocommerce_Admin {
 					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
+			),
+			array(
+				'title'       => __( 'Restrict Wallet Recharge For Particular Gateway', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_multiselect_wallet_recharge_restrict',
+				'type'        => 'multiselect',
+				'description' => __( 'Select any gateway to restrict cashback upon placing order.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_multiselect_wallet_recharge_restrict',
+				'value'       => get_option( 'wps_wsfw_multiselect_wallet_recharge_restrict' ),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
+				'placeholder' => '',
+				'options' => $wps_all_payment_gateway,
 			),
 			array(
 				'title'       => __( 'Auto Complete Wallet Recharge Order Status.', 'wallet-system-for-woocommerce' ),
@@ -1013,7 +1032,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wps_all_payment_gateway = array();
 
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
-			if ( 'wallet' == $key ) {
+			if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
 				continue;
 			}
 			$wps_all_payment_gateway[ $key ] = $value->title;
@@ -1373,11 +1392,14 @@ class Wallet_System_For_Woocommerce_Admin {
 							if ( isset( $wsfw_genaral_setting['id'] ) && '' !== $wsfw_genaral_setting['id'] ) {
 								if ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
 
-									if ( 'wps_wsfw_wallet_order_auto_process' == $wsfw_genaral_setting['id'] ) {
+									if ( 'wps_wsfw_wallet_order_auto_process' == $wsfw_genaral_setting['id'] || 'wps_wsfw_multiselect_wallet_recharge_restrict' == $wsfw_genaral_setting['id'] ) {
+									
 										update_option( $wsfw_genaral_setting['id'], map_deep( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) );
 									} else {
 										update_option( $wsfw_genaral_setting['id'], sanitize_text_field( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ) ) );
 									}
+									
+
 								} else {
 									update_option( $wsfw_genaral_setting['id'], '' );
 								}

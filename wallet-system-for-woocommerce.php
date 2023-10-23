@@ -437,3 +437,4 @@ function wps_wsfw_banner_notification_html() {
 		}
 	}
 }
+

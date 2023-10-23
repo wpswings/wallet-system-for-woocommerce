@@ -59,7 +59,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			'details' => __( 'Details', 'wallet-system-for-woocommerce' ),
 			'transaction_id'         => __( 'Transaction ID', 'wallet-system-for-woocommerce' ),
 			'date'        => __( 'Date', 'wallet-system-for-woocommerce' ),
-			'action'        => __( 'Action', 'wallet-system-for-woocommerce' ),
+			'action_user_trasaction'        => __( 'Action', 'wallet-system-for-woocommerce' ),
 			// 'date1_other'        => __( 'Date1', 'wallet-system-for-woocommerce' ),
 		);
 		return $columns;
@@ -104,7 +104,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 				return '<b>' . $item['transaction_id'] . '</b>';
 			case 'date':
 				return '<b>' . $item['date'] . '</b>';
-			case 'action':
+			case 'action_user_trasaction':
 				$is_pro = false;
 				$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
 				if ( ! $is_pro ) {
@@ -183,7 +183,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 					'details'        => $sort_id['transaction_type'],
 					'transaction_id' => $transaction_data,
 					'date'           => $sort_id['date'],
-					'action'         => '',
+					'action_user_trasaction'         => '',
 					// 'date1_other'    => $sort_id['date'],
 					'details_amount'        => $sort_id['transaction_type_1'],
 				);
@@ -417,7 +417,8 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 		return $results;
 	}
 }
-
+$date_from = '';
+$date_to = '';
 
 if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] ) ) {
 
