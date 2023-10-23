@@ -1393,13 +1393,11 @@ class Wallet_System_For_Woocommerce_Admin {
 								if ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
 
 									if ( 'wps_wsfw_wallet_order_auto_process' == $wsfw_genaral_setting['id'] || 'wps_wsfw_multiselect_wallet_recharge_restrict' == $wsfw_genaral_setting['id'] ) {
-									
+
 										update_option( $wsfw_genaral_setting['id'], map_deep( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) );
 									} else {
 										update_option( $wsfw_genaral_setting['id'], sanitize_text_field( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ) ) );
 									}
-									
-
 								} else {
 									update_option( $wsfw_genaral_setting['id'], '' );
 								}
