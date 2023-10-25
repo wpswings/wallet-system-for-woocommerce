@@ -896,12 +896,12 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_bal = wmc_get_price( $wallet_bal );
 
 			return $wallet_bal;
-		}elseif(class_exists('WOOMULTI_CURRENCY_Data')) {
+		}elseif( class_exists( 'WOOMULTI_CURRENCY_Data' ) ) {
 			$multiCurrencySettings = WOOMULTI_CURRENCY_Data::get_ins();
 			$wmcCurrencies = $multiCurrencySettings->get_list_currencies();
 			$currentCurrency = $multiCurrencySettings->get_current_currency();
 			$currentCurrencyRate = floatval( $wmcCurrencies[ $currentCurrency ]['rate'] );
-			}else {
+		} else {
 			return $wallet_bal;
 		}
 
