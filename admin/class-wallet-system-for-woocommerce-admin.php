@@ -1654,6 +1654,19 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 				$order_status = array( 'pending', 'on-hold', 'processing' );
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
+
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$is_currency_added_in_wallet = $order->get_meta( 'wps_order_recharge_executed', true );
+					} else {
+						$is_currency_added_in_wallet = get_post_meta( $order_id, 'wps_order_recharge_executed', true );
+					}
+					if ( $is_currency_added_in_wallet == 'done' ) {
+						continue;
+					}
+
+
+
 					$amount        = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount, $order_currency );
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
@@ -1682,6 +1695,12 @@ class Wallet_System_For_Woocommerce_Admin {
 					$balance   = $order->get_currency() . ' ' . $amount;
 					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharge.', 'wallet-system-for-woocommerce' );
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$order->update_meta_data( 'wps_order_recharge_executed', 'done' );
+					} else {
+						update_post_meta( $order_id, 'wps_order_recharge_executed', 'done' );
+					}
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
 						$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
