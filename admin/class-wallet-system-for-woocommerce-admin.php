@@ -469,13 +469,18 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_general_settings_page( $wsfw_settings_general ) {
 
 		$wsfw_settings_general = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
-
+		$all_gateway = WC()->payment_gateways()->payment_gateways();
 		$wps_all_payment_gateway = array();
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
-			if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
-				continue;
-			}
-			$wps_all_payment_gateway[ $key ] = $value->title;
+			
+			if ( 'yes' == $all_gateway[ $key ]->enabled ) {
+				if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+					continue;
+				} elseif( 'cod' == $key ){
+					continue;
+				}
+				$wps_all_payment_gateway[ $key ] = $value->title;
+			}			
 		}
 		$wsfw_settings_general = array(
 			// enable wallet.
