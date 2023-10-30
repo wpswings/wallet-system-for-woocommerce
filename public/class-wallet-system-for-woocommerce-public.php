@@ -1550,11 +1550,13 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wps_wsfw_new_customer_registerd( $customer_id ) {
+		$amount = '';
+		$updated = false;
 		if ( ! empty( $customer_id ) ) {
 			$wps_wsfw_wallet_action_registration_enable      = get_option( 'wps_wsfw_wallet_action_registration_enable', '' );
 			$wps_wsfw_wallet_action_registration_amount      = ! empty( get_option( 'wps_wsfw_wallet_action_registration_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_amount' ) : 1;
 			$current_currency                                = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
-			$updated                                         = false;
+			
 			if ( isset( $wps_wsfw_wallet_action_registration_enable ) && 'on' === $wps_wsfw_wallet_action_registration_enable ) {
 				$walletamount           = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount           = empty( $walletamount ) ? 0 : $walletamount;

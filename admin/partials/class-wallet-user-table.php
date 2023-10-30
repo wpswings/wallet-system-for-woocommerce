@@ -397,11 +397,15 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 					$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 					$customer_email_credit = '';
 					$customer_email_debit = '';
-
+					$is_pro_plugin = false;
+					$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+					if ( $is_pro_plugin ) {
+					
 					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 						$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 						$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+					}
 					}
 					if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
 
@@ -452,8 +456,8 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 				$args['number'] = $user_count;
 				$args['offset'] = floatval( $current_page - 1 ) * floatval( $user_count );
 
-				$user_data      = new WP_User_Query( $args );
-				$user_data      = $user_data->get_results();
+			$user_data      = new WP_User_Query( $args );
+			$user_data      = $user_data->get_results();
 
 				if ( ! empty( $user_updated_count ) ) {
 					$updated_users = $user_updated_count;
@@ -461,7 +465,8 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 
 				if ( ! empty( $user_data ) && is_array( $user_data ) ) {
 					foreach ( $user_data as $key => $user_id ) {
-
+						 
+ 
 						$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
 						$wallet  = ( ! empty( $wallet ) ) ? $wallet : 0;
 						if ( 'credit' === $wallet_option ) {
@@ -515,7 +520,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									$wallet -= $wallet_amount;
 								}
 							}
-
+							
 							$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
 	
 							if ( ! $is_negative ) {
@@ -537,6 +542,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 								
 							}
+						
 							$balance   = $currency . ' ' . $updated_amount;
 							$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
 							if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
@@ -560,12 +566,13 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 						$customer_email_credit = '';
 						$customer_email_debit = '';
 
+						
 						if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
 							$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
 							$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
 						}
-
+						
 						if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
 
 							if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
@@ -585,7 +592,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 							}
 						}
-
+						
 						$transaction_data = array(
 							'user_id'          => $user_id,
 							'amount'           => $updated_amount,
@@ -599,6 +606,8 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 						$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 
 						$number_of_users++;
+
+						
 					}
 				}
 				$data = array(
@@ -607,6 +616,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 					'offset'       => ( $current_page - 1 ) * $user_count,
 					'updated_users' => $updated_users,
 				);
+				
 				return $data;
 			}
 		}

@@ -1334,6 +1334,8 @@ class Wallet_System_For_Woocommerce {
 			$headers = 'From: ' . $send_mail_through . "\r\n" .
 			'Reply-To: ' . $send_mail_through . "\r\n";
 		}
+
+		
 		wp_mail( $to, $subject, $mail_message, $headers );
 	}
 
