@@ -59,6 +59,7 @@ if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wal
 }
 if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_transfer'] ) ) {
 	unset( $_POST['wps_proceed_transfer'] );
+	
 	$update = true;
 	// check whether $_POST key 'current_user_id' is empty or not.
 	if ( ! empty( $_POST['current_user_id'] ) ) {

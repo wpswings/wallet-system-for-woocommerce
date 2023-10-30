@@ -787,10 +787,14 @@ class Wallet_System_For_Woocommerce {
 									class="mdc-text-field__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
 									name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 									id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
+									
 									<?php
+								
 									if ( 'number' == $wsfw_component['type'] ) {
 
-										if ( ! empty( $wsfw_component['min'] ) ) {
+										echo var_dump(! empty( $wsfw_component['min'] )) ;
+										if ( ! empty( $wsfw_component['min'] ) ||  $wsfw_component['min'] == 0 ) {
+										
 											?>
 										min="<?php echo esc_attr( $wsfw_component['min'] ); ?>"
 											<?php
@@ -1057,7 +1061,7 @@ class Wallet_System_For_Woocommerce {
 																					</span>
 											<span class="mdc-notched-outline__trailing"></span>
 										</span>
-									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" min=0 step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
 										</label>
 										<select id="wps_sfw_subscription_interval" name="wps_sfw_subscription_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_interval', 'day' ) ); ?>">
 									<?php
@@ -1093,7 +1097,7 @@ class Wallet_System_For_Woocommerce {
 																						</span>
 												<span class="mdc-notched-outline__trailing"></span>
 											</span>
-										<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+										<input class="mdc-text-field__input wws-text-class" min=0 name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
 											</label>
 											<select id="wps_sfw_subscription_expiry_interval" disabled="disabled" name="wps_sfw_subscription_expiry_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) ); ?>">
 									<?php

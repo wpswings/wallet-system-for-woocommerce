@@ -260,7 +260,7 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 function confirm_updatewallet_for_all_user( $user_count, $current_page, $update, $user_updated_count = '' ) {
 	$currency  = get_woocommerce_currency();
 	$update = true;
-
+	
 	$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce ) ) {
 		return false;
@@ -330,25 +330,47 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 
 						$previous_wallet_amount = $wallet;
 						$transaction_type_1 = 'debit';
-						if ( $wallet < $wallet_amount ) {
-							$previous_wallet_amount = $wallet;
+						
+						
+						if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+							if ( $wallet > $updated_amount ) {
+								$wallet = $wallet - $updated_amount;
+							} else {
+								$is_negative = true;
+								if (  $wallet > 0 ) {
+									$wallet = abs( $wallet ) - abs( $updated_amount );
+							   } else{
+								    $wallet = ( $wallet ) - abs( $updated_amount );
+							   }
+							}
 						} else {
-							$wallet = abs( $wallet ) - abs( $wallet_amount );
+							if ( $wallet < $wallet_amount ) {
+								$previous_wallet_amount = $wallet;
+							} else {
+								$wallet -= $wallet_amount;
+							}
 						}
 
 						$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
 
-						if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
-							if ( $previous_wallet_amount < $wallet_amount ) {
-								$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+						if ( ! $is_negative ) {
+							if ( isset( $_POST['wps_wallet-edit-popup-transaction-detail'] ) && ! empty( $_POST['wps_wallet-edit-popup-transaction-detail'] ) ) {
+								if ( $previous_wallet_amount < $updated_amount ) {
+									$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+								} else {
+									$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
+								}
 							} else {
-								$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+								if ( $previous_wallet_amount < $updated_amount ) {
+									$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+								} else {
+									$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
+								}
 							}
 						} else {
-							if ( $previous_wallet_amount < $wallet_amount ) {
+							if ( $previous_wallet_amount < $updated_amount ) {
 								$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
 							} else {
-
 								$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 							}
 						}
@@ -468,30 +490,52 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								}
 							}
 						} elseif ( 'debit' === $wallet_option ) {
-
+							
 							$previous_wallet_amount = $wallet;
 							$transaction_type_1 = 'debit';
-							if ( $wallet < $wallet_amount ) {
-								$previous_wallet_amount = $wallet;
-							} else {
-
-								$wallet = abs( $wallet ) - abs( $wallet_amount );
+							$is_negative = false;
+							if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+								
+								if ( $wallet > $updated_amount ) {
+									
+									$wallet -= $wallet_amount;
+								} else {
+									
+									$is_negative = true;
+									if (  $wallet > 0 ) {
+										$wallet = abs( $wallet ) - abs( $updated_amount );
+								   } else{
+									    $wallet = ( $wallet ) - abs( $updated_amount );
+								   }
+								}
+							}else{
+								if ( $wallet < $wallet_amount ) {
+									$previous_wallet_amount = $wallet;
+								} else {
+									$wallet -= $wallet_amount;
+								}
 							}
 
 							$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
-
-							if ( isset( $_POST['wsfw_wallet_transaction_details_for_users'] ) && ! empty( $_POST['wsfw_wallet_transaction_details_for_users'] ) ) {
-								if ( $previous_wallet_amount < $wallet_amount ) {
-									$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+	
+							if ( ! $is_negative ) {
+								if ( isset( $_POST['wps_wallet-edit-popup-transaction-detail'] ) && ! empty( $_POST['wps_wallet-edit-popup-transaction-detail'] ) ) {
+									if ( $previous_wallet_amount < $updated_amount ) {
+										$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+									} else {
+										$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
+									}
 								} else {
-									$transaction_type = sanitize_text_field( wp_unslash( $_POST['wsfw_wallet_transaction_details_for_users'] ) );
+									if ( $previous_wallet_amount < $updated_amount ) {
+										$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
+									} else {
+										$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
+									}
 								}
 							} else {
-								if ( $previous_wallet_amount < $wallet_amount ) {
-									$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-								} else {
+								
 									$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-								}
+								
 							}
 							$balance   = $currency . ' ' . $updated_amount;
 							$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
@@ -507,7 +551,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								}
 							}
 						}
-
+						
 						if ( $updated_wallet ) {
 							$updated_users++;
 						}
@@ -640,16 +684,27 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 			} elseif ( 'debit' === $wallet_action ) {
 				$previous_wallet_amount = $wallet;
 				$transaction_type_1 = 'debit';
+			
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
-					if ( $wallet < $updated_amount ) {
-						$previous_wallet_amount = $wallet;
+					if ( $wallet > $updated_amount ) {
+						$wallet = $wallet - $updated_amount;
 					} else {
 						$is_negative = true;
-						$wallet = abs( $wallet ) - abs( $updated_amount );
+					
+						if (  $wallet > 0 ) {
+							 $wallet = abs( $wallet ) - abs( $updated_amount );
+						} else{
+							 $wallet = ( $wallet ) - abs( $updated_amount );
+						}
 					}
 				} else {
-					$wallet = $wallet - $updated_amount;
+					if ( $wallet < $wallet_amount ) {
+						$previous_wallet_amount = $wallet;
+					} else {
+						$wallet -= $wallet_amount;
+					}
 				}
+			
 				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
 
 				if ( ! $is_negative ) {
