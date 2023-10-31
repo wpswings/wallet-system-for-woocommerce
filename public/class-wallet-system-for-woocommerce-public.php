@@ -172,15 +172,21 @@ class Wallet_System_For_Woocommerce_Public {
 							if ( intval( $order_number ) < intval( $order_limit ) ) {
 
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-							}
-
-							if ( ( $wallet_amount ) < ( $limit ) ) {
-								$total_balance = $wallet_amount + $limit;
-								if ( $total_balance < $wps_cart_total ) {
-
-									unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-								}
-								$user_id        = get_current_user_id();
+							} else{
+								if ( ( $wallet_amount ) < ( $limit ) ) {
+									$total_balance = $wallet_amount + $limit;
+								   if ( $total_balance < $wps_cart_total ) {
+   
+									   unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+								   }
+								   $user_id        = get_current_user_id();
+							   } elseif ( ( $wallet_amount ) > ( $limit ) ) {
+								   $total_balance = $wallet_amount + $limit;
+								   if ( $total_balance < $wps_cart_total ) {
+   
+									   unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+								   }
+							   }
 							}
 						} else {
 							if ( $wallet_amount < $wps_cart_total ) {
@@ -385,6 +391,16 @@ class Wallet_System_For_Woocommerce_Public {
 
 				if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 					// HPOS usage is enabled.
+					$is_currency_added_in_wallet = $order->get_meta( 'wps_order_recharge_executed', true );
+				} else {
+					$is_currency_added_in_wallet = get_post_meta( $order_id, 'wps_order_recharge_executed', true );
+				}
+				if ( $is_currency_added_in_wallet == 'done' ) {
+					continue;
+				}
+
+				if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+					// HPOS usage is enabled.
 
 					$order->update_meta_data( 'wps_wallet_recharge_order', 'yes' );
 					$order->save();
@@ -420,7 +436,12 @@ class Wallet_System_For_Woocommerce_Public {
 					$walletamount += $credited_amount;
 
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
-
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$order->update_meta_data( 'wps_order_recharge_executed', 'done' );
+					} else {
+						update_post_meta( $order_id, 'wps_order_recharge_executed', 'done' );
+					}
 					$is_pro_plugin = false;
 					$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 					if ( $is_pro_plugin ) {
@@ -749,9 +770,13 @@ class Wallet_System_For_Woocommerce_Public {
 									$wps_wsfw_intrest_amount_negative_balance = get_option( 'wps_wsfw_intrest_amount_negative_balance' );
 
 									$wps_wsfw_intrest_type_amount_negative_balance = get_option( 'wps_wsfw_intrest_type_amount_negative_balance' );
+									
 									$cashback_amount = '';
-									$wsfw_percent_cashback_amount = abs( $walletamount ) * ( $wps_wsfw_intrest_amount_negative_balance / 100 );
+									if ( ! empty($wps_wsfw_intrest_type_amount_negative_balance ) ) {
+										$wsfw_percent_cashback_amount = abs( $walletamount ) * ( $wps_wsfw_intrest_amount_negative_balance / 100 );
 
+									}
+		
 									if ( 'percent' == $wps_wsfw_intrest_type_amount_negative_balance && $wps_wsfw_intrest_type_amount_negative_balance ) {
 
 										$cashback_amount = $wsfw_percent_cashback_amount;
@@ -766,9 +791,10 @@ class Wallet_System_For_Woocommerce_Public {
 
 									if ( $cashback_amount ) {
 										$all_fees = wc()->cart->fees_api()->get_fees();
+										
 										$wps_wsfw_intrest_text_name_amount_negative_balance = get_option( 'wps_wsfw_intrest_text_name_amount_negative_balance', 'Interest wallet' );
-										WC()->cart->add_fee( $wps_wsfw_intrest_text_name_amount_negative_balance, abs( $cashback_amount ), true, '' );
-
+										WC()->cart->add_fee( $wps_wsfw_intrest_text_name_amount_negative_balance, abs( $cashback_amount ), true, 'zero-rate' );
+										
 									}
 								}
 							}
@@ -2088,6 +2114,13 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		return $tax_class;
+	}
+
+
+	public function wps_wsfw_remove_standard_interest_fee() {
+		// Loop through the cart fees and check if the fee label matches the one you want to remove.
+		$wps_wsfw_intrest_text_name_amount_negative_balance = get_option( 'wps_wsfw_intrest_text_name_amount_negative_balance', 'Interest wallet' );
+		
 	}
 
 }
