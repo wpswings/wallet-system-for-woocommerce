@@ -2116,11 +2116,4 @@ class Wallet_System_For_Woocommerce_Public {
 		return $tax_class;
 	}
 
-
-	public function wps_wsfw_remove_standard_interest_fee() {
-		// Loop through the cart fees and check if the fee label matches the one you want to remove.
-		$wps_wsfw_intrest_text_name_amount_negative_balance = get_option( 'wps_wsfw_intrest_text_name_amount_negative_balance', 'Interest wallet' );
-		
-	}
-
 }
