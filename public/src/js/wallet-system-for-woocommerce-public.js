@@ -267,11 +267,11 @@
 	$(document).on( 'blur','#wps_wallet_transfer_amount', function(){
 		var amount = $(this).val();
 		var maxamount = $(this).data('max');
-		
+		debugger;
 		var min_transfer_amount = $(this).data('mintransfer');
 		var max_transfer_amount = $(this).data('maxtransfer');
 
-		if ( min_transfer_amount >= amount ){
+		if ( min_transfer_amount > amount ){
 			if( min_transfer_amount !=0 ){
 
 				$('.error').show();
@@ -316,14 +316,14 @@
 		var max_withdrwal_amount = $(this).data('maxwithdrawal');
 		var data_max = $(this).data('data-max');
 
-		if(amount > maxamount){
+		if(amount >= maxamount){
 			$('.error').show();
 					$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
 					$('#wps_withdrawal_request').prop('disabled', true);
 					return;
 		} 
 
-		if ( min_withdrwal_amount >= amount ){
+		if ( min_withdrwal_amount > amount ){
 			if( min_withdrwal_amount !=0 ){
 
 				$('.error').show();

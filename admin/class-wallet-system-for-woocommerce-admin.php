@@ -535,6 +535,25 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Process Wallet Recharge Amount on Order Status', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_order_auto_process',
+				'type'        => 'multiselect',
+				'description' => __( 'Select order status to recharge wallet.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_wallet_order_auto_process',
+				'value'       => get_option( 'wps_wsfw_wallet_order_auto_process', array( 'completed' ) ),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
+				'placeholder' => '',
+				'options' => apply_filters(
+					'wps_wsfw_wallet_order_auto_process_pre',
+					array(
+						'pending' => __( 'Pending payment', 'wallet-system-for-woocommerce' ),
+						'on-hold' => __( 'On hold', 'wallet-system-for-woocommerce' ),
+						'processing' => __( 'Processing', 'wallet-system-for-woocommerce' ),
+						'completed' => __( 'Completed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			array(
 				'title'       => __( 'Enable Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable to credit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
@@ -619,25 +638,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
-			array(
-				'title'       => __( 'Process Wallet Recharge Amount on Order Status', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wps_wsfw_wallet_order_auto_process',
-				'type'        => 'multiselect',
-				'description' => __( 'Select order status to recharge wallet.', 'wallet-system-for-woocommerce' ),
-				'id'          => 'wps_wsfw_wallet_order_auto_process',
-				'value'       => get_option( 'wps_wsfw_wallet_order_auto_process', array( 'completed' ) ),
-				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
-				'placeholder' => '',
-				'options' => apply_filters(
-					'wps_wsfw_wallet_order_auto_process_pre',
-					array(
-						'pending' => __( 'Pending payment', 'wallet-system-for-woocommerce' ),
-						'on-hold' => __( 'On hold', 'wallet-system-for-woocommerce' ),
-						'processing' => __( 'Processing', 'wallet-system-for-woocommerce' ),
-						'completed' => __( 'Completed', 'wallet-system-for-woocommerce' ),
-					)
-				),
-			),
+			
 
 			array(
 				'title'       => __( 'Make Wallet Recharge Product Tax Free', 'wallet-system-for-woocommerce' ),
