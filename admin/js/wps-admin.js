@@ -218,7 +218,14 @@ jQuery(document).ready(function() {
 	});
 
 	jQuery(document).on( 'click', '#update_wallet', function() {
-		jQuery('.wps_wallet-update--popupwrap').addClass('active');
+		debugger;
+		$amount = jQuery('#wsfw_wallet_amount_for_users').val();
+		if ( parseInt( $amount ) < 0 ) {
+			jQuery('#wsfw_wallet_amount_for_users').val('');
+		} else{
+			jQuery('.wps_wallet-update--popupwrap').addClass('active');
+		}
+		
 	});
 
 	var table = jQuery('#wps-wpg-gen-table1').DataTable({

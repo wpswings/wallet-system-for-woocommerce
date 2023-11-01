@@ -791,7 +791,7 @@ class Wallet_System_For_Woocommerce {
 								
 									if ( 'number' == $wsfw_component['type'] ) {
 
-										echo var_dump(! empty( $wsfw_component['min'] )) ;
+									
 										if ( ! empty( $wsfw_component['min'] ) ||  $wsfw_component['min'] == 0 ) {
 										
 											?>
