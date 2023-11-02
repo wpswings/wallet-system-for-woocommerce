@@ -3717,3 +3717,19 @@ class Wallet_System_For_Woocommerce_Admin {
 
 
 }
+
+
+add_action( 'woocommerce_order_status_changed','filter_order_status' , 20, 3 );
+
+ function filter_order_status($order_id, $old_status, $new_status  ) {
+	$order =wc_get_order( $order_id );
+	echo  $order->get_meta( '_yith_pos_order' );
+
+	die('fgdxfgdsrtdt');
+	if ( absint( $order->get_meta( '_yith_pos_order' ) ) ) {
+		$order_status = ! ! $order->get_items( 'shipping' ) ? 'processing' : 'completed';
+		$order_status = apply_filters( 'yith_pos_order_status', $order_status, $order );
+	}
+
+	return $order_status;
+}

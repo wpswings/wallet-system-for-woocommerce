@@ -177,6 +177,8 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		 */
 		public function process_payment( $order_id ) {
 
+
+
 			$order       = wc_get_order( $order_id );
 			$payment_method = $order->payment_method;
 			if ( 'wps_wcb_wallet_payment_gateway' === $payment_method ) {
