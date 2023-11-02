@@ -288,7 +288,6 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 
 		if ( isset( $wallet_amount ) && ! empty( $wallet_amount ) ) {
 
-			// $users = get_users();
 			$updated_users   = 0;
 			$number_of_users = 0;
 

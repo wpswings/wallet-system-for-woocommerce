@@ -239,11 +239,6 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_wallet_withdrawal_array', $wsfw_plugin_admin, 'wsfw_admin_withdrawal_setting_page', 10 );
 		$this->loader->add_action( 'wps_wsfw_before_common_settings_form', $wsfw_plugin_admin, 'wsfw_admin_save_tab_settings' );
 
-		$saved_older_keys = get_option( 'wsfw_saved_older_walletkeys', '' );
-		if ( isset( $saved_older_keys ) && 'true' !== $saved_older_keys ) {
-			$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wsfw_upgrade_completed', 10 );
-		}
-
 		$enable = get_option( 'wps_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 			$this->loader->add_filter( 'manage_users_columns', $wsfw_plugin_admin, 'wsfw_add_wallet_col_to_user_table' );
@@ -1012,7 +1007,6 @@ class Wallet_System_For_Woocommerce {
 												}
 												?>
 											"
-											<?php // checked( $wsfw_component['value'], 'on' );. ?>
 											<?php checked( get_option( $wsfw_component['name'], '' ), 'on' ); ?>
 											>
 										</div>

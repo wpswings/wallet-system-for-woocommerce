@@ -789,8 +789,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			),
 
 		);
-		// $wsfw_settings_general   = apply_filters( 'wsfw_general_extra_settings_array', $wsfw_settings_general );
-
 		$wsfw_settings_general[] = array(
 			'type'        => 'submit',
 			'name'        => 'wsfw_button_demo',
@@ -1708,7 +1706,6 @@ class Wallet_System_For_Woocommerce_Admin {
 					$walletamount_user  = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$walletamount += $credited_amount;
-					// $walletamount = abs($walletamount_user) - abs($credited_amount);;
 
 					$balance   = $order->get_currency() . ' ' . $amount;
 					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharge.', 'wallet-system-for-woocommerce' );
@@ -1899,7 +1896,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			if ( ! empty( $csv_data ) ) {
 				$user_data_array  = array_merge( $csv_data, $zsdsd );
-				// $user_data = $csv_data;
 			} else {
 				$user_data_array  = $zsdsd;
 			}
@@ -2621,119 +2617,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				)
 			)
 		);
-	}
-
-	/**
-	 * Saving the plugin setting to new option name
-	 *
-	 * @return void
-	 */
-	public function wsfw_upgrade_completed() {
-
-		// update user wallet.
-		$users = get_users();
-		foreach ( $users as $user ) {
-			$user_id = $user->ID;
-			$wallet  = get_user_meta( $user_id, 'wps_all_in_one_wallet', true );
-			if ( ! empty( $wallet ) ) {
-				$updated_wallet = update_user_meta( $user_id, 'wps_wallet', $wallet );
-				if ( $updated_wallet ) {
-					delete_user_meta( $user_id, 'wps_all_in_one_wallet' );
-				}
-			}
-		}
-
-		// update wallet product id in optin table.
-		$product_id = get_option( 'wps_wcb_product_id' );
-		if ( $product_id ) {
-			$updated_wallet_id = update_option( 'wps_wsfw_rechargeable_product_id', $product_id );
-			if ( $updated_wallet_id ) {
-				delete_option( 'wps_wcb_product_id' );
-			}
-
-			// update post title of wallet product.
-			$wallet_product = get_post( $product_id );
-			$wallet_product->post_title = 'Rechargeable Wallet Product';
-			wp_update_post( $wallet_product );
-		}
-
-		// update general settings of plugin.
-		$wcb_general_values = get_option( 'wps_wcb_general' );
-		if ( $wcb_general_values ) {
-			$wps_wsfw_enable = $wcb_general_values['wenable'];
-			$updated_general = update_option( 'wps_wsfw_enable', $wps_wsfw_enable );
-			if ( $updated_general ) {
-				delete_option( 'wps_wcb_general' );
-			}
-		}
-
-		// update wallet recharge enable or not.
-		$wps_topup_product = get_option( 'wps_wcb_topup_product' );
-		if ( $wps_topup_product ) {
-			$wps_topup_product_enable = $wps_topup_product['enable'];
-			$enable_recharge          = update_option( 'wsfw_enable_wallet_recharge', $wps_topup_product_enable );
-			if ( $enable_recharge ) {
-				delete_option( 'wps_wcb_topup_product' );
-			}
-		}
-
-		// create transcation table if not exist.
-		global $wpdb;
-		$table_name = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $wpdb->prefix . 'wps_wsfw_wallet_transaction"' ) != $table_name ) {
-			$wpdb_collate = $wpdb->collate;
-			$sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
-				id bigint(20) unsigned NOT NULL auto_increment,
-				user_id bigint(20) unsigned NULL,
-				amount double,
-				currency varchar( 20 ) NOT NULL,
-				transaction_type varchar(200) NULL,
-				transaction_type_1 varchar(200) NULL,
-				payment_method varchar(50) NULL,
-				transaction_id varchar(50) NULL,
-				note varchar(500) Null,
-				date datetime,
-				PRIMARY KEY  (Id),
-				KEY user_id (user_id)
-				)
-				COLLATE {$wpdb_collate}";
-
-			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-			dbDelta( $sql );
-
-		}
-
-		// update older transaction table data to new table.
-		$older_table = $wpdb->prefix . 'wps_wcb_wallet_transactions';
-		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $wpdb->prefix . 'wps_wcb_wallet_transactions"' ) == $older_table ) {
-			$user_transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wcb_wallet_transactions' );
-			if ( ! empty( $user_transactions ) && is_array( $user_transactions ) ) {
-				foreach ( $user_transactions as $user_transaction ) {
-
-					$insert_array = array(
-						'id'                => $user_transaction->transaction_id,
-						'user_id'           => $user_transaction->user_id,
-						'amount'            => $user_transaction->amount,
-						'currency'          => $user_transaction->currency,
-						'transaction_type'  => $user_transaction->details,
-						'payment_method'    => '',
-						'transaction_id'    => '',
-						'note'              => '',
-						'date'              => $user_transaction->date,
-					);
-					$wpdb->insert(
-						$table_name,
-						$insert_array
-					);
-
-				}
-
-				$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'wps_wcb_wallet_transactions' );
-
-			}
-		}
-
-		update_option( 'wsfw_saved_older_walletkeys', 'true' );
 	}
 
 	/**

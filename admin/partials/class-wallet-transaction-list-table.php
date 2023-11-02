@@ -60,7 +60,6 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			'transaction_id'         => __( 'Transaction ID', 'wallet-system-for-woocommerce' ),
 			'date'        => __( 'Date', 'wallet-system-for-woocommerce' ),
 			'action_user_trasaction'        => __( 'Action', 'wallet-system-for-woocommerce' ),
-			// 'date1_other'        => __( 'Date1', 'wallet-system-for-woocommerce' ),
 		);
 		return $columns;
 	}
@@ -184,7 +183,6 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 					'transaction_id' => $transaction_data,
 					'date'           => $sort_id['date'],
 					'action_user_trasaction'         => '',
-					// 'date1_other'    => $sort_id['date'],
 					'details_amount'        => $sort_id['transaction_type_1'],
 				);
 				$index++;
