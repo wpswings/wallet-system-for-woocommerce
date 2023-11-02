@@ -344,10 +344,10 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								}
 							}
 						} else {
-							if ( $wallet < $wallet_amount ) {
+							if ( $wallet < $updated_amount ) {
 								$previous_wallet_amount = $wallet;
 							} else {
-								$wallet -= $wallet_amount;
+								$wallet -= $updated_amount;
 							}
 						}
 
@@ -513,10 +513,10 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									}
 								}
 							} else {
-								if ( $wallet < $wallet_amount ) {
+								if ( $wallet < $updated_amount ) {
 									$previous_wallet_amount = $wallet;
 								} else {
-									$wallet -= $wallet_amount;
+									$wallet -= $updated_amount;
 								}
 							}
 
@@ -705,10 +705,10 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 						}
 					}
 				} else {
-					if ( $wallet < $wallet_amount ) {
+					if ( $wallet < $updated_amount ) {
 						$previous_wallet_amount = $wallet;
 					} else {
-						$wallet -= $wallet_amount;
+						$wallet -= $updated_amount;
 					}
 				}
 
