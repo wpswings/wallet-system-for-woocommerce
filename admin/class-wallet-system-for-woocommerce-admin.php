@@ -183,35 +183,37 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		}
 
-		if ( in_array( $screen_id, array( 'shop_order','woocommerce_page_wc-orders' ) ) ) {
+		if ( in_array( $screen_id, array( 'shop_order', 'woocommerce_page_wc-orders' ) ) ) {
 			wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-order-shop.js', array( 'jquery' ), $this->version, false );
 			global  $woocommerce;
+			$post_id = '';
 			$currency_symbol = get_woocommerce_currency_symbol();
-			if ($screen_id == 'woocommerce_page_wc-orders' ) {
-				if ( isset($_GET['id']) ){
-					$order = wc_get_order( $_GET['id'] ); 
-					$post_id = $_GET['id'];
+			if ( 'woocommerce_page_wc-orders' == $screen_id ) {
+				if ( isset( $_GET['id'] ) ) {
+					$post_id = ! empty( $_GET['id'] ) ? sanitize_text_field( wp_unslash( $_GET['id'] ) ) : '';
+					$order = wc_get_order( sanitize_text_field( wp_unslash( $post_id ) ) );
+
 				}
-				
-				
-			} else{
+			} else {
 				$order = wc_get_order( $post->ID );
 				$post_id = $post->ID;
 			}
-			
-			wp_enqueue_script( 'wallet-recharge-admin-js' );
-			$order_localizer = array(
-				'order_id' => $post_id,
-				'payment_method' => $order->get_payment_method( 'edit' ),
-				'default_price' => wc_price( 0 ),
-				'currency_symbol' => $currency_symbol,
-				'is_refundable' => apply_filters( 'wps_wallet_is_order_refundable', ( ! wps_is_wallet_rechargeable_order( $order ) && $order->get_payment_method( 'edit' ) != 'wallet' ) && $order->get_customer_id( 'edit' ), $order ),
-				'i18n' => array(
-					'refund' => __( 'Refund', 'wallet-system-for-woocommerce' ),
-					'via_wallet' => __( 'to user wallet', 'wallet-system-for-woocommerce' ),
-				),
-			);
-			wp_localize_script( 'wallet-recharge-admin-js', 'wps_wallet_admin_order_param', $order_localizer );
+			if ( ! empty( $post_id ) ) {
+				wp_enqueue_script( 'wallet-recharge-admin-js' );
+				$order_localizer = array(
+					'order_id' => $post_id,
+					'payment_method' => $order->get_payment_method( 'edit' ),
+					'default_price' => wc_price( 0 ),
+					'currency_symbol' => $currency_symbol,
+					'is_refundable' => apply_filters( 'wps_wallet_is_order_refundable', ( ! wps_is_wallet_rechargeable_order( $order ) && $order->get_payment_method( 'edit' ) != 'wallet' ) && $order->get_customer_id( 'edit' ), $order ),
+					'i18n' => array(
+						'refund' => __( 'Refund', 'wallet-system-for-woocommerce' ),
+						'via_wallet' => __( 'to user wallet', 'wallet-system-for-woocommerce' ),
+					),
+				);
+				wp_localize_script( 'wallet-recharge-admin-js', 'wps_wallet_admin_order_param', $order_localizer );
+
+			}
 		}
 
 		wp_enqueue_script( 'wallet-recharge-admin-js' );
