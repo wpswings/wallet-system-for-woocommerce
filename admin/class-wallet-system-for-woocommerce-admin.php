@@ -180,7 +180,6 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wallet_count'       => $this->wsfw_wallet_recharge_count(),
 				)
 			);
-
 		}
 
 		if ( in_array( $screen_id, array( 'shop_order', 'woocommerce_page_wc-orders' ) ) ) {
@@ -192,7 +191,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				if ( isset( $_GET['id'] ) ) {
 					$post_id = ! empty( $_GET['id'] ) ? sanitize_text_field( wp_unslash( $_GET['id'] ) ) : '';
 					$order = wc_get_order( sanitize_text_field( wp_unslash( $post_id ) ) );
-
 				}
 			} else {
 				$order = wc_get_order( $post->ID );
@@ -212,10 +210,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					),
 				);
 				wp_localize_script( 'wallet-recharge-admin-js', 'wps_wallet_admin_order_param', $order_localizer );
-
 			}
 		}
-
 		wp_enqueue_script( 'wallet-recharge-admin-js' );
 	}
 
@@ -2646,6 +2642,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
+
 		// update wallet product id in optin table.
 		$product_id = get_option( 'wps_wcb_product_id' );
 		if ( $product_id ) {
