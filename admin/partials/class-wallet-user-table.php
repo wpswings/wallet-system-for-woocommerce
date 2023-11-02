@@ -331,7 +331,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 						$previous_wallet_amount = $wallet;
 						$transaction_type_1 = 'debit';
 						
-						
+						$is_negative = false;
 						if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 							if ( $wallet > $updated_amount ) {
 								$wallet = $wallet - $updated_amount;

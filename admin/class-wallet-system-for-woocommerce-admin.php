@@ -1708,6 +1708,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
 						$order->update_meta_data( 'wps_order_recharge_executed', 'done' );
+						$order->save();
 					} else {
 						update_post_meta( $order_id, 'wps_order_recharge_executed', 'done' );
 					}

@@ -388,13 +388,14 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( ! $is_pro_plugin ) {
 					$wps_wsfw_wallet_order_auto_process = array( 'completed' );
 				}
-
+				$is_currency_added_in_wallet = '';
 				if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 					// HPOS usage is enabled.
 					$is_currency_added_in_wallet = $order->get_meta( 'wps_order_recharge_executed', true );
 				} else {
 					$is_currency_added_in_wallet = get_post_meta( $order_id, 'wps_order_recharge_executed', true );
 				}
+			
 				if ( $is_currency_added_in_wallet == 'done' ) {
 					continue;
 				}
@@ -439,8 +440,10 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
 						$order->update_meta_data( 'wps_order_recharge_executed', 'done' );
+						$order->save();
 					} else {
 						update_post_meta( $order_id, 'wps_order_recharge_executed', 'done' );
+						
 					}
 					$is_pro_plugin = false;
 					$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );

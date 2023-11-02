@@ -316,7 +316,7 @@
 		var max_withdrwal_amount = $(this).data('maxwithdrawal');
 		var data_max = $(this).data('data-max');
 
-		if(amount >= maxamount){
+		if(amount > maxamount){
 			$('.error').show();
 					$('.error').html(wsfw_public_param.wsfw_withdrawal_amount_error);
 					$('#wps_withdrawal_request').prop('disabled', true);
