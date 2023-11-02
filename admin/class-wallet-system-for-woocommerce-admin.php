@@ -183,14 +183,25 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		}
 
-		if ( in_array( $screen_id, array( 'shop_order' ) ) ) {
+		if ( in_array( $screen_id, array( 'shop_order','woocommerce_page_wc-orders' ) ) ) {
 			wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-order-shop.js', array( 'jquery' ), $this->version, false );
 			global  $woocommerce;
 			$currency_symbol = get_woocommerce_currency_symbol();
-			$order = wc_get_order( $post->ID );
+			if ($screen_id == 'woocommerce_page_wc-orders' ) {
+				if ( isset($_GET['id']) ){
+					$order = wc_get_order( $_GET['id'] ); 
+					$post_id = $_GET['id'];
+				}
+				
+				
+			} else{
+				$order = wc_get_order( $post->ID );
+				$post_id = $post->ID;
+			}
+			
 			wp_enqueue_script( 'wallet-recharge-admin-js' );
 			$order_localizer = array(
-				'order_id' => $post->ID,
+				'order_id' => $post_id,
 				'payment_method' => $order->get_payment_method( 'edit' ),
 				'default_price' => wc_price( 0 ),
 				'currency_symbol' => $currency_symbol,
