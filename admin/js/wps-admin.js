@@ -218,7 +218,7 @@ jQuery(document).ready(function() {
 	});
 
 	jQuery(document).on( 'click', '#update_wallet', function() {
-		debugger;
+
 		$amount = jQuery('#wsfw_wallet_amount_for_users').val();
 		if ( parseInt( $amount ) < 0 ) {
 			jQuery('#wsfw_wallet_amount_for_users').val('');

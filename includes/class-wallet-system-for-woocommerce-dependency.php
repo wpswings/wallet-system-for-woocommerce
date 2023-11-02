@@ -260,7 +260,7 @@ if ( ! function_exists( 'wps_wsfw_scl_show_social_share_link' ) ) {
 	 * @link https://www.wpswings.com/
 	 */
 	function wps_wsfw_scl_show_social_share_link() {
-		//$session_cart = $this->mwb_smc_get_session_cart();
+		// $session_cart = $this->mwb_smc_get_session_cart();
 		$hash         = wp_hash( $session_cart );
 
 		file_put_contents( get_temp_dir() . $hash, $session_cart );

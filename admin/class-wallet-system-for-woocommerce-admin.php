@@ -472,15 +472,15 @@ class Wallet_System_For_Woocommerce_Admin {
 		$all_gateway = WC()->payment_gateways()->payment_gateways();
 		$wps_all_payment_gateway = array();
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
-			
+
 			if ( 'yes' == $all_gateway[ $key ]->enabled ) {
 				if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
 					continue;
-				} elseif( 'cod' == $key ){
+				} elseif ( 'cod' == $key ) {
 					continue;
 				}
 				$wps_all_payment_gateway[ $key ] = $value->title;
-			}			
+			}
 		}
 		$wsfw_settings_general = array(
 			// enable wallet.
@@ -638,7 +638,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
-			
 
 			array(
 				'title'       => __( 'Make Wallet Recharge Product Tax Free', 'wallet-system-for-woocommerce' ),
@@ -1673,7 +1672,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					} else {
 						$is_currency_added_in_wallet = get_post_meta( $order_id, 'wps_order_recharge_executed', true );
 					}
-					if ( $is_currency_added_in_wallet == 'done' ) {
+					if ( 'done' == $is_currency_added_in_wallet ) {
 						continue;
 					}
 

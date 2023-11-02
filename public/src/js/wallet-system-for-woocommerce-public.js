@@ -267,7 +267,6 @@
 	$(document).on( 'blur','#wps_wallet_transfer_amount', function(){
 		var amount = $(this).val();
 		var maxamount = $(this).data('max');
-		debugger;
 		var min_transfer_amount = $(this).data('mintransfer');
 		var max_transfer_amount = $(this).data('maxtransfer');
 

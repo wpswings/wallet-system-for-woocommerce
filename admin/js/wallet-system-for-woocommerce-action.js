@@ -29,17 +29,17 @@
 		});
 
     jQuery(document).on( 'change', '#wps-wsfw-wallet-trabsacstion-numbers-drodown', function() {
-			debugger;
+		
       jQuery('#hidden_transaction_number').val(jQuery('#wps-wsfw-wallet-trabsacstion-numbers-drodown').val());
       jQuery('#wps_wsfw_data_number').trigger('click');
 		});
     jQuery(document).on( 'change', '#fromdate_transaction', function() {
-			debugger;
+
       $is_from = jQuery('#fromdate_transaction').val();
       jQuery('#todate_transaction').attr('min', jQuery('#fromdate_transaction').val());
 		});
     jQuery(document).on( 'change', '#todate_transaction', function() {
-			debugger;
+
       $is_from = jQuery('#fromdate_transaction').val();
       $to_from = jQuery('#todate_transaction').val();
      if ( $is_from == '' ) {

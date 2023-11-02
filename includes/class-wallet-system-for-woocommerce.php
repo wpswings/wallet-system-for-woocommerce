@@ -401,7 +401,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders', 90 );
 			$this->loader->add_action( 'wp_loaded', $wsfw_plugin_public, 'wps_wsfw_referral_link_using_cookie' );
 			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules', 10 );
-			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class', 10, 2 );			
+			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class', 10, 2 );
 		}
 
 	}
@@ -788,12 +788,11 @@ class Wallet_System_For_Woocommerce {
 									id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
 									
 									<?php
-								
+
 									if ( 'number' == $wsfw_component['type'] ) {
 
-									
-										if ( ! empty( $wsfw_component['min'] ) ||  $wsfw_component['min'] == 0 ) {
-										
+										if ( ! empty( $wsfw_component['min'] ) || 0 == $wsfw_component['min'] ) {
+
 											?>
 										min="<?php echo esc_attr( $wsfw_component['min'] ); ?>"
 											<?php
@@ -1334,7 +1333,7 @@ class Wallet_System_For_Woocommerce {
 			'Reply-To: ' . $send_mail_through . "\r\n";
 		}
 		wc_mail( $to, $subject, $mail_message, $headers );
-		
+
 	}
 
 }
