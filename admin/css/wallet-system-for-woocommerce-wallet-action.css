@@ -398,4 +398,6 @@ form.wps_form_get_export_pdf {
   }
 }
 
-
+.wps-form-select .select2 {
+  min-width: 200px;
+}

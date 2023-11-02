@@ -156,7 +156,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
-			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.js', array(), time(), false );
 			wp_enqueue_script( 'wps-admin-wallet-action-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wallet-system-for-woocommerce-action.js', array(), time(), false );
 
 			wp_localize_script(
@@ -469,13 +469,18 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_admin_general_settings_page( $wsfw_settings_general ) {
 
 		$wsfw_settings_general = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
-
+		$all_gateway = WC()->payment_gateways()->payment_gateways();
 		$wps_all_payment_gateway = array();
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
-			if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
-				continue;
-			}
-			$wps_all_payment_gateway[ $key ] = $value->title;
+			
+			if ( 'yes' == $all_gateway[ $key ]->enabled ) {
+				if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+					continue;
+				} elseif( 'cod' == $key ){
+					continue;
+				}
+				$wps_all_payment_gateway[ $key ] = $value->title;
+			}			
 		}
 		$wsfw_settings_general = array(
 			// enable wallet.
@@ -530,6 +535,25 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Process Wallet Recharge Amount on Order Status', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_order_auto_process',
+				'type'        => 'multiselect',
+				'description' => __( 'Select order status to recharge wallet.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_wallet_order_auto_process',
+				'value'       => get_option( 'wps_wsfw_wallet_order_auto_process', array( 'completed' ) ),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
+				'placeholder' => '',
+				'options' => apply_filters(
+					'wps_wsfw_wallet_order_auto_process_pre',
+					array(
+						'pending' => __( 'Pending payment', 'wallet-system-for-woocommerce' ),
+						'on-hold' => __( 'On hold', 'wallet-system-for-woocommerce' ),
+						'processing' => __( 'Processing', 'wallet-system-for-woocommerce' ),
+						'completed' => __( 'Completed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			array(
 				'title'       => __( 'Enable Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable to credit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
@@ -548,6 +572,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter limit upto customer can use balance in negative', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_negative_balance_limit',
 				'id'          => 'wsfw_enable_wallet_negative_balance_limit',
+				'min'         => 0,
 				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit', '0' ),
 				'class'       => 'wsfw-text-class wps_pro_settings',
 				'placeholder' => __( 'Enter Amount Limit upto user can use negative balance', 'wallet-system-for-woocommerce' ),
@@ -558,6 +583,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter order limit after customer can avail balance in negative', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_negative_balance_limit_order',
 				'id'          => 'wsfw_enable_wallet_negative_balance_limit_order',
+				'min'         => 0,
 				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit_order', 0 ),
 				'class'       => 'wsfw-text-class wps_pro_settings',
 				'placeholder' => __( 'Enter Order Limit after which user can use negative balance at checkout', 'wallet-system-for-woocommerce' ),
@@ -607,29 +633,12 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Charge interest on Wallet Negative Balance recharge.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_intrest_amount_negative_balance',
 				'id'          => 'wps_wsfw_intrest_amount_negative_balance',
+				'min'         => 0,
 				'value'       => ! empty( get_option( 'wps_wsfw_intrest_amount_negative_balance' ) ) ? get_option( 'wps_wsfw_intrest_amount_negative_balance' ) : 10,
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
-			array(
-				'title'       => __( 'Process Wallet Recharge Amount on Order Status', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wps_wsfw_wallet_order_auto_process',
-				'type'        => 'multiselect',
-				'description' => __( 'Select order status to recharge wallet.', 'wallet-system-for-woocommerce' ),
-				'id'          => 'wps_wsfw_wallet_order_auto_process',
-				'value'       => get_option( 'wps_wsfw_wallet_order_auto_process', array( 'completed' ) ),
-				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
-				'placeholder' => '',
-				'options' => apply_filters(
-					'wps_wsfw_wallet_order_auto_process_pre',
-					array(
-						'pending' => __( 'Pending payment', 'wallet-system-for-woocommerce' ),
-						'on-hold' => __( 'On hold', 'wallet-system-for-woocommerce' ),
-						'processing' => __( 'Processing', 'wallet-system-for-woocommerce' ),
-						'completed' => __( 'Completed', 'wallet-system-for-woocommerce' ),
-					)
-				),
-			),
+			
 
 			array(
 				'title'       => __( 'Make Wallet Recharge Product Tax Free', 'wallet-system-for-woocommerce' ),
@@ -812,6 +821,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter amount which will be credited to the user wallet on daily visit.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_daily_amount',
 				'id'          => 'wps_wsfw_wallet_action_daily_amount',
+				'min'         => 0,
 				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_daily_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_daily_amount' ) : 1,
 				'placeholder' => __( 'Enter daily visit amount', 'wallet-system-for-woocommerce' ),
@@ -850,6 +860,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter amount which will be credited to the user wallet after new registration.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_registration_amount',
 				'id'          => 'wps_wsfw_wallet_action_registration_amount',
+				'min'         => 0,
 				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_registration_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_registration_amount' ) : 1,
 				'placeholder' => __( 'Enter signup amount', 'wallet-system-for-woocommerce' ),
@@ -901,6 +912,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_subscriptions_per_interval',
 				'id'          => 'wps_wsfw_subscriptions_per_interval',
 				'step'        => '0.01',
+				'min'         => 0,
 				'value'       => ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? get_option( 'wps_wsfw_subscriptions_per_interval' ) : 1,
 				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
@@ -948,6 +960,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'The amount which new customers will get after their comments are approved..', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_comment_amount',
 				'id'          => 'wps_wsfw_wallet_action_comment_amount',
+				'min'         => 0,
 				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_comment_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_amount' ) : 1,
 				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
@@ -959,6 +972,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'This allow the limitation to the number of comment a user can have per post.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_restrict_comment',
 				'id'          => 'wps_wsfw_wallet_action_restrict_comment',
+				'min'         => 0,
 				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_restrict_comment' ) ) ? get_option( 'wps_wsfw_wallet_action_restrict_comment' ) : 1,
 				'placeholder' => __( 'User per post comment', 'wallet-system-for-woocommerce' ),
@@ -1124,6 +1138,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Give Cashback on Wallet when customer place order.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_cashback_amount',
 				'id'          => 'wps_wsfw_cashback_amount',
+				'min'         => 0,
 				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10,
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
@@ -1134,6 +1149,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter minimum cart amount.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_cart_amount_min',
 				'id'          => 'wps_wsfw_cart_amount_min',
+				'min'         => 0,
 				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10,
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
@@ -1145,6 +1161,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter maximum Cashback amount.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_cashback_amount_max',
 				'id'          => 'wps_wsfw_cashback_amount_max',
+				'min'         => 0,
 				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20,
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
@@ -1649,6 +1666,17 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( isset( $product_id ) && ! empty( $product_id ) && $product_id == $wallet_id ) {
 				$order_status = array( 'pending', 'on-hold', 'processing' );
 				if ( in_array( $old_status, $order_status ) && 'completed' == $new_status ) {
+
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$is_currency_added_in_wallet = $order->get_meta( 'wps_order_recharge_executed', true );
+					} else {
+						$is_currency_added_in_wallet = get_post_meta( $order_id, 'wps_order_recharge_executed', true );
+					}
+					if ( $is_currency_added_in_wallet == 'done' ) {
+						continue;
+					}
+
 					$amount        = $total;
 					$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount, $order_currency );
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
@@ -1677,6 +1705,13 @@ class Wallet_System_For_Woocommerce_Admin {
 					$balance   = $order->get_currency() . ' ' . $amount;
 					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharge.', 'wallet-system-for-woocommerce' );
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$order->update_meta_data( 'wps_order_recharge_executed', 'done' );
+						$order->save();
+					} else {
+						update_post_meta( $order_id, 'wps_order_recharge_executed', 'done' );
+					}
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
 						$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
@@ -1777,6 +1812,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Minimum amount needed to be withdrawal from wallet.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wallet_minimum_withdrawn_amount',
 				'id'          => 'wallet_minimum_withdrawn_amount',
+				'min'         => 0,
 				'value'       => get_option( 'wallet_minimum_withdrawn_amount', '' ),
 				'class'       => 'wsfw-number-class',
 			),
@@ -2387,6 +2423,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Certain amount want to add/deduct from all users wallet', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_wallet_amount_for_users',
 				'id'          => 'wsfw_wallet_amount_for_users',
+				'min'         => 0,
 				'value'       => '',
 				'class'       => 'wsfw-number-class',
 				'placeholder' => '',
@@ -2869,6 +2906,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter the amount/percentage to be deducted  from wallet during order renewal.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_sfw_amount_deduct_from_wallet_during_renewal_order',
 				'id'          => 'wps_sfw_amount_deduct_from_wallet_during_renewal_order',
+				'min'         => 0,
 				'value'       => get_option( 'wps_sfw_amount_deduct_from_wallet_during_renewal_order', '' ),
 				'class'       => 'wpg-number-class',
 			);
@@ -3165,6 +3203,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Enter Fee For Wallet withdrawal Process', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_wallet_withdrawal_fee_amount',
 				'id'          => 'wps_wsfwp_wallet_withdrawal_fee_amount',
+				'min'         => 0,
 				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfwp_wallet_withdrawal_fee_amount' ) ) ? get_option( 'wps_wsfwp_wallet_withdrawal_fee_amount' ) : 1,
 				'placeholder' => __( 'Enter wallet Transfer Fee amount', 'wallet-system-for-woocommerce' ),
@@ -3221,6 +3260,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfwp_wallet_transfer_fee_amount',
 				'id'          => 'wps_wsfwp_wallet_transfer_fee_amount',
 				'step'        => '0.01',
+				'min'         => 0,
 				'value'       => ! empty( get_option( 'wps_wsfwp_wallet_transfer_fee_amount' ) ) ? get_option( 'wps_wsfwp_wallet_transfer_fee_amount' ) : 1,
 				'placeholder' => __( 'Enter wallet Transfer Fee amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings wps_pro_settings',
@@ -3259,6 +3299,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_wallet_action_referal_amount',
 				'id'          => 'wps_wsfw_wallet_action_referal_amount',
 				'step'        => '0.01',
+				'min'         => 0,
 				'value'       => '',
 				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings wps_pro_settings',
@@ -3310,6 +3351,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Minimum amount needed to wallet withdrawal.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfwp_min_wallet_withdrawal_amount',
 				'id'          => 'wsfwp_min_wallet_withdrawal_amount',
+				'min'         => 0,
 				'value'       => get_option( 'wsfwp_min_wallet_withdrawal_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),
@@ -3319,6 +3361,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Maximum amount for wallet withdrawal.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfwp_max_wallet_withdrawal_amount',
 				'id'          => 'wsfwp_max_wallet_withdrawal_amount',
+				'min'         => 0,
 				'value'       => get_option( 'wsfwp_max_wallet_withdrawal_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),
@@ -3370,6 +3413,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Minimum amount needed to recharge wallet.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfwp_min_wallet_recharge_amount',
 				'id'          => 'wsfwp_min_wallet_recharge_amount',
+				'min'         => 0,
 				'value'       => get_option( 'wsfwp_min_wallet_recharge_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),
@@ -3379,6 +3423,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Maximum amount for wallet recharge.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfwp_max_wallet_recharge_amount',
 				'id'          => 'wsfwp_max_wallet_recharge_amount',
+				'min'         => 0,
 				'value'       => get_option( 'wsfwp_max_wallet_recharge_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),
@@ -3418,6 +3463,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Minimum amount needed to recharge transfer.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfwp_min_wallet_transfer_amount',
 				'id'          => 'wsfwp_min_wallet_transfer_amount',
+				'min'         => 0,
 				'value'       => get_option( 'wsfwp_min_wallet_transfer_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),
@@ -3427,6 +3473,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Maximum amount for wallet transfer.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfwp_max_wallet_transfer_amount',
 				'id'          => 'wsfwp_max_wallet_transfer_amount',
+				'min'         => 0,
 				'value'       => get_option( 'wsfwp_max_wallet_transfer_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),

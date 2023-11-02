@@ -401,8 +401,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders', 90 );
 			$this->loader->add_action( 'wp_loaded', $wsfw_plugin_public, 'wps_wsfw_referral_link_using_cookie' );
 			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules', 10 );
-			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class', 10, 2 );
-
+			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class', 10, 2 );			
 		}
 
 	}
@@ -787,10 +786,14 @@ class Wallet_System_For_Woocommerce {
 									class="mdc-text-field__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
 									name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 									id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
+									
 									<?php
+								
 									if ( 'number' == $wsfw_component['type'] ) {
 
-										if ( ! empty( $wsfw_component['min'] ) ) {
+									
+										if ( ! empty( $wsfw_component['min'] ) ||  $wsfw_component['min'] == 0 ) {
+										
 											?>
 										min="<?php echo esc_attr( $wsfw_component['min'] ); ?>"
 											<?php
@@ -1057,7 +1060,7 @@ class Wallet_System_For_Woocommerce {
 																					</span>
 											<span class="mdc-notched-outline__trailing"></span>
 										</span>
-									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" min=0 step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
 										</label>
 										<select id="wps_sfw_subscription_interval" name="wps_sfw_subscription_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_interval', 'day' ) ); ?>">
 									<?php
@@ -1093,7 +1096,7 @@ class Wallet_System_For_Woocommerce {
 																						</span>
 												<span class="mdc-notched-outline__trailing"></span>
 											</span>
-										<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+										<input class="mdc-text-field__input wws-text-class" min=0 name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
 											</label>
 											<select id="wps_sfw_subscription_expiry_interval" disabled="disabled" name="wps_sfw_subscription_expiry_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) ); ?>">
 									<?php
@@ -1330,7 +1333,8 @@ class Wallet_System_For_Woocommerce {
 			$headers = 'From: ' . $send_mail_through . "\r\n" .
 			'Reply-To: ' . $send_mail_through . "\r\n";
 		}
-		wp_mail( $to, $subject, $mail_message, $headers );
+		wc_mail( $to, $subject, $mail_message, $headers );
+		
 	}
 
 }

@@ -248,3 +248,40 @@ if ( ! function_exists( 'wps_wsfw_create_referral_code_wallet' ) ) {
 		return $pkey;
 	}
 }
+
+
+if ( ! function_exists( 'wps_wsfw_scl_show_social_share_link' ) ) {
+
+	/**
+	 * This function used to display the social sharing
+	 *
+	 * @name mwb_scl_show_social_share_link
+	 * @since 1.0.0
+	 * @link https://www.wpswings.com/
+	 */
+	function wps_wsfw_scl_show_social_share_link() {
+		//$session_cart = $this->mwb_smc_get_session_cart();
+		$hash         = wp_hash( $session_cart );
+
+		file_put_contents( get_temp_dir() . $hash, $session_cart );
+		$share_save_cart_later  = esc_html( wc_get_cart_url() ) . '?share=';
+		$share_save_cart_later .= esc_html( $hash );
+
+		/**
+		 * Referral link for url.
+		 *
+		 * @since 1.0.0
+		 */
+		$page_permalink = apply_filters( 'wps_scl_referral_link_url', $share_save_cart_later );
+
+		$html_div = '<div class="wps_wpr_wrapper_button">';
+
+		$html_div .= '<div class="wps_wpr_btn wps_wpr_common_class"><a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=' . $page_permalink . '" target="_blank"><img src ="' . WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/public/images/twitter.png"></a></div>';
+		$html_div .= '<div id="fb-root"></div><div class="fb-share-button wps_wpr_common_class" data-href="' . $page_permalink . '" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"><img src ="' . MWB_WOOCOMMERCE_SAVE_MY_CART_DIR_URL . '/public/images/fb-b.png"></a></div>';
+		$html_div .= '<a target="_blank" class="wps_wpr_whatsapp_share" href="https://api.whatsapp.com/send?text=' . rawurlencode( $page_permalink ) . '"><img src="' . WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/public/images/wht-g.png"></a>';
+		$html_div .= '</div>';
+
+		echo wp_kses_post( $html_div );
+	}
+}
+
