@@ -46,24 +46,10 @@
 		jQuery('.wps-wsfw-number').append('<input type="hidden" id="user_check_box_ids" name="user_check_box_ids" value="" />');
     
 		jQuery('#wsfw_wallet_amount_for_users').attr('step','any');
-		console.log(wsfw_admin_param.is_pro_plugin);
+
 		if (wsfw_admin_param.is_pro_plugin != 1){
-			jQuery('#wsfw_enable_wallet_negative_balance_limit').attr('disabled',true);
-			jQuery('#wps_wsfw_multiselect_wallet_recharge_restrict').attr('disabled',true);		
-			jQuery('#wsfw_enable_wallet_negative_balance_limit_order').attr('disabled',true);
-			jQuery('#wsfwp_withdrawal_page_message').attr('disabled',true);
-			jQuery('#wsfwp_withdrawal_admin_withdrawal_request_email').attr('disabled',true);
-			jQuery('#wps_wsfwp_cashback_withdrawal_fee_type').attr('disabled',true);
-			jQuery('#wps_wsfwp_wallet_withdrawal_fee_amount').attr('disabled',true);
-			jQuery('#wps_wsfwp_cashback_transfer_fee_type').attr('disabled',true);
-			jQuery('#wps_wsfwp_wallet_transfer_fee_amount').attr('disabled',true);
-			jQuery('#wps_wsfw_wallet_action_referal_amount').attr('disabled',true);
-			jQuery('#wps_wsfw_wallet_action_referral_description').attr('disabled',true);
-			jQuery('#wps_wsfw_wallet_order_auto_process').attr('disabled',true);
-			jQuery('#wps_wsfwp_wallet_recharge_tab_enable').attr('disabled',true);
-			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('disabled',true);
-			jQuery('#wps_wsfw_intrest_type_amount_negative_balance').attr('disabled',true);
-			jQuery('#wps_wsfw_intrest_text_name_amount_negative_balance').attr('disabled',true);
+
+			jQuery('.wps_pro_settings').attr('disabled','disabled');
 
 		}
 
