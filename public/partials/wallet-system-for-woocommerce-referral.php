@@ -39,6 +39,9 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 $wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wallet_action_referal_amount' );
 
 
+
+
+
 ?>
 
 <div class='content active'>
@@ -58,6 +61,7 @@ $wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wal
 		<img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'public/images/copy.png'; ?>" alt="Copy to clipboard"></button>
 		<span class="wps_tooltiptext_scl" id="myTooltip_referral"></span>
 	  </div>
+	  <?php wps_wsfw_scl_show_social_share_link(); ?>
 	</div>
 	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency() ) . ( esc_html( $wps_wsfw_wallet_action_registration_amount ) ) . esc_html__( ' amount to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
 </div>

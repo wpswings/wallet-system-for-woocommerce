@@ -267,11 +267,10 @@
 	$(document).on( 'blur','#wps_wallet_transfer_amount', function(){
 		var amount = $(this).val();
 		var maxamount = $(this).data('max');
-		
 		var min_transfer_amount = $(this).data('mintransfer');
 		var max_transfer_amount = $(this).data('maxtransfer');
 
-		if ( min_transfer_amount >= amount ){
+		if ( min_transfer_amount > amount ){
 			if( min_transfer_amount !=0 ){
 
 				$('.error').show();
@@ -323,7 +322,7 @@
 					return;
 		} 
 
-		if ( min_withdrwal_amount >= amount ){
+		if ( min_withdrwal_amount > amount ){
 			if( min_withdrwal_amount !=0 ){
 
 				$('.error').show();

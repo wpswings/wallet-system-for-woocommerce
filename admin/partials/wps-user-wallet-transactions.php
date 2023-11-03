@@ -59,7 +59,7 @@ $user = get_user_by( 'id', $user_id );
 					<th><?php esc_html_e( 'Payment Method', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Details', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
-					<th ><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></th>
+					<th id="user_transaction_action" ><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></th>
 					<th class="hide_date" ><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>

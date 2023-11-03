@@ -358,3 +358,46 @@ table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
   
   
 }
+
+#wps_wsfw_data_number{
+display:none;
+}
+
+.wps-wpg-transcation-section-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wps-section .wps-wpg-transcation-section-search form {
+  flex: 1;
+}
+
+.wps-section .wps-wpg-transcation-section-search table tbody tr:last-of-type {
+  border-spacing: 0;
+}
+
+.dataTables_length_wallet_custom_search_table {
+  position: relative;
+}
+
+form.wps_form_get_export_pdf {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 768px){
+  .wps-section .wps-wpg-transcation-section-search table tbody {
+      display: block;
+  }
+  form.wps_form_get_export_pdf {
+    position: relative;
+  }
+}
+
+.wps-form-select .select2 {
+  min-width: 200px;
+}

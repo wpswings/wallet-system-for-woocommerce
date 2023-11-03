@@ -488,11 +488,11 @@ class Wallet_System_For_Woocommerce_Common {
 					$wps_cash_back_provided = '';
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
-						$wps_cash_back_provided = 	$order->get_meta('wps_cash_back_provided', true );
+						$wps_cash_back_provided = $order->get_meta( 'wps_cash_back_provided', true );
 					} else {
 						$wps_cash_back_provided = get_post_meta( $order_id, 'wps_cash_back_provided', true );
 					}
-				
+
 					$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
 
 					if ( ! isset( $wps_cash_back_provided ) || empty( $wps_cash_back_provided ) ) {
@@ -503,13 +503,13 @@ class Wallet_System_For_Woocommerce_Common {
 									$credited_amount     = apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
 									$walletamount       += $credited_amount;
 									update_user_meta( $userid, 'wps_wallet', $walletamount );
-									
+
 									if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 										// HPOS usage is enabled.
 										$order->update_meta_data( 'wps_cashback_receive_amount', $credited_amount );
 										$order->update_meta_data( 'wps_cash_back_provided', 'done' );
 										$order->save();
-					
+
 									} else {
 										update_post_meta( $order_id, 'wps_cashback_receive_amount', $credited_amount );
 										update_post_meta( $order_id, 'wps_cash_back_provided', 'done' );
@@ -553,7 +553,7 @@ class Wallet_System_For_Woocommerce_Common {
 										$order->update_meta_data( 'wps_cashback_receive_amount', $credited_amount );
 										$order->update_meta_data( 'wps_cash_back_provided', 'done' );
 										$order->save();
-					
+
 									} else {
 										update_post_meta( $order_id, 'wps_cashback_receive_amount', $credited_amount );
 										update_post_meta( $order_id, 'wps_cash_back_provided', 'done' );
@@ -627,17 +627,17 @@ class Wallet_System_For_Woocommerce_Common {
 					$wps_cashback_receive_amount = '';
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
-						$wps_cashback_receive_amount = 	$order->get_meta('wps_cashback_receive_amount', true );
+						$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount', true );
 					} else {
 						$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount', true );
 					}
 					$updated                     = false;
 
 					if ( $wps_cashback_receive_amount > 0 ) {
-						$wps_cash_back_refunded ='';
+						$wps_cash_back_refunded = '';
 						if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 							// HPOS usage is enabled.
-							$wps_cash_back_refunded = 	$order->get_meta('wps_cash_back_refunded', true );
+							$wps_cash_back_refunded = $order->get_meta( 'wps_cash_back_refunded', true );
 						} else {
 							$wps_cash_back_refunded = get_post_meta( $order_id, 'wps_cash_back_refunded', true );
 						}
@@ -647,12 +647,12 @@ class Wallet_System_For_Woocommerce_Common {
 							$wps_cashback_amount = $walletamount - $wps_cashback_receive_amount;
 							$debited_amount      = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_cashback_amount );
 							update_user_meta( $userid, 'wps_wallet', $debited_amount );
-							
+
 							if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 								// HPOS usage is enabled.
 								$order->update_meta_data( 'wps_cash_back_refunded', 'done' );
 								$order->save();
-			
+
 							} else {
 								update_post_meta( $order_id, 'wps_cash_back_refunded', 'done' );
 							}
@@ -724,7 +724,7 @@ class Wallet_System_For_Woocommerce_Common {
 					$wps_cashback_receive_amount = '';
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
-						$wps_cashback_receive_amount = 	$order->get_meta('wps_cashback_receive_amount', true );
+						$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount', true );
 					} else {
 						$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount', true );
 					}
@@ -734,7 +734,7 @@ class Wallet_System_For_Woocommerce_Common {
 						$wps_cash_back_refunded = '';
 						if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 							// HPOS usage is enabled.
-							$wps_cash_back_refunded = 	$order->get_meta('wps_cash_back_cancelled', true );
+							$wps_cash_back_refunded = $order->get_meta( 'wps_cash_back_cancelled', true );
 						} else {
 							$wps_cash_back_refunded = get_post_meta( $order_id, 'wps_cash_back_cancelled', true );
 						}
@@ -748,11 +748,11 @@ class Wallet_System_For_Woocommerce_Common {
 								// HPOS usage is enabled.
 								$order->update_meta_data( 'wps_cash_back_cancelled', 'done' );
 								$order->save();
-			
+
 							} else {
 								update_post_meta( $order_id, 'wps_cash_back_cancelled', 'done' );
 							}
-							
+
 							$updated = true;
 						}
 					}
@@ -1237,7 +1237,7 @@ class Wallet_System_For_Woocommerce_Common {
 				$order = wc_get_order( $order_id );
 				if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 					// HPOS usage is enabled.
-					$wallet_paid = 	$order->get_meta('_paid_status_through_wallet', true );
+					$wallet_paid = $order->get_meta( '_paid_status_through_wallet', true );
 				} else {
 					$wallet_paid = get_post_meta( $order_id, '_paid_status_through_wallet', true );
 				}
@@ -1249,7 +1249,7 @@ class Wallet_System_For_Woocommerce_Common {
 				$commission_id = '';
 				if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 					// HPOS usage is enabled.
-					$commission_id = 	$order->get_meta('_commission_id', true );
+					$commission_id = $order->get_meta( '_commission_id', true );
 				} else {
 					$commission_id = get_post_meta( $order_id, '_commission_id', true );
 				}
@@ -1278,11 +1278,10 @@ class Wallet_System_For_Woocommerce_Common {
 						// HPOS usage is enabled.
 						$order->update_meta_data( '_paid_status_through_wallet', 'paid' );
 						$order->save();
-	
+
 					} else {
 						update_post_meta( $order_id, '_paid_status_through_wallet', 'paid' );
 					}
-					
 
 					$transaction_type = esc_html__( 'Wallet credited through Commission ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'comment.php?action=editcomment&c=' . $order_id ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
