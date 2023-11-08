@@ -1077,8 +1077,6 @@ class Wallet_User_Table extends WP_List_Table {
 		return $data;
 	}
 
-
-
 	/**
 	 * This function is used to restrict user.
 	 *
