@@ -79,9 +79,16 @@ $user = get_user_by( 'id', $user_id );
 							 esc_html( $transaction->id );
 							$date = date_create( $transaction->date );
 							echo esc_html( $date->getTimestamp() . $transaction->id );
+							$tranasction_symbol = '';
+							if ( 'credit' == $transaction->transaction_type_1 ) {
+								$tranasction_symbol = '+';
+							} elseif ( 'debit' == $transaction->transaction_type_1 ) {
+								$tranasction_symbol = '-';
+							}
+
 							?>
 							</td>
-							<td><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
+							<td class="wps_wallet_<?php echo $transaction->transaction_type_1 ?>" ><?php echo wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td><?php echo wp_kses_post( $transaction->payment_method ); ?></td>
 							<td><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
 							<td>

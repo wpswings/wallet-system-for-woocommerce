@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.3.2
 WC requires at least: 5.5.0
 WC tested up to: 8.2.1
-Stable tag: 2.5.3
+Stable tag: 2.5.4
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -252,7 +252,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.3 - Released on 3 November 2023 =
+= 2.5.4 - Released on 3 November 2023 =
 * New: Wallet Transaction Table enhancement
 * Fix: Wallet negative balance issue fix
 * New: Latest WP [6.3.2] and WC [8.2.1] Update
@@ -430,7 +430,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.3 - Released on 3 November 2023 =
+= 2.5.4 - Released on 3 November 2023 =
 * New: Wallet Transaction Table enhancement
 * Fix: Wallet negative balance issue fix
 * New: Latest WP [6.3.2] and WC [8.2.1] Update

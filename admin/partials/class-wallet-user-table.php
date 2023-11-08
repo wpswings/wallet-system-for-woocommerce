@@ -915,6 +915,7 @@ class Wallet_User_Table extends WP_List_Table {
 			'amount'   => esc_html__( 'Amount', 'wallet-system-for-woocommerce' ),
 			'action'   => esc_html__( 'Actions', 'wallet-system-for-woocommerce' ),
 			'res_user' => esc_html__( 'Restrict User', 'wallet-system-for-woocommerce' ),
+			'report' => esc_html__( 'Report User', 'wallet-system-for-woocommerce' ),
 		);
 		return $columns;
 	}
@@ -953,6 +954,7 @@ class Wallet_User_Table extends WP_List_Table {
 					'amount'   => $this->wsfw_get_amount( $user ),
 					'action'   => $this->wsfw_get_action( $user ),
 					'res_user' => $this->wsfw_get_res_user( $user ),
+					'report' => $this->wsfw_get_report( $user ),
 				);
 				$data[] = $x;
 			}
@@ -1055,6 +1057,27 @@ class Wallet_User_Table extends WP_List_Table {
 		$data .= '</span>';
 		return $data;
 	}
+
+
+	/**
+	 * This function is to show user wallet report.
+	 *
+	 * @param object $user user.
+	 * @return string
+	 */
+	public function wsfw_get_report( $user ) {
+		$wallet_bal = get_user_meta( $user->ID, 'wps_wallet', true );
+		$wallet_bal = ! empty( $wallet_bal ) ? $wallet_bal : 0;
+		$data  = '';
+		$data .= '<span>';
+
+		$data .= '<a href="' . esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wallet-system-for-woocommerce-report&report_userid=' . $user->ID ) . '" title="View Reports" >';
+		$data .= '<img src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/eye.svg"></a>';
+		$data .= '</span>';
+		return $data;
+	}
+
+
 
 	/**
 	 * This function is used to restrict user.

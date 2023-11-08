@@ -74,6 +74,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$screen = get_current_screen();
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 
+			
 			wp_enqueue_style( 'wps-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
 
 			wp_enqueue_style( 'wps-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
@@ -87,7 +88,15 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wps-datatable-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/css/jquery.dataTables.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wps-wallet-action-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-wallet-action.css', array(), $this->version, 'all' );
-
+			$style_url        = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/style-index.css';
+			wp_enqueue_style(
+				'wps-admin-react-styles',
+				$style_url,
+				array(),
+				time(),
+				false
+			);
+			return;
 		}
 
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
@@ -126,6 +135,63 @@ class Wallet_System_For_Woocommerce_Admin {
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
 
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
+			
+			// js for the multistep from.
+			$script_path      =  WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/index.js';
+			$path = preg_replace('/\?v=[\d]+$/', '', $script_path);
+		//	$fileTime = filemtime($path);
+			$script_asset_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/index.asset.php';
+			$script_asset      = file_exists( $script_asset_path )
+				? require $script_asset_path
+				: array(
+					'dependencies' => array(
+						'wp-hooks',
+						'wp-element',
+						'wp-i18n',
+						'wc-components',
+					),
+					'version'      => $path,
+				);
+			$script_url        = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/index.js';
+			wp_register_script(
+				'react-app-block',
+				$script_url,
+				$script_asset['dependencies'],
+				$script_asset['version'],
+				true
+			);
+			$user_data = array();
+			if( isset( $_GET['report_userid'] ) ) {
+				$user_id = ! empty( $_GET['report_userid'] ) ? sanitize_text_field( wp_unslash( $_GET['report_userid'] ) ) : '';
+				$start_date  = '';
+			 	$end_date    = '';
+				
+				
+				$user_data = $this->wps_wsfw_get_user_report($user_id, $start_date, $end_date );
+			
+			
+						
+				wp_enqueue_script( 'react-app-block' );
+				wp_localize_script(
+					'react-app-block',
+					'frontend_ajax_object',
+					array(
+						'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+						'wps_standard_nonce' => wp_create_nonce( 'ajax-nonce' ),
+						'user_data_credit' => $user_data['credit'] ,
+						'user_data_debit' =>  $user_data['debit'] ,
+						'user_data_current' => $user_data['current_amount'] ,
+	
+					)
+				);
+			
+			
+			
+			
+			}
+			
+			
+
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-wsfw-metarial-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -224,6 +290,102 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		return count_users()['total_users'];
 	}
+
+	/**
+	 * For report users.
+	 *
+	 * @return string
+	 */
+	public function wps_wsfw_get_user_report( $user_id, $start_date, $end_date ) {
+
+		global $wpdb;
+		$data = array();
+		$offset = 0;
+		$per_page = 20;
+
+		if ( empty($start_date)){
+			
+			$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.`user_id`= %s AND table1.transaction_type_1 ='credit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
+			
+			$user_id,
+			$per_page,
+			$offset
+		),
+		ARRAY_A
+	);
+	$results_debit = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE  table1.`user_id`= %s AND table1.transaction_type_1 ='debit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
+			
+			$user_id,
+			$per_page,
+			$offset
+		),
+		ARRAY_A
+	);
+
+
+		} else{
+			$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.date BETWEEN %s AND %s AND table1.`user_id`= %s AND table1.transaction_type_1 ='credit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
+			$start_date . ' 00:00:00',
+			$end_date . ' 23:59:59',
+			$user_id,
+			$per_page,
+			$offset
+		),
+		ARRAY_A
+	);
+	$results_debit = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.date BETWEEN %s AND %s AND table1.`user_id`= %s AND table1.transaction_type_1 ='debit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
+			$start_date . ' 00:00:00',
+			$end_date . ' 23:59:59',
+			$user_id,
+			$per_page,
+			$offset
+		),
+		ARRAY_A
+	);
+		}
+		
+
+
+		$amount_credited = 0;
+		if ( ! empty( $results ) ) {
+			foreach( $results as $key=>$value ){
+				
+				$user = get_user_by('email', $value['user_email']);
+				if( 'credit' == $value['transaction_type_1']){
+
+					$amount_credited  += intval( $value['amount'] );
+				
+				}
+		}
+
+		}
+		$amount_debited = 0;
+		if ( ! empty( $results_debit ) ){
+			foreach( $results_debit as $key=>$value ){
+				if( 'debit' == $value['transaction_type_1']){
+	
+									
+					$amount_debited  += intval( $value['amount'] );
+					
+				}
+			}	
+			
+		}
+		$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
+		$data      = array(
+			'credit'       => $amount_credited,
+			'debit'     => $amount_debited,
+			'current_amount'     => round( $wallet_bal ),
+				
+
+		);
+		
+return $data;
+	
+		}
+
+
+	
 
 
 	/**
@@ -1748,7 +1910,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$transaction_type = __( 'Wallet credited through purchased ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
 					$transaction_data = array(
 						'user_id'          => $update_wallet_userid,
-						'amount'           => $amount,
+						'amount'           => $credited_amount,
 						'currency'         => $order->get_currency(),
 						'payment_method'   => $payment_method,
 						'transaction_type' => htmlentities( $transaction_type ),
@@ -3605,6 +3767,28 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			wp_send_json_success();
 		}
+	}
+
+	/**
+	 * Update the option for settings from the multistep form.
+	 *
+	 * @name wps_membership_save_settings_filter
+	 * @since 1.0.0
+	 */
+	public function wps_membership_save_settings_filter() {
+		check_ajax_referer( 'ajax-nonce', 'nonce' );
+
+		$fromDate = ! empty( $_POST['fromdate'] ) ? sanitize_text_field( wp_unslash( $_POST['fromdate'] ) ) : ' ';
+		$toDate = ! empty( $_POST['toDate'] ) ? sanitize_text_field( wp_unslash( $_POST['toDate'] ) ) : ' ';
+		$user_id = ! empty( $_POST['user_id'] ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
+				
+		$user_data = $this->wps_wsfw_get_user_report($user_id, $fromDate, $toDate );
+		
+		$message             = array(
+			'data'     => $user_data,
+			'msgType' => 'success',
+		);
+		wp_send_json( $message );
 	}
 
 
