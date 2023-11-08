@@ -38,10 +38,6 @@ $wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 $wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wallet_action_referal_amount' );
 
-
-
-
-
 ?>
 
 <div class='content active'>
