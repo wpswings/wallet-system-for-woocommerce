@@ -1072,7 +1072,7 @@ class Wallet_User_Table extends WP_List_Table {
 		$data .= '<span>';
 
 		$data .= '<a href="' . esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wallet-system-for-woocommerce-report&report_userid=' . $user->ID ) . '" title="View Reports" >';
-		$data .= '<img src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/eye.svg"></a>';
+		$data .= '<img height="36" src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/report-colored.png"></a>';
 		$data .= '</span>';
 		return $data;
 	}
