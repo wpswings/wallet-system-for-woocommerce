@@ -3772,10 +3772,10 @@ return $data;
 	/**
 	 * Update the option for settings from the multistep form.
 	 *
-	 * @name wps_membership_save_settings_filter
+	 * @name wps_wsfw_filter_chart_data
 	 * @since 1.0.0
 	 */
-	public function wps_membership_save_settings_filter() {
+	public function wps_wsfw_filter_chart_data() {
 		check_ajax_referer( 'ajax-nonce', 'nonce' );
 
 		$fromDate = ! empty( $_POST['fromdate'] ) ? sanitize_text_field( wp_unslash( $_POST['fromdate'] ) ) : ' ';

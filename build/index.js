@@ -7049,7 +7049,7 @@ const ReportingSystem = () => {
       'user_id': user_id,
       'fromdate': fromDate,
       'toDate': toDate,
-      'action': 'wps_membership_save_settings_filter',
+      'action': 'wps_wsfw_filter_chart_data',
       nonce: frontend_ajax_object.wps_standard_nonce // pass the nonce here
     };
 

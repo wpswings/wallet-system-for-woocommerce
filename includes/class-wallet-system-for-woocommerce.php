@@ -280,8 +280,8 @@ class Wallet_System_For_Woocommerce {
 
 		$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $wsfw_plugin_admin, 'wps_wocuf_pro_populate_wallet_order_column', 10, 2 );
 		$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $wsfw_plugin_admin, 'wps_wsfw_wallet_add_columns_to_admin_orders', 99 );
-		$this->loader->add_action( 'wp_ajax_wps_membership_save_settings_filter', $wsfw_plugin_admin, 'wps_membership_save_settings_filter' );
-		$this->loader->add_action( 'wp_ajax_nopriv_wps_membership_save_settings_filter', $wsfw_plugin_admin, 'wps_membership_save_settings_filter' );
+		$this->loader->add_action( 'wp_ajax_wps_wsfw_filter_chart_data', $wsfw_plugin_admin, 'wps_wsfw_filter_chart_data' );
+		$this->loader->add_action( 'wp_ajax_nopriv_wps_wsfw_filter_chart_data', $wsfw_plugin_admin, 'wps_wsfw_filter_chart_data' );
 		
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
