@@ -181,7 +181,7 @@ class Wallet_System_For_Woocommerce_Public {
 									}
 									$user_id        = get_current_user_id();
 								} elseif ( ( $wallet_amount ) > ( $limit ) ) {
-									$total_balance = $wallet_amount + $limit;
+									$total_balance = intval( $wallet_amount ) + intval( $limit );
 									if ( $total_balance < $wps_cart_total ) {
 
 										unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );

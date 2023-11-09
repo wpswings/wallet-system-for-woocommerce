@@ -74,7 +74,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		$screen = get_current_screen();
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
 
-			
 			wp_enqueue_style( 'wps-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
 
 			wp_enqueue_style( 'wps-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
@@ -135,11 +134,11 @@ class Wallet_System_For_Woocommerce_Admin {
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
 
 		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
-			
+
 			// js for the multistep from.
-			$script_path      =  WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/index.js';
-			$path = preg_replace('/\?v=[\d]+$/', '', $script_path);
-		//	$fileTime = filemtime($path);
+			$script_path      = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/index.js';
+			$path = preg_replace( '/\?v=[\d]+$/', '', $script_path );
+			// $fileTime = filemtime($path);
 			$script_asset_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/index.asset.php';
 			$script_asset      = file_exists( $script_asset_path )
 				? require $script_asset_path
@@ -161,16 +160,13 @@ class Wallet_System_For_Woocommerce_Admin {
 				true
 			);
 			$user_data = array();
-			if( isset( $_GET['report_userid'] ) ) {
+			if ( isset( $_GET['report_userid'] ) ) {
 				$user_id = ! empty( $_GET['report_userid'] ) ? sanitize_text_field( wp_unslash( $_GET['report_userid'] ) ) : '';
 				$start_date  = '';
-			 	$end_date    = '';
-				
-				
-				$user_data = $this->wps_wsfw_get_user_report($user_id, $start_date, $end_date );
-			
-			
-						
+				$end_date    = '';
+
+				$user_data = $this->wps_wsfw_get_user_report( $user_id, $start_date, $end_date );
+
 				wp_enqueue_script( 'react-app-block' );
 				wp_localize_script(
 					'react-app-block',
@@ -178,19 +174,14 @@ class Wallet_System_For_Woocommerce_Admin {
 					array(
 						'ajaxurl'            => admin_url( 'admin-ajax.php' ),
 						'wps_standard_nonce' => wp_create_nonce( 'ajax-nonce' ),
-						'user_data_credit' => $user_data['credit'] ,
-						'user_data_debit' =>  $user_data['debit'] ,
-						'user_data_current' => $user_data['current_amount'] ,
-	
+						'user_data_credit' => $user_data['credit'],
+						'user_data_debit' => $user_data['debit'],
+						'user_data_current' => $user_data['current_amount'],
+
 					)
 				);
-			
-			
-			
-			
+
 			}
-			
-			
 
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
@@ -292,9 +283,12 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	/**
-	 * For report users.
+	 *  For report users.
 	 *
-	 * @return string
+	 * @param [type] $user_id is the selected user id.
+	 * @param [type] $start_date date range from.
+	 * @param [type] $end_date date range to.
+	 * @return array
 	 */
 	public function wps_wsfw_get_user_report( $user_id, $start_date, $end_date ) {
 
@@ -303,89 +297,88 @@ class Wallet_System_For_Woocommerce_Admin {
 		$offset = 0;
 		$per_page = 20;
 
-		if ( empty($start_date)){
-			
-			$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.`user_id`= %s AND table1.transaction_type_1 ='credit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
-			
-			$user_id,
-			$per_page,
-			$offset
-		),
-		ARRAY_A
-	);
-	$results_debit = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE  table1.`user_id`= %s AND table1.transaction_type_1 ='debit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
-			
-			$user_id,
-			$per_page,
-			$offset
-		),
-		ARRAY_A
-	);
+		if ( empty( $start_date ) ) {
 
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.`user_id`= %s AND table1.transaction_type_1 ='credit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
+					$user_id,
+					$per_page,
+					$offset
+				),
+				ARRAY_A
+			);
+			$results_debit = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE  table1.`user_id`= %s AND table1.transaction_type_1 ='debit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
+					$user_id,
+					$per_page,
+					$offset
+				),
+				ARRAY_A
+			);
 
-		} else{
-			$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.date BETWEEN %s AND %s AND table1.`user_id`= %s AND table1.transaction_type_1 ='credit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
-			$start_date . ' 00:00:00',
-			$end_date . ' 23:59:59',
-			$user_id,
-			$per_page,
-			$offset
-		),
-		ARRAY_A
-	);
-	$results_debit = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.date BETWEEN %s AND %s AND table1.`user_id`= %s AND table1.transaction_type_1 ='debit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
-			$start_date . ' 00:00:00',
-			$end_date . ' 23:59:59',
-			$user_id,
-			$per_page,
-			$offset
-		),
-		ARRAY_A
-	);
+		} else {
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.date BETWEEN %s AND %s AND table1.`user_id`= %s AND table1.transaction_type_1 ='credit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
+					$start_date . ' 00:00:00',
+					$end_date . ' 23:59:59',
+					$user_id,
+					$per_page,
+					$offset
+				),
+				ARRAY_A
+			);
+			$results_debit = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID` WHERE table1.date BETWEEN %s AND %s AND table1.`user_id`= %s AND table1.transaction_type_1 ='debit'  ORDER BY table1.id DESC LIMIT %d OFFSET %d",
+					$start_date . ' 00:00:00',
+					$end_date . ' 23:59:59',
+					$user_id,
+					$per_page,
+					$offset
+				),
+				ARRAY_A
+			);
 		}
-		
-
 
 		$amount_credited = 0;
 		if ( ! empty( $results ) ) {
-			foreach( $results as $key=>$value ){
-				
-				$user = get_user_by('email', $value['user_email']);
-				if( 'credit' == $value['transaction_type_1']){
+			foreach ( $results as $key => $value ) {
+
+				$user = get_user_by( 'email', $value['user_email'] );
+				if ( 'credit' == $value['transaction_type_1'] ) {
 
 					$amount_credited  += intval( $value['amount'] );
-				
-				}
-		}
 
+				}
+			}
 		}
 		$amount_debited = 0;
-		if ( ! empty( $results_debit ) ){
-			foreach( $results_debit as $key=>$value ){
-				if( 'debit' == $value['transaction_type_1']){
-	
-									
+		if ( ! empty( $results_debit ) ) {
+			foreach ( $results_debit as $key => $value ) {
+				if ( 'debit' == $value['transaction_type_1'] ) {
+
 					$amount_debited  += intval( $value['amount'] );
-					
+
 				}
-			}	
-			
+			}
 		}
 		$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
 		$data      = array(
 			'credit'       => $amount_credited,
 			'debit'     => $amount_debited,
 			'current_amount'     => round( $wallet_bal ),
-				
 
 		);
-		
-return $data;
-	
-		}
+
+		return $data;
+
+	}
 
 
-	
+
 
 
 	/**
@@ -3778,12 +3771,12 @@ return $data;
 	public function wps_wsfw_filter_chart_data() {
 		check_ajax_referer( 'ajax-nonce', 'nonce' );
 
-		$fromDate = ! empty( $_POST['fromdate'] ) ? sanitize_text_field( wp_unslash( $_POST['fromdate'] ) ) : ' ';
-		$toDate = ! empty( $_POST['toDate'] ) ? sanitize_text_field( wp_unslash( $_POST['toDate'] ) ) : ' ';
+		$from_date = ! empty( $_POST['fromdate'] ) ? sanitize_text_field( wp_unslash( $_POST['fromdate'] ) ) : ' ';
+		$to_date = ! empty( $_POST['toDate'] ) ? sanitize_text_field( wp_unslash( $_POST['toDate'] ) ) : ' ';
 		$user_id = ! empty( $_POST['user_id'] ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
-				
-		$user_data = $this->wps_wsfw_get_user_report($user_id, $fromDate, $toDate );
-		
+
+		$user_data = $this->wps_wsfw_get_user_report( $user_id, $from_date, $to_date );
+
 		$message             = array(
 			'data'     => $user_data,
 			'msgType' => 'success',
