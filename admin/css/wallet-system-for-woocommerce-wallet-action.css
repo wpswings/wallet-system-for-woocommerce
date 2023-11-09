@@ -246,6 +246,15 @@ body {font-family: Arial, Helvetica, sans-serif;}
   z-index: 99999;
 }
 
+.wps_wsfw_popup_shadow{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+
 .wps-c-modal__content-icon {
   display: block;
 }

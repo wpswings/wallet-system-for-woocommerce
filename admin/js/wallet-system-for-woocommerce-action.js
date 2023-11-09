@@ -27,6 +27,9 @@
 		jQuery(document).on( 'click', '.wps_wallet_lite_go_pro_popup_close', function() {
 			jQuery('.wps_wallet_lite_go_pro_popup_wrap').removeClass('wps_wallet_lite_go_pro_popup_show');
 		});
+    jQuery(document).on( 'click', '.wps_wsfw_popup_shadow', function() {
+			jQuery('.wps_wallet_lite_go_pro_popup_wrap').removeClass('wps_wallet_lite_go_pro_popup_show');
+		});
 
     jQuery(document).on( 'change', '#wps-wsfw-wallet-trabsacstion-numbers-drodown', function() {
 		

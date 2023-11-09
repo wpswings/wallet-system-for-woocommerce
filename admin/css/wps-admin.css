@@ -1520,7 +1520,7 @@ ul {
   transition: 0.3s linear all;
   visibility: hidden;
   width: 100%;
-  z-index: 999;
+  z-index: 99999;
 }
 .wps_wallet_lite_go_pro_popup_wrap.wps_wallet_lite_go_pro_popup_show {
   opacity: 1;

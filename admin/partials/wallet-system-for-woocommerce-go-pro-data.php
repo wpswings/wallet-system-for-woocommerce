@@ -20,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="wps_wallet_lite_go_pro_popup_wrap ">
 		<!-- Go pro popup main start. -->
+		<div class="wps_wsfw_popup_shadow"></div>
 		<div class="wps_wallet_lite_go_pro_popup">
 			<!-- Main heading. -->
 			<div class="wps_wallet_lite_go_pro_popup_head">
@@ -31,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>  
 
 			<!-- Notice icon. -->
-			<div class="wps_wallet_lite_go_pro_popup_head"><img class="wps_go_pro_images" src="<?php echo esc_attr( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/go-pro.png' ); ?>">
+			<div class="wps_wallet_lite_go_pro_popup_head"><img height="200" class="wps_go_pro_images" src="<?php echo esc_attr( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/go-pro.png' ); ?>">
 			</div>
 			
 				
