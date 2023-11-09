@@ -366,6 +366,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 		}
 		$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
+		if ( empty( $wallet_bal) ) {
+			$wallet_bal = 0;
+		}
 		$data      = array(
 			'credit'       => $amount_credited,
 			'debit'     => $amount_debited,
