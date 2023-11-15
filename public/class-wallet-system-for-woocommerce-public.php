@@ -215,7 +215,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function checkout_review_order_custom_field() {
-		$wps_cart_total = WC()->cart->total;
+		$wps_cart_total = WC()->cart->get_cart_subtotal();
 		$user_id        = get_current_user_id();
 		$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
 		$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
