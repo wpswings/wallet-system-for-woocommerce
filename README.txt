@@ -472,7 +472,3 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 * New: Wallet report section added
 * Fix: Design issues fixed in user transaction table
 * New: Latest WP [6.4.1] and WC [8.2.2] Update
-
-
-
-
