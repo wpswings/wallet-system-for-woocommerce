@@ -116,7 +116,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 				}
 			}
-			
+
 			$transaction_data = array(
 				'user_id'          => $user_id,
 				'amount'           => $updated_amount,

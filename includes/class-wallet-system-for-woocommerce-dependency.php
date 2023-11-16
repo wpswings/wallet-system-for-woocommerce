@@ -248,3 +248,4 @@ if ( ! function_exists( 'wps_wsfw_create_referral_code_wallet' ) ) {
 		return $pkey;
 	}
 }
+

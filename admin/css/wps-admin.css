@@ -1253,8 +1253,8 @@ ul {
 .wps-section .wps-wpg-transcation-section-search {
   background: #ffffff;
   border-radius: 10px;
-  margin: 15px 15px 8px 0;
-  padding: 15px;
+  margin: 15px 0 0;
+  padding: 15px 0;
 }
 
 .wps-section .wps-wpg-transcation-section-search table {
@@ -1288,10 +1288,7 @@ ul {
 }
 
 .wps-section .wps-wpg-transcation-section-search table tbody tr td span {
-  color: #2196f3;
-  font-family: NunitoSans-Bold;
-  font-size: 16px;
-  padding: 8px 3px;
+  padding: 5px 10px;
   display: inline-block;
   cursor: pointer;
 }
@@ -1523,7 +1520,7 @@ ul {
   transition: 0.3s linear all;
   visibility: hidden;
   width: 100%;
-  z-index: 999;
+  z-index: 99999;
 }
 .wps_wallet_lite_go_pro_popup_wrap.wps_wallet_lite_go_pro_popup_show {
   opacity: 1;

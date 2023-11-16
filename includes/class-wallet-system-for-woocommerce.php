@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.5.1';
+			$this->version = '2.5.4';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -239,11 +239,6 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_wallet_withdrawal_array', $wsfw_plugin_admin, 'wsfw_admin_withdrawal_setting_page', 10 );
 		$this->loader->add_action( 'wps_wsfw_before_common_settings_form', $wsfw_plugin_admin, 'wsfw_admin_save_tab_settings' );
 
-		$saved_older_keys = get_option( 'wsfw_saved_older_walletkeys', '' );
-		if ( isset( $saved_older_keys ) && 'true' !== $saved_older_keys ) {
-			$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wsfw_upgrade_completed', 10 );
-		}
-
 		$enable = get_option( 'wps_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
 			$this->loader->add_filter( 'manage_users_columns', $wsfw_plugin_admin, 'wsfw_add_wallet_col_to_user_table' );
@@ -285,6 +280,8 @@ class Wallet_System_For_Woocommerce {
 
 		$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $wsfw_plugin_admin, 'wps_wocuf_pro_populate_wallet_order_column', 10, 2 );
 		$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $wsfw_plugin_admin, 'wps_wsfw_wallet_add_columns_to_admin_orders', 99 );
+		$this->loader->add_action( 'wp_ajax_wps_wsfw_filter_chart_data', $wsfw_plugin_admin, 'wps_wsfw_filter_chart_data' );
+		$this->loader->add_action( 'wp_ajax_nopriv_wps_wsfw_filter_chart_data', $wsfw_plugin_admin, 'wps_wsfw_filter_chart_data' );
 
 		// download Pdf.
 		$this->loader->add_action( 'init', $wsfw_plugin_admin, 'wps_wsfw_download_pdf_file_callback' );
@@ -309,6 +306,11 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
 
 		}
+
+		/*cron for notification*/
+		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wps_wsfw_set_cron_for_plugin_notification' );
+		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $wsfw_plugin_admin, 'wps_wsfw_save_notice_message' );
+		$this->loader->add_action( 'wp_ajax_wps_wsfw_dismiss_notice_banner', $wsfw_plugin_admin, 'wps_wsfw_dismiss_notice_banner_callback' );
 
 	}
 
@@ -397,7 +399,6 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wp_loaded', $wsfw_plugin_public, 'wps_wsfw_referral_link_using_cookie' );
 			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules', 10 );
 			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class', 10, 2 );
-
 		}
 
 	}
@@ -500,9 +501,9 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'class-wallet-user-table',
 		);
 
-		$wsfw_default_tabs['wallet-system-wallet-transactions'] = array(
+		$wsfw_default_tabs['class-wallet-transaction-list-table'] = array(
 			'title' => esc_html__( 'Wallet Transactions', 'wallet-system-for-woocommerce' ),
-			'name'  => 'wallet-system-wallet-transactions',
+			'name'  => 'class-wallet-transaction-list-table',
 		);
 
 		// added tab for wallet withdrawal settings.
@@ -550,6 +551,7 @@ class Wallet_System_For_Woocommerce {
 			'title' => esc_html__( 'System Status', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-system-status',
 		);
+
 		$wsfw_default_tabs['wallet-system-for-woocommerce-overview']      = array(
 			'title' => esc_html__( 'Overview', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-overview',
@@ -782,10 +784,13 @@ class Wallet_System_For_Woocommerce {
 									class="mdc-text-field__input <?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
 									name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
 									id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
+									
 									<?php
+
 									if ( 'number' == $wsfw_component['type'] ) {
 
-										if ( ! empty( $wsfw_component['min'] ) ) {
+										if ( ! empty( $wsfw_component['min'] ) || 0 == $wsfw_component['min'] ) {
+
 											?>
 										min="<?php echo esc_attr( $wsfw_component['min'] ); ?>"
 											<?php
@@ -1005,7 +1010,6 @@ class Wallet_System_For_Woocommerce {
 												}
 												?>
 											"
-											<?php // checked( $wsfw_component['value'], 'on' );. ?>
 											<?php checked( get_option( $wsfw_component['name'], '' ), 'on' ); ?>
 											>
 										</div>
@@ -1052,7 +1056,7 @@ class Wallet_System_For_Woocommerce {
 																					</span>
 											<span class="mdc-notched-outline__trailing"></span>
 										</span>
-									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" min=0 step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
 										</label>
 										<select id="wps_sfw_subscription_interval" name="wps_sfw_subscription_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_interval', 'day' ) ); ?>">
 									<?php
@@ -1088,7 +1092,7 @@ class Wallet_System_For_Woocommerce {
 																						</span>
 												<span class="mdc-notched-outline__trailing"></span>
 											</span>
-										<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+										<input class="mdc-text-field__input wws-text-class" min=0 name="wps_wsfw_subscriptions_expiry_per_interval" id="wps_wsfw_subscriptions_expiry_per_interval" step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_expiry_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
 											</label>
 											<select id="wps_sfw_subscription_expiry_interval" disabled="disabled" name="wps_sfw_subscription_expiry_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_expiry_interval', 'day' ) ); ?>">
 									<?php
@@ -1325,7 +1329,8 @@ class Wallet_System_For_Woocommerce {
 			$headers = 'From: ' . $send_mail_through . "\r\n" .
 			'Reply-To: ' . $send_mail_through . "\r\n";
 		}
-		wp_mail( $to, $subject, $mail_message, $headers );
+		$flag = wc_mail( $to, $subject, $mail_message, $headers );
+
 	}
 
 }
