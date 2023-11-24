@@ -285,7 +285,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.4 - Released on 15 November 2023 =
+= 2.5.5 - Released on 15 November 2023 =
 * New: Wallet report section added
 * Fix: Design issues fixed in user transaction table
 * New: Latest WP [6.4.1] and WC [8.2.2] Update
@@ -468,7 +468,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.4 - Released on 15 November 2023 =
+= 2.5.5 - Released on 15 November 2023 =
 * New: Wallet report section added
 * Fix: Design issues fixed in user transaction table
 * New: Latest WP [6.4.1] and WC [8.2.2] Update
