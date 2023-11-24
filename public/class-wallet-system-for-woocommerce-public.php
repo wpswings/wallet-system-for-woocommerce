@@ -1335,6 +1335,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wsfw_woocommerce_before_cart_total_cashback_message() {
+
 		if ( 'on' == get_option( 'wps_wsfw_enable_cashback' ) ) :
 			$wallet_id          = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 			$is_wallet_recharge = false;
@@ -1441,6 +1442,8 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wsfw_display_category_wise_cashback_price_on_shop_page() {
+
+
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
