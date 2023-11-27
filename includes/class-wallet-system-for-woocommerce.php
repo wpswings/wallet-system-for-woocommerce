@@ -343,6 +343,8 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'mvx_parent_order_to_vendor_order_statuses_to_sync', $wsfw_plugin_common, 'wsfw_mvx_parent_order_to_vendor_order_statuses_to_sync', 10, 1 );
 			$this->loader->add_filter( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_wsfw_commission_ordeer_status_change', 10, 3 );
 		}
+		//woocommerce block code for wallet payment
+		$this->loader->add_action( 'woocommerce_blocks_loaded', $wsfw_plugin_common, 'wsp_wsfw_woocommerce_gateway_dummy_woocommerce_block_support' );
 	}
 
 	/**

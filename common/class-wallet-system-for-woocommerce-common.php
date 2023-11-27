@@ -1306,6 +1306,24 @@ class Wallet_System_For_Woocommerce_Common {
 		}
 
 	}
+	/**
+	 * Function to support Wallet Payment in Woocommerce Block.
+	 *
+	 * @return void
+	 */
+	public function wsp_wsfw_woocommerce_gateway_dummy_woocommerce_block_support(){
+		
+		if ( class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+			require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'includes/wcblocks/class-wallet-system-payments-blocks.php';
+
+			add_action(
+				'woocommerce_blocks_payment_method_type_registration',
+				function ( Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
+					$payment_method_registry->register( new WC_Gateway_Wallet_System_Payments_Blocks_Support() );
+				}
+			);
+		}
+	}
 
 }
 
