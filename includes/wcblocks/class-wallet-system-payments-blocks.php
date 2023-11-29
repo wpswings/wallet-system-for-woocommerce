@@ -40,7 +40,7 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 	 */
 	public function initialize() {
 		$this->settings = get_option( 'woocommerce_wallet_gateway_settings', array() );
-		$this->gateway  = new Wallet_Credit_Payment_Gateway();
+		$this->gateway  = new Wallet_Credit_Payment_Gateway( false );
 	}
 	/**
 	 * Extend the RMA Wallet system function
@@ -91,7 +91,7 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 	public function get_payment_method_data() {
 		return array(
 			'title'       => $this->get_setting( 'title' ),
-			'description' => $this->get_setting( 'description' ),
+		//	'description' => $this->get_setting( 'description' ),
 			'supports'    => array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ),
 		);
 	}
