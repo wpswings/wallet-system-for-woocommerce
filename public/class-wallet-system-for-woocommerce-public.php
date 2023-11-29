@@ -94,7 +94,6 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_public_enqueue_scripts() {
 
 		global $wp_query;
-		$is_endpoint = isset( $wp_query->query_vars['wps-wallet'] ) ? $wp_query->query_vars['wps-wallet'] : '';
 		wp_enqueue_script( 'wps-silk-script', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/slick/slick.min.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-public.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script(
@@ -108,20 +107,20 @@ class Wallet_System_For_Woocommerce_Public {
 					'_START_ - _END_ of _TOTAL_',
 					'wallet-system-for-woocommerce'
 				),
-				'wsfw_ajax_error'               => __( 'An error occured!', 'wallet-system-for-woocommerce' ),
-				'wsfw_amount_error'             => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
-				'wsfw_min_wallet_withdrawal'    => __( 'Wallet Withdrawal Amount Must Be Greater Than', 'wallet-system-for-woocommerce' ),
-				'wsfw_max_wallet_withdrawal'    => __( 'Wallet Withdrawal Amount Should Be Less Than', 'wallet-system-for-woocommerce' ),
-				'wsfw_min_wallet_transfer'      => __( 'Wallet Transfer Amount Must Be Greater Than', 'wallet-system-for-woocommerce' ),
-				'wsfw_max_wallet_transfer'      => __( 'Wallet Transfer Amount Should Be Less Than', 'wallet-system-for-woocommerce' ),
-				'wsfw_partial_payment_msg'      => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
-				'wsfw_apply_wallet_msg'         => __( 'Apply wallet', 'wallet-system-for-woocommerce' ),
-				'wsfw_transfer_amount_error'    => __( 'Transfer amount should be less than or equal to wallet balance.', 'wallet-system-for-woocommerce' ),
-				'wsfw_withdrawal_amount_error'  => __( 'Withdrawal amount should be less than or equal to wallet balance.', 'wallet-system-for-woocommerce' ),
-				'wsfw_recharge_minamount_error' => __( 'Recharge amount should be greater than or equal to ', 'wallet-system-for-woocommerce' ),
-				'wsfw_recharge_maxamount_error' => __( 'Recharge amount should be less than or equal to ', 'wallet-system-for-woocommerce' ),
-				'wsfw_wallet_transfer'          => __( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ),
-				'wsfw_unset_amount'             => __( 'Wallet Amount Removed', 'wallet-system-for-woocommerce' ),
+				'wsfw_ajax_error'                => __( 'An error occured!', 'wallet-system-for-woocommerce' ),
+				'wsfw_amount_error'              => __( 'Enter amount greater than 0', 'wallet-system-for-woocommerce' ),
+				'wsfw_min_wallet_withdrawal'     => __( 'Wallet Withdrawal Amount Must Be Greater Than', 'wallet-system-for-woocommerce' ),
+				'wsfw_max_wallet_withdrawal'     => __( 'Wallet Withdrawal Amount Should Be Less Than', 'wallet-system-for-woocommerce' ),
+				'wsfw_min_wallet_transfer'       => __( 'Wallet Transfer Amount Must Be Greater Than', 'wallet-system-for-woocommerce' ),
+				'wsfw_max_wallet_transfer'       => __( 'Wallet Transfer Amount Should Be Less Than', 'wallet-system-for-woocommerce' ),
+				'wsfw_partial_payment_msg'       => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
+				'wsfw_apply_wallet_msg'          => __( 'Apply wallet', 'wallet-system-for-woocommerce' ),
+				'wsfw_transfer_amount_error'     => __( 'Transfer amount should be less than or equal to wallet balance.', 'wallet-system-for-woocommerce' ),
+				'wsfw_withdrawal_amount_error'   => __( 'Withdrawal amount should be less than or equal to wallet balance.', 'wallet-system-for-woocommerce' ),
+				'wsfw_recharge_minamount_error'  => __( 'Recharge amount should be greater than or equal to ', 'wallet-system-for-woocommerce' ),
+				'wsfw_recharge_maxamount_error'  => __( 'Recharge amount should be less than or equal to ', 'wallet-system-for-woocommerce' ),
+				'wsfw_wallet_transfer'           => __( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ),
+				'wsfw_unset_amount'              => __( 'Wallet Amount Removed', 'wallet-system-for-woocommerce' ),
 			)
 		);
 		wp_enqueue_script( $this->plugin_name );
@@ -134,6 +133,34 @@ class Wallet_System_For_Woocommerce_Public {
 			wp_enqueue_script( 'wps-script-wallet', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-enable-link.js', array(), $this->version, true );
 		}
 
+		
+
+	}
+
+	public function wsfw_wps_enqueue_script_block_eheckout(){
+		$block_data = $this->checkout_review_order_custom_field_block_checkout();
+		$user_id        = get_current_user_id();
+		$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
+		$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
+
+		$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
+		$block_wallet_partial_name = esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . ( wc_price( $wallet_amount ) ) . ')'; ;
+		wp_register_script( 'wallet-system-for-woocommerce-block-checkout', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-block-checkout.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script(
+			'wallet-system-for-woocommerce-block-checkout',
+			'wsfw_public_param',
+			array(
+				'ajaxurl'                   => admin_url( 'admin-ajax.php' ),
+				'nonce'                     => wp_create_nonce( 'ajax-nonce' ),
+				'wsfw_unset_amount'              => __( 'Wallet Amount Removed', 'wallet-system-for-woocommerce' ),
+				'partial_payment_data_html'      => $block_data,
+				'partial_payment_data_html_name' => $block_wallet_partial_name,
+				'wsfw_partial_payment_msg'       => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
+				'wsfw_apply_wallet_msg'          => __( 'Apply wallet', 'wallet-system-for-woocommerce' ),
+			)
+		);
+		wp_enqueue_script( 'wallet-system-for-woocommerce-block-checkout' );
+		
 	}
 
 
@@ -207,6 +234,127 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		return $available_gateways;
+	}
+
+	/**
+	 * Show wallet as discount ( when wallet amount is less than cart total ) in review order table.
+	 *
+	 * @return void
+	 */
+	public function checkout_review_order_custom_field_block_checkout() {
+		$block_checkout = '';
+		$wps_cart_total = WC()->cart->get_cart_subtotal();
+		$user_id        = get_current_user_id();
+		$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
+		$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
+		$limit = get_option( 'wsfw_enable_wallet_negative_balance_limit' );
+		$order_number = get_user_meta( $user_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
+		$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
+
+		if ( $user_id ) {
+		echo	$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
+			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
+			$is_pro_plugin = false;
+			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+			if ( $is_pro_plugin ) {
+				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+
+					if ( intval( $order_number ) < intval( $order_limit ) ) {
+
+						return;
+					}
+
+					if ( ( $wallet_amount ) < ( $limit ) ) {
+						$total_balance = $wallet_amount + $limit;
+						if ( $total_balance >= $wps_cart_total ) {
+
+							return;
+						}
+					}
+				}
+			}
+
+			if ( 'on' != $wsfw_wallet_partial_payment_method_enable ) {
+				return;
+			}
+			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
+			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
+
+			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
+			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
+				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
+					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
+						?>	
+					<tr class="partial_payment">
+						<td></td>
+						<td>
+							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { 
+								
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" '. checked( $this->is_enable_wallet_partial_payment(), true, true ).' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
+								
+							
+							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) {
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" '. checked( $this->is_enable_wallet_partial_payment(), true, true ).' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
+								
+							}
+							?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span id="wps_wallet_show_total_msg"></span>
+						</td>
+					</tr>
+						<?php
+					}
+				} elseif ( $wallet_amount >= $wps_cart_total ) {
+					$wps_has_subscription = false;
+
+					foreach ( WC()->cart->get_cart_contents() as $key => $values ) {
+						if ( function_exists( 'wps_sfw_check_product_is_subscription' ) ) {
+							if ( wps_sfw_check_product_is_subscription( $values['data'] ) ) {
+								$wps_has_subscription = true;
+								break;
+							}
+						}
+					}
+
+					if ( $wps_has_subscription ) {
+						?>
+							
+					<tr class="partial_payment">
+						<td></td>
+						<td>
+							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { 
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" '. checked( $this->is_enable_wallet_partial_payment(), true, true ).' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
+								
+								?>
+							
+								<?php
+							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) {
+								
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" '. checked( $this->is_enable_wallet_partial_payment(), true, true ).' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
+								
+								?>
+							
+								<?php
+							}
+							?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span id="wps_wallet_show_total_msg"></span>
+						</td>
+					</tr>
+						<?php
+					}
+				}
+			}
+		}
+		return $block_checkout;
+								
+
 	}
 
 	/**
