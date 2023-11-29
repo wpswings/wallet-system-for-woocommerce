@@ -915,7 +915,7 @@ class Wallet_User_Table extends WP_List_Table {
 			'amount'   => esc_html__( 'Amount', 'wallet-system-for-woocommerce' ),
 			'action'   => esc_html__( 'Actions', 'wallet-system-for-woocommerce' ),
 			'res_user' => esc_html__( 'Restrict User', 'wallet-system-for-woocommerce' ),
-			'report' => esc_html__( 'Report User', 'wallet-system-for-woocommerce' ),
+			'report' => esc_html__( 'Report', 'wallet-system-for-woocommerce' ),
 		);
 		return $columns;
 	}
