@@ -252,7 +252,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
 
 		if ( $user_id ) {
-		echo	$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
+			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
 			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
 			$is_pro_plugin = false;
 			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
@@ -1232,6 +1232,17 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 
+	
+	/** Order in case of currency.
+	 *
+	 * @param [type] $order_id is the current order id.
+	 * @return void
+	 */
+	public function wps_wocuf_initate_upsell_orders_api_checkout_org( $order_id ) {
+
+
+
+	}
 
 
 	/** Order in case of currency.
