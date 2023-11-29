@@ -1312,6 +1312,10 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @return void
 	 */
 	public function wsp_wsfw_woocommerce_gateway_dummy_woocommerce_block_support(){
+
+		if (! class_exists('Wallet_Credit_Payment_Gateway')){
+			return;
+		}
 		
 		if ( class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
 			require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'includes/wcblocks/class-wallet-system-payments-blocks.php';
