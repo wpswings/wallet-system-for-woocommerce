@@ -46,7 +46,7 @@ const ReportingSystem = () => {
     
     axios.post(frontend_ajax_object.ajaxurl, qs.stringify(user) )
         .then(res => {
-           debugger;
+        
 
             console.log( res.data);
             const data = [
