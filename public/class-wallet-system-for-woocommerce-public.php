@@ -182,12 +182,13 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! empty( WC()->session ) ) {
 
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
+					
 						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
 				} elseif ( isset( $wallet_amount ) ) {
-
+				
 					if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 						
 						$limit = get_option( 'wsfw_enable_wallet_negative_balance_limit' );
@@ -243,7 +244,11 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function checkout_review_order_custom_field_block_checkout() {
 		$block_checkout = '';
-		$wps_cart_total = WC()->cart->get_cart_subtotal();
+		$wps_cart_total = WC()->cart->get_total('edit');	
+		$cart_fee = WC()->cart->get_fee_total();
+		
+		$wps_cart_total = $wps_cart_total + abs( $cart_fee );
+
 		$user_id        = get_current_user_id();
 		$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
 		$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
@@ -363,7 +368,15 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function checkout_review_order_custom_field() {
-		$wps_cart_total = WC()->cart->get_cart_subtotal();
+
+		$wps_cart_total = WC()->cart->get_total('edit');	
+		$cart_fee = WC()->cart->get_fee_total();
+		
+		$wps_cart_total = $wps_cart_total + abs( $cart_fee );
+
+
+		// Remove currency symbol and get numeric value
+		
 		$user_id        = get_current_user_id();
 		$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
 		$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
@@ -402,7 +415,9 @@ class Wallet_System_For_Woocommerce_Public {
 
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
 			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
-				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
+
+				if ( intval( $wallet_amount ) < intval( $wps_cart_total || $this->is_enable_wallet_partial_payment()  ) ) {
+					
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 						?>	
 					<tr class="partial_payment">
@@ -854,8 +869,10 @@ class Wallet_System_For_Woocommerce_Public {
 	 *
 	 * @return Boolean
 	 */
+	
 	public function is_enable_wallet_partial_payment() {
 		$is_enable = false;
+		
 		if ( is_user_logged_in() && ( ( ! is_null( wc()->session ) && wc()->session->get( 'is_wallet_partial_payment', false ) ) ) ) {
 			$is_enable = true;
 		}
@@ -1442,7 +1459,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 				if ( 'percent' === $wsfw_cashbak_type ) {
 
-					 $total                        = wc()->cart->get_total( 'edit' );
+					$total                        = wc()->cart->get_total( 'edit' );
 					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_total( 'edit' ) );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
 
