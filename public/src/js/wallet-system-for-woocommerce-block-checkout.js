@@ -4,7 +4,7 @@ jQuery( document ).ready(function() {
 
     setTimeout(() => { 
         
-        if (wsfw_public_param.partial_payment_data_html_name != iundefined ){
+        if (wsfw_public_param.partial_payment_data_html_name != undefined ){
             jQuery('.wc-block-components-totals-footer-item').append('<table><tr class="partial_payment"><td>'+ wsfw_public_param.partial_payment_data_html_name +'</td><td>'+ wsfw_public_param.partial_payment_data_html +'</td></tr></table>');		
    
         }
