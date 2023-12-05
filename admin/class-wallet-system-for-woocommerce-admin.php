@@ -400,6 +400,8 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( ! is_int( $thepostid ) ) {
 				$thepostid = $post->ID;
 			}
+		} else{
+			$thepostid = $_GET['id'];
 		}
 
 		$order_id = $thepostid;
@@ -407,6 +409,8 @@ class Wallet_System_For_Woocommerce_Admin {
 		$order     = wc_get_order( $order_id );
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 			// HPOS usage is enabled.
+		
+			
 			$is_refunded = $order->get_meta( '_wps_wallet_partial_payment_refunded', true );
 		} else {
 			$is_refunded = get_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
