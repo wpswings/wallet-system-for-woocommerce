@@ -150,7 +150,11 @@ class Wallet_System_For_Woocommerce_Public {
 		
 		} else{
 			$block_wallet_partial_name = '';
+			$block_data = '';
 		}
+
+		
+
 		wp_register_script( 'wallet-system-for-woocommerce-block-checkout', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-block-checkout.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script(
 			'wallet-system-for-woocommerce-block-checkout',
@@ -166,7 +170,6 @@ class Wallet_System_For_Woocommerce_Public {
 			)
 		);
 		wp_enqueue_script( 'wallet-system-for-woocommerce-block-checkout' );
-		
 	}
 
 
@@ -295,17 +298,21 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
+						$is_checked_data = $this->is_enable_wallet_partial_payment();
+						if ($is_checked_data){
+							$is_checked_data = "checked='checked'";
+						}
 						?>	
 					<tr class="partial_payment">
 						<td></td>
 						<td>
 							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { 
 								
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" '. checked( $this->is_enable_wallet_partial_payment(), true, true ).' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" '. $is_checked_data .' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
 								
 							
 							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) {
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" '. checked( $this->is_enable_wallet_partial_payment(), true, true ).' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" '. $is_checked_data .' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
 								
 							}
 							?>
@@ -331,20 +338,25 @@ class Wallet_System_For_Woocommerce_Public {
 					}
 
 					if ( $wps_has_subscription ) {
+
+						$is_checked_data = $this->is_enable_wallet_partial_payment();
+						if ($is_checked_data){
+							$is_checked_data = "checked='checked'";
+						}
 						?>
 							
 					<tr class="partial_payment">
 						<td></td>
 						<td>
 							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { 
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" '. checked( $this->is_enable_wallet_partial_payment(), true, true ).' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" '. $is_checked_data .' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
 								
 								?>
 							
 								<?php
 							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) {
 								
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" '. checked( $this->is_enable_wallet_partial_payment(), true, true ).' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" '. $is_checked_data .' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
 								
 								?>
 							
@@ -504,6 +516,8 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function remove_wallet_session( $order_id ) {
+
+		
 		$customer_id = get_current_user_id();
 		if ( $customer_id > 0 ) {
 			if ( ! empty( WC()->session ) ) {
@@ -909,13 +923,16 @@ class Wallet_System_For_Woocommerce_Public {
 					'id'     => 'via_wallet_partial_payment',
 					'name'   => __( 'Via wallet', 'wallet-system-for-woocommerce' ),
 					'amount' => (float) -1 * $discount,
+					'taxable'=> false,
+					'tax_class' =>'zero-rate',
 				);
 			}
 		}
 
 		if ( $this->is_enable_wallet_partial_payment() ) {
 			if ( ! empty( $fee ) ) {
-				wc()->cart->fees_api()->add_fee( $fee );
+				wc()->cart->fees_api()->add_fee( $fee  );
+					
 			}
 		} else {
 			$all_fees = wc()->cart->fees_api()->get_fees();
@@ -1162,7 +1179,10 @@ class Wallet_System_For_Woocommerce_Public {
 		$cart_items = $cart_object->cart_contents;
 		if ( WC()->session->__isset( 'recharge_amount' ) ) {
 			$wallet_recharge = WC()->session->get( 'recharge_amount' );
-			$price           = $wallet_recharge;
+			if ( ! empty( $wallet_recharge ) ) {
+				$price           = $wallet_recharge;
+			}
+			
 
 			if ( ! empty( $cart_items ) ) {
 				foreach ( $cart_items as $key => $value ) {
@@ -1222,8 +1242,12 @@ class Wallet_System_For_Woocommerce_Public {
 							update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
 							update_post_meta( $wallet_id, '_regular_price', '' );
 						}
+
+						$value['data']->set_price( $price );
+					} else{
+						$value['data']->set_price( $price );
 					}
-					$value['data']->set_price( $price );
+					
 				}
 			}
 		}
@@ -1237,6 +1261,8 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function after_remove_wallet_from_cart( $removed_cart_item_key, $cart ) {
+
+		
 		$line_item  = $cart->removed_cart_contents[ $removed_cart_item_key ];
 		$product_id = $line_item['product_id'];
 		$wallet_id  = get_option( 'wps_wsfw_rechargeable_product_id', '' );
@@ -2059,7 +2085,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return mixed
 	 */
 	public function wsfw_wallet_cart_totals_fee_html( $cart_totals_fee_html, $fees ) {
-
+	
 		foreach ( $fees as $key => $fee ) {
 
 			if ( 'via_wallet_partial_payment' == $fee ) {
@@ -2069,6 +2095,10 @@ class Wallet_System_For_Woocommerce_Public {
 				break;
 			}
 		}
+	
+		
+
+
 		return wc_price( $fees );
 	}
 
@@ -2336,4 +2366,37 @@ class Wallet_System_For_Woocommerce_Public {
 		return $tax_class;
 	}
 
+
+	
+	/**
+	 * Remove tax from partial payment.
+	 *
+	 * @param [type] $cart_total is the current cart total.
+	 * @param [type] $cart is the whole cart data.
+	 * @return void
+	 */
+	public function wps_wsfw_woocommerce_calculated_total_for_tax( $cart_total, $cart ) {
+
+			 $cart_tatal_tax  = '';
+			 $fees =  $cart->fees_api()->get_fees();
+			foreach ( $fees as $key => $fee ) {
+	
+				if ( 'via_wallet_partial_payment' == $fee->id ) {
+					// gets the data to recalculate the cart total.
+					$cart_tatal_tax = $fee->tax;
+					if ( ! empty( $cart_tatal_tax ) ) {
+						
+						$cart_total = $cart_total + abs($cart_tatal_tax);
+						WC()->cart->set_total( $cart_total );
+					}
+					break;
+				}
+			}
+		return $cart_total ;
+	
+	}
+
 }
+
+
+

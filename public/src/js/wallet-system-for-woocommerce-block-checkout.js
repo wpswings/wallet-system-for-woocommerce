@@ -5,8 +5,11 @@ jQuery( document ).ready(function() {
     setTimeout(() => { 
         
         if (wsfw_public_param.partial_payment_data_html_name != undefined ){
-            jQuery('.wc-block-components-totals-footer-item').append('<table><tr class="partial_payment"><td>'+ wsfw_public_param.partial_payment_data_html_name +'</td><td>'+ wsfw_public_param.partial_payment_data_html +'</td></tr></table>');		
+          
+                jQuery('.wc-block-components-totals-footer-item').append('<table><tr class="partial_payment"><td>'+ wsfw_public_param.partial_payment_data_html_name +'</td><td>'+ wsfw_public_param.partial_payment_data_html +'</td></tr></table>');		
    
+          
+           
         }
     }, "1000");
 
@@ -24,12 +27,41 @@ jQuery( document ).ready(function() {
 
     });
 
+    // Unset totally amount in partial payment.
+    jQuery(document).on( 'click','#partial_total_payment_wallet', function(){
+			var checked = jQuery( '#partial_total_payment_wallet' ).is(':checked');
+			if ( ! checked ) {
+				jQuery.ajax({
+					type: 'POST',
+					url: wsfw_public_param.ajaxurl,
+					data: {
+						action: 'unset_wallet_session',
+						checked: checked,
+	
+					},
+					success: function( response ) {
+						jQuery('#wps_wallet_show_total_msg').show();
+						jQuery('#wps_wallet_show_total_msg').css('color', 'red');
+						jQuery('#wps_wallet_show_total_msg').html(wsfw_public_param.wsfw_unset_amount);
+						setTimeout(function(){
+							jQuery(document.body).trigger('update_checkout');
+						 }, 1000);
+					}
+	
+				}) .fail(function ( response ) {
+					jQuery('#wps_wallet_show_total_msg').show();
+					jQuery('#wps_wallet_show_total_msg').css('color', 'red');
+					jQuery( '#wps_wallet_show_total_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+				});
+			}
+		});
 
-    // Totally partial payment.
-    jQuery( '#partial_total_payment_wallet' ).on('click', function(){
+
+        // Totally partial payment.
+        jQuery(document).on( 'click','#partial_total_payment_wallet', function(){
         if ( jQuery('#partial_total_payment_wallet:checked').val() == 'total_enable' ) {
             jQuery('#wps_wallet_show_total_msg').show();
-
+            debugger;
             var wallet_amount = jQuery( '#partial_total_payment_wallet' ).data('walletamount');
             var amount        = jQuery( '#wallet_amount' ).val();
             var checked       = jQuery( '#partial_total_payment_wallet' ).is(':checked');
@@ -42,17 +74,17 @@ jQuery( document ).ready(function() {
                     wallet_amount: wallet_amount,
                     amount: amount,
                     checked: checked,
-
                 },
                 dataType: 'JSON',
                 success: function( response ) {
-                     
+                     debugger;
                     if ( response.status == true ) {
                         jQuery('#wps_wallet_show_total_msg').css('color', 'green');
                         jQuery( '#wps_wallet_show_total_msg' ).html(response.message);
                         setTimeout(function(){
                             jQuery(document.body).trigger('update_checkout');
                          }, 1000);
+                        window.location.reload();
                     } else {
                         jQuery('#wps_wallet_show_total_msg').css('color', 'red');
                         jQuery( '#wps_wallet_show_total_msg' ).html(response.message);
@@ -70,6 +102,7 @@ jQuery( document ).ready(function() {
                                 setTimeout(function(){
                                     jQuery(document.body).trigger('update_checkout');
                                  }, 1000);
+                                window.location.reload();
                             }
             
                         }) .fail(function ( response ) {

@@ -266,7 +266,7 @@
 		});
 		$(document).on("click", "#wps_wallet_submit_val", function(e){
 			e.preventDefault(e);
-			 
+			 jQuery("#wps_wallet_submit_val").attr('disabled',true);
 			var user_wallet_amount =  parseInt($('#wallet-pop-up-user-id').attr('amount'));
 			var wallet_amount =parseInt( $('#wps_wallet-edit-popup-input').val() );
 			if (jQuery('#debit').prop('checked') == true) {
@@ -280,6 +280,7 @@
 				
 			}
 			$('#wps_wallet_submit_val_submit').trigger('click');
+			jQuery("#wps_wallet_submit_val").attr('disabled',true);
 		});
 		
 

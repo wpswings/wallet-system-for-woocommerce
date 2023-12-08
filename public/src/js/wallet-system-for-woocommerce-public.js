@@ -73,6 +73,7 @@
 							success: function( response ) {
 								 
 								if ( response.status == true ) {
+									debugger;
 									$('#wps_wallet_show_total_msg').css('color', 'green');
 									$( '#wps_wallet_show_total_msg' ).html(response.message);
 									setTimeout(function(){
@@ -195,6 +196,7 @@
 				},
 				dataType: 'JSON',
 				success: function( response ) {
+					debugger;
 					if ( response.status == true ) {
 						$( '.ajax_msg' ).html(response.message);
 						$(document.body).trigger('update_checkout');

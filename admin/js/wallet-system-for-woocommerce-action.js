@@ -67,7 +67,28 @@
       jQuery('#todate_transaction').val('');
       jQuery('#wps_wsfw_data_number').trigger('click');
 		});
+
+    jQuery(document).on( 'change', '#wps_wsfw_cashback_type', function() {
+      var cashback_type = jQuery('#wps_wsfw_cashback_rule').val();
+
+      if ( cashback_type == 'percent' ) {
     
+        jQuery('#wps_wsfw_cashback_amount').attr('max',100);
+  
+      } else{
+        jQuery('#wps_wsfw_cashback_amount').attr('max','');
+      }
+		});
+
+    var cashback_type = jQuery('#wps_wsfw_cashback_type').val();
+
+    if ( cashback_type == 'percent' ) {
+  
+      jQuery('#wps_wsfw_cashback_amount').attr('max',100);
+
+    } else{
+      jQuery('#wps_wsfw_cashback_amount').attr('max','');
+    }
 
     
     

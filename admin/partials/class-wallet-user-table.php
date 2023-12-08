@@ -1127,7 +1127,7 @@ class Wallet_User_Table extends WP_List_Table {
 						</label>
 					</div>
 					<div class="wps_wallet-edit-popup-control">
-						<input type="number" name="wps_wallet-edit-popup-input" step="0.1" id="wps_wallet-edit-popup-input"  class="wps_wallet-edit-popup-fill">
+						<input type="number" name="wps_wallet-edit-popup-input" step="0.01" id="wps_wallet-edit-popup-input"  class="wps_wallet-edit-popup-fill">
 						<p class="error"></p>
 					</div>
 				</div>
