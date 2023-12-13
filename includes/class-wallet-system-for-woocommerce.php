@@ -344,8 +344,10 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_wsfw_commission_ordeer_status_change', 10, 3 );
 		}
 		//woocommerce block code for wallet payment
-		$this->loader->add_action( 'woocommerce_blocks_loaded', $wsfw_plugin_common, 'wsp_wsfw_woocommerce_gateway_dummy_woocommerce_block_support' );
-	}
+		$this->loader->add_action( 'woocommerce_blocks_loaded', $wsfw_plugin_common, 'wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support' );
+		$this->loader->add_filter( 'woocommerce_order_get_tax_totals', $wsfw_plugin_common, 'wps_wsfw_woocommerce_order_get_tax_totals', 99999, 2 );
+	
+	}		
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
@@ -399,6 +401,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_cart_get_fee_taxes', $wsfw_plugin_public, 'wsfw_wallet_get_fee_taxes', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
 			$this->loader->add_filter( 'woocommerce_thankyou_order_id', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_order_id', 99999 );
+			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_page', 99999 );
 			$this->loader->add_filter( 'wc_order_types', $wsfw_plugin_public, 'wps_wsfw_wc_order_types_', 20, 2 );
 			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );

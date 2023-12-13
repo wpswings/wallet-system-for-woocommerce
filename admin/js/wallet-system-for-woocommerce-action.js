@@ -69,7 +69,8 @@
 		});
 
     jQuery(document).on( 'change', '#wps_wsfw_cashback_type', function() {
-      var cashback_type = jQuery('#wps_wsfw_cashback_rule').val();
+      debugger;
+      var cashback_type = jQuery('#wps_wsfw_cashback_type').val();
 
       if ( cashback_type == 'percent' ) {
     
@@ -90,7 +91,41 @@
       jQuery('#wps_wsfw_cashback_amount').attr('max','');
     }
 
+    jQuery(document).on( 'blur', '#wps_wsfw_subscriptions_expiry_per_interval', function() {
+      debugger;
+      var subscription_per_interval = jQuery('#wps_wsfw_subscriptions_per_interval').val();
+      var subscription_expiry_interval = jQuery('#wps_wsfw_subscriptions_expiry_per_interval').val();
+
+      if ( subscription_per_interval != '' ) {
+        if ( parseInt(subscription_per_interval) > parseInt( subscription_expiry_interval ) ) {
+    
+          jQuery('#wps_wsfw_subscriptions_expiry_per_interval').val('');
+          jQuery(jQuery('#wps_wsfw_subscriptions_expiry_per_interval').parent().parent()).append('<div class=" wps_subscription_expiry error">'+wsfw_admin_action_param.subscription_exipry+'</div>');
+        }else{
+          jQuery('.wps_subscription_expiry').remove();
+        }
+      }
+     
+		});
+
+    jQuery(document).on( 'blur', '#wps_wsfw_subscriptions_per_interval', function() {
+      debugger;
+      var subscription_per_interval = jQuery('#wps_wsfw_subscriptions_per_interval').val();
+      var subscription_expiry_interval = jQuery('#wps_wsfw_subscriptions_expiry_per_interval').val();
+      if ( subscription_expiry_interval != '' ) {
+      if ( parseInt(subscription_per_interval) > parseInt( subscription_expiry_interval ) ) {
+    
+        jQuery('#wps_wsfw_subscriptions_per_interval').val('');
+        jQuery(jQuery('#wps_wsfw_subscriptions_per_interval').parent().parent()).append('<div class="wps_subscription_interval error">'+wsfw_admin_action_param.subscription_interval+'</div>');
+  
+      }else{
+        jQuery('.wps_subscription_interval').remove();
+  
+      }
+    }
+		});
+    
+
     
     
 });
-

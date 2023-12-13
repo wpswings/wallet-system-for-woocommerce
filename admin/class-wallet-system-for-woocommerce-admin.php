@@ -222,6 +222,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				array(
 					'is_pro_plugin'             => apply_filters( 'wsfw_check_pro_plugin', $is_plugin ),
 					'is_action'             => __( 'Action', 'wallet-system-for-woocommerce' ),
+					'subscription_interval'             =>  __( 'Subscriptions Per Interval can not be greater than Subscriptions Expiry Interval', 'wallet-system-for-woocommerce' ),
+					'subscription_exipry'             => __( 'Subscriptions Expiry Interval can not be less than Subscriptions Per Interval', 'wallet-system-for-woocommerce' ),
 				)
 			);
 		}
