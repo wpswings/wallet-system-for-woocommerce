@@ -2176,7 +2176,8 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wps_wsfw_woocommerce_thankyou_page(){
 		
-		$order_key = $_GET['key'];
+		
+		$order_key =isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
 		if (  $order_key != get_option( 'wsfw_check_thanks_page' ) ) {
 			$order_id = wc_get_order_id_by_order_key( $order_key );
 			$this->wps_wsfw_woocommerce_thankyou_order_id($order_id);
