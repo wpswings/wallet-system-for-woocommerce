@@ -384,8 +384,8 @@ function copyshareurl() {
 
 	/* Copy the text inside the text field */
 	navigator.clipboard.writeText( copyText.value );
-
-	/* Replace the tooltip's text */
+	if (navigator.clipboard) {
+		/* Replace the tooltip's text */
 	var tooltip       = document.getElementById( "myTooltip_referral" );
 	tooltip.innerHTML = "Copied: " + copyText.value;
 
@@ -395,4 +395,7 @@ function copyshareurl() {
 	tooltip.innerHTML = "       Copied!";
 	jQuery( '.wps_wsfw_btn_copy' ).hide();
 	// Alert the copied text.
+	}
+
+	
 }
