@@ -6,7 +6,7 @@ jQuery( document ).ready(function() {
         
         if (wsfw_public_param_block.partial_payment_data_html_name != undefined ){
           
-                jQuery('.wc-block-components-totals-footer-item').append('<table><tr class="partial_payment"><td>'+ wsfw_public_param_block.partial_payment_data_html_name +'</td><td>'+ wsfw_public_param_block.partial_payment_data_html +'</td></tr></table>');		
+                jQuery('.wc-block-components-totals-footer-item').append('<table id="partial_table_checkout"><tr class="partial_payment"><td>'+ wsfw_public_param_block.partial_payment_data_html_name +'</td><td>'+ wsfw_public_param_block.partial_payment_data_html +'</td></tr></table>');		
    
           
            
@@ -29,6 +29,7 @@ jQuery( document ).ready(function() {
 
     // Unset totally amount in partial payment.
     jQuery(document).on( 'click','#partial_total_payment_wallet', function(){
+       
 			var checked = jQuery( '#partial_total_payment_wallet' ).is(':checked');
 			if ( ! checked ) {
 				jQuery.ajax({
@@ -41,11 +42,13 @@ jQuery( document ).ready(function() {
 					},
 					success: function( response ) {
 						jQuery('#wps_wallet_show_total_msg').show();
-						jQuery('#wps_wallet_show_total_msg').css('color', 'red');
-						jQuery('#wps_wallet_show_total_msg').html(wsfw_public_param_block.wsfw_unset_amount);
-						setTimeout(function(){
+                        jQuery('#partial_table_checkout').append('<tr id="wps_tr_amount_checkout" clospan="2"> <td >'+ wsfw_public_param_block.wsfw_unset_amount +'  </td></tr>');
+                       
+						jQuery('#wps_tr_amount_checkout').css('color', 'red');
+						 setTimeout(function(){
 							jQuery(document.body).trigger('update_checkout');
 						 }, 1000);
+                         window.location.reload();
 					}
 	
 				}) .fail(function ( response ) {
@@ -79,8 +82,8 @@ jQuery( document ).ready(function() {
                 success: function( response ) {
                      debugger;
                     if ( response.status == true ) {
-                        jQuery('#wps_wallet_show_total_msg').css('color', 'green');
-                        jQuery( '#wps_wallet_show_total_msg' ).html(response.message);
+                        jQuery('#partial_table_checkout').append('<tr id="wps_tr_amount_checkout" clospan="2"><td > '+ response.message +'  </td></tr>');
+                        jQuery('#wps_tr_amount_checkout').css('color', 'green');
                         setTimeout(function(){
                             jQuery(document.body).trigger('update_checkout');
                          }, 1000);
@@ -120,4 +123,3 @@ jQuery( document ).ready(function() {
     });
     
 });
-
