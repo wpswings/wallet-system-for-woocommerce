@@ -268,7 +268,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$limit = get_option( 'wsfw_enable_wallet_negative_balance_limit' );
 		$order_number = get_user_meta( $user_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
 		$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
-
+		$total_balance = '';
 		if ( $user_id ) {
 			$wsfw_wallet_partial_payment_method_options = get_option( 'wsfw_wallet_partial_payment_method_options', 'manual_pay' );
 			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
@@ -285,16 +285,23 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( ( $wallet_amount ) < ( $limit ) ) {
 						$total_balance = $wallet_amount + $limit;
 						if ( $total_balance >= $wps_cart_total ) {
-
+							return;
+						}
+					} elseif(  ( $wallet_amount ) > ( $limit ) ) {
+						$total_balance = $wallet_amount + $limit;
+						if ( $total_balance >= $wps_cart_total ) {
 							return;
 						}
 					}
+						
+					
 				}
 			}
 
 			if ( 'on' != $wsfw_wallet_partial_payment_method_enable ) {
 				return;
 			}
+
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
@@ -422,6 +429,11 @@ class Wallet_System_For_Woocommerce_Public {
 						$total_balance = $wallet_amount + $limit;
 						if ( $total_balance >= $wps_cart_total ) {
 
+							return;
+						}
+					} elseif(  ( $wallet_amount ) > ( $limit ) ) {
+						$total_balance = $wallet_amount + $limit;
+						if ( $total_balance >= $wps_cart_total ) {
 							return;
 						}
 					}
