@@ -55,6 +55,8 @@ function wps_wsfw_wallet_payment_gateway_init() {
 	class Wallet_Credit_Payment_Gateway extends WC_Payment_Gateway {
 		/**
 		 * Constructor for the gateway.
+		 *
+		 * @param boolean $is_block is the variable for block checkout.
 		 */
 		public function __construct( $is_block = true ) {
 
@@ -103,7 +105,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					'title'       => __( 'Description', 'wallet-system-for-woocommerce' ),
 					'type'        => 'textarea',
 					'description' => __( 'Payment method description that the customer will see on your checkout.', 'wallet-system-for-woocommerce' ),
-					'default'     => __( '', 'wallet-system-for-woocommerce' ),
+					'default'     => '',
 					'desc_tip'    => true,
 				),
 
