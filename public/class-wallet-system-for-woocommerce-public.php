@@ -133,14 +133,16 @@ class Wallet_System_For_Woocommerce_Public {
 			wp_enqueue_script( 'wps-script-wallet', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-enable-link.js', array(), $this->version, true );
 		}
 
-		
-
 	}
 
-	public function wsfw_wps_enqueue_script_block_eheckout(){
-		
+	/**
+	 * Enque script for block.
+	 *
+	 * @return void
+	 */
+	public function wsfw_wps_enqueue_script_block_eheckout() {
+
 		$block_data = $this->checkout_review_order_custom_field_block_checkout();
-		
 
 		$block_wallet_partial_name = '';
 		$user_id        = get_current_user_id();
@@ -149,15 +151,13 @@ class Wallet_System_For_Woocommerce_Public {
 
 		$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
 		if ( ! empty( $block_data ) ) {
-			$block_wallet_partial_name = esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . ( wc_price( $wallet_amount ) ) . ')'; ;
-		
-		} else{
+			$block_wallet_partial_name = esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . ( wc_price( $wallet_amount ) ) . ')';
+			;
+
+		} else {
 			$block_wallet_partial_name = '';
 			$block_data = '';
 		}
-
-
-		
 
 		wp_register_script( 'wallet-system-for-woocommerce-block-checkout', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-block-checkout.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script(
@@ -195,22 +195,22 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! empty( WC()->session ) ) {
 
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
-					
+
 						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
 				} elseif ( isset( $wallet_amount ) ) {
-				
+
 					if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
-						
+
 						$limit = get_option( 'wsfw_enable_wallet_negative_balance_limit' );
 						$order_number = get_user_meta( $user_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
 						$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
 						$is_pro = false;
 						$is_pro = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro );
 						if ( $is_pro ) {
-							
+
 							if ( intval( $order_number ) < intval( $order_limit ) ) {
 
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
@@ -257,9 +257,9 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function checkout_review_order_custom_field_block_checkout() {
 		$block_checkout = '';
-		$wps_cart_total = WC()->cart->get_total('edit');	
+		$wps_cart_total = WC()->cart->get_total( 'edit' );
 		$cart_fee = WC()->cart->get_fee_total();
-		
+
 		$wps_cart_total = $wps_cart_total + abs( $cart_fee );
 
 		$user_id        = get_current_user_id();
@@ -303,21 +303,21 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 						$is_checked_data = $this->is_enable_wallet_partial_payment();
-						if ($is_checked_data){
+						if ( $is_checked_data ) {
 							$is_checked_data = "checked='checked'";
 						}
 						?>	
 					<tr class="partial_payment">
 						<td></td>
 						<td>
-							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { 
-								
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" '. $is_checked_data .' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
-								
-							
+							<?php
+							if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) {
+
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" ' . $is_checked_data . ' data-walletamount="' . esc_attr( $wallet_amount ) . '" > </p>';
+
 							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) {
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" '. $is_checked_data .' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
-								
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" ' . $is_checked_data . ' data-walletamount="' . esc_attr( $wallet_amount ) . '" > </p>';
+
 							}
 							?>
 						</td>
@@ -344,7 +344,7 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( $wps_has_subscription ) {
 
 						$is_checked_data = $this->is_enable_wallet_partial_payment();
-						if ($is_checked_data){
+						if ( $is_checked_data ) {
 							$is_checked_data = "checked='checked'";
 						}
 						?>
@@ -352,16 +352,17 @@ class Wallet_System_For_Woocommerce_Public {
 					<tr class="partial_payment">
 						<td></td>
 						<td>
-							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { 
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" '. $is_checked_data .' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
-								
+							<?php
+							if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) {
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" ' . $is_checked_data . ' data-walletamount="' . esc_attr( $wallet_amount ) . '" > </p>';
+
 								?>
 							
 								<?php
 							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) {
-								
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" '. $is_checked_data .' data-walletamount="'. esc_attr( $wallet_amount ) .'" > </p>';
-								
+
+								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" ' . $is_checked_data . ' data-walletamount="' . esc_attr( $wallet_amount ) . '" > </p>';
+
 								?>
 							
 								<?php
@@ -380,7 +381,6 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		return $block_checkout;
-								
 
 	}
 
@@ -391,14 +391,13 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function checkout_review_order_custom_field() {
 
-		$wps_cart_total = WC()->cart->get_total('edit');	
+		$wps_cart_total = WC()->cart->get_total( 'edit' );
 		$cart_fee = WC()->cart->get_fee_total();
-		
+
 		$wps_cart_total = $wps_cart_total + abs( $cart_fee );
 
+		// Remove currency symbol and get numeric value.
 
-		// Remove currency symbol and get numeric value
-		
 		$user_id        = get_current_user_id();
 		$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
 		$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
@@ -441,7 +440,8 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( intval( $wallet_amount ) < intval( $wps_cart_total ) || $this->is_enable_wallet_partial_payment() ) {
 
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
-						?>	
+						?>
+							
 					<tr class="partial_payment">
 						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wp_kses_post( wc_price( $wallet_amount ) ) . ')'; ?></td>
 						<td>
@@ -521,7 +521,6 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function remove_wallet_session( $order_id ) {
 
-		
 		$customer_id = get_current_user_id();
 		if ( $customer_id > 0 ) {
 			if ( ! empty( WC()->session ) ) {
@@ -893,10 +892,9 @@ class Wallet_System_For_Woocommerce_Public {
 	 *
 	 * @return Boolean
 	 */
-	
 	public function is_enable_wallet_partial_payment() {
 		$is_enable = false;
-		
+
 		if ( is_user_logged_in() && ( ( ! is_null( wc()->session ) && wc()->session->get( 'is_wallet_partial_payment', false ) ) ) ) {
 			$is_enable = true;
 		}
@@ -927,16 +925,16 @@ class Wallet_System_For_Woocommerce_Public {
 					'id'     => 'via_wallet_partial_payment',
 					'name'   => __( 'Via wallet', 'wallet-system-for-woocommerce' ),
 					'amount' => (float) -1 * $discount,
-					'taxable'=> false,
-					'tax_class' =>'zero-rate',
+					'taxable' => false,
+					'tax_class' => 'zero-rate',
 				);
 			}
 		}
 
 		if ( $this->is_enable_wallet_partial_payment() ) {
 			if ( ! empty( $fee ) ) {
-				wc()->cart->fees_api()->add_fee( $fee  );
-					
+				wc()->cart->fees_api()->add_fee( $fee );
+
 			}
 		} else {
 			$all_fees = wc()->cart->fees_api()->get_fees();
@@ -1171,69 +1169,69 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wps_update_price_cart( $cart_object ) {
-        $wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
-        $wps_wsfw_wallet_action_auto_topup_enable = get_option( 'wps_wsfw_wallet_action_auto_topup_enable', '' );
-        $wps_sfw_subscription_interval = get_option( 'wps_sfw_subscription_interval', '' );
-        $wps_wsfw_subscriptions_per_interval = get_option( 'wps_wsfw_subscriptions_per_interval', '' );
-        $wps_sfw_subscription_expiry_interval = get_option( 'wps_sfw_subscription_expiry_interval', '' );
-        $wps_wsfw_subscriptions_expiry_per_interval = get_option( 'wps_wsfw_subscriptions_expiry_per_interval', '' );
-        $price = '';
-        $cart_items = $cart_object->cart_contents;
-        if ( WC()->session->__isset( 'recharge_amount' ) ) {
-            $wallet_recharge = WC()->session->get( 'recharge_amount' );
-            if ( ! empty( $wallet_recharge ) ) {
-                $price           = $wallet_recharge;
-            }
-        }
-            if ( ! empty( $cart_items ) ) {
-                foreach ( $cart_items as $key => $value ) {
-                    if ( $value['product_id'] == $wallet_id ) {
-                        if ( empty( $price ) ) {
-                            $price =    get_post_meta( $wallet_id, '_regular_price',true );
-                        }
-                        if ( ! empty( $wps_wsfw_wallet_action_auto_topup_enable ) && 'on' == $wps_wsfw_wallet_action_auto_topup_enable ) {
-                            $is_user_subscription = false;
-                            $is_user_subscription = apply_filters( 'wps_wsfw_get_user_choice_of_subscription', $is_user_subscription );
-                            if ( $is_user_subscription ) {
-                                $user_id = get_current_user_id();
-                                $user_choice = get_user_meta( $user_id, 'wps_wallet_recharge_as_subscription', true );
-                                if ( 'yes' == $user_choice ) {
-                                    update_post_meta( $wallet_id, '_wps_sfw_product', 'yes' );
-                                    update_post_meta( $wallet_id, 'wps_sfw_subscription_number', intval( $wps_wsfw_subscriptions_per_interval ) );
-                                    update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', $wps_sfw_subscription_interval );
-                                    update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', intval( $wps_wsfw_subscriptions_expiry_per_interval ) );
-                                    update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', $wps_sfw_subscription_expiry_interval );
-                                    update_post_meta( $wallet_id, '_regular_price', $price );
-                                } else {
-                                    update_post_meta( $wallet_id, '_wps_sfw_product', 'off' );
-                                    update_post_meta( $wallet_id, 'wps_sfw_subscription_number', '' );
-                                    update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', '' );
-                                    update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', '' );
-                                    update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
-                                    update_post_meta( $wallet_id, '_regular_price', '' );
-                                }
-                            } else {
-                                update_post_meta( $wallet_id, '_wps_sfw_product', 'yes' );
-                                update_post_meta( $wallet_id, 'wps_sfw_subscription_number', intval( $wps_wsfw_subscriptions_per_interval ) );
-                                update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', $wps_sfw_subscription_interval );
-                                update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', intval( $wps_wsfw_subscriptions_expiry_per_interval ) );
-                                update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', $wps_sfw_subscription_expiry_interval );
-                                update_post_meta( $wallet_id, '_regular_price', $price );
-                            }
-                        } else {
-                            update_post_meta( $wallet_id, '_wps_sfw_product', 'off' );
-                            update_post_meta( $wallet_id, 'wps_sfw_subscription_number', '' );
-                            update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', '' );
-                            update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', '' );
-                            update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
-                            update_post_meta( $wallet_id, '_regular_price', $price );
-                            update_post_meta( $wallet_id, '_price', $price );
-                        }
-                        $value['data']->set_price( $price );
-                    }
-                }
-            }
-    }
+		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+		$wps_wsfw_wallet_action_auto_topup_enable = get_option( 'wps_wsfw_wallet_action_auto_topup_enable', '' );
+		$wps_sfw_subscription_interval = get_option( 'wps_sfw_subscription_interval', '' );
+		$wps_wsfw_subscriptions_per_interval = get_option( 'wps_wsfw_subscriptions_per_interval', '' );
+		$wps_sfw_subscription_expiry_interval = get_option( 'wps_sfw_subscription_expiry_interval', '' );
+		$wps_wsfw_subscriptions_expiry_per_interval = get_option( 'wps_wsfw_subscriptions_expiry_per_interval', '' );
+		$price = '';
+		$cart_items = $cart_object->cart_contents;
+		if ( WC()->session->__isset( 'recharge_amount' ) ) {
+			$wallet_recharge = WC()->session->get( 'recharge_amount' );
+			if ( ! empty( $wallet_recharge ) ) {
+				$price           = $wallet_recharge;
+			}
+		}
+		if ( ! empty( $cart_items ) ) {
+			foreach ( $cart_items as $key => $value ) {
+				if ( $value['product_id'] == $wallet_id ) {
+					if ( empty( $price ) ) {
+						$price = get_post_meta( $wallet_id, '_regular_price', true );
+					}
+					if ( ! empty( $wps_wsfw_wallet_action_auto_topup_enable ) && 'on' == $wps_wsfw_wallet_action_auto_topup_enable ) {
+						$is_user_subscription = false;
+						$is_user_subscription = apply_filters( 'wps_wsfw_get_user_choice_of_subscription', $is_user_subscription );
+						if ( $is_user_subscription ) {
+							$user_id = get_current_user_id();
+							$user_choice = get_user_meta( $user_id, 'wps_wallet_recharge_as_subscription', true );
+							if ( 'yes' == $user_choice ) {
+								update_post_meta( $wallet_id, '_wps_sfw_product', 'yes' );
+								update_post_meta( $wallet_id, 'wps_sfw_subscription_number', intval( $wps_wsfw_subscriptions_per_interval ) );
+								update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', $wps_sfw_subscription_interval );
+								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', intval( $wps_wsfw_subscriptions_expiry_per_interval ) );
+								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', $wps_sfw_subscription_expiry_interval );
+								update_post_meta( $wallet_id, '_regular_price', $price );
+							} else {
+								update_post_meta( $wallet_id, '_wps_sfw_product', 'off' );
+								update_post_meta( $wallet_id, 'wps_sfw_subscription_number', '' );
+								update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', '' );
+								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', '' );
+								update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
+								update_post_meta( $wallet_id, '_regular_price', '' );
+							}
+						} else {
+							update_post_meta( $wallet_id, '_wps_sfw_product', 'yes' );
+							update_post_meta( $wallet_id, 'wps_sfw_subscription_number', intval( $wps_wsfw_subscriptions_per_interval ) );
+							update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', $wps_sfw_subscription_interval );
+							update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', intval( $wps_wsfw_subscriptions_expiry_per_interval ) );
+							update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', $wps_sfw_subscription_expiry_interval );
+							update_post_meta( $wallet_id, '_regular_price', $price );
+						}
+					} else {
+						update_post_meta( $wallet_id, '_wps_sfw_product', 'off' );
+						update_post_meta( $wallet_id, 'wps_sfw_subscription_number', '' );
+						update_post_meta( $wallet_id, 'wps_sfw_subscription_interval', '' );
+						update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_number', '' );
+						update_post_meta( $wallet_id, 'wps_sfw_subscription_expiry_interval', '' );
+						update_post_meta( $wallet_id, '_regular_price', $price );
+						update_post_meta( $wallet_id, '_price', $price );
+					}
+					$value['data']->set_price( $price );
+				}
+			}
+		}
+	}
 
 	/**
 	 * Unset session after wallet topup is removed from cart
@@ -1244,7 +1242,6 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function after_remove_wallet_from_cart( $removed_cart_item_key, $cart ) {
 
-		
 		$line_item  = $cart->removed_cart_contents[ $removed_cart_item_key ];
 		$product_id = $line_item['product_id'];
 		$wallet_id  = get_option( 'wps_wsfw_rechargeable_product_id', '' );
@@ -1261,16 +1258,14 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 
-	
-	/** Order in case of currency.
+	/**
+	 * Order in case of currency.
 	 *
-	 * @param [type] $order_id is the current order id.
+	 * @param [type] $order is the order object.
 	 * @return void
 	 */
 	public function wps_wocuf_initate_upsell_orders_api_checkout_org( $order ) {
 
-
-		
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
 		$payment_method         = $order->get_payment_method();
@@ -1676,7 +1671,6 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wsfw_display_category_wise_cashback_price_on_shop_page() {
 
-
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
@@ -2078,7 +2072,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return mixed
 	 */
 	public function wsfw_wallet_cart_totals_fee_html( $cart_totals_fee_html, $fees ) {
-	
+
 		foreach ( $fees as $key => $fee ) {
 
 			if ( 'via_wallet_partial_payment' == $fee ) {
@@ -2088,9 +2082,6 @@ class Wallet_System_For_Woocommerce_Public {
 				break;
 			}
 		}
-	
-		
-
 
 		return wc_price( $fees );
 	}
@@ -2143,17 +2134,18 @@ class Wallet_System_For_Woocommerce_Public {
 	 *
 	 * @return void
 	 */
-	public function wps_wsfw_woocommerce_thankyou_page(){
-		
-		
-		$order_key =isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
-		if (  $order_key != get_option( 'wsfw_check_thanks_page' ) ) {
+	public function wps_wsfw_woocommerce_thankyou_page() {
+
+		$order_key = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
+		if ( get_option( 'wsfw_check_thanks_page' ) != $order_key ) {
 			$order_id = wc_get_order_id_by_order_key( $order_key );
-			$this->wps_wsfw_woocommerce_thankyou_order_id($order_id);
-			$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://";
-			$currentPageURL = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$this->wps_wsfw_woocommerce_thankyou_order_id( $order_id );
+			$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+			$http_host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+			$protocol = isset( $http_host ) && 'on' === $http_host ? 'https://' : 'http://';
+			$current_page_u_r_l = $protocol . $http_host . $request_uri;
 			update_option( 'wsfw_check_thanks_page', $order_key );
-			wp_safe_redirect($currentPageURL);
+			wp_safe_redirect( $current_page_u_r_l );
 			exit();
 		}
 	}
@@ -2169,29 +2161,23 @@ class Wallet_System_For_Woocommerce_Public {
 		$fee_total = '';
 		$fee_total_tax = '';
 		$order_fee_array = $order->get_items( 'fee' );
-//print_r($order_fee_array);
 		foreach ( $order_fee_array as $item_id => $item_fee ) {
 
 			if ( $item_fee->get_name() == 'Via wallet' ) {
-				
-			//	print_r( $item_fee);
 				$fee_name = $item_fee->get_name();
-
 				$fee_total = $item_fee->get_total();
-
 				$fee_total_tax = abs( $item_fee->get_total_tax() );
 				$order->remove_item( $item_id );
 				break;
 			}
 		}
-		
 
 		if ( ! empty( $fee_total_tax ) ) {
 			$order_id = $order->get_id();
 			$order_tax = '';
 			$order_tax = $order->get_total_tax();
 			$order_tax = ( floatval( $order_tax ) + abs( ( $fee_total_tax ) ) );
-			$order->set_cart_tax($order_tax);
+			$order->set_cart_tax( $order_tax );
 			$order->save();
 			$order_tax = $order->get_total_tax();
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
@@ -2232,7 +2218,6 @@ class Wallet_System_For_Woocommerce_Public {
 
 		}
 
-		
 	}
 
 	/**
@@ -2254,7 +2239,7 @@ class Wallet_System_For_Woocommerce_Public {
 		return $wps_wsfw_is_order;
 	}
 
-	
+
 	/**
 	 * Function to change currency.
 	 *
@@ -2374,36 +2359,36 @@ class Wallet_System_For_Woocommerce_Public {
 	}
 
 
-	
+
 	/**
 	 * Remove tax from partial payment.
 	 *
 	 * @param [type] $cart_total is the current cart total.
 	 * @param [type] $cart is the whole cart data.
-	 * @return void
+	 * @return mixed
 	 */
 	public function wps_wsfw_woocommerce_calculated_total_for_tax( $cart_total, $cart ) {
 
 			 $cart_tatal_tax  = '';
-			 $fees =  $cart->fees_api()->get_fees();
-			foreach ( $fees as $key => $fee ) {
-	
-				if ( 'via_wallet_partial_payment' == $fee->id ) {
-					// gets the data to recalculate the cart total.
-					$cart_tatal_tax = $fee->tax;
-					if ( ! empty( $cart_tatal_tax ) ) {
-						
-						$cart_total = $cart_total + abs($cart_tatal_tax);
-						WC()->cart->set_total( $cart_total );
-					}
-					break;
+			 $fees = $cart->fees_api()->get_fees();
+		foreach ( $fees as $key => $fee ) {
+
+			if ( 'via_wallet_partial_payment' == $fee->id ) {
+				// gets the data to recalculate the cart total.
+				$cart_tatal_tax = $fee->tax;
+				if ( ! empty( $cart_tatal_tax ) ) {
+
+					$cart_total = $cart_total + abs( $cart_tatal_tax );
+					WC()->cart->set_total( $cart_total );
 				}
+				break;
 			}
-		return $cart_total ;
-	
+		}
+		return $cart_total;
+
 	}
 
-	
+
 
 
 

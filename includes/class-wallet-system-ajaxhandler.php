@@ -68,11 +68,10 @@ class Wallet_System_AjaxHandler {
 				$message['status']  = false;
 				$message['message'] = esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' );
 			}
-			
+
 			wp_send_json( $message );
 		}
 
-		
 	}
 
 	/**
@@ -97,7 +96,7 @@ class Wallet_System_AjaxHandler {
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet amount used successfully: ', 'wallet-system-for-woocommerce' );
 				WC()->session->set( 'custom_fee', $wallet_amount );
-				
+
 			} else {
 				$message['status']  = false;
 				$message['message'] = esc_html__( 'Wallet amount is empty: ', 'wallet-system-for-woocommerce' );

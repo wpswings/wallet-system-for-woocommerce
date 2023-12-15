@@ -429,13 +429,10 @@ class Wallet_System_For_Woocommerce_Common {
 			return;
 		}
 		$order          = wc_get_order( $order_id );
-		
-		
+
 		if ( 'on' != get_option( 'wps_wsfw_enable_cashback' ) ) {
 			return;
 		}
-		
-		
 
 		$payment_method = $order->get_payment_method();
 		$restrict_gatewaay  = ! empty( get_option( 'wps_wsfw_multiselect_cashback_restrict' ) ) ? get_option( 'wps_wsfw_multiselect_cashback_restrict' ) : array();
@@ -1316,14 +1313,14 @@ class Wallet_System_For_Woocommerce_Common {
 	 *
 	 * @return void
 	 */
-	public function wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support(){
+	public function wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support() {
 
-		if (! class_exists('Wallet_Credit_Payment_Gateway')){
+		if ( ! class_exists( 'Wallet_Credit_Payment_Gateway' ) ) {
 			return;
 		}
-		
+
 		if ( class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
-			require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'includes/wcblocks/class-wallet-system-payments-blocks.php';
+			require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'includes/wcblocks/class-wc-gateway-wallet-system-payments-blocks-support.php';
 
 			add_action(
 				'woocommerce_blocks_payment_method_type_registration',
@@ -1335,10 +1332,10 @@ class Wallet_System_For_Woocommerce_Common {
 	}
 
 
-	public function wps_wsfw_woocommerce_order_get_tax_totals( $tax_totals, $item) {
+	public function wps_wsfw_woocommerce_order_get_tax_totals( $tax_totals, $item ) {
 
 		$order_id = $item->get_id();
-		
+
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 			// HPOS usage is enabled.
 			$check_wallet_thankyou = $item->get_meta( 'is_block_initiated', true );
@@ -1346,37 +1343,31 @@ class Wallet_System_For_Woocommerce_Common {
 			$check_wallet_thankyou = get_post_meta( $order_id, 'is_block_initiated', true );
 		}
 
-		
-		if (  'done' == $check_wallet_thankyou ) {
+		if ( 'done' == $check_wallet_thankyou ) {
 
+			foreach ( $item->get_fees() as $item_fee ) {
+				$fee_name    = $item_fee->get_name();
+				$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
+				$index = 0;
+				if ( $wallet_name === $fee_name ) {
 
-			
-		foreach ( $item->get_fees() as $item_fee ) {
-			$fee_name    = $item_fee->get_name();
-			$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
-			$index = 0;
-			if ( $wallet_name === $fee_name ) {
-				
-				foreach ($tax_totals as $key => $value) {
-		
-			if ($index == 0 ) {
-		
-			
-					$value->amount = $item->get_total_tax();
-					$value->formatted_amount = wc_price( $item->get_total_tax() );
-					$index++;
-		}
-					# code...
+					foreach ( $tax_totals as $key => $value ) {
+
+						if ( $index == 0 ) {
+
+							$value->amount = $item->get_total_tax();
+							$value->formatted_amount = wc_price( $item->get_total_tax() );
+							$index++;
+						}
+						// code...
+					}
 				}
 			}
-			
 		}
-	}
-	
-		
-		return  $tax_totals;
 
-		}
+		return $tax_totals;
+
+	}
 
 }
 

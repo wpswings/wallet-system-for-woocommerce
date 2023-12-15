@@ -31,7 +31,7 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 	 * @var string
 	 */
 	protected $name = 'wps_wsfw_wallet';
-    
+
 
 	/**
 	 * Extend the RMA Wallet system function
@@ -91,8 +91,8 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 	public function get_payment_method_data() {
 		return array(
 			'title'       => $this->get_setting( 'title' ),
-		//	'description' => $this->get_setting( 'description' ),
-			'supports'    => array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ),
+			// 'description' => $this->get_setting( 'description' ),
+				'supports'    => array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ),
 		);
 	}
 }
