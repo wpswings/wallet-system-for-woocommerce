@@ -64,7 +64,7 @@ jQuery( document ).ready(function() {
         jQuery(document).on( 'click','#partial_total_payment_wallet', function(){
         if ( jQuery('#partial_total_payment_wallet:checked').val() == 'total_enable' ) {
             jQuery('#wps_wallet_show_total_msg').show();
-            debugger;
+            
             var wallet_amount = jQuery( '#partial_total_payment_wallet' ).data('walletamount');
             var amount        = jQuery( '#wallet_amount' ).val();
             var checked       = jQuery( '#partial_total_payment_wallet' ).is(':checked');
@@ -80,7 +80,7 @@ jQuery( document ).ready(function() {
                 },
                 dataType: 'JSON',
                 success: function( response ) {
-                     debugger;
+                     
                     if ( response.status == true ) {
                         jQuery('#partial_table_checkout').append('<tr id="wps_tr_amount_checkout" clospan="2"><td > '+ response.message +'  </td></tr>');
                         jQuery('#wps_tr_amount_checkout').css('color', 'green');

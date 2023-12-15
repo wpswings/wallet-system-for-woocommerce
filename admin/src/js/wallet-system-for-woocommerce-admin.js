@@ -53,7 +53,7 @@
 
 		}
 
-		debugger;
+		
 		var interest_type = jQuery('#wps_wsfw_intrest_type_amount_negative_balance').val();
 		if ( interest_type == 'percent' ) {
 			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('max',100);

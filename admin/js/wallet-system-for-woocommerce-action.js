@@ -69,7 +69,7 @@
 		});
 
     jQuery(document).on( 'change', '#wps_wsfw_cashback_type', function() {
-      debugger;
+      
       var cashback_type = jQuery('#wps_wsfw_cashback_type').val();
 
       if ( cashback_type == 'percent' ) {
@@ -92,7 +92,7 @@
     }
 
     jQuery(document).on( 'blur', '#wps_wsfw_subscriptions_expiry_per_interval', function() {
-      debugger;
+      
       var subscription_per_interval = jQuery('#wps_wsfw_subscriptions_per_interval').val();
       var subscription_expiry_interval = jQuery('#wps_wsfw_subscriptions_expiry_per_interval').val();
 
@@ -109,7 +109,7 @@
 		});
 
     jQuery(document).on( 'blur', '#wps_wsfw_subscriptions_per_interval', function() {
-      debugger;
+      
       var subscription_per_interval = jQuery('#wps_wsfw_subscriptions_per_interval').val();
       var subscription_expiry_interval = jQuery('#wps_wsfw_subscriptions_expiry_per_interval').val();
       if ( subscription_expiry_interval != '' ) {
