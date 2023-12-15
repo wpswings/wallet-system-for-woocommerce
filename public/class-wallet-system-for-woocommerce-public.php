@@ -2214,7 +2214,6 @@ class Wallet_System_For_Woocommerce_Public {
 			// Add Fee item to the order.
 			$order->add_item( $item_fee );
 			$order->save();
-			WC()->session->__unset( 'is_wallet_partial_payment' );
 
 		}
 
@@ -2250,6 +2249,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 		$order = new WC_Order( $order_id );
 		$this->wsfw_wallet_add_order_detail( $order );
+		WC()->session->__unset( 'is_wallet_partial_payment' );
 		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
 		if ( 'done' != $check_wallet_thankyou ) {
 			$order_id               = $order->get_id();
