@@ -1332,6 +1332,13 @@ class Wallet_System_For_Woocommerce_Common {
 	}
 
 
+	/**
+	 * This function is  used for tax in checkout block.
+	 *
+	 * @param [type] $tax_totals is the tax total of order.
+	 * @param [type] $item is the order item.
+	 * @return mixed
+	 */
 	public function wps_wsfw_woocommerce_order_get_tax_totals( $tax_totals, $item ) {
 
 		$order_id = $item->get_id();
@@ -1353,7 +1360,7 @@ class Wallet_System_For_Woocommerce_Common {
 
 					foreach ( $tax_totals as $key => $value ) {
 
-						if ( $index == 0 ) {
+						if ( 0 == $index ) {
 
 							$value->amount = $item->get_total_tax();
 							$value->formatted_amount = wc_price( $item->get_total_tax() );
