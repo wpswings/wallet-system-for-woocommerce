@@ -363,39 +363,58 @@
 
 })( jQuery );
 
-
 function copyshareurl() {
-
-	// Get the text field.
-	var copyText = jQuery( '#wps_wsfw_copy' ).html();
-
-	/* Get the text field */
-	var copyText = document.getElementById( "wps_wsfw_copy" );
-
-	/* Prevent iOS keyboard from opening */
-	copyText.readOnly = true;
-
-	/* Change the input's type to text so its text becomes selectable */
-	copyText.type = 'text';
-
-	/* Select the text field */
-	copyText.select();
-	copyText.setSelectionRange( 0, 99999 ); /* For mobile devices */
-
-	/* Copy the text inside the text field */
-	navigator.clipboard.writeText( copyText.value );
-	if (navigator.clipboard) {
+    const pasteText = document.querySelector("#pasteText");
+    // Get the text field.
+    var copyText = jQuery( '#wps_wsfw_copy' ).html();
+    /* Get the text field */
+    var copyText = document.getElementById( "wps_wsfw_copy" );
+    if (navigator.clipboard) {
+		/* Prevent iOS keyboard from opening */
+		copyText.readOnly = true;
+		/* Change the input's type to text so its text becomes selectable */
+		copyText.type = 'text';
+		/* Select the text field */
+		copyText.select();
+		copyText.setSelectionRange( 0, 99999 ); /* For mobile devices */
+		/* Copy the text inside the text field */
+		navigator.clipboard.writeText( copyText.value );
 		/* Replace the tooltip's text */
-	var tooltip       = document.getElementById( "myTooltip_referral" );
-	tooltip.innerHTML = "Copied: " + copyText.value;
-
-	/* Change the input's type back to hidden */
-	copyText.type     = 'hidden';
-	var tooltip       = document.getElementById( "myTooltip_referral" );
-	tooltip.innerHTML = "       Copied!";
-	jQuery( '.wps_wsfw_btn_copy' ).hide();
-	// Alert the copied text.
-	}
-
-	
+		var tooltip       = document.getElementById( "myTooltip_referral" );
+		tooltip.innerHTML = "Copied: " + copyText.value;
+		/* Change the input's type back to hidden */
+		copyText.type     = 'hidden';
+		var tooltip       = document.getElementById( "myTooltip_referral" );
+		tooltip.innerHTML = "       Copied!";
+		jQuery( '.wps_wsfw_btn_copy' ).hide();
+		// Alert the copied text.
+    } else {
+        var textArea = document.createElement("textarea");
+		// Set the text content to be copied.
+		textArea.value = copyText.value;
+		// Set the text area to be invisible.
+		textArea.style.position = "fixed";
+		textArea.style.top = "-9999px";
+		// Append the text area to the document.
+		document.body.appendChild(textArea);
+		// Select the text content in the text area.
+		textArea.select();
+		try {
+			// Execute the copy command.
+			var successful = document.execCommand('copy');
+			var message = successful ? 'Text copied to clipboard' : 'Unable to copy text';
+			console.log(message);
+		} catch (err) {
+			console.error('Error in copying text:', err);
+		}
+		// Clean up - remove the temporary text area.
+		document.body.removeChild(textArea);
+		var tooltip       = document.getElementById( "myTooltip_referral" );
+		tooltip.innerHTML = "Copied: " + copyText.value;
+		/* Change the input's type back to hidden */
+		copyText.type     = 'hidden';
+		var tooltip       = document.getElementById( "myTooltip_referral" );
+		tooltip.innerHTML = "       Copied!";
+		jQuery( '.wps_wsfw_btn_copy' ).hide();
+    }
 }
