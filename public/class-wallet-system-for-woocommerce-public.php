@@ -1020,6 +1020,7 @@ class Wallet_System_For_Woocommerce_Public {
 				// if product not found, add it.
 				if ( ! $found ) {
 					add_action( 'woocommerce_before_cart', array( $this, 'add_cart_custom_notice' ) );
+					add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', array( $this, 'add_cart_custom_notice' ) );
 					WC()->session->__unset( 'recharge_amount' );
 				}
 			} else {
