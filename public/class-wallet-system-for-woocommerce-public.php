@@ -1506,6 +1506,7 @@ class Wallet_System_For_Woocommerce_Public {
 						}
 					}
 				}
+				
 				if ( $update ) {
 					$cashback_amount += $cashback_amount_order;
 					if ( 'percent' === $wsfw_cashbak_type ) {
@@ -1520,12 +1521,12 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 		} else {
-			if ( wc()->cart->get_total( 'edit' ) > $wsfw_min_cart_amount ) {
+			if ( wc()->cart->get_subtotal() > $wsfw_min_cart_amount ) {
 
 				if ( 'percent' === $wsfw_cashbak_type ) {
 
-					$total                        = wc()->cart->get_total( 'edit' );
-					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_total( 'edit' ) );
+					$total                        = wc()->cart->get_subtotal();
+					$total                        = apply_filters( 'wps_wsfw_wallet_calculate_cashback_on_total_amount_order_atatus', wc()->cart->get_subtotal() );
 					$wsfw_percent_cashback_amount = $total * ( $wsfw_cashbak_amount / 100 );
 
 					if ( $wsfw_percent_cashback_amount < $wsfw_max_cashbak_amount ) {
@@ -1534,7 +1535,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$cashback_amount += $wsfw_max_cashbak_amount;
 					}
 				} else {
-					if ( ! empty( wc()->cart->get_total( 'edit' ) ) ) {
+					if ( ! empty( wc()->cart->get_subtotal() ) ) {
 
 						$cashback_amount += $wsfw_cashbak_amount;
 					}
@@ -1595,7 +1596,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 			$cashback_amount        = $this->wsfw_calculate_cashback_cart();
 			$wsfw_min_cart_amount   = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
-			$cart_total             = ! empty( wc()->cart->get_total( 'edit' ) ) ? wc()->cart->get_total( 'edit' ) : wc()->cart->get_subtotal();
+			$cart_total             = ! empty( wc()->cart->get_subtotal() ) ? wc()->cart->get_subtotal() : wc()->cart->get_subtotal();
 			$cart_total             = apply_filters( 'wps_wsfw_wallet_cashback_on_total', $cart_total );
 			$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
 
