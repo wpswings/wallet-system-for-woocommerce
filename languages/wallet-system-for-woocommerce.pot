@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wallet System For WooCommerce 2.5.5\n"
-"POT-Creation-Date: 2023-12-16 13:17+0530\n"
+"POT-Creation-Date: 2023-12-18 16:12+0530\n"
 "PO-Revision-Date: 2023-08-07 14:40+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;"
@@ -19,15 +19,15 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/class-wallet-orders-list.php:37
-#: admin/class-wallet-system-for-woocommerce-admin.php:2747
-#: admin/class-wallet-system-for-woocommerce-admin.php:3578
+#: admin/class-wallet-system-for-woocommerce-admin.php:2750
+#: admin/class-wallet-system-for-woocommerce-admin.php:3581
 msgid "Wallet Recharge Order"
 msgstr ""
 
 #: admin/class-wallet-orders-list.php:38
 #: admin/class-wallet-system-for-woocommerce-admin.php:563
-#: admin/class-wallet-system-for-woocommerce-admin.php:2746
-#: admin/class-wallet-system-for-woocommerce-admin.php:2748
+#: admin/class-wallet-system-for-woocommerce-admin.php:2749
+#: admin/class-wallet-system-for-woocommerce-admin.php:2751
 #: admin/partials/wps-custom-table-for-orders.php:86
 msgid "Wallet Recharge Orders"
 msgstr ""
@@ -41,7 +41,7 @@ msgid "User"
 msgstr ""
 
 #: admin/class-wallet-orders-list.php:71
-#: admin/class-wallet-system-for-woocommerce-admin.php:2513
+#: admin/class-wallet-system-for-woocommerce-admin.php:2516
 #: admin/partials/wallet-system-withdrawal-setting.php:63
 #: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:41
 #: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:159
@@ -120,7 +120,7 @@ msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:224
 #: admin/class-wallet-system-for-woocommerce-admin.php:1650
-#: admin/class-wallet-system-for-woocommerce-admin.php:2600
+#: admin/class-wallet-system-for-woocommerce-admin.php:2603
 #: admin/class-wallet-transactions-list.php:47
 #: admin/partials/class-wallet-transaction-list-table.php:62
 #: admin/partials/wallet-system-for-woocommerce-org-wallet-promotions.php:77
@@ -197,16 +197,16 @@ msgstr ""
 #: admin/class-wallet-system-for-woocommerce-admin.php:1359
 #: admin/class-wallet-system-for-woocommerce-admin.php:1372
 #: admin/class-wallet-system-for-woocommerce-admin.php:1385
-#: admin/class-wallet-system-for-woocommerce-admin.php:2941
-#: admin/class-wallet-system-for-woocommerce-admin.php:3235
-#: admin/class-wallet-system-for-woocommerce-admin.php:3291
-#: admin/class-wallet-system-for-woocommerce-admin.php:3346
-#: admin/class-wallet-system-for-woocommerce-admin.php:3398
-#: admin/class-wallet-system-for-woocommerce-admin.php:3460
-#: admin/class-wallet-system-for-woocommerce-admin.php:3510
-#: admin/class-wallet-system-for-woocommerce-admin.php:3606
-#: admin/class-wallet-system-for-woocommerce-admin.php:3633
-#: admin/class-wallet-system-for-woocommerce-admin.php:3647
+#: admin/class-wallet-system-for-woocommerce-admin.php:2944
+#: admin/class-wallet-system-for-woocommerce-admin.php:3238
+#: admin/class-wallet-system-for-woocommerce-admin.php:3294
+#: admin/class-wallet-system-for-woocommerce-admin.php:3349
+#: admin/class-wallet-system-for-woocommerce-admin.php:3401
+#: admin/class-wallet-system-for-woocommerce-admin.php:3463
+#: admin/class-wallet-system-for-woocommerce-admin.php:3513
+#: admin/class-wallet-system-for-woocommerce-admin.php:3609
+#: admin/class-wallet-system-for-woocommerce-admin.php:3636
+#: admin/class-wallet-system-for-woocommerce-admin.php:3650
 #: admin/partials/wallet-system-for-woocommerce-welcome.php:50
 msgid "YES"
 msgstr ""
@@ -230,22 +230,22 @@ msgstr ""
 #: admin/class-wallet-system-for-woocommerce-admin.php:1360
 #: admin/class-wallet-system-for-woocommerce-admin.php:1373
 #: admin/class-wallet-system-for-woocommerce-admin.php:1386
-#: admin/class-wallet-system-for-woocommerce-admin.php:2942
-#: admin/class-wallet-system-for-woocommerce-admin.php:3236
-#: admin/class-wallet-system-for-woocommerce-admin.php:3292
-#: admin/class-wallet-system-for-woocommerce-admin.php:3347
-#: admin/class-wallet-system-for-woocommerce-admin.php:3399
-#: admin/class-wallet-system-for-woocommerce-admin.php:3461
-#: admin/class-wallet-system-for-woocommerce-admin.php:3511
-#: admin/class-wallet-system-for-woocommerce-admin.php:3607
-#: admin/class-wallet-system-for-woocommerce-admin.php:3634
-#: admin/class-wallet-system-for-woocommerce-admin.php:3648
+#: admin/class-wallet-system-for-woocommerce-admin.php:2945
+#: admin/class-wallet-system-for-woocommerce-admin.php:3239
+#: admin/class-wallet-system-for-woocommerce-admin.php:3295
+#: admin/class-wallet-system-for-woocommerce-admin.php:3350
+#: admin/class-wallet-system-for-woocommerce-admin.php:3402
+#: admin/class-wallet-system-for-woocommerce-admin.php:3464
+#: admin/class-wallet-system-for-woocommerce-admin.php:3514
+#: admin/class-wallet-system-for-woocommerce-admin.php:3610
+#: admin/class-wallet-system-for-woocommerce-admin.php:3637
+#: admin/class-wallet-system-for-woocommerce-admin.php:3651
 #: admin/partials/wallet-system-for-woocommerce-welcome.php:51
 msgid "NO"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:673
-#: admin/class-wallet-system-for-woocommerce-admin.php:3551
+#: admin/class-wallet-system-for-woocommerce-admin.php:3554
 #: admin/partials/wallet-system-for-woocommerce-org-wallet-recharge-tab.php:44
 msgid "Wallet Recharge"
 msgstr ""
@@ -365,16 +365,16 @@ msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:797
 #: admin/class-wallet-system-for-woocommerce-admin.php:1299
-#: admin/class-wallet-system-for-woocommerce-admin.php:2955
-#: admin/class-wallet-system-for-woocommerce-admin.php:3250
-#: admin/class-wallet-system-for-woocommerce-admin.php:3306
+#: admin/class-wallet-system-for-woocommerce-admin.php:2958
+#: admin/class-wallet-system-for-woocommerce-admin.php:3253
+#: admin/class-wallet-system-for-woocommerce-admin.php:3309
 msgid "Percentage"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:798
 #: admin/class-wallet-system-for-woocommerce-admin.php:1300
-#: admin/class-wallet-system-for-woocommerce-admin.php:3251
-#: admin/class-wallet-system-for-woocommerce-admin.php:3307
+#: admin/class-wallet-system-for-woocommerce-admin.php:3254
+#: admin/class-wallet-system-for-woocommerce-admin.php:3310
 msgid "Fixed"
 msgstr ""
 
@@ -511,7 +511,7 @@ msgstr ""
 #: admin/class-wallet-system-for-woocommerce-admin.php:1181
 #: admin/class-wallet-system-for-woocommerce-admin.php:1396
 #: admin/class-wallet-system-for-woocommerce-admin.php:2011
-#: admin/class-wallet-system-for-woocommerce-admin.php:3428
+#: admin/class-wallet-system-for-woocommerce-admin.php:3431
 msgid "Save Settings"
 msgstr ""
 
@@ -581,7 +581,7 @@ msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1086
 #: admin/class-wallet-system-for-woocommerce-admin.php:1135
-#: admin/class-wallet-system-for-woocommerce-admin.php:3359
+#: admin/class-wallet-system-for-woocommerce-admin.php:3362
 msgid "Enter comment amount"
 msgstr ""
 
@@ -600,7 +600,7 @@ msgid "Enable Comments Settings"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1116
-#: admin/class-wallet-system-for-woocommerce-admin.php:3340
+#: admin/class-wallet-system-for-woocommerce-admin.php:3343
 msgid "Check this box to enable the Comment Amount when comment is approved.."
 msgstr ""
 
@@ -609,7 +609,7 @@ msgid "Enter Comments Amount"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1129
-#: admin/class-wallet-system-for-woocommerce-admin.php:3353
+#: admin/class-wallet-system-for-woocommerce-admin.php:3356
 msgid ""
 "The amount which new customers will get after their comments are approved.."
 msgstr ""
@@ -629,12 +629,12 @@ msgid "Enter Comment Description"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1153
-#: admin/class-wallet-system-for-woocommerce-admin.php:3365
+#: admin/class-wallet-system-for-woocommerce-admin.php:3368
 msgid "Enter message for user that display on product page."
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1158
-#: admin/class-wallet-system-for-woocommerce-admin.php:3370
+#: admin/class-wallet-system-for-woocommerce-admin.php:3373
 msgid "Enter comment description"
 msgstr ""
 
@@ -760,7 +760,7 @@ msgid "Wallet Balance: "
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1642
-#: admin/class-wallet-system-for-woocommerce-admin.php:2511
+#: admin/class-wallet-system-for-woocommerce-admin.php:2514
 #: admin/class-wallet-transactions-list.php:46
 #: admin/partials/class-wallet-transaction-list-table.php:57
 #: admin/partials/class-wallet-user-table.php:915
@@ -782,13 +782,13 @@ msgid "Select any"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1654
-#: admin/class-wallet-system-for-woocommerce-admin.php:2609
+#: admin/class-wallet-system-for-woocommerce-admin.php:2612
 #: admin/partials/wps-edit-wallet.php:181
 msgid "Credit"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1655
-#: admin/class-wallet-system-for-woocommerce-admin.php:2610
+#: admin/class-wallet-system-for-woocommerce-admin.php:2613
 #: admin/partials/wps-edit-wallet.php:182
 msgid "Debit"
 msgstr ""
@@ -836,7 +836,7 @@ msgid "Merchant has deducted "
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1708
-#: admin/class-wallet-system-for-woocommerce-admin.php:2893
+#: admin/class-wallet-system-for-woocommerce-admin.php:2896
 #: admin/partials/class-wallet-user-table.php:95
 #: admin/partials/class-wallet-user-table.php:377
 #: admin/partials/class-wallet-user-table.php:545
@@ -847,10 +847,10 @@ msgid " from your wallet."
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1738
-#: admin/class-wallet-system-for-woocommerce-admin.php:2268
-#: admin/class-wallet-system-for-woocommerce-admin.php:2892
-#: admin/class-wallet-system-for-woocommerce-admin.php:3057
-#: admin/class-wallet-system-for-woocommerce-admin.php:3153
+#: admin/class-wallet-system-for-woocommerce-admin.php:2271
+#: admin/class-wallet-system-for-woocommerce-admin.php:2895
+#: admin/class-wallet-system-for-woocommerce-admin.php:3060
+#: admin/class-wallet-system-for-woocommerce-admin.php:3156
 #: admin/partials/class-wallet-user-table.php:126
 #: admin/partials/class-wallet-user-table.php:414
 #: admin/partials/class-wallet-user-table.php:579
@@ -862,7 +862,7 @@ msgstr ""
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:179
 #: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:162
 #: public/class-wallet-credit-payment-gateway.php:230
-#: public/class-wallet-system-for-woocommerce-public.php:741
+#: public/class-wallet-system-for-woocommerce-public.php:743
 #: public/partials/wallet-system-for-woocommerce-public-display.php:117
 #: public/partials/wallet-system-for-woocommerce-public-display.php:163
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:126
@@ -872,10 +872,10 @@ msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1742
 #: admin/class-wallet-system-for-woocommerce-admin.php:1890
-#: admin/class-wallet-system-for-woocommerce-admin.php:2272
-#: admin/class-wallet-system-for-woocommerce-admin.php:2896
-#: admin/class-wallet-system-for-woocommerce-admin.php:3061
-#: admin/class-wallet-system-for-woocommerce-admin.php:3157
+#: admin/class-wallet-system-for-woocommerce-admin.php:2275
+#: admin/class-wallet-system-for-woocommerce-admin.php:2899
+#: admin/class-wallet-system-for-woocommerce-admin.php:3064
+#: admin/class-wallet-system-for-woocommerce-admin.php:3160
 #: admin/partials/class-wallet-user-table.php:130
 #: admin/partials/class-wallet-user-table.php:418
 #: admin/partials/class-wallet-user-table.php:583
@@ -885,24 +885,24 @@ msgstr ""
 #: common/class-wallet-system-for-woocommerce-common.php:586
 #: common/class-wallet-system-for-woocommerce-common.php:683
 #: common/class-wallet-system-for-woocommerce-common.php:780
-#: common/class-wallet-system-for-woocommerce-common.php:985
-#: common/class-wallet-system-for-woocommerce-common.php:1070
+#: common/class-wallet-system-for-woocommerce-common.php:986
+#: common/class-wallet-system-for-woocommerce-common.php:1071
 #: includes/class-wallet-system-for-woocommerce-dependency.php:74
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:183
 #: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:166
 #: public/class-wallet-credit-payment-gateway.php:234
-#: public/class-wallet-system-for-woocommerce-public.php:667
-#: public/class-wallet-system-for-woocommerce-public.php:745
-#: public/class-wallet-system-for-woocommerce-public.php:1856
-#: public/class-wallet-system-for-woocommerce-public.php:1929
-#: public/class-wallet-system-for-woocommerce-public.php:2041
+#: public/class-wallet-system-for-woocommerce-public.php:669
+#: public/class-wallet-system-for-woocommerce-public.php:747
+#: public/class-wallet-system-for-woocommerce-public.php:1858
+#: public/class-wallet-system-for-woocommerce-public.php:1931
+#: public/class-wallet-system-for-woocommerce-public.php:2043
 #: public/partials/wallet-system-for-woocommerce-public-display.php:121
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:130
 msgid "Wallet updating notification"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1756
-#: admin/class-wallet-system-for-woocommerce-admin.php:2305
+#: admin/class-wallet-system-for-woocommerce-admin.php:2308
 #: admin/partials/class-wallet-user-table.php:432
 #: admin/partials/class-wallet-user-table.php:597
 #: admin/partials/class-wallet-user-table.php:783
@@ -923,15 +923,15 @@ msgid "Wallet Actions"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1874
-#: admin/class-wallet-system-for-woocommerce-admin.php:3058
+#: admin/class-wallet-system-for-woocommerce-admin.php:3061
 #: common/class-wallet-system-for-woocommerce-common.php:329
 #: common/class-wallet-system-for-woocommerce-common.php:583
-#: common/class-wallet-system-for-woocommerce-common.php:982
-#: common/class-wallet-system-for-woocommerce-common.php:1067
-#: public/class-wallet-system-for-woocommerce-public.php:664
-#: public/class-wallet-system-for-woocommerce-public.php:1853
-#: public/class-wallet-system-for-woocommerce-public.php:1926
-#: public/class-wallet-system-for-woocommerce-public.php:2038
+#: common/class-wallet-system-for-woocommerce-common.php:983
+#: common/class-wallet-system-for-woocommerce-common.php:1068
+#: public/class-wallet-system-for-woocommerce-public.php:666
+#: public/class-wallet-system-for-woocommerce-public.php:1855
+#: public/class-wallet-system-for-woocommerce-public.php:1928
+#: public/class-wallet-system-for-woocommerce-public.php:2040
 #: public/partials/wallet-system-for-woocommerce-public-display.php:118
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:127
 msgid "Wallet credited by "
@@ -980,88 +980,89 @@ msgstr ""
 msgid "Paypal"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2205
+#: admin/class-wallet-system-for-woocommerce-admin.php:2208
 msgid "Withdrawal Id is not given"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2213
+#: admin/class-wallet-system-for-woocommerce-admin.php:2216
 #: admin/partials/class-wallet-user-table.php:654
 #: admin/partials/wps-edit-wallet.php:41
 msgid "User Id is not given"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2228
+#: admin/class-wallet-system-for-woocommerce-admin.php:2231
 msgid "Wallet Amount is not sufficient for widthdrawal."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2269
+#: admin/class-wallet-system-for-woocommerce-admin.php:2272
 msgid " has been debited from wallet through your withdrawing request."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2294
+#: admin/class-wallet-system-for-woocommerce-admin.php:2297
 msgid "( inculding "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2294
-#: admin/class-wallet-system-for-woocommerce-admin.php:2299
+#: admin/class-wallet-system-for-woocommerce-admin.php:2297
+#: admin/class-wallet-system-for-woocommerce-admin.php:2302
+#: node_modules/terser/dist/bundle.min.js:1
 msgid ")"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2296
+#: admin/class-wallet-system-for-woocommerce-admin.php:2299
 msgid "Wallet debited through user withdrawing request "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2299
+#: admin/class-wallet-system-for-woocommerce-admin.php:2302
 msgid "( inculding Withdrawal Fee of "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2315
+#: admin/class-wallet-system-for-woocommerce-admin.php:2318
 msgid "Wallet withdrawal request is approved for user #"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2321
+#: admin/class-wallet-system-for-woocommerce-admin.php:2324
 #: admin/partials/class-wallet-user-table.php:244
 #: admin/partials/class-wallet-user-table.php:796
 #: admin/partials/wps-edit-wallet.php:137
 msgid "There is an error in database"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2335
+#: admin/class-wallet-system-for-woocommerce-admin.php:2338
 msgid "Wallet withdrawal request is rejected for user #"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2347
+#: admin/class-wallet-system-for-woocommerce-admin.php:2350
 msgid "Wallet withdrawal request status is changed to pending for user #"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2369
+#: admin/class-wallet-system-for-woocommerce-admin.php:2372
 msgid "Wallet Withdrawal Requests"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2370
+#: admin/class-wallet-system-for-woocommerce-admin.php:2373
 msgid "Wallet Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2371
+#: admin/class-wallet-system-for-woocommerce-admin.php:2374
 #: admin/partials/wallet-system-withdrawal-setting.php:54
 msgid "Withdrawal Requests"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2372
+#: admin/class-wallet-system-for-woocommerce-admin.php:2375
 #: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:139
 #: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:224
 msgid "View Withdrawal Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2373
+#: admin/class-wallet-system-for-woocommerce-admin.php:2376
 msgid "Edit Withdrawal Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2374
+#: admin/class-wallet-system-for-woocommerce-admin.php:2377
 msgid "Update Withdrawal Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2375
+#: admin/class-wallet-system-for-woocommerce-admin.php:2378
 #: admin/partials/class-wallet-transaction-list-table.php:498
 #: admin/partials/class-wallet-user-table.php:1112
 #: admin/partials/wallet-system-withdrawal-setting.php:30
@@ -1069,47 +1070,47 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2376
+#: admin/class-wallet-system-for-woocommerce-admin.php:2379
 msgid "Not Found Withdrawal Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2377
-#: admin/class-wallet-system-for-woocommerce-admin.php:2756
+#: admin/class-wallet-system-for-woocommerce-admin.php:2380
+#: admin/class-wallet-system-for-woocommerce-admin.php:2759
 msgid "Not found in Trash"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2379
+#: admin/class-wallet-system-for-woocommerce-admin.php:2382
 msgid "Merchant can see all withdrawal request of users"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2393
+#: admin/class-wallet-system-for-woocommerce-admin.php:2396
 msgid "Approved"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2397
+#: admin/class-wallet-system-for-woocommerce-admin.php:2400
 #, php-format
 msgid "Approved <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2406
+#: admin/class-wallet-system-for-woocommerce-admin.php:2409
 msgid "Rejected"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2410
+#: admin/class-wallet-system-for-woocommerce-admin.php:2413
 #, php-format
 msgid "Rejected <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2418
+#: admin/class-wallet-system-for-woocommerce-admin.php:2421
 msgid "Pending"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2421
+#: admin/class-wallet-system-for-woocommerce-admin.php:2424
 #, php-format
 msgid "Pending <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2510
+#: admin/class-wallet-system-for-woocommerce-admin.php:2513
 #: admin/class-wallet-transactions-list.php:45
 #: admin/partials/class-wallet-transaction-list-table.php:56
 #: admin/partials/class-wallet-user-table.php:913
@@ -1118,97 +1119,97 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2512
+#: admin/class-wallet-system-for-woocommerce-admin.php:2515
 #: admin/partials/class-wallet-transaction-list-table.php:58
 #: admin/partials/wallet-system-wallet-transactions.php:58
 #: admin/partials/wps-user-wallet-transactions.php:59
 msgid "Payment Method"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2570
+#: admin/class-wallet-system-for-woocommerce-admin.php:2573
 msgid "Save Changes"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2588
+#: admin/class-wallet-system-for-woocommerce-admin.php:2591
 #: admin/partials/wps-edit-wallet.php:170
 msgid "Amount ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2590
+#: admin/class-wallet-system-for-woocommerce-admin.php:2593
 msgid "Certain amount want to add/deduct from all users wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2602
+#: admin/class-wallet-system-for-woocommerce-admin.php:2605
 msgid "Whether want to add/deduct certain amount from wallet of all users"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2607
+#: admin/class-wallet-system-for-woocommerce-admin.php:2610
 msgid "Radio Demo"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2615
-#: admin/class-wallet-system-for-woocommerce-admin.php:2621
+#: admin/class-wallet-system-for-woocommerce-admin.php:2618
+#: admin/class-wallet-system-for-woocommerce-admin.php:2624
 msgid "Transaction Detail"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2617
+#: admin/class-wallet-system-for-woocommerce-admin.php:2620
 msgid "Enter the details you want to show to user"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2628
+#: admin/class-wallet-system-for-woocommerce-admin.php:2631
 #: admin/partials/class-wallet-user-table.php:1164
 #: admin/partials/class-wallet-user-table.php:1165
 msgid "Update Wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2749
+#: admin/class-wallet-system-for-woocommerce-admin.php:2752
 msgid "Add New Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2750
+#: admin/class-wallet-system-for-woocommerce-admin.php:2753
 msgid "Add Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2751
+#: admin/class-wallet-system-for-woocommerce-admin.php:2754
 msgid "View Wallet Recharge Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2752
+#: admin/class-wallet-system-for-woocommerce-admin.php:2755
 msgid "Edit Wallet Recharge Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2753
+#: admin/class-wallet-system-for-woocommerce-admin.php:2756
 msgid "Update Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2754
+#: admin/class-wallet-system-for-woocommerce-admin.php:2757
 msgid "Search orders"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2755
+#: admin/class-wallet-system-for-woocommerce-admin.php:2758
 msgid "Not Found Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2758
+#: admin/class-wallet-system-for-woocommerce-admin.php:2761
 msgid "Merchant can see all wallet recharge orders."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2819
-#: common/class-wallet-system-for-woocommerce-common.php:1368
-#: public/class-wallet-system-for-woocommerce-public.php:706
-#: public/class-wallet-system-for-woocommerce-public.php:936
+#: admin/class-wallet-system-for-woocommerce-admin.php:2822
+#: common/class-wallet-system-for-woocommerce-common.php:1369
+#: public/class-wallet-system-for-woocommerce-public.php:708
+#: public/class-wallet-system-for-woocommerce-public.php:938
 msgid "Via wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2863
+#: admin/class-wallet-system-for-woocommerce-admin.php:2866
 msgid "Automatically"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2864
+#: admin/class-wallet-system-for-woocommerce-admin.php:2867
 msgid "Wallet is debited through subscription renewal"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2870
+#: admin/class-wallet-system-for-woocommerce-admin.php:2873
 #: includes/class-wallet-system-for-woocommerce-dependency.php:46
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:48
 #: public/class-wallet-credit-payment-gateway.php:66
@@ -1217,221 +1218,221 @@ msgstr ""
 msgid "Wallet Payment"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2872
+#: admin/class-wallet-system-for-woocommerce-admin.php:2875
 msgid "Wallet debited through subscription renewal "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2893
+#: admin/class-wallet-system-for-woocommerce-admin.php:2896
 #: common/class-wallet-system-for-woocommerce-common.php:372
 #: common/class-wallet-system-for-woocommerce-common.php:680
 #: common/class-wallet-system-for-woocommerce-common.php:777
 #: includes/class-wallet-system-for-woocommerce-dependency.php:71
 #: public/class-wallet-credit-payment-gateway.php:231
-#: public/class-wallet-system-for-woocommerce-public.php:742
+#: public/class-wallet-system-for-woocommerce-public.php:744
 #: public/partials/wallet-system-for-woocommerce-public-display.php:164
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:173
 msgid "Wallet debited by "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2933
-#: admin/class-wallet-system-for-woocommerce-admin.php:2935
+#: admin/class-wallet-system-for-woocommerce-admin.php:2936
+#: admin/class-wallet-system-for-woocommerce-admin.php:2938
 msgid "Enable to use wallet amount on renewal order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2946
+#: admin/class-wallet-system-for-woocommerce-admin.php:2949
 msgid "Apply amount type(Depending on order total)"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2948
+#: admin/class-wallet-system-for-woocommerce-admin.php:2951
 msgid "Apply amount type"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2954
+#: admin/class-wallet-system-for-woocommerce-admin.php:2957
 msgid "Fix"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2959
+#: admin/class-wallet-system-for-woocommerce-admin.php:2962
 msgid ""
 "Enter the amount/percentage to be deducted  from wallet during order "
 "renewal( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2961
+#: admin/class-wallet-system-for-woocommerce-admin.php:2964
 msgid ""
 "Enter the amount/percentage to be deducted  from wallet during order renewal."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3015
+#: admin/class-wallet-system-for-woocommerce-admin.php:3018
 msgid "Invalid refund amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3037
+#: admin/class-wallet-system-for-woocommerce-admin.php:3040
 msgid "Refunded to wallet #"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3058
-#: admin/class-wallet-system-for-woocommerce-admin.php:3154
+#: admin/class-wallet-system-for-woocommerce-admin.php:3061
+#: admin/class-wallet-system-for-woocommerce-admin.php:3157
 msgid " through order refund."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3083
-#: admin/class-wallet-system-for-woocommerce-admin.php:3179
+#: admin/class-wallet-system-for-woocommerce-admin.php:3086
+#: admin/class-wallet-system-for-woocommerce-admin.php:3182
 msgid "Wallet credited through order refund "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3088
-#: admin/class-wallet-system-for-woocommerce-admin.php:3184
+#: admin/class-wallet-system-for-woocommerce-admin.php:3091
+#: admin/class-wallet-system-for-woocommerce-admin.php:3187
 msgid "Manually by admin through refund"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3097
+#: admin/class-wallet-system-for-woocommerce-admin.php:3100
 #: public/class-wallet-credit-payment-gateway.php:169
 msgid "Refund not credited to customer"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3154
+#: admin/class-wallet-system-for-woocommerce-admin.php:3157
 msgid "Wallet Partial Payment credited by "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3196
+#: admin/class-wallet-system-for-woocommerce-admin.php:3199
 msgid "refunded to customer wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3227
+#: admin/class-wallet-system-for-woocommerce-admin.php:3230
 msgid "Enable Wallet withdrawal Extra Fee Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3229
-#: admin/class-wallet-system-for-woocommerce-admin.php:3285
-#: admin/class-wallet-system-for-woocommerce-admin.php:3392
-#: admin/class-wallet-system-for-woocommerce-admin.php:3504
+#: admin/class-wallet-system-for-woocommerce-admin.php:3232
+#: admin/class-wallet-system-for-woocommerce-admin.php:3288
+#: admin/class-wallet-system-for-woocommerce-admin.php:3395
+#: admin/class-wallet-system-for-woocommerce-admin.php:3507
 msgid "This is switch field demo follow same structure for further use."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3240
+#: admin/class-wallet-system-for-woocommerce-admin.php:3243
 msgid "Wallet Withdrawal Fee Type"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3242
+#: admin/class-wallet-system-for-woocommerce-admin.php:3245
 msgid "Select Withdrawal Fee type Percentage or Fixed."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3256
-#: admin/class-wallet-system-for-woocommerce-admin.php:3258
+#: admin/class-wallet-system-for-woocommerce-admin.php:3259
+#: admin/class-wallet-system-for-woocommerce-admin.php:3261
 msgid "Enter Fee For Wallet withdrawal Process"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3264
-#: admin/class-wallet-system-for-woocommerce-admin.php:3320
+#: admin/class-wallet-system-for-woocommerce-admin.php:3267
+#: admin/class-wallet-system-for-woocommerce-admin.php:3323
 msgid "Enter wallet Transfer Fee amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3283
+#: admin/class-wallet-system-for-woocommerce-admin.php:3286
 msgid "Enable Wallet transfer Extra Fee Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3296
+#: admin/class-wallet-system-for-woocommerce-admin.php:3299
 msgid "Wallet Transfer Fee Type"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3298
+#: admin/class-wallet-system-for-woocommerce-admin.php:3301
 msgid "Select Transfer Fee type Percentage or Fixed."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3312
-#: admin/class-wallet-system-for-woocommerce-admin.php:3314
+#: admin/class-wallet-system-for-woocommerce-admin.php:3315
+#: admin/class-wallet-system-for-woocommerce-admin.php:3317
 msgid "Enter Fee For Wallet Transfer Process"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3338
+#: admin/class-wallet-system-for-woocommerce-admin.php:3341
 msgid "Enable Referral Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3351
+#: admin/class-wallet-system-for-woocommerce-admin.php:3354
 msgid "Enter Referral Amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3363
+#: admin/class-wallet-system-for-woocommerce-admin.php:3366
 msgid "Enter Referral Description"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3390
+#: admin/class-wallet-system-for-woocommerce-admin.php:3393
 msgid "Enable Wallet Withdrawal Restriction Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3404
+#: admin/class-wallet-system-for-woocommerce-admin.php:3407
 msgid "Minimum Amount For Wallet Withdrawal ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3406
+#: admin/class-wallet-system-for-woocommerce-admin.php:3409
 msgid "Minimum amount needed to wallet withdrawal."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3414
+#: admin/class-wallet-system-for-woocommerce-admin.php:3417
 msgid "Maximum Amount For Wallet Withdrawal ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3416
+#: admin/class-wallet-system-for-woocommerce-admin.php:3419
 msgid "Maximum amount for wallet withdrawal."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3452
+#: admin/class-wallet-system-for-woocommerce-admin.php:3455
 msgid "Enable Wallet Recharge Restriction Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3454
+#: admin/class-wallet-system-for-woocommerce-admin.php:3457
 msgid "Enable to restrict wallet recharge"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3466
+#: admin/class-wallet-system-for-woocommerce-admin.php:3469
 msgid "Minimum Wallet Recharge Amount ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3468
+#: admin/class-wallet-system-for-woocommerce-admin.php:3471
 msgid "Minimum amount needed to recharge wallet."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3476
+#: admin/class-wallet-system-for-woocommerce-admin.php:3479
 msgid "Maximum Wallet Recharge Amount ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3478
+#: admin/class-wallet-system-for-woocommerce-admin.php:3481
 msgid "Maximum amount for wallet recharge."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3502
+#: admin/class-wallet-system-for-woocommerce-admin.php:3505
 msgid "Enable Wallet Transfer Restriction Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3516
+#: admin/class-wallet-system-for-woocommerce-admin.php:3519
 msgid "Minimum Amount For Wallet Transfer ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3518
+#: admin/class-wallet-system-for-woocommerce-admin.php:3521
 msgid "Minimum amount needed to recharge transfer."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3526
+#: admin/class-wallet-system-for-woocommerce-admin.php:3529
 msgid "Maximum Amount For Wallet Transfer ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3528
+#: admin/class-wallet-system-for-woocommerce-admin.php:3531
 msgid "Maximum amount for wallet transfer."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3580
+#: admin/class-wallet-system-for-woocommerce-admin.php:3583
 msgid "----"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3598
+#: admin/class-wallet-system-for-woocommerce-admin.php:3601
 msgid "Enable Wallet Recharge Tab"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3625
+#: admin/class-wallet-system-for-woocommerce-admin.php:3628
 msgid "Enable Wallet Promotions Tab"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3639
+#: admin/class-wallet-system-for-woocommerce-admin.php:3642
 msgid "Enable Wallet Limited Offer Timer"
 msgstr ""
 
@@ -2162,6 +2163,8 @@ msgid "amount"
 msgstr ""
 
 #: admin/partials/wallet-system-rest-api.php:268
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:293
+#: node_modules/yargs/build/lib/usage.js:300
 msgid "number"
 msgstr ""
 
@@ -2179,6 +2182,11 @@ msgstr ""
 #: admin/partials/wallet-system-rest-api.php:288
 #: admin/partials/wallet-system-rest-api.php:293
 #: admin/partials/wallet-system-rest-api.php:298
+#: node_modules/terser/dist/bundle.min.js:1
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:290
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:291
+#: node_modules/yargs/build/lib/usage.js:294
+#: node_modules/yargs/build/lib/usage.js:296
 msgid "string"
 msgstr ""
 
@@ -2479,34 +2487,34 @@ msgstr ""
 msgid " through order cancelled."
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:982
-#: common/class-wallet-system-for-woocommerce-common.php:1067
+#: common/class-wallet-system-for-woocommerce-common.php:983
+#: common/class-wallet-system-for-woocommerce-common.php:1068
 msgid " through product review."
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1006
-#: common/class-wallet-system-for-woocommerce-common.php:1091
+#: common/class-wallet-system-for-woocommerce-common.php:1007
+#: common/class-wallet-system-for-woocommerce-common.php:1092
 msgid "Wallet credited through "
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1207
+#: common/class-wallet-system-for-woocommerce-common.php:1208
 #: includes/class-wallet-system-for-woocommerce.php:513
 #: marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php:35
 #: marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php:51
-#: public/class-wallet-system-for-woocommerce-public.php:796
-#: public/class-wallet-system-for-woocommerce-public.php:2346
+#: public/class-wallet-system-for-woocommerce-public.php:798
+#: public/class-wallet-system-for-woocommerce-public.php:2348
 msgid "Wallet"
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1299
+#: common/class-wallet-system-for-woocommerce-common.php:1300
 msgid "Wallet credited through Commission "
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1305
+#: common/class-wallet-system-for-woocommerce-common.php:1306
 msgid "Commission"
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1315
+#: common/class-wallet-system-for-woocommerce-common.php:1316
 msgid "Commission paid to vendor through wallet"
 msgstr ""
 
@@ -2532,7 +2540,7 @@ msgstr ""
 
 #: includes/class-wallet-system-for-woocommerce-dependency.php:49
 #: public/class-wallet-credit-payment-gateway.php:257
-#: public/class-wallet-system-for-woocommerce-public.php:767
+#: public/class-wallet-system-for-woocommerce-public.php:769
 msgid "Wallet debited through purchasing "
 msgstr ""
 
@@ -2708,6 +2716,534 @@ msgstr ""
 msgid "Wallet credited through Commission received from commission id "
 msgstr ""
 
+#: node_modules/@wordpress/eslint-plugin/node_modules/prettier/parser-glimmer.js:1
+#: node_modules/@wordpress/scripts/node_modules/prettier/parser-glimmer.js:1
+msgid "Broken"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/node_modules/prettier/parser-typescript.js:1
+#: node_modules/@wordpress/scripts/node_modules/prettier/parser-typescript.js:1
+msgid "Error in decoding base64VLQFormatDecode, past the mapping string"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/node_modules/prettier/parser-typescript.js:1
+#: node_modules/@wordpress/scripts/node_modules/prettier/parser-typescript.js:1
+msgid "Invalid character in VLQ"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/node_modules/prettier/parser-typescript.js:1
+#: node_modules/@wordpress/scripts/node_modules/prettier/parser-typescript.js:1
+msgid "Elapsed:: "
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/node_modules/prettier/parser-typescript.js:1
+#: node_modules/@wordpress/scripts/node_modules/prettier/parser-typescript.js:1
+msgid "Project: "
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/node_modules/prettier/parser-typescript.js:1
+#: node_modules/@wordpress/scripts/node_modules/prettier/parser-typescript.js:1
+msgid " TS"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/node_modules/prettier/parser-typescript.js:1
+#: node_modules/@wordpress/scripts/node_modules/prettier/parser-typescript.js:1
+msgid "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/node_modules/prettier/parser-typescript.js:1
+#: node_modules/@wordpress/scripts/node_modules/prettier/parser-typescript.js:1
+#, javascript-format
+msgid "parserOptions.project (excluding ignored) matched projects: %s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:20
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:26
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:32
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:38
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:48
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:61
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-collapsible-whitespace.js:20
+msgid "Hello World…"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:23
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:43
+msgid "HelloWorld…"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:29
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:53
+msgid "Singular…"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:37
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:47
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:60
+msgid "Hello World..."
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:42
+msgid "HelloWorld..."
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-ellipsis.js:52
+msgid "Singular..."
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-placeholders-only.js:20
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-placeholders-only.js:23
+#, javascript-format
+msgid "Hello %s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-placeholders-only.js:26
+#, javascript-format
+msgid "%d%%"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-placeholders-only.js:31
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-placeholders-only.js:43
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:26
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:29
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:32
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:35
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:60
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:101
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:105
+#, javascript-format
+msgid "%s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-placeholders-only.js:35
+#, javascript-format
+msgid "%s%s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-placeholders-only.js:39
+#, javascript-format
+msgid "%1$s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:20
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:26
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:35
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:38
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:47
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:64
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:20
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:23
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:26
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:30
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:42
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:46
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:58
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:64
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:65
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:70
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:71
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:88
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:89
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:94
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:95
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:112
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:116
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:128
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:129
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:140
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:141
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:158
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:159
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:164
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:165
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:170
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:171
+msgid "Hello World"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:23
+msgid "HelloWorld"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:29
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:32
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:41
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:44
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:72
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:80
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-no-variables.js:84
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:34
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:38
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:50
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:54
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:76
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:77
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:82
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:83
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:100
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:101
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:106
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:107
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:120
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:124
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:146
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:147
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:152
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:153
+msgid "Singular"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:134
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-text-domain.js:135
+#: node_modules/yargs/build/lib/usage.js:213
+msgid "default"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:22
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:35
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:41
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:80
+#, javascript-format
+msgid "Color: %s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:28
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:47
+#, javascript-format
+msgid "Address: %s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:56
+#, javascript-format
+msgid "Name: %s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:63
+#, javascript-format
+msgid "Surname: %s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/i18n-translator-comments.js:72
+#, javascript-format
+msgid "Preference: %s"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:48
+#, javascript-format
+msgid "This author has %1$d block, with an average rating of %2$d."
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:97
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:127
+#, javascript-format
+msgid "%%"
+msgstr ""
+
+#: node_modules/@wordpress/eslint-plugin/rules/__tests__/valid-sprintf.js:113
+#, javascript-format
+msgid "This author has %d block, with an average rating of %d."
+msgstr ""
+
+#: node_modules/@wordpress/scripts/node_modules/yargs-parser/index.js:372
+#: node_modules/yargs-parser/build/lib/yargs-parser.js:419
+#: node_modules/yargs/node_modules/yargs-parser/index.js:372
+#, javascript-format
+msgid "Argument unexpected for: %s"
+msgstr ""
+
+#: node_modules/@wordpress/scripts/node_modules/yargs-parser/index.js:382
+#: node_modules/@wordpress/scripts/node_modules/yargs-parser/index.js:392
+#: node_modules/@wordpress/scripts/node_modules/yargs-parser/index.js:446
+#: node_modules/webpack-cli/node_modules/yargs-parser/index.js:367
+#: node_modules/yargs-parser/build/lib/yargs-parser.js:428
+#: node_modules/yargs-parser/build/lib/yargs-parser.js:442
+#: node_modules/yargs-parser/build/lib/yargs-parser.js:495
+#: node_modules/yargs/node_modules/yargs-parser/index.js:382
+#: node_modules/yargs/node_modules/yargs-parser/index.js:392
+#: node_modules/yargs/node_modules/yargs-parser/index.js:446
+#, javascript-format
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+#: node_modules/@wordpress/scripts/node_modules/yargs-parser/index.js:591
+#: node_modules/webpack-cli/node_modules/yargs-parser/index.js:541
+#: node_modules/yargs-parser/build/lib/yargs-parser.js:634
+#: node_modules/yargs/node_modules/yargs-parser/index.js:591
+#, javascript-format
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
+#: node_modules/@wordpress/scripts/node_modules/yargs-parser/index.js:941
+#: node_modules/yargs-parser/build/lib/yargs-parser.js:963
+#: node_modules/yargs/node_modules/yargs-parser/index.js:941
+#, javascript-format
+msgid "Invalid configuration: %s, opts.count excludes opts.array."
+msgstr ""
+
+#: node_modules/@wordpress/scripts/node_modules/yargs-parser/index.js:944
+#: node_modules/yargs-parser/build/lib/yargs-parser.js:967
+#: node_modules/yargs/node_modules/yargs-parser/index.js:944
+#, javascript-format
+msgid "Invalid configuration: %s, opts.count excludes opts.narg."
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:105
+msgid "is not a finite number"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:172
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:188
+msgid "is not a finite floating-point value"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:198
+msgid "is outside the range of a single-precision floating-point value"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:228
+msgid "is a symbol, which cannot be converted to a string"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:239
+msgid "is not a valid ByteString"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:276
+msgid "is not an object"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:288
+msgid "is not a function"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:308
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:343
+msgid "is not a view on an ArrayBuffer object"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:320
+msgid "is not a view on an DataView object"
+msgstr ""
+
+#: node_modules/domexception/node_modules/webidl-conversions/lib/index.js:351
+msgid "is not an ArrayBuffer object or a view on one"
+msgstr ""
+
+#: node_modules/prettier/plugins/babel.js:15
+msgid " \t"
+msgstr ""
+
+#: node_modules/prettier/plugins/babel.js:15
+msgid ",; \t"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "big_int"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "num"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "template_head"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "comment2"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "regexp"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "operator"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "eof"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "expand"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "punc"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "arrow"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "name"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "atom"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "keyword"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "("
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid ":"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid ";"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid ","
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "]"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "}"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "{"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "["
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:92
+#: node_modules/yargs/build/lib/usage.js:90
+msgid "Positionals:"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:192
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:194
+#: node_modules/yargs/build/lib/usage.js:187
+#: node_modules/yargs/build/lib/usage.js:190
+msgid "command"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:203
+#: node_modules/yargs/build/lib/usage.js:198
+msgid "Commands:"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:223
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:458
+#: node_modules/yargs/build/lib/usage.js:457
+msgid "default:"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:225
+#: node_modules/yargs/build/lib/usage.js:215
+msgid "aliases:"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:288
+#: node_modules/yargs/build/lib/usage.js:290
+msgid "boolean"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:289
+#: node_modules/yargs/build/lib/usage.js:292
+msgid "count"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:292
+#: node_modules/yargs/build/lib/usage.js:298
+msgid "array"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:297
+#: node_modules/yargs/build/lib/usage.js:307
+msgid "required"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:298
+#: node_modules/yargs/build/lib/usage.js:308
+msgid "choices:"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:317
+#: node_modules/yargs/build/lib/usage.js:321
+msgid "Examples:"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/usage.js:436
+#: node_modules/yargs/build/lib/usage.js:438
+msgid "generated-value"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:29
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:52
+#, javascript-format
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:40
+#, javascript-format
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:147
+#: node_modules/yargs/build/lib/validation.js:155
+msgid "Invalid values:"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:150
+#: node_modules/yargs/build/lib/validation.js:157
+#, javascript-format
+msgid "Argument: %s, Given: %s, Choices: %s"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:180
+#: node_modules/yargs/build/lib/validation.js:181
+#, javascript-format
+msgid "Argument check failed: %s"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:256
+#: node_modules/yargs/build/lib/validation.js:248
+msgid "Implications failed:"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:295
+#: node_modules/yargs/build/lib/validation.js:284
+#, javascript-format
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+#: node_modules/webpack-cli/node_modules/yargs/lib/validation.js:316
+#: node_modules/yargs/build/lib/validation.js:303
+#, javascript-format
+msgid "Did you mean %s?"
+msgstr ""
+
+#: node_modules/yargs/build/lib/usage.js:219
+#: node_modules/yargs/build/lib/usage.js:302
+#, javascript-format
+msgid "deprecated: %s"
+msgstr ""
+
+#: node_modules/yargs/build/lib/usage.js:222
+#: node_modules/yargs/build/lib/usage.js:303
+msgid "deprecated"
+msgstr ""
+
+#: node_modules/yargs/build/lib/usage.js:241
+msgid "Options:"
+msgstr ""
+
 #: onboarding/templates/wallet-system-for-woocommerce-deactivation-template.php:33
 msgid "May we have a little info about why you are deactivating?"
 msgstr ""
@@ -2781,8 +3317,8 @@ msgid "Sorry, your key details are incorrect."
 msgstr ""
 
 #: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:83
-#: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:199
-#: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:227
+#: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:200
+#: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:228
 msgid "User does not exist"
 msgstr ""
 
@@ -2839,7 +3375,7 @@ msgid "Wallet refund #"
 msgstr ""
 
 #: public/class-wallet-credit-payment-gateway.php:231
-#: public/class-wallet-system-for-woocommerce-public.php:742
+#: public/class-wallet-system-for-woocommerce-public.php:744
 msgid " from your wallet through purchasing."
 msgstr ""
 
@@ -2898,90 +3434,90 @@ msgid "Wallet Amount Removed"
 msgstr ""
 
 #: public/class-wallet-system-for-woocommerce-public.php:154
-#: public/class-wallet-system-for-woocommerce-public.php:456
-#: public/class-wallet-system-for-woocommerce-public.php:496
+#: public/class-wallet-system-for-woocommerce-public.php:458
+#: public/class-wallet-system-for-woocommerce-public.php:498
 msgid "Pay by wallet ("
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:653
+#: public/class-wallet-system-for-woocommerce-public.php:655
 msgid "Wallet Recharge Payment Completed"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:664
+#: public/class-wallet-system-for-woocommerce-public.php:666
 msgid " through wallet recharging."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:687
+#: public/class-wallet-system-for-woocommerce-public.php:689
 msgid "Wallet credited through recharge purchase "
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:767
+#: public/class-wallet-system-for-woocommerce-public.php:769
 msgid " as discount"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1073
+#: public/class-wallet-system-for-woocommerce-public.php:1075
 msgid ""
 "Sorry we cannot recharge wallet with other products, either empty cart or "
 "recharge later when cart is empty"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1074
-#: public/class-wallet-system-for-woocommerce-public.php:1100
+#: public/class-wallet-system-for-woocommerce-public.php:1076
+#: public/class-wallet-system-for-woocommerce-public.php:1102
 msgid "empty"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1099
+#: public/class-wallet-system-for-woocommerce-public.php:1101
 msgid ""
 "Sorry you cannot buy this product since wallet topup is added to cart. If "
 "you want to buy this product, please first remove wallet topup from cart."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1608
+#: public/class-wallet-system-for-woocommerce-public.php:1610
 #, php-format
 msgid "Earn Cashback On Orders Above %s ."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1634
-#: public/class-wallet-system-for-woocommerce-public.php:1663
+#: public/class-wallet-system-for-woocommerce-public.php:1636
+#: public/class-wallet-system-for-woocommerce-public.php:1665
 #, php-format
 msgid ""
 "Upon placing this order a cashback of %s will be credited to your wallet."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1641
-#: public/class-wallet-system-for-woocommerce-public.php:1670
+#: public/class-wallet-system-for-woocommerce-public.php:1643
+#: public/class-wallet-system-for-woocommerce-public.php:1672
 #, php-format
 msgid ""
 "Please <a href=\"%1$s\">log in</a> to avail %2$s cashback from this order."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1713
 #: public/class-wallet-system-for-woocommerce-public.php:1715
+#: public/class-wallet-system-for-woocommerce-public.php:1717
 msgid " Cashback"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1804
+#: public/class-wallet-system-for-woocommerce-public.php:1806
 msgid "You will Get 1 Points on a successful Sign Up."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1853
-#: public/class-wallet-system-for-woocommerce-public.php:1926
+#: public/class-wallet-system-for-woocommerce-public.php:1855
+#: public/class-wallet-system-for-woocommerce-public.php:1928
 msgid " through successfully signup."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1877
+#: public/class-wallet-system-for-woocommerce-public.php:1879
 msgid "Wallet credited through signup "
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1950
+#: public/class-wallet-system-for-woocommerce-public.php:1952
 msgid "Wallet credited through referral to a friend "
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:2038
+#: public/class-wallet-system-for-woocommerce-public.php:2040
 msgid " through visiting site."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:2062
+#: public/class-wallet-system-for-woocommerce-public.php:2064
 msgid "Wallet credited through visiting site. "
 msgstr ""
 
