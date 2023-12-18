@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: digital wallet, cashback coupon, wallet topup, user wallet, woocommerce wallet, partial payment, cashback reward, wallet refunds, payment gateway, woocommerce gift cards
 Requires at least: 5.5.0
-Tested up to: 6.4.1
+Tested up to: 6.4.2
 WC requires at least: 5.5.0
-WC tested up to: 8.2.2
-Stable tag: 2.5.3
+WC tested up to: 8.4.0
+Stable tag: 2.5.5
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -280,12 +280,18 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 26. Wallet Partial Payment for Subscription Product 
 27. Currency Switcher for WooCommerce
 28. Partial and Full Refund to Wallet 
-29. Recharge Using a Gift Card Coupon 
+29. Recharge Using a Gift Card Coupon
+30. Wallet report of users
+31. Wallet report chart
 
 
 == Changelog ==
 
-= 2.5.5 - Released on 15 November 2023 =
+= 2.5.5 - Released on 18 December 2023 =
+* New: Cart and checkout block compatibility.
+* New: Latest WP[6.4.2] and WC[8.4.0].
+
+= 2.5.4 - Released on 15 November 2023 =
 * New: Wallet report section added
 * Fix: Design issues fixed in user transaction table
 * New: Latest WP [6.4.1] and WC [8.2.2] Update
@@ -468,10 +474,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.5 - Released on 15 November 2023 =
-* New: Wallet report section added
-* Fix: Design issues fixed in user transaction table
-* New: Latest WP [6.4.1] and WC [8.2.2] Update
+= 2.5.5 - Released on 18 December 2023 =
+* New: Cart and checkout block compatibility.
+* New: Latest WP[6.4.2] and WC[8.4.0].
 
 
 
