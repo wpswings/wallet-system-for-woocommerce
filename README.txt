@@ -191,7 +191,7 @@ If you need support or have any questions then kindly use our online chat window
 
 Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-org-page&utm_campaign=woocommerce-services)
 
-Get Huge Discounts On Wallet system Plugin During BFCM Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-wallet-offers&utm_medium=wpswings-org-page&utm_campaign=offers)
+Get Huge Discounts On Wallet system Plugin During Christmas/NewYear Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-wallet-offers&utm_medium=wpswings-org-page&utm_campaign=offers)
 
 
 == Installation ==
