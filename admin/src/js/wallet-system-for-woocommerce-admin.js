@@ -54,6 +54,24 @@
 		}
 
 		
+		var interest_type = jQuery('#wps_wsfw_intrest_type_amount_negative_balance').val();
+		if ( interest_type == 'percent' ) {
+			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('max',100);
+		} else{
+			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('max','');
+		}
+
+		// on clicking element change the input type password to text or vice-versa
+		$(document).on( 'change', '#wps_wsfw_intrest_type_amount_negative_balance', function() {
+			var interest_type = jQuery('#wps_wsfw_intrest_type_amount_negative_balance').val();
+			if ( interest_type == 'percent' ) {
+				jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('max',100);
+			} else{
+				jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('max','');
+			}
+		});
+
+		
 		// on clicking element change the input type password to text or vice-versa
 		$(document).on( 'click', '.wps_pro_settings', function() {
 			if (wsfw_admin_param.is_pro_plugin != 1){
@@ -248,7 +266,7 @@
 		});
 		$(document).on("click", "#wps_wallet_submit_val", function(e){
 			e.preventDefault(e);
-			 
+			 jQuery("#wps_wallet_submit_val").attr('disabled',true);
 			var user_wallet_amount =  parseInt($('#wallet-pop-up-user-id').attr('amount'));
 			var wallet_amount =parseInt( $('#wps_wallet-edit-popup-input').val() );
 			if (jQuery('#debit').prop('checked') == true) {
@@ -262,6 +280,7 @@
 				
 			}
 			$('#wps_wallet_submit_val_submit').trigger('click');
+			jQuery("#wps_wallet_submit_val").attr('disabled',true);
 		});
 		
 

@@ -222,6 +222,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				array(
 					'is_pro_plugin'             => apply_filters( 'wsfw_check_pro_plugin', $is_plugin ),
 					'is_action'             => __( 'Action', 'wallet-system-for-woocommerce' ),
+					'subscription_interval'             => __( 'Subscriptions Per Interval can not be greater than Subscriptions Expiry Interval', 'wallet-system-for-woocommerce' ),
+					'subscription_exipry'             => __( 'Subscriptions Expiry Interval can not be less than Subscriptions Per Interval', 'wallet-system-for-woocommerce' ),
 				)
 			);
 		}
@@ -366,7 +368,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 		}
 		$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
-		if ( empty( $wallet_bal) ) {
+		if ( empty( $wallet_bal ) ) {
 			$wallet_bal = 0;
 		}
 		$data      = array(
@@ -400,6 +402,8 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( ! is_int( $thepostid ) ) {
 				$thepostid = $post->ID;
 			}
+		} else {
+			$thepostid = isset( $_GET['id'] ) ? sanitize_text_field( wp_unslash( $_GET['id'] ) ) : '';
 		}
 
 		$order_id = $thepostid;
@@ -407,6 +411,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$order     = wc_get_order( $order_id );
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 			// HPOS usage is enabled.
+
 			$is_refunded = $order->get_meta( '_wps_wallet_partial_payment_refunded', true );
 		} else {
 			$is_refunded = get_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
@@ -2037,6 +2042,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			$user_data      = $user_data->get_results();
 
 			$zsdsd = array();
+			if ( $current_page == 1 ){
+				$zsdsd[] = array( 'User Id', 'Wallet Balance' );
+			}
 
 			if ( ! empty( $user_data ) && is_array( $user_data ) ) {
 				foreach ( $user_data as $key => $user_id ) {

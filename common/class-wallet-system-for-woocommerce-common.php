@@ -428,10 +428,12 @@ class Wallet_System_For_Woocommerce_Common {
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
+		$order          = wc_get_order( $order_id );
+
 		if ( 'on' != get_option( 'wps_wsfw_enable_cashback' ) ) {
 			return;
 		}
-		$order          = wc_get_order( $order_id );
+
 		$payment_method = $order->get_payment_method();
 		$restrict_gatewaay  = ! empty( get_option( 'wps_wsfw_multiselect_cashback_restrict' ) ) ? get_option( 'wps_wsfw_multiselect_cashback_restrict' ) : array();
 		if ( in_array( $payment_method, $restrict_gatewaay ) ) {
@@ -447,6 +449,15 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 			$order_items            = $order->get_items();
 			$order_total            = $order->get_total();
+		$order_shipping = $order->get_shipping_total();
+		$order_total_tax = $order->get_total_tax();
+		if ( ! empty( $order_shipping ) ) {
+			$order_total = $order_total -$order_shipping;
+		}
+		if ( ! empty( $order_total_tax ) ) {
+			$order_total = $order_total - $order_total_tax;
+		}
+		
 			$order_currency         = $order->get_currency();
 			$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 			$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
@@ -936,7 +947,7 @@ class Wallet_System_For_Woocommerce_Common {
 			$wps_wsfw_wallet_action_comment_amount   = ! empty( get_option( 'wps_wsfw_wallet_action_comment_amount' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_amount' ) : 1;
 			$wps_wsfw_wallet_action_restrict_comment = get_option( 'wps_wsfw_wallet_action_restrict_comment', '' );
 			$current_currency                        = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
-
+			$amount = '';
 			if ( 'on' === $wps_wsfw_enable && 'on' === $wps_wsfw_wallet_action_comment_enable ) {
 
 				$walletamount           = get_user_meta( $user_id, 'wps_wallet', true );
@@ -946,17 +957,20 @@ class Wallet_System_For_Woocommerce_Common {
 				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 				$user_comment           = WC()->session->get( 'w1' );
 				$wsfw_comment_limit     = WC()->session->get( 'w2' );
-
-				if ( count( $user_comment ) < $wsfw_comment_limit ) {
-					$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
-					if ( 'not_done' === $wps_wsfw_comment_done ) {
-						$amount          = $wps_wsfw_wallet_action_comment_amount;
-						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
-						$walletamount    += $credited_amount;
-						update_user_meta( $user_id, 'wps_wallet', $walletamount );
-						update_option( $comment_ids . '_wps_wsfw_comment_done', 'done' );
-						$updated = true;
+				if ( ! empty ( $user_comment ) ) {
+					if ( count( $user_comment ) < $wsfw_comment_limit ) {
+						$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
+	
+						if ( 'not_done' === $wps_wsfw_comment_done ) {
+							$amount          = $wps_wsfw_wallet_action_comment_amount;
+							$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
+							$walletamount    += $credited_amount;
+							update_user_meta( $user_id, 'wps_wallet', $walletamount );
+							update_option( $comment_ids . '_wps_wsfw_comment_done', 'done' );
+							$updated = true;
+						}
 					}
+
 				}
 			}
 		}
@@ -1304,6 +1318,73 @@ class Wallet_System_For_Woocommerce_Common {
 				}
 			}
 		}
+
+	}
+	/**
+	 * Function to support Wallet Payment in Woocommerce Block.
+	 *
+	 * @return void
+	 */
+	public function wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support() {
+
+		if ( ! class_exists( 'Wallet_Credit_Payment_Gateway' ) ) {
+			return;
+		}
+
+		if ( class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+			require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'includes/wcblocks/class-wc-gateway-wallet-system-payments-blocks-support.php';
+
+			add_action(
+				'woocommerce_blocks_payment_method_type_registration',
+				function ( Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
+					$payment_method_registry->register( new WC_Gateway_Wallet_System_Payments_Blocks_Support() );
+				}
+			);
+		}
+	}
+
+
+	/**
+	 * This function is  used for tax in checkout block.
+	 *
+	 * @param [type] $tax_totals is the tax total of order.
+	 * @param [type] $item is the order item.
+	 * @return mixed
+	 */
+	public function wps_wsfw_woocommerce_order_get_tax_totals( $tax_totals, $item ) {
+
+		$order_id = $item->get_id();
+
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// HPOS usage is enabled.
+			$check_wallet_thankyou = $item->get_meta( 'is_block_initiated', true );
+		} else {
+			$check_wallet_thankyou = get_post_meta( $order_id, 'is_block_initiated', true );
+		}
+
+		if ( 'done' == $check_wallet_thankyou ) {
+
+			foreach ( $item->get_fees() as $item_fee ) {
+				$fee_name    = $item_fee->get_name();
+				$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
+				$index = 0;
+				if ( $wallet_name === $fee_name ) {
+
+					foreach ( $tax_totals as $key => $value ) {
+
+						if ( 0 == $index ) {
+
+							$value->amount = $item->get_total_tax();
+							$value->formatted_amount = wc_price( $item->get_total_tax() );
+							$index++;
+						}
+						// code...
+					}
+				}
+			}
+		}
+
+		return $tax_totals;
 
 	}
 

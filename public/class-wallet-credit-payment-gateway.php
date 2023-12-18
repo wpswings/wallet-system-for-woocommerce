@@ -55,8 +55,10 @@ function wps_wsfw_wallet_payment_gateway_init() {
 	class Wallet_Credit_Payment_Gateway extends WC_Payment_Gateway {
 		/**
 		 * Constructor for the gateway.
+		 *
+		 * @param boolean $is_block is the variable for block checkout.
 		 */
-		public function __construct() {
+		public function __construct( $is_block = true ) {
 
 			$this->id                 = 'wps_wcb_wallet_payment_gateway';
 			$this->icon               = apply_filters( 'woocommerce_wallet_gateway_icon', '' );
@@ -66,6 +68,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 			// Load the settings.
 			$this->init_form_fields();
+
 			// Define user set variables.
 			$this->title        = $this->get_option( 'title' );
 			$this->description  = $this->get_option( 'description' );
@@ -102,7 +105,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					'title'       => __( 'Description', 'wallet-system-for-woocommerce' ),
 					'type'        => 'textarea',
 					'description' => __( 'Payment method description that the customer will see on your checkout.', 'wallet-system-for-woocommerce' ),
-					'default'     => __( 'Your amount is deducted from your wallet.', 'wallet-system-for-woocommerce' ),
+					'default'     => '',
 					'desc_tip'    => true,
 				),
 

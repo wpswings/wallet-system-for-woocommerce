@@ -7054,7 +7054,6 @@ const ReportingSystem = () => {
     };
 
     axios__WEBPACK_IMPORTED_MODULE_2___default().post(frontend_ajax_object.ajaxurl, qs__WEBPACK_IMPORTED_MODULE_3___default().stringify(user)).then(res => {
-      debugger;
       console.log(res.data);
       const data = [{
         name: 'Credit',

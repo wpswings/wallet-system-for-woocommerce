@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.5.4';
+			$this->version = '2.5.5';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -343,6 +343,10 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'mvx_parent_order_to_vendor_order_statuses_to_sync', $wsfw_plugin_common, 'wsfw_mvx_parent_order_to_vendor_order_statuses_to_sync', 10, 1 );
 			$this->loader->add_filter( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wsfw_wsfw_commission_ordeer_status_change', 10, 3 );
 		}
+		// woocommerce block code for wallet payment.
+		$this->loader->add_action( 'woocommerce_blocks_loaded', $wsfw_plugin_common, 'wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support' );
+		$this->loader->add_filter( 'woocommerce_order_get_tax_totals', $wsfw_plugin_common, 'wps_wsfw_woocommerce_order_get_tax_totals', 99999, 2 );
+
 	}
 
 	/**
@@ -378,6 +382,10 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_public, 'wps_wsfw_remove_customer_details_in_emails', 5, 1 );
 			$this->loader->add_action( 'woocommerce_before_cart_table', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
 			$this->loader->add_action( 'woocommerce_before_checkout_form', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
+
+			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
+			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
+
 			// show cashback notice on shop page.
 			$this->loader->add_action( 'woocommerce_after_shop_loop_item_title', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 			$this->loader->add_action( 'woocommerce_single_product_summary', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
@@ -392,6 +400,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_cart_get_fee_taxes', $wsfw_plugin_public, 'wsfw_wallet_get_fee_taxes', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
 			$this->loader->add_filter( 'woocommerce_thankyou_order_id', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_order_id', 99999 );
+			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_page', 99999 );
 			$this->loader->add_filter( 'wc_order_types', $wsfw_plugin_public, 'wps_wsfw_wc_order_types_', 20, 2 );
 			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
@@ -399,6 +408,10 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wp_loaded', $wsfw_plugin_public, 'wps_wsfw_referral_link_using_cookie' );
 			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules', 10 );
 			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class', 10, 2 );
+			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', $wsfw_plugin_public, 'wsfw_wps_enqueue_script_block_eheckout', 10 );
+			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders_api_checkout_org', 90 );
+			$this->loader->add_filter( 'woocommerce_calculated_total', $wsfw_plugin_public, 'wps_wsfw_woocommerce_calculated_total_for_tax', 20, 2 );
+
 		}
 
 	}

@@ -39,7 +39,7 @@
 					
 					if ( $('#partial_payment_wallet:checked').val() == 'enable' ) {
 						if ($('.partial_amount').length === 0) {
-							$( '.partial_payment' ).after('<tr class="partial_amount" ><td colspan="2"><p class="ajax_msg"></p><div class="discount_box"><p class="wallet-amount">' + wsfw_public_param.wsfw_partial_payment_msg + '</p><p class="wallet-amount form-row form-row-first"><input type="number" class="input-text" name="wallet_amount" id="wallet_amount"></p><p class="form-row form-row-last"><button type="button" class="button" id="apply_wallet" name="apply_wallet" value="Apply coupon">' + wsfw_public_param.wsfw_apply_wallet_msg + '</button></p></div></td></tr>');
+							$( '.partial_payment' ).after('<tr class="partial_amount" ><td colspan="2"><p class="ajax_msg"></p><div class="discount_box"><p class="wallet-amount">' + wsfw_public_param.wsfw_partial_payment_msg + '</p><p class="wallet-amount form-row form-row-first"><input type="number" class="input-text" name="wallet_amount"  min="0" id="wallet_amount"></p><p class="form-row form-row-last"><button type="button" class="button" id="apply_wallet" name="apply_wallet" value="Apply coupon">' + wsfw_public_param.wsfw_apply_wallet_msg + '</button></p></div></td></tr>');
 						}
 					} else {
 						$( '.partial_amount' ).remove();
@@ -73,6 +73,7 @@
 							success: function( response ) {
 								 
 								if ( response.status == true ) {
+									
 									$('#wps_wallet_show_total_msg').css('color', 'green');
 									$( '#wps_wallet_show_total_msg' ).html(response.message);
 									setTimeout(function(){
@@ -114,8 +115,10 @@
 			});
 			
 		});
-
 		
+	
+
+
 		// Unset manually amount in partial payment.
 		$(document).on( 'click','#wps_withdrawal_table_div', function(){
 			jQuery('.wps_withdrawal_table').show();
@@ -193,6 +196,7 @@
 				},
 				dataType: 'JSON',
 				success: function( response ) {
+					
 					if ( response.status == true ) {
 						$( '.ajax_msg' ).html(response.message);
 						$(document.body).trigger('update_checkout');
@@ -355,39 +359,62 @@
 
 		
 	});
+	
 
 })( jQuery );
 
-
 function copyshareurl() {
-
-	// Get the text field.
-	var copyText = jQuery( '#wps_wsfw_copy' ).html();
-
-	/* Get the text field */
-	var copyText = document.getElementById( "wps_wsfw_copy" );
-
-	/* Prevent iOS keyboard from opening */
-	copyText.readOnly = true;
-
-	/* Change the input's type to text so its text becomes selectable */
-	copyText.type = 'text';
-
-	/* Select the text field */
-	copyText.select();
-	copyText.setSelectionRange( 0, 99999 ); /* For mobile devices */
-
-	/* Copy the text inside the text field */
-	navigator.clipboard.writeText( copyText.value );
-
-	/* Replace the tooltip's text */
-	var tooltip       = document.getElementById( "myTooltip_referral" );
-	tooltip.innerHTML = "Copied: " + copyText.value;
-
-	/* Change the input's type back to hidden */
-	copyText.type     = 'hidden';
-	var tooltip       = document.getElementById( "myTooltip_referral" );
-	tooltip.innerHTML = "       Copied!";
-	jQuery( '.wps_wsfw_btn_copy' ).hide();
-	// Alert the copied text.
+    const pasteText = document.querySelector("#pasteText");
+    // Get the text field.
+    var copyText = jQuery( '#wps_wsfw_copy' ).html();
+    /* Get the text field */
+    var copyText = document.getElementById( "wps_wsfw_copy" );
+    if (navigator.clipboard) {
+		/* Prevent iOS keyboard from opening */
+		copyText.readOnly = true;
+		/* Change the input's type to text so its text becomes selectable */
+		copyText.type = 'text';
+		/* Select the text field */
+		copyText.select();
+		copyText.setSelectionRange( 0, 99999 ); /* For mobile devices */
+		/* Copy the text inside the text field */
+		navigator.clipboard.writeText( copyText.value );
+		/* Replace the tooltip's text */
+		var tooltip       = document.getElementById( "myTooltip_referral" );
+		tooltip.innerHTML = "Copied: " + copyText.value;
+		/* Change the input's type back to hidden */
+		copyText.type     = 'hidden';
+		var tooltip       = document.getElementById( "myTooltip_referral" );
+		tooltip.innerHTML = "       Copied!";
+		jQuery( '.wps_wsfw_btn_copy' ).hide();
+		// Alert the copied text.
+    } else {
+        var textArea = document.createElement("textarea");
+		// Set the text content to be copied.
+		textArea.value = copyText.value;
+		// Set the text area to be invisible.
+		textArea.style.position = "fixed";
+		textArea.style.top = "-9999px";
+		// Append the text area to the document.
+		document.body.appendChild(textArea);
+		// Select the text content in the text area.
+		textArea.select();
+		try {
+			// Execute the copy command.
+			var successful = document.execCommand('copy');
+			var message = successful ? 'Text copied to clipboard' : 'Unable to copy text';
+			console.log(message);
+		} catch (err) {
+			console.error('Error in copying text:', err);
+		}
+		// Clean up - remove the temporary text area.
+		document.body.removeChild(textArea);
+		var tooltip       = document.getElementById( "myTooltip_referral" );
+		tooltip.innerHTML = "Copied: " + copyText.value;
+		/* Change the input's type back to hidden */
+		copyText.type     = 'hidden';
+		var tooltip       = document.getElementById( "myTooltip_referral" );
+		tooltip.innerHTML = "       Copied!";
+		jQuery( '.wps_wsfw_btn_copy' ).hide();
+    }
 }
