@@ -2042,6 +2042,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			$user_data      = $user_data->get_results();
 
 			$zsdsd = array();
+			if ( $current_page == 1 ){
+				$zsdsd[] = array( 'User Id', 'Wallet Balance' );
+			}
 
 			if ( ! empty( $user_data ) && is_array( $user_data ) ) {
 				foreach ( $user_data as $key => $user_id ) {
