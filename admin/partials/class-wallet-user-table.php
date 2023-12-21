@@ -35,7 +35,11 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 			$first_row    = fgetcsv( $file );
 			$user_id      = $first_row[0];
 			$balance      = $first_row[1];
-			$amount_type      = $first_row[2];
+			$amount_type  = $first_row[2];
+			$user_id      = preg_replace( '/[^\P{C}\t\n\r ]+/u', '', $user_id );
+			$balance      = preg_replace( '/[^\P{C}\t\n\r ]+/u', '', trim( $balance ) );
+
+			
 			if ( 'User Id' != $user_id || 'Wallet Balance' != $balance ) {
 				$wps_wsfw_error_text = esc_html__( 'You have not selected correct file(fields are not matching)', 'wallet-system-for-woocommerce' );
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
