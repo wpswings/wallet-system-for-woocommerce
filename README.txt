@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.4.2
 WC requires at least: 5.5.0
 WC tested up to: 8.4.0
-Stable tag: 2.5.5
+Stable tag: 2.5.6
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -287,7 +287,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.5 - Released on 18 December 2023 =
+= 2.5.6 - Released on 18 December 2023 =
 * New: Cart and checkout block compatibility.
 * New: Latest WP[6.4.2] and WC[8.4.0].
 
@@ -474,7 +474,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.5 - Released on 18 December 2023 =
+= 2.5.6 - Released on 18 December 2023 =
 * New: Cart and checkout block compatibility.
 * New: Latest WP[6.4.2] and WC[8.4.0].
 
