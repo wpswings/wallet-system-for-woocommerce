@@ -46,10 +46,17 @@
 		jQuery('.wps-wsfw-number').append('<input type="hidden" id="user_check_box_ids" name="user_check_box_ids" value="" />');
     
 		jQuery('#wsfw_wallet_amount_for_users').attr('step','any');
-
+debugger;
 		if (wsfw_admin_param.is_pro_plugin != 1){
 
-			jQuery('.wps_pro_settings').attr('disabled','disabled');
+			
+			for (let index = 0; index < jQuery('.wps_pro_settings').length; index++) {
+				
+				if (jQuery(jQuery('.wps_pro_settings')[index]).attr('type') != "checkbox"){
+					jQuery(jQuery('.wps_pro_settings')[index]).attr('disabled','disabled');
+				}
+				
+			}
 
 		}
 
@@ -158,7 +165,8 @@
 				
 						wps_wsfw_export_wallet_data( user_count, response.current_page , response.csv_data);
 					} else {
-		
+
+								
 						var filename = 'users_wallet.csv';
 						let csvContent = "data:text/csv;charset=utf-8,";
 						response.csv_data.forEach(function(rowArray) {

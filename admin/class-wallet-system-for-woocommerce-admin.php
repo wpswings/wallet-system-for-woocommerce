@@ -95,7 +95,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				time(),
 				false
 			);
-			return;
+			
 		}
 
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
@@ -105,6 +105,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+		
 		if ( ! $is_pro_plugin ) {
 			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-pro', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/css/wallet-system-for-woocommerce-wallet-pro-css.css', array(), time(), 'all' );
 
@@ -2112,6 +2113,8 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function wps_wsfw_download_pdf_file_callback() {
+
+		
 		if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
 
 			global $wpdb;
@@ -2194,6 +2197,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
+		
 	}
 
 	/**
@@ -3229,7 +3233,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet withdrawal Extra Fee Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable the withdrawal setting.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_wallet_action_withdrawal_enable',
 				'id'          => 'wps_wsfwp_wallet_action_withdrawal_enable',
 				'value'       => get_option( 'wps_wsfwp_wallet_action_withdrawal_enable' ),
@@ -3285,7 +3289,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet transfer Extra Fee Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable the Transfer Setting.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_wallet_action_transfer_enable',
 				'id'          => 'wps_wsfwp_wallet_action_transfer_enable',
 				'value'       => get_option( 'wps_wsfwp_wallet_action_transfer_enable' ),
@@ -3340,7 +3344,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Referral Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Check this box to enable the Comment Amount when comment is approved..', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable the Referral setting.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_refer_friend_enable',
 				'id'          => 'wps_wsfw_wallet_action_refer_friend_enable',
 				'value'       => '',
@@ -3353,7 +3357,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enter Referral Amount', 'wallet-system-for-woocommerce' ),
 				'type'        => 'number',
-				'description' => __( 'The amount which new customers will get after their comments are approved..', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'The amount which customers will get after their referral .', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_referal_amount',
 				'id'          => 'wps_wsfw_wallet_action_referal_amount',
 				'step'        => '0.01',
@@ -3365,7 +3369,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enter Referral Description', 'wallet-system-for-woocommerce' ),
 				'type'        => 'textarea',
-				'description' => __( 'Enter message for user that display on product page.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enter message for user that display on Referral page.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_referral_description',
 				'id'          => 'wps_wsfw_wallet_action_referral_description',
 				'step'        => '0.01',
@@ -3373,7 +3377,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => __( 'Enter comment description', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
-
 		);
 
 		return $wsfw_settings_template;
@@ -3798,4 +3801,3 @@ class Wallet_System_For_Woocommerce_Admin {
 
 
 }
-

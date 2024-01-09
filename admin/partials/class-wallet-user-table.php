@@ -193,7 +193,6 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 	}
 	if ( $update ) {
 
-
 		$user_count = count_users()['total_users'];
 		$current_page  = 1;
 		$reset_status  = '';
@@ -903,6 +902,7 @@ class Wallet_User_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
 	}
+	
 
 	/**
 	 * This function is used to get columns.

@@ -63,6 +63,8 @@ class Wallet_System_AjaxHandler {
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
 				$message['price']   = wc_price( $amount );
 				WC()->session->set( 'custom_fee', $amount );
+				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
+				WC()->session->set( 'is_wallet_partial_payment_block', $amount );
 
 			} else {
 				$message['status']  = false;

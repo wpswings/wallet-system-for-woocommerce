@@ -328,6 +328,14 @@ input#wps_wsfw_export_pdf {
   border-radius: 0;
 }
 
+input#wps_wsfw_export_csv {
+  margin: 0 0 10px;
+  border: none;
+  background: #2194ef;
+  color: #fff;
+  border-radius: 0;
+}
+
 
 .wps_wsfwp_table_wrap {
   width: 100%;

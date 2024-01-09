@@ -158,19 +158,29 @@ class Wallet_System_For_Woocommerce_Public {
 			$block_wallet_partial_name = '';
 			$block_data = '';
 		}
+		$discount_ = '';
+		$discount_amount = '';
+		if ( WC()->session->__isset( 'is_wallet_partial_payment_checkout' ) ) {
+			$discount_ = (bool) WC()->session->get( 'is_wallet_partial_payment_checkout' );
+			$discount_amount = (float) WC()->session->get( 'is_wallet_partial_payment_block' );
+		
+		}
+
 
 		wp_register_script( 'wallet-system-for-woocommerce-block-checkout', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-block-checkout.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script(
 			'wallet-system-for-woocommerce-block-checkout',
 			'wsfw_public_param_block',
 			array(
-				'ajaxurl'                   => admin_url( 'admin-ajax.php' ),
-				'nonce'                     => wp_create_nonce( 'ajax-nonce' ),
-				'wsfw_unset_amount'              => __( 'Wallet Amount Removed', 'wallet-system-for-woocommerce' ),
-				'partial_payment_data_html'      => $block_data,
-				'partial_payment_data_html_name' => $block_wallet_partial_name,
-				'wsfw_partial_payment_msg'       => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
-				'wsfw_apply_wallet_msg'          => __( 'Apply wallet', 'wallet-system-for-woocommerce' ),
+				'ajaxurl'                         => admin_url( 'admin-ajax.php' ),
+				'nonce'                           => wp_create_nonce( 'ajax-nonce' ),
+				'wsfw_unset_amount'               => __( 'Wallet Amount Removed', 'wallet-system-for-woocommerce' ),
+				'partial_payment_data_html'       => $block_data,
+				'partial_payment_data_html_name'  => $block_wallet_partial_name,
+				'wsfw_partial_payment_msg'        => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
+				'wsfw_apply_wallet_msg'           => __( 'Apply wallet', 'wallet-system-for-woocommerce' ),
+				'wsfw_applied_wallet_amount'      => $discount_,
+				'wsfw_applied_wallet_amount_data' => $discount_amount,
 			)
 		);
 		wp_enqueue_script( 'wallet-system-for-woocommerce-block-checkout' );
@@ -942,6 +952,7 @@ class Wallet_System_For_Woocommerce_Public {
 				);
 			}
 		}
+	
 
 		if ( $this->is_enable_wallet_partial_payment() ) {
 			if ( ! empty( $fee ) ) {

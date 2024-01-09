@@ -199,6 +199,7 @@
 					
 					if ( response.status == true ) {
 						$( '.ajax_msg' ).html(response.message);
+
 						$(document.body).trigger('update_checkout');
 						window.location.reload();
 					} else {
