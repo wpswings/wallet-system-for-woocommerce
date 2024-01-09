@@ -428,7 +428,7 @@ $date_to = '';
 
 
 
-if(isset( $_POST['wps_wsfw_export_csv'] )){
+if(isset( $_POST['action'] )){
 	
 	$current_page  = 1;
 	$reset_status  = '';
@@ -455,7 +455,7 @@ if(isset( $_POST['wps_wsfw_export_csv'] )){
 	if ( $transaction_count > $get_count ) {
 
 		$get_count = $get_count;
-		$loop_count = round( $transaction_count / $get_count );
+		$loop_count = round( $transaction_count / $get_count )+1;
 	} else {
 		$get_count = $transaction_count;
 		$loop_count = 1;
@@ -479,13 +479,13 @@ if(isset( $_POST['wps_wsfw_export_csv'] )){
 				$result  = false;
 
 			} else {
-				
+			
 				$result  = true;
 			}
 			$index ++;
 		}
 	}
-	
+
 	if ($result){
 		if (!empty($data)) {
 			$csv_data = $data['csv_data'];
@@ -502,7 +502,8 @@ if(isset( $_POST['wps_wsfw_export_csv'] )){
 			fclose($file);
 
 			// Output a download link for the generated CSV file
-			echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none" download>Download Transaction CSV Data </a>';
+			echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
+		
 			?>
 			<script>
 				debugger;
@@ -636,9 +637,9 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		</form>
 	</div>
 	<div class="dataTables_length_wallet_custom_search_table">
-	<form method="POST" class="wps_form_get_export_pdf">
+	<form method="GET" class="wps_form_get_export_pdf">
 		<input type="submit" class="btn button" name= "wps_wsfw_export_pdf" id="wps_wsfw_export_pdf" value="<?php esc_html_e( 'Export PDF', 'wallet-system-for-woocommerce' ); ?>">
-		<input type="submit" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
+		<input type="button" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
 	
 	</form>
 		<form method="post">

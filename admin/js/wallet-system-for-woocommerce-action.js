@@ -9,6 +9,15 @@
 
     }
 
+    jQuery('.bulkactions').hide();
+
+
+    
+    jQuery(document).on( 'click', '#wps_wsfw_export_csv', function() {
+		debugger;
+      const myAnchor = document.getElementById('doaction');
+				myAnchor.click();
+		});
     
     jQuery( "#wps_sfw_subscription_interval" ).change(function() {
        

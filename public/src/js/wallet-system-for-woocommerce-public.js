@@ -50,6 +50,9 @@
 					
 				});
 
+
+				
+
 				// Totally partial payment.
 				$( '#partial_total_payment_wallet' ).on('click', function(){
 					if ( $('#partial_total_payment_wallet:checked').val() == 'total_enable' ) {

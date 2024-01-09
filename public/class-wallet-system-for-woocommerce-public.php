@@ -180,7 +180,7 @@ class Wallet_System_For_Woocommerce_Public {
 				'wsfw_partial_payment_msg'        => __( 'Amount want to use from wallet', 'wallet-system-for-woocommerce' ),
 				'wsfw_apply_wallet_msg'           => __( 'Apply wallet', 'wallet-system-for-woocommerce' ),
 				'wsfw_applied_wallet_amount'      => $discount_,
-				'wsfw_applied_wallet_amount_data' => $discount_amount,
+				'wsfw_applied_wallet_amount_data' => wc_price( $discount_amount ),
 			)
 		);
 		wp_enqueue_script( 'wallet-system-for-woocommerce-block-checkout' );
