@@ -3566,8 +3566,13 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @param    array $column    Array of available columns.
 	 * @param    int   $post_id   Current Order post id.
 	 */
-	public function wps_wocuf_pro_populate_wallet_order_column( $column, $post_id ) {
+	public function wps_wocuf_pro_populate_wallet_order_column( $column, $post ) {
 
+		if( is_object($post)){
+			$post_id = $post->get_id();
+		} else{
+			$post_id = $post;
+		}
 		$order = wc_get_order( $post_id );
 		$wallet_order = '';
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
