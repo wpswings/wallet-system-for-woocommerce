@@ -1291,6 +1291,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wocuf_initate_upsell_orders_api_checkout_org( $order ) {
 
 		$order_id               = $order->get_id();
+		$this->wsfw_wallet_add_order_detail_api( $order );
 		$userid                 = $order->get_user_id();
 		$payment_method         = $order->get_payment_method();
 		$new_status             = $order->get_status();
@@ -2223,9 +2224,97 @@ class Wallet_System_For_Woocommerce_Public {
 				update_post_meta( $order_id, '_order_total', $_order_total );
 			}
 
+			$tax_display = get_option('woocommerce_tax_display_shop');
+
+			// Check if taxes are included or excluded
+			// if ($tax_display === 'incl') {
+			// 	$order_total = $order->get_total();
+			// }
+			// elseif ($tax_display === 'excl') {
+				
+			// 	$order_total = $order->get_total();
+			// 	$order_total = $order_total + abs( $fee_total_tax );
+			// 	$order->set_total( $order_total );
+			// } else {
+			// 	$order_total = $order->get_total();
+			// 	$order_total = $order_total + abs( $fee_total_tax );
+			// 	$order->set_total( $order_total );
+			// }
+			
+			
+
+			$item_fee = new WC_Order_Item_Fee();
+
+			$item_fee->set_name( $fee_name );
+			$item_fee->set_amount( $fee_total );
+			$item_fee->set_tax_class( '' );
+			$item_fee->set_tax_status( '' );
+			$item_fee->set_total( $fee_total );
+			$item_fee->set_total_tax( 0 );
+
+			// Add Fee item to the order.
+			$order->add_item( $item_fee );
+			$order->save();
+
+		}
+
+	}
+
+
+	/**
+	 * Fix html via wallet at order details
+	 *
+	 * @param object $order as order.
+	 * @return void
+	 */
+	public function wsfw_wallet_add_order_detail_api( $order ) {
+		$fee_name = '';
+		$fee_total = '';
+		$fee_total_tax = '';
+		$order_fee_array = $order->get_items( 'fee' );
+		foreach ( $order_fee_array as $item_id => $item_fee ) {
+
+			if ( $item_fee->get_name() == 'Via wallet' ) {
+				$fee_name = $item_fee->get_name();
+				$fee_total = $item_fee->get_total();
+				$fee_total_tax = abs( $item_fee->get_total_tax() );
+				$order->remove_item( $item_id );
+				break;
+			}
+		}
+
+		if ( ! empty( $fee_total_tax ) ) {
+			$order_id = $order->get_id();
+			$order_tax = '';
+			$order_tax = $order->get_total_tax();
+			$order_tax = ( floatval( $order_tax ) + abs( ( $fee_total_tax ) ) );
+			$order->set_cart_tax( $order_tax );
+			$order->save();
+			$order_tax = $order->get_total_tax();
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+				// HPOS usage is enabled.
+				$_order_total = $order->get_meta( '_order_total', true );
+			} else {
+				$_order_total = get_post_meta( $order_id, '_order_total', true );
+			}
+
+			$_order_total = ( floatval( $_order_total ) + abs( ( $fee_total_tax ) ) );
+
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+				// HPOS usage is enabled.
+				$order->update_meta_data( '_order_total', $_order_total );
+				$order->save();
+
+			} else {
+				update_post_meta( $order_id, '_order_total', $_order_total );
+			}
+
+						
 			$order_total = $order->get_total();
 			$order_total = $order_total + abs( $fee_total_tax );
 			$order->set_total( $order_total );
+			
+			
 
 			$item_fee = new WC_Order_Item_Fee();
 
@@ -2273,6 +2362,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wsfw_woocommerce_thankyou_order_id( $order_id ) {
 
 		$order = new WC_Order( $order_id );
+		
 		$this->wsfw_wallet_add_order_detail( $order );
 		WC()->session->__unset( 'is_wallet_partial_payment' );
 		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
