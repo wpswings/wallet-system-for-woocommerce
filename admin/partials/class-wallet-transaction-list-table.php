@@ -67,6 +67,8 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	public function get_bulk_actions() {
         $actions = array(
             'export_csv' => 'Export to CSV',
+			'export_excel' => 'Export to Excel',
+			
         );
         return $actions;
     }
@@ -415,6 +417,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 					$per_page,
 					$offset
 				),
+
 				ARRAY_A
 			);
 
@@ -430,6 +433,7 @@ $date_to = '';
 
 if(isset( $_POST['action'] )){
 	
+
 	$current_page  = 1;
 	$reset_status  = '';
 	$get_count = 10;
@@ -438,11 +442,9 @@ if(isset( $_POST['action'] )){
 	// SQL query.
 	global $wpdb;
 	$transaction_count = $wpdb->get_results(
-		$wpdb->prepare(
+		
 			"SELECT count(id) as transaction_count
-		FROM {$wpdb->prefix}wps_wsfw_wallet_transaction",
-			
-		),
+			FROM {$wpdb->prefix}wps_wsfw_wallet_transaction",
 		
 	);
 
@@ -450,7 +452,7 @@ if(isset( $_POST['action'] )){
 		$transaction_count = $transaction_count[0];
 		$transaction_count = $transaction_count->transaction_count ;
 	}
-	
+
 
 	if ( $transaction_count > $get_count ) {
 
@@ -461,72 +463,58 @@ if(isset( $_POST['action'] )){
 		$loop_count = 1;
 	}
 
-	
+		
 	$data = array(
 		'per_user_left'     => '',
 		'csv_data'     => '',
 	);
 	if ( $loop_count > 0 ) {
 		$index = 1;
-
 		for ( $i = 0; $i <= $loop_count; $i++ ) {
 			$user_count =intval( $i*10 );
-			
 			if ( intval( $transaction_count ) >= intval( $user_count ) ) {
-
 				$data = export_data_csv_for_all_transaction( $user_count, $transaction_count , $data['csv_data'] );
-				
 				$result  = false;
-
 			} else {
-			
 				$result  = true;
 			}
 			$index ++;
 		}
 	}
+	if ( $_POST['action'] == 'export_csv' ) {
+		if ($result){
+			if (!empty($data)) {
+				$csv_data = $data['csv_data'];
+				
+				// Create a file pointer.
+				$file = fopen('Transaction_Data.csv', 'w');
 
-	if ($result){
-		if (!empty($data)) {
-			$csv_data = $data['csv_data'];
-			
-			// Create a file pointer
-			$file = fopen('Transaction_Data.csv', 'w');
+				// Write data to the CSV file.
+				foreach ($csv_data as $row) {
+					fputcsv($file, $row);
+				}
 
-			// Write data to the CSV file
-			foreach ($csv_data as $row) {
-				fputcsv($file, $row);
+				// Close the file pointer.
+				fclose($file);
+				// Output a download link for the generated CSV file.
+				echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
+				?>
+				<script>
+					debugger;
+					const myAnchor = document.getElementById('transaction_data_csv_file');
+					myAnchor.click();
+				</script>
+				<?
 			}
-
-			// Close the file pointer
-			fclose($file);
-
-			// Output a download link for the generated CSV file
-			echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
-		
-			?>
-			<script>
-				debugger;
-				const myAnchor = document.getElementById('transaction_data_csv_file');
-				myAnchor.click();
-			</script>
-
-<?
-			
 		}
-	}
+	}	
 } 
-
-
-
 
 function export_data_csv_for_all_transaction(  $user_count, $current_page, $csv_data = '' ){
 	$args['number'] = $user_count;
 
 	$Limit =  10;
 	$offset =  $user_count;
-
-
 	global $wpdb;
 	$results_transaction = $wpdb->get_results(
 		$wpdb->prepare(
@@ -543,7 +531,6 @@ function export_data_csv_for_all_transaction(  $user_count, $current_page, $csv_
 	
 $zsdsd = array();
 if ( $user_count == 0 ){
-	
 	$zsdsd[] = array( 'User Id', 'User Name', 'User Email', 'Amount', 'Transaction Type', 'Payment Method', 'Transaction Id'  );
 }
 
@@ -557,21 +544,15 @@ if ( ! empty( $results_transaction ) ) {
 	}
 }
 
-
 if ( ! empty( $csv_data ) ) {
 	$user_data_array  = array_merge( $csv_data, $zsdsd );
 } else {
 	$user_data_array  = $zsdsd;
 }
-
-
 	$data = array(
 		'per_user_left'     => $user_count,
 		'csv_data'     => $user_data_array,
 	);
-
-
-
 	return $data;
 }
 
@@ -583,18 +564,13 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 	}
 	$date_from = ! empty( $_POST['hidden_from_date'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_from_date'] ) ) : '';
 	$date_to   = ! empty( $_POST['hidden_to_date'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_to_date'] ) ) : '';
-
 }
-
 ?>
 
 <div class="wps-wpg-gen-section-table-wrap wps-wpg-transcation-section-table">
 	<h4><?php esc_html_e( 'Transactions', 'wallet-system-for-woocommerce' ); ?> </h4>
-	
 	<?php
-
 	$limit_for_transaction = '10';
-
 	if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 
 		$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
@@ -603,8 +579,6 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		}
 		$limit_for_transaction      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '';
 	}
-
-
 	?>
 	<div class="wps-wpg-transcation-section-search">
 		<div class="dataTables_length_wallet_custom_table" id="wps-wsfw-wallet-trabsacstion-numbers">
@@ -616,7 +590,6 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 					<option value="100" <?php echo ( '100' == $limit_for_transaction ? 'selected="selected"' : '' ); ?>>100</option>
 				</select>
 			</label>
-			
 		</div>
 		<form method="post">
 			<table>
@@ -640,7 +613,6 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 	<form method="GET" class="wps_form_get_export_pdf">
 		<input type="submit" class="btn button" name= "wps_wsfw_export_pdf" id="wps_wsfw_export_pdf" value="<?php esc_html_e( 'Export PDF', 'wallet-system-for-woocommerce' ); ?>">
 		<input type="button" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
-	
 	</form>
 		<form method="post">
 			<input type="submit"  class="btn button" name= "wps_wsfw_data_number" id="wps_wsfw_data_number" value="" >
@@ -658,10 +630,7 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 			$mylisttable->display();
 			?>
 		</form>
-		
 	</div>
-
 </div>
 	<?php
-
 	include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';
