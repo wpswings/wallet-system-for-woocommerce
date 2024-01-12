@@ -2109,7 +2109,12 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 
-		return wc_price( $fees );
+		if( is_object( $fees ) ){
+			return wc_price( $fees->amount );
+		} else{
+			return wc_price( $fees );
+		}
+
 	}
 
 	/**
