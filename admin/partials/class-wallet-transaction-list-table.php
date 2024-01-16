@@ -500,7 +500,7 @@ if(isset( $_POST['action'] )){
 				echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
 				?>
 				<script>
-					debugger;
+					
 					const myAnchor = document.getElementById('transaction_data_csv_file');
 					myAnchor.click();
 				</script>

@@ -270,7 +270,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$wps_cart_total = WC()->cart->get_total( 'edit' );
 		$cart_fee = WC()->cart->get_fee_total();
 
-		$wps_cart_total = $wps_cart_total + abs( $cart_fee );
+		$wps_cart_total =intval( $wps_cart_total ) + abs( $cart_fee );
 
 		$user_id        = get_current_user_id();
 		$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
@@ -292,13 +292,13 @@ class Wallet_System_For_Woocommerce_Public {
 						return;
 					}
 
-					if ( ( $wallet_amount ) < ( $limit ) ) {
-						$total_balance = $wallet_amount + $limit;
+					if ( ( intval( $wallet_amount )  ) < intval( $limit ) ) {
+						$total_balance =intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 							return;
 						}
-					} elseif(  ( $wallet_amount ) > ( $limit ) ) {
-						$total_balance = $wallet_amount + $limit;
+					} elseif(  (intval( $wallet_amount ) ) > (intval( $limit )) ) {
+						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 							return;
 						}
@@ -436,13 +436,13 @@ class Wallet_System_For_Woocommerce_Public {
 					}
 
 					if ( ( $wallet_amount ) < ( $limit ) ) {
-						$total_balance = $wallet_amount + $limit;
+						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 
 							return;
 						}
-					} elseif(  ( $wallet_amount ) > ( $limit ) ) {
-						$total_balance = $wallet_amount + $limit;
+					} elseif(  ( intval( $wallet_amount ) ) > ( intval( $limit ) ) ) {
+						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 							return;
 						}
@@ -462,6 +462,7 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( intval( $wallet_amount ) < intval( $wps_cart_total ) || $this->is_enable_wallet_partial_payment() ) {
 
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
+					
 						?>
 							
 					<tr class="partial_payment">
@@ -1044,7 +1045,7 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( ! $found ) {
 					add_action( 'woocommerce_before_cart', array( $this, 'add_cart_custom_notice' ) );
 					add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', array( $this, 'add_cart_custom_notice' ) );
-					WC()->session->__unset( 'recharge_amount' );
+					//WC()->session->__unset( 'recharge_amount' );
 				}
 			} else {
 				WC()->cart->empty_cart();

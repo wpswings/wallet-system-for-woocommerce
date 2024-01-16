@@ -46,7 +46,7 @@
 		jQuery('.wps-wsfw-number').append('<input type="hidden" id="user_check_box_ids" name="user_check_box_ids" value="" />');
     
 		jQuery('#wsfw_wallet_amount_for_users').attr('step','any');
-debugger;
+
 		if (wsfw_admin_param.is_pro_plugin != 1){
 
 			

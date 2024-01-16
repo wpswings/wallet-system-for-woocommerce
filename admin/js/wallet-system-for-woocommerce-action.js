@@ -14,7 +14,7 @@
 
     
     jQuery(document).on( 'click', '#wps_wsfw_export_csv', function() {
-		debugger;
+		
     jQuery('#bulk-action-selector-top').val('export_csv');
       const myAnchor = document.getElementById('doaction');
 				myAnchor.click();
