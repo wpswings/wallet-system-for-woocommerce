@@ -267,7 +267,8 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function checkout_review_order_custom_field_block_checkout() {
 		$block_checkout = '';
-		$wps_cart_total = WC()->cart->get_total( 'edit' );
+	 	$wps_cart_total = WC()->cart->get_total( 'edit' );
+		
 		$cart_fee = WC()->cart->get_fee_total();
 
 		$wps_cart_total =intval( $wps_cart_total ) + abs( $cart_fee );
@@ -318,6 +319,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
 			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
+					
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 						$is_checked_data = $this->is_enable_wallet_partial_payment();
 						if ( $is_checked_data ) {
@@ -409,6 +411,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function checkout_review_order_custom_field() {
 
 		$wps_cart_total = WC()->cart->get_total( 'edit' );
+	
 		$cart_fee = WC()->cart->get_fee_total();
 
 		$wps_cart_total = $wps_cart_total + abs( $cart_fee );
@@ -930,9 +933,10 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wsfw_add_wallet_discount() {
-
+	
 		if ( WC()->session->__isset( 'custom_fee' ) ) {
 			$discount = (float) WC()->session->get( 'custom_fee' );
+			 
 			$customer_id = get_current_user_id();
 			if ( $customer_id > 0 ) {
 				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
@@ -1699,6 +1703,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_display_category_wise_cashback_price_on_shop_page() {
 
 		if ( ! is_user_logged_in() ) {
+
 			return;
 		}
 		if ( 'on' !== get_option( 'wps_wsfw_enable_cashback', '' ) ) {
@@ -2274,6 +2279,7 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wsfw_wallet_add_order_detail_api( $order ) {
+
 		$fee_name = '';
 		$fee_total = '';
 		$fee_total_tax = '';

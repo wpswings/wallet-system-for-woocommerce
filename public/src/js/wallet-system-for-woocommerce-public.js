@@ -199,7 +199,7 @@
 				},
 				dataType: 'JSON',
 				success: function( response ) {
-					
+					debugger;
 					if ( response.status == true ) {
 						$( '.ajax_msg' ).html(response.message);
 
