@@ -143,7 +143,26 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_wps_enqueue_script_block_eheckout() {
 
 		$block_data = $this->checkout_review_order_custom_field_block_checkout();
+		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+		$cart = WC()->cart;
 
+		// Get cart items
+		$cart_items = $cart->get_cart();
+		
+		// Loop through each cart item
+	
+		if ( ! empty( $cart_items ) ) {
+			foreach ($cart_items as $cart_item_key => $cart_item) {
+			
+				if ( $cart_item['product_id'] == $wallet_id ) {
+
+					// Check if COD is present and remove it
+					$block_data = '';
+
+
+				}
+			}
+		}
 		$block_wallet_partial_name = '';
 		$user_id        = get_current_user_id();
 		$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
@@ -185,30 +204,6 @@ class Wallet_System_For_Woocommerce_Public {
 		);
 		wp_enqueue_script( 'wallet-system-for-woocommerce-block-checkout' );
 
-		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
-		$cart = WC()->cart;
-
-		// Get cart items
-		$cart_items = $cart->get_cart();
-		
-		// Loop through each cart item
-	
-		if ( ! empty( $cart_items ) ) {
-			foreach ($cart_items as $cart_item_key => $cart_item) {
-			
-				if ( $cart_item['product_id'] == $wallet_id ) {
-
-					$available_gateways = WC()->payment_gateways->payment_gateways();
-//print_r($available_gateways['cod']);
-					// Check if COD is present and remove it
-					if (isset($available_gateways['cod'])) {
-						unset($available_gateways['cod']);
-					}
-
-
-				}
-			}
-		}
 	}
 
 
@@ -283,6 +278,30 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 		}
+
+		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+		$cart = WC()->cart;
+
+		// Get cart items
+		$cart_items = $cart->get_cart();
+		
+		// Loop through each cart item
+	
+		if ( ! empty( $cart_items ) ) {
+			foreach ($cart_items as $cart_item_key => $cart_item) {
+			
+				if ( $cart_item['product_id'] == $wallet_id ) {
+
+					// Check if COD is present and remove it
+					if (isset($available_gateways['cod'])) {
+						unset($available_gateways['cod']);
+					}
+
+
+				}
+			}
+		}
+
 		return $available_gateways;
 	}
 
@@ -1324,16 +1343,13 @@ class Wallet_System_For_Woocommerce_Public {
 		$order_id               = $order->get_id();
 		$this->wsfw_wallet_add_order_detail_api( $order );
 		$userid                 = $order->get_user_id();
-		$payment_method         = $order->get_payment_method();
-		$new_status             = $order->get_status();
 		$order_items            = $order->get_items();
 		$wallet_id              = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
-		$name                   = $user->first_name . ' ' . $user->last_name;
-		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+
+
 		if ( ! empty( get_option( 'wsfw_enable_wallet_negative_balance_limit_order' ) ) ) {
 			$order_number = get_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', true );
 			update_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', intval( $order_number ) + 1 );
