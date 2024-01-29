@@ -3817,7 +3817,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( 'wps_wcb_wallet_payment_gateway' == $payment_method ) {
 		
 			$gateway  = new Wallet_Credit_Payment_Gateway();
-			$gateway->process_payment($order_id);
+			$gateway->process_payment_manual($order_id);
 
 		}
 	}
