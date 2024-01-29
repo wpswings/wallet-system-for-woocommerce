@@ -3803,6 +3803,27 @@ class Wallet_System_For_Woocommerce_Admin {
 		wp_send_json( $message );
 	}
 
+	/**
+	 * Wallet payment on create new order manually.
+	 * 
+	 * @param [mixed] $order_id
+	 * @return void
+	 */
+	function wps_wsfw_wallet_payment_on_order_create( $order_id ) {
 
+		$order = wc_get_order( $order_id );
+	
+		$payment_method = $order->payment_method;
+		if ( 'wps_wcb_wallet_payment_gateway' == $payment_method ) {
+		
+			$gateway  = new Wallet_Credit_Payment_Gateway();
+			$gateway->process_payment($order_id);
 
+		}
+	}
 }
+
+
+
+
+

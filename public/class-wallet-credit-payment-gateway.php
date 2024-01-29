@@ -179,6 +179,8 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		 * @return array
 		 */
 		public function process_payment( $order_id ) {
+
+
 			$order       = wc_get_order( $order_id );
 			$payment_method = $order->payment_method;
 			if ( 'wps_wcb_wallet_payment_gateway' === $payment_method ) {
@@ -286,8 +288,11 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					$order->reduce_order_stock();
 
 					// Remove cart.
-					WC()->cart->empty_cart();
+					if ( ! empty(WC()->cart ) ) {
+						WC()->cart->empty_cart();
 
+					}
+					
 				}
 			} else {
 				$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
@@ -302,3 +307,4 @@ function wps_wsfw_wallet_payment_gateway_init() {
 	}
 }
 add_action( 'plugins_loaded', 'wps_wsfw_wallet_payment_gateway_init' );
+
