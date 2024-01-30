@@ -234,6 +234,12 @@ function wps_wsfw_wallet_payment_gateway_init() {
 						}				
 					
 					
+				}else{
+
+					if ( $walletamount >= $order_total ) {
+						$is_condition_true = true;
+					}
+
 				}
 
 				
