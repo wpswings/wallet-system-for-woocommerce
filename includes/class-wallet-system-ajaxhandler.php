@@ -42,6 +42,7 @@ class Wallet_System_AjaxHandler {
 	 * @return void
 	 */
 	public function calculate_amount_after_wallet() {
+
 		if ( is_user_logged_in() ) {
 			check_ajax_referer( 'ajax-nonce', 'nonce' );
 			$message = array();
@@ -50,7 +51,6 @@ class Wallet_System_AjaxHandler {
 			} else {
 				WC()->session->set( 'is_wallet_partial_payment', 'false' );
 			}
-			$cart_total = wc()->cart->get_subtotal();
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['wallet_amount'] ) );
 			$amount        = empty( $_POST['amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['amount'] ) );
 			if ( '' == $amount || $amount <= 0 ) {
@@ -59,20 +59,6 @@ class Wallet_System_AjaxHandler {
 				wp_send_json( $message );
 			}
 			if ( $wallet_amount >= $amount ) {
-				// if (  $amount > $cart_total ) {.
-				// 	$wallet_amount     -= $cart_total;
-				// 	$message['status']  = true;
-				// 	$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
-				// 	$message['price']   = wc_price( $cart_total );
-				// 	WC()->session->set( 'custom_fee', $cart_total );
-				// } else{
-				// 	$wallet_amount     -= $amount;
-				// 	$message['status']  = true;
-				// 	$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
-				// 	$message['price']   = wc_price( $amount );
-				// 	WC()->session->set( 'custom_fee', $amount );
-				// }
-
 				$wallet_amount     -= $amount;
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
@@ -80,7 +66,6 @@ class Wallet_System_AjaxHandler {
 				WC()->session->set( 'custom_fee', $amount );
 				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
 				WC()->session->set( 'is_wallet_partial_payment_block', $amount );
-				
 
 			} else {
 				$message['status']  = false;

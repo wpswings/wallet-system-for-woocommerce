@@ -64,14 +64,19 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 		return $columns;
 	}
 
+	/**
+	 * Bulk action for transaction.
+	 *
+	 * @return array
+	 */
 	public function get_bulk_actions() {
-        $actions = array(
-            'export_csv' => 'Export to CSV',
+		$actions = array(
+			'export_csv' => 'Export to CSV',
 			'export_excel' => 'Export to Excel',
-			
-        );
-        return $actions;
-    }
+
+		);
+		return $actions;
+	}
 
 
 	/**
@@ -417,7 +422,6 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 					$per_page,
 					$offset
 				),
-
 				ARRAY_A
 			);
 
@@ -431,9 +435,7 @@ $date_to = '';
 
 
 
-if(isset( $_POST['action'] )){
-	
-
+if (isset( $_POST['action'] )){
 	$current_page  = 1;
 	$reset_status  = '';
 	$get_count = 10;
@@ -442,28 +444,26 @@ if(isset( $_POST['action'] )){
 	// SQL query.
 	global $wpdb;
 	$transaction_count = $wpdb->get_results(
-		
-			"SELECT count(id) as transaction_count
+		"SELECT count(id) as transaction_count
 			FROM {$wpdb->prefix}wps_wsfw_wallet_transaction",
-		
 	);
 
 	if ( ! empty( $transaction_count ) ) {
 		$transaction_count = $transaction_count[0];
-		$transaction_count = $transaction_count->transaction_count ;
+		$transaction_count = $transaction_count->transaction_count;
 	}
 
 
 	if ( $transaction_count > $get_count ) {
 
 		$get_count = $get_count;
-		$loop_count = round( $transaction_count / $get_count )+1;
+		$loop_count = round( $transaction_count / $get_count ) + 1;
 	} else {
 		$get_count = $transaction_count;
 		$loop_count = 1;
 	}
 
-		
+
 	$data = array(
 		'per_user_left'     => '',
 		'csv_data'     => '',
@@ -471,9 +471,9 @@ if(isset( $_POST['action'] )){
 	if ( $loop_count > 0 ) {
 		$index = 1;
 		for ( $i = 0; $i <= $loop_count; $i++ ) {
-			$user_count =intval( $i*10 );
+			$user_count = intval( $i * 10 );
 			if ( intval( $transaction_count ) >= intval( $user_count ) ) {
-				$data = export_data_csv_for_all_transaction( $user_count, $transaction_count , $data['csv_data'] );
+				$data = export_data_csv_for_all_transaction( $user_count, $transaction_count, $data['csv_data'] );
 				$result  = false;
 			} else {
 				$result  = true;
@@ -481,24 +481,24 @@ if(isset( $_POST['action'] )){
 			$index ++;
 		}
 	}
-	if ( $_POST['action'] == 'export_csv' ) {
+	if ( 'export_csv' == $_POST['action'] ) {
 		if ($result){
-			if (!empty($data)) {
+			if ( ! empty( $data )) {
 				$csv_data = $data['csv_data'];
-				
+
 				// Create a file pointer.
-				$file = fopen('Transaction_Data.csv', 'w');
+				$file = fopen( 'Transaction_Data.csv', 'w' );
 
 				// Write data to the CSV file.
-				foreach ($csv_data as $row) {
-					fputcsv($file, $row);
-				}
+	foreach ( $csv_data as $row ) {
+		fputcsv( $file, $row );
+	}
 
 				// Close the file pointer.
-				fclose($file);
+				fclose( $file );
 				// Output a download link for the generated CSV file.
 				echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
-				?>
+	?>
 				<script>
 					
 					const myAnchor = document.getElementById('transaction_data_csv_file');
@@ -510,6 +510,14 @@ if(isset( $_POST['action'] )){
 	}	
 } 
 
+/**
+ * Download all transaction into csv.
+ *
+ * @param [type] $user_count is the number of user.
+ * @param [type] $current_page is the current page number.
+ * @param string $csv_data is the csv data.
+ * @return void
+ */
 function export_data_csv_for_all_transaction(  $user_count, $current_page, $csv_data = '' ){
 	$args['number'] = $user_count;
 
@@ -529,30 +537,30 @@ function export_data_csv_for_all_transaction(  $user_count, $current_page, $csv_
 	);
 
 	
-$zsdsd = array();
-if ( $user_count == 0 ){
-	$zsdsd[] = array( 'User Id', 'User Name', 'User Email', 'Amount', 'Transaction Type', 'Payment Method', 'Transaction Id'  );
-}
-
-if ( ! empty( $results_transaction ) ) {
-	foreach ( $results_transaction as $sort_id ) {
-
-		$user          = get_userdata( $sort_id['user_id'] );
-		$date = date_create( $sort_id['date'] );
-		$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
-		$zsdsd[] = array(  $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'],  $sort_id['transaction_type'], $sort_id['payment_method'], $transaction_data );
+	$zsdsd = array();
+	if ( $user_count == 0 ){
+		$zsdsd[] = array( 'User Id', 'User Name', 'User Email', 'Amount', 'Transaction Type', 'Payment Method', 'Transaction Id'  );
 	}
-}
 
-if ( ! empty( $csv_data ) ) {
-	$user_data_array  = array_merge( $csv_data, $zsdsd );
-} else {
-	$user_data_array  = $zsdsd;
-}
-	$data = array(
-		'per_user_left'     => $user_count,
-		'csv_data'     => $user_data_array,
-	);
+	if ( ! empty( $results_transaction ) ) {
+		foreach ( $results_transaction as $sort_id ) {
+
+			$user          = get_userdata( $sort_id['user_id'] );
+			$date = date_create( $sort_id['date'] );
+			$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
+			$zsdsd[] = array(  $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'],  $sort_id['transaction_type'], $sort_id['payment_method'], $transaction_data );
+		}
+	}
+
+	if ( ! empty( $csv_data ) ) {
+		$user_data_array  = array_merge( $csv_data, $zsdsd );
+	} else {
+		$user_data_array  = $zsdsd;
+	}
+		$data = array(
+			'per_user_left'     => $user_count,
+			'csv_data'     => $user_data_array,
+		);
 	return $data;
 }
 
@@ -615,7 +623,7 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		<?php
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
-		
+
 		if ( $is_pro_plugin ) {
 			?>
 				<input type="button" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">

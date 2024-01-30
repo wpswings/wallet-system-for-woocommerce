@@ -39,7 +39,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 			$user_id      = preg_replace( '/[^\P{C}\t\n\r ]+/u', '', $user_id );
 			$balance      = preg_replace( '/[^\P{C}\t\n\r ]+/u', '', trim( $balance ) );
 
-			
+
 			if ( 'User Id' != $user_id || 'Wallet Balance' != $balance ) {
 				$wps_wsfw_error_text = esc_html__( 'You have not selected correct file(fields are not matching)', 'wallet-system-for-woocommerce' );
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
@@ -902,7 +902,7 @@ class Wallet_User_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
 	}
-	
+
 
 	/**
 	 * This function is used to get columns.

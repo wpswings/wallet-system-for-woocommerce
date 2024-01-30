@@ -95,7 +95,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				time(),
 				false
 			);
-			
+
 		}
 
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
@@ -105,7 +105,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
-		
+
 		if ( ! $is_pro_plugin ) {
 			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-pro', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/css/wallet-system-for-woocommerce-wallet-pro-css.css', array(), time(), 'all' );
 
@@ -729,7 +729,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable to credit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable to debit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_negative_balance',
 				'id'          => 'wsfw_enable_wallet_negative_balance',
 				'value'       => get_option( 'wsfw_enable_wallet_negative_balance', 'no' ),
@@ -2043,7 +2043,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			$user_data      = $user_data->get_results();
 
 			$zsdsd = array();
-			if ( $current_page == 1 ){
+			if ( 1 == $current_page ) {
 				$zsdsd[] = array( 'User Id', 'Wallet Balance' );
 			}
 
@@ -2114,7 +2114,25 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wps_wsfw_download_pdf_file_callback() {
 
+		$screen_id = ( isset( $_GET['page'] ) ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+		if ( isset( $screen_id ) && 'wallet_shop_order' == $screen_id ) {
+			?>
+			<div style="display:none" class="wps_wallet_shop_order-header-container wps_wallet_shop_order-bg-white wps_wallet_shop_order-r-8">
+				<h1 class="wps_wallet_shop_order-header-title">
+			<p>
+				<?php printf( esc_html__( 'Note: Orders for wallet recharge made prior to HPOS Compatibility and plugin version 2.5.0 will be displayed here. However, any orders placed After 2.5.0 version will be listed in the WooCommerce order section.', 'wallet-system-for-woocommerce' ) ); ?>
+			</p>
+			
+		</h1>
+	</div>
+
+			<?php
+		}
+		?>
 		
+		<?php
+
 		if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
 
 			global $wpdb;
@@ -2197,7 +2215,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
-		
+
 	}
 
 	/**
@@ -3564,13 +3582,13 @@ class Wallet_System_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 * @param    array $column    Array of available columns.
-	 * @param    int   $post_id   Current Order post id.
+	 * @param    int   $post   Current Order post id.
 	 */
 	public function wps_wocuf_pro_populate_wallet_order_column( $column, $post ) {
 
-		if( is_object($post)){
+		if ( is_object( $post ) ) {
 			$post_id = $post->get_id();
-		} else{
+		} else {
 			$post_id = $post;
 		}
 		$order = wc_get_order( $post_id );
@@ -3805,19 +3823,19 @@ class Wallet_System_For_Woocommerce_Admin {
 
 	/**
 	 * Wallet payment on create new order manually.
-	 * 
-	 * @param [mixed] $order_id
+	 *
+	 * @param [mixed] $order_id is the current order id.
 	 * @return void
 	 */
-	function wps_wsfw_wallet_payment_on_order_create( $order_id ) {
+	public function wps_wsfw_wallet_payment_on_order_create( $order_id ) {
 
 		$order = wc_get_order( $order_id );
-	
+
 		$payment_method = $order->payment_method;
 		if ( 'wps_wcb_wallet_payment_gateway' == $payment_method ) {
-		
+
 			$gateway  = new Wallet_Credit_Payment_Gateway();
-			$gateway->process_payment_manual($order_id);
+			$gateway->process_payment_manual( $order_id );
 
 		}
 	}

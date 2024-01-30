@@ -21,19 +21,30 @@ $wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_text_field( wp_unslas
 $wsfw_default_tabs = $wsfw_wps_wsfw_obj->wps_wsfw_plug_default_tabs();
 $show_additional_section = apply_filters( 'wps_wsfw_show_additional_section', '' );
 $wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings' );
+
 // phpcs:ignore
-if ( ! $wallet_payment_enable || 'no' == $wallet_payment_enable['enabled'] ) {
-	?>
+
+?>
 	<div class="wps-header-container wps-bg-white wps-r-8">
 		<h1 class="wps-header-title">
+			<?php
+			if ( ! $wallet_payment_enable || 'no' == $wallet_payment_enable['enabled'] ) {
+				?>
 			<p>
 				<?php printf( esc_html__( 'Please configure your Wallet Payment Gateway settings.', 'wallet-system-for-woocommerce' ) ); ?>
+
 			</p>
+				<?php
+			}
+			?>
+			<p>
+				<?php printf( esc_html__( "Kindly refrain from removing the Wallet Recharge Product, as its deletion could have a significant impact on the entire Plugin's functionality.", 'wallet-system-for-woocommerce' ) ); ?>
+
+			</p>
+			
 		</h1>
 	</div>
-	<?php
-}
-?>
+	
 <header>
 	<div class="wps-header-container wps-bg-white wps-r-8">
 		<?php

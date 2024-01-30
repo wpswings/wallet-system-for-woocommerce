@@ -307,7 +307,7 @@ class Wallet_System_For_Woocommerce {
 
 		}
 		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
-		
+
 		/*cron for notification*/
 		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wps_wsfw_set_cron_for_plugin_notification' );
 		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $wsfw_plugin_admin, 'wps_wsfw_save_notice_message' );

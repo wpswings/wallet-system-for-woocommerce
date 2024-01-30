@@ -172,7 +172,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			return true;
 		}
 
-
 		/**
 		 * Process the payment and return the result
 		 *
@@ -180,7 +179,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		 * @return array
 		 */
 		public function process_payment_manual( $order_id ) {
-
 
 			$order       = wc_get_order( $order_id );
 			$payment_method = $order->payment_method;
@@ -210,40 +208,32 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 				if ( $is_pro ) {
 
-	
-						if ( intval( $order_number ) > intval( $order_limit ) ) {
-	
+					if ( intval( $order_number ) > intval( $order_limit ) ) {
+
+						$is_condition_true = true;
+					}
+
+					if ( ( intval( $walletamount ) ) <= intval( $limit ) ) {
+
+						$total_balance = intval( $walletamount ) + intval( $limit );
+
+						if ( $total_balance >= $order_total ) {
+
 							$is_condition_true = true;
 						}
-	
-						if ( ( intval( $walletamount )  ) <= intval( $limit ) ) {
+					} elseif ( ( intval( $walletamount ) ) >= ( intval( $limit ) ) ) {
+						$total_balance = intval( $walletamount ) + intval( $limit );
 
-
-							$total_balance =intval( $walletamount ) + intval( $limit );
-								
-							if ( $total_balance >= $order_total ) {
-				
-								$is_condition_true = true;
-							}
-						} elseif(  (intval( $walletamount ) ) >= (intval( $limit )) ) {
-							$total_balance = intval( $walletamount ) + intval( $limit );
-								
-							if ( $total_balance >= $order_total ) {
-								$is_condition_true = true;
-							}
-						}				
-					
-					
-				}else{
+						if ( $total_balance >= $order_total ) {
+							$is_condition_true = true;
+						}
+					}
+				} else {
 
 					if ( $walletamount >= $order_total ) {
 						$is_condition_true = true;
 					}
-
 				}
-
-				
-
 			} else {
 				if ( $debited_amount <= $walletamount ) {
 					$is_condition_true = true;
@@ -329,23 +319,17 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					$order->reduce_order_stock();
 
 					// Remove cart.
-					if ( ! empty(WC()->cart ) ) {
+					if ( ! empty( WC()->cart ) ) {
 						WC()->cart->empty_cart();
 
 					}
-					
 				}
 			} else {
 				$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
 
 			}
-			
+
 		}
-	
-
-
-
-
 
 		/**
 		 * Process the payment and return the result
@@ -354,7 +338,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		 * @return array
 		 */
 		public function process_payment( $order_id ) {
-
 
 			$order       = wc_get_order( $order_id );
 			$payment_method = $order->payment_method;
@@ -463,11 +446,10 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					$order->reduce_order_stock();
 
 					// Remove cart.
-					if ( ! empty(WC()->cart ) ) {
+					if ( ! empty( WC()->cart ) ) {
 						WC()->cart->empty_cart();
 
 					}
-					
 				}
 			} else {
 				$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
