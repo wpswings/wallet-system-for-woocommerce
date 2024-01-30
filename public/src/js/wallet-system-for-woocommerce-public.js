@@ -31,6 +31,10 @@
 
 	 $(document).ready(function(){
 		$(function(){
+
+			if ( window.history.replaceState ) {
+				window.history.replaceState( null, null, window.location.href );
+			  }
 			$( 'body' )
 			.on( 'updated_checkout', function() {
 
