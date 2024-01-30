@@ -2301,7 +2301,10 @@ class Wallet_System_For_Woocommerce_Public {
 				$fee_name = $item_fee->get_name();
 				$fee_total = $item_fee->get_total();
 				$fee_total_tax = abs( $item_fee->get_total_tax() );
-				$order->remove_item( $item_id );
+				if ( ! empty( $fee_total_tax )) {
+					$order->remove_item( $item_id );
+				}
+				
 				break;
 			}
 		}
