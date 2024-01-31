@@ -217,11 +217,14 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
 			$wallet_amount  = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
+			
 			if ( ! empty( WC()->session ) ) {
 
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
 
 						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+				} elseif ( WC()->session->__isset( 'is_wallet_partial_payment_checkout' ) ) {
+					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
