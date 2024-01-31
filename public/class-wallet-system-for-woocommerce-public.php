@@ -326,15 +326,14 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
 
-				if ( ! empty( $order_limit ) ){
-					if ( intval( $order_number ) <= intval( $order_limit ) ) {
+					if ( ! empty( $order_limit ) ){
+						if ( intval( $order_number ) <= intval( $order_limit ) ) {
 
-						return;
+							return;
+						}
+
 					}
-
-				}
 					
-
 					if ( ( intval( $wallet_amount ) ) <= intval( $limit ) ) {
 						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
