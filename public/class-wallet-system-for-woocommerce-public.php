@@ -159,6 +159,7 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 		}
+		
 		$block_wallet_partial_name = '';
 		$user_id        = get_current_user_id();
 		$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
@@ -223,9 +224,7 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
 
 						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-				} elseif ( WC()->session->__isset( 'is_wallet_partial_payment_checkout' ) ) {
-					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
+				}elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
@@ -244,14 +243,14 @@ class Wallet_System_For_Woocommerce_Public {
 
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							} else {
-								if ( ( $wallet_amount ) < ( $limit ) ) {
+								if ( ( $wallet_amount ) <= ( $limit ) ) {
 									$total_balance = $wallet_amount + $limit;
 									if ( $total_balance < $wps_cart_total ) {
 
 										unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 									}
 									$user_id        = get_current_user_id();
-								} elseif ( ( $wallet_amount ) > ( $limit ) ) {
+								} elseif ( ( $wallet_amount ) >= ( $limit ) ) {
 									$total_balance = intval( $wallet_amount ) + intval( $limit );
 									if ( $total_balance < $wps_cart_total ) {
 
@@ -260,13 +259,13 @@ class Wallet_System_For_Woocommerce_Public {
 								}
 							}
 						} else {
-							if ( $wallet_amount < $wps_cart_total ) {
+							if ( $wallet_amount <= $wps_cart_total ) {
 
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
 						}
 					} else {
-						if ( $wallet_amount < $wps_cart_total ) {
+						if ( $wallet_amount <= $wps_cart_total ) {
 
 							unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 						}
@@ -326,17 +325,17 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $is_pro_plugin ) {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
-					if ( intval( $order_number ) < intval( $order_limit ) ) {
+					if ( intval( $order_number ) <= intval( $order_limit ) ) {
 
 						return;
 					}
 
-					if ( ( intval( $wallet_amount ) ) < intval( $limit ) ) {
+					if ( ( intval( $wallet_amount ) ) <= intval( $limit ) ) {
 						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 							return;
 						}
-					} elseif ( ( intval( $wallet_amount ) ) > ( intval( $limit ) ) ) {
+					} elseif ( ( intval( $wallet_amount ) ) >= ( intval( $limit ) ) ) {
 						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 							return;
@@ -469,18 +468,18 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $is_pro_plugin ) {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
-					if ( intval( $order_number ) < intval( $order_limit ) ) {
+					if ( intval( $order_number ) <= intval( $order_limit ) ) {
 
 						return;
 					}
 
-					if ( ( $wallet_amount ) < ( $limit ) ) {
+					if ( ( $wallet_amount ) <= ( $limit ) ) {
 						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 
 							return;
 						}
-					} elseif ( ( intval( $wallet_amount ) ) > ( intval( $limit ) ) ) {
+					} elseif ( ( intval( $wallet_amount ) ) >= ( intval( $limit ) ) ) {
 						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 							return;
@@ -498,7 +497,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
 			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 
-				if ( intval( $wallet_amount ) < intval( $wps_cart_total ) || $this->is_enable_wallet_partial_payment() ) {
+				if ( intval( $wallet_amount ) <= intval( $wps_cart_total ) || $this->is_enable_wallet_partial_payment() ) {
 
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 
