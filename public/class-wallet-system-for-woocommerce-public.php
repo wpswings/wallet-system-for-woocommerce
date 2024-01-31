@@ -325,10 +325,15 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $is_pro_plugin ) {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
+
+				if ( ! empty( $order_limit ) ){
 					if ( intval( $order_number ) <= intval( $order_limit ) ) {
 
 						return;
 					}
+
+				}
+					
 
 					if ( ( intval( $wallet_amount ) ) <= intval( $limit ) ) {
 						$total_balance = intval( $wallet_amount ) + intval( $limit );
@@ -336,7 +341,7 @@ class Wallet_System_For_Woocommerce_Public {
 							return;
 						}
 					} elseif ( ( intval( $wallet_amount ) ) >= ( intval( $limit ) ) ) {
-						$total_balance = intval( $wallet_amount ) + intval( $limit );
+							$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
 							return;
 						}
