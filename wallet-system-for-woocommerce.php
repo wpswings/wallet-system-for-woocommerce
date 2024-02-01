@@ -440,3 +440,4 @@ function wps_wsfw_banner_notification_html() {
 		}
 	}
 }
+add_filter( 'unzip_file_use_ziparchive', '__return_false' );
