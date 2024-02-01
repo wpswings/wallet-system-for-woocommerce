@@ -173,10 +173,10 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		}
 
 		/**
-		 * Process the payment and return the result
+		 * Process the payment and return the result.
 		 *
 		 * @param int $order_id order id.
-		 * @return array
+		 * @return void
 		 */
 		public function process_payment_manual( $order_id ) {
 

@@ -435,7 +435,7 @@ $date_to = '';
 
 
 
-if (isset( $_POST['action'] )){
+if ( isset( $_POST['action'] ) ) {
 	$current_page  = 1;
 	$reset_status  = '';
 	$get_count = 10;
@@ -508,7 +508,7 @@ if (isset( $_POST['action'] )){
 			}
 		}
 	}	
-} 
+}
 
 /**
  * Download all transaction into csv.
@@ -650,5 +650,5 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		</form>
 	</div>
 </div>
-	<?php
+<?php
 	include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';

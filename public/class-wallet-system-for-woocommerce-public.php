@@ -159,7 +159,7 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 		}
-		
+
 		$block_wallet_partial_name = '';
 		$user_id        = get_current_user_id();
 		$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
@@ -218,13 +218,13 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
 			$wallet_amount  = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-			
+
 			if ( ! empty( WC()->session ) ) {
 
 				if ( WC()->session->__isset( 'is_wallet_partial_payment' ) ) {
 
 						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
-				}elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
+				} elseif ( WC()->session->__isset( 'recharge_amount' ) ) {
 
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					unset( $available_gateways['cod'] );
@@ -325,15 +325,13 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $is_pro_plugin ) {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
-
-					if ( ! empty( $order_limit ) ){
+					if ( ! empty( $order_limit ) ) {
 						if ( intval( $order_number ) <= intval( $order_limit ) ) {
 
 							return;
 						}
-
 					}
-					
+
 					if ( ( intval( $wallet_amount ) ) <= intval( $limit ) ) {
 						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {
@@ -2307,10 +2305,10 @@ class Wallet_System_For_Woocommerce_Public {
 				$fee_name = $item_fee->get_name();
 				$fee_total = $item_fee->get_total();
 				$fee_total_tax = abs( $item_fee->get_total_tax() );
-				if ( ! empty( $fee_total_tax )) {
+				if ( ! empty( $fee_total_tax ) ) {
 					$order->remove_item( $item_id );
 				}
-				
+
 				break;
 			}
 		}
@@ -2490,21 +2488,19 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_admin_recharge_product_tax_class( $tax_class, $product ) {
 
 		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
-		
-		
-		$_is_enabled_wallet_recharege = get_option( 'wsfw_enable_wallet_recharge_tax_free');
+
+		$_is_enabled_wallet_recharege = get_option( 'wsfw_enable_wallet_recharge_tax_free' );
 
 		if ( 'on' == $_is_enabled_wallet_recharege ) {
 			if ( ! empty( $product ) ) {
 				if ( $product->get_id() == $wallet_id ) {
 					$tax_class = 'zero-rate';
-					$product->set_tax_class('zero-rate');
-									
+					$product->set_tax_class( 'zero-rate' );
+
 				}
 			}
 		}
 
-	
 		return $tax_class;
 	}
 
