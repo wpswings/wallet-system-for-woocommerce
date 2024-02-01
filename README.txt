@@ -293,7 +293,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.6 - Released on 31 January 2024 =
+= 2.5.6 - Released on 01 February 2024 =
 * New: Manual Order Feature.
 * New: Latest WP[6.4.3] and WC[8.5.2].
 * Fix: Design Issue In Go Pro Section.
@@ -487,7 +487,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.6 - Released on 31 January 2024 =
+= 2.5.6 - Released on 01 February 2024 =
 * New: Manual Order Feature.
 * New: Latest WP[6.4.3] and WC[8.5.2].
 * Fix: Design Issue In Go Pro Section.
