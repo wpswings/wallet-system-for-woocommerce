@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: digital wallet, cashback coupon, wallet topup, user wallet, woocommerce wallet, partial payment, cashback reward, wallet refunds, payment gateway, woocommerce gift cards
 Requires at least: 5.5.0
-Tested up to: 6.4.2
+Tested up to: 6.4.3
 WC requires at least: 5.5.0
-WC tested up to: 8.4.0
-Stable tag: 2.5.5
+WC tested up to: 8.5.2
+Stable tag: 2.5.6
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -25,14 +25,14 @@ This WooCommerce payments plugin will significantly improve the payment & order 
 
 The [**WooCommerce Wallet**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-page&utm_campaign=wallet-pro) increases the ease and security of the payment process. making it a must-have WooCommerce payment plugin for your online store. 
 
-[**Wallet For WooCommerce Demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-page&utm_campaign=demo) | [**WooCommerce Wallet  Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-doc )
+[**Wallet For WooCommerce Demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-page&utm_campaign=demo) | [**WooCommerce Wallet  Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-doc ) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us)
 
 [youtube https://www.youtube.com/watch?v=C5mwA5kttRU&h=315&rel=0]
 
 == SALIENT FEATURES OF THE WOOCOMMERCE PAYMENTS PLUGINS == 
 
 **1. Adding Balance to Digital Wallet Account**
-Customers can add balance to their digital wallets using the available WooCommerce payment methods. During the top-up checkout process, you can make the form fields accessible for users. By default, they are hidden. Also, you can choose to make wallet recharge orders tax-free. 
+Customers can add digital money to their digital wallets using the available WooCommerce payment methods. During the top-up checkout process, you can make the form fields accessible for users. By default, they are hidden. Also, you can choose to make wallet recharge orders tax-free. 
 
 **2. Negative Wallet Amount**
 The Wallet system for Woocommerce allows you to credit the negative amount in customers’ wallet. The negative amount will get debited once users recharge their wallet.
@@ -62,7 +62,7 @@ You can enable customers to use their WooCommerce wallet balance to pay for prod
 You can download the transaction history in a PDF file from the Wallet Transaction table with a single click. It will contain the following data: Name, Email, Role, Amount, Payment Method, Details, Transaction ID, and Date. It will contain the entire wallet’s WooCommerce payment history in a tabular format.  
 
 **11. Automatic Wallet Subscriptions Top-up**
-You can create a daily or weekly top-up subscription plan to recharge customers' wallets automatically. And customers are free to select the wallet subscription top-up amount. The user can’t do regular recharge when this wallet top-up subscription is enabled. Also, a new subscription will be created on every recharge in the middle of the subscription interval. 
+You can create a daily or weekly top-up subscription plan to recharge customers' wallets automatically. And customers are free to select the wallet subscription top-up amount. The user can’t do regular recharge when this wallet top-up subscription is enabled. Also, a new subscription will be created on every recharge in the middle of the subscription interval. With this feature, the wallet plugin proves to be the **Best Automatic Wallet** System.
 
 **12. Wallet Recharge Orders**
 The Wallet Recharge Orders sub-menu is added to the WooCommerce section upon the wallet plugin activation. It contains the list of recharges or top-up orders made by your customers that you have to approve manually. You can filter this list by status. 
@@ -87,6 +87,12 @@ The Wallet system for Woocommerce allows you to send Wallet cashback rewards to 
 
 **19. Credit Amount on Daily User Visit, Commenting, and Sign Up**
 Our WooCommerce wallet plugin allows you to implement a WooCommerce credit system. You can decide a daily login reward amount and enable your customers to earn wallet credit daily by simply logging in to their wallets. 
+
+**20. Create Manual Orders With Wallet Payment**
+Our WordPress digital wallet plugin lets admins easily create manual orders using the wallet as the payment method. They can assign orders to specific users, deducting the product cost directly from their accounts. This gives admins full control over order management and payments.
+
+**21. Wallet Reports for Individual Users**
+The Wallet Plugin For WooCommerce includes a report feature that allows you to see credit, debit, and current amounts for a specific user in an interactive bar chart window. You can also filter this data by specific dates.
 
 You can also let them earn wallet credit for submitting product reviews. For this feature, you can set the limit on how many comments a user can have per post, credit amount, and customize comment label text.
 
@@ -117,7 +123,7 @@ Lastly, allow your users to receive wallet credit upon signing up for the wallet
 * Use the shortcode [wps-wallet] to display the user's wallet on any page.
 * Customers can see their wallet transactions (credit/debit) and transfer their wallet money to other users. 
 * Merchants can add transaction details while editing the wallet balance of users in bulk or individually and underline the purpose of credit or debit. 
-* The admin can restrict any particular wallet user from using the Add Balance, Wallet Transfer, and Wallet Withdrawal Request features at once.
+* The admin can restrict any particular wallet user from using the Add Balance, Wallet Transfer, and Wallet Withdrawal Request features at once, maintaining [secure online payments](https://wpswings.com/blog/secure-online-payments/?utm_source=wpswings-securepayments-blog&utm_medium=wallet-org-page&utm_campaign=securepayments-blog&utm_term=secure-online-payments)
 * Allow customers to earn wallet credit on daily login, signup, and submitting reviews on your product pages. 
 * If the WooCommerce wallet amount exceeds the order total, it will work as a payment option and show in the payment method selection.
 * If the WooCommerce wallet amount is less than the order total, customers can use it to pay a total or partial amount to buy products.
@@ -191,7 +197,7 @@ If you need support or have any questions then kindly use our online chat window
 
 Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-org-page&utm_campaign=woocommerce-services)
 
-Get Huge Discounts On Wallet system Plugin During Christmas/NewYear Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-wallet-offers&utm_medium=wpswings-org-page&utm_campaign=offers)
+Get Huge Discounts On Wallet System Plugin – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-wallet-offers&utm_medium=wpswings-org-page&utm_campaign=offers)
 
 
 == Installation ==
@@ -286,6 +292,13 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 
 == Changelog ==
+
+= 2.5.6 - Released on 1 February 2024 =
+* New: Manual Order Feature.
+* New: Latest WP[6.4.3] and WC[8.5.2].
+* Fix: Design Issue In Go Pro Section.
+* Fix: Git Issue.
+* Fix: Inclusive Tax Issue.
 
 = 2.5.5 - Released on 18 December 2023 =
 * New: Cart and checkout block compatibility.
@@ -474,10 +487,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.5 - Released on 18 December 2023 =
-* New: Cart and checkout block compatibility.
-* New: Latest WP[6.4.2] and WC[8.4.0].
-
-
-
-
+= 2.5.6 - Released on 1 February 2024 =
+* New: Manual Order Feature.
+* New: Latest WP[6.4.3] and WC[8.5.2].
+* Fix: Design Issue In Go Pro Section.
+* Fix: Git Issue.
+* Fix: Inclusive Tax Issue.

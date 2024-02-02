@@ -386,7 +386,7 @@ if ( 'on' != $wallet_restrict_referral ) {
 		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-referral.php',
 	);
 }
-
+$wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs', $wallet_tabs );
 $flag = false;
 if ( ( $current_url == $main_url ) || ( $current_url == $page_url ) ) {
 	$flag = true;

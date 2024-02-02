@@ -95,7 +95,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				time(),
 				false
 			);
-			return;
+
 		}
 
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
@@ -105,6 +105,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+
 		if ( ! $is_pro_plugin ) {
 			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-pro', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/css/wallet-system-for-woocommerce-wallet-pro-css.css', array(), time(), 'all' );
 
@@ -728,7 +729,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable to credit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enable to debit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_enable_wallet_negative_balance',
 				'id'          => 'wsfw_enable_wallet_negative_balance',
 				'value'       => get_option( 'wsfw_enable_wallet_negative_balance', 'no' ),
@@ -838,7 +839,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Enable Checkout Fields at checkout page For Wallet Rechargable Product', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Enable Checkout Fields at checkout page For Wallet Rechargable Product [Appilicable for checkout shortcode]', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable if you want to show checkout fields for Wallet Rechargable Product', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_wallet_payment_checkout_field_checkout',
@@ -2042,7 +2043,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			$user_data      = $user_data->get_results();
 
 			$zsdsd = array();
-			if ( $current_page == 1 ){
+			if ( 1 == $current_page ) {
 				$zsdsd[] = array( 'User Id', 'Wallet Balance' );
 			}
 
@@ -2112,6 +2113,26 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function wps_wsfw_download_pdf_file_callback() {
+
+		$screen_id = ( isset( $_GET['page'] ) ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+		if ( isset( $screen_id ) && 'wallet_shop_order' == $screen_id ) {
+			?>
+			<div style="display:none" class="wps_wallet_shop_order-header-container wps_wallet_shop_order-bg-white wps_wallet_shop_order-r-8">
+				<h1 class="wps_wallet_shop_order-header-title">
+			<p>
+				<?php printf( esc_html__( 'Note: Orders for wallet recharge made prior to HPOS Compatibility and plugin version 2.5.0 will be displayed here. However, any orders placed After 2.5.0 version will be listed in the WooCommerce order section.', 'wallet-system-for-woocommerce' ) ); ?>
+			</p>
+			
+		</h1>
+	</div>
+
+			<?php
+		}
+		?>
+		
+		<?php
+
 		if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
 
 			global $wpdb;
@@ -2194,6 +2215,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
+
 	}
 
 	/**
@@ -3229,7 +3251,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet withdrawal Extra Fee Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable the withdrawal setting.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_wallet_action_withdrawal_enable',
 				'id'          => 'wps_wsfwp_wallet_action_withdrawal_enable',
 				'value'       => get_option( 'wps_wsfwp_wallet_action_withdrawal_enable' ),
@@ -3285,7 +3307,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Wallet transfer Extra Fee Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'This is switch field demo follow same structure for further use.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable the Transfer Setting.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_wallet_action_transfer_enable',
 				'id'          => 'wps_wsfwp_wallet_action_transfer_enable',
 				'value'       => get_option( 'wps_wsfwp_wallet_action_transfer_enable' ),
@@ -3340,7 +3362,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Referral Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Check this box to enable the Comment Amount when comment is approved..', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable the Referral setting.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_refer_friend_enable',
 				'id'          => 'wps_wsfw_wallet_action_refer_friend_enable',
 				'value'       => '',
@@ -3353,7 +3375,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enter Referral Amount', 'wallet-system-for-woocommerce' ),
 				'type'        => 'number',
-				'description' => __( 'The amount which new customers will get after their comments are approved..', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'The amount which customers will get after their referral .', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_referal_amount',
 				'id'          => 'wps_wsfw_wallet_action_referal_amount',
 				'step'        => '0.01',
@@ -3365,7 +3387,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enter Referral Description', 'wallet-system-for-woocommerce' ),
 				'type'        => 'textarea',
-				'description' => __( 'Enter message for user that display on product page.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Enter message for user that display on Referral page.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_referral_description',
 				'id'          => 'wps_wsfw_wallet_action_referral_description',
 				'step'        => '0.01',
@@ -3373,7 +3395,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => __( 'Enter comment description', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
-
 		);
 
 		return $wsfw_settings_template;
@@ -3561,10 +3582,15 @@ class Wallet_System_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 * @param    array $column    Array of available columns.
-	 * @param    int   $post_id   Current Order post id.
+	 * @param    int   $post   Current Order post id.
 	 */
-	public function wps_wocuf_pro_populate_wallet_order_column( $column, $post_id ) {
+	public function wps_wocuf_pro_populate_wallet_order_column( $column, $post ) {
 
+		if ( is_object( $post ) ) {
+			$post_id = $post->get_id();
+		} else {
+			$post_id = $post;
+		}
 		$order = wc_get_order( $post_id );
 		$wallet_order = '';
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
@@ -3795,7 +3821,27 @@ class Wallet_System_For_Woocommerce_Admin {
 		wp_send_json( $message );
 	}
 
+	/**
+	 * Wallet payment on create new order manually.
+	 *
+	 * @param [mixed] $order_id is the current order id.
+	 * @return void
+	 */
+	public function wps_wsfw_wallet_payment_on_order_create( $order_id ) {
 
+		$order = wc_get_order( $order_id );
 
+		$payment_method = $order->payment_method;
+		if ( 'wps_wcb_wallet_payment_gateway' == $payment_method ) {
+
+			$gateway  = new Wallet_Credit_Payment_Gateway();
+			$gateway->process_payment_manual( $order_id );
+
+		}
+	}
 }
+
+
+
+
 

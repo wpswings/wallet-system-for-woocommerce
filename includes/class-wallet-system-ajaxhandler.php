@@ -42,6 +42,7 @@ class Wallet_System_AjaxHandler {
 	 * @return void
 	 */
 	public function calculate_amount_after_wallet() {
+
 		if ( is_user_logged_in() ) {
 			check_ajax_referer( 'ajax-nonce', 'nonce' );
 			$message = array();
@@ -63,6 +64,8 @@ class Wallet_System_AjaxHandler {
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
 				$message['price']   = wc_price( $amount );
 				WC()->session->set( 'custom_fee', $amount );
+				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
+				WC()->session->set( 'is_wallet_partial_payment_block', $amount );
 
 			} else {
 				$message['status']  = false;
@@ -89,13 +92,15 @@ class Wallet_System_AjaxHandler {
 			} else {
 				WC()->session->set( 'is_wallet_partial_payment', 'false' );
 			}
-
+			$cart_total = wc()->cart->get_subtotal();
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['wallet_amount'] ) );
 
 			if ( ! empty( $wallet_amount ) ) {
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet amount used successfully: ', 'wallet-system-for-woocommerce' );
 				WC()->session->set( 'custom_fee', $wallet_amount );
+				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
+				WC()->session->set( 'is_wallet_partial_payment_block', $wallet_amount );
 
 			} else {
 				$message['status']  = false;
