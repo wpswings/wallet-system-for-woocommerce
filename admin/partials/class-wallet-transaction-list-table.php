@@ -490,9 +490,9 @@ if ( isset( $_POST['action'] ) ) {
 				$file = fopen( 'Transaction_Data.csv', 'w' );
 
 				// Write data to the CSV file.
-	foreach ( $csv_data as $row ) {
-		fputcsv( $file, $row );
-	}
+				foreach ( $csv_data as $row ) {
+					fputcsv( $file, $row );
+				}
 
 				// Close the file pointer.
 				fclose( $file );
@@ -504,7 +504,7 @@ if ( isset( $_POST['action'] ) ) {
 					const myAnchor = document.getElementById('transaction_data_csv_file');
 					myAnchor.click();
 				</script>
-				<?
+				<?php
 			}
 		}
 	}	
