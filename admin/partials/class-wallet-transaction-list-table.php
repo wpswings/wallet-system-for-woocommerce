@@ -498,7 +498,7 @@ if ( isset( $_POST['action'] ) ) {
 				fclose( $file );
 				// Output a download link for the generated CSV file.
 				echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
-	?>
+				?>
 				<script>
 					
 					const myAnchor = document.getElementById('transaction_data_csv_file');
