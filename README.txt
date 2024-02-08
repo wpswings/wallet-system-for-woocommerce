@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.4.3
 WC requires at least: 5.5.0
 WC tested up to: 8.5.2
-Stable tag: 2.5.7
+Stable tag: 2.5.8
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -293,7 +293,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.7 - Released on 2 February 2024 =
+= 2.5.8 - Released on 2 February 2024 =
 * Fix: Transaction Table issue fixed.
 
 = 2.5.6 - Released on 1 February 2024 =
@@ -490,7 +490,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.7 - Released on 2 February 2024 =
+= 2.5.8 - Released on 2 February 2024 =
 * Fix: Transaction Table issue fixed.
 
 
