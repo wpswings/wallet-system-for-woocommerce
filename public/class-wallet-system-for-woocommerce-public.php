@@ -212,9 +212,20 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wsfw_restrict_payment_gateway( $available_gateways ) {
 
 		if ( isset( $available_gateways['wps_wcb_wallet_payment_gateway'] ) ) {
+			$user_id        = get_current_user_id();
+			$is_pro = false;
+			$is_pro = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro );
+			if ( $is_pro ) {
+				$wps_wallet_restrict_wallet_gateway = get_user_meta( $user_id, 'wps_wallet_restrict_wallet_gateway', true );
+				if ( 'on' == $wps_wallet_restrict_wallet_gateway ) {
+					echo 'zdfxdff';
+					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+					return $available_gateways ;
+				}
+			}
 
 			$wps_cart_total = WC()->cart->total;
-			$user_id        = get_current_user_id();
+		
 			$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
