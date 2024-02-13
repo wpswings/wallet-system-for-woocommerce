@@ -146,6 +146,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 		$cart = WC()->cart;
 
+		
 		// Get cart items.
 		$cart_items = $cart->get_cart();
 
@@ -2270,12 +2271,15 @@ class Wallet_System_For_Woocommerce_Public {
 			$tax_display = get_option( 'woocommerce_tax_display_shop' );
 
 			$item_fee = new WC_Order_Item_Fee();
-
+			if ( WC()->session->__isset( 'is_wallet_partial_payment_block' ) ) {
+				$fee_total = (float) WC()->session->get( 'is_wallet_partial_payment_block' );
+				
+			}
 			$item_fee->set_name( $fee_name );
-			$item_fee->set_amount( $fee_total );
+			$item_fee->set_amount( -($fee_total) );
 			$item_fee->set_tax_class( '' );
 			$item_fee->set_tax_status( '' );
-			$item_fee->set_total( $fee_total );
+			$item_fee->set_total( -($fee_total) );
 			$item_fee->set_total_tax( 0 );
 
 			// Add Fee item to the order.
@@ -2317,39 +2321,54 @@ class Wallet_System_For_Woocommerce_Public {
 			$order_id = $order->get_id();
 			$order_tax = '';
 			$order_tax = $order->get_total_tax();
-			$order_tax = ( floatval( $order_tax ) + abs( ( $fee_total_tax ) ) );
-			$order->set_cart_tax( $order_tax );
+			//$order_tax = ( floatval( $order_tax ) + abs( ( $fee_total_tax ) ) );
+		///	$order->set_cart_tax( $order_tax );
+			//$order->save();
+			//$order_tax = $order->get_total_tax();
+			// if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// 	// HPOS usage is enabled.
+			// 	$_order_total = $order->get_meta( '_order_total', true );
+			// } else {
+			// 	$_order_total = get_post_meta( $order_id, '_order_total', true );
+			// }
+
+			// $_order_total = ( floatval( $_order_total ) + abs( ( $fee_total_tax ) ) );
+
+			// if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// 	// HPOS usage is enabled.
+			// 	$order->update_meta_data( '_order_total', $_order_total );
+			// 	$order->save();
+
+			// } else {
+			// 	update_post_meta( $order_id, '_order_total', $_order_total );
+			// }
+			
+if ( WC()->session->__isset( 'is_wallet_partial_payment_cart_total_value' ) ) {
+	$cart_total_after_partial_payment = (float) WC()->session->get( 'is_wallet_partial_payment_cart_total_value' );
+	
+}
+if ( WC()->session->__isset( 'is_wallet_partial_payment_block' ) ) {
+	$is_wallet_partial_payment_block = (float) WC()->session->get( 'is_wallet_partial_payment_block' );
+	
+}
+if ( WC()->session->__isset( 'is_wallet_partial_payment_cart_total_tax' ) ) {
+	$is_wallet_partial_payment_cart_total_tax = (float) WC()->session->get( 'is_wallet_partial_payment_cart_total_tax' );
+	
+}
+if ( ! empty( $is_wallet_partial_payment_cart_total_tax ) ) {
+	$order->set_total_tax( $is_wallet_partial_payment_cart_total_tax );
+}
+
+
+			$order->set_total( $cart_total_after_partial_payment );
 			$order->save();
-			$order_tax = $order->get_total_tax();
-			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
-				// HPOS usage is enabled.
-				$_order_total = $order->get_meta( '_order_total', true );
-			} else {
-				$_order_total = get_post_meta( $order_id, '_order_total', true );
-			}
-
-			$_order_total = ( floatval( $_order_total ) + abs( ( $fee_total_tax ) ) );
-
-			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
-				// HPOS usage is enabled.
-				$order->update_meta_data( '_order_total', $_order_total );
-				$order->save();
-
-			} else {
-				update_post_meta( $order_id, '_order_total', $_order_total );
-			}
-
-			$order_total = $order->get_total();
-			$order_total = $order_total + abs( $fee_total_tax );
-			$order->set_total( $order_total );
-
 			$item_fee = new WC_Order_Item_Fee();
-
+			
 			$item_fee->set_name( $fee_name );
-			$item_fee->set_amount( $fee_total );
+			$item_fee->set_amount( -( $is_wallet_partial_payment_block ) );
 			$item_fee->set_tax_class( '' );
 			$item_fee->set_tax_status( '' );
-			$item_fee->set_total( $fee_total );
+			$item_fee->set_total( -( $is_wallet_partial_payment_block ) );
 			$item_fee->set_total_tax( 0 );
 
 			// Add Fee item to the order.
@@ -2496,11 +2515,9 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( $product->get_id() == $wallet_id ) {
 					$tax_class = 'zero-rate';
 					$product->set_tax_class( 'zero-rate' );
-
 				}
 			}
 		}
-
 		return $tax_class;
 	}
 
@@ -2515,27 +2532,31 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wps_wsfw_woocommerce_calculated_total_for_tax( $cart_total, $cart ) {
 
-			 $cart_tatal_tax  = '';
-			 $fees = $cart->fees_api()->get_fees();
+		$cart_tatal_tax  = '';
+		$fees = $cart->fees_api()->get_fees();
 		foreach ( $fees as $key => $fee ) {
 
 			if ( 'via_wallet_partial_payment' == $fee->id ) {
 				// gets the data to recalculate the cart total.
-				$cart_tatal_tax = $fee->tax;
-				if ( ! empty( $cart_tatal_tax ) ) {
+				// $cart_tatal_tax = $fee->tax;
+				// if ( ! empty( $cart_tatal_tax ) ) {
 
-					$cart_total = $cart_total + abs( $cart_tatal_tax );
-					WC()->cart->set_total( $cart_total );
+				// echo	$cart_total = $cart_total + abs( $cart_tatal_tax );
+				// echo	WC()->cart->set_total( $cart_total );
+				// }
+				// break;
+				if ( WC()->session->__isset( 'is_wallet_partial_payment_cart_total_value' ) ) {
+					$cart_total_after_partial_payment = (float) WC()->session->get( 'is_wallet_partial_payment_cart_total_value' );
+					
 				}
-				break;
 			}
 		}
+		if ( ! empty( $cart_total_after_partial_payment ) ) {
+			return $cart_total_after_partial_payment;
+		}
+	
 		return $cart_total;
-
 	}
-
-
-
-
-
 }
+
+

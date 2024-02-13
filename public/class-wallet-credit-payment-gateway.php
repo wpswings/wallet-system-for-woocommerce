@@ -72,12 +72,12 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			// Define user set variables.
 			$this->title        = $this->get_option( 'title' );
 			$this->description  = $this->get_option( 'description' );
-			$this->instructions = $this->get_option( 'instructions', $this->description );
+
 			$this->enabled      = $this->get_option( 'enabled' );
 
 			// Actions.
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-			add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page' ) );
+			//add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page' ) );
 		}
 
 		/**
@@ -109,13 +109,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					'desc_tip'    => true,
 				),
 
-				'instructions' => array(
-					'title'       => __( 'Instructions', 'wallet-system-for-woocommerce' ),
-					'type'        => 'textarea',
-					'description' => __( 'Instructions that will be added to the thank you page and emails.', 'wallet-system-for-woocommerce' ),
-					'default'     => '',
-					'desc_tip'    => true,
-				),
 			);
 		}
 
@@ -138,19 +131,19 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			}
 		}
 
-		/**
-		 * Output for the order received page.
-		 */
-		public function thankyou_page() {
-			if ( $this->instructions ) {
-				$allowed_html = array(
-					'p' => array(
-						'class' => '',
-					),
-				);
-				echo wp_kses( wpautop( wptexturize( $this->instructions ) ), $allowed_html );
-			}
-		}
+		// /**
+		//  * Output for the order received page.
+		//  */
+		// public function thankyou_page() {
+		// 	if ( $this->instructions ) {
+		// 		$allowed_html = array(
+		// 			'p' => array(
+		// 				'class' => '',
+		// 			),
+		// 		);
+		// 		echo wp_kses( wpautop( wptexturize( $this->instructions ) ), $allowed_html );
+		// 	}
+		// }
 
 		  /**
 		   * Process a refund if supported.

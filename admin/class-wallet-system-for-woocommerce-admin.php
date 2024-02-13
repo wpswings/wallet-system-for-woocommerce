@@ -2129,9 +2129,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			<?php
 		}
-		?>
 		
-		<?php
 
 		if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
 
@@ -3841,8 +3839,3 @@ class Wallet_System_For_Woocommerce_Admin {
 		
 	}
 }
-
-
-
-
-

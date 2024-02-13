@@ -60,13 +60,21 @@ class Wallet_System_AjaxHandler {
 			}
 			if ( $wallet_amount >= $amount ) {
 				$wallet_amount     -= $amount;
+				$total_amount = WC()->cart->get_total('edit');
+				$total_amount_partial = floatval( $total_amount ) - floatval( $amount ); 
+				$Total_tax = wc_cart_totals_taxes_total_html();
+				if ( ! empty ( $Total_tax ) ) {
+					WC()->session->set( 'is_wallet_partial_payment_cart_total_tax-value', $Total_tax );
+				}
+  
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
 				$message['price']   = wc_price( $amount );
 				WC()->session->set( 'custom_fee', $amount );
 				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
 				WC()->session->set( 'is_wallet_partial_payment_block', $amount );
-
+				WC()->session->set( 'is_wallet_partial_payment_cart_total_value', $total_amount_partial );
+				wp_send_json( $message );
 			} else {
 				$message['status']  = false;
 				$message['message'] = esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' );
@@ -74,7 +82,6 @@ class Wallet_System_AjaxHandler {
 
 			wp_send_json( $message );
 		}
-
 	}
 
 	/**
@@ -92,7 +99,7 @@ class Wallet_System_AjaxHandler {
 			} else {
 				WC()->session->set( 'is_wallet_partial_payment', 'false' );
 			}
-			$cart_total = wc()->cart->get_subtotal();
+
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['wallet_amount'] ) );
 
 			if ( ! empty( $wallet_amount ) ) {
@@ -119,6 +126,8 @@ class Wallet_System_AjaxHandler {
 	public function unset_wallet_session() {
 		WC()->session->__unset( 'custom_fee' );
 		WC()->session->__unset( 'is_wallet_partial_payment' );
+		WC()->session->__unset( 'is_wallet_partial_payment_checkout' );
+		WC()->session->__unset( 'is_wallet_partial_payment_block' );
 		echo 'true';
 		wp_die();
 	}
