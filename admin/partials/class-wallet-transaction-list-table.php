@@ -490,21 +490,21 @@ if ( isset( $_POST['action'] ) ) {
 				$file = fopen( 'Transaction_Data.csv', 'w' );
 
 				// Write data to the CSV file.
-	foreach ( $csv_data as $row ) {
-		fputcsv( $file, $row );
-	}
+				foreach ( $csv_data as $row ) {
+					fputcsv( $file, $row );
+				}
 
 				// Close the file pointer.
 				fclose( $file );
 				// Output a download link for the generated CSV file.
 				echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
-	?>
+				?>
 				<script>
 					
 					const myAnchor = document.getElementById('transaction_data_csv_file');
 					myAnchor.click();
 				</script>
-				<?
+				<?php
 			}
 		}
 	}	
