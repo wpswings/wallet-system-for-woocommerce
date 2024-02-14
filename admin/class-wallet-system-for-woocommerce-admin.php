@@ -649,8 +649,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( 'yes' == $all_gateway[ $key ]->enabled ) {
 				if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
 					continue;
-				} elseif ( 'cod' == $key ) {
-					continue;
 				}
 				$wps_all_payment_gateway[ $key ] = $value->title;
 			}
@@ -687,7 +685,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title'       => __( 'Restrict Wallet Recharge For Particular Gateway', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_multiselect_wallet_recharge_restrict',
 				'type'        => 'multiselect',
-				'description' => __( 'Select any gateway to restrict cashback upon placing order.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select any gateway to restrict wallet recharge on checkout page.', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_multiselect_wallet_recharge_restrict',
 				'value'       => get_option( 'wps_wsfw_multiselect_wallet_recharge_restrict' ),
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
@@ -962,6 +960,94 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 		return $wsfw_settings_general;
 	}
+
+
+	/**
+	 * Function fpor Transfer settings.
+	 *
+	 * @return array
+	 */
+	public function wsfw_admin_wallet_payment_gateway_charge_page() {
+
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable Payment Gateway Charge Settings', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Check this box to enable Payment Gateway Charge on wallet recharge.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_action_payment_gateway_charge',
+				'id'          => 'wps_wsfwp_wallet_action_payment_gateway_charge',
+				'value'       => get_option( 'wps_wsfwp_wallet_action_payment_gateway_charge' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Payment Gateway Charge Type', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'description' => __( 'Select Transfer Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_payment_gateway_charge_fee_type',
+				'id'          => 'wps_wsfwp_payment_gateway_charge_fee_type',
+				'value'       => get_option( 'wps_wsfwp_payment_gateway_charge_fee_type', 'percent' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => apply_filters(
+					'wsfw_cashback_type__array',
+					array(
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			
+		);
+
+
+		$wps_all_payment_gateway = array();
+		$wsfw_settings_template_data = array();
+		$wsfw_settings_template_data__ = array();
+
+		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
+			if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+				continue;
+			}
+			if ( 'cod' == $key ) {
+				continue;
+			}
+
+			if ( 'yes' == $value->enabled ) {
+				$wps_all_payment_gateway[ $key ] = $value->title;
+			}
+			
+		}
+	
+		foreach ($wps_all_payment_gateway as $key => $value) {
+			
+			$result[] = array(
+				'title'       => __( 'Payment Gateway Charge For ', 'wallet-system-for-woocommerce' ) . $value,
+				'type'        => 'number',
+				'description' => __( 'Select Transfer Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_payment_gateway_charge_type_'.$key,
+				'id'          => 'wps_wsfwp_payment_gateway_charge_type_'.$key,
+				'value'       => get_option( 'wps_wsfwp_payment_gateway_charge_type_'.$key, ),
+				'min'         => 0,
+				'step'        => '0.01',
+				'placeholder' => __( 'Enter Amount charge on this gateway', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+				
+			);
+					
+		}
+		$wsfw_settings_template__ = array_merge($wsfw_settings_template, $result);
+
+
+		$wsfw_settings_template__   = apply_filters( 'wsfwp_wallet_action_auto_transfer_settings_array', $wsfw_settings_template__ );
+		return $wsfw_settings_template__;
+	}
+
+
+
 
 	/**
 	 * This function is used to create daily visit html.
@@ -1428,6 +1514,9 @@ class Wallet_System_For_Woocommerce_Admin {
 
 				$wsfw_wallet_action_settings_daily_visit      = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 				$wsfw_wallet_action_settings_comment_array    = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
+				$wsfw_wallet_action_settings_payment_gateway_charge_array      = apply_filters( 'wsfw_wallet_action_settings_payment_gateway_charge_array', array() );
+				
+				
 				// wallet referal start.
 				$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
 				// wallet referal end.
@@ -1437,6 +1526,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				update_option( 'wps_wsfw_subscriptions_expiry_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_expiry_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_expiry_per_interval'] ) ) : '' );
 
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_daily_visit );
+				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_payment_gateway_charge_array );
+			
+				
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_settings_wallet_action_auto_topup );
 
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_comment_array );
@@ -1830,6 +1922,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 		$order_curremncy = $order->get_currency();
+
 		foreach ( $order_items as $item_id => $item ) {
 			$product_id = $item->get_product_id();
 			$total      = $item->get_total();
@@ -1869,9 +1962,36 @@ class Wallet_System_For_Woocommerce_Admin {
 					$walletamount_user  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
 					$walletamount_user  = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
-					$walletamount += $credited_amount;
+					$is_payment_gateway_cahrge = false;
+					$credited_amount_payment_charge = '';
+					if( 'on' == get_option( 'wps_wsfwp_wallet_action_payment_gateway_charge' ) ){
+						
+						$wsfw_payment_charge_type = get_option( 'wps_wsfwp_payment_gateway_charge_fee_type' );
+						$_wps_wsfwp_payment_gateway_charge_type_bacs = get_option( 'wps_wsfwp_payment_gateway_charge_type_'.$payment_method );
+						//wps_wsfwp_payment_gateway_charge_type_bacs
+						if ( 'percent' === $wsfw_payment_charge_type ) {
+							 $credited_amount_payment_charge = (($credited_amount * $_wps_wsfwp_payment_gateway_charge_type_bacs ) / 100);
+						} else {
+							$credited_amount_payment_charge = $_wps_wsfwp_payment_gateway_charge_type_bacs;
+						}
 
-					$balance   = $order->get_currency() . ' ' . $amount;
+					}
+					if ( ! empty( $credited_amount_payment_charge ) ) {
+						$is_payment_gateway_cahrge = true;
+						$credited_amount = $credited_amount - $credited_amount_payment_charge;
+						$walletamount += $credited_amount;
+						$balance   = $credited_amount;
+					} else{
+
+						$walletamount += $credited_amount;
+						$balance   = $order->get_currency() . ' ' . $amount;
+					}
+						
+					
+
+					
+
+					
 					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharge.', 'wallet-system-for-woocommerce' );
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
@@ -1921,6 +2041,23 @@ class Wallet_System_For_Woocommerce_Admin {
 						'note'             => $transfer_note,
 					);
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
+					if ( $is_payment_gateway_cahrge ) {
+
+						$transaction_type = __( 'Wallet Recharge Amount Charged For Gateway ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+						$transaction_data = array(
+							'user_id'          => $update_wallet_userid,
+							'amount'           => $credited_amount_payment_charge,
+							'currency'         => $order->get_currency(),
+							'payment_method'   => $payment_method,
+							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'debit',
+							'order_id'         => $order_id,
+							'note'             => $transfer_note,
+						);
+						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
+					}
 				}
 			}
 		}

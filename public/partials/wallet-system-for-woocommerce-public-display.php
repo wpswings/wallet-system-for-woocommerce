@@ -276,8 +276,12 @@ $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 $user_id                = get_current_user_id();
 $wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
+$is_pro_plugin = false;
+$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 $is_user_restricted     = get_user_meta( $user_id, 'user_restriction_for_wallet', true );
-$is_user_restricted  = apply_filters( 'wsfw_user_restrict_pro_check', $is_user_restricted );
+if ( $is_pro_plugin ) {
+	$is_user_restricted = '';
+}
 
 if ( empty( $wallet_bal ) ) {
 	$wallet_bal = 0;
@@ -292,7 +296,7 @@ $wallet_restrict_qrcode = apply_filters( 'wallet_restrict_qrcode', $user_id );
 
 
 
-$is_pro_plugin = false;
+
 $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 $wps_wallet_restrict_message_to_user = 'on';
 $wps_wallet_restrict_message_for = '';
@@ -468,6 +472,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		?>
 	</div>
 	<?php
+
 	if ( 'on' == $wps_wallet_restrict_message_to_user ) {
 		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
 			?>

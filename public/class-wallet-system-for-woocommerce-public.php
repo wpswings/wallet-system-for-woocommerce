@@ -271,14 +271,14 @@ class Wallet_System_For_Woocommerce_Public {
 								}
 							}
 						} else {
-							if ( $wallet_amount <= $wps_cart_total ) {
+							if ( $wallet_amount < $wps_cart_total ) {
 
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 							}
 						}
 					} else {
-						if ( $wallet_amount <= $wps_cart_total ) {
-
+						if ( $wallet_amount < $wps_cart_total ) {
+							
 							unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 						}
 					}
@@ -696,6 +696,35 @@ class Wallet_System_For_Woocommerce_Public {
 					$walletamount  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
 					$walletamount  = empty( $walletamount ) ? 0 : $walletamount;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
+
+
+					$is_payment_gateway_cahrge = false;
+					$credited_amount_payment_charge = '';
+					if( 'on' == get_option( 'wps_wsfwp_wallet_action_payment_gateway_charge' ) ){
+						
+						$wsfw_payment_charge_type = get_option( 'wps_wsfwp_payment_gateway_charge_fee_type' );
+						$_wps_wsfwp_payment_gateway_charge_type_bacs = get_option( 'wps_wsfwp_payment_gateway_charge_type_'.$payment_method );
+						//wps_wsfwp_payment_gateway_charge_type_bacs
+						if ( 'percent' === $wsfw_payment_charge_type ) {
+							 $credited_amount_payment_charge = (($credited_amount * $_wps_wsfwp_payment_gateway_charge_type_bacs ) / 100);
+						} else {
+							$credited_amount_payment_charge = $_wps_wsfwp_payment_gateway_charge_type_bacs;
+						}
+
+					}
+					if ( ! empty( $credited_amount_payment_charge ) ) {
+						$is_payment_gateway_cahrge = true;
+						$credited_amount = $credited_amount - $credited_amount_payment_charge;
+						$walletamount += $credited_amount;
+						$balance   = $credited_amount;
+					} else{
+
+						$walletamount += $credited_amount;
+						$balance   = $order->get_currency() . ' ' . $amount;
+					}
+
+
+
 					$walletamount += $credited_amount;
 
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
@@ -761,6 +790,23 @@ class Wallet_System_For_Woocommerce_Public {
 						'note'             => $transfer_note,
 					);
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
+					if ( $is_payment_gateway_cahrge ) {
+
+						$transaction_type = __( 'Wallet Recharge Amount Charged For Gateway ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+						$transaction_data = array(
+							'user_id'          => $update_wallet_userid,
+							'amount'           => $credited_amount_payment_charge,
+							'currency'         => $order->get_currency(),
+							'payment_method'   => $payment_method,
+							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'debit',
+							'order_id'         => $order_id,
+							'note'             => $transfer_note,
+						);
+						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
+					}
 
 				}
 			}

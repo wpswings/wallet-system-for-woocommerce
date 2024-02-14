@@ -225,6 +225,9 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_registration_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_registration_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_daily_visit_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_daily_visit_settings_page', 10 );
+		$this->loader->add_filter( 'wsfw_wallet_action_settings_payment_gateway_charge_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_payment_gateway_charge_page', 10 );
+		
+		
 		$this->loader->add_action( 'wsfw_wallet_action_settings_comment_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_comment_array', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_auto_topup_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_auto_topup_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_submit_button_array', $wsfw_plugin_admin, 'wsfw_wallet_action_settings_submit_button_setting_page', 10 );
