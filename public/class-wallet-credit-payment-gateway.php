@@ -72,12 +72,11 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			// Define user set variables.
 			$this->title        = $this->get_option( 'title' );
 			$this->description  = $this->get_option( 'description' );
-			$this->instructions = $this->get_option( 'instructions', $this->description );
 			$this->enabled      = $this->get_option( 'enabled' );
 
 			// Actions.
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-			add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page' ) );
+
 		}
 
 		/**
@@ -138,19 +137,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			}
 		}
 
-		/**
-		 * Output for the order received page.
-		 */
-		public function thankyou_page() {
-			if ( $this->instructions ) {
-				$allowed_html = array(
-					'p' => array(
-						'class' => '',
-					),
-				);
-				echo wp_kses( wpautop( wptexturize( $this->instructions ) ), $allowed_html );
-			}
-		}
 
 		  /**
 		   * Process a refund if supported.
@@ -306,7 +292,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					// Reduce stock levels.
 					$order->reduce_order_stock();
 					// Remove cart.
-					WC()->cart->empty_cart();
+
 					$is_auto_complete_bool = false;
 
 				}
@@ -318,11 +304,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					// Reduce stock levels.
 					$order->reduce_order_stock();
 
-					// Remove cart.
-					if ( ! empty( WC()->cart ) ) {
-						WC()->cart->empty_cart();
-
-					}
+					
 				}
 			} else {
 				$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
