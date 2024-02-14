@@ -298,8 +298,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
 					// Reduce stock levels.
 					$order->reduce_order_stock();
-					// Remove cart.
-					WC()->cart->empty_cart();
+					
 					$is_auto_complete_bool = false;
 
 				}
@@ -311,11 +310,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 					// Reduce stock levels.
 					$order->reduce_order_stock();
 
-					// Remove cart.
-					if ( ! empty( WC()->cart ) ) {
-						WC()->cart->empty_cart();
-
-					}
+					
 				}
 			} else {
 				$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
