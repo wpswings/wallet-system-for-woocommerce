@@ -302,6 +302,7 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( $cart_item['product_id'] == $wallet_id ) {
 					if ( isset( $available_gateways['cod'] ) ) {
 						unset( $available_gateways['cod'] );
+						unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					}
 				}
 			}
