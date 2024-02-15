@@ -226,8 +226,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_registration_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_registration_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_daily_visit_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_daily_visit_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_payment_gateway_charge_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_payment_gateway_charge_page', 10 );
-		
-		
+
 		$this->loader->add_action( 'wsfw_wallet_action_settings_comment_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_comment_array', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_auto_topup_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_auto_topup_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_submit_button_array', $wsfw_plugin_admin, 'wsfw_wallet_action_settings_submit_button_setting_page', 10 );
@@ -415,7 +414,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', $wsfw_plugin_public, 'wsfw_wps_enqueue_script_block_eheckout', 10 );
 			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders_api_checkout_org', 90 );
 			$this->loader->add_filter( 'woocommerce_calculated_total', $wsfw_plugin_public, 'wps_wsfw_woocommerce_calculated_total_for_tax', 20, 2 );
-
+			$this->loader->add_filter( 'woocommerce_available_payment_gateways', $wsfw_plugin_public, 'wps_wsfwp_add_wallet_recharge_message_restriction', 10, 1 );
 		}
 
 	}

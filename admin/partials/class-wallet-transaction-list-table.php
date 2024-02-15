@@ -482,8 +482,8 @@ if ( isset( $_POST['action'] ) ) {
 		}
 	}
 	if ( 'export_csv' == $_POST['action'] ) {
-		if ($result){
-			if ( ! empty( $data )) {
+		if ( $result ) {
+			if ( ! empty( $data ) ) {
 				$csv_data = $data['csv_data'];
 
 				// Create a file pointer.
@@ -507,7 +507,7 @@ if ( isset( $_POST['action'] ) ) {
 				<?php
 			}
 		}
-	}	
+	}
 }
 
 /**
@@ -516,13 +516,13 @@ if ( isset( $_POST['action'] ) ) {
  * @param [type] $user_count is the number of user.
  * @param [type] $current_page is the current page number.
  * @param string $csv_data is the csv data.
- * @return void
+ * @return array
  */
-function export_data_csv_for_all_transaction(  $user_count, $current_page, $csv_data = '' ){
+function export_data_csv_for_all_transaction( $user_count, $current_page, $csv_data = '' ) {
 	$args['number'] = $user_count;
 
-	$Limit =  10;
-	$offset =  $user_count;
+	$limit = 10;
+	$offset = $user_count;
 	global $wpdb;
 	$results_transaction = $wpdb->get_results(
 		$wpdb->prepare(
@@ -530,16 +530,15 @@ function export_data_csv_for_all_transaction(  $user_count, $current_page, $csv_
 		FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID`
 		ORDER BY table1.id DESC
 		LIMIT %d OFFSET %d",
-			$Limit,
+			$limit,
 			$offset
 		),
 		ARRAY_A
 	);
 
-	
 	$zsdsd = array();
-	if ( $user_count == 0 ){
-		$zsdsd[] = array( 'User Id', 'User Name', 'User Email', 'Amount', 'Transaction Type', 'Payment Method', 'Transaction Id'  );
+	if ( 0 == $user_count ) {
+		$zsdsd[] = array( 'User Id', 'User Name', 'User Email', 'Amount', 'Transaction Type', 'Payment Method', 'Transaction Id' );
 	}
 
 	if ( ! empty( $results_transaction ) ) {
@@ -548,7 +547,7 @@ function export_data_csv_for_all_transaction(  $user_count, $current_page, $csv_
 			$user          = get_userdata( $sort_id['user_id'] );
 			$date = date_create( $sort_id['date'] );
 			$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
-			$zsdsd[] = array(  $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'],  $sort_id['transaction_type'], $sort_id['payment_method'], $transaction_data );
+			$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], $sort_id['transaction_type'], $sort_id['payment_method'], $transaction_data );
 		}
 	}
 
@@ -561,7 +560,7 @@ function export_data_csv_for_all_transaction(  $user_count, $current_page, $csv_
 			'per_user_left'     => $user_count,
 			'csv_data'     => $user_data_array,
 		);
-	return $data;
+		return $data;
 }
 
 if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] ) ) {

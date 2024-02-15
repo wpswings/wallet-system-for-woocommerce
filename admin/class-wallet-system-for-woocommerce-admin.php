@@ -688,7 +688,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Select any gateway to restrict wallet recharge on checkout page.', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_multiselect_wallet_recharge_restrict',
 				'value'       => get_option( 'wps_wsfw_multiselect_wallet_recharge_restrict' ),
-				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect wps_pro_settings',
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
 				'placeholder' => '',
 				'options' => $wps_all_payment_gateway,
 			),
@@ -1000,47 +1000,39 @@ class Wallet_System_For_Woocommerce_Admin {
 					)
 				),
 			),
-			
+
 		);
 
-
 		$wps_all_payment_gateway = array();
-		$wsfw_settings_template_data = array();
-		$wsfw_settings_template_data__ = array();
 
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
 			if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
-				continue;
-			}
-			if ( 'cod' == $key ) {
 				continue;
 			}
 
 			if ( 'yes' == $value->enabled ) {
 				$wps_all_payment_gateway[ $key ] = $value->title;
 			}
-			
 		}
-	
-		foreach ($wps_all_payment_gateway as $key => $value) {
-			
+
+		foreach ( $wps_all_payment_gateway as $key => $value ) {
+
 			$result[] = array(
 				'title'       => __( 'Payment Gateway Charge For ', 'wallet-system-for-woocommerce' ) . $value,
 				'type'        => 'number',
 				'description' => __( 'Select Transfer Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wps_wsfwp_payment_gateway_charge_type_'.$key,
-				'id'          => 'wps_wsfwp_payment_gateway_charge_type_'.$key,
-				'value'       => get_option( 'wps_wsfwp_payment_gateway_charge_type_'.$key, ),
+				'name'        => 'wps_wsfwp_payment_gateway_charge_type_' . $key,
+				'id'          => 'wps_wsfwp_payment_gateway_charge_type_' . $key,
+				'value'       => get_option( 'wps_wsfwp_payment_gateway_charge_type_' . $key, ),
 				'min'         => 0,
 				'step'        => '0.01',
 				'placeholder' => __( 'Enter Amount charge on this gateway', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
-				
-			);
-					
-		}
-		$wsfw_settings_template__ = array_merge($wsfw_settings_template, $result);
 
+			);
+
+		}
+		$wsfw_settings_template__ = array_merge( $wsfw_settings_template, $result );
 
 		$wsfw_settings_template__   = apply_filters( 'wsfwp_wallet_action_auto_transfer_settings_array', $wsfw_settings_template__ );
 		return $wsfw_settings_template__;
@@ -1515,8 +1507,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_wallet_action_settings_daily_visit      = apply_filters( 'wsfw_wallet_action_settings_daily_visit_array', array() );
 				$wsfw_wallet_action_settings_comment_array    = apply_filters( 'wsfw_wallet_action_settings_comment_array', array() );
 				$wsfw_wallet_action_settings_payment_gateway_charge_array      = apply_filters( 'wsfw_wallet_action_settings_payment_gateway_charge_array', array() );
-				
-				
+
 				// wallet referal start.
 				$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
 				// wallet referal end.
@@ -1527,8 +1518,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_daily_visit );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_payment_gateway_charge_array );
-			
-				
+
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_settings_wallet_action_auto_topup );
 
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_settings_comment_array );
@@ -1964,34 +1954,27 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$is_payment_gateway_cahrge = false;
 					$credited_amount_payment_charge = '';
-					if( 'on' == get_option( 'wps_wsfwp_wallet_action_payment_gateway_charge' ) ){
-						
+					if ( 'on' == get_option( 'wps_wsfwp_wallet_action_payment_gateway_charge' ) ) {
+
 						$wsfw_payment_charge_type = get_option( 'wps_wsfwp_payment_gateway_charge_fee_type' );
-						$_wps_wsfwp_payment_gateway_charge_type_bacs = get_option( 'wps_wsfwp_payment_gateway_charge_type_'.$payment_method );
-						//wps_wsfwp_payment_gateway_charge_type_bacs
+						$_wps_wsfwp_payment_gateway_charge_type_bacs = get_option( 'wps_wsfwp_payment_gateway_charge_type_' . $payment_method );
 						if ( 'percent' === $wsfw_payment_charge_type ) {
-							 $credited_amount_payment_charge = (($credited_amount * $_wps_wsfwp_payment_gateway_charge_type_bacs ) / 100);
+							 $credited_amount_payment_charge = ( ( $credited_amount * $_wps_wsfwp_payment_gateway_charge_type_bacs ) / 100 );
 						} else {
 							$credited_amount_payment_charge = $_wps_wsfwp_payment_gateway_charge_type_bacs;
 						}
-
 					}
 					if ( ! empty( $credited_amount_payment_charge ) ) {
 						$is_payment_gateway_cahrge = true;
 						$credited_amount = $credited_amount - $credited_amount_payment_charge;
 						$walletamount += $credited_amount;
 						$balance   = $credited_amount;
-					} else{
+					} else {
 
 						$walletamount += $credited_amount;
 						$balance   = $order->get_currency() . ' ' . $amount;
 					}
-						
-					
 
-					
-
-					
 					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharge.', 'wallet-system-for-woocommerce' );
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
@@ -2266,7 +2249,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			<?php
 		}
-		
 
 		if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
 
@@ -3973,6 +3955,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			$gateway->process_payment_manual( $order_id );
 
 		}
-		
+
 	}
 }
