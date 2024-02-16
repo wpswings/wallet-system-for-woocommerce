@@ -105,10 +105,12 @@ class Wallet_System_AjaxHandler {
 			if ( ! empty( $wallet_amount ) ) {
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet amount used successfully: ', 'wallet-system-for-woocommerce' );
+				$total_amount = WC()->cart->get_total( 'edit' );
+				$total_amount_partial = floatval( $total_amount ) - floatval( $wallet_amount );
 				WC()->session->set( 'custom_fee', $wallet_amount );
 				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
 				WC()->session->set( 'is_wallet_partial_payment_block', $wallet_amount );
-				WC()->session->set( 'is_wallet_partial_payment_cart_total_value', $wallet_amount );
+				WC()->session->set( 'is_wallet_partial_payment_cart_total_value', $total_amount_partial );
 
 			} else {
 				$message['status']  = false;
