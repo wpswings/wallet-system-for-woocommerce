@@ -108,7 +108,6 @@ class Wallet_System_AjaxHandler {
 				WC()->session->set( 'custom_fee', $wallet_amount );
 				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
 				WC()->session->set( 'is_wallet_partial_payment_block', $wallet_amount );
-				WC()->session->set( 'is_wallet_partial_payment_block', $wallet_amount );
 				WC()->session->set( 'is_wallet_partial_payment_cart_total_value', $wallet_amount );
 
 			} else {
