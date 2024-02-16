@@ -644,14 +644,37 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wsfw_settings_general = apply_filters( 'wsfw_general_extra_settings_array_before_enable', $wsfw_settings_general );
 		$all_gateway = WC()->payment_gateways()->payment_gateways();
 		$wps_all_payment_gateway = array();
+
+		$is_pro_plugin = false;
+		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+
+		if ( ! $is_pro_plugin ) {
+			$available_gateway	 = []; // Empty array
+			$available_gateway = ['bacs', 'cod', 'cheque'];
+		}
+
+
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
 
-			if ( 'yes' == $all_gateway[ $key ]->enabled ) {
-				if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
-					continue;
+			if ( ! $is_pro_plugin ) {
+				if ( ! empty( $available_gateway ) && in_array( $key, $available_gateway ) ) {
+					if ( 'yes' == $all_gateway[ $key ]->enabled ) {
+						if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+							continue;
+						}
+						$wps_all_payment_gateway[ $key ] = $value->title;
+					}
 				}
-				$wps_all_payment_gateway[ $key ] = $value->title;
+				
+			} else{
+				if ( 'yes' == $all_gateway[ $key ]->enabled ) {
+					if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+						continue;
+					}
+					$wps_all_payment_gateway[ $key ] = $value->title;
+				}
 			}
+			
 		}
 		$wsfw_settings_general = array(
 			// enable wallet.
@@ -685,7 +708,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title'       => __( 'Restrict Wallet Recharge For Particular Gateway', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_multiselect_wallet_recharge_restrict',
 				'type'        => 'multiselect',
-				'description' => __( 'Select any gateway to restrict wallet recharge on checkout page.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select any gateway to restrict wallet recharge on checkout page (Free Plugin Support only woocommerce default gateway).', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_multiselect_wallet_recharge_restrict',
 				'value'       => get_option( 'wps_wsfw_multiselect_wallet_recharge_restrict' ),
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
@@ -987,7 +1010,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Payment Gateway Charge Type', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
-				'description' => __( 'Select Transfer Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select Payment Gateway Charge Type in Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_payment_gateway_charge_fee_type',
 				'id'          => 'wps_wsfwp_payment_gateway_charge_fee_type',
 				'value'       => get_option( 'wps_wsfwp_payment_gateway_charge_fee_type', 'percent' ),
@@ -1020,14 +1043,14 @@ class Wallet_System_For_Woocommerce_Admin {
 			$result[] = array(
 				'title'       => __( 'Payment Gateway Charge For ', 'wallet-system-for-woocommerce' ) . $value,
 				'type'        => 'number',
-				'description' => __( 'Select Transfer Fee type Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select Payment Gateway Charge Amount.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_payment_gateway_charge_type_' . $key,
 				'id'          => 'wps_wsfwp_payment_gateway_charge_type_' . $key,
 				'value'       => get_option( 'wps_wsfwp_payment_gateway_charge_type_' . $key, ),
 				'min'         => 0,
 				'step'        => '0.01',
 				'placeholder' => __( 'Enter Amount charge on this gateway', 'wallet-system-for-woocommerce' ),
-				'class'       => 'wws-text-class',
+				'class'       => 'wws-text-class wps_payment_gateway_charge_textbox',
 
 			);
 
@@ -1294,9 +1317,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wps_all_payment_gateway = array();
 
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
-			if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
-				continue;
-			}
+
 			$wps_all_payment_gateway[ $key ] = $value->title;
 		}
 

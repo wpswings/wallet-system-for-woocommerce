@@ -9,6 +9,16 @@
 
     }
 
+    var payment_gateway_charge_type = jQuery('#wps_wsfwp_payment_gateway_charge_fee_type').val();
+
+      if ( payment_gateway_charge_type == 'percent' ) {
+    
+        jQuery('.wps_payment_gateway_charge_textbox').attr('max',100);
+  
+      } else{
+        jQuery('.wps_payment_gateway_charge_textbox').attr('max','');
+      }
+
     jQuery('.bulkactions').hide();
 
 
@@ -90,6 +100,22 @@
         jQuery('#wps_wsfw_cashback_amount').attr('max','');
       }
 		});
+
+    jQuery(document).on( 'change', '#wps_wsfwp_payment_gateway_charge_fee_type', function() {
+      
+      var payment_gateway_charge_type = jQuery('#wps_wsfwp_payment_gateway_charge_fee_type').val();
+
+      if ( payment_gateway_charge_type == 'percent' ) {
+    
+        jQuery('.wps_payment_gateway_charge_textbox').attr('max',100);
+  
+      } else{
+        jQuery('.wps_payment_gateway_charge_textbox').attr('max','');
+      }
+		});
+
+
+    
 
     var cashback_type = jQuery('#wps_wsfw_cashback_type').val();
 

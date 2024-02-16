@@ -124,7 +124,7 @@ $wsfw_wallet_action_html = '';
 						<label for="" class="wps-form-label"><?php esc_html_e( 'Wallet Recharge Product', 'wallet-system-for-woocommerce' ); ?></label>
 					</div>
 					<div class="wps-form-group__control">
-						<a  href="#"><div> <?php esc_html_e( 'Click Here', 'wallet-system-for-woocommerce' ); ?></div></a>
+						<a  href="#"><div class="wps_pro_settings"> <?php esc_html_e( 'Click Here', 'wallet-system-for-woocommerce' ); ?></div></a>
 					</div>
 				</div>
 			</div>
