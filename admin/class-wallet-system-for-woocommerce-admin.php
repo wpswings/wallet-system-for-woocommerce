@@ -708,7 +708,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'title'       => __( 'Restrict Wallet Recharge For Particular Gateway', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_multiselect_wallet_recharge_restrict',
 				'type'        => 'multiselect',
-				'description' => __( 'Select any gateway to restrict wallet recharge on checkout page (Free Plugin Support only woocommerce default gateway).', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select any gateway to restrict wallet recharge on checkout page ( Org Plugin Support only woocommerce default gateway).', 'wallet-system-for-woocommerce' ),
 				'id'          => 'wps_wsfw_multiselect_wallet_recharge_restrict',
 				'value'       => get_option( 'wps_wsfw_multiselect_wallet_recharge_restrict' ),
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
