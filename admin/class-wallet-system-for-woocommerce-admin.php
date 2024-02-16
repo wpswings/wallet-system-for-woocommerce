@@ -997,7 +997,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Enable Payment Gateway Charge Settings', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Check this box to enable Payment Gateway Charge on wallet recharge.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Check this box to enable Payment Gateway Charge on wallet recharge. (Org Plugin Support only Woocommerce Deafult Gateway)', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_wallet_action_payment_gateway_charge',
 				'id'          => 'wps_wsfwp_wallet_action_payment_gateway_charge',
 				'value'       => get_option( 'wps_wsfwp_wallet_action_payment_gateway_charge' ),
@@ -1026,16 +1026,41 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		);
 
+		
+		$all_gateway = WC()->payment_gateways()->payment_gateways();
 		$wps_all_payment_gateway = array();
 
-		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
-			if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
-				continue;
-			}
 
-			if ( 'yes' == $value->enabled ) {
-				$wps_all_payment_gateway[ $key ] = $value->title;
+		$is_pro_plugin = false;
+		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+
+		if ( ! $is_pro_plugin ) {
+			$available_gateway	 = []; // Empty array
+			$available_gateway = ['bacs', 'cod', 'cheque'];
+		}
+
+
+		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
+
+			if ( ! $is_pro_plugin ) {
+				if ( ! empty( $available_gateway ) && in_array( $key, $available_gateway ) ) {
+					if ( 'yes' == $all_gateway[ $key ]->enabled ) {
+						if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+							continue;
+						}
+						$wps_all_payment_gateway[ $key ] = $value->title;
+					}
+				}
+				
+			} else{
+				if ( 'yes' == $all_gateway[ $key ]->enabled ) {
+					if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+						continue;
+					}
+					$wps_all_payment_gateway[ $key ] = $value->title;
+				}
 			}
+			
 		}
 
 		foreach ( $wps_all_payment_gateway as $key => $value ) {
