@@ -647,10 +647,13 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
-
+		$available_gateway	 = []; // Empty array
 		if ( ! $is_pro_plugin ) {
-			$available_gateway	 = []; // Empty array
+			
 			$available_gateway = ['bacs', 'cod', 'cheque'];
+		} else {
+			
+			$available_gateway = ['bacs', 'cod', 'cheque', 'stripe', 'paypal'];
 		}
 
 
@@ -1033,10 +1036,13 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
-
+		$available_gateway	 = []; // Empty array
 		if ( ! $is_pro_plugin ) {
-			$available_gateway	 = []; // Empty array
+			
 			$available_gateway = ['bacs', 'cod', 'cheque'];
+		} else {
+			
+				$available_gateway = ['bacs', 'cod', 'cheque','stripe','paypal'];
 		}
 
 
