@@ -144,10 +144,10 @@ class Wallet_System_For_Woocommerce_Public {
 
 		$block_data = $this->checkout_review_order_custom_field_block_checkout();
 		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
-		$cart = WC()->cart;	
+		$cart = WC()->cart;
 		if ( ! empty( WC()->session->cart_totals ) ) {
-			$Total_tax  = WC()->session->cart_totals['cart_contents_tax'];
-			WC()->session->set( 'is_wallet_partial_payment_cart_total_tax', $Total_tax );
+			$total_tax  = WC()->session->cart_totals['cart_contents_tax'];
+			WC()->session->set( 'is_wallet_partial_payment_cart_total_tax', $total_tax );
 		}
 
 		// Get cart items.
@@ -2388,7 +2388,6 @@ class Wallet_System_For_Woocommerce_Public {
 				$is_wallet_partial_payment_cart_total_tax = (float) WC()->session->get( 'is_wallet_partial_payment_cart_total_tax' );
 
 			}
-			
 
 			$order->set_total( $cart_total_after_partial_payment );
 			$order->save();
@@ -2442,7 +2441,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wsfw_woocommerce_thankyou_order_id( $order_id ) {
 
 		$order = new WC_Order( $order_id );
-	
+
 		$this->wsfw_wallet_add_order_detail( $order );
 		WC()->session->__unset( 'is_wallet_partial_payment' );
 		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );

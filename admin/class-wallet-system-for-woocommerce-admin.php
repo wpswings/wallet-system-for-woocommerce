@@ -647,15 +647,14 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
-		$available_gateway	 = []; // Empty array
+		$available_gateway   = array(); // Empty array.
 		if ( ! $is_pro_plugin ) {
-			
-			$available_gateway = ['bacs', 'cod', 'cheque'];
-		} else {
-			
-			$available_gateway = ['bacs', 'cod', 'cheque', 'stripe', 'paypal'];
-		}
 
+			$available_gateway = array( 'bacs', 'cod', 'cheque' );
+		} else {
+
+			$available_gateway = array( 'bacs', 'cod', 'cheque', 'stripe', 'paypal' );
+		}
 
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
 
@@ -668,8 +667,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wps_all_payment_gateway[ $key ] = $value->title;
 					}
 				}
-				
-			} else{
+			} else {
 				if ( 'yes' == $all_gateway[ $key ]->enabled ) {
 					if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
 						continue;
@@ -677,7 +675,6 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wps_all_payment_gateway[ $key ] = $value->title;
 				}
 			}
-			
 		}
 		$wsfw_settings_general = array(
 			// enable wallet.
@@ -1029,22 +1026,19 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		);
 
-		
 		$all_gateway = WC()->payment_gateways()->payment_gateways();
 		$wps_all_payment_gateway = array();
 
-
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
-		$available_gateway	 = []; // Empty array
+		$available_gateway   = array(); // Empty array.
 		if ( ! $is_pro_plugin ) {
-			
-			$available_gateway = ['bacs', 'cod', 'cheque'];
-		} else {
-			
-				$available_gateway = ['bacs', 'cod', 'cheque','stripe','paypal'];
-		}
 
+			$available_gateway = array( 'bacs', 'cod', 'cheque' );
+		} else {
+
+				$available_gateway = array( 'bacs', 'cod', 'cheque', 'stripe', 'paypal' );
+		}
 
 		foreach ( WC()->payment_gateways()->payment_gateways() as $key => $value ) {
 
@@ -1057,8 +1051,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wps_all_payment_gateway[ $key ] = $value->title;
 					}
 				}
-				
-			} else{
+			} else {
 				if ( 'yes' == $all_gateway[ $key ]->enabled ) {
 					if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
 						continue;
@@ -1066,7 +1059,6 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wps_all_payment_gateway[ $key ] = $value->title;
 				}
 			}
-			
 		}
 
 		foreach ( $wps_all_payment_gateway as $key => $value ) {
