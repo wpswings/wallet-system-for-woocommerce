@@ -62,10 +62,7 @@ class Wallet_System_AjaxHandler {
 				$wallet_amount     -= $amount;
 				$total_amount = WC()->cart->get_total( 'edit' );
 				$total_amount_partial = floatval( $total_amount ) - floatval( $amount );
-				$Total_tax = wc_cart_totals_taxes_total_html();
-				if ( ! empty( $Total_tax ) ) {
-					WC()->session->set( 'is_wallet_partial_payment_cart_total_tax-value', $Total_tax );
-				}
+				
 
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );

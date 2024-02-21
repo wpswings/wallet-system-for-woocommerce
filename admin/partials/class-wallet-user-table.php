@@ -370,11 +370,8 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								}
 							}
 						} else {
-							if ( $previous_wallet_amount < $updated_amount ) {
-								$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-							} else {
-								$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-							}
+							
+							$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 						}
 						$balance   = $currency . ' ' . $updated_amount;
 						$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
