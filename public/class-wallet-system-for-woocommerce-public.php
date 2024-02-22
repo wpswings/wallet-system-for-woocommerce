@@ -2375,6 +2375,12 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 
 		if ( intval( $walletamount ) < intval( $fee_total ) ) {
+			$toral = $order->get_total();
+			$order->set_total( $toral + $fee_total );
+			$order->save();
+			// WC()->session->__unset( 'is_wallet_partial_payment_cart_total_tax' );
+			// WC()->session->__unset( 'is_wallet_partial_payment_block' );
+			// WC()->session->__unset( 'is_wallet_partial_payment_cart_total_value' );
 			return;
 		}
 
