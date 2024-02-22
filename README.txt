@@ -5,7 +5,7 @@ Tags: digital wallet, cashback coupon, wallet topup, user wallet, woocommerce wa
 Requires at least: 5.5.0
 Tested up to: 6.4.3
 WC requires at least: 5.5.0
-WC tested up to: 8.5.2
+WC tested up to: 8.6.1
 Stable tag: 2.5.8
 Requires PHP: 7.3.5 or higher
 License: GPLv3 or later 
@@ -97,6 +97,12 @@ The Wallet Plugin For WooCommerce includes a report feature that allows you to s
 You can also let them earn wallet credit for submitting product reviews. For this feature, you can set the limit on how many comments a user can have per post, credit amount, and customize comment label text.
 
 Lastly, allow your users to receive wallet credit upon signing up for the wallet system. Set the signup reward amount and description that is shown to the users on signup.
+
+**22. WooCommerce Payment Gateway Restriction For Wallet Recharge**
+WordPress Digital wallet plugin has the feature to restrict users using Woocommerce Payment gateways like Direct Payment, Cash on Delivery, or Check Payments for wallet recharge. This feature can be helpful in enhancing the security of your online store.
+
+**23. Charge Gateway Fee for Wallet Recharge**
+Our Wallet for Woocommerce allows you to set and charge fees at a fixed or percentage rate for Wallet recharge. This can help you to cover transaction costs or generate extra income effortlessly within your online store.
 
 ==  WORDPRESS WALLET PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/wallet-system-for-woocommerce.zip)
@@ -293,8 +299,14 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.8 - Released on 2 February 2024 =
-* Fix: Transaction Table issue fixed.
+== Upgrade Notice ==
+
+= 2.5.7 - Released on 22 February 2024 =
+* New: Deprecated variable removed from Wallet payment gateway
+* New: Gateway Restriction Added  (Woocommerce default gateway)
+* New: Gateway Charge For Wallet Recharge Product (Woocommerce default gateway)
+* New: Latest WP [6.4.3] and WC [8.6.1] Update
+* Fix: Tax issues fixed inclusive and Exclusive
 
 = 2.5.6 - Released on 1 February 2024 =
 * New: Manual Order Feature.
@@ -490,9 +502,11 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.8 - Released on 2 February 2024 =
-* Fix: Transaction Table issue fixed.
-
-
+= 2.5.7 - Released on 22 February 2024 =
+* New: Deprecated variable removed from Wallet payment gateway
+* New: Gateway Restriction Added  (Woocommerce default gateway)
+* New: Gateway Charge For Wallet Recharge Product (Woocommerce default gateway)
+* New: Latest WP [6.4.3] and WC [8.6.1] Update
+* Fix: Tax issues fixed inclusive and Exclusive
 
 
