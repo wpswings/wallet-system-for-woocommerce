@@ -2371,6 +2371,15 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 
+		$userid                 = $order->get_user_id();
+		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
+
+		if ( intval( $walletamount ) < intval( $fee_total ) ) {
+			return;
+		}
+
+
+
 		if ( ! empty( $fee_total_tax ) ) {
 			$order_id = $order->get_id();
 			$order_tax = '';
