@@ -152,7 +152,10 @@ class Wallet_System_For_Woocommerce_Public {
 		
 
 		// Get cart items.
-		$cart_items = $cart->get_cart();
+		if ( ! empty( $cart ) ) {
+			$cart_items = $cart->get_cart();
+		}
+		
 
 		// Loop through each cart item.
 
@@ -369,10 +372,9 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
-			$wps_wallet_hold_amount = get_user_meta( $user_id, 'wps_wallet_hold_amount', true );
-			$wps_wallet_hold_amount = empty( $wps_wallet_hold_amount ) ? 0 : $wps_wallet_hold_amount;
+		
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-			if ( isset( $wallet_amount ) && $wallet_amount > 0 || isset( $wps_wallet_hold_amount ) && $wps_wallet_hold_amount > 0 ) {
+			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
 
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
@@ -514,11 +516,8 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
-			$wps_wallet_hold_amount = get_user_meta( $user_id, 'wps_wallet_hold_amount', true );
-			$wps_wallet_hold_amount = empty( $wps_wallet_hold_amount ) ? 0 : $wps_wallet_hold_amount;
-
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-			if ( isset( $wallet_amount ) && $wallet_amount > 0 ||  isset( $wps_wallet_hold_amount ) && $wps_wallet_hold_amount ) {
+			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 
 				if ( intval( $wallet_amount ) <= intval( $wps_cart_total ) || $this->is_enable_wallet_partial_payment() ) {
 
@@ -619,7 +618,7 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 	}
-
+	
 	/**
 	 * Change wallet amount on order status change
 	 *
@@ -819,25 +818,15 @@ class Wallet_System_For_Woocommerce_Public {
 			$fee_total   = $item_fee->get_total();
 			$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
 			if ( $wallet_name === $fee_name ) {
-				$payment_status = array( 'processing', 'completed', 'on-hold' );
+				$payment_status = array( 'failed', 'cancelled' );
 				if ( in_array( $new_status, $payment_status ) ) {
 					$fees   = abs( $fee_total );
 					$amount = $fees;
 					$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
 
-					if ( $walletamount < $debited_amount ) {
+					if ( !empty( $debited_amount ) ) {
 
-						if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
-							$walletamount = abs( $walletamount ) - abs( $debited_amount );
-
-						} else {
-							$debited_amount = $walletamount;
-							$walletamount = '0';
-							$order->add_order_note( 'Wallet partial amount is less than wallet amount for partial payment.' );
-						}
-					} else {
-						$walletamount -= $debited_amount;
-
+						$walletamount = abs( $walletamount ) + abs( $debited_amount );
 					}
 
 					update_user_meta( $userid, 'wps_wallet', $walletamount );
@@ -853,7 +842,7 @@ class Wallet_System_For_Woocommerce_Public {
 					$balance   = $order->get_currency() . ' ' . $amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
-						$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' to your wallet through .', 'wallet-system-for-woocommerce' );
 						$to         = $user->user_email;
 						$from       = get_option( 'admin_email' );
 						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
@@ -862,34 +851,34 @@ class Wallet_System_For_Woocommerce_Public {
 						$headers   .= 'From: ' . $from . "\r\n" .
 							'Reply-To: ' . $to . "\r\n";
 
-						if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
+							if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
-							$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
-							if ( ! empty( $customer_email ) ) {
-								$user       = get_user_by( 'id', $userid );
-								$currency  = get_woocommerce_currency();
-								$balance_mail = $balance;
-								$user_name       = $user->first_name . ' ' . $user->last_name;
-								$customer_email->trigger( $userid, $user_name, $balance_mail, '' );
+								$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+								if ( ! empty( $customer_email ) ) {
+									$user       = get_user_by( 'id', $userid );
+									$currency  = get_woocommerce_currency();
+									$balance_mail = $balance;
+									$user_name       = $user->first_name . ' ' . $user->last_name;
+									$customer_email->trigger( $userid, $user_name, $balance_mail, '' );
+								}
+							} else {
+			
+								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 							}
-						} else {
-
-							$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 						}
-					}
-
-					$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
-
-					$transaction_data = array(
-						'user_id'          => $userid,
-						'amount'           => $amount,
-						'currency'         => $order->get_currency(),
-						'payment_method'   => $payment_method,
-						'transaction_type' => htmlentities( $transaction_type ),
-						'transaction_type_1' => 'debit',
-						'order_id'         => $order_id,
-						'note'             => '',
-					);
+			
+						$transaction_type = __( 'Wallet credited back through purchasing due to fail order ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
+			
+						$transaction_data = array(
+							'user_id'          => $userid,
+							'amount'           => $amount,
+							'currency'         => $order->get_currency(),
+							'payment_method'   => $payment_method,
+							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'credit',
+							'order_id'         => $order_id,
+							'note'             => '',
+						);
 
 					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 
@@ -2375,6 +2364,101 @@ class Wallet_System_For_Woocommerce_Public {
 
 				break;
 			}
+		}
+
+		if ( ! empty( $fee_total ) ) {
+			
+
+			$userid        = $order->get_user_id();
+			$order_id = $order->get_id();
+			$walletamount = get_user_meta( $userid, 'wps_wallet', true );
+			$walletamount = empty( $walletamount ) ? 0 : $walletamount;
+			//$walletamount =floatval( $walletamount ) - floatval( $fee_total );
+			//update_user_meta( $user_id, 'wps_wallet', $walletamount);
+		//	update_user_meta( $user_id, 'wps_wallet_hold_amount_'.$order->get_id(), $fee_total);
+		$user                   = get_user_by( 'id', $userid );
+		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+		$payment_method         = $order->get_payment_method();
+		if ( ! empty( $user ) ) {
+			$name                   = $user->first_name . ' ' . $user->last_name;
+		} else {
+			$name = '';
+		}
+			$fees   = abs( $fee_total );
+			$amount = $fees;
+			$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
+
+			if ( $walletamount < $debited_amount ) {
+
+				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+					$walletamount = abs( $walletamount ) - abs( $debited_amount );
+
+				} else {
+					$debited_amount = $walletamount;
+					$walletamount = '0';
+					$order->add_order_note( 'Wallet partial amount is less than wallet amount for partial payment.' );
+				}
+			} else {
+				$walletamount -= $debited_amount;
+
+			}
+
+			update_user_meta( $userid, 'wps_wallet', $walletamount );
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+				// HPOS usage is enabled.
+				$order->update_meta_data( 'wps_wallet_update_on_thankyou', 'done' );
+				$order->save();
+
+			} else {
+				update_post_meta( $order_id, 'wps_wallet_update_on_thankyou', 'done' );
+			}
+
+			$balance   = $order->get_currency() . ' ' . $amount;
+			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+				$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+				$mail_text .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet through purchasing.', 'wallet-system-for-woocommerce' );
+				$to         = $user->user_email;
+				$from       = get_option( 'admin_email' );
+				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+				$headers    = 'MIME-Version: 1.0' . "\r\n";
+				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+				$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+
+				if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
+
+					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+					if ( ! empty( $customer_email ) ) {
+						$user       = get_user_by( 'id', $userid );
+						$currency  = get_woocommerce_currency();
+						$balance_mail = $balance;
+						$user_name       = $user->first_name . ' ' . $user->last_name;
+						$customer_email->trigger( $userid, $user_name, $balance_mail, '' );
+					}
+				} else {
+
+					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+				}
+			}
+
+			$transaction_type = __( 'Wallet debited through purchasing ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
+
+			$transaction_data = array(
+				'user_id'          => $userid,
+				'amount'           => $amount,
+				'currency'         => $order->get_currency(),
+				'payment_method'   => $payment_method,
+				'transaction_type' => htmlentities( $transaction_type ),
+				'transaction_type_1' => 'debit',
+				'order_id'         => $order_id,
+				'note'             => '',
+			);
+
+			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
+
+
+
 		}
 
 		if ( ! empty( $fee_total_tax ) ) {

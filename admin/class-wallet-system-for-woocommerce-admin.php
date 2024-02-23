@@ -2088,6 +2088,79 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
+
+		foreach ( $order->get_fees() as $item_fee ) {
+			$fee_name    = $item_fee->get_name();
+			$fee_total   = $item_fee->get_total();
+			$wallet_name = __( 'Via wallet', 'wallet-system-for-woocommerce' );
+			if ( $wallet_name === $fee_name ) {
+				$payment_status = array( 'failed', 'cancelled' );
+				if ( in_array( $new_status, $payment_status ) ) {
+					$fees   = abs( $fee_total );
+					$amount = $fees;
+					$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
+
+					if ( !empty( $debited_amount ) ) {
+
+						$walletamount = abs( $walletamount ) + abs( $debited_amount );
+					}
+
+					update_user_meta( $userid, 'wps_wallet', $walletamount );
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$order->update_meta_data( 'wps_wallet_update_on_thankyou', 'done' );
+						$order->save();
+
+					} else {
+						update_post_meta( $order_id, 'wps_wallet_update_on_thankyou', 'done' );
+					}
+
+					$balance   = $order->get_currency() . ' ' . $amount;
+					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+						$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' to your wallet through .', 'wallet-system-for-woocommerce' );
+						$to         = $user->user_email;
+						$from       = get_option( 'admin_email' );
+						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+						$headers    = 'MIME-Version: 1.0' . "\r\n";
+						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+						$headers   .= 'From: ' . $from . "\r\n" .
+							'Reply-To: ' . $to . "\r\n";
+
+							if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+								$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+								if ( ! empty( $customer_email ) ) {
+									$user       = get_user_by( 'id', $userid );
+									$currency  = get_woocommerce_currency();
+									$balance_mail = $balance;
+									$user_name       = $user->first_name . ' ' . $user->last_name;
+									$customer_email->trigger( $userid, $user_name, $balance_mail, '' );
+								}
+							} else {
+			
+								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+							}
+						}
+			
+						$transaction_type = __( 'Wallet credited back through purchasing due to fail order ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>' . __( ' as discount', 'wallet-system-for-woocommerce' );
+			
+						$transaction_data = array(
+							'user_id'          => $userid,
+							'amount'           => $amount,
+							'currency'         => $order->get_currency(),
+							'payment_method'   => $payment_method,
+							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'credit',
+							'order_id'         => $order_id,
+							'note'             => '',
+						);
+
+					$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
+				}
+			}
+		}
 	}
 
 
