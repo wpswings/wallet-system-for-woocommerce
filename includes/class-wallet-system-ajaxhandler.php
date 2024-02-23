@@ -62,7 +62,15 @@ class Wallet_System_AjaxHandler {
 				$wallet_amount     -= $amount;
 				$total_amount = WC()->cart->get_total( 'edit' );
 				$total_amount_partial = floatval( $total_amount ) - floatval( $amount );
+				$user_id        = get_current_user_id();
+				$wallet_amount_ = get_user_meta( $user_id, 'wps_wallet', true );
+				$wallet_amount_ = empty( $wallet_amount_ ) ? 0 : $wallet_amount_;
+				$wallet_amount_ =floatval( $wallet_amount_ ) - floatval( $amount );
 
+
+				
+				update_user_meta( $user_id, 'wps_wallet', $wallet_amount_);
+				update_user_meta( $user_id, 'wps_wallet_hold_amount', $amount);
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
 				$message['price']   = wc_price( $amount );
@@ -103,6 +111,14 @@ class Wallet_System_AjaxHandler {
 				$message['message'] = esc_html__( 'Wallet amount used successfully: ', 'wallet-system-for-woocommerce' );
 				$total_amount = WC()->cart->get_total( 'edit' );
 				$total_amount_partial = floatval( $total_amount ) - floatval( $wallet_amount );
+
+				$user_id        = get_current_user_id();
+				$wallet_amount_ = get_user_meta( $user_id, 'wps_wallet', true );
+				$wallet_amount_ = empty( $wallet_amount_ ) ? 0 : $wallet_amount_;
+				$wallet_amount_ =floatval( $wallet_amount_ ) - floatval( $wallet_amount );
+				update_user_meta( $user_id, 'wps_wallet', $wallet_amount_);
+				update_user_meta( $user_id, 'wps_wallet_hold_amount', $wallet_amount);
+
 				WC()->session->set( 'custom_fee', $wallet_amount );
 				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
 				WC()->session->set( 'is_wallet_partial_payment_block', $wallet_amount );
@@ -127,6 +143,16 @@ class Wallet_System_AjaxHandler {
 		WC()->session->__unset( 'is_wallet_partial_payment' );
 		WC()->session->__unset( 'is_wallet_partial_payment_checkout' );
 		WC()->session->__unset( 'is_wallet_partial_payment_block' );
+
+		$user_id        = get_current_user_id();
+		$wallet_amount_ = get_user_meta( $user_id, 'wps_wallet', true );
+		$wps_wallet_hold_amount = get_user_meta( $user_id, 'wps_wallet_hold_amount', true );
+
+		$wallet_amount_ = empty( $wallet_amount_ ) ? 0 : $wallet_amount_;
+		$wallet_amount_ =floatval( $wallet_amount_ ) + floatval( $wps_wallet_hold_amount );
+
+		update_user_meta( $user_id, 'wps_wallet', $wallet_amount_);
+		update_user_meta( $user_id, 'wps_wallet_hold_amount', 0);
 		echo 'true';
 		wp_die();
 	}
