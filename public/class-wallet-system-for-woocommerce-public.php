@@ -149,6 +149,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$total_tax  = WC()->session->cart_totals['cart_contents_tax'];
 			WC()->session->set( 'is_wallet_partial_payment_cart_total_tax', $total_tax );
 		}
+		
 
 		// Get cart items.
 		$cart_items = $cart->get_cart();
@@ -368,8 +369,10 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
+			$wps_wallet_hold_amount = get_user_meta( $user_id, 'wps_wallet_hold_amount', true );
+			$wps_wallet_hold_amount = empty( $wps_wallet_hold_amount ) ? 0 : $wps_wallet_hold_amount;
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
+			if ( isset( $wallet_amount ) && $wallet_amount > 0 || isset( $wps_wallet_hold_amount ) && $wps_wallet_hold_amount > 0 ) {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
 
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
@@ -511,8 +514,11 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
+			$wps_wallet_hold_amount = get_user_meta( $user_id, 'wps_wallet_hold_amount', true );
+			$wps_wallet_hold_amount = empty( $wps_wallet_hold_amount ) ? 0 : $wps_wallet_hold_amount;
+
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
-			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
+			if ( isset( $wallet_amount ) && $wallet_amount > 0 ||  isset( $wps_wallet_hold_amount ) && $wps_wallet_hold_amount ) {
 
 				if ( intval( $wallet_amount ) <= intval( $wps_cart_total ) || $this->is_enable_wallet_partial_payment() ) {
 
@@ -1035,10 +1041,10 @@ class Wallet_System_For_Woocommerce_Public {
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
 			}
-			if ( $discount > $walletamount ) {
-				$discount = $walletamount;
+			if ( $discount >= $walletamount ) {
+				//$discount = $walletamount;
 			}
-
+			
 			if ( $discount ) {
 				$fee = array(
 					'id'     => 'via_wallet_partial_payment',
