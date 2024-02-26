@@ -2099,6 +2099,18 @@ class Wallet_System_For_Woocommerce_Admin {
 					$fees   = abs( $fee_total );
 					$amount = $fees;
 					$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+						// HPOS usage is enabled.
+						$wps_wallet_credited_via_wallet = $order->get_meta_data( 'wps_wallet_credited_via_wallet', true );
+
+					} else {
+						$wps_wallet_credited_via_wallet = update_post_meta( $order_id, 'wps_wallet_credited_via_wallet', true );
+					}
+					if( 'done' == $wps_wallet_credited_via_wallet ){
+						return;	
+					}
+
+
 
 					if ( !empty( $debited_amount ) ) {
 

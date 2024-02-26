@@ -820,6 +820,8 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $wallet_name === $fee_name ) {
 				$payment_status = array( 'failed', 'cancelled' );
 				if ( in_array( $new_status, $payment_status ) ) {
+
+					
 					$fees   = abs( $fee_total );
 					$amount = $fees;
 					$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
@@ -833,10 +835,12 @@ class Wallet_System_For_Woocommerce_Public {
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
 						$order->update_meta_data( 'wps_wallet_update_on_thankyou', 'done' );
+						$order->update_meta_data( 'wps_wallet_credited_via_wallet', 'done' );
 						$order->save();
 
 					} else {
 						update_post_meta( $order_id, 'wps_wallet_update_on_thankyou', 'done' );
+						update_post_meta( $order_id, 'wps_wallet_credited_via_wallet', 'done' );
 					}
 
 					$balance   = $order->get_currency() . ' ' . $amount;
