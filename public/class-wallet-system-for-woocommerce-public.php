@@ -151,7 +151,7 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 
 		// Get cart items.
-		if ( ! empty( $cart ) ) {
+		if ( ! WC()->cart->is_empty() ) {
 			$cart_items = $cart->get_cart();
 		}
 
@@ -218,6 +218,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 		if ( isset( $available_gateways['wps_wcb_wallet_payment_gateway'] ) ) {
 			$user_id        = get_current_user_id();
+			$wps_cart_total = 0;
 			$is_pro = false;
 			$is_pro = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro );
 			if ( $is_pro ) {
@@ -229,7 +230,10 @@ class Wallet_System_For_Woocommerce_Public {
 				}
 			}
 
-			$wps_cart_total = WC()->cart->total;
+			if ( ! empty( WC()->cart ) ) {
+				$wps_cart_total = WC()->cart->total;
+			}
+			
 
 			$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
@@ -295,9 +299,12 @@ class Wallet_System_For_Woocommerce_Public {
 
 		$wallet_id = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 		$cart = WC()->cart;
-
+		$cart_items = '';
 		// Get cart items.
-		$cart_items = $cart->get_cart();
+		if ( ! WC()->cart->is_empty() ) {
+			$cart_items = $cart->get_cart();
+		}
+	
 
 		// Loop through each cart item.
 
