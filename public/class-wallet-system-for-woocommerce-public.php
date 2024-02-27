@@ -233,7 +233,6 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( ! empty( WC()->cart ) ) {
 				$wps_cart_total = WC()->cart->total;
 			}
-			
 
 			$wallet_amount  = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount  = empty( $wallet_amount ) ? 0 : $wallet_amount;
@@ -304,7 +303,6 @@ class Wallet_System_For_Woocommerce_Public {
 		if ( ! WC()->cart->is_empty() ) {
 			$cart_items = $cart->get_cart();
 		}
-	
 
 		// Loop through each cart item.
 
