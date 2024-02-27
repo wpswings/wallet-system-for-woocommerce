@@ -62,7 +62,7 @@ class Wallet_System_AjaxHandler {
 				$wallet_amount     -= $amount;
 				$total_amount = WC()->cart->get_total( 'edit' );
 				$total_amount_partial = floatval( $total_amount ) - floatval( $amount );
-				
+
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
 				$message['price']   = wc_price( $amount );
@@ -103,8 +103,6 @@ class Wallet_System_AjaxHandler {
 				$message['message'] = esc_html__( 'Wallet amount used successfully: ', 'wallet-system-for-woocommerce' );
 				$total_amount = WC()->cart->get_total( 'edit' );
 				$total_amount_partial = floatval( $total_amount ) - floatval( $wallet_amount );
-
-				
 
 				WC()->session->set( 'custom_fee', $wallet_amount );
 				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );

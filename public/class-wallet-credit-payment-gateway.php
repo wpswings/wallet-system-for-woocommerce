@@ -130,7 +130,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			}
 		}
 
-
 		  /**
 		   * Process a refund if supported.
 		   *

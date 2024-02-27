@@ -1080,8 +1080,8 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		if ( ! empty( $result ) ) {
 			$wsfw_settings_template__ = array_merge( $wsfw_settings_template, $result );
-		} else{
-			$wsfw_settings_template__ =  $wsfw_settings_template;
+		} else {
+			$wsfw_settings_template__ = $wsfw_settings_template;
 		}
 
 		$wsfw_settings_template__   = apply_filters( 'wsfwp_wallet_action_auto_transfer_settings_array', $wsfw_settings_template__ );

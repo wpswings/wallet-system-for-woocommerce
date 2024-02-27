@@ -149,13 +149,11 @@ class Wallet_System_For_Woocommerce_Public {
 			$total_tax  = WC()->session->cart_totals['cart_contents_tax'];
 			WC()->session->set( 'is_wallet_partial_payment_cart_total_tax', $total_tax );
 		}
-		
 
 		// Get cart items.
 		if ( ! empty( $cart ) ) {
 			$cart_items = $cart->get_cart();
 		}
-		
 
 		// Loop through each cart item.
 
@@ -372,7 +370,6 @@ class Wallet_System_For_Woocommerce_Public {
 			$wallet_amount = get_user_meta( $user_id, 'wps_wallet', true );
 			$wallet_amount = empty( $wallet_amount ) ? 0 : $wallet_amount;
 
-		
 			$wallet_amount = apply_filters( 'wps_wsfw_show_converted_price', $wallet_amount );
 			if ( isset( $wallet_amount ) && $wallet_amount > 0 ) {
 				if ( $wallet_amount < $wps_cart_total || $this->is_enable_wallet_partial_payment() ) {
@@ -618,7 +615,7 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 	}
-	
+
 	/**
 	 * Change wallet amount on order status change
 	 *
@@ -957,10 +954,7 @@ class Wallet_System_For_Woocommerce_Public {
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
 			}
-			if ( $discount >= $walletamount ) {
-				//$discount = $walletamount;
-			}
-			
+
 			if ( $discount ) {
 				$fee = array(
 					'id'     => 'via_wallet_partial_payment',
@@ -2294,23 +2288,22 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 
 		if ( ! empty( $fee_total ) ) {
-			
 
 			$userid        = $order->get_user_id();
 			$order_id = $order->get_id();
 			$walletamount = get_user_meta( $userid, 'wps_wallet', true );
 			$walletamount = empty( $walletamount ) ? 0 : $walletamount;
-			//$walletamount =floatval( $walletamount ) - floatval( $fee_total );
-			//update_user_meta( $user_id, 'wps_wallet', $walletamount);
-		//	update_user_meta( $user_id, 'wps_wallet_hold_amount_'.$order->get_id(), $fee_total);
-		$user                   = get_user_by( 'id', $userid );
-		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-		$payment_method         = $order->get_payment_method();
-		if ( ! empty( $user ) ) {
-			$name                   = $user->first_name . ' ' . $user->last_name;
-		} else {
-			$name = '';
-		}
+			// $walletamount =floatval( $walletamount ) - floatval( $fee_total );
+			// update_user_meta( $user_id, 'wps_wallet', $walletamount);
+			// update_user_meta( $user_id, 'wps_wallet_hold_amount_'.$order->get_id(), $fee_total);
+			$user                   = get_user_by( 'id', $userid );
+			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+			$payment_method         = $order->get_payment_method();
+			if ( ! empty( $user ) ) {
+				$name                   = $user->first_name . ' ' . $user->last_name;
+			} else {
+				$name = '';
+			}
 			$fees   = abs( $fee_total );
 			$amount = $fees;
 			$debited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $fees );
@@ -2382,9 +2375,6 @@ class Wallet_System_For_Woocommerce_Public {
 			);
 
 			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-
-
-
 
 		}
 
