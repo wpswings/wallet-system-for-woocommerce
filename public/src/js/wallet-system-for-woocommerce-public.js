@@ -187,7 +187,7 @@
 		});
 
 		$(document).on( 'click','#apply_wallet', function(){
-	debugger;
+
 			var wallet_amount = $( '#partial_payment_wallet' ).data('walletamount');
 			var amount = $( '#wallet_amount' ).val();
 			var checked = $( '#partial_payment_wallet' ).is(':checked');

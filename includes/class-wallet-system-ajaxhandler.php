@@ -95,7 +95,7 @@ class Wallet_System_AjaxHandler {
 			} else {
 				WC()->session->set( 'is_wallet_partial_payment', 'false' );
 			}
-
+			$cart_total = wc()->cart->get_subtotal();
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['wallet_amount'] ) );
 
 			if ( ! empty( $wallet_amount ) ) {
