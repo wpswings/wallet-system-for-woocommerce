@@ -42,6 +42,7 @@ class Wallet_System_AjaxHandler {
 	 * @return void
 	 */
 	public function calculate_amount_after_wallet() {
+
 		if ( is_user_logged_in() ) {
 			check_ajax_referer( 'ajax-nonce', 'nonce' );
 			$message = array();
@@ -59,11 +60,17 @@ class Wallet_System_AjaxHandler {
 			}
 			if ( $wallet_amount >= $amount ) {
 				$wallet_amount     -= $amount;
+				$total_amount = WC()->cart->get_total( 'edit' );
+				$total_amount_partial = floatval( $total_amount ) - floatval( $amount );
+
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet balance after using amount from it: ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet_amount );
 				$message['price']   = wc_price( $amount );
 				WC()->session->set( 'custom_fee', $amount );
-
+				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
+				WC()->session->set( 'is_wallet_partial_payment_block', $amount );
+				WC()->session->set( 'is_wallet_partial_payment_cart_total_value', $total_amount_partial );
+				wp_send_json( $message );
 			} else {
 				$message['status']  = false;
 				$message['message'] = esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' );
@@ -71,7 +78,6 @@ class Wallet_System_AjaxHandler {
 
 			wp_send_json( $message );
 		}
-
 	}
 
 	/**
@@ -95,7 +101,13 @@ class Wallet_System_AjaxHandler {
 			if ( ! empty( $wallet_amount ) ) {
 				$message['status']  = true;
 				$message['message'] = esc_html__( 'Wallet amount used successfully: ', 'wallet-system-for-woocommerce' );
+				$total_amount = WC()->cart->get_total( 'edit' );
+				$total_amount_partial = floatval( $total_amount ) - floatval( $wallet_amount );
+
 				WC()->session->set( 'custom_fee', $wallet_amount );
+				WC()->session->set( 'is_wallet_partial_payment_checkout', 'true' );
+				WC()->session->set( 'is_wallet_partial_payment_block', $wallet_amount );
+				WC()->session->set( 'is_wallet_partial_payment_cart_total_value', $total_amount_partial );
 
 			} else {
 				$message['status']  = false;
@@ -114,6 +126,9 @@ class Wallet_System_AjaxHandler {
 	public function unset_wallet_session() {
 		WC()->session->__unset( 'custom_fee' );
 		WC()->session->__unset( 'is_wallet_partial_payment' );
+		WC()->session->__unset( 'is_wallet_partial_payment_checkout' );
+		WC()->session->__unset( 'is_wallet_partial_payment_block' );
+
 		echo 'true';
 		wp_die();
 	}

@@ -6,12 +6,14 @@ jQuery( document ).ready(function() {
         
         if (wsfw_public_param_block.partial_payment_data_html_name != undefined ){
           
-                jQuery('.wc-block-components-totals-footer-item').append('<table id="partial_table_checkout"><tr class="partial_payment"><td>'+ wsfw_public_param_block.partial_payment_data_html_name +'</td><td>'+ wsfw_public_param_block.partial_payment_data_html +'</td></tr></table>');		
-   
-          
-           
+                jQuery('.wc-block-components-totals-footer-item').append('<table id="partial_table_checkout"><tr class="partial_payment"><td>'+ wsfw_public_param_block.partial_payment_data_html_name +'</td><td>'+ wsfw_public_param_block.partial_payment_data_html +'</td></tr></table>');		 
+        }
+        if (wsfw_public_param_block.wsfw_applied_wallet_amount == "1"){
+            jQuery('.wc-block-components-totals-fees__via_wallet_partial_payment .wc-block-components-formatted-money-amount').html('-'+wsfw_public_param_block.wsfw_applied_wallet_amount_data);
         }
     }, "1000");
+
+    
 
     jQuery(document).on( 'click','#partial_payment_wallet', function(){
         if ( jQuery('#partial_payment_wallet:checked').val() == 'enable' ) {

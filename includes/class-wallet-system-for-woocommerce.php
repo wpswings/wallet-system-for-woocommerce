@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.5.5';
+			$this->version = '2.5.9';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -225,6 +225,8 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wps_add_plugins_menus_array', $wsfw_plugin_admin, 'wsfw_admin_submenu_page', 15 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_registration_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_registration_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_daily_visit_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_daily_visit_settings_page', 10 );
+		$this->loader->add_filter( 'wsfw_wallet_action_settings_payment_gateway_charge_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_payment_gateway_charge_page', 10 );
+
 		$this->loader->add_action( 'wsfw_wallet_action_settings_comment_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_comment_array', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_auto_topup_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_auto_topup_settings_page', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_action_settings_submit_button_array', $wsfw_plugin_admin, 'wsfw_wallet_action_settings_submit_button_setting_page', 10 );
@@ -306,6 +308,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
 
 		}
+		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
 
 		/*cron for notification*/
 		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wps_wsfw_set_cron_for_plugin_notification' );
@@ -411,7 +414,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', $wsfw_plugin_public, 'wsfw_wps_enqueue_script_block_eheckout', 10 );
 			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders_api_checkout_org', 90 );
 			$this->loader->add_filter( 'woocommerce_calculated_total', $wsfw_plugin_public, 'wps_wsfw_woocommerce_calculated_total_for_tax', 20, 2 );
-
+			$this->loader->add_filter( 'woocommerce_available_payment_gateways', $wsfw_plugin_public, 'wps_wsfwp_add_wallet_recharge_message_restriction', 10, 1 );
 		}
 
 	}

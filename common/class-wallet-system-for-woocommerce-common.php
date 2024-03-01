@@ -449,15 +449,15 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 			$order_items            = $order->get_items();
 			$order_total            = $order->get_total();
-		$order_shipping = $order->get_shipping_total();
-		$order_total_tax = $order->get_total_tax();
-		if ( ! empty( $order_shipping ) ) {
-			$order_total = $order_total -$order_shipping;
-		}
-		if ( ! empty( $order_total_tax ) ) {
-			$order_total = $order_total - $order_total_tax;
-		}
-		
+			$order_shipping = $order->get_shipping_total();
+			$order_total_tax = $order->get_total_tax();
+			if ( ! empty( $order_shipping ) ) {
+				$order_total = $order_total - $order_shipping;
+			}
+			if ( ! empty( $order_total_tax ) ) {
+				$order_total = $order_total - $order_total_tax;
+			}
+
 			$order_currency         = $order->get_currency();
 			$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 			$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
@@ -957,10 +957,10 @@ class Wallet_System_For_Woocommerce_Common {
 				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 				$user_comment           = WC()->session->get( 'w1' );
 				$wsfw_comment_limit     = WC()->session->get( 'w2' );
-				if ( ! empty ( $user_comment ) ) {
+				if ( ! empty( $user_comment ) ) {
 					if ( count( $user_comment ) < $wsfw_comment_limit ) {
 						$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
-	
+
 						if ( 'not_done' === $wps_wsfw_comment_done ) {
 							$amount          = $wps_wsfw_wallet_action_comment_amount;
 							$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
@@ -970,7 +970,6 @@ class Wallet_System_For_Woocommerce_Common {
 							$updated = true;
 						}
 					}
-
 				}
 			}
 		}

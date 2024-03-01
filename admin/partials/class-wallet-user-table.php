@@ -35,7 +35,11 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 			$first_row    = fgetcsv( $file );
 			$user_id      = $first_row[0];
 			$balance      = $first_row[1];
-			$amount_type      = $first_row[2];
+			$amount_type  = $first_row[2];
+			$user_id      = preg_replace( '/[^\P{C}\t\n\r ]+/u', '', $user_id );
+			$balance      = preg_replace( '/[^\P{C}\t\n\r ]+/u', '', trim( $balance ) );
+
+
 			if ( 'User Id' != $user_id || 'Wallet Balance' != $balance ) {
 				$wps_wsfw_error_text = esc_html__( 'You have not selected correct file(fields are not matching)', 'wallet-system-for-woocommerce' );
 				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
@@ -188,7 +192,6 @@ if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatew
 		$update = false;
 	}
 	if ( $update ) {
-
 
 		$user_count = count_users()['total_users'];
 		$current_page  = 1;
@@ -367,11 +370,8 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								}
 							}
 						} else {
-							if ( $previous_wallet_amount < $updated_amount ) {
-								$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-							} else {
-								$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-							}
+
+							$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 						}
 						$balance   = $currency . ' ' . $updated_amount;
 						$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
@@ -728,11 +728,7 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 						}
 					}
 				} else {
-					if ( $previous_wallet_amount < $updated_amount ) {
-						$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-					} else {
-						$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-					}
+					$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 				}
 
 				$balance   = $currency . ' ' . $updated_amount;
@@ -899,6 +895,7 @@ class Wallet_User_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
 	}
+
 
 	/**
 	 * This function is used to get columns.
@@ -1127,7 +1124,7 @@ class Wallet_User_Table extends WP_List_Table {
 						</label>
 					</div>
 					<div class="wps_wallet-edit-popup-control">
-						<input type="number" name="wps_wallet-edit-popup-input" step="0.01" id="wps_wallet-edit-popup-input"  class="wps_wallet-edit-popup-fill">
+						<input type="number" name="wps_wallet-edit-popup-input" min="0" step="0.01" id="wps_wallet-edit-popup-input"  class="wps_wallet-edit-popup-fill">
 						<p class="error"></p>
 					</div>
 				</div>
