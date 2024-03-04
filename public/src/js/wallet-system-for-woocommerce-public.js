@@ -31,6 +31,10 @@
 
 	 $(document).ready(function(){
 		$(function(){
+
+			if ( window.history.replaceState ) {
+				window.history.replaceState( null, null, window.location.href );
+			  }
 			$( 'body' )
 			.on( 'updated_checkout', function() {
 
@@ -49,6 +53,9 @@
 					}
 					
 				});
+
+
+				
 
 				// Totally partial payment.
 				$( '#partial_total_payment_wallet' ).on('click', function(){
@@ -180,6 +187,7 @@
 		});
 
 		$(document).on( 'click','#apply_wallet', function(){
+
 			var wallet_amount = $( '#partial_payment_wallet' ).data('walletamount');
 			var amount = $( '#wallet_amount' ).val();
 			var checked = $( '#partial_payment_wallet' ).is(':checked');
@@ -196,9 +204,10 @@
 				},
 				dataType: 'JSON',
 				success: function( response ) {
-					
-					if ( response.status == true ) {
+				
+					if ( response.status == true ||  response.status == 200 ) {
 						$( '.ajax_msg' ).html(response.message);
+
 						$(document.body).trigger('update_checkout');
 						window.location.reload();
 					} else {
@@ -224,7 +233,13 @@
 
 			})
 			.fail(function ( response ) {
-				$( '.ajax_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+				if ( response.responseText != '' ) {
+				//	$( '.ajax_msg' ).html(response.responseText);
+					window.location.reload();
+				} else{
+					$( '.ajax_msg' ).html('<span style="color:red;" >' + wsfw_public_param.wsfw_ajax_error + '</span>');		
+			
+				}
 			});
 
 		});

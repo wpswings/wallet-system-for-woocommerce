@@ -9,6 +9,26 @@
 
     }
 
+    var payment_gateway_charge_type = jQuery('#wps_wsfwp_payment_gateway_charge_fee_type').val();
+
+      if ( payment_gateway_charge_type == 'percent' ) {
+    
+        jQuery('.wps_payment_gateway_charge_textbox').attr('max',100);
+  
+      } else{
+        jQuery('.wps_payment_gateway_charge_textbox').attr('max','');
+      }
+
+    jQuery('.bulkactions').hide();
+
+
+    
+    jQuery(document).on( 'click', '#wps_wsfw_export_csv', function() {
+		
+    jQuery('#bulk-action-selector-top').val('export_csv');
+      const myAnchor = document.getElementById('doaction');
+				myAnchor.click();
+		});
     
     jQuery( "#wps_sfw_subscription_interval" ).change(function() {
        
@@ -81,6 +101,22 @@
       }
 		});
 
+    jQuery(document).on( 'change', '#wps_wsfwp_payment_gateway_charge_fee_type', function() {
+      
+      var payment_gateway_charge_type = jQuery('#wps_wsfwp_payment_gateway_charge_fee_type').val();
+
+      if ( payment_gateway_charge_type == 'percent' ) {
+    
+        jQuery('.wps_payment_gateway_charge_textbox').attr('max',100);
+  
+      } else{
+        jQuery('.wps_payment_gateway_charge_textbox').attr('max','');
+      }
+		});
+
+
+    
+
     var cashback_type = jQuery('#wps_wsfw_cashback_type').val();
 
     if ( cashback_type == 'percent' ) {
@@ -124,8 +160,4 @@
       }
     }
 		});
-    
-
-    
-    
 });

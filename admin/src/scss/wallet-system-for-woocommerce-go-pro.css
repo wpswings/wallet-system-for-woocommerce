@@ -11,3 +11,33 @@ a.wps-wsfw-go-pro {
 select#filter_member_status {
     position: absolute;
 }
+
+.wps_wallet_shop_order-header-container {
+    padding: 3px 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    margin-right: 15px;
+}
+.wps_wallet_shop_order-header-title {
+    font-family: 'NunitoSans-ExtraBold';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.3px;
+    color:red;
+    flex: 0 0 100%;
+    max-width: calc(100% - 270px);
+}
+
+.wps_wallet_shop_order-r-8 {
+    border-radius: 8px;
+}
+.wps_wallet_shop_order-bg-white {
+    background-color: #ffffff;
+    margin-right: 15px;
+}
