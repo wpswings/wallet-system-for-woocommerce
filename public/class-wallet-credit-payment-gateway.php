@@ -53,6 +53,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 	 * Class to create wallet payment gateway.
 	 */
 	class Wallet_Credit_Payment_Gateway extends WC_Payment_Gateway {
+
 		/**
 		 * Constructor for the gateway.
 		 *

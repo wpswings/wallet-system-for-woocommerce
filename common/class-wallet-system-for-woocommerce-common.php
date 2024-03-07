@@ -1399,7 +1399,6 @@ class Wallet_System_For_Woocommerce_Common {
 							$value->formatted_amount = wc_price( $item->get_total_tax() );
 							$index++;
 						}
-						// code...
 					}
 				}
 			}
