@@ -4,7 +4,7 @@ Donate link: https://wpswings.com/
 Tags: digital wallet, cashback wallet, wallet topup, user wallet, woocommerce wallet
 Requires at least: 5.5.0
 Tested up to: 6.4.3
-WC requires at least: 6.1
+WC requires at least: 6.5.0
 WC tested up to: 8.6.1
 Stable tag: 2.5.10
 Requires PHP: 7.4
@@ -227,7 +227,10 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.10 - Released on 29 February 2024 =
+= 2.5.10 - Released on 07 March 2024 =
+* Fix: Fixed security issue.
+
+= 2.5.9 - Released on 29 February 2024 =
 * Fix: Paypal issue
 
 = 2.5.8 - Released on 23 February 2024 =
@@ -434,5 +437,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.10 - Released on 29 February 2024 =
-* Fix: Paypal issue
+= 2.5.10 - Released on 07 March 2024 =
+* Fix: Fixed security issue.
