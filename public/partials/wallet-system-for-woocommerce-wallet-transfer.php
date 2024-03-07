@@ -53,6 +53,8 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 		<p class="transfer-error"></p>
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_transfer_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . ')'; ?></label>
+			<input type="hidden" id="verifynonce_transfer" name="verifynonce_transfer" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+				
 			<input type="number" step="0.01" min="0" data-mintransfer="<?php echo esc_attr( $wsfwp_min_wallet_transfer_amount ); ?>"data-maxtransfer="<?php echo esc_attr( $wsfwp_max_wallet_transfer_amount ); ?>"data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="wps_wallet_transfer_amount" name="wps_wallet_transfer_amount" required="">
 		</p>
 		<p class="error"></p>

@@ -151,7 +151,7 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 
 		// Get cart items.
-		if ( ! WC()->cart->is_empty() ) {
+		if ( ! empty( WC()->cart ) ) {
 			$cart_items = $cart->get_cart();
 		}
 
@@ -638,11 +638,6 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
-		if ( ! empty( $user ) ) {
-			$name                   = $user->first_name . ' ' . $user->last_name;
-		} else {
-			$name = '';
-		}
 
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
@@ -2608,14 +2603,14 @@ class Wallet_System_For_Woocommerce_Public {
 
 		if ( ! empty( $restrict_gatewaay ) ) {
 
-			if ( ! empty(  WC()->cart ) ) {
+			if ( ! empty( WC()->cart ) ) {
 
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 					$_product = $cart_item['data'];
 					if ( ( $_product->get_id() == $wallet_product_id ) ) {
 						foreach ( $restrict_gatewaay as $key => $value ) {
 							if ( 'yes' == $all_gateway[ $value ]->enabled ) {
-	
+
 								if ( ! empty( $value ) ) {
 									unset( $available_gateways[ $value ] );
 								}
@@ -2623,14 +2618,11 @@ class Wallet_System_For_Woocommerce_Public {
 						}
 					}
 				}
-
 			}
-			
 		}
 
 		return $available_gateways;
 
 	}
 }
-
 

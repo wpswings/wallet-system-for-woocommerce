@@ -131,6 +131,7 @@ $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
 			</p>
 			<p class="wps-wallet-field-container form-row">
 				<input type="hidden" name="wallet_user_id" value="<?php echo esc_attr( $user_id ); ?>">
+				<input type="hidden" id="verifynonce_withdrawal" name="verifynonce_withdrawal" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 				<input type="submit" class="wps-btn__filled button" id="wps_withdrawal_request" name="wps_withdrawal_request" value="<?php esc_html_e( 'Request For Withdrawal', 'wallet-system-for-woocommerce' ); ?>" >
 			</p>
 		</form>

@@ -37,7 +37,7 @@ if ( is_array( $wsfw_min_max_value ) ) {
 		<p class="error"></p>
 		<p class="wps-wallet-field-container form-row">
 			<input type="hidden" name="wps_current_user_id" id="wps_current_user_id" value="<?php echo esc_attr( $user_id ); ?>">
-			<input type="hidden" id="verifynonce" name="verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+			<input type="hidden" id="verifynonce_coupon" name="verifynonce_coupon" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 			<div class="wsfw_loader__wrapper">
 				<input type="submit" class="wps-btn__filled button" id="wps_coupon_wallet" name="wps_coupon_wallet" value="<?php esc_html_e( 'Redeem Coupon', 'wallet-system-for-woocommerce' ); ?>">
 				<?php do_action( 'wsfw_before_redeem_loader' ); ?>

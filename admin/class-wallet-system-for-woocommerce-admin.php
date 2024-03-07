@@ -1956,7 +1956,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		$walletamount   = get_user_meta( $userid, 'wps_wallet', true );
 		$walletamount   = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
-		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 		$order_curremncy = $order->get_currency();
