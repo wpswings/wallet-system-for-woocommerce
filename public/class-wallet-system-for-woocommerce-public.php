@@ -152,6 +152,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 		// Get cart items.
 		if ( ! empty( WC()->cart ) ) {
+
 			$cart_items = $cart->get_cart();
 		}
 
@@ -224,7 +225,6 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $is_pro ) {
 				$wps_wallet_restrict_wallet_gateway = get_user_meta( $user_id, 'wps_wallet_restrict_wallet_gateway', true );
 				if ( 'on' == $wps_wallet_restrict_wallet_gateway ) {
-
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					return $available_gateways;
 				}
