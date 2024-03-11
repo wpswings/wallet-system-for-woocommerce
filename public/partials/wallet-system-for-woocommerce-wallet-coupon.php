@@ -29,7 +29,7 @@ if ( is_array( $wsfw_min_max_value ) ) {
 
 <?php do_action( 'wsfw_coupon__redeem' ); ?>
 <div class='content active'>
-	<form method="post" action="" id="wps_wallet_transfer_form">
+	<span id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Coupon Code :', 'wallet-system-for-woocommerce' ); ?></label>
 				<input type="text" name="wps_wsfw_coupon_code" class="input-text" id="wps_wsfw_coupon_code" value="" placeholder="Coupon code">
@@ -37,7 +37,6 @@ if ( is_array( $wsfw_min_max_value ) ) {
 		<p class="error"></p>
 		<p class="wps-wallet-field-container form-row">
 			<input type="hidden" name="wps_current_user_id" id="wps_current_user_id" value="<?php echo esc_attr( $user_id ); ?>">
-			<input type="hidden" id="verifynonce_coupon" name="verifynonce_coupon" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 			<div class="wsfw_loader__wrapper">
 				<input type="submit" class="wps-btn__filled button" id="wps_coupon_wallet" name="wps_coupon_wallet" value="<?php esc_html_e( 'Redeem Coupon', 'wallet-system-for-woocommerce' ); ?>">
 				<?php do_action( 'wsfw_before_redeem_loader' ); ?>
@@ -46,6 +45,6 @@ if ( is_array( $wsfw_min_max_value ) ) {
 			<p class="wsfw__redeem_form_message" style="display: none;"></p>
 			<?php do_action( 'wsfw_after_redeem_loader' ); ?>
 		</p>
-	</form>
+</span>
 </div>
 

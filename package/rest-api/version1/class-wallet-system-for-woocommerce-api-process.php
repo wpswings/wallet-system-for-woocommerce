@@ -172,7 +172,6 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 							}
 						}
-						
 
 						$transaction_data = array(
 							'user_id'          => $user_id,

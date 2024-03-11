@@ -24,10 +24,13 @@ $http_host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $
 
 $request_url = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 $current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
-if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wallet'] ) ) {
 
-	$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
-	if ( wp_verify_nonce( $nonce ) ) {
+
+
+$nonce = ( isset( $_POST['wps_verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wps_verifynonce'] ) ) : '';
+if ( wp_verify_nonce( $nonce ) ) {
+
+	if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wallet'] ) ) {
 		unset( $_POST['wps_recharge_wallet'] );
 
 		if ( empty( $_POST['wps_wallet_recharge_amount'] ) ) {
@@ -38,9 +41,7 @@ if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wal
 
 			if ( ! empty( $_POST['user_id'] ) ) {
 				$user_id = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
-
 			}
-
 			$product_id = ( isset( $_POST['product_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : '';
 			WC()->session->set(
 				'wallet_recharge',
@@ -53,20 +54,14 @@ if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wal
 			WC()->session->set( 'recharge_amount', $recharge_amount );
 			echo '<script>window.location.href = "' . esc_url( wc_get_cart_url() ) . '";</script>';
 		}
-	} else {
-		show_message_on_form_submit( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 	}
-}
-if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_transfer'] ) ) {
-	unset( $_POST['wps_proceed_transfer'] );
-	$nonce = ( isset( $_POST['verifynonce_transfer'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce_transfer'] ) ) : '';
-	if ( wp_verify_nonce( $nonce ) ) {
+	if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_transfer'] ) ) {
+		unset( $_POST['wps_proceed_transfer'] );
 		$update = true;
 		// check whether $_POST key 'current_user_id' is empty or not.
 		if ( ! empty( $_POST['current_user_id'] ) ) {
 			$user_id = sanitize_text_field( wp_unslash( $_POST['current_user_id'] ) );
 		}
-
 		$wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
 		$wallet_bal             = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 		$wps_current_user_email = ! empty( $_POST['wps_current_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_current_user_email'] ) ) : '';
@@ -94,7 +89,7 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 			show_message_on_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		} elseif ( $another_user_email == $wps_current_user_email ) {
-			show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself dfsf.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		}
 		if ( $update ) {
@@ -208,13 +203,11 @@ if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_tra
 			}
 		}
 	}
-}
 
-if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawal_request'] ) ) {
-	unset( $_POST['wps_withdrawal_request'] );
+	if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawal_request'] ) ) {
+		unset( $_POST['wps_withdrawal_request'] );
 
-	$nonce = ( isset( $_POST['verifynonce_withdrawal'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce_withdrawal'] ) ) : '';
-	if ( wp_verify_nonce( $nonce ) ) {
+
 		if ( ! empty( $_POST['wallet_user_id'] ) ) {
 			$user_id  = sanitize_text_field( wp_unslash( $_POST['wallet_user_id'] ) );
 			$user     = get_user_by( 'id', $user_id );
@@ -253,12 +246,10 @@ if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawa
 			wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
 		}
 	}
-}
 
-if ( isset( $_POST['wps_coupon_wallet'] ) && ! empty( $_POST['wps_coupon_wallet'] ) ) {
-	unset( $_POST['wps_coupon_wallet'] );
-	$nonce = ( isset( $_POST['verifynonce_coupon'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce_coupon'] ) ) : '';
-	if ( wp_verify_nonce( $nonce ) ) {
+	if ( isset( $_POST['wps_coupon_wallet'] ) && ! empty( $_POST['wps_coupon_wallet'] ) ) {
+		unset( $_POST['wps_coupon_wallet'] );
+
 
 		if ( ! empty( $_POST['user_id'] ) ) {
 			$user_id  = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
@@ -653,7 +644,7 @@ setInterval(function time(){
 				<?php
 	}
 	?>
-
+	<form method="post" action="" id="wps_wallet_main_tab_form">
 				<div class='content-section'>
 
 				<?php
@@ -671,6 +662,8 @@ setInterval(function time(){
 				}
 				?>
 				</div>
+				<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+			</form>
 			</div>
 		</div>
 	</div>

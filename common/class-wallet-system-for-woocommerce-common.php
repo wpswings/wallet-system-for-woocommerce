@@ -200,9 +200,13 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @return void
 	 */
 	public function wps_wsfw_save_wallet_public_shortcode() {
-		if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wallet'] ) ) {
-			$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
-			if ( wp_verify_nonce( $nonce ) ) {
+
+		$nonce = ( isset( $_POST['wps_verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wps_verifynonce'] ) ) : '';
+
+		if ( wp_verify_nonce( $nonce ) ) {
+
+			if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wallet'] ) ) {
+
 				unset( $_POST['wps_recharge_wallet'] );
 
 				if ( empty( $_POST['wps_wallet_recharge_amount'] ) ) {
@@ -227,14 +231,9 @@ class Wallet_System_For_Woocommerce_Common {
 					wp_redirect( wc_get_cart_url() );
 					exit();
 				}
-			} else {
-				$this->show_message_on_wallet_form_submit( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			}
-		}
-		if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawal_request'] ) ) {
-			unset( $_POST['wps_withdrawal_request'] );
-			$nonce = ( isset( $_POST['verifynonce_withdrawal'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce_withdrawal'] ) ) : '';
-			if ( wp_verify_nonce( $nonce ) ) {
+			if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawal_request'] ) ) {
+				unset( $_POST['wps_withdrawal_request'] );
 
 				if ( ! empty( $_POST['wallet_user_id'] ) ) {
 					$user_id  = sanitize_text_field( wp_unslash( $_POST['wallet_user_id'] ) );
@@ -273,11 +272,8 @@ class Wallet_System_For_Woocommerce_Common {
 					exit();
 				}
 			}
-		}
-		if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_transfer'] ) ) {
-			unset( $_POST['wps_proceed_transfer'] );
-			$nonce = ( isset( $_POST['verifynonce_transfer'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce_transfer'] ) ) : '';
-			if ( wp_verify_nonce( $nonce ) ) {
+			if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_transfer'] ) ) {
+				unset( $_POST['wps_proceed_transfer'] );
 
 					$current_currency = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
 					$update           = true;
@@ -340,7 +336,7 @@ class Wallet_System_For_Woocommerce_Common {
 							$headers1    = 'MIME-Version: 1.0' . "\r\n";
 							$headers1   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 							$headers1   .= 'From: ' . $from . "\r\n" .
-								'Reply-To: ' . $to1 . "\r\n";
+							'Reply-To: ' . $to1 . "\r\n";
 
 							if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
 
@@ -381,7 +377,7 @@ class Wallet_System_For_Woocommerce_Common {
 								$headers2    = 'MIME-Version: 1.0' . "\r\n";
 								$headers2   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 								$headers2   .= 'From: ' . $from . "\r\n" .
-									'Reply-To: ' . $to2 . "\r\n";
+								'Reply-To: ' . $to2 . "\r\n";
 
 								if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
 
@@ -419,11 +415,8 @@ class Wallet_System_For_Woocommerce_Common {
 					}
 				}
 			}
-		}
-		if ( isset( $_POST['wps_coupon_wallet'] ) && ! empty( $_POST['wps_coupon_wallet'] ) ) {
-			unset( $_POST['wps_coupon_wallet'] );
-			$nonce = ( isset( $_POST['verifynonce_coupon'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce_coupon'] ) ) : '';
-			if ( wp_verify_nonce( $nonce ) ) {
+			if ( isset( $_POST['wps_coupon_wallet'] ) && ! empty( $_POST['wps_coupon_wallet'] ) ) {
+				unset( $_POST['wps_coupon_wallet'] );
 
 				if ( ! empty( $_POST['user_id'] ) ) {
 					$user_id  = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
@@ -433,7 +426,10 @@ class Wallet_System_For_Woocommerce_Common {
 					apply_filters( 'wps_wsfw_wallet_coupon_before_saving', $wps_wsfw_coupon_code );
 				}
 			}
+		} else {
+			$this->show_message_on_wallet_form_submit( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		}
+
 	}
 
 	/** Cashback functionality start here */
