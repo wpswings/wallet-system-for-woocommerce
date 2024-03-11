@@ -22,7 +22,7 @@ if ( isset( $_POST['generate_api_key'] ) && ! empty( $_POST['generate_api_key'] 
 		unset( $_POST['generate_api_key'] );
 		$api_keys = array();
 		for ( $i = 0; $i < 2; $i++ ) {
-			$random     = rand();
+			$random     = wp_rand();
 			$api_keys[] = md5( $random );
 		}
 		$wallet_api_keys['consumer_key']    = $api_keys[0];

@@ -1,6 +1,6 @@
 
 jQuery(document).ready(function($){
-
+debugger;
     if (wps_wallet_admin_order_param.is_refundable) {
         jQuery('.refund-actions .do-manual-refund').before('<button type="button" class="button button-primary do-wallet-refund">' + wps_wallet_admin_order_param.i18n.refund + ' <span class="wps-wc-order-refund-amount">' + wps_wallet_admin_order_param.default_price + '</span> ' + wps_wallet_admin_order_param.i18n.via_wallet + '</button>');
     }

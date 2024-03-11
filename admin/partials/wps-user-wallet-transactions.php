@@ -14,10 +14,16 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-if ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) {
+
+
+$user_id = isset( $_GET['id'] ) ? sanitize_text_field( wp_unslash( $_GET['id'] ) ) : null;
+$nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : null;
+
+
+if ( isset( $user_id, $nonce ) && wp_verify_nonce( $nonce, 'view_transactions_' . $user_id ) ) {
 	$user_id = sanitize_text_field( wp_unslash( $_GET['id'] ) );
+	$user = get_user_by( 'id', $user_id );
 }
-$user = get_user_by( 'id', $user_id );
 
 ?>
 
@@ -36,6 +42,8 @@ $user = get_user_by( 'id', $user_id );
 				</tr>
 				<tr>
 					<td><span id="clear_table" ><?php esc_html_e( 'Clear', 'wallet-system-for-woocommerce' ); ?></span></td>
+					<input type="hidden" id="wps_verifynonce_transaction" name="wps_verifynonce_transaction" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+			
 				</tr>
 			</tbody>
 		</table>

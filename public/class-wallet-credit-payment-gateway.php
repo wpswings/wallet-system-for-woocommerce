@@ -143,9 +143,9 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		public function process_refund( $order_id, $amount = null, $reason = '' ) {
 			$order = wc_get_order( $order_id );
 			$refund_reason = $reason ? $reason : __( 'Wallet refund #', 'wallet-system-for-woocommerce' ) . $order->get_order_number();
-
+			$transaction_id = '';
 			if ( ! $transaction_id ) {
-				throw new Exception( __( 'Refund not credited to customer', 'wallet-system-for-woocommerce' ) );
+				throw new Exception( esc_html__( 'Refund not credited to customer', 'wallet-system-for-woocommerce' ) );
 			}
 			do_action( 'wps_wallet_order_refund_actioned', $order, $amount, $transaction_id );
 			return true;

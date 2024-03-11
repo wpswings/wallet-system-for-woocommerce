@@ -1044,12 +1044,15 @@ class Wallet_User_Table extends WP_List_Table {
 	 */
 	public function wsfw_get_action( $user ) {
 		$wallet_bal = get_user_meta( $user->ID, 'wps_wallet', true );
+		$nonce = wp_create_nonce( 'view_transactions_' . $user->ID ); // Create nonce.
+		$url = esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wps-user-wallet-transactions&id=' . $user->ID . '&nonce=' . $nonce );
+
 		$wallet_bal = ! empty( $wallet_bal ) ? $wallet_bal : 0;
 		$data  = '';
 		$data .= '<span>';
 		$data .= '<a class="edit_wallet" user-amount="' . esc_attr( $wallet_bal ) . '"  data-userid="' . esc_attr( $user->ID ) . '" href="" title="Edit Wallet" >';
 		$data .= '<img src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/edit.svg"></a>';
-		$data .= '<a href="' . esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wps-user-wallet-transactions&id=' . $user->ID ) . '" title="View Transactions" >';
+		$data .= '<a href="' . $url . '" title="View Transactions" >';
 		$data .= '<img src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/eye.svg"></a>';
 		$data .= '</span>';
 		return $data;
@@ -1065,10 +1068,13 @@ class Wallet_User_Table extends WP_List_Table {
 	public function wsfw_get_report( $user ) {
 		$wallet_bal = get_user_meta( $user->ID, 'wps_wallet', true );
 		$wallet_bal = ! empty( $wallet_bal ) ? $wallet_bal : 0;
+		$nonce = wp_create_nonce( 'view_report_' . $user->ID ); // Create nonce.
+		$url_report = esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wallet-system-for-woocommerce-report&report_userid=' . $user->ID . '&nonce=' . $nonce );
+
 		$data  = '';
 		$data .= '<span>';
 
-		$data .= '<a href="' . esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wallet-system-for-woocommerce-report&report_userid=' . $user->ID ) . '" title="View Reports" >';
+		$data .= '<a href="' . $url_report . '" title="View Reports" >';
 		$data .= '<img height="36" src="' . esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/report-colored.png"></a>';
 		$data .= '</span>';
 		return $data;

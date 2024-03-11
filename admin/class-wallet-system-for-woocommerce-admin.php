@@ -161,7 +161,10 @@ class Wallet_System_For_Woocommerce_Admin {
 				true
 			);
 			$user_data = array();
-			if ( isset( $_GET['report_userid'] ) ) {
+			$user_id = isset( $_GET['report_userid'] ) ? sanitize_text_field( wp_unslash( $_GET['report_userid'] ) ) : null;
+			$nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : null;
+
+			if ( isset( $user_id, $nonce ) && wp_verify_nonce( $nonce, 'view_report_' . $user_id ) ) {
 				$user_id = ! empty( $_GET['report_userid'] ) ? sanitize_text_field( wp_unslash( $_GET['report_userid'] ) ) : '';
 				$start_date  = '';
 				$end_date    = '';
@@ -243,7 +246,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 
 		if ( in_array( $screen_id, array( 'shop_order', 'woocommerce_page_wc-orders' ) ) ) {
-			wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-order-shop.js', array( 'jquery' ), $this->version, false );
+
 			global  $woocommerce;
 			$post_id = '';
 			$currency_symbol = get_woocommerce_currency_symbol();
@@ -257,7 +260,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$post_id = $post->ID;
 			}
 			if ( ! empty( $post_id ) ) {
-				wp_enqueue_script( 'wallet-recharge-admin-js' );
+
 				$order_localizer = array(
 					'order_id' => $post_id,
 					'payment_method' => $order->get_payment_method( 'edit' ),
@@ -269,10 +272,13 @@ class Wallet_System_For_Woocommerce_Admin {
 						'via_wallet' => __( 'to user wallet', 'wallet-system-for-woocommerce' ),
 					),
 				);
+				wp_register_script( 'wallet-recharge-admin-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/src/js/wallet-system-for-woocommerce-order-shop.js', array( 'jquery' ), $this->version, false );
+
 				wp_localize_script( 'wallet-recharge-admin-js', 'wps_wallet_admin_order_param', $order_localizer );
+				wp_enqueue_script( 'wallet-recharge-admin-js' );
 			}
 		}
-		wp_enqueue_script( 'wallet-recharge-admin-js' );
+
 	}
 
 	/**
@@ -2297,86 +2303,89 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			<?php
 		}
+		$nonce = ( isset( $_POST['updatenoncewallet_pdf_dwnload'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_pdf_dwnload'] ) ) : '';
+		if ( wp_verify_nonce( $nonce ) ) {
 
-		if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
+			if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
 
-			global $wpdb;
-			$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
-			$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
-			if ( ! empty( $transactions ) && is_array( $transactions ) ) {
-				$i = 1;
-				$pdf_html = '';
-				$pdf_html .= '<table>';
-				$pdf_html .= '<thead>';
-				$pdf_html .= '<tr>';
-				$pdf_html .= '<th>#</th>';
-				$pdf_html .= '<th>Name</th>';
-				$pdf_html .= '<th>Email</th>';
-				$pdf_html .= '<th>Role</th>';
-				$pdf_html .= '<th>Amount</th>';
-				$pdf_html .= '<th>Payment Method</th>';
-				$pdf_html .= '<th>Details</th>';
-				$pdf_html .= '<th>Transaction ID</th>';
-				$pdf_html .= '<th>Date</th>';
-				$pdf_html .= '</tr>';
-				$pdf_html .= '</thead>';
-				$pdf_html .= '<tbody>';
-				foreach ( $transactions as $transaction ) {
-					$user = get_user_by( 'id', $transaction->user_id );
-					if ( $user ) {
-						$display_name = $user->display_name;
-						$useremail    = $user->user_email;
-						$user_role = '';
-						if ( is_array( $user->roles ) && ! empty( $user->roles ) ) {
-							$user_role    = $user->roles[0];
-						}
-					} else {
-						$display_name = '';
-						$useremail    = '';
-						$user_role    = '';
-					}
-
+				global $wpdb;
+				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
+				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
+				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
+					$i = 1;
+					$pdf_html = '';
+					$pdf_html .= '<table>';
+					$pdf_html .= '<thead>';
 					$pdf_html .= '<tr>';
-					$pdf_html .= '<td>' . $i . '</td>';
-					$pdf_html .= '<td>' . $display_name . ' #' . $transaction->user_id . '</td>';
-					$pdf_html .= '<td>' . $useremail . '</td>';
-					$pdf_html .= '<td>' . $user_role . '</td>';
-					$pdf_html .= '<td>' . get_woocommerce_currency() . ' ' . $transaction->amount . '</td>';
-					$pdf_html .= '<td>' . $transaction->payment_method . '</td>';
-					$pdf_html .= '<td>' . html_entity_decode( $transaction->transaction_type ) . '</td>';
-					$pdf_html .= '<td>' . $transaction->id . '</td>';
-					$date_format = get_option( 'date_format', 'm/d/Y' );
-					$date        = date_create( $transaction->date );
-					$pdf_html .= '<td>' . date_format( $date, $date_format ) . ' ' . esc_html( date_format( $date, 'H:i:s' ) ) . '</td>';
+					$pdf_html .= '<th>#</th>';
+					$pdf_html .= '<th>Name</th>';
+					$pdf_html .= '<th>Email</th>';
+					$pdf_html .= '<th>Role</th>';
+					$pdf_html .= '<th>Amount</th>';
+					$pdf_html .= '<th>Payment Method</th>';
+					$pdf_html .= '<th>Details</th>';
+					$pdf_html .= '<th>Transaction ID</th>';
+					$pdf_html .= '<th>Date</th>';
 					$pdf_html .= '</tr>';
-					$i++;
-				}
-				$pdf_html .= '</tbody></table>';
-				require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-				$dompdf = new Dompdf( array( 'enable_remote' => true ) );
-				$dompdf->setPaper( 'A4', 'landscape' );
-				$upload_dir_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR . '/transaction_pdf';
-				if ( ! is_dir( $upload_dir_path ) ) {
-					wp_mkdir_p( $upload_dir_path );
-					chmod( $upload_dir_path, 0775 );
-				}
-				$dompdf->loadHtml( $pdf_html );
-				@ob_end_clean(); // phpcs:ignore
-				$dompdf->render();
-				$dompdf->set_option( 'isRemoteEnabled', true );
-				$output = $dompdf->output();
-				$generated_pdf = file_put_contents( $upload_dir_path . '/transaction.pdf', $output );
-				$file = $upload_dir_path . '/transaction.pdf';
-				if ( file_exists( $file ) ) {
-					header( 'Content-Description: File Transfer' );
-					header( 'Content-Type: application/octet-stream' );
-					header( 'Content-Disposition: attachment; filename="' . basename( $file ) . '"' );
-					header( 'Expires: 0' );
-					header( 'Cache-Control: must-revalidate' );
-					header( 'Pragma: public' );
-					header( 'Content-Length: ' . filesize( $file ) );
-					readfile( $file );
-					exit;
+					$pdf_html .= '</thead>';
+					$pdf_html .= '<tbody>';
+					foreach ( $transactions as $transaction ) {
+						$user = get_user_by( 'id', $transaction->user_id );
+						if ( $user ) {
+							$display_name = $user->display_name;
+							$useremail    = $user->user_email;
+							$user_role = '';
+							if ( is_array( $user->roles ) && ! empty( $user->roles ) ) {
+								$user_role    = $user->roles[0];
+							}
+						} else {
+							$display_name = '';
+							$useremail    = '';
+							$user_role    = '';
+						}
+
+						$pdf_html .= '<tr>';
+						$pdf_html .= '<td>' . $i . '</td>';
+						$pdf_html .= '<td>' . $display_name . ' #' . $transaction->user_id . '</td>';
+						$pdf_html .= '<td>' . $useremail . '</td>';
+						$pdf_html .= '<td>' . $user_role . '</td>';
+						$pdf_html .= '<td>' . get_woocommerce_currency() . ' ' . $transaction->amount . '</td>';
+						$pdf_html .= '<td>' . $transaction->payment_method . '</td>';
+						$pdf_html .= '<td>' . html_entity_decode( $transaction->transaction_type ) . '</td>';
+						$pdf_html .= '<td>' . $transaction->id . '</td>';
+						$date_format = get_option( 'date_format', 'm/d/Y' );
+						$date        = date_create( $transaction->date );
+						$pdf_html .= '<td>' . date_format( $date, $date_format ) . ' ' . esc_html( date_format( $date, 'H:i:s' ) ) . '</td>';
+						$pdf_html .= '</tr>';
+						$i++;
+					}
+					$pdf_html .= '</tbody></table>';
+					require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
+					$dompdf = new Dompdf( array( 'enable_remote' => true ) );
+					$dompdf->setPaper( 'A4', 'landscape' );
+					$upload_dir_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR . '/transaction_pdf';
+					if ( ! is_dir( $upload_dir_path ) ) {
+						wp_mkdir_p( $upload_dir_path );
+						chmod( $upload_dir_path, 0775 );
+					}
+					$dompdf->loadHtml( $pdf_html );
+					@ob_end_clean(); // phpcs:ignore
+					$dompdf->render();
+					$dompdf->set_option( 'isRemoteEnabled', true );
+					$output = $dompdf->output();
+					$generated_pdf = file_put_contents( $upload_dir_path . '/transaction.pdf', $output );
+					$file = $upload_dir_path . '/transaction.pdf';
+					if ( file_exists( $file ) ) {
+						header( 'Content-Description: File Transfer' );
+						header( 'Content-Type: application/octet-stream' );
+						header( 'Content-Disposition: attachment; filename="' . basename( $file ) . '"' );
+						header( 'Expires: 0' );
+						header( 'Cache-Control: must-revalidate' );
+						header( 'Pragma: public' );
+						header( 'Content-Length: ' . filesize( $file ) );
+						readfile( $file );
+						exit;
+					}
 				}
 			}
 		}
