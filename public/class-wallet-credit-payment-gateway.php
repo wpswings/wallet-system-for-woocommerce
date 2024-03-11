@@ -282,8 +282,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
-					// Reduce stock levels.
-					$order->reduce_order_stock();
 
 					$is_auto_complete_bool = false;
 
@@ -292,9 +290,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				if ( $is_auto_complete_bool ) {
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
-
-					// Reduce stock levels.
-					$order->reduce_order_stock();
 
 				}
 			} else {
@@ -403,8 +398,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
-					// Reduce stock levels.
-					$order->reduce_order_stock();
+
 					// Remove cart.
 					WC()->cart->empty_cart();
 					$is_auto_complete_bool = false;
@@ -414,9 +408,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				if ( $is_auto_complete_bool ) {
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
-
-					// Reduce stock levels.
-					$order->reduce_order_stock();
 
 					// Remove cart.
 					if ( ! empty( WC()->cart ) ) {
