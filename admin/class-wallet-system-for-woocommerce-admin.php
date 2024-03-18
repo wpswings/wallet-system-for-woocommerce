@@ -394,10 +394,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 	}
 
-
-
-
-
 	/**
 	 * Add refund button to WooCommerce order page.
 	 *
@@ -406,7 +402,11 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function woocommerce_after_order_fee_item_name_callback( $item_id, $item ) {
 		global $post, $thepostid;
-
+		$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-refund-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-refund-nonce' );
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+		}
 		if ( ! is_partial_payment_order_item( $item_id, $item ) ) {
 			return;
 		}
@@ -2365,7 +2365,9 @@ class Wallet_System_For_Woocommerce_Admin {
 						$i++;
 					}
 					$pdf_html .= '</tbody></table>';
-					require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
+					ini_set('allow_url_include', 0);
+				//	require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
+				require_once 'https://staging.wpswings.com/dompdf/dompdf/vendor/autoload.php';
 					$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 					$dompdf->setPaper( 'A4', 'landscape' );
 					$upload_dir_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR . '/transaction_pdf';
@@ -2641,9 +2643,9 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 
 		if ( empty( $column ) ) {
-			$column = $wpdb->query( $wpdb->prepare( "ALTER TABLE  {$wpdb->prefix}wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT NULL" ) );
+			$column = $wpdb->query( "ALTER TABLE  {$wpdb->prefix}wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT NULL" );
 		}
-
+		
 		// Check transaction table is updated with new field or not.
 		$updated_transaction_table = get_option( 'wps_wsfw_updated_transaction_table' );
 		if ( ! $updated_transaction_table ) {

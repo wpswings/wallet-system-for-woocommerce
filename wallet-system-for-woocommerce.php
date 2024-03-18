@@ -416,6 +416,11 @@ function wps_wsfw_banner_notification_html() {
 	if ( isset( $screen->id ) ) {
 		$pagescreen = $screen->id;
 	}
+	$secure_nonce      = wp_create_nonce( 'wps-wallet-thankyou-order-nonce' );
+	$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-thankyou-order-nonce' );
+	if ( ! $id_nonce_verified ) {
+		wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+	}
 	if ( ( isset( $_GET['page'] ) && 'wallet_system_for_woocommerce_menu' === $_GET['page'] ) ) {
 		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 		if ( isset( $banner_id ) && '' !== $banner_id ) {

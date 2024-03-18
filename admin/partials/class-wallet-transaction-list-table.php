@@ -123,7 +123,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 				$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
 				if ( ! $is_pro ) {
 
-					return '<span class="wps_wallet_delete_action wps_pro_settings" >&nbsp&nbsp&nbsp' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
+					return '<span class="wps_wallet_delete_action wps_pro_settings " >&nbsp&nbsp&nbsp' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
 
 				} else {
 
@@ -275,6 +275,12 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	 * @param array $cloumnb column of the points.
 	 */
 	public function wps_wpr_usort_reorder( $cloumna, $cloumnb ) {
+
+		$secure_nonce      = wp_create_nonce( 'wps-wallet-list-table-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-list-table-nonce' );
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+		}
 
 		$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'id';
 		$order   = ( ! empty( $_REQUEST['order'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'desc';
@@ -493,7 +499,9 @@ if ( isset( $_POST['action'] ) ) {
 
 				// Create a file pointer.
 				$file = fopen( 'Transaction_Data.csv', 'w' );
-
+				
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+				
 				// Write data to the CSV file.
 				foreach ( $csv_data as $row ) {
 					fputcsv( $file, $row );
@@ -610,12 +618,12 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 						</tr>
 						<tr>
 							<td>
-								<input type="text" id="fromdate_transaction" name="min"  data="min"  name="event_date" placeholder="From" value="<?php echo esc_attr( $date_from ); ?>" >
+								<input type="text" id="fromdate_transaction" name="min"  data="min"  name="event_date" placeholder="Select From Date" value="<?php echo esc_attr( $date_from ); ?>" >
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<input type="text" id="todate_transaction" name="max" data="max"  name="event_date" placeholder="to" value="<?php echo esc_attr( $date_to ); ?>" >
+								<input type="text" id="todate_transaction" name="max" data="max"  name="event_date" placeholder="Select To Date" value="<?php echo esc_attr( $date_to ); ?>" >
 							</td>
 						</tr>
 						<tr>
@@ -635,6 +643,11 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		if ( $is_pro_plugin ) {
 			?>
 				<input type="button" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
+			<?php
+		} else{
+			?>
+			<span class="button btn wps_demo_csv_button wps_pro_settings wps_pro_settings_tag" >&nbsp&nbsp&nbsp&nbsp<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ) ?></span>
+			
 			<?php
 		}
 		?>
@@ -661,6 +674,3 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 </div>
 <?php
 	include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';
-
-	// wp_enqueue_script( 'datepicker_js', '/path/to/flatpickr.js', array(), '', true );
-	// wp_enqueue_style( 'datepicker_stylesheet', '/path/to/flatpickr.css', array(), '', true );

@@ -15,7 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	exit(); // Exit if accessed directly.
 }
-
+$secure_nonce      = wp_create_nonce( 'wps-wallet-general-dashboard-nonce' );
+$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-general-dashboard-nonce' );
+if ( ! $id_nonce_verified ) {
+	wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+}
 global $wsfw_wps_wsfw_obj;
 $wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['wsfw_tab'] ) ) : 'wallet-system-for-woocommerce-general';
 $wsfw_default_tabs = $wsfw_wps_wsfw_obj->wps_wsfw_plug_default_tabs();

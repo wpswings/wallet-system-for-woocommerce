@@ -2175,7 +2175,11 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wps_wsfw_woocommerce_thankyou_page() {
-
+		$secure_nonce      = wp_create_nonce( 'wps-wallet-thankyou-order-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-thankyou-order-nonce' );
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+		}
 		$order_key = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
 		if ( get_option( 'wsfw_check_thanks_page' ) != $order_key ) {
 			$order_id = wc_get_order_id_by_order_key( $order_key );

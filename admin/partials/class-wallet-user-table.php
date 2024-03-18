@@ -932,8 +932,13 @@ class Wallet_User_Table extends WP_List_Table {
 			'offset' => ( $current_page - 1 ) * $per_page,
 			'fields' => 'ID',
 		);
-
+		
+		
 		if ( isset( $_REQUEST['s'] ) ) {
+			$nonce = ( isset( $_POST['updatewallet_user_nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatewallet_user_nonce'] ) ) : '';
+			if ( ! wp_verify_nonce( $nonce ) ) {
+				return false;
+			}
 			$wps_request_search = sanitize_text_field( wp_unslash( $_REQUEST['s'] ) );
 			$args['search']     = '*' . $wps_request_search . '*';
 		}
@@ -1115,6 +1120,8 @@ class Wallet_User_Table extends WP_List_Table {
 		$wallet_user_table->search_box( __( 'Search', 'wallet-system-for-woocommerce' ), 'search_id' );
 		$wallet_user_table->display();
 	?>
+	<input type="hidden" id="updatewallet_user_nonce" name="updatewallet_user_nonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+		
 </form>
 </div>
 
