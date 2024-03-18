@@ -2366,8 +2366,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					}
 					$pdf_html .= '</tbody></table>';
 					ini_set('allow_url_include', 0);
-				//	require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-				require_once 'https://staging.wpswings.com/dompdf/dompdf/vendor/autoload.php';
+					require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 					$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 					$dompdf->setPaper( 'A4', 'landscape' );
 					$upload_dir_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR . '/transaction_pdf';
