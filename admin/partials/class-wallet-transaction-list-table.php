@@ -220,19 +220,21 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 
 		$per_page              = 10;
 		$limit_for_transaction = '10';
-
-		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
-
+		
+		if (  isset( $_POST['hidden_transaction_number'] ) ||  isset( $_POST['hidden_from_date'] ) ){
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {
 				return false;
 			}
+		}
+		
+		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 			$limit_for_transaction      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '';
 		}
 		if ( ! empty( $limit_for_transaction ) ) {
 			$per_page = $limit_for_transaction;
 		}
-
+		
 		$columns               = $this->get_columns();
 		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
@@ -330,6 +332,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 		$per_page = 10;  // Number of rows per page.
 		$offset = ( $current_page - 1 ) * $per_page;// Calculate the offset.
 		$results = '';
+		
 		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {
@@ -371,6 +374,8 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 				),
 				ARRAY_A
 			);
+
+	
 
 		} elseif ( isset( $_REQUEST['s'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
@@ -604,10 +609,14 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 						<tr>
 						</tr>
 						<tr>
-							<td><input type="date" id="fromdate_transaction" name="min" id="min"  placeholder="From" value="<?php echo esc_attr( $date_from ); ?>"  autocomplete="off"></td>
+							<td>
+								<input type="text" id="fromdate_transaction" name="min"  data="min"  name="event_date" placeholder="From" value="<?php echo esc_attr( $date_from ); ?>" >
+							</td>
 						</tr>
 						<tr>
-							<td><input type="date"  id="todate_transaction" name="max" id="max"  placeholder="To" value="<?php echo esc_attr( $date_to ); ?>" autocomplete="off"></td>
+							<td>
+								<input type="text" id="todate_transaction" name="max" data="max"  name="event_date" placeholder="to" value="<?php echo esc_attr( $date_to ); ?>" >
+							</td>
 						</tr>
 						<tr>
 							<td><span id="clear_table" class="btn button"><?php esc_html_e( 'Clear', 'wallet-system-for-woocommerce' ); ?></span></td>
@@ -652,3 +661,6 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 </div>
 <?php
 	include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';
+
+	// wp_enqueue_script( 'datepicker_js', '/path/to/flatpickr.js', array(), '', true );
+	// wp_enqueue_style( 'datepicker_stylesheet', '/path/to/flatpickr.css', array(), '', true );

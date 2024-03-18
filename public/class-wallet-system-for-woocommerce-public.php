@@ -1357,6 +1357,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$order     = wc_get_order( $order_id );
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
+		$this->wsfw_wallet_add_order_detail_api( $order );
 		$payment_method         = $order->get_payment_method();
 		$new_status             = $order->get_status();
 		$order_items            = $order->get_items();

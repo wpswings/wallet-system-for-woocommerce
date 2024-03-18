@@ -111,6 +111,11 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		}
 
+		wp_enqueue_script( 'flatpickr', 'https://cdn.jsdelivr.net/npm/flatpickr', array( 'jquery' ), '4.6.9', true );
+
+		// Enqueue Flatpickr CSS.
+		wp_enqueue_style( 'flatpickr', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css', array(), '4.6.9' );
+	
 	}
 
 	/**
@@ -2303,7 +2308,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			<?php
 		}
-		$nonce = ( isset( $_POST['updatenoncewallet_pdf_dwnload'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_pdf_dwnload'] ) ) : '';
+		$nonce = ( isset( $_GET['updatenoncewallet_pdf_dwnload'] ) ) ? sanitize_text_field( wp_unslash( $_GET['updatenoncewallet_pdf_dwnload'] ) ) : '';
 		if ( wp_verify_nonce( $nonce ) ) {
 
 			if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
