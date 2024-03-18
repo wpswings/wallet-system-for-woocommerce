@@ -2365,7 +2365,6 @@ class Wallet_System_For_Woocommerce_Admin {
 						$i++;
 					}
 					$pdf_html .= '</tbody></table>';
-					ini_set('allow_url_include', 0);
 					require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 					$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 					$dompdf->setPaper( 'A4', 'landscape' );
