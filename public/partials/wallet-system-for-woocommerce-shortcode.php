@@ -634,8 +634,8 @@ setInterval(function time(){
 					}
 				}
 				?>
-				</div>
 				<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+				</div>
 			</form>
 			</div>
 		</div>

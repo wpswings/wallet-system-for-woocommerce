@@ -62,6 +62,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 		if ( ! empty( $_POST['current_user_id'] ) ) {
 			$user_id = sanitize_text_field( wp_unslash( $_POST['current_user_id'] ) );
 		}
+		
 		$wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
 		$wallet_bal             = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 		$wps_current_user_email = ! empty( $_POST['wps_current_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_current_user_email'] ) ) : '';
@@ -661,8 +662,8 @@ setInterval(function time(){
 					}
 				}
 				?>
-				</div>
 				<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+				</div>
 			</form>
 			</div>
 		</div>
