@@ -499,14 +499,18 @@ if ( isset( $_POST['action'] ) ) {
 
 				// Create a file pointer.
 				$file = fopen( 'Transaction_Data.csv', 'w' );
+
 				
-					require_once ABSPATH . 'wp-admin/includes/file.php';
-				
+
 				// Write data to the CSV file.
 				foreach ( $csv_data as $row ) {
-					fputcsv( $file, $row );
+					$row_data=array();
+					foreach ($row as $key => $value) {
+						array_push($row_data,strip_tags($value) );
+					}
+					fputcsv( $file, $row_data );
+					
 				}
-
 				// Close the file pointer.
 				fclose( $file );
 				// Output a download link for the generated CSV file.
@@ -560,7 +564,7 @@ function export_data_csv_for_all_transaction( $user_count, $current_page, $csv_d
 			$user          = get_userdata( $sort_id['user_id'] );
 			$date = date_create( $sort_id['date'] );
 			$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
-			$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], $sort_id['transaction_type'], $sort_id['payment_method'], $transaction_data );
+			$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], html_entity_decode( $sort_id['transaction_type'] ), $sort_id['payment_method'], $transaction_data );
 		}
 	}
 

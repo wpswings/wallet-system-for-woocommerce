@@ -725,8 +725,6 @@ class Wallet_System_For_Woocommerce_Public {
 						$balance   = $order->get_currency() . ' ' . $amount;
 					}
 
-					$walletamount += $credited_amount;
-
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
