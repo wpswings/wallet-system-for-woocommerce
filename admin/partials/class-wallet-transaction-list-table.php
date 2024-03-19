@@ -506,6 +506,7 @@ if ( isset( $_POST['action'] ) ) {
 				foreach ( $csv_data as $row ) {
 					$row_data=array();
 					foreach ($row as $key => $value) {
+
 						array_push($row_data,strip_tags($value) );
 					}
 					fputcsv( $file, $row_data );

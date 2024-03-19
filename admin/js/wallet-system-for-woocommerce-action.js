@@ -15,6 +15,27 @@
 
     }
 
+
+    var wsfw_wallet_recharge_order_status_checkout = jQuery('#wsfw_wallet_recharge_order_status_checkout').prop('checked');
+
+    if (wsfw_wallet_recharge_order_status_checkout == true){
+      jQuery(jQuery('#wps_wsfw_wallet_order_auto_process').parent().parent().parent()).show();
+    } else{
+      jQuery(jQuery('#wps_wsfw_wallet_order_auto_process').parent().parent().parent()).hide();
+    }
+
+    jQuery(document).on( 'click', '#wsfw_wallet_recharge_order_status_checkout', function() {
+		
+      var wsfw_wallet_recharge_order_status_checkout = jQuery('#wsfw_wallet_recharge_order_status_checkout').prop('checked');
+
+      if (wsfw_wallet_recharge_order_status_checkout == true){
+        jQuery(jQuery('#wps_wsfw_wallet_order_auto_process').parent().parent().parent()).show();
+      } else{
+        jQuery(jQuery('#wps_wsfw_wallet_order_auto_process').parent().parent().parent()).hide();
+      }
+      });
+
+
     var payment_gateway_charge_type = jQuery('#wps_wsfwp_payment_gateway_charge_fee_type').val();
 
       if ( payment_gateway_charge_type == 'percent' ) {
