@@ -932,8 +932,7 @@ class Wallet_User_Table extends WP_List_Table {
 			'offset' => ( $current_page - 1 ) * $per_page,
 			'fields' => 'ID',
 		);
-		
-		
+
 		if ( isset( $_REQUEST['s'] ) ) {
 			$nonce = ( isset( $_POST['updatewallet_user_nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatewallet_user_nonce'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {

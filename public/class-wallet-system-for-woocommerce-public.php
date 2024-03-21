@@ -498,7 +498,7 @@ class Wallet_System_For_Woocommerce_Public {
 							return;
 						}
 					}
-					
+
 					if ( ( $wallet_amount ) <= ( $limit ) ) {
 						$total_balance = intval( $wallet_amount ) + intval( $limit );
 						if ( $total_balance >= $wps_cart_total ) {

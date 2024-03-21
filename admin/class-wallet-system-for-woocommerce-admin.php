@@ -72,8 +72,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
-
+		if ( isset( $screen->id ) && 'wpswings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id || 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
 			wp_enqueue_style( 'wps-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
 
 			wp_enqueue_style( 'wps-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
@@ -112,7 +111,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 
 		wp_enqueue_style( 'flatpickercss', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/flatpickr/dist/flatpickr.min.css', array(), $this->version, 'all' );
-		
+
 	}
 
 	/**
@@ -189,7 +188,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			}
 			wp_enqueue_script( 'flatpicker_js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/flatpickr/dist/flatpickr.min.js', array( 'jquery' ), time(), true );
-		
+
 			wp_enqueue_script( 'wps-wsfw-select2', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-wsfw-metarial-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -2641,7 +2640,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( empty( $column ) ) {
 			$column = $wpdb->query( "ALTER TABLE  {$wpdb->prefix}wps_wsfw_wallet_transaction ADD transaction_type_1 VARCHAR(50) NULL DEFAULT NULL" );
 		}
-		
+
 		// Check transaction table is updated with new field or not.
 		$updated_transaction_table = get_option( 'wps_wsfw_updated_transaction_table' );
 		if ( ! $updated_transaction_table ) {

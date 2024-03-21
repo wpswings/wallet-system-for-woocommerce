@@ -220,21 +220,21 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 
 		$per_page              = 10;
 		$limit_for_transaction = '10';
-		
-		if (  isset( $_POST['hidden_transaction_number'] ) ||  isset( $_POST['hidden_from_date'] ) ){
+
+		if ( isset( $_POST['hidden_transaction_number'] ) || isset( $_POST['hidden_from_date'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {
 				return false;
 			}
 		}
-		
+
 		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 			$limit_for_transaction      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '';
 		}
 		if ( ! empty( $limit_for_transaction ) ) {
 			$per_page = $limit_for_transaction;
 		}
-		
+
 		$columns               = $this->get_columns();
 		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
@@ -338,7 +338,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 		$per_page = 10;  // Number of rows per page.
 		$offset = ( $current_page - 1 ) * $per_page;// Calculate the offset.
 		$results = '';
-		
+
 		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {
@@ -380,8 +380,6 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 				),
 				ARRAY_A
 			);
-
-	
 
 		} elseif ( isset( $_REQUEST['s'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
@@ -500,17 +498,17 @@ if ( isset( $_POST['action'] ) ) {
 				// Create a file pointer.
 				$file = fopen( 'Transaction_Data.csv', 'w' );
 
-				
+
 
 				// Write data to the CSV file.
 				foreach ( $csv_data as $row ) {
-					$row_data=array();
-					foreach ($row as $key => $value) {
+					$row_data = array();
+					foreach ( $row as $key => $value ) {
 
-						array_push($row_data,strip_tags($value) );
+						array_push( $row_data, strip_tags( $value ) );
 					}
 					fputcsv( $file, $row_data );
-					
+
 				}
 				// Close the file pointer.
 				fclose( $file );
@@ -649,9 +647,9 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 			?>
 				<input type="button" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
 			<?php
-		} else{
+		} else {
 			?>
-			<span class="button btn wps_demo_csv_button wps_pro_settings wps_pro_settings_tag" >&nbsp&nbsp&nbsp&nbsp<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ) ?></span>
+			<span class="button btn wps_demo_csv_button wps_pro_settings wps_pro_settings_tag" >&nbsp&nbsp&nbsp&nbsp<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?></span>
 			
 			<?php
 		}
