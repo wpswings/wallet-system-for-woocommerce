@@ -135,7 +135,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_wsfw_branner_notice', $wps_wsfw_branner_notice );
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
 
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) {
+		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id || 'wpswings_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
 
 			// js for the multistep from.
 			$script_path      = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/index.js';
