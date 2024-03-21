@@ -22,7 +22,7 @@
  * Domain Path:       /languages
  *
  * WC Requires at least: 6.5.0
- * WC tested up to: 8.6.1
+ * WC tested up to: 8.7.0
  * WP Requires at least: 5.5.0
  * WP tested up to: 6.4.3
  * Requires PHP: 7.3.5 or Higher
