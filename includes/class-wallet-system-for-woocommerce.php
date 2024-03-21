@@ -754,8 +754,8 @@ class Wallet_System_For_Woocommerce {
 	 */
 	public function wps_wsfw_plug_generate_html( $wsfw_components = array() ) {
 		$subscription_duration = array(
-			'day' => 'Days',
-			'week' => 'Weeks',
+			'day' => __( 'Days', 'wallet-system-for-woocommerce' ),
+			'week' => __( 'Weeks', 'wallet-system-for-woocommerce' ),
 		);
 		$subscription_duration = apply_filters( 'wsfw_subscription_type__array', $subscription_duration );
 		if ( is_array( $wsfw_components ) && ! empty( $wsfw_components ) ) {
