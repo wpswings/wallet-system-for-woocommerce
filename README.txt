@@ -5,7 +5,7 @@ Tags: digital wallet, cashback wallet, wallet topup, user wallet, woocommerce wa
 Requires at least: 5.5.0
 Tested up to: 6.4.3
 WC requires at least: 6.5.0
-WC tested up to: 8.6.1
+WC tested up to: 8.7.0
 Stable tag: 2.5.11
 Requires PHP: 7.4
 License: GPLv3 or later 
@@ -227,8 +227,10 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.11 - Released on 07 March 2024 =
-* Fix: Fixed security issue.
+= 2.5.11 - Released on 21 March 2024 =
+* Dev: Added Direct function to credit user wallet for admin
+* Fix: Changed calendar in transaction table
+* New: Compatibility with latest WP [6.4.3] and WC [8.7.0]
 
 = 2.5.9 - Released on 29 February 2024 =
 * Fix: Paypal issue
@@ -437,5 +439,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.11 - Released on 07 March 2024 =
-* Fix: Fixed security issue.
+= 2.5.11 - Released on 21 March 2024 =
+* Dev: Added Direct function to credit user wallet for admin
+* Fix: Changed calendar in transaction table
+* New: Compatibility with latest WP [6.4.3] and WC [8.7.0]
