@@ -15,7 +15,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
 $user_id = isset( $_GET['report_userid'] ) ? sanitize_text_field( wp_unslash( $_GET['report_userid'] ) ) : null;
+$nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : null;
+
+
+if ( isset( $user_id, $nonce ) && wp_verify_nonce( $nonce, 'view_report_' . $user_id ) ) {
+	$user_id = isset( $_GET['report_userid'] ) ? sanitize_text_field( wp_unslash( $_GET['report_userid'] ) ) : null;
+}
+
+
 ?>
 <div class="wps-wpg-gen-section-form-container">
 	<div class="wpg-secion-wrap">

@@ -107,7 +107,7 @@ $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
 				}
 			}
 			?>
-		<form method="post" action="" id="wps_wallet_transfer_form">
+		<span id="wps_wallet_transfer_form">
 			<p class="wps-wallet-field-container form-row form-row-wide">
 				<label for="wps_wallet_withdrawal_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . ')'; ?></label>
 				<input type="number" step="0.01" min="0" data-minwithdrawal="<?php echo esc_attr( $wsfwp_min_wallet_withdrawal_amount ); ?>" data-maxwithdrawal="<?php echo esc_attr( $wsfwp_max_wallet_withdrawal_amount ); ?>"data-max="<?php echo esc_attr( $wallet_bal ); ?>" id="wps_wallet_withdrawal_amount" name="wps_wallet_withdrawal_amount" required="">
@@ -133,7 +133,7 @@ $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
 				<input type="hidden" name="wallet_user_id" value="<?php echo esc_attr( $user_id ); ?>">
 				<input type="submit" class="wps-btn__filled button" id="wps_withdrawal_request" name="wps_withdrawal_request" value="<?php esc_html_e( 'Request For Withdrawal', 'wallet-system-for-woocommerce' ); ?>" >
 			</p>
-		</form>
+			</span>
 		<p>
 		<div class="wps_wcb_wallet_balance_container_withdrawal">
 		<div class="wps_view_withdrawal"><span id="wps_withdrawal_table_div" ><?php esc_html_e( 'View Withdrawal Request', 'wallet-system-for-woocommerce' ); ?></span>

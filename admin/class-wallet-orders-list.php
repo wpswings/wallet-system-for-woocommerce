@@ -22,7 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
-
+$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+if ( ! $id_nonce_verified ) {
+	wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+}
 if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 	/**
 	 * Create wallet order list
@@ -98,6 +102,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		public function get_views() {
 			global $wpdb;
 			$views    = array();
+			$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+			$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+			if ( ! $id_nonce_verified ) {
+				wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+			}
 			$current  = ( ! empty( $_REQUEST['post_status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['post_status'] ) ) : 'all' );
 			$rowcount = $wpdb->get_var( 'SELECT COUNT(*) FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND ( NOT post_status = "auto-draft" && NOT post_status = "trash" )' );
 
@@ -134,6 +143,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 * Display the table heading and search query, if any
 		 */
 		public function display_header() {
+			$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+			$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+			if ( ! $id_nonce_verified ) {
+				wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+			}
 			if ( isset( $_REQUEST['s'] ) ) {
 				echo '<span class="subtitle">' . sprintf( 'Search results for %s', esc_html( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ) ) . '</span>';
 			}
@@ -147,7 +161,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 */
 		private function table_data() {
 			global $wpdb;
-
+			$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+			$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+			if ( ! $id_nonce_verified ) {
+				wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+			}
 			$post_status = isset( $_REQUEST['post_status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['post_status'] ) ) : '';
 
 			$table_post = $wpdb->prefix . 'posts';
@@ -212,6 +230,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 */
 		public function get_bulk_actions() {
 			$actions = array();
+			$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+			$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+			if ( ! $id_nonce_verified ) {
+				wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+			}
 			$current = ( ! empty( $_REQUEST['post_status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['post_status'] ) ) : 'all' );
 
 			if ( 'trash' === $current ) {
@@ -231,6 +254,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 */
 		public function process_bulk_action() {
 			$action    = $this->current_action();
+			$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+			$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+			if ( ! $id_nonce_verified ) {
+				wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+			}
 			$order_ids = isset( $_REQUEST['bulk-action'] ) ? wp_parse_id_list( wp_unslash( $_REQUEST['bulk-action'] ) ) : array();
 
 			if ( empty( $order_ids ) ) {
@@ -371,6 +399,11 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 * @return int
 		 */
 		public function usort_reorder( $a, $b ) {
+			$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+			$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+			if ( ! $id_nonce_verified ) {
+				wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+			}
 
 			$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'ID'; // If no sort, default to title.
 
@@ -390,6 +423,12 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 		 * @return string
 		 */
 		public function column_default( $item, $column_name ) {
+
+			$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+			$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+			if ( ! $id_nonce_verified ) {
+				wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+			}
 
 			switch ( $column_name ) {
 

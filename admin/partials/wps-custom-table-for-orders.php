@@ -15,6 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
+$secure_nonce      = wp_create_nonce( 'wps-wallet-custom-order-nonce' );
+$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-custom-order-nonce' );
+if ( ! $id_nonce_verified ) {
+	wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+}
 require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/class-wallet-orders-list.php';
 $wallet_orders = new Wallet_Orders_List();
 

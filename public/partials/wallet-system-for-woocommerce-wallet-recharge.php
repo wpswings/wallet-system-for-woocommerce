@@ -72,7 +72,7 @@ if ( is_array( $wsfw_min_max_value ) ) {
 		<?php
 	}
 	?>
-	<form method="post" action="" id="wps_wallet_transfer_form">
+	<span id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . '):'; ?></label>
 			<input type="number" id="wps_wallet_recharge" step="0.01" max="<?php echo esc_attr( $max_value ); ?>"  min="<?php echo esc_attr( $min_value ); ?>" data-min="<?php echo esc_attr( $min_value ); ?>" data-max="<?php echo esc_attr( $max_value ); ?>" name="wps_wallet_recharge_amount" required="">
@@ -84,8 +84,7 @@ if ( is_array( $wsfw_min_max_value ) ) {
 		<p class="wps-wallet-field-container form-row">
 			<input type="hidden" name="user_id" value="<?php echo esc_attr( $user_id ); ?>">
 			<input type="hidden" name="product_id" value="<?php echo esc_attr( $product_id ); ?>">
-			<input type="hidden" id="verifynonce" name="verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 			<input type="submit" class="wps-btn__filled button" id="wps_recharge_wallet" name="wps_recharge_wallet" value="<?php esc_html_e( 'Proceed', 'wallet-system-for-woocommerce' ); ?>">
 		</p>
-	</form>
+</span>
 </div>

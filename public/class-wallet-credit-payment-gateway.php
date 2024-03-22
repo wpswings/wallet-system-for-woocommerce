@@ -53,6 +53,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 	 * Class to create wallet payment gateway.
 	 */
 	class Wallet_Credit_Payment_Gateway extends WC_Payment_Gateway {
+
 		/**
 		 * Constructor for the gateway.
 		 *
@@ -142,9 +143,9 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		public function process_refund( $order_id, $amount = null, $reason = '' ) {
 			$order = wc_get_order( $order_id );
 			$refund_reason = $reason ? $reason : __( 'Wallet refund #', 'wallet-system-for-woocommerce' ) . $order->get_order_number();
-
+			$transaction_id = '';
 			if ( ! $transaction_id ) {
-				throw new Exception( __( 'Refund not credited to customer', 'wallet-system-for-woocommerce' ) );
+				throw new Exception( esc_html__( 'Refund not credited to customer', 'wallet-system-for-woocommerce' ) );
 			}
 			do_action( 'wps_wallet_order_refund_actioned', $order, $amount, $transaction_id );
 			return true;
@@ -281,8 +282,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
-					// Reduce stock levels.
-					$order->reduce_order_stock();
 
 					$is_auto_complete_bool = false;
 
@@ -291,9 +290,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				if ( $is_auto_complete_bool ) {
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
-
-					// Reduce stock levels.
-					$order->reduce_order_stock();
 
 				}
 			} else {
@@ -402,8 +398,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'completed', __( 'Wallet payment completed', 'wallet-system-for-woocommerce' ) );
-					// Reduce stock levels.
-					$order->reduce_order_stock();
+
 					// Remove cart.
 					WC()->cart->empty_cart();
 					$is_auto_complete_bool = false;
@@ -413,9 +408,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				if ( $is_auto_complete_bool ) {
 					// Mark as on-hold (we're awaiting the payment).
 					$order->update_status( 'processing', __( 'Awaiting Wallet payment', 'wallet-system-for-woocommerce' ) );
-
-					// Reduce stock levels.
-					$order->reduce_order_stock();
 
 					// Remove cart.
 					if ( ! empty( WC()->cart ) ) {

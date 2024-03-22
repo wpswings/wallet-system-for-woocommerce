@@ -123,7 +123,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 				$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
 				if ( ! $is_pro ) {
 
-					return '<span class="wps_wallet_delete_action wps_pro_settings" >&nbsp&nbsp&nbsp' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
+					return '<span class="wps_wallet_delete_action wps_pro_settings " >&nbsp&nbsp&nbsp' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
 
 				} else {
 
@@ -221,12 +221,14 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 		$per_page              = 10;
 		$limit_for_transaction = '10';
 
-		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
-
+		if ( isset( $_POST['hidden_transaction_number'] ) || isset( $_POST['hidden_from_date'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {
 				return false;
 			}
+		}
+
+		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 			$limit_for_transaction      = ( isset( $_POST['hidden_transaction_number'] ) ) ? sanitize_text_field( wp_unslash( $_POST['hidden_transaction_number'] ) ) : '';
 		}
 		if ( ! empty( $limit_for_transaction ) ) {
@@ -273,6 +275,12 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 	 * @param array $cloumnb column of the points.
 	 */
 	public function wps_wpr_usort_reorder( $cloumna, $cloumnb ) {
+
+		$secure_nonce      = wp_create_nonce( 'wps-wallet-list-table-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-list-table-nonce' );
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+		}
 
 		$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'id';
 		$order   = ( ! empty( $_REQUEST['order'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'desc';
@@ -330,6 +338,7 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 		$per_page = 10;  // Number of rows per page.
 		$offset = ( $current_page - 1 ) * $per_page;// Calculate the offset.
 		$results = '';
+
 		if ( isset( $_POST['hidden_transaction_number'] ) && ! empty( $_POST['hidden_transaction_number'] ) ) {
 			$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 			if ( ! wp_verify_nonce( $nonce ) ) {
@@ -489,11 +498,18 @@ if ( isset( $_POST['action'] ) ) {
 				// Create a file pointer.
 				$file = fopen( 'Transaction_Data.csv', 'w' );
 
+
+
 				// Write data to the CSV file.
 				foreach ( $csv_data as $row ) {
-					fputcsv( $file, $row );
-				}
+					$row_data = array();
+					foreach ( $row as $key => $value ) {
 
+						array_push( $row_data, strip_tags( $value ) );
+					}
+					fputcsv( $file, $row_data );
+
+				}
 				// Close the file pointer.
 				fclose( $file );
 				// Output a download link for the generated CSV file.
@@ -547,7 +563,7 @@ function export_data_csv_for_all_transaction( $user_count, $current_page, $csv_d
 			$user          = get_userdata( $sort_id['user_id'] );
 			$date = date_create( $sort_id['date'] );
 			$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
-			$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], $sort_id['transaction_type'], $sort_id['payment_method'], $transaction_data );
+			$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], html_entity_decode( $sort_id['transaction_type'] ), $sort_id['payment_method'], $transaction_data );
 		}
 	}
 
@@ -604,10 +620,14 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 						<tr>
 						</tr>
 						<tr>
-							<td><input type="date" id="fromdate_transaction" name="min" id="min"  placeholder="From" value="<?php echo esc_attr( $date_from ); ?>"  autocomplete="off"></td>
+							<td>
+								<input type="text" id="fromdate_transaction" name="min"  data="min"  name="event_date" placeholder="Select From Date" value="<?php echo esc_attr( $date_from ); ?>" >
+							</td>
 						</tr>
 						<tr>
-							<td><input type="date"  id="todate_transaction" name="max" id="max"  placeholder="To" value="<?php echo esc_attr( $date_to ); ?>" autocomplete="off"></td>
+							<td>
+								<input type="text" id="todate_transaction" name="max" data="max"  name="event_date" placeholder="Select To Date" value="<?php echo esc_attr( $date_to ); ?>" >
+							</td>
 						</tr>
 						<tr>
 							<td><span id="clear_table" class="btn button"><?php esc_html_e( 'Clear', 'wallet-system-for-woocommerce' ); ?></span></td>
@@ -627,8 +647,14 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 			?>
 				<input type="button" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
 			<?php
+		} else {
+			?>
+			<span class="button btn wps_demo_csv_button wps_pro_settings wps_pro_settings_tag" >&nbsp&nbsp&nbsp&nbsp<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?></span>
+			
+			<?php
 		}
 		?>
+		<input type="hidden" id="updatenoncewallet_pdf_dwnload" name="updatenoncewallet_pdf_dwnload" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 		
 	</form>
 		<form method="post">

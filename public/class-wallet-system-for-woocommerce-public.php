@@ -151,7 +151,8 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 
 		// Get cart items.
-		if ( ! WC()->cart->is_empty() ) {
+		if ( ! empty( WC()->cart ) ) {
+
 			$cart_items = $cart->get_cart();
 		}
 
@@ -224,7 +225,6 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $is_pro ) {
 				$wps_wallet_restrict_wallet_gateway = get_user_meta( $user_id, 'wps_wallet_restrict_wallet_gateway', true );
 				if ( 'on' == $wps_wallet_restrict_wallet_gateway ) {
-
 					unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 					return $available_gateways;
 				}
@@ -300,7 +300,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$cart = WC()->cart;
 		$cart_items = '';
 		// Get cart items.
-		if ( ! WC()->cart->is_empty() ) {
+		if ( ! empty( $cart ) ) {
 			$cart_items = $cart->get_cart();
 		}
 
@@ -492,9 +492,11 @@ class Wallet_System_For_Woocommerce_Public {
 			if ( $is_pro_plugin ) {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
-					if ( intval( $order_number ) <= intval( $order_limit ) ) {
+					if ( ! empty( $order_limit ) ) {
+						if ( intval( $order_number ) <= intval( $order_limit ) ) {
 
-						return;
+							return;
+						}
 					}
 
 					if ( ( $wallet_amount ) <= ( $limit ) ) {
@@ -638,11 +640,6 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
-		if ( ! empty( $user ) ) {
-			$name                   = $user->first_name . ' ' . $user->last_name;
-		} else {
-			$name = '';
-		}
 
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
@@ -729,8 +726,6 @@ class Wallet_System_For_Woocommerce_Public {
 						$walletamount += $credited_amount;
 						$balance   = $order->get_currency() . ' ' . $amount;
 					}
-
-					$walletamount += $credited_amount;
 
 					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
@@ -1362,6 +1357,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$order     = wc_get_order( $order_id );
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
+		$this->wsfw_wallet_add_order_detail_api( $order );
 		$payment_method         = $order->get_payment_method();
 		$new_status             = $order->get_status();
 		$order_items            = $order->get_items();
@@ -1369,7 +1365,6 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = get_user_meta( $userid, 'wps_wallet', true );
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
-		$name                   = $user->first_name . ' ' . $user->last_name;
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 		if ( ! empty( get_option( 'wsfw_enable_wallet_negative_balance_limit_order' ) ) ) {
@@ -2180,7 +2175,11 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wps_wsfw_woocommerce_thankyou_page() {
-
+		$secure_nonce      = wp_create_nonce( 'wps-wallet-thankyou-order-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-thankyou-order-nonce' );
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
+		}
 		$order_key = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
 		if ( get_option( 'wsfw_check_thanks_page' ) != $order_key ) {
 			$order_id = wc_get_order_id_by_order_key( $order_key );
@@ -2609,14 +2608,17 @@ class Wallet_System_For_Woocommerce_Public {
 
 		if ( ! empty( $restrict_gatewaay ) ) {
 
-			foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-				$_product = $cart_item['data'];
-				if ( ( $_product->get_id() == $wallet_product_id ) ) {
-					foreach ( $restrict_gatewaay as $key => $value ) {
-						if ( 'yes' == $all_gateway[ $value ]->enabled ) {
+			if ( ! empty( WC()->cart ) ) {
 
-							if ( ! empty( $value ) ) {
-								unset( $available_gateways[ $value ] );
+				foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+					$_product = $cart_item['data'];
+					if ( ( $_product->get_id() == $wallet_product_id ) ) {
+						foreach ( $restrict_gatewaay as $key => $value ) {
+							if ( 'yes' == $all_gateway[ $value ]->enabled ) {
+
+								if ( ! empty( $value ) ) {
+									unset( $available_gateways[ $value ] );
+								}
 							}
 						}
 					}
@@ -2628,5 +2630,4 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 }
-
 
