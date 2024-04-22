@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Wallet System For WooCommerce 2.5.11\n"
+"Project-Id-Version: Wallet System For WooCommerce 2.5.12\n"
 "POT-Creation-Date: 2024-03-21 16:22+0530\n"
 "PO-Revision-Date: 2024-03-21 16:22+0530\n"
 "Last-Translator: \n"

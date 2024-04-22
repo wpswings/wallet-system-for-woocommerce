@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.4.3
 WC requires at least: 6.5.0
 WC tested up to: 8.7.0
-Stable tag: 2.5.11
+Stable tag: 2.5.12
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -227,7 +227,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.11 - Released on 21 March 2024 =
+= 2.5.12 - Released on 21 March 2024 =
 * Dev: Added Direct function to credit user wallet for admin
 * Fix: Changed calendar in transaction table
 * New: Compatibility with latest WP [6.4.3] and WC [8.7.0]
@@ -439,7 +439,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.11 - Released on 21 March 2024 =
+= 2.5.12 - Released on 21 March 2024 =
 * Dev: Added Direct function to credit user wallet for admin
 * Fix: Changed calendar in transaction table
 * New: Compatibility with latest WP [6.4.3] and WC [8.7.0]
