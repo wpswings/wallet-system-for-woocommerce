@@ -1319,6 +1319,26 @@ class Wallet_System_For_Woocommerce_Public {
 
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 			// HPOS usage is enabled.
+			
+			$order_total            = $order->get_total();
+			$order_total = apply_filters( 'wps_wsfw_convert_to_base_price', $order_total );
+			$order_shipping = $order->get_shipping_total();
+			$order_shipping = apply_filters( 'wps_wsfw_convert_to_base_price', $order_shipping );
+			$order_total_tax = $order->get_total_tax();
+			$order_total_tax = apply_filters( 'wps_wsfw_convert_to_base_price', $order_total_tax );
+			$order_subtotal       = $order->get_subtotal();
+			$order_subtotal = apply_filters( 'wps_wsfw_convert_to_base_price', $order_subtotal );
+			if ( ! empty( $order_shipping ) ) {
+				$order_total = $order_total - $order_shipping;
+			}
+			if ( ! empty( $order_total_tax ) ) {
+				$order_total = $order_total - $order_total_tax;
+			}
+
+			$order->update_meta_data( 'wps_wsfw_order_total', $order_total );
+			$order->update_meta_data( 'wps_wsfw_order_tax', $order_shipping );
+			$order->update_meta_data( 'wps_wsfw_order_shipping', $order_total_tax );
+			$order->update_meta_data( 'wps_wsfw_order_subtotal', $order_subtotal );
 			$order->update_meta_data( 'is_block_initiated', 'done' );
 			$order->save();
 
@@ -1608,7 +1628,12 @@ class Wallet_System_For_Woocommerce_Public {
 					$product    = $cart_item['data'];
 					$product_id = $cart_item['product_id'];
 					if ( $wallet_id == $product_id ) {
-						$is_wallet_recharge = true;
+						
+						if ( 'on' == get_option( 'wps_wsfw_cashback_wallet_recharge' ) ) {
+							$is_wallet_recharge = false;
+						} else{
+							$is_wallet_recharge = true;
+						}
 					}
 				}
 			}
@@ -2458,7 +2483,13 @@ class Wallet_System_For_Woocommerce_Public {
 
 		$this->wsfw_wallet_add_order_detail( $order );
 		WC()->session->__unset( 'is_wallet_partial_payment' );
-		$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
+		$check_wallet_thankyou = '';
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// HPOS usage is enabled.
+			$check_wallet_thankyou = $order->get_meta( 'wps_wallet_update_on_thankyou', true );
+		} else {
+			$check_wallet_thankyou = get_post_meta( $order_id, 'wps_wallet_update_on_thankyou', true );
+		}
 		if ( 'done' != $check_wallet_thankyou ) {
 			$order_id               = $order->get_id();
 			$userid                 = $order->get_user_id();

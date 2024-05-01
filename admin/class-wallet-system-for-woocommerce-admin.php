@@ -1279,7 +1279,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_wallet_action_restrict_comment',
 				'id'          => 'wps_wsfw_wallet_action_restrict_comment',
 				'min'         => 0,
-				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_restrict_comment' ) ) ? get_option( 'wps_wsfw_wallet_action_restrict_comment' ) : 1,
 				'placeholder' => __( 'User per post comment', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
@@ -1481,6 +1480,19 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
 				'placeholder' => '',
 				'options' => $wps_all_payment_gateway,
+			),
+			array(
+				'title'       => __( 'Enable Cashback for Wallet Recharge', 'wallet-system-for-woocommerce-pro' ),
+				'type'        => 'radio-switch',
+				'description' => 'Enable to allow cashback for Wallet Recharge.',
+				'name'        => 'wps_wsfw_cashback_wallet_recharge',
+				'id'          => 'wps_wsfw_cashback_wallet_recharge',
+				'value'       => get_option( 'wps_wsfw_cashback_wallet_recharge' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				),
 			),
 			array(
 				'title'       => __( 'Show Gateway Restriction Message at Checkout Page', 'wallet-system-for-woocommerce' ),
