@@ -1521,10 +1521,10 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_calculate_cashback_cart() {
 		$cashback_amount         = 0;
 		$cashback_amount_order   = 0;
-		$wsfw_max_cashbak_amount = ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20;
-		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10;
+		$wsfw_max_cashbak_amount = ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : '';
+		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : '';
 		$wsfw_cashbak_type       = get_option( 'wps_wsfw_cashback_type' );
-		$wsfw_min_cart_amount    = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
+		$wsfw_min_cart_amount    = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : '';
 		$wsfw_min_cart_amount = apply_filters( 'wps_wsfw_show_converted_price', $wsfw_min_cart_amount );
 
 		$wps_wsfw_cashback_rule  = get_option( 'wps_wsfw_cashback_rule', '' );
@@ -1642,7 +1642,7 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 
 			$cashback_amount        = $this->wsfw_calculate_cashback_cart();
-			$wsfw_min_cart_amount   = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
+			$wsfw_min_cart_amount   = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : '';
 			$wsfw_min_cart_amount = apply_filters( 'wps_wsfw_show_converted_price', $wsfw_min_cart_amount );
 			$cart_total             = ! empty( wc()->cart->get_subtotal() ) ? wc()->cart->get_subtotal() : wc()->cart->get_subtotal();
 			$cart_total             = apply_filters( 'wps_wsfw_wallet_cashback_on_total', $cart_total );

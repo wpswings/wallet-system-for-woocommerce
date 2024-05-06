@@ -87,10 +87,15 @@ class Wallet_System_For_Woocommerce_Activator {
 		if ( empty( $wps_wsfw_cashback_amount_max ) ) {
 			update_option( 'wps_wsfw_cashback_amount_max',20 );
 		}
-		$wps_wsfw_cart_amount_min = get_option( 'wps_wsfw_cart_amount_min',20 );
+		$wps_wsfw_cart_amount_min = get_option( 'wps_wsfw_cart_amount_min' );
 		if ( empty( $wps_wsfw_cart_amount_min ) ) {
 			update_option( 'wps_wsfw_cart_amount_min',10 );
 		}
+		$wps_wsfw_cashback_amount = get_option( 'wps_wsfw_cashback_amount');
+		if ( empty( $wps_wsfw_cashback_amount ) ) {
+			update_option( 'wps_wsfw_cashback_amount',10 );
+		}
+		
 		
 		
 		
