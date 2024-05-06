@@ -3731,6 +3731,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wsfwp_min_wallet_transfer_amount',
 				'id'          => 'wsfwp_min_wallet_transfer_amount',
 				'min'         => 0,
+				'step'        =>'0.1',
 				'value'       => get_option( 'wsfwp_min_wallet_transfer_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),

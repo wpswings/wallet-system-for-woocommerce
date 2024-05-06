@@ -2514,21 +2514,21 @@ class Wallet_System_For_Woocommerce_Public {
 					// custom work.
 					if ( ! empty( $_order_currency ) && $wps_wsfw_custom_check ) {
 
-						 $total = $item->get_total();
-						 $total = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
-						$subtotal = $item->get_subtotal();
-						$subtotal = apply_filters( 'wps_wsfw_convert_to_base_price', $subtotal );
-						$item->set_total( $total );
-						$item->set_subtotal( $subtotal );
-						$order->set_total( $total );
+						//  $total = $item->get_total();
+						//  $total = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
+						// $subtotal = $item->get_subtotal();
+						// $subtotal = apply_filters( 'wps_wsfw_convert_to_base_price', $subtotal );
+						// $item->set_total( $total );
+						// $item->set_subtotal( $subtotal );
+						// $order->set_total( $total );
 						$_order_currency = '';
 						$_woocs_order_base_currency = '';
 						if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 							// HPOS usage is enabled.
 							$_order_currency = $order->get_meta( '_woocs_order_base_currency', true );
 							$_woocs_order_base_currency = $order->get_meta( '_woocs_order_base_currency', true );
-							$order->update_meta_data( '_order_currency', $_order_currency );
-							$order->update_meta_data( '_order_currency', $_woocs_order_base_currency );
+							$order->set_currency( $_order_currency );
+							$order->set_currency(  $_woocs_order_base_currency );
 							$order->save();
 						} else {
 							$_order_currency = get_post_meta( $order_id, '_woocs_order_base_currency', true );
