@@ -1319,7 +1319,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 			// HPOS usage is enabled.
-			
+
 			$order_total            = $order->get_total();
 			$order_total = apply_filters( 'wps_wsfw_convert_to_base_price', $order_total );
 			$order_shipping = $order->get_shipping_total();
@@ -1526,7 +1526,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$wsfw_cashbak_type       = get_option( 'wps_wsfw_cashback_type' );
 		$wsfw_min_cart_amount    = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10;
 		$wsfw_min_cart_amount = apply_filters( 'wps_wsfw_show_converted_price', $wsfw_min_cart_amount );
-		
+
 		$wps_wsfw_cashback_rule  = get_option( 'wps_wsfw_cashback_rule', '' );
 		$update                  = false;
 
@@ -1628,10 +1628,10 @@ class Wallet_System_For_Woocommerce_Public {
 					$product    = $cart_item['data'];
 					$product_id = $cart_item['product_id'];
 					if ( $wallet_id == $product_id ) {
-						
+
 						if ( 'on' == get_option( 'wps_wsfw_cashback_wallet_recharge' ) ) {
 							$is_wallet_recharge = false;
-						} else{
+						} else {
 							$is_wallet_recharge = true;
 						}
 					}
@@ -2308,8 +2308,9 @@ class Wallet_System_For_Woocommerce_Public {
 		foreach ( $order_fee_array as $item_id => $item_fee ) {
 
 			if ( $item_fee->get_name() == 'Via wallet' ) {
+
 				$fee_name = $item_fee->get_name();
-				$fee_total = $item_fee->get_total();
+				$fee_total = $item_fee->get_amount();
 				$fee_total_tax = abs( $item_fee->get_total_tax() );
 				if ( ! empty( $fee_total_tax ) ) {
 					$order->remove_item( $item_id );
@@ -2325,9 +2326,6 @@ class Wallet_System_For_Woocommerce_Public {
 			$order_id = $order->get_id();
 			$walletamount = get_user_meta( $userid, 'wps_wallet', true );
 			$walletamount = empty( $walletamount ) ? 0 : $walletamount;
-			// $walletamount =floatval( $walletamount ) - floatval( $fee_total );
-			// update_user_meta( $user_id, 'wps_wallet', $walletamount);
-			// update_user_meta( $user_id, 'wps_wallet_hold_amount_'.$order->get_id(), $fee_total);
 			$user                   = get_user_by( 'id', $userid );
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 			$payment_method         = $order->get_payment_method();

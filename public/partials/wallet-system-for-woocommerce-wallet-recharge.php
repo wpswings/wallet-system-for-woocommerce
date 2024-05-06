@@ -51,13 +51,14 @@ if ( is_array( $wsfw_min_max_value ) ) {
 				} else {
 					$wps_wallet_recharge_tab_array = array();
 				}
-				//$wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
+				// $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 				$count_data = count( $wps_wallet_recharge_tab_array );
 				if ( ! empty( $wps_wallet_recharge_tab_array ) && is_array( $wps_wallet_recharge_tab_array ) ) {
 					if ( $count_data > 0 ) {
 						for ( $i = 0; $i < $count_data; $i++ ) {
-							
-							$quick_recharge =  apply_filters( 'wps_wsfw_show_converted_price', $wps_wallet_recharge_tab_array[ $i ] );;
+
+							$quick_recharge = apply_filters( 'wps_wsfw_show_converted_price', $wps_wallet_recharge_tab_array[ $i ] );
+							;
 							?>
 							<div class="wps-wsfw__re-tab-item wps-active">
 							<div class="wps-re__item-wrap">

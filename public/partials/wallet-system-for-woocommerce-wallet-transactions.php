@@ -37,7 +37,7 @@ $allowed_html = array(
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
-						$transaction_amount_bal = $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $transaction->amount );
+						$transaction_amount_bal =  apply_filters( 'wps_wsfw_show_converted_price', $transaction->amount );
 						$user           = get_user_by( 'id', $transaction->user_id );
 						$transaction_id = $transaction->id;
 						$tranasction_symbol = '';
