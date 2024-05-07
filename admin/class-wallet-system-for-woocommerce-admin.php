@@ -1482,16 +1482,16 @@ class Wallet_System_For_Woocommerce_Admin {
 				'options' => $wps_all_payment_gateway,
 			),
 			array(
-				'title'       => __( 'Enable Cashback for Wallet Recharge', 'wallet-system-for-woocommerce-pro' ),
+				'title'       => __( 'Enable Cashback for Wallet Recharge', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
-				'description' => 'Enable to allow cashback for Wallet Recharge.',
+				'description' => __( 'Enable to allow cashback for Wallet Recharge.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_cashback_wallet_recharge',
 				'id'          => 'wps_wsfw_cashback_wallet_recharge',
 				'value'       => get_option( 'wps_wsfw_cashback_wallet_recharge' ),
 				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
 				'options'     => array(
-					'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
-					'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
 			),
 			array(
