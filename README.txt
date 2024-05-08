@@ -3,9 +3,9 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: digital wallet, cashback wallet, wallet topup, user wallet, woocommerce wallet
 Requires at least: 5.5.0
-Tested up to: 6.4.3
+Tested up to: 6.5.2
 WC requires at least: 6.5.0
-WC tested up to: 8.7.0
+WC tested up to: 8.8.3
 Stable tag: 2.5.12
 Requires PHP: 7.4
 License: GPLv3 or later 
@@ -107,6 +107,7 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 * The Wallet for WooCommerce plugin is compatible with the latest version of the WPML plugin and supports WordPress multisite network.
 
 == WHAT PREMIUM VERSION OF WOOCOMMERCE WALLET SYSTEM OFFERS == 
+* Allow Cashback on Wallet Recharge.
 * Customization of the feature restriction message. 
 * Display cashback restriction messages on the use of skipped payment gateways.
 * Merchants can limit the minimum/maximum value customers add to their Wallets.
@@ -227,7 +228,12 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.12 - Released on 21 March 2024 =
+= 2.5.12 - Released on 08 May 2024 =
+* New: Extended the FOX compatibility with quick recharge feature and cashback feature
+* New: Added pro tag in wallet recharge product
+* New: WP[6.5.2] and WC[8.8.3] update
+
+= 2.5.11 - Released on 21 March 2024 =
 * Dev: Added Direct function to credit user wallet for admin
 * Fix: Changed calendar in transaction table
 * New: Compatibility with latest WP [6.4.3] and WC [8.7.0]
@@ -439,7 +445,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.12 - Released on 21 March 2024 =
-* Dev: Added Direct function to credit user wallet for admin
-* Fix: Changed calendar in transaction table
-* New: Compatibility with latest WP [6.4.3] and WC [8.7.0]
+= 2.5.12 - Released on 08 May 2024 =
+* New: Extended the FOX compatibility with quick recharge feature and cashback feature
+* New: Added pro tag in wallet recharge product
+* New: WP[6.5.2] and WC[8.8.3] update
