@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wallet System For WooCommerce 2.5.12\n"
-"POT-Creation-Date: 2024-03-21 16:22+0530\n"
+"POT-Creation-Date: 2024-05-07 18:33+0530\n"
 "PO-Revision-Date: 2023-08-07 14:40+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -29,21 +29,21 @@ msgstr ""
 #: admin/partials/class-wallet-transaction-list-table.php:282
 #: admin/partials/wallet-system-for-woocommerce-admin-dashboard.php:21
 #: admin/partials/wps-custom-table-for-orders.php:22
-#: public/class-wallet-system-for-woocommerce-public.php:2181
+#: public/class-wallet-system-for-woocommerce-public.php:2228
 #: wallet-system-for-woocommerce.php:422
 msgid "Nonce Not verified"
 msgstr ""
 
 #: admin/class-wallet-orders-list.php:41
-#: admin/class-wallet-system-for-woocommerce-admin.php:2948
-#: admin/class-wallet-system-for-woocommerce-admin.php:3783
+#: admin/class-wallet-system-for-woocommerce-admin.php:2960
+#: admin/class-wallet-system-for-woocommerce-admin.php:3796
 msgid "Wallet Recharge Order"
 msgstr ""
 
 #: admin/class-wallet-orders-list.php:42
 #: admin/class-wallet-system-for-woocommerce-admin.php:572
-#: admin/class-wallet-system-for-woocommerce-admin.php:2947
-#: admin/class-wallet-system-for-woocommerce-admin.php:2949
+#: admin/class-wallet-system-for-woocommerce-admin.php:2959
+#: admin/class-wallet-system-for-woocommerce-admin.php:2961
 #: admin/partials/wps-custom-table-for-orders.php:92
 msgid "Wallet Recharge Orders"
 msgstr ""
@@ -57,7 +57,7 @@ msgid "User"
 msgstr ""
 
 #: admin/class-wallet-orders-list.php:75
-#: admin/class-wallet-system-for-woocommerce-admin.php:2714
+#: admin/class-wallet-system-for-woocommerce-admin.php:2726
 #: admin/partials/wallet-system-withdrawal-setting.php:63
 #: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:41
 #: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:159
@@ -134,8 +134,8 @@ msgid "Amount want to use from wallet"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:230
-#: admin/class-wallet-system-for-woocommerce-admin.php:1789
-#: admin/class-wallet-system-for-woocommerce-admin.php:2801
+#: admin/class-wallet-system-for-woocommerce-admin.php:1801
+#: admin/class-wallet-system-for-woocommerce-admin.php:2813
 #: admin/partials/class-wallet-transaction-list-table.php:62
 #: admin/partials/wallet-system-for-woocommerce-org-wallet-promotions.php:77
 #: admin/partials/wallet-system-for-woocommerce-org-wallet-recharge-tab.php:62
@@ -208,20 +208,21 @@ msgstr ""
 #: admin/class-wallet-system-for-woocommerce-admin.php:1159
 #: admin/class-wallet-system-for-woocommerce-admin.php:1210
 #: admin/class-wallet-system-for-woocommerce-admin.php:1259
-#: admin/class-wallet-system-for-woocommerce-admin.php:1371
-#: admin/class-wallet-system-for-woocommerce-admin.php:1494
-#: admin/class-wallet-system-for-woocommerce-admin.php:1507
-#: admin/class-wallet-system-for-woocommerce-admin.php:1520
-#: admin/class-wallet-system-for-woocommerce-admin.php:3142
-#: admin/class-wallet-system-for-woocommerce-admin.php:3436
-#: admin/class-wallet-system-for-woocommerce-admin.php:3492
-#: admin/class-wallet-system-for-woocommerce-admin.php:3547
-#: admin/class-wallet-system-for-woocommerce-admin.php:3598
-#: admin/class-wallet-system-for-woocommerce-admin.php:3660
-#: admin/class-wallet-system-for-woocommerce-admin.php:3710
-#: admin/class-wallet-system-for-woocommerce-admin.php:3811
-#: admin/class-wallet-system-for-woocommerce-admin.php:3838
-#: admin/class-wallet-system-for-woocommerce-admin.php:3852
+#: admin/class-wallet-system-for-woocommerce-admin.php:1370
+#: admin/class-wallet-system-for-woocommerce-admin.php:1493
+#: admin/class-wallet-system-for-woocommerce-admin.php:1506
+#: admin/class-wallet-system-for-woocommerce-admin.php:1519
+#: admin/class-wallet-system-for-woocommerce-admin.php:1532
+#: admin/class-wallet-system-for-woocommerce-admin.php:3154
+#: admin/class-wallet-system-for-woocommerce-admin.php:3448
+#: admin/class-wallet-system-for-woocommerce-admin.php:3504
+#: admin/class-wallet-system-for-woocommerce-admin.php:3559
+#: admin/class-wallet-system-for-woocommerce-admin.php:3610
+#: admin/class-wallet-system-for-woocommerce-admin.php:3672
+#: admin/class-wallet-system-for-woocommerce-admin.php:3722
+#: admin/class-wallet-system-for-woocommerce-admin.php:3824
+#: admin/class-wallet-system-for-woocommerce-admin.php:3851
+#: admin/class-wallet-system-for-woocommerce-admin.php:3865
 #: admin/partials/wallet-system-for-woocommerce-welcome.php:50
 msgid "YES"
 msgstr ""
@@ -242,26 +243,27 @@ msgstr ""
 #: admin/class-wallet-system-for-woocommerce-admin.php:1160
 #: admin/class-wallet-system-for-woocommerce-admin.php:1211
 #: admin/class-wallet-system-for-woocommerce-admin.php:1260
-#: admin/class-wallet-system-for-woocommerce-admin.php:1372
-#: admin/class-wallet-system-for-woocommerce-admin.php:1495
-#: admin/class-wallet-system-for-woocommerce-admin.php:1508
-#: admin/class-wallet-system-for-woocommerce-admin.php:1521
-#: admin/class-wallet-system-for-woocommerce-admin.php:3143
-#: admin/class-wallet-system-for-woocommerce-admin.php:3437
-#: admin/class-wallet-system-for-woocommerce-admin.php:3493
-#: admin/class-wallet-system-for-woocommerce-admin.php:3548
-#: admin/class-wallet-system-for-woocommerce-admin.php:3599
-#: admin/class-wallet-system-for-woocommerce-admin.php:3661
-#: admin/class-wallet-system-for-woocommerce-admin.php:3711
-#: admin/class-wallet-system-for-woocommerce-admin.php:3812
-#: admin/class-wallet-system-for-woocommerce-admin.php:3839
-#: admin/class-wallet-system-for-woocommerce-admin.php:3853
+#: admin/class-wallet-system-for-woocommerce-admin.php:1371
+#: admin/class-wallet-system-for-woocommerce-admin.php:1494
+#: admin/class-wallet-system-for-woocommerce-admin.php:1507
+#: admin/class-wallet-system-for-woocommerce-admin.php:1520
+#: admin/class-wallet-system-for-woocommerce-admin.php:1533
+#: admin/class-wallet-system-for-woocommerce-admin.php:3155
+#: admin/class-wallet-system-for-woocommerce-admin.php:3449
+#: admin/class-wallet-system-for-woocommerce-admin.php:3505
+#: admin/class-wallet-system-for-woocommerce-admin.php:3560
+#: admin/class-wallet-system-for-woocommerce-admin.php:3611
+#: admin/class-wallet-system-for-woocommerce-admin.php:3673
+#: admin/class-wallet-system-for-woocommerce-admin.php:3723
+#: admin/class-wallet-system-for-woocommerce-admin.php:3825
+#: admin/class-wallet-system-for-woocommerce-admin.php:3852
+#: admin/class-wallet-system-for-woocommerce-admin.php:3866
 #: admin/partials/wallet-system-for-woocommerce-welcome.php:51
 msgid "NO"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:703
-#: admin/class-wallet-system-for-woocommerce-admin.php:3751
+#: admin/class-wallet-system-for-woocommerce-admin.php:3764
 #: admin/partials/wallet-system-for-woocommerce-org-wallet-recharge-tab.php:44
 msgid "Wallet Recharge"
 msgstr ""
@@ -299,22 +301,22 @@ msgid "Select order status to recharge wallet to auto complete order."
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:751
-#: admin/class-wallet-system-for-woocommerce-admin.php:1387
+#: admin/class-wallet-system-for-woocommerce-admin.php:1386
 msgid "Pending payment"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:752
-#: admin/class-wallet-system-for-woocommerce-admin.php:1388
+#: admin/class-wallet-system-for-woocommerce-admin.php:1387
 msgid "On hold"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:753
-#: admin/class-wallet-system-for-woocommerce-admin.php:1389
+#: admin/class-wallet-system-for-woocommerce-admin.php:1388
 msgid "Processing"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:754
-#: admin/class-wallet-system-for-woocommerce-admin.php:1390
+#: admin/class-wallet-system-for-woocommerce-admin.php:1389
 msgid "Completed"
 msgstr ""
 
@@ -382,18 +384,18 @@ msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:827
 #: admin/class-wallet-system-for-woocommerce-admin.php:1029
-#: admin/class-wallet-system-for-woocommerce-admin.php:1434
-#: admin/class-wallet-system-for-woocommerce-admin.php:3156
-#: admin/class-wallet-system-for-woocommerce-admin.php:3451
-#: admin/class-wallet-system-for-woocommerce-admin.php:3507
+#: admin/class-wallet-system-for-woocommerce-admin.php:1433
+#: admin/class-wallet-system-for-woocommerce-admin.php:3168
+#: admin/class-wallet-system-for-woocommerce-admin.php:3463
+#: admin/class-wallet-system-for-woocommerce-admin.php:3519
 msgid "Percentage"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:828
 #: admin/class-wallet-system-for-woocommerce-admin.php:1030
-#: admin/class-wallet-system-for-woocommerce-admin.php:1435
-#: admin/class-wallet-system-for-woocommerce-admin.php:3452
-#: admin/class-wallet-system-for-woocommerce-admin.php:3508
+#: admin/class-wallet-system-for-woocommerce-admin.php:1434
+#: admin/class-wallet-system-for-woocommerce-admin.php:3464
+#: admin/class-wallet-system-for-woocommerce-admin.php:3520
 msgid "Fixed"
 msgstr ""
 
@@ -406,9 +408,9 @@ msgid "Charge interest on Wallet Negative Balance recharge."
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:840
-#: admin/class-wallet-system-for-woocommerce-admin.php:1447
-#: admin/class-wallet-system-for-woocommerce-admin.php:1459
-#: admin/class-wallet-system-for-woocommerce-admin.php:1471
+#: admin/class-wallet-system-for-woocommerce-admin.php:1446
+#: admin/class-wallet-system-for-woocommerce-admin.php:1458
+#: admin/class-wallet-system-for-woocommerce-admin.php:1470
 msgid "Enter amount"
 msgstr ""
 
@@ -529,10 +531,10 @@ msgid "Enter Email Id of Admin"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:989
-#: admin/class-wallet-system-for-woocommerce-admin.php:1318
-#: admin/class-wallet-system-for-woocommerce-admin.php:1531
-#: admin/class-wallet-system-for-woocommerce-admin.php:2188
-#: admin/class-wallet-system-for-woocommerce-admin.php:3628
+#: admin/class-wallet-system-for-woocommerce-admin.php:1317
+#: admin/class-wallet-system-for-woocommerce-admin.php:1543
+#: admin/class-wallet-system-for-woocommerce-admin.php:2200
+#: admin/class-wallet-system-for-woocommerce-admin.php:3640
 msgid "Save Settings"
 msgstr ""
 
@@ -632,7 +634,7 @@ msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1223
 #: admin/class-wallet-system-for-woocommerce-admin.php:1272
-#: admin/class-wallet-system-for-woocommerce-admin.php:3560
+#: admin/class-wallet-system-for-woocommerce-admin.php:3572
 msgid "Enter comment amount"
 msgstr ""
 
@@ -664,7 +666,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1276
-#: admin/class-wallet-system-for-woocommerce-admin.php:1284
+#: admin/class-wallet-system-for-woocommerce-admin.php:1283
 msgid "User per post comment"
 msgstr ""
 
@@ -673,117 +675,125 @@ msgid ""
 "This allow the limitation to the number of comment a user can have per post."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1288
+#: admin/class-wallet-system-for-woocommerce-admin.php:1287
 msgid "Enter Comment Description"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1290
+#: admin/class-wallet-system-for-woocommerce-admin.php:1289
 msgid "Enter message for user that display on product page."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1295
-#: admin/class-wallet-system-for-woocommerce-admin.php:3571
+#: admin/class-wallet-system-for-woocommerce-admin.php:1294
+#: admin/class-wallet-system-for-woocommerce-admin.php:3583
 msgid "Enter comment description"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1345
+#: admin/class-wallet-system-for-woocommerce-admin.php:1344
 msgid "Please Select"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1363
+#: admin/class-wallet-system-for-woocommerce-admin.php:1362
 msgid "Enable Wallet Cashback"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1376
+#: admin/class-wallet-system-for-woocommerce-admin.php:1375
 msgid "Process Wallet Cashback"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1379
+#: admin/class-wallet-system-for-woocommerce-admin.php:1378
 msgid "Select order status to apply Cashback."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1395
+#: admin/class-wallet-system-for-woocommerce-admin.php:1394
 msgid "Wallet Cashback Rule"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1397
+#: admin/class-wallet-system-for-woocommerce-admin.php:1396
 msgid ""
 "Select Cashback rule to apply Cashback.<br> <b>Note:</b> In the case of "
 "Catergory Wise, Cashback will be applied to each product of category"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1405
+#: admin/class-wallet-system-for-woocommerce-admin.php:1404
 msgid "Cart Wise"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1406
+#: admin/class-wallet-system-for-woocommerce-admin.php:1405
 msgid "Category Wise"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1412
+#: admin/class-wallet-system-for-woocommerce-admin.php:1411
 msgid "Select Product Category"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1415
+#: admin/class-wallet-system-for-woocommerce-admin.php:1414
 msgid "Select any category to give Cashback."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1424
+#: admin/class-wallet-system-for-woocommerce-admin.php:1423
 msgid "Wallet Cashback Type"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1426
+#: admin/class-wallet-system-for-woocommerce-admin.php:1425
 msgid "Select Cashback type Percentage or Fixed"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1440
+#: admin/class-wallet-system-for-woocommerce-admin.php:1439
 msgid "Enter Wallet Cashback Amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1442
+#: admin/class-wallet-system-for-woocommerce-admin.php:1441
 msgid "Give Cashback on Wallet when customer place order."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1451
+#: admin/class-wallet-system-for-woocommerce-admin.php:1450
 msgid "Minimum Cart Amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1453
+#: admin/class-wallet-system-for-woocommerce-admin.php:1452
 msgid "Enter minimum cart amount."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1463
+#: admin/class-wallet-system-for-woocommerce-admin.php:1462
 msgid "Maximum Wallet Cashback Amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1465
+#: admin/class-wallet-system-for-woocommerce-admin.php:1464
 msgid "Enter maximum Cashback amount."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1475
+#: admin/class-wallet-system-for-woocommerce-admin.php:1474
 msgid "Restrict Wallet Cashback For Particular Gateway"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1478
+#: admin/class-wallet-system-for-woocommerce-admin.php:1477
 msgid "Select any gateway to restrict cashback upon placing order."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1486
+#: admin/class-wallet-system-for-woocommerce-admin.php:1485
+msgid "Enable Cashback for Wallet Recharge"
+msgstr ""
+
+#: admin/class-wallet-system-for-woocommerce-admin.php:1487
+msgid "Enable to allow cashback for Wallet Recharge."
+msgstr ""
+
+#: admin/class-wallet-system-for-woocommerce-admin.php:1498
 msgid "Show Gateway Restriction Message at Checkout Page"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1499
+#: admin/class-wallet-system-for-woocommerce-admin.php:1511
 msgid "Hide Wallet Cashback Message at Cart Page"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1512
+#: admin/class-wallet-system-for-woocommerce-admin.php:1524
 msgid "Hide Wallet Cashback Message at Checkout Page"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1597
-#: admin/class-wallet-system-for-woocommerce-admin.php:1623
-#: admin/class-wallet-system-for-woocommerce-admin.php:1676
-#: admin/class-wallet-system-for-woocommerce-admin.php:1757
+#: admin/class-wallet-system-for-woocommerce-admin.php:1609
+#: admin/class-wallet-system-for-woocommerce-admin.php:1635
+#: admin/class-wallet-system-for-woocommerce-admin.php:1688
+#: admin/class-wallet-system-for-woocommerce-admin.php:1769
 #: admin/partials/class-wallet-user-table.php:797
 #: admin/partials/wallet-system-for-woocommerce-cashback.php:25
 #: admin/partials/wallet-system-for-woocommerce-general.php:25
@@ -795,22 +805,22 @@ msgstr ""
 msgid "Failed security check"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1667
-#: admin/class-wallet-system-for-woocommerce-admin.php:1735
+#: admin/class-wallet-system-for-woocommerce-admin.php:1679
+#: admin/class-wallet-system-for-woocommerce-admin.php:1747
 msgid "Id of some field is missing"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1670
-#: admin/class-wallet-system-for-woocommerce-admin.php:1738
+#: admin/class-wallet-system-for-woocommerce-admin.php:1682
+#: admin/class-wallet-system-for-woocommerce-admin.php:1750
 msgid "Settings saved !"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1775
+#: admin/class-wallet-system-for-woocommerce-admin.php:1787
 msgid "Wallet Balance: "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1781
-#: admin/class-wallet-system-for-woocommerce-admin.php:2712
+#: admin/class-wallet-system-for-woocommerce-admin.php:1793
+#: admin/class-wallet-system-for-woocommerce-admin.php:2724
 #: admin/partials/class-wallet-transaction-list-table.php:57
 #: admin/partials/class-wallet-user-table.php:912
 #: admin/partials/wallet-system-wallet-transactions.php:57
@@ -822,32 +832,32 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1784
+#: admin/class-wallet-system-for-woocommerce-admin.php:1796
 msgid "Add/deduct money to/from wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1792
+#: admin/class-wallet-system-for-woocommerce-admin.php:1804
 msgid "Select any"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1793
-#: admin/class-wallet-system-for-woocommerce-admin.php:2810
+#: admin/class-wallet-system-for-woocommerce-admin.php:1805
+#: admin/class-wallet-system-for-woocommerce-admin.php:2822
 #: admin/partials/wps-edit-wallet.php:181
 msgid "Credit"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1794
-#: admin/class-wallet-system-for-woocommerce-admin.php:2811
+#: admin/class-wallet-system-for-woocommerce-admin.php:1806
+#: admin/class-wallet-system-for-woocommerce-admin.php:2823
 #: admin/partials/wps-edit-wallet.php:182
 msgid "Debit"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1796
+#: admin/class-wallet-system-for-woocommerce-admin.php:1808
 #: admin/partials/wps-edit-wallet.php:184
 msgid "Whether want to add amount or deduct it from wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1827
+#: admin/class-wallet-system-for-woocommerce-admin.php:1839
 #: admin/partials/class-wallet-user-table.php:315
 #: admin/partials/class-wallet-user-table.php:477
 #: admin/partials/class-wallet-user-table.php:674
@@ -855,7 +865,7 @@ msgstr ""
 msgid "Credited by admin"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1829
+#: admin/class-wallet-system-for-woocommerce-admin.php:1841
 #: admin/partials/class-wallet-user-table.php:80
 #: admin/partials/class-wallet-user-table.php:318
 #: admin/partials/class-wallet-user-table.php:481
@@ -864,7 +874,7 @@ msgstr ""
 msgid "Merchant has credited your wallet by "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1845
+#: admin/class-wallet-system-for-woocommerce-admin.php:1857
 #: admin/partials/class-wallet-user-table.php:369
 #: admin/partials/class-wallet-user-table.php:374
 #: admin/partials/class-wallet-user-table.php:535
@@ -875,7 +885,7 @@ msgstr ""
 msgid "Debited by admin"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1847
+#: admin/class-wallet-system-for-woocommerce-admin.php:1859
 #: admin/partials/class-wallet-user-table.php:99
 #: admin/partials/class-wallet-user-table.php:377
 #: admin/partials/class-wallet-user-table.php:545
@@ -884,8 +894,8 @@ msgstr ""
 msgid "Merchant has deducted "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1847
-#: admin/class-wallet-system-for-woocommerce-admin.php:3094
+#: admin/class-wallet-system-for-woocommerce-admin.php:1859
+#: admin/class-wallet-system-for-woocommerce-admin.php:3106
 #: admin/partials/class-wallet-user-table.php:99
 #: admin/partials/class-wallet-user-table.php:377
 #: admin/partials/class-wallet-user-table.php:545
@@ -896,11 +906,11 @@ msgstr ""
 msgid " from your wallet."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1877
-#: admin/class-wallet-system-for-woocommerce-admin.php:2469
-#: admin/class-wallet-system-for-woocommerce-admin.php:3093
-#: admin/class-wallet-system-for-woocommerce-admin.php:3258
-#: admin/class-wallet-system-for-woocommerce-admin.php:3354
+#: admin/class-wallet-system-for-woocommerce-admin.php:1889
+#: admin/class-wallet-system-for-woocommerce-admin.php:2481
+#: admin/class-wallet-system-for-woocommerce-admin.php:3105
+#: admin/class-wallet-system-for-woocommerce-admin.php:3270
+#: admin/class-wallet-system-for-woocommerce-admin.php:3366
 #: admin/partials/class-wallet-user-table.php:130
 #: admin/partials/class-wallet-user-table.php:414
 #: admin/partials/class-wallet-user-table.php:579
@@ -914,7 +924,7 @@ msgstr ""
 #: package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php:162
 #: public/class-wallet-credit-payment-gateway.php:242
 #: public/class-wallet-credit-payment-gateway.php:358
-#: public/class-wallet-system-for-woocommerce-public.php:2342
+#: public/class-wallet-system-for-woocommerce-public.php:2387
 #: public/partials/wallet-system-for-woocommerce-public-display.php:114
 #: public/partials/wallet-system-for-woocommerce-public-display.php:160
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:133
@@ -922,23 +932,23 @@ msgstr ""
 msgid "Hello "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1881
-#: admin/class-wallet-system-for-woocommerce-admin.php:2049
-#: admin/class-wallet-system-for-woocommerce-admin.php:2473
-#: admin/class-wallet-system-for-woocommerce-admin.php:3097
-#: admin/class-wallet-system-for-woocommerce-admin.php:3262
-#: admin/class-wallet-system-for-woocommerce-admin.php:3358
+#: admin/class-wallet-system-for-woocommerce-admin.php:1893
+#: admin/class-wallet-system-for-woocommerce-admin.php:2061
+#: admin/class-wallet-system-for-woocommerce-admin.php:2485
+#: admin/class-wallet-system-for-woocommerce-admin.php:3109
+#: admin/class-wallet-system-for-woocommerce-admin.php:3274
+#: admin/class-wallet-system-for-woocommerce-admin.php:3370
 #: admin/partials/class-wallet-user-table.php:134
 #: admin/partials/class-wallet-user-table.php:418
 #: admin/partials/class-wallet-user-table.php:583
 #: admin/partials/class-wallet-user-table.php:765
 #: admin/partials/wps-edit-wallet.php:110
 #: common/class-wallet-system-for-woocommerce-common.php:335
-#: common/class-wallet-system-for-woocommerce-common.php:604
-#: common/class-wallet-system-for-woocommerce-common.php:701
-#: common/class-wallet-system-for-woocommerce-common.php:798
-#: common/class-wallet-system-for-woocommerce-common.php:1003
-#: common/class-wallet-system-for-woocommerce-common.php:1088
+#: common/class-wallet-system-for-woocommerce-common.php:631
+#: common/class-wallet-system-for-woocommerce-common.php:729
+#: common/class-wallet-system-for-woocommerce-common.php:826
+#: common/class-wallet-system-for-woocommerce-common.php:1045
+#: common/class-wallet-system-for-woocommerce-common.php:1130
 #: includes/class-wallet-system-for-woocommerce-dependency.php:74
 #: includes/class-wallet-system-for-woocommerce-dependency.php:160
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:183
@@ -946,17 +956,17 @@ msgstr ""
 #: public/class-wallet-credit-payment-gateway.php:246
 #: public/class-wallet-credit-payment-gateway.php:362
 #: public/class-wallet-system-for-woocommerce-public.php:761
-#: public/class-wallet-system-for-woocommerce-public.php:1879
-#: public/class-wallet-system-for-woocommerce-public.php:1952
-#: public/class-wallet-system-for-woocommerce-public.php:2064
-#: public/class-wallet-system-for-woocommerce-public.php:2346
+#: public/class-wallet-system-for-woocommerce-public.php:1926
+#: public/class-wallet-system-for-woocommerce-public.php:1999
+#: public/class-wallet-system-for-woocommerce-public.php:2111
+#: public/class-wallet-system-for-woocommerce-public.php:2391
 #: public/partials/wallet-system-for-woocommerce-public-display.php:118
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:137
 msgid "Wallet updating notification"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1895
-#: admin/class-wallet-system-for-woocommerce-admin.php:2506
+#: admin/class-wallet-system-for-woocommerce-admin.php:1907
+#: admin/class-wallet-system-for-woocommerce-admin.php:2518
 #: admin/partials/class-wallet-user-table.php:432
 #: admin/partials/class-wallet-user-table.php:597
 #: admin/partials/class-wallet-user-table.php:779
@@ -965,170 +975,170 @@ msgstr ""
 msgid "Manually By Admin"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1917
+#: admin/class-wallet-system-for-woocommerce-admin.php:1929
 #: public/partials/wallet-system-for-woocommerce-public-display.php:407
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:413
 msgid "Wallet Balance"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:1918
+#: admin/class-wallet-system-for-woocommerce-admin.php:1930
 #: includes/class-wallet-system-for-woocommerce.php:540
 msgid "Wallet Actions"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2033
-#: admin/class-wallet-system-for-woocommerce-admin.php:3259
+#: admin/class-wallet-system-for-woocommerce-admin.php:2045
+#: admin/class-wallet-system-for-woocommerce-admin.php:3271
 #: common/class-wallet-system-for-woocommerce-common.php:332
-#: common/class-wallet-system-for-woocommerce-common.php:601
-#: common/class-wallet-system-for-woocommerce-common.php:1000
-#: common/class-wallet-system-for-woocommerce-common.php:1085
+#: common/class-wallet-system-for-woocommerce-common.php:628
+#: common/class-wallet-system-for-woocommerce-common.php:1042
+#: common/class-wallet-system-for-woocommerce-common.php:1127
 #: includes/class-wallet-system-for-woocommerce-dependency.php:157
 #: public/class-wallet-system-for-woocommerce-public.php:758
-#: public/class-wallet-system-for-woocommerce-public.php:1876
-#: public/class-wallet-system-for-woocommerce-public.php:1949
-#: public/class-wallet-system-for-woocommerce-public.php:2061
+#: public/class-wallet-system-for-woocommerce-public.php:1923
+#: public/class-wallet-system-for-woocommerce-public.php:1996
+#: public/class-wallet-system-for-woocommerce-public.php:2108
 #: public/partials/wallet-system-for-woocommerce-public-display.php:115
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:134
 msgid "Wallet credited by "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2033
+#: admin/class-wallet-system-for-woocommerce-admin.php:2045
 msgid " through wallet recharge."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2070
+#: admin/class-wallet-system-for-woocommerce-admin.php:2082
 msgid "Wallet credited through purchased "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2085
+#: admin/class-wallet-system-for-woocommerce-admin.php:2097
 #: public/class-wallet-system-for-woocommerce-public.php:796
 msgid "Wallet Recharge Amount Charged For Gateway "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2116
+#: admin/class-wallet-system-for-woocommerce-admin.php:2128
 msgid "Import wallet balance from CSV file"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2118
+#: admin/class-wallet-system-for-woocommerce-admin.php:2130
 msgid ""
 "Upload CSV file for adding wallet balance to users. You can download csv "
 "file through icon"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2129
+#: admin/class-wallet-system-for-woocommerce-admin.php:2141
 msgid "IMPORT WALLET"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2155
+#: admin/class-wallet-system-for-woocommerce-admin.php:2167
 msgid "Minimum Withdrawal Amount ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2157
+#: admin/class-wallet-system-for-woocommerce-admin.php:2169
 msgid "Minimum amount needed to be withdrawal from wallet."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2165
+#: admin/class-wallet-system-for-woocommerce-admin.php:2177
 msgid "Withdraw Methods"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2167
+#: admin/class-wallet-system-for-woocommerce-admin.php:2179
 msgid "Direct Bank Transfer"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2175
-#: admin/class-wallet-system-for-woocommerce-admin.php:2177
+#: admin/class-wallet-system-for-woocommerce-admin.php:2187
+#: admin/class-wallet-system-for-woocommerce-admin.php:2189
 msgid "Paypal"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2300
+#: admin/class-wallet-system-for-woocommerce-admin.php:2312
 msgid ""
 "Note: Orders for wallet recharge made prior to HPOS Compatibility and plugin "
 "version 2.5.0 will be displayed here. However, any orders placed After 2.5.0 "
 "version will be listed in the WooCommerce order section."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2406
+#: admin/class-wallet-system-for-woocommerce-admin.php:2418
 msgid "Withdrawal Id is not given"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2414
+#: admin/class-wallet-system-for-woocommerce-admin.php:2426
 #: admin/partials/class-wallet-user-table.php:654
 #: admin/partials/wps-edit-wallet.php:41
 msgid "User Id is not given"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2429
+#: admin/class-wallet-system-for-woocommerce-admin.php:2441
 msgid "Wallet Amount is not sufficient for widthdrawal."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2470
+#: admin/class-wallet-system-for-woocommerce-admin.php:2482
 msgid " has been debited from wallet through your withdrawing request."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2495
+#: admin/class-wallet-system-for-woocommerce-admin.php:2507
 msgid "( inculding "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2495
-#: admin/class-wallet-system-for-woocommerce-admin.php:2500
+#: admin/class-wallet-system-for-woocommerce-admin.php:2507
+#: admin/class-wallet-system-for-woocommerce-admin.php:2512
 msgid ")"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2497
+#: admin/class-wallet-system-for-woocommerce-admin.php:2509
 msgid "Wallet debited through user withdrawing request "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2500
+#: admin/class-wallet-system-for-woocommerce-admin.php:2512
 msgid "( inculding Withdrawal Fee of "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2516
+#: admin/class-wallet-system-for-woocommerce-admin.php:2528
 msgid "Wallet withdrawal request is approved for user #"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2522
+#: admin/class-wallet-system-for-woocommerce-admin.php:2534
 #: admin/partials/class-wallet-user-table.php:247
 #: admin/partials/class-wallet-user-table.php:792
 #: admin/partials/wps-edit-wallet.php:137
 msgid "There is an error in database"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2536
+#: admin/class-wallet-system-for-woocommerce-admin.php:2548
 msgid "Wallet withdrawal request is rejected for user #"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2548
+#: admin/class-wallet-system-for-woocommerce-admin.php:2560
 msgid "Wallet withdrawal request status is changed to pending for user #"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2570
+#: admin/class-wallet-system-for-woocommerce-admin.php:2582
 msgid "Wallet Withdrawal Requests"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2571
+#: admin/class-wallet-system-for-woocommerce-admin.php:2583
 msgid "Wallet Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2572
+#: admin/class-wallet-system-for-woocommerce-admin.php:2584
 #: admin/partials/wallet-system-withdrawal-setting.php:54
 msgid "Withdrawal Requests"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2573
+#: admin/class-wallet-system-for-woocommerce-admin.php:2585
 #: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:139
 #: public/partials/wallet-system-for-woocommerce-wallet-withdrawal.php:224
 msgid "View Withdrawal Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2574
+#: admin/class-wallet-system-for-woocommerce-admin.php:2586
 msgid "Edit Withdrawal Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2575
+#: admin/class-wallet-system-for-woocommerce-admin.php:2587
 msgid "Update Withdrawal Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2576
+#: admin/class-wallet-system-for-woocommerce-admin.php:2588
 #: admin/partials/class-wallet-transaction-list-table.php:672
 #: admin/partials/class-wallet-user-table.php:1119
 #: admin/partials/wallet-system-withdrawal-setting.php:30
@@ -1136,47 +1146,47 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2577
+#: admin/class-wallet-system-for-woocommerce-admin.php:2589
 msgid "Not Found Withdrawal Request"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2578
-#: admin/class-wallet-system-for-woocommerce-admin.php:2957
+#: admin/class-wallet-system-for-woocommerce-admin.php:2590
+#: admin/class-wallet-system-for-woocommerce-admin.php:2969
 msgid "Not found in Trash"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2580
+#: admin/class-wallet-system-for-woocommerce-admin.php:2592
 msgid "Merchant can see all withdrawal request of users"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2594
+#: admin/class-wallet-system-for-woocommerce-admin.php:2606
 msgid "Approved"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2598
+#: admin/class-wallet-system-for-woocommerce-admin.php:2610
 #, php-format
 msgid "Approved <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2607
+#: admin/class-wallet-system-for-woocommerce-admin.php:2619
 msgid "Rejected"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2611
+#: admin/class-wallet-system-for-woocommerce-admin.php:2623
 #, php-format
 msgid "Rejected <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2619
+#: admin/class-wallet-system-for-woocommerce-admin.php:2631
 msgid "Pending"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2622
+#: admin/class-wallet-system-for-woocommerce-admin.php:2634
 #, php-format
 msgid "Pending <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2711
+#: admin/class-wallet-system-for-woocommerce-admin.php:2723
 #: admin/partials/class-wallet-transaction-list-table.php:56
 #: admin/partials/class-wallet-user-table.php:910
 #: admin/partials/wallet-system-wallet-transactions.php:55
@@ -1184,96 +1194,96 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2713
+#: admin/class-wallet-system-for-woocommerce-admin.php:2725
 #: admin/partials/class-wallet-transaction-list-table.php:58
 #: admin/partials/wallet-system-wallet-transactions.php:58
 #: admin/partials/wps-user-wallet-transactions.php:67
 msgid "Payment Method"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2771
+#: admin/class-wallet-system-for-woocommerce-admin.php:2783
 msgid "Save Changes"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2789
+#: admin/class-wallet-system-for-woocommerce-admin.php:2801
 #: admin/partials/wps-edit-wallet.php:170
 msgid "Amount ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2791
+#: admin/class-wallet-system-for-woocommerce-admin.php:2803
 msgid "Certain amount want to add/deduct from all users wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2803
+#: admin/class-wallet-system-for-woocommerce-admin.php:2815
 msgid "Whether want to add/deduct certain amount from wallet of all users"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2808
+#: admin/class-wallet-system-for-woocommerce-admin.php:2820
 msgid "Radio Demo"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2816
-#: admin/class-wallet-system-for-woocommerce-admin.php:2822
+#: admin/class-wallet-system-for-woocommerce-admin.php:2828
+#: admin/class-wallet-system-for-woocommerce-admin.php:2834
 msgid "Transaction Detail"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2818
+#: admin/class-wallet-system-for-woocommerce-admin.php:2830
 msgid "Enter the details you want to show to user"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2829
+#: admin/class-wallet-system-for-woocommerce-admin.php:2841
 #: admin/partials/class-wallet-user-table.php:1173
 #: admin/partials/class-wallet-user-table.php:1174
 msgid "Update Wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2950
+#: admin/class-wallet-system-for-woocommerce-admin.php:2962
 msgid "Add New Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2951
+#: admin/class-wallet-system-for-woocommerce-admin.php:2963
 msgid "Add Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2952
+#: admin/class-wallet-system-for-woocommerce-admin.php:2964
 msgid "View Wallet Recharge Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2953
+#: admin/class-wallet-system-for-woocommerce-admin.php:2965
 msgid "Edit Wallet Recharge Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2954
+#: admin/class-wallet-system-for-woocommerce-admin.php:2966
 msgid "Update Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2955
+#: admin/class-wallet-system-for-woocommerce-admin.php:2967
 msgid "Search orders"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2956
+#: admin/class-wallet-system-for-woocommerce-admin.php:2968
 msgid "Not Found Order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:2959
+#: admin/class-wallet-system-for-woocommerce-admin.php:2971
 msgid "Merchant can see all wallet recharge orders."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3020
-#: common/class-wallet-system-for-woocommerce-common.php:1386
+#: admin/class-wallet-system-for-woocommerce-admin.php:3032
+#: common/class-wallet-system-for-woocommerce-common.php:1428
 #: public/class-wallet-system-for-woocommerce-public.php:961
 msgid "Via wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3064
+#: admin/class-wallet-system-for-woocommerce-admin.php:3076
 msgid "Automatically"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3065
+#: admin/class-wallet-system-for-woocommerce-admin.php:3077
 msgid "Wallet is debited through subscription renewal"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3071
+#: admin/class-wallet-system-for-woocommerce-admin.php:3083
 #: includes/class-wallet-system-for-woocommerce-dependency.php:46
 #: includes/class-wallet-system-for-woocommerce-dependency.php:132
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:48
@@ -1284,240 +1294,240 @@ msgstr ""
 msgid "Wallet Payment"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3073
+#: admin/class-wallet-system-for-woocommerce-admin.php:3085
 msgid "Wallet debited through subscription renewal "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3094
+#: admin/class-wallet-system-for-woocommerce-admin.php:3106
 #: common/class-wallet-system-for-woocommerce-common.php:375
-#: common/class-wallet-system-for-woocommerce-common.php:698
-#: common/class-wallet-system-for-woocommerce-common.php:795
+#: common/class-wallet-system-for-woocommerce-common.php:726
+#: common/class-wallet-system-for-woocommerce-common.php:823
 #: includes/class-wallet-system-for-woocommerce-dependency.php:71
 #: public/class-wallet-credit-payment-gateway.php:243
 #: public/class-wallet-credit-payment-gateway.php:359
-#: public/class-wallet-system-for-woocommerce-public.php:2343
+#: public/class-wallet-system-for-woocommerce-public.php:2388
 #: public/partials/wallet-system-for-woocommerce-public-display.php:161
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:180
 msgid "Wallet debited by "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3134
-#: admin/class-wallet-system-for-woocommerce-admin.php:3136
+#: admin/class-wallet-system-for-woocommerce-admin.php:3146
+#: admin/class-wallet-system-for-woocommerce-admin.php:3148
 msgid "Enable to use wallet amount on renewal order"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3147
+#: admin/class-wallet-system-for-woocommerce-admin.php:3159
 msgid "Apply amount type(Depending on order total)"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3149
+#: admin/class-wallet-system-for-woocommerce-admin.php:3161
 msgid "Apply amount type"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3155
+#: admin/class-wallet-system-for-woocommerce-admin.php:3167
 msgid "Fix"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3160
+#: admin/class-wallet-system-for-woocommerce-admin.php:3172
 msgid ""
 "Enter the amount/percentage to be deducted  from wallet during order "
 "renewal( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3162
+#: admin/class-wallet-system-for-woocommerce-admin.php:3174
 msgid ""
 "Enter the amount/percentage to be deducted  from wallet during order renewal."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3216
+#: admin/class-wallet-system-for-woocommerce-admin.php:3228
 msgid "Invalid refund amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3238
+#: admin/class-wallet-system-for-woocommerce-admin.php:3250
 msgid "Refunded to wallet #"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3259
-#: admin/class-wallet-system-for-woocommerce-admin.php:3355
+#: admin/class-wallet-system-for-woocommerce-admin.php:3271
+#: admin/class-wallet-system-for-woocommerce-admin.php:3367
 msgid " through order refund."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3284
-#: admin/class-wallet-system-for-woocommerce-admin.php:3380
+#: admin/class-wallet-system-for-woocommerce-admin.php:3296
+#: admin/class-wallet-system-for-woocommerce-admin.php:3392
 msgid "Wallet credited through order refund "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3289
-#: admin/class-wallet-system-for-woocommerce-admin.php:3385
+#: admin/class-wallet-system-for-woocommerce-admin.php:3301
+#: admin/class-wallet-system-for-woocommerce-admin.php:3397
 msgid "Manually by admin through refund"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3298
+#: admin/class-wallet-system-for-woocommerce-admin.php:3310
 #: public/class-wallet-credit-payment-gateway.php:148
 msgid "Refund not credited to customer"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3355
+#: admin/class-wallet-system-for-woocommerce-admin.php:3367
 msgid "Wallet Partial Payment credited by "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3397
+#: admin/class-wallet-system-for-woocommerce-admin.php:3409
 msgid "refunded to customer wallet"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3428
+#: admin/class-wallet-system-for-woocommerce-admin.php:3440
 msgid "Enable Wallet withdrawal Extra Fee Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3430
+#: admin/class-wallet-system-for-woocommerce-admin.php:3442
 msgid "Check this box to enable the withdrawal setting."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3441
+#: admin/class-wallet-system-for-woocommerce-admin.php:3453
 msgid "Wallet Withdrawal Fee Type"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3443
+#: admin/class-wallet-system-for-woocommerce-admin.php:3455
 msgid "Select Withdrawal Fee type Percentage or Fixed."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3457
-#: admin/class-wallet-system-for-woocommerce-admin.php:3459
+#: admin/class-wallet-system-for-woocommerce-admin.php:3469
+#: admin/class-wallet-system-for-woocommerce-admin.php:3471
 msgid "Enter Fee For Wallet withdrawal Process"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3465
-#: admin/class-wallet-system-for-woocommerce-admin.php:3521
+#: admin/class-wallet-system-for-woocommerce-admin.php:3477
+#: admin/class-wallet-system-for-woocommerce-admin.php:3533
 msgid "Enter wallet Transfer Fee amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3484
+#: admin/class-wallet-system-for-woocommerce-admin.php:3496
 msgid "Enable Wallet transfer Extra Fee Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3486
+#: admin/class-wallet-system-for-woocommerce-admin.php:3498
 msgid "Check this box to enable the Transfer Setting."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3497
+#: admin/class-wallet-system-for-woocommerce-admin.php:3509
 msgid "Wallet Transfer Fee Type"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3499
+#: admin/class-wallet-system-for-woocommerce-admin.php:3511
 msgid "Select Transfer Fee type Percentage or Fixed."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3513
-#: admin/class-wallet-system-for-woocommerce-admin.php:3515
+#: admin/class-wallet-system-for-woocommerce-admin.php:3525
+#: admin/class-wallet-system-for-woocommerce-admin.php:3527
 msgid "Enter Fee For Wallet Transfer Process"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3539
+#: admin/class-wallet-system-for-woocommerce-admin.php:3551
 msgid "Enable Referral Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3541
+#: admin/class-wallet-system-for-woocommerce-admin.php:3553
 msgid "Check this box to enable the Referral setting."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3552
+#: admin/class-wallet-system-for-woocommerce-admin.php:3564
 msgid "Enter Referral Amount"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3554
+#: admin/class-wallet-system-for-woocommerce-admin.php:3566
 msgid "The amount which customers will get after their referral ."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3564
+#: admin/class-wallet-system-for-woocommerce-admin.php:3576
 msgid "Enter Referral Description"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3566
+#: admin/class-wallet-system-for-woocommerce-admin.php:3578
 msgid "Enter message for user that display on Referral page."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3590
+#: admin/class-wallet-system-for-woocommerce-admin.php:3602
 msgid "Enable Wallet Withdrawal Restriction Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3592
-#: admin/class-wallet-system-for-woocommerce-admin.php:3704
+#: admin/class-wallet-system-for-woocommerce-admin.php:3604
+#: admin/class-wallet-system-for-woocommerce-admin.php:3716
 msgid "This is switch field demo follow same structure for further use."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3604
+#: admin/class-wallet-system-for-woocommerce-admin.php:3616
 msgid "Minimum Amount For Wallet Withdrawal ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3606
+#: admin/class-wallet-system-for-woocommerce-admin.php:3618
 msgid "Minimum amount needed to wallet withdrawal."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3614
+#: admin/class-wallet-system-for-woocommerce-admin.php:3626
 msgid "Maximum Amount For Wallet Withdrawal ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3616
+#: admin/class-wallet-system-for-woocommerce-admin.php:3628
 msgid "Maximum amount for wallet withdrawal."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3652
+#: admin/class-wallet-system-for-woocommerce-admin.php:3664
 msgid "Enable Wallet Recharge Restriction Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3654
+#: admin/class-wallet-system-for-woocommerce-admin.php:3666
 msgid "Enable to restrict wallet recharge"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3666
+#: admin/class-wallet-system-for-woocommerce-admin.php:3678
 msgid "Minimum Wallet Recharge Amount ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3668
+#: admin/class-wallet-system-for-woocommerce-admin.php:3680
 msgid "Minimum amount needed to recharge wallet."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3676
+#: admin/class-wallet-system-for-woocommerce-admin.php:3688
 msgid "Maximum Wallet Recharge Amount ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3678
+#: admin/class-wallet-system-for-woocommerce-admin.php:3690
 msgid "Maximum amount for wallet recharge."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3702
+#: admin/class-wallet-system-for-woocommerce-admin.php:3714
 msgid "Enable Wallet Transfer Restriction Settings"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3716
+#: admin/class-wallet-system-for-woocommerce-admin.php:3728
 msgid "Minimum Amount For Wallet Transfer ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3718
+#: admin/class-wallet-system-for-woocommerce-admin.php:3730
 msgid "Minimum amount needed to recharge transfer."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3726
+#: admin/class-wallet-system-for-woocommerce-admin.php:3739
 msgid "Maximum Amount For Wallet Transfer ( "
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3728
+#: admin/class-wallet-system-for-woocommerce-admin.php:3741
 msgid "Maximum amount for wallet transfer."
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3785
+#: admin/class-wallet-system-for-woocommerce-admin.php:3798
 msgid "----"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3803
+#: admin/class-wallet-system-for-woocommerce-admin.php:3816
 msgid "Enable Wallet Recharge Tab"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3830
+#: admin/class-wallet-system-for-woocommerce-admin.php:3843
 msgid "Enable Wallet Promotions Tab"
 msgstr ""
 
-#: admin/class-wallet-system-for-woocommerce-admin.php:3844
+#: admin/class-wallet-system-for-woocommerce-admin.php:3857
 msgid "Enable Wallet Limited Offer Timer"
 msgstr ""
 
@@ -2544,55 +2554,55 @@ msgstr ""
 msgid "No user found."
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:601
+#: common/class-wallet-system-for-woocommerce-common.php:628
 msgid " through cashback."
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:624
+#: common/class-wallet-system-for-woocommerce-common.php:652
 msgid "Wallet credited through cashback "
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:698
+#: common/class-wallet-system-for-woocommerce-common.php:726
 msgid " through order refunded."
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:721
-#: common/class-wallet-system-for-woocommerce-common.php:818
+#: common/class-wallet-system-for-woocommerce-common.php:749
+#: common/class-wallet-system-for-woocommerce-common.php:846
 msgid "Wallet debited through "
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:795
+#: common/class-wallet-system-for-woocommerce-common.php:823
 msgid " through order cancelled."
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1000
-#: common/class-wallet-system-for-woocommerce-common.php:1085
+#: common/class-wallet-system-for-woocommerce-common.php:1042
+#: common/class-wallet-system-for-woocommerce-common.php:1127
 msgid " through product review."
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1024
-#: common/class-wallet-system-for-woocommerce-common.php:1109
+#: common/class-wallet-system-for-woocommerce-common.php:1066
+#: common/class-wallet-system-for-woocommerce-common.php:1151
 msgid "Wallet credited through "
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1225
+#: common/class-wallet-system-for-woocommerce-common.php:1267
 #: includes/class-wallet-system-for-woocommerce.php:516
 #: marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php:35
 #: marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php:51
 #: public/class-wallet-system-for-woocommerce-public.php:823
-#: public/class-wallet-system-for-woocommerce-public.php:2539
+#: public/class-wallet-system-for-woocommerce-public.php:2590
 msgid "Wallet"
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1317
+#: common/class-wallet-system-for-woocommerce-common.php:1359
 msgid "Wallet credited through Commission "
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1323
+#: common/class-wallet-system-for-woocommerce-common.php:1365
 msgid "Commission"
 msgstr ""
 
-#: common/class-wallet-system-for-woocommerce-common.php:1333
+#: common/class-wallet-system-for-woocommerce-common.php:1375
 msgid "Commission paid to vendor through wallet"
 msgstr ""
 
@@ -2620,7 +2630,7 @@ msgstr ""
 #: includes/class-wallet-system-for-woocommerce-dependency.php:49
 #: public/class-wallet-credit-payment-gateway.php:269
 #: public/class-wallet-credit-payment-gateway.php:385
-#: public/class-wallet-system-for-woocommerce-public.php:2368
+#: public/class-wallet-system-for-woocommerce-public.php:2413
 msgid "Wallet debited through purchasing "
 msgstr ""
 
@@ -2936,7 +2946,7 @@ msgstr ""
 
 #: public/class-wallet-credit-payment-gateway.php:243
 #: public/class-wallet-credit-payment-gateway.php:359
-#: public/class-wallet-system-for-woocommerce-public.php:2343
+#: public/class-wallet-system-for-woocommerce-public.php:2388
 msgid " from your wallet through purchasing."
 msgstr ""
 
@@ -3032,56 +3042,56 @@ msgid ""
 "you want to buy this product, please first remove wallet topup from cart."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1630
+#: public/class-wallet-system-for-woocommerce-public.php:1677
 #, php-format
 msgid "Earn Cashback On Orders Above %s ."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1656
-#: public/class-wallet-system-for-woocommerce-public.php:1685
+#: public/class-wallet-system-for-woocommerce-public.php:1703
+#: public/class-wallet-system-for-woocommerce-public.php:1732
 #, php-format
 msgid ""
 "Upon placing this order a cashback of %s will be credited to your wallet."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1663
-#: public/class-wallet-system-for-woocommerce-public.php:1692
+#: public/class-wallet-system-for-woocommerce-public.php:1710
+#: public/class-wallet-system-for-woocommerce-public.php:1739
 #, php-format
 msgid ""
 "Please <a href=\"%1$s\">log in</a> to avail %2$s cashback from this order."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1736
-#: public/class-wallet-system-for-woocommerce-public.php:1738
+#: public/class-wallet-system-for-woocommerce-public.php:1783
+#: public/class-wallet-system-for-woocommerce-public.php:1785
 msgid " Cashback"
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1827
+#: public/class-wallet-system-for-woocommerce-public.php:1874
 msgid "You will Get 1 Points on a successful Sign Up."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1876
-#: public/class-wallet-system-for-woocommerce-public.php:1949
+#: public/class-wallet-system-for-woocommerce-public.php:1923
+#: public/class-wallet-system-for-woocommerce-public.php:1996
 msgid " through successfully signup."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1900
+#: public/class-wallet-system-for-woocommerce-public.php:1947
 msgid "Wallet credited through signup "
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:1973
+#: public/class-wallet-system-for-woocommerce-public.php:2020
 msgid "Wallet credited through referral to a friend "
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:2061
+#: public/class-wallet-system-for-woocommerce-public.php:2108
 msgid " through visiting site."
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:2085
+#: public/class-wallet-system-for-woocommerce-public.php:2132
 msgid "Wallet credited through visiting site. "
 msgstr ""
 
-#: public/class-wallet-system-for-woocommerce-public.php:2368
+#: public/class-wallet-system-for-woocommerce-public.php:2413
 msgid " as discount"
 msgstr ""
 
@@ -3156,11 +3166,11 @@ msgstr ""
 msgid "Add Balance :"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-wallet-recharge.php:77
+#: public/partials/wallet-system-for-woocommerce-wallet-recharge.php:80
 msgid "Enter Amount ("
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-wallet-recharge.php:87
+#: public/partials/wallet-system-for-woocommerce-wallet-recharge.php:90
 #: public/partials/wallet-system-for-woocommerce-wallet-transfer.php:78
 msgid "Proceed"
 msgstr ""
@@ -3173,7 +3183,7 @@ msgstr ""
 msgid "Method"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-wallet-transactions.php:65
+#: public/partials/wallet-system-for-woocommerce-wallet-transactions.php:66
 msgid "Online Payment"
 msgstr ""
 
