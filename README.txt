@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.5.2
 WC requires at least: 6.5.0
 WC tested up to: 8.8.3
-Stable tag: 2.5.12
+Stable tag: 2.5.13
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -228,7 +228,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.12 - Released on 08 May 2024 =
+= 2.5.13 - Released on 08 May 2024 =
 * New: Extended the FOX compatibility with quick recharge feature and cashback feature
 * New: Added pro tag in wallet recharge product
 * New: WP[6.5.2] and WC[8.8.3] update
@@ -445,7 +445,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.12 - Released on 08 May 2024 =
+= 2.5.13 - Released on 08 May 2024 =
 * New: Extended the FOX compatibility with quick recharge feature and cashback feature
 * New: Added pro tag in wallet recharge product
 * New: WP[6.5.2] and WC[8.8.3] update
