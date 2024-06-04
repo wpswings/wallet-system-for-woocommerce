@@ -306,7 +306,9 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wsfw_wallet_restriction_recharge_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_recharge_restriction_settings_page_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_recharge_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_recharge_enable_settings_tab_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
-
+			
+			$this->loader->add_filter( 'wsfw_wallet_action_withdrawal_settings', $wsfw_plugin_admin, 'wsfw_wallet_withdrawal_enable_settings_tab', 10 );
+			
 		}
 		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
 
@@ -546,6 +548,10 @@ class Wallet_System_For_Woocommerce {
 		$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
 		
 		if ( ! $is_pro ) {
+			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-withdrawal-settings'] = array(
+				'title'     => esc_html__( 'Withdrawal Settings', 'wallet-system-for-woocommerce' ),
+				'name'      => 'wallet-system-for-woocommerce-org-wallet-withdrawal-settings',
+			);
 			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-restriction'] = array(
 				'title'     => esc_html__( 'Wallet Regulation', 'wallet-system-for-woocommerce' ),
 				'name'      => 'wallet-system-for-woocommerce-org-wallet-restriction',

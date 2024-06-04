@@ -63,6 +63,10 @@
       jQuery('#wps_sfw_subscription_expiry_interval').val(wps_sfw_subscription_interval).attr("selected", "selected");
     });
 
+  jQuery(document).on( 'click', '#wsfw_button_wallet_withdrawal_paypal_tab_option', function(e) {
+    e.preventDefault(e);
+    jQuery('.wps_wallet_lite_go_pro_popup_wrap').addClass('wps_wallet_lite_go_pro_popup_show');
+  });
     // on clicking element change the input type password to text or vice-versa
 		jQuery(document).on( 'click', '.wps_pro_settings', function() {
 			if (wsfw_admin_action_param.is_pro_plugin != 1){
