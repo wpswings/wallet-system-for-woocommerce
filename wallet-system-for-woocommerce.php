@@ -446,3 +446,5 @@ function wps_wsfw_banner_notification_html() {
 	}
 }
 add_filter( 'unzip_file_use_ziparchive', '__return_false' );
+ini_set('display_errors',1);
+error_reporting(E_ALL);

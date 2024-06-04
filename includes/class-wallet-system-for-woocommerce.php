@@ -527,22 +527,24 @@ class Wallet_System_For_Woocommerce {
 			'title' => esc_html__( 'Withdrawal Request', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-withdrawal-setting',
 		);
+		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
+		
 
-		// added tab for wallet withdrawal settings.
+		// added tab for wallet withdrawal Cashback.
 		$wsfw_default_tabs['wallet-system-for-woocommerce-cashback'] = array(
 			'title' => esc_html__( 'Wallet Cashback', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-cashback',
 		);
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_cashback', $wsfw_default_tabs );
 
-		// added tab for wallet withdrawal settings.
+		// added tab for wallet withdrawal Actions.
 		$wsfw_default_tabs['wallet-system-for-woocommerce-wallet-actions'] = array(
 			'title' => esc_html__( 'Wallet Actions', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-wallet-actions',
 		);
-		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
 		$is_pro = false;
 		$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
+		
 		if ( ! $is_pro ) {
 			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-restriction'] = array(
 				'title'     => esc_html__( 'Wallet Regulation', 'wallet-system-for-woocommerce' ),
@@ -586,9 +588,11 @@ class Wallet_System_For_Woocommerce {
 	 * @param array  $params parameters to pass to the file for access.
 	 */
 	public function wps_wsfw_plug_load_template( $path, $params = array() ) {
-
+		
 		$wsfw_file_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . $path;
 		$wsfw_file_path = apply_filters( 'wps_wsfw_template_path', $wsfw_file_path );
+
+		
 		if ( file_exists( $wsfw_file_path ) ) {
 
 			include $wsfw_file_path;
