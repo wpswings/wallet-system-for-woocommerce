@@ -4092,7 +4092,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_comment_extra_settings_array', $wsfw_settings_template );
 		$wsfw_settings_template[] = array(
-			'title'       => __( 'Enable Wallet Withdrawal through Paypal', 'wallet-system-for-woocommerce-pro' ),
+			'title'       => __( 'Enable Wallet Withdrawal through Paypal', 'wallet-system-for-woocommerce' ),
 			'type'        => 'radio-switch',
 			'description' => '',
 			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable',
@@ -4100,13 +4100,13 @@ class Wallet_System_For_Woocommerce_Admin {
 			'value'       => '',
 			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
 			'options'     => array(
-				'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
-				'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 			),
 
 		);
 		$wsfw_settings_template[] = array(
-			'title'       => __( 'Enable to show Dropdown to Customer for Manual Withdrawal and Paypal Withdrawal', 'wallet-system-for-woocommerce-pro' ),
+			'title'       => __( 'Enable to show Dropdown to Customer for Manual Withdrawal and Paypal Withdrawal', 'wallet-system-for-woocommerce' ),
 			'type'        => 'radio-switch',
 			'description' => '',
 			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_dropdown',
@@ -4114,37 +4114,37 @@ class Wallet_System_For_Woocommerce_Admin {
 			'value'       => '',
 			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
 			'options'     => array(
-				'yes' => __( 'YES', 'wallet-system-for-woocommerce-pro' ),
-				'no'  => __( 'NO', 'wallet-system-for-woocommerce-pro' ),
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 			),
 
 		);
 		$wsfw_settings_template[] = array(
-			'title'       => __( 'Enter Paypal Client ID', 'wallet-system-for-woocommerce-pro' ),
+			'title'       => __( 'Enter Paypal Client ID', 'wallet-system-for-woocommerce' ),
 			'type'        => 'text',
-			'description' => __( 'Please enter paypal Client ID', 'wallet-system-for-woocommerce-pro' ),
+			'description' => __( 'Please enter paypal Client ID', 'wallet-system-for-woocommerce' ),
 			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable_client_id',
 			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable_client_id',
 			'value'       => '',
-			'placeholder' => __( 'Please enter paypal Client ID', 'wallet-system-for-woocommerce-pro' ),
+			'placeholder' => __( 'Please enter paypal Client ID', 'wallet-system-for-woocommerce' ),
 			'class'       => 'wws-text-class wps_pro_settings',
 
 		);
 		$wsfw_settings_template[] = array(
-			'title'       => __( 'Enter Paypal Secret Key', 'wallet-system-for-woocommerce-pro' ),
+			'title'       => __( 'Enter Paypal Secret Key', 'wallet-system-for-woocommerce' ),
 			'type'        => 'text',
-			'description' => __( 'Please enter paypal Secret Key', 'wallet-system-for-woocommerce-pro' ),
+			'description' => __( 'Please enter paypal Secret Key', 'wallet-system-for-woocommerce' ),
 			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable_sceret_key',
 			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable_sceret_key',
 			'value'       => '',
-			'placeholder' => __( 'Please enter paypal Secret Key', 'wallet-system-for-woocommerce-pro' ),
+			'placeholder' => __( 'Please enter paypal Secret Key', 'wallet-system-for-woocommerce' ),
 			'class'       => 'wws-text-class wps_pro_settings',
 
 		);
 		$wsfw_settings_template[] = array(
-			'title'       => __( 'Select paypal Mode', 'wallet-system-for-woocommerce-pro' ),
+			'title'       => __( 'Select paypal Mode', 'wallet-system-for-woocommerce' ),
 			'type'        => 'select',
-			'description' => __( 'Select paypal mode type live or test.', 'wallet-system-for-woocommerce-pro' ),
+			'description' => __( 'Select paypal mode type live or test.', 'wallet-system-for-woocommerce' ),
 			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable_mode',
 			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable_mode',
 			'value'       => '',
@@ -4152,8 +4152,8 @@ class Wallet_System_For_Woocommerce_Admin {
 			'options'     => apply_filters(
 				'wsfw_withdrawal_paypal_mode_type__array',
 				array(
-					'live' => __( 'Live Mode', 'wallet-system-for-woocommerce-pro' ),
-					'test'   => __( 'Test Mode', 'wallet-system-for-woocommerce-pro' ),
+					'live' => __( 'Live Mode', 'wallet-system-for-woocommerce' ),
+					'test'   => __( 'Test Mode', 'wallet-system-for-woocommerce' ),
 				)
 				),
 		);
@@ -4161,7 +4161,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			'type'        => 'submit',
 			'name'        => 'wsfw_button_wallet_withdrawal_paypal_tab_option',
 			'id'          => 'wsfw_button_wallet_withdrawal_paypal_tab_option',
-			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce-pro' ),
+			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
 			'class'       => 'wsfw-button-class wps_pro_settings',
 		);
 	

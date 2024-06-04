@@ -22,9 +22,9 @@
  * Domain Path:       /languages
  *
  * WC Requires at least: 6.5.2
- * WC tested up to: 8.8.3
+ * WC tested up to: 8.9.1
  * WP Requires at least: 5.5.0
- * WP tested up to: 6.4.3
+ * WP tested up to: 6.5.3
  * Requires PHP: 7.3.5 or Higher
  *
  * License:           GNU General Public License v3.0
@@ -445,6 +445,3 @@ function wps_wsfw_banner_notification_html() {
 		}
 	}
 }
-add_filter( 'unzip_file_use_ziparchive', '__return_false' );
-ini_set('display_errors',1);
-error_reporting(E_ALL);

@@ -25,7 +25,7 @@ if ( isset( $_POST['wsfw_button_wallet_withdrawal_paypal_tab'] ) ) {
 		$wsfw_plugin_admin->wps_wsfw_admin_save_tab_settings_for_wallet_promotions_tab();
 
 	} else {
-		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce-pro' ), 'error' );
+		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
 	}
 }
 
@@ -43,7 +43,7 @@ $wsfw_wallet_withdrawal_settings      = apply_filters( 'wsfw_wallet_withrwaral_s
 
 	
 	<div class="wsfw-secion-daily-visit">
-	  <span><b><?php esc_html_e( 'Wallet Withdrawal Settings', 'wallet-system-for-woocommerce-pro' ); ?></b></span>
+	  <span><b><?php esc_html_e( 'Wallet Withdrawal Settings', 'wallet-system-for-woocommerce' ); ?></b></span>
 		<?php
 			$wsfw_wallet_action_promotions_enable_settings      = apply_filters( 'wsfw_wallet_action_withdrawal_settings', array() );
 
