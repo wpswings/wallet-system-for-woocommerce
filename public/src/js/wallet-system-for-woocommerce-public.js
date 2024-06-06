@@ -41,13 +41,21 @@
 			});
 			
 		});
+		debugger;
 		var $option_withdrawal;
-		$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
-		if ( $option_withdrawal == 'paypal' ) {
-			jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).show()
+		if ($option_withdrawal != undefined ) {
+			$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
+			if ( $option_withdrawal == 'paypal' ) {
+				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).show();
+				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required','required');
+			} else{
+				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).hide();
+				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required',false);
+			}
 		} else{
-			jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).hide();
+			jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required','required');
 		}
+		
 
 		// Unset manually amount in partial payment.
 		$(document).on( 'click','#wps_withdrawal_table_div', function(){
@@ -61,8 +69,11 @@
 			debugger;
 			if ( $option_withdrawal == 'paypal' ) {
 				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).show();
+				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required','required');
+
 			} else{
 				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).hide();
+				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required',false);
 			}
 			
 		});
@@ -76,6 +87,7 @@
 			} else {
 				$( '.partial_amount' ).remove();
 				$( '.woocommerce-checkout-review-order-table .fee' ).remove();
+				
 				
 				$(document.body).trigger('update_checkout');
 			}

@@ -2513,83 +2513,76 @@ class Wallet_System_For_Woocommerce_Admin {
 
 						$transaction_type .= __( '( inculding Withdrawal Fee of ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . '' . $wps_wsfwp_wallet_withdrawal_fee_amount . __( ')', 'wallet-system-for-woocommerce' );
 						$paypal_fees = __( '( excluding Withdrawal Fee of ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . '' . $wps_wsfwp_wallet_withdrawal_fee_amount . __( ')', 'wallet-system-for-woocommerce' );
-					
-						
+
 					}
 					$result = '';
 					$is_manual = true;
-			 		$wps_wallet_withdrawal_option = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
-			 if ( 'on' == $wps_wallet_withdrawal_option ) {
-				$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
-			 	if ( 'paypal' == $wps_wallet_withdrawal_option ) {
-					$is_manual = false;
-			}
-		}
-		if ( $is_manual ) {
-
-		
-					$transaction_data = array(
-						'user_id'          => $user_id,
-						'amount'           => $withdrawal_amount,
-						'currency'         => get_woocommerce_currency(),
-						'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
-						'transaction_type' => htmlentities( $transaction_type ),
-						'transaction_type_1' => 'debit',
-						'order_id'         => $withdrawal_id,
-						'note'             => '',
-
-					);
-
-					$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-				
-				if ( $result ) {
-						$wps_wsfw_error_text = esc_html__( 'Wallet withdrawal request is approved for user #', 'wallet-system-for-woocommerce' ) . $user_id;
-						$message             = array(
-							'msg'     => $wps_wsfw_error_text,
-							'msgType' => 'success',
-						);
-					} else {
-						$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
-						$message             = array(
-							'msg'     => $wps_wsfw_error_text,
-							'msgType' => 'error',
-						);
+					$wps_wallet_withdrawal_option = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
+					if ( 'on' == $wps_wallet_withdrawal_option ) {
+						$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
+						if ( 'manual' == $wps_wallet_withdrawal_option ) {
+							$is_manual = true;
+						} else {
+							$is_manual = false;
+						}
 					}
-				}
+					if ( $is_manual ) {
+
+								$transaction_data = array(
+									'user_id'          => $user_id,
+									'amount'           => $withdrawal_amount,
+									'currency'         => get_woocommerce_currency(),
+									'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
+									'transaction_type' => htmlentities( $transaction_type ),
+									'transaction_type_1' => 'debit',
+									'order_id'         => $withdrawal_id,
+									'note'             => '',
+
+								);
+
+								$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
+								if ( $result ) {
+									$wps_wsfw_error_text = esc_html__( 'Wallet withdrawal request is approved for user #', 'wallet-system-for-woocommerce' ) . $user_id;
+									$message             = array(
+										'msg'     => $wps_wsfw_error_text,
+										'msgType' => 'success',
+									);
+								} else {
+									$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+									$message             = array(
+										'msg'     => $wps_wsfw_error_text,
+										'msgType' => 'error',
+									);
+								}
+					}
 				};
+				$wps_wallet_withdrawal_option = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
+				if ( 'on' == $wps_wallet_withdrawal_option ) {
+					$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
+					if ( 'manual' != $wps_wallet_withdrawal_option ) {
 
+						$transaction_type_paypal = __( 'Wallet debited through withdrawal wallet transfer into paypal : ', 'woo-gift-cards-lite' ) . $withdrawal_mail_id . __( ' through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $withdrawal_id . '</a>';
 
-			//	wps_wallet_withdrawal_option
-			$wps_wallet_withdrawal_option = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
-			if ( 'on' == $wps_wallet_withdrawal_option ) {
-				$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
-				if ( 'paypal' == $wps_wallet_withdrawal_option ) {
-					
-					$transaction_type_paypal = __( 'Wallet debited through withdrawal wallet transfer into paypal : ', 'woo-gift-cards-lite' ) . $withdrawal_mail_id. __( ' through user withdrawing request ', 'wallet-system-for-woocommerce' ). '<a href="#" >#' . $withdrawal_id . '</a>';
-					
-					if ( $wps_wsfwp_wallet_withdrawal_fee_amount > 0 ) {
-						$withdrawal_amount = intval( $withdrawal_amount ) -  intval(  $wps_wsfwp_wallet_withdrawal_fee_amount );
+						if ( $wps_wsfwp_wallet_withdrawal_fee_amount > 0 ) {
+							$withdrawal_amount = intval( $withdrawal_amount ) - intval( $wps_wsfwp_wallet_withdrawal_fee_amount );
+						}
+						$return_data = apply_filters( 'wps_wallet_withdrawal_through_paypal', $user_id, $withdrawal_amount, $withdrawal_mail_id, $transaction_type_paypal, $withdrawal_id );
+
+						if ( $return_data ) {
+							$message             = array(
+								'msg'     => $return_data,
+								'msgType' => 'success',
+							);
+						} else {
+							$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+							$message             = array(
+								'msg'     => $wps_wsfw_error_text,
+								'msgType' => 'error',
+							);
+						}
 					}
-					$return_data = apply_filters('wps_wallet_withdrawal_through_paypal', $user_id, $withdrawal_amount, $withdrawal_mail_id, $transaction_type_paypal, $withdrawal_id  );
-				
-					
-			
-				if ( $return_data ) {
-						$message             = array(
-							'msg'     => $return_data,
-							'msgType' => 'success',
-						);
-					} else {
-						$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
-						$message             = array(
-							'msg'     => $wps_wsfw_error_text,
-							'msgType' => 'error',
-						);
-					}
-					
 				}
-			}
-
 			}
 			if ( 'rejected' === $updated_status ) {
 				$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
@@ -3783,7 +3776,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wsfwp_min_wallet_transfer_amount',
 				'id'          => 'wsfwp_min_wallet_transfer_amount',
 				'min'         => 0,
-				'step'        =>'0.1',
+				'step'        => '0.1',
 				'value'       => get_option( 'wsfwp_min_wallet_transfer_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),
@@ -4094,7 +4087,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wsfw_settings_template[] = array(
 			'title'       => __( 'Enable Wallet Withdrawal through Paypal', 'wallet-system-for-woocommerce' ),
 			'type'        => 'radio-switch',
-			'description' => '',
+			'description' => 'fgtdcg',
 			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable',
 			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable',
 			'value'       => '',
@@ -4155,7 +4148,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'live' => __( 'Live Mode', 'wallet-system-for-woocommerce' ),
 					'test'   => __( 'Test Mode', 'wallet-system-for-woocommerce' ),
 				)
-				),
+			),
 		);
 		$wsfw_settings_template[] = array(
 			'type'        => 'submit',
@@ -4164,8 +4157,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
 			'class'       => 'wsfw-button-class wps_pro_settings',
 		);
-	
-		
+
 		return $wsfw_settings_template;
 	}
 }

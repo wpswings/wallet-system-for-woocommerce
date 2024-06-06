@@ -306,9 +306,9 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wsfw_wallet_restriction_recharge_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_recharge_restriction_settings_page_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_recharge_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_recharge_enable_settings_tab_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
-			
+
 			$this->loader->add_filter( 'wsfw_wallet_action_withdrawal_settings', $wsfw_plugin_admin, 'wsfw_wallet_withdrawal_enable_settings_tab', 10 );
-			
+
 		}
 		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
 
@@ -530,7 +530,6 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'wallet-system-withdrawal-setting',
 		);
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
-		
 
 		// added tab for wallet withdrawal Cashback.
 		$wsfw_default_tabs['wallet-system-for-woocommerce-cashback'] = array(
@@ -546,7 +545,7 @@ class Wallet_System_For_Woocommerce {
 		);
 		$is_pro = false;
 		$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
-		
+
 		if ( ! $is_pro ) {
 			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-withdrawal-settings'] = array(
 				'title'     => esc_html__( 'Withdrawal Settings', 'wallet-system-for-woocommerce' ),
@@ -594,11 +593,10 @@ class Wallet_System_For_Woocommerce {
 	 * @param array  $params parameters to pass to the file for access.
 	 */
 	public function wps_wsfw_plug_load_template( $path, $params = array() ) {
-		
+
 		$wsfw_file_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . $path;
 		$wsfw_file_path = apply_filters( 'wps_wsfw_template_path', $wsfw_file_path );
 
-		
 		if ( file_exists( $wsfw_file_path ) ) {
 
 			include $wsfw_file_path;
@@ -1042,7 +1040,7 @@ class Wallet_System_For_Woocommerce {
 									</div>
 								</div>
 								<div class="mdc-text-field-helper-line">
-											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+									<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
 								</div>
 							</div>
 						</div>
