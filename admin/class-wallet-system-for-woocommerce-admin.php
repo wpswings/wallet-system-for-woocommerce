@@ -4087,7 +4087,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wsfw_settings_template[] = array(
 			'title'       => __( 'Enable Wallet Withdrawal through Paypal', 'wallet-system-for-woocommerce' ),
 			'type'        => 'radio-switch',
-			'description' => 'fgtdcg',
+			'description' => '',
 			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable',
 			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable',
 			'value'       => '',
