@@ -96,6 +96,7 @@ class Wallet_System_For_Woocommerce_Public {
 		global $wp_query;
 		wp_enqueue_script( 'wps-silk-script', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/slick/slick.min.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-public.js', array( 'jquery' ), $this->version, false );
+		$wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
 		wp_localize_script(
 			$this->plugin_name,
 			'wsfw_public_param',
@@ -121,6 +122,7 @@ class Wallet_System_For_Woocommerce_Public {
 				'wsfw_recharge_maxamount_error'  => __( 'Recharge amount should be less than or equal to ', 'wallet-system-for-woocommerce' ),
 				'wsfw_wallet_transfer'           => __( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ),
 				'wsfw_unset_amount'              => __( 'Wallet Amount Removed', 'wallet-system-for-woocommerce' ),
+				'wsfw_wallet_paypal'              => $wps_wsfwp_wallet_withdrawal_paypal_enable,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name );

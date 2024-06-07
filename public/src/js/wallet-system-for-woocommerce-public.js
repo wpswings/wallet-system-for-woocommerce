@@ -41,7 +41,10 @@
 			});
 			
 		});
-		debugger;
+
+		if ( wsfw_public_param.wsfw_wallet_paypal == 'on' ) {
+
+		
 		var $option_withdrawal;
 		$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
 		if ($option_withdrawal != undefined ) {
@@ -61,7 +64,7 @@
 			jQuery(jQuery('#wps_wallet_withdrawal_fee').parent()).hide();
 		}
 		
-
+	}
 		// Unset manually amount in partial payment.
 		$(document).on( 'click','#wps_withdrawal_table_div', function(){
 			jQuery('.wps_withdrawal_table').show();
