@@ -20,7 +20,7 @@
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
- *
+ * Requires Plugins: woocommerce
  * WC Requires at least: 6.5.2
  * WC tested up to: 8.9.1
  * WP Requires at least: 5.5.0
