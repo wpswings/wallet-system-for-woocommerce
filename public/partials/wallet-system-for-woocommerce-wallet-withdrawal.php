@@ -273,7 +273,18 @@ if ( 'on' == $wps_wsfwp_wallet_withdrawal_paypal_enable ) {
 							<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
 							<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 							<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
-							<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+							<?php
+						if ( $check ) {
+							?>
+						<th>
+							<?php
+							esc_html_e( 'Withdrawal Fee', 'wallet-system-for-woocommerce' );
+							?>
+						</th>
+							<?php
+						}
+						?>
+						<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
