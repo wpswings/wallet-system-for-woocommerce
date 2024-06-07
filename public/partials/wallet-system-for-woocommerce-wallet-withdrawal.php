@@ -16,9 +16,7 @@ $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
 $wps_wsfwp_wallet_withdrawal_fee_amount = '';
 $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
 
-if ( 'on' == $wps_wsfwp_wallet_withdrawal_paypal_enable ) {
-	update_option( 'wps_wsfwp_wallet_action_withdrawal_enable', 'no' );
-}
+
 ?>
 
 <div class='content active'>
