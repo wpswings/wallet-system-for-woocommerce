@@ -43,8 +43,9 @@
 		});
 		debugger;
 		var $option_withdrawal;
+		$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
 		if ($option_withdrawal != undefined ) {
-			$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
+			
 			if ( $option_withdrawal == 'paypal' ) {
 				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).show();
 				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required','required');
