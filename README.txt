@@ -1,11 +1,11 @@
-=== Wallet System for WooCommerce - Digital Wallet, Cashback Rewards, Recharge User Wallets, View Transaction History ===
+=== Wallet System for WooCommerce - Wallet, Digital Wallet, Cashback, Recharge User Wallets, Partial Payments, Wallet restriction, Refunds ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: digital wallet, cashback wallet, wallet topup, user wallet, woocommerce wallet
+Tags:  wallet, cashback, wallet payment, wallet, woocommerce wallet
 Requires at least: 5.5.0
-Tested up to: 6.5.2
+Tested up to: 6.5.4
 WC requires at least: 6.5.0
-WC tested up to: 8.8.3
+WC tested up to: 8.9.2
 Stable tag: 2.5.13
 Requires PHP: 7.4
 License: GPLv3 or later 
@@ -19,9 +19,9 @@ WooCommerce Wallet system is a digital wallet plugin that allows authorized user
 
 Wallet System for WooCommerce is a digital wallet plugin. It helps you implement a digital wallet system on their WooCommerce store and lets customers buy your products & services with swift WooCommerce payments. It is one of the fastest WordPress Payment plugins.
 
-The [**WooCommerce Wallet**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-page&utm_campaign=wallet-pro) allows users to add funds. using the available payment methods on your store and see their wallet transactions list. The merchant can manage the customers’ e-wallets and change the wallet amount.
+This [**WooCommerce Wallet**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-page&utm_campaign=wallet-pro) allows users to add funds. using the available payment methods on your store and see their wallet transactions list. The merchant can manage the customers’ e-wallets and change the wallet amount.
 
-This WooCommerce payments plugin will significantly improve the payment & order processing speed. It shortens the average checkout duration as the customers can pay for items within seconds without entering their transaction details each time. In conclusion, wallet funds usage will better the overall user experience.
+**Wallet for WooCommerce** plugin will significantly improve the payment & order processing speed. It shortens the average checkout duration as the customers can pay for items within seconds without entering their transaction details each time. In conclusion, wallet funds usage will better the overall user experience.
 
 Are you stuck with a different wallet plugin? No worries! Moving to our WooCommerce Wallet plugin is easy. Get in touch, and we'll help you migrate smoothly. - [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us)
 
@@ -107,6 +107,7 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 * The Wallet for WooCommerce plugin is compatible with the latest version of the WPML plugin and supports WordPress multisite network.
 
 == WHAT PREMIUM VERSION OF WOOCOMMERCE WALLET SYSTEM OFFERS == 
+* Allow Your Customers to Withdraw funds using PayPal.
 * Allow Cashback on Wallet Recharge.
 * Customization of the feature restriction message. 
 * Display cashback restriction messages on the use of skipped payment gateways.
@@ -140,6 +141,11 @@ WooCommerce Wallet plugin adds digital wallets to online stores. Customers can u
 
 * [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wallet-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-pro-doc)
 
+**Additional Useful Content**
+
+* [WooCommerce Wallet Video](https://youtu.be/mnMfoSL0aZc?si=Pp25OdtZsMqakAGi)
+* [WooCommerce Wallet: Discover the Power of Effortless Transactions](https://youtu.be/CMln5_A7FO0?si=EB_4ByOqulxkmvvR)
+
 == SUPPORT ==
 
 If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-site&utm_medium=wallet-org-page&utm_campaign=wallet-org) and discover all types of [**WooCommerce Extentions**](https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-shop&utm_medium=wpswings-org-page&utm_campaign=woocommerce-plugins) for your eCommerce store.
@@ -150,6 +156,21 @@ Create and Revamp your eCommerce store with [**WooCommerce Services**](https://w
 
 Get Huge Discounts On Wallet System Plugin – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-wallet-offers&utm_medium=wpswings-org-page&utm_campaign=offers)
 
+== Installation ==
+
+= Automatic installation =
+
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of Wallet System For WooCommerce, log in to your WordPress dashboard, navigate to the Plugins menu, and click Add New.
+
+In the search field type "Wallet System for WooCommerce" and click Search Plugins. Once you've found our plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking "Install Now".
+
+= Manual installation =
+
+The manual installation method involves downloading our Wallet System for WooCommerce and uploading it to your web server via your favorite FTP application. The WordPress contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
+
+= Updating =
+
+Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
 
 == Frequently Asked Questions ==
 
@@ -228,10 +249,13 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.13 - Released on 08 May 2024 =
+= 2.5.13 - Released on 10 June 2024 =
+* New: Latest WP[6.5.4] and WC[8.9.2].
+
+= 2.5.12 - Released on 08 May 2024 =
 * New: Extended the FOX compatibility with quick recharge feature and cashback feature
 * New: Added pro tag in wallet recharge product
-* New: WP[6.5.2] and WC[8.8.3] update
+* New: WP[6.5.3] and WC[8.8.3] update
 
 = 2.5.11 - Released on 21 March 2024 =
 * Dev: Added Direct function to credit user wallet for admin
@@ -445,7 +469,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.13 - Released on 08 May 2024 =
-* New: Extended the FOX compatibility with quick recharge feature and cashback feature
-* New: Added pro tag in wallet recharge product
-* New: WP[6.5.2] and WC[8.8.3] update
+= 2.5.13 - Released on 10 June 2024 =
+* New: Latest WP[6.5.4] and WC[8.9.2].
