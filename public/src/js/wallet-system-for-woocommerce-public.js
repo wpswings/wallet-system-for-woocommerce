@@ -74,7 +74,7 @@
 		// Unset manually amount in partial payment.
 		$(document).on( 'change','#wps_wallet_withdrawal_option', function(){
 			$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
-			debugger;
+		
 			if ( $option_withdrawal == 'paypal' ) {
 				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).show();
 				jQuery(jQuery('#wps_wallet_withdrawal_fee').parent()).hide();
