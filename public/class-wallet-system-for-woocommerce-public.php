@@ -262,8 +262,11 @@ class Wallet_System_For_Woocommerce_Public {
 						if ( $is_pro ) {
 
 							if ( intval( $order_number ) < intval( $order_limit ) ) {
+								
+								if ( ( $wallet_amount ) <= ( $wps_cart_total) ) {
 
 								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+								}
 							} else {
 								if ( ( $wallet_amount ) <= ( $limit ) ) {
 									$total_balance = $wallet_amount + $limit;
@@ -350,23 +353,24 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
 					if ( ! empty( $order_limit ) ) {
-						if ( intval( $order_number ) <= intval( $order_limit ) ) {
-
-							return;
+						if ( intval( $order_number ) >= intval( $order_limit ) ) {
+							
+							if ( ( intval( $wallet_amount ) ) <= intval( $limit ) ) {
+								$total_balance = intval( $wallet_amount ) + intval( $limit );
+								if ( $total_balance >= $wps_cart_total ) {
+									return;
+								}
+							} elseif ( ( intval( $wallet_amount ) ) >= ( intval( $limit ) ) ) {
+									$total_balance = intval( $wallet_amount ) + intval( $limit );
+								if ( $total_balance >= $wps_cart_total ) {
+									return;
+								}
+							}
+						
 						}
 					}
 
-					if ( ( intval( $wallet_amount ) ) <= intval( $limit ) ) {
-						$total_balance = intval( $wallet_amount ) + intval( $limit );
-						if ( $total_balance >= $wps_cart_total ) {
-							return;
-						}
-					} elseif ( ( intval( $wallet_amount ) ) >= ( intval( $limit ) ) ) {
-							$total_balance = intval( $wallet_amount ) + intval( $limit );
-						if ( $total_balance >= $wps_cart_total ) {
-							return;
-						}
-					}
+					
 				}
 			}
 
@@ -2637,6 +2641,15 @@ class Wallet_System_For_Woocommerce_Public {
 			return $cart_total_after_partial_payment;
 		}
 
+		if ( ! empty( WC()->cart->get_cart_shipping_total() ) ) {
+			if ( WC()->cart->get_cart_shipping_total() != 'Free!' ) {
+				$cart_total = $cart_total + floatval( WC()->cart->get_cart_shipping_total());
+			} else{
+				$cart_total =  WC()->cart->get_cart_subtotal();
+			}
+
+		}
+
 		return $cart_total;
 	}
 
@@ -2676,4 +2689,3 @@ class Wallet_System_For_Woocommerce_Public {
 
 	}
 }
-
