@@ -3008,6 +3008,9 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( post_type_exists( 'wallet_shop_order' ) ) {
 			return;
 		}
+		if ( ! function_exists('wc_register_order_type' ) ){
+			return;
+		}
 		wc_register_order_type(
 			'wallet_shop_order',
 			apply_filters(

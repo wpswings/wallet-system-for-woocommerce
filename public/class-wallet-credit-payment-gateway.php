@@ -49,6 +49,11 @@ add_filter( 'woocommerce_payment_gateways', 'wps_wsfw_wallet_gateway', 10, 1 );
  */
 function wps_wsfw_wallet_payment_gateway_init() {
 
+
+	if ( ! class_exists('WC_Payment_Gateway')){
+return;
+	}
+
 	/**
 	 * Class to create wallet payment gateway.
 	 */
