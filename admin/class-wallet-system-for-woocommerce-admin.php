@@ -2457,7 +2457,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$result = '';
 				$is_manual_fees = true;
 				$wps_wallet_withdrawal_option = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
-				
+
 				if ( 'on' == $wps_wallet_withdrawal_option ) {
 					$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
 					if ( 'manual' != $wps_wallet_withdrawal_option ) {
@@ -2466,12 +2466,12 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 				if ( $is_manual_fees ) {
 					$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $withdrawal_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
-			
-				} else{
+
+				} else {
 					$wps_wsfwp_wallet_withdrawal_fee_amount = 0;
-			
+
 				}
-					if ( $user_id ) {
+				if ( $user_id ) {
 					$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
 					$walletamount = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					if ( $walletamount < $withdrawal_amount ) {

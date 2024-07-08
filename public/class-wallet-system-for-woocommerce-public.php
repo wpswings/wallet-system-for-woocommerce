@@ -262,10 +262,10 @@ class Wallet_System_For_Woocommerce_Public {
 						if ( $is_pro ) {
 
 							if ( intval( $order_number ) < intval( $order_limit ) ) {
-								
-								if ( ( $wallet_amount ) <= ( $wps_cart_total) ) {
 
-								unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
+								if ( ( $wallet_amount ) <= ( $wps_cart_total ) ) {
+
+									unset( $available_gateways['wps_wcb_wallet_payment_gateway'] );
 								}
 							} else {
 								if ( ( $wallet_amount ) <= ( $limit ) ) {
@@ -354,7 +354,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 					if ( ! empty( $order_limit ) ) {
 						if ( intval( $order_number ) >= intval( $order_limit ) ) {
-							
+
 							if ( ( intval( $wallet_amount ) ) <= intval( $limit ) ) {
 								$total_balance = intval( $wallet_amount ) + intval( $limit );
 								if ( $total_balance >= $wps_cart_total ) {
@@ -366,11 +366,8 @@ class Wallet_System_For_Woocommerce_Public {
 									return;
 								}
 							}
-						
 						}
 					}
-
-					
 				}
 			}
 
@@ -2643,11 +2640,10 @@ class Wallet_System_For_Woocommerce_Public {
 
 		if ( ! empty( WC()->cart->get_cart_shipping_total() ) ) {
 			if ( WC()->cart->get_cart_shipping_total() != 'Free!' ) {
-				$cart_total = $cart_total + floatval( WC()->cart->get_cart_shipping_total());
-			} else{
-				$cart_total =  WC()->cart->get_cart_subtotal();
+				$cart_total = $cart_total + floatval( WC()->cart->get_cart_shipping_total() );
+			} else {
+				$cart_total = WC()->cart->get_cart_subtotal();
 			}
-
 		}
 
 		return $cart_total;
