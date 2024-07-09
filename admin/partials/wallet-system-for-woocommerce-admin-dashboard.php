@@ -58,21 +58,28 @@ $wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway
 		if ( $check ) {
 			?>
 				<h1  class="wps-header-title"><?php echo esc_attr__( 'WALLET SYSTEM FOR WOOCOMMERCE PRO', 'wallet-system-for-woocommerce' ); ?></h1>
+				<a href="https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wallet-pro-backend&utm_medium=referral&utm_campaign=wallet-pro-doc" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
+				<span>|</span>
+				<a href="https://youtu.be/mnMfoSL0aZc" target="_blank" class="wps-link"><?php esc_html_e( 'Video', 'wallet-system-for-woocommerce' ); ?></a>
+				<span>|</span>
+				<a href="https://wpswings.com/contact-us/" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
+	
 			<?php
 
 		} else {
 			?>
 				<h1  class="wps-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $wsfw_wps_wsfw_obj->wsfw_get_plugin_name() ) ) ); ?></h1>
+				<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
+				<span>|</span>
+				<a href="https://youtu.be/C5mwA5kttRU" target="_blank" class="wps-link"><?php esc_html_e( 'Video', 'wallet-system-for-woocommerce' ); ?></a>
+				<span>|</span>
+				<a href="https://wpswings.com/contact-us/" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
+	
 			<?php
 		}
 
 		?>
-		<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
-		<span>|</span>
-		<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank" class="wps-link"><?php esc_html_e( 'Video', 'wallet-system-for-woocommerce' ); ?></a>
-		<span>|</span>
-		<a href="https://wpswings.com/contact-us/" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
-	</div>
+		</div>
 </header>
 
 <main class="wps-main wps-r-8">
