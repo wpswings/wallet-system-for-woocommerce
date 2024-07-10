@@ -2375,29 +2375,23 @@ class Wallet_System_For_Woocommerce_Admin {
 					require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 					$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 					$dompdf->setPaper( 'A4', 'landscape' );
-					$upload_dir_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR . '/transaction_pdf';
-					if ( ! is_dir( $upload_dir_path ) ) {
-						wp_mkdir_p( $upload_dir_path );
-						chmod( $upload_dir_path, 0775 );
-					}
 					$dompdf->loadHtml( $pdf_html );
 					@ob_end_clean(); // phpcs:ignore
 					$dompdf->render();
 					$dompdf->set_option( 'isRemoteEnabled', true );
 					$output = $dompdf->output();
-					$generated_pdf = file_put_contents( $upload_dir_path . '/transaction.pdf', $output );
-					$file = $upload_dir_path . '/transaction.pdf';
-					if ( file_exists( $file ) ) {
-						header( 'Content-Description: File Transfer' );
-						header( 'Content-Type: application/octet-stream' );
-						header( 'Content-Disposition: attachment; filename="' . basename( $file ) . '"' );
-						header( 'Expires: 0' );
-						header( 'Cache-Control: must-revalidate' );
-						header( 'Pragma: public' );
-						header( 'Content-Length: ' . filesize( $file ) );
-						readfile( $file );
-						exit;
-					}
+					// Set headers to force download
+					header( 'Content-Description: File Transfer' );
+					header( 'Content-Type: application/pdf' );
+					header( 'Content-Disposition: attachment; filename="transaction.pdf"' );
+					header( 'Expires: 0' );
+					header( 'Cache-Control: must-revalidate' );
+					header( 'Pragma: public' );
+					header( 'Content-Length: ' . strlen( $output ) );
+					// Output the PDF
+					echo $output;
+					exit;
+
 				}
 			}
 		}
@@ -3006,7 +3000,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( post_type_exists( 'wallet_shop_order' ) ) {
 			return;
 		}
-		if ( ! function_exists('wc_register_order_type' ) ){
+		if ( ! function_exists( 'wc_register_order_type' ) ) {
 			return;
 		}
 		wc_register_order_type(
