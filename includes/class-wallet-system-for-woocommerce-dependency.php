@@ -25,7 +25,7 @@ if ( ! function_exists( 'wps_wsfw_update_user_wallet_balance' ) ) {
 	 */
 	function wps_wsfw_update_user_wallet_balance( $user_id, $amount, $order_id = '' ) {
 		$wallet_balance = get_user_meta( $user_id, 'wps_wallet', true );
-
+		$wallet_balance = intval( $wallet_balance );
 		if ( $wallet_balance < $amount ) {
 			$wallet_balance = 0;
 		} else {
@@ -113,7 +113,7 @@ if ( ! function_exists( 'wps_wsfw_credit_user_wallet_balance' ) ) {
 	 */
 	function wps_wsfw_credit_user_wallet_balance( $user_id, $amount, $order_id = '' ) {
 		$wallet_balance = get_user_meta( $user_id, 'wps_wallet', true );
-
+		$wallet_balance = intval( $wallet_balance );
 		$wallet_balance += intval( $amount );
 
 		$update_wallet          = update_user_meta( $user_id, 'wps_wallet', $wallet_balance );
@@ -333,4 +333,6 @@ if ( ! function_exists( 'wps_wsfw_create_referral_code_wallet' ) ) {
 		return $pkey;
 	}
 }
+
+
 
