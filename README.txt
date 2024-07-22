@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.5.4
 WC requires at least: 6.5.0
 WC tested up to: 8.9.2
-Stable tag: 2.5.14
+Stable tag: 2.5.15
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -249,7 +249,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.14 - Released on 10 June 2024 =
+= 2.5.15 - Released on 10 June 2024 =
 * New: Latest WP[6.5.4] and WC[8.9.2].
 
 = 2.5.12 - Released on 08 May 2024 =
@@ -469,5 +469,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.14 - Released on 10 June 2024 =
+= 2.5.15 - Released on 10 June 2024 =
 * New: Latest WP[6.5.4] and WC[8.9.2].

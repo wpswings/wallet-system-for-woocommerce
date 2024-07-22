@@ -32,7 +32,7 @@ if ( is_array( $wsfw_min_max_value ) ) {
 	<span id="wps_wallet_transfer_form">
 		<p class="wps-wallet-field-container form-row form-row-wide">
 			<label for="wps_wallet_recharge_amount"><?php echo esc_html__( 'Enter Coupon Code :', 'wallet-system-for-woocommerce' ); ?></label>
-				<input type="text" name="wps_wsfw_coupon_code" class="input-text" id="wps_wsfw_coupon_code" value="" placeholder="Coupon code">
+				<input type="text" name="wps_wsfw_coupon_code" class="input-text" id="wps_wsfw_coupon_code" value="" placeholder="<?php echo esc_html__( 'Coupon Code :', 'wallet-system-for-woocommerce' ); ?>">
 		</p>
 		<p class="error"></p>
 		<p class="wps-wallet-field-container form-row">
