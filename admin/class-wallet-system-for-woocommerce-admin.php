@@ -96,12 +96,10 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 		}
-
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
 			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
 
 		}
-
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
 
@@ -2999,7 +2997,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( post_type_exists( 'wallet_shop_order' ) ) {
 			return;
 		}
-		if ( ! function_exists('wc_register_order_type' ) ){
+		if ( ! function_exists( 'wc_register_order_type' ) ) {
 			return;
 		}
 		wc_register_order_type(
