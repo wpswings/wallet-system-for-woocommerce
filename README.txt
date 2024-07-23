@@ -1,13 +1,13 @@
-=== Wallet System for WooCommerce - Wallet, Digital Wallet, Cashback, Recharge User Wallets, Partial Payments, Wallet restriction, Refunds ===
+=== Wallet System for WooCommerce – Wallet, Digital Wallet, Cashback, Recharge User Wallets, Partial Payments, Wallet restriction, Refunds ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags:  wallet, cashback, wallet payment, wallet, woocommerce wallet
+Tags:  wallet, cashback, wallet system, wallet, woocommerce wallet
 Requires at least: 5.5.0
-Tested up to: 6.5.4
-WC requires at least: 6.5.0
-WC tested up to: 8.9.2
-Stable tag: 2.5.15
-Requires PHP: 7.4
+Tested up to: 6.6.0
+WC Requires at least: 6.5.2
+WC tested up to: 9.1.2
+Stable tag: 2.5.14
+Requires PHP: 7.2.24
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -23,7 +23,7 @@ This [**WooCommerce Wallet**](https://wpswings.com/product/wallet-system-for-woo
 
 **Wallet for WooCommerce** plugin will significantly improve the payment & order processing speed. It shortens the average checkout duration as the customers can pay for items within seconds without entering their transaction details each time. In conclusion, wallet funds usage will better the overall user experience.
 
-Are you stuck with a different wallet plugin? No worries! Moving to our WooCommerce Wallet plugin is easy. Get in touch, and we'll help you migrate smoothly. - [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us)
+Are you stuck with a different wallet plugin? No worries! Moving to our WooCommerce Wallet plugin is easy. Get in touch, and we'll help you migrate smoothly. – [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us)
 
 The WooCommerce Wallet increases the ease and security of the payment process. making it a must-have WooCommerce payment plugin for your online store. 
 
@@ -91,7 +91,7 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 
 * Compatibility with [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) and [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-giftcards-pro&utm_medium=wallet-org-page&utm_campaign=giftcards-pro).
 
-* Compatibility With  [**FOX - Currency Switcher**](https://wordpress.org/plugins/woocommerce-currency-switcher/). 
+* Compatibility With  [**FOX – Currency Switcher**](https://wordpress.org/plugins/woocommerce-currency-switcher/). 
 
 * Compatibility  [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/
 ) and  [**Subscriptions for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-subscription-pro&utm_medium=wallet-org-page&utm_campaign=subscription-pro).
@@ -249,67 +249,72 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.5.15 - Released on 10 June 2024 =
+= 2.5.14 – Released on 23 July 2024 =
+* Fix: Tax issue fixed.
+* Fix: Missing translation issue fixed.
+* New: Latest WP [6.6.0] and WC [9.1.2].
+
+= 2.5.13 – Released on 10 June 2024 =
 * New: Latest WP[6.5.4] and WC[8.9.2].
 
-= 2.5.12 - Released on 08 May 2024 =
+= 2.5.12 – Released on 08 May 2024 =
 * New: Extended the FOX compatibility with quick recharge feature and cashback feature
 * New: Added pro tag in wallet recharge product
 * New: WP[6.5.3] and WC[8.8.3] update
 
-= 2.5.11 - Released on 21 March 2024 =
+= 2.5.11 – Released on 21 March 2024 =
 * Dev: Added Direct function to credit user wallet for admin
 * Fix: Changed calendar in transaction table
 * New: Compatibility with latest WP [6.4.3] and WC [8.7.0]
 
-= 2.5.9 - Released on 29 February 2024 =
+= 2.5.9 – Released on 29 February 2024 =
 * Fix: Paypal issue
 
-= 2.5.8 - Released on 23 February 2024 =
+= 2.5.8 – Released on 23 February 2024 =
 * New: Deprecated variable removed from Wallet payment gateway
 * New: Gateway Restriction Added  (Woocommerce default gateway)
 * New: Gateway Charge For Wallet Recharge Product (Woocommerce default gateway)
 * New: Latest WP [6.4.3] and WC [8.6.1] Update
 * Fix: Tax issues fixed inclusive and Exclusive
 
-= 2.5.7 - Released on 2 February 2024 =
+= 2.5.7 – Released on 2 February 2024 =
 * Fix: Transaction Table issue fixed.
 
-= 2.5.6 - Released on 1 February 2024 =
+= 2.5.6 – Released on 1 February 2024 =
 * New: Manual Order Feature.
 * New: Latest WP[6.4.3] and WC[8.5.2].
 * Fix: Design Issue In Go Pro Section.
 * Fix: Git Issue.
 * Fix: Inclusive Tax Issue.
 
-= 2.5.5 - Released on 18 December 2023 =
+= 2.5.5 – Released on 18 December 2023 =
 * New: Cart and checkout block compatibility.
 * New: Latest WP[6.4.2] and WC[8.4.0].
 
-= 2.5.4 - Released on 15 November 2023 =
+= 2.5.4 – Released on 15 November 2023 =
 * New: Wallet report section added
 * Fix: Design issues fixed in user transaction table
 * New: Latest WP [6.4.1] and WC [8.2.2] Update
 
-= 2.5.3 - Released on 3 November 2023 =
+= 2.5.3 – Released on 3 November 2023 =
 * New: Wallet Transaction Table enhancement
 * Fix: Wallet negative balance issue fix
 * New: Latest WP [6.3.2] and WC [8.2.1] Update
 * New: Banner section Added
 
-= 2.5.2 - Released on 26 September 2023 =
+= 2.5.2 – Released on 26 September 2023 =
 * Fix: Bug fix in case of debit amount from particular user.
 
-= 2.5.1 - Released on 22 September 2023 =
+= 2.5.1 – Released on 22 September 2023 =
 * New: Latest WP[6.3.1] and WC[8.1.1] Update
 * Fix: Mail bug fixes 
 
-= 2.5.0 - Released on 20 September 2023 =
+= 2.5.0 – Released on 20 September 2023 =
 * New: Negative wallet amount support
 * New: HPOS Compatibility
 * New: Latest WP[6.3.1] and WC[8.0.3] Update
 
-= 2.4.0 - Released on 07 August 2023 =
+= 2.4.0 – Released on 07 August 2023 =
 * Fix: Issue fixed in Partial payment when admin deduct amount while placing order.
 * Fix: Fixed error while adding balance manually from the wallet table.
 * Fix: Fixed Notification Error when admin deducts more than the existent value from wallet table.
@@ -325,49 +330,49 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 * New: CSV file upload button added
 * New: Compatible with latest WP[6.2.2] and WC[7.8.2]
 
-= 2.3.6 - Released on 14 June 2023 =
+= 2.3.6 – Released on 14 June 2023 =
 * New: Make rechargeable product tax free
 * Fix: Resolved translation issue for partial payment
 * Fix: Refund issue resolved
 * New: Latest WP [6.2.2] and WC [7.8.0] update
 
-= 2.3.5 - Released on 19 April 2023 =
+= 2.3.5 – Released on 19 April 2023 =
 * New: Compatibility with multi vendors.
 * New: Add hide or show button for checkout field.
 * New: Video icon in plugin settings page
 
-= 2.3.4 - Released on 16 March 2023 =
+= 2.3.4 – Released on 16 March 2023 =
 * New: UI/UX update
 * New: Latest WP [6.1.1] and WC [7.5.0] update.
 * Fix: Bug fix in case of import wallet
 
-= 2.3.3 - Released on 2 March 2023 =
+= 2.3.3 – Released on 2 March 2023 =
 * New: Bug fix in case of mails.
 * New: Transaction table display issue in case of the user transaction.
 * New: Latest WP [6.1.1] and WC [7.4.1] update.
 
-= 2.3.2 - Released on 28 February 2023 =
+= 2.3.2 – Released on 28 February 2023 =
 * New: We will allow the admin to skip a particular gateway for Wallet cashback.
 * New: Allow admin to send wallet mail through different mail IDs.
 * New: Wallet shortcode to show currency user wallet amount. 
 * New: Auto-complete order Status through wallet payment gateway
 
-= 2.3.1 - Released on 30 January 2023 =
+= 2.3.1 – Released on 30 January 2023 =
 * New: Full refund to the wallet or partial payment refund to the wallet
 * New: Compatible with [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/)
 * New: Compatible with [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-giftcards-pro&utm_medium=wallet-org-page&utm_campaign=giftcards-pro)
 * Fix: Reduced load time for wallet user table
 
-= 2.3.0 - Released on 22 December 2022 =
+= 2.3.0 – Released on 22 December 2022 =
 * New: Bulk edit through checkbox to credit or debit amount
 * New: Latest WP and WC compatibility
 
-= 2.2.10 - Released on 14 November 2022 =
+= 2.2.10 – Released on 14 November 2022 =
 * New: Latest WP and WC update.
 * Fix: CSS issue fix for the wallet in my account section.
 * Fix: Addition of new script to enable clicking on the option of wallet in case of CSS failure.
 
-= 2.2.9 - Released on 8 November 2022 =
+= 2.2.9 – Released on 8 November 2022 =
 * Fix: Issue fixed with the multi-currency plugin.
 * Fix: Bug fix in for wallet recharge order [WooCommerce Analytics report]
 * New: WP and WC latest update.
@@ -375,85 +380,85 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 * New: Mention a wallet shortcode in general settings.
 
 
-= 2.2.8 - Released on 16 Sep 2022 =
+= 2.2.8 – Released on 16 Sep 2022 =
 * New: Compatible with WooCommerce currency switcher plugin.
 * New: Download transaction details in pdf form.
 * New: Compatible with the latest WP and WC.
 
 
-= 2.2.7 - Released on 23 Aug 2022 =
+= 2.2.7 – Released on 23 Aug 2022 =
 * New: Addition of transaction detail in wallet individual edit section.
 * New: Filter wallet recharge order by status.
 * Fix: Bug Fixes.
 
-= 2.2.6 - Released on 05 Aug 2022 =
+= 2.2.6 – Released on 05 Aug 2022 =
 * New: Minor Bug  Issues Fixes.
 
-= 2.2.5 - Released on 28 July 2022 =
+= 2.2.5 – Released on 28 July 2022 =
 * New: Wallet Auto Top up with(Day and Week)
 * New: Withdrawal Request showing user name with a link instead of the user ID.
 
-= 2.2.4 - Released on 09 June 2022 =
+= 2.2.4 – Released on 09 June 2022 =
 * New: Bug Fixes.
 
-= 2.2.3 - Released on 25 May 2022 =
+= 2.2.3 – Released on 25 May 2022 =
 * New: Credit amount on new user registration.
 
-= 2.2.2 - Released on 11 May 2022 =
+= 2.2.2 – Released on 11 May 2022 =
 * New: Credit Amount On User Daily Visit.
 * New: Credit Amount On review.
 * New: Minor Bug Fixes.
 * New: Compatible with the latest WP and WC.
 
-= 2.2.1 - Released on 8 April 2022 =
+= 2.2.1 – Released on 8 April 2022 =
 * New: Wallet Cashback Feature 
 * New: User Wallet Restriction
 * New: Compatible with the latest WP and WC
 
-= 2.2.0 - Released on 16 March 2022 =
+= 2.2.0 – Released on 16 March 2022 =
 * New: Minor Bug Fixes
 
-= 2.1.4 - Released on 14 March 2022 =
+= 2.1.4 – Released on 14 March 2022 =
 * New: Some substantial changes across different areas of the plugin.
 * New: Minor Bug Fixes
 * New: Compatible with the latest WP and WC
 
-= 2.1.3 - Released on 3 February 2022 =
+= 2.1.3 – Released on 3 February 2022 =
 * New: Change author from MakeWebBetter to WP Swings
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official ).
 * New: Minor Bug fixes
 * New: Compatible with the latest WP and WC 
 
-= 2.1.2 - Released on 29 November 2021 =
+= 2.1.2 – Released on 29 November 2021 =
 * New: Partial Payment Option
 * New: Updated all transaction table
 * Fix: Minor Fixes.
 
-= 2.1.1 - Released on 2 November 2021 =
+= 2.1.1 – Released on 2 November 2021 =
 * New: Supports Multi Vendor Marketplace Solution for WooCommerce
 * Fix: Minor Fixes.
 
-= 2.1.0 - Released on 23 September 2021 =
+= 2.1.0 – Released on 23 September 2021 =
 * New: Shortcode wps-wallet which will display the user wallet on a page
 * New: Support WordPress Multisite Network
 * New: Compatible with our [Subscriptions For WooCommerce plugin](https://wordpress.org/plugins/subscriptions-for-woocommerce/).
 * New: Compatible with the WPML plugin
 
-= 2.0.4 - Released on 2 August 2021 =
+= 2.0.4 – Released on 2 August 2021 =
 * Fix: the warning comes when adding wallet recharge to the cart.
 * New: Added a function for the WooCommerce POS plugin regarding debiting the wallet amount.
 
-= 2.0.3 - Released on 22 June 2021 =
+= 2.0.3 – Released on 22 June 2021 =
 * Fix: Minor Fixes.
 
-= 2.0.2 - Released on 15 June 2021 =
+= 2.0.2 – Released on 15 June 2021 =
 * Fix: The error coming due to the plugin JavaScript file in the shop and cart page
 * Fix: Wallet payment gateway error
 
-= 2.0.1 - Released on 27 May 2021 =
+= 2.0.1 – Released on 27 May 2021 =
 * Fix: Minor Bug and Issues Fixes.
 
-= 2.0.0 - Released on 20 May 2021 =
+= 2.0.0 – Released on 20 May 2021 =
 * New: Customers can pay using their wallet as a discount if the wallet amount is less than the actual order amount,
 * New: Customers can transfer wallet amounts to another user.
 * New: Merchants can set email notifications to users on their wallet updates (credit/debit)
@@ -469,5 +474,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.15 - Released on 10 June 2024 =
-* New: Latest WP[6.5.4] and WC[8.9.2].
+= 2.5.14 – Released on 23 July 2024 =
+* Fix: Tax issue fixed.
+* Fix: Missing translation issue fixed.
+* New: Latest WP [6.6.0] and WC [9.1.2].
