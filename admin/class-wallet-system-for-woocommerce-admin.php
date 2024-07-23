@@ -2373,22 +2373,22 @@ class Wallet_System_For_Woocommerce_Admin {
 					}
 					$pdf_html .= '</tbody></table>';
 					require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-					$dompdf = new Dompdf(array('enable_remote' => true));
-                    $dompdf->setPaper('A4', 'landscape');
-                    $dompdf->loadHtml($pdf_html);
-                    @ob_end_clean(); // phpcs:ignore
-                    $dompdf->render();
-                    $dompdf->set_option('isRemoteEnabled', true);
-                    $output = $dompdf->output();
-                    header('Content-Description: File Transfer');
-                    header('Content-Type: application/pdf');
-                    header('Content-Disposition: attachment; filename="transaction.pdf"');
-                    header('Expires: 0');
-                    header('Cache-Control: must-revalidate');
-                    header('Pragma: public');
-                    header('Content-Length: ' . strlen($output));
-                    echo $output;
-                    exit;
+					$dompdf = new Dompdf( array( 'enable_remote' => true ) );
+					$dompdf->setPaper( 'A4', 'landscape' );
+					$dompdf->loadHtml( $pdf_html );
+					@ob_end_clean(); // phpcs:ignore
+					$dompdf->render();
+					$dompdf->set_option( 'isRemoteEnabled', true );
+					$output = $dompdf->output();
+					header( 'Content-Description: File Transfer' );
+					header( 'Content-Type: application/pdf' );
+					header( 'Content-Disposition: attachment; filename="transaction.pdf"' );
+					header( 'Expires: 0' );
+					header( 'Cache-Control: must-revalidate' );
+					header( 'Pragma: public' );
+					header( 'Content-Length: ' . strlen( $output ) );
+					echo $output; // phpcs:ignore
+					exit;
 				}
 			}
 		}

@@ -948,15 +948,19 @@ class Wallet_System_For_Woocommerce_Common {
 		if ( ! empty( $product_id ) ) {
 			$terms                              = get_the_terms( $product_id, 'product_cat' );
 
-			$max_id = $terms[0]->term_id;
-			$max_value = get_term_meta( $terms[0]->term_id, '_wps_wsfwp_category_rule', true );
-			foreach ( $terms as $key => $value ) {
-				$temp = get_term_meta( $value->term_id, '_wps_wsfwp_category_rule', true );
-				if ( $max_value < $temp ) {
-					$max_value = $temp;
-					$max_id = $value->term_id;
+			$max_id = '';
+			if ( ! empty( $terms ) ) {
+				$max_id = $terms[0]->term_id;
+				$max_value = get_term_meta( $terms[0]->term_id, '_wps_wsfwp_category_rule', true );
+				foreach ( $terms as $key => $value ) {
+					$temp = get_term_meta( $value->term_id, '_wps_wsfwp_category_rule', true );
+					if ( $max_value < $temp ) {
+						$max_value = $temp;
+						$max_id = $value->term_id;
+					}
 				}
 			}
+
 			$term_id = $max_id;
 			$wps_wsfw_multiselect_category_rule = get_option( 'wps_wsfw_multiselect_category_rule', array() );
 			$wps_wsfwp_category_rule = get_term_meta( $term_id, '_wps_wsfwp_category_rule', true );

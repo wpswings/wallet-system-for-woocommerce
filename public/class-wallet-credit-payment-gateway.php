@@ -49,9 +49,8 @@ add_filter( 'woocommerce_payment_gateways', 'wps_wsfw_wallet_gateway', 10, 1 );
  */
 function wps_wsfw_wallet_payment_gateway_init() {
 
-
-	if ( ! class_exists('WC_Payment_Gateway')){
-return;
+	if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
+		return;
 	}
 
 	/**
@@ -165,7 +164,7 @@ return;
 		public function process_payment_manual( $order_id ) {
 
 			$order       = wc_get_order( $order_id );
-			$payment_method = $order->payment_method;
+			$payment_method = $order->get_payment_method();
 			if ( 'wps_wcb_wallet_payment_gateway' === $payment_method ) {
 				$payment_method = esc_html__( 'Wallet Payment', 'wallet-system-for-woocommerce' );
 			}

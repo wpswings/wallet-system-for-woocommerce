@@ -2172,7 +2172,7 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Fix cart total html.
 	 *
-	 * @param array $cart_totals_fee_html as cart total html.
+	 * @param array $cart_totals_fee_html as cart total html for hook woocommerce_cart_get_fee_taxes.
 	 * @return array
 	 */
 	public function wsfw_wallet_get_fee_taxes( $cart_totals_fee_html ) {
@@ -2615,7 +2615,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 
 	/**
-	 * Remove tax from partial payment.
+	 * Remove tax from partial payment for woocommerce_calculated_total.
 	 *
 	 * @param [type] $cart_total is the current cart total.
 	 * @param [type] $cart is the whole cart data.
