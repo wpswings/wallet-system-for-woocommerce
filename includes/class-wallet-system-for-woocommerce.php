@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.5.11';
+			$this->version = '2.5.15';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -307,6 +307,8 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wsfw_wallet_action_recharge_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_recharge_enable_settings_tab_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
 
+			$this->loader->add_filter( 'wsfw_wallet_action_withdrawal_settings', $wsfw_plugin_admin, 'wsfw_wallet_withdrawal_enable_settings_tab', 10 );
+
 		}
 		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
 
@@ -400,7 +402,6 @@ class Wallet_System_For_Woocommerce {
 			// daily visit balance.
 			$this->loader->add_action( 'wp', $wsfw_plugin_public, 'wps_wsfw_daily_visit_balance', 100 );
 			$this->loader->add_filter( 'woocommerce_cart_totals_fee_html', $wsfw_plugin_public, 'wsfw_wallet_cart_totals_fee_html', 10, 2 );
-			$this->loader->add_filter( 'woocommerce_cart_get_fee_taxes', $wsfw_plugin_public, 'wsfw_wallet_get_fee_taxes', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
 			$this->loader->add_filter( 'woocommerce_thankyou_order_id', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_order_id', 99999 );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_page', 99999 );
@@ -413,7 +414,6 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'woocommerce_product_get_tax_class', $wsfw_plugin_public, 'wsfw_admin_recharge_product_tax_class', 10, 2 );
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', $wsfw_plugin_public, 'wsfw_wps_enqueue_script_block_eheckout', 10 );
 			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders_api_checkout_org', 90 );
-			$this->loader->add_filter( 'woocommerce_calculated_total', $wsfw_plugin_public, 'wps_wsfw_woocommerce_calculated_total_for_tax', 20, 2 );
 			$this->loader->add_filter( 'woocommerce_available_payment_gateways', $wsfw_plugin_public, 'wps_wsfwp_add_wallet_recharge_message_restriction', 10, 1 );
 		}
 
@@ -527,23 +527,28 @@ class Wallet_System_For_Woocommerce {
 			'title' => esc_html__( 'Withdrawal Request', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-withdrawal-setting',
 		);
+		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
 
-		// added tab for wallet withdrawal settings.
+		// added tab for wallet withdrawal Cashback.
 		$wsfw_default_tabs['wallet-system-for-woocommerce-cashback'] = array(
 			'title' => esc_html__( 'Wallet Cashback', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-cashback',
 		);
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_cashback', $wsfw_default_tabs );
 
-		// added tab for wallet withdrawal settings.
+		// added tab for wallet withdrawal Actions.
 		$wsfw_default_tabs['wallet-system-for-woocommerce-wallet-actions'] = array(
 			'title' => esc_html__( 'Wallet Actions', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-wallet-actions',
 		);
-		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plugin_standard_admin_settings_tabs_after_wallet_action', $wsfw_default_tabs );
 		$is_pro = false;
 		$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
+
 		if ( ! $is_pro ) {
+			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-withdrawal-settings'] = array(
+				'title'     => esc_html__( 'Withdrawal Settings', 'wallet-system-for-woocommerce' ),
+				'name'      => 'wallet-system-for-woocommerce-org-wallet-withdrawal-settings',
+			);
 			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-restriction'] = array(
 				'title'     => esc_html__( 'Wallet Regulation', 'wallet-system-for-woocommerce' ),
 				'name'      => 'wallet-system-for-woocommerce-org-wallet-restriction',
@@ -589,6 +594,7 @@ class Wallet_System_For_Woocommerce {
 
 		$wsfw_file_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . $path;
 		$wsfw_file_path = apply_filters( 'wps_wsfw_template_path', $wsfw_file_path );
+
 		if ( file_exists( $wsfw_file_path ) ) {
 
 			include $wsfw_file_path;
@@ -1032,7 +1038,7 @@ class Wallet_System_For_Woocommerce {
 									</div>
 								</div>
 								<div class="mdc-text-field-helper-line">
-											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+									<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
 								</div>
 							</div>
 						</div>
@@ -1072,7 +1078,7 @@ class Wallet_System_For_Woocommerce {
 																					</span>
 											<span class="mdc-notched-outline__trailing"></span>
 										</span>
-									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" min=0 step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="Enter comment amount">
+									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" min=0 step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="<?php esc_html_e( 'Enter Subscriptions Per Interval', 'wallet-system-for-woocommerce' ) ?>">
 										</label>
 										<select id="wps_sfw_subscription_interval" name="wps_sfw_subscription_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_interval', 'day' ) ); ?>">
 									<?php

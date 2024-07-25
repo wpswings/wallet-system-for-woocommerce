@@ -1,6 +1,5 @@
-[![BuildStatus](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-2000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.4.3-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-8.6.1-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.4-blue)
-# Wallet System for WooCommerce – Digital Wallet, Cashback Rewards, Recharge User Wallets, View Transition History, woocommerce gift cards, gift vouchers
-![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png?rev=2671995)
+﻿﻿![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Active installs](https://img.shields.io/badge/Active-3000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.6.0-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.1.2-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2.24-blue)
+# Wallet System for WooCommerce – Digital Wallet, Cashback Rewards, Recharge User Wallets, View Transition History, woocommerce wallet![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png?rev=2671995)
 * Contributors: WP Swings
 * Author URI: [WP Swings](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-github-page&utm_campaign=site )
 * Tags: digital wallet, cashback wallet, wallet topup, user wallet, woocommerce wallet
@@ -121,6 +120,8 @@ You can choose a separate email address to send email notifications to your WooC
  
 ## WHAT PREMIUM VERSION OF WOOCOMMERCE WALLET SYSTEM OFFERS
 
+* Allow Your Customers to Withdraw funds using PayPal.
+* Allow Cashback on Wallet Recharge.
 * Customization of the feature restriction message. 
 * Display cashback restriction messages on the use of skipped payment gateways.
 * Merchants can limit the minimum/maximum value customers add to their Wallets.

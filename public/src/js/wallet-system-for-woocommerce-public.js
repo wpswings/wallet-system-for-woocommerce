@@ -41,11 +41,50 @@
 			});
 			
 		});
-		
 
+		if ( wsfw_public_param.wsfw_wallet_paypal == 'on' ) {
+
+		
+		var $option_withdrawal;
+		$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
+		if ($option_withdrawal != undefined ) {
+			
+			if ( $option_withdrawal == 'paypal' ) {
+				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).show();
+				jQuery(jQuery('#wps_wallet_withdrawal_fee').parent()).hide();
+				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required','required');
+
+			} else{
+				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).hide();
+				jQuery(jQuery('#wps_wallet_withdrawal_fee').parent()).show();
+				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required',false);
+			}
+		} else{
+			jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required','required');
+			jQuery(jQuery('#wps_wallet_withdrawal_fee').parent()).hide();
+		}
+		
+	}
 		// Unset manually amount in partial payment.
 		$(document).on( 'click','#wps_withdrawal_table_div', function(){
 			jQuery('.wps_withdrawal_table').show();
+
+		});
+
+		// Unset manually amount in partial payment.
+		$(document).on( 'change','#wps_wallet_withdrawal_option', function(){
+			$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
+		
+			if ( $option_withdrawal == 'paypal' ) {
+				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).show();
+				jQuery(jQuery('#wps_wallet_withdrawal_fee').parent()).hide();
+				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required','required');
+
+			} else{
+				jQuery(jQuery('#wps_wallet_withdrawal_paypal_user_email').parent()).hide();
+				jQuery(jQuery('#wps_wallet_withdrawal_fee').parent()).show();
+				jQuery('#wps_wallet_withdrawal_paypal_user_email').attr('required',false);
+			}
 			
 		});
 
@@ -58,6 +97,7 @@
 			} else {
 				$( '.partial_amount' ).remove();
 				$( '.woocommerce-checkout-review-order-table .fee' ).remove();
+				
 				
 				$(document.body).trigger('update_checkout');
 			}

@@ -119,8 +119,8 @@ $wsfw_wallet_action_html = '';
 
 		<div class="wsfw-secion-refer-customize-wallet">
 				<span><b><?php esc_html_e( 'Customize Your Wallet Rechargeable Product', 'wallet-system-for-woocommerce' ); ?></b></span>
-				<div class="wps-form-group">
-					<div class="wps-form-group__label">
+				<div class="wps-form-group wps_pro_settings_tag">
+					<div class="wps-form-group__label ">
 						<label for="" class="wps-form-label"><?php esc_html_e( 'Wallet Recharge Product', 'wallet-system-for-woocommerce' ); ?></label>
 					</div>
 					<div class="wps-form-group__control">

@@ -46,8 +46,7 @@ $check = apply_filters( 'wsfw_check_pro_plugin', $check );
 				</tr>
 			</tbody>
 		</table>
-
-
+	
 </div>
 
 <div class="wps-wpg-gen-section-table-wrap wps-wpg-withdrawal-section-table">

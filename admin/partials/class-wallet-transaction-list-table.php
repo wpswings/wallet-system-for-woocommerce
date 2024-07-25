@@ -621,12 +621,12 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 						</tr>
 						<tr>
 							<td>
-								<input type="text" id="fromdate_transaction" name="min"  data="min"  name="event_date" placeholder="Select From Date" value="<?php echo esc_attr( $date_from ); ?>" >
+								<input type="text" id="fromdate_transaction" name="min"  data="min"  name="event_date" placeholder="<?php esc_html_e( 'Select From Date', 'wallet-system-for-woocommerce' ); ?>" value="<?php echo esc_attr( $date_from ); ?>" >
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<input type="text" id="todate_transaction" name="max" data="max"  name="event_date" placeholder="Select To Date" value="<?php echo esc_attr( $date_to ); ?>" >
+								<input type="text" id="todate_transaction" name="max" data="max"  name="event_date" placeholder="<?php esc_html_e( 'Select To Date', 'wallet-system-for-woocommerce' ); ?>" value="<?php echo esc_attr( $date_to ); ?>" >
 							</td>
 						</tr>
 						<tr>

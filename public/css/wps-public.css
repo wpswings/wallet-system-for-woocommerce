@@ -284,6 +284,7 @@ input[type=submit].wps-btn__filled:hover {
 #wps_wallet_transfer_form input[type=email],
 #wps_wallet_transfer_form input[type=text],
 #wps_wallet_transfer_form input[type=number],
+#wps_wallet_transfer_form input[type=select],
 #wps_wallet_transfer_form textarea {
   box-shadow: none;
   border: 2px solid #DFE3E8;
@@ -322,6 +323,7 @@ input[type=submit].wps-btn__filled:hover {
   #wps_wallet_transfer_form input[type=email],
   #wps_wallet_transfer_form input[type=number],
   #wps_wallet_transfer_form input[type=text],
+  #wps_wallet_transfer_form select,
   #wps_wallet_transfer_form textarea {
       border-radius: 8px;
       padding: 12px;

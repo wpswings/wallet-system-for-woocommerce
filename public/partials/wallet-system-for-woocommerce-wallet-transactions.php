@@ -37,6 +37,7 @@ $allowed_html = array(
 				if ( ! empty( $transactions ) && is_array( $transactions ) ) {
 					$i = 1;
 					foreach ( $transactions as $transaction ) {
+						$transaction_amount_bal = apply_filters( 'wps_wsfw_show_converted_price', $transaction->amount );
 						$user           = get_user_by( 'id', $transaction->user_id );
 						$transaction_id = $transaction->id;
 						$tranasction_symbol = '';
@@ -55,7 +56,7 @@ $allowed_html = array(
 
 							?>
 							</td>
-							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>' ><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( $transaction->amount, array( 'currency' => $transaction->currency ) ) ); ?></td>
+							<td class='wps_wallet_<?php echo esc_attr( $transaction->transaction_type_1 ); ?>' ><?php echo esc_html( $tranasction_symbol ) . wp_kses_post( wc_price( $transaction_amount_bal, array( 'currency' => $transaction->currency ) ) ); ?></td>
 							<td class="details" ><?php echo wp_kses_post( html_entity_decode( $transaction->transaction_type ) ); ?></td>
 							<td>
 							<?php

@@ -96,12 +96,10 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 
 		}
-
 		if ( isset( $screen->id ) && 'woocommerce_page_wallet_shop_order' == $screen->id ) {
 			wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
 
 		}
-
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
 
@@ -1279,7 +1277,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_wallet_action_restrict_comment',
 				'id'          => 'wps_wsfw_wallet_action_restrict_comment',
 				'min'         => 0,
-				'step'        => '0.01',
 				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_restrict_comment' ) ) ? get_option( 'wps_wsfw_wallet_action_restrict_comment' ) : 1,
 				'placeholder' => __( 'User per post comment', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
@@ -1443,7 +1440,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_cashback_amount',
 				'id'          => 'wps_wsfw_cashback_amount',
 				'min'         => 0,
-				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10,
+				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : '',
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
@@ -1455,7 +1452,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'id'          => 'wps_wsfw_cart_amount_min',
 				'min'         => 0,
 				'step'        => '0.01',
-				'value'       => ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : 10,
+				'value'       => ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : '',
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
@@ -1467,7 +1464,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'id'          => 'wps_wsfw_cashback_amount_max',
 				'min'         => 0,
 				'step'        => '0.01',
-				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 20,
+				'value'       => ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : '',
 				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
@@ -1481,6 +1478,19 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
 				'placeholder' => '',
 				'options' => $wps_all_payment_gateway,
+			),
+			array(
+				'title'       => __( 'Enable Cashback for Wallet Recharge', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable to allow cashback for Wallet Recharge.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_cashback_wallet_recharge',
+				'id'          => 'wps_wsfw_cashback_wallet_recharge',
+				'value'       => get_option( 'wps_wsfw_cashback_wallet_recharge' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
 			),
 			array(
 				'title'       => __( 'Show Gateway Restriction Message at Checkout Page', 'wallet-system-for-woocommerce' ),
@@ -2365,29 +2375,20 @@ class Wallet_System_For_Woocommerce_Admin {
 					require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 					$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 					$dompdf->setPaper( 'A4', 'landscape' );
-					$upload_dir_path = WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR . '/transaction_pdf';
-					if ( ! is_dir( $upload_dir_path ) ) {
-						wp_mkdir_p( $upload_dir_path );
-						chmod( $upload_dir_path, 0775 );
-					}
 					$dompdf->loadHtml( $pdf_html );
 					@ob_end_clean(); // phpcs:ignore
 					$dompdf->render();
 					$dompdf->set_option( 'isRemoteEnabled', true );
 					$output = $dompdf->output();
-					$generated_pdf = file_put_contents( $upload_dir_path . '/transaction.pdf', $output );
-					$file = $upload_dir_path . '/transaction.pdf';
-					if ( file_exists( $file ) ) {
-						header( 'Content-Description: File Transfer' );
-						header( 'Content-Type: application/octet-stream' );
-						header( 'Content-Disposition: attachment; filename="' . basename( $file ) . '"' );
-						header( 'Expires: 0' );
-						header( 'Cache-Control: must-revalidate' );
-						header( 'Pragma: public' );
-						header( 'Content-Length: ' . filesize( $file ) );
-						readfile( $file );
-						exit;
-					}
+					header( 'Content-Description: File Transfer' );
+					header( 'Content-Type: application/pdf' );
+					header( 'Content-Disposition: attachment; filename="transaction.pdf"' );
+					header( 'Expires: 0' );
+					header( 'Cache-Control: must-revalidate' );
+					header( 'Pragma: public' );
+					header( 'Content-Length: ' . strlen( $output ) );
+					echo $output; // phpcs:ignore
+					exit;
 				}
 			}
 		}
@@ -2439,8 +2440,26 @@ class Wallet_System_For_Woocommerce_Admin {
 			$withdrawal_request = get_post( $withdrawal_id );
 			if ( 'approved' === $updated_status ) {
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+				$paypal_fees = '';
 				$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
-				$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $withdrawal_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
+				$withdrawal_mail_id = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_paypal_user_email', true );
+				$result = '';
+				$is_manual_fees = true;
+				$wps_wallet_withdrawal_option = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
+
+				if ( 'on' == $wps_wallet_withdrawal_option ) {
+					$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
+					if ( 'manual' != $wps_wallet_withdrawal_option ) {
+						$is_manual_fees = false;
+					}
+				}
+				if ( $is_manual_fees ) {
+					$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $withdrawal_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
+
+				} else {
+					$wps_wsfwp_wallet_withdrawal_fee_amount = 0;
+
+				}
 				if ( $user_id ) {
 					$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
 					$walletamount = ( ! empty( $walletamount ) ) ? $walletamount : 0;
@@ -2498,34 +2517,74 @@ class Wallet_System_For_Woocommerce_Admin {
 					if ( $wps_wsfwp_wallet_withdrawal_fee_amount ) {
 
 						$transaction_type .= __( '( inculding Withdrawal Fee of ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . '' . $wps_wsfwp_wallet_withdrawal_fee_amount . __( ')', 'wallet-system-for-woocommerce' );
+						$paypal_fees = __( '( excluding Withdrawal Fee of ', 'wallet-system-for-woocommerce' ) . get_woocommerce_currency_symbol() . '' . $wps_wsfwp_wallet_withdrawal_fee_amount . __( ')', 'wallet-system-for-woocommerce' );
+
 					}
-					$transaction_data = array(
-						'user_id'          => $user_id,
-						'amount'           => $withdrawal_amount,
-						'currency'         => get_woocommerce_currency(),
-						'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
-						'transaction_type' => htmlentities( $transaction_type ),
-						'transaction_type_1' => 'debit',
-						'order_id'         => $withdrawal_id,
-						'note'             => '',
+					$result = '';
+					$is_manual = true;
+					$wps_wallet_withdrawal_option = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
+					if ( 'on' == $wps_wallet_withdrawal_option ) {
+						$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
+						if ( 'manual' == $wps_wallet_withdrawal_option ) {
+							$is_manual = true;
+						} else {
+							$is_manual = false;
+						}
+					}
+					if ( $is_manual ) {
 
-					);
+								$transaction_data = array(
+									'user_id'          => $user_id,
+									'amount'           => $withdrawal_amount,
+									'currency'         => get_woocommerce_currency(),
+									'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
+									'transaction_type' => htmlentities( $transaction_type ),
+									'transaction_type_1' => 'debit',
+									'order_id'         => $withdrawal_id,
+									'note'             => '',
 
-					$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-					if ( $result ) {
-						$wps_wsfw_error_text = esc_html__( 'Wallet withdrawal request is approved for user #', 'wallet-system-for-woocommerce' ) . $user_id;
-						$message             = array(
-							'msg'     => $wps_wsfw_error_text,
-							'msgType' => 'success',
-						);
-					} else {
-						$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
-						$message             = array(
-							'msg'     => $wps_wsfw_error_text,
-							'msgType' => 'error',
-						);
+								);
+
+								$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+
+								if ( $result ) {
+									$wps_wsfw_error_text = esc_html__( 'Wallet withdrawal request is approved for user #', 'wallet-system-for-woocommerce' ) . $user_id;
+									$message             = array(
+										'msg'     => $wps_wsfw_error_text,
+										'msgType' => 'success',
+									);
+								} else {
+									$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+									$message             = array(
+										'msg'     => $wps_wsfw_error_text,
+										'msgType' => 'error',
+									);
+								}
 					}
 				};
+				$wps_wallet_withdrawal_option = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
+				if ( 'on' == $wps_wallet_withdrawal_option ) {
+					$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
+					if ( 'manual' != $wps_wallet_withdrawal_option ) {
+
+						$transaction_type_paypal = __( 'Wallet debited through withdrawal wallet transfer into paypal : ', 'woo-gift-cards-lite' ) . $withdrawal_mail_id . __( ' through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $withdrawal_id . '</a>';
+
+						$return_data = apply_filters( 'wps_wallet_withdrawal_through_paypal', $user_id, $withdrawal_amount, $withdrawal_mail_id, $transaction_type_paypal, $withdrawal_id );
+
+						if ( $return_data ) {
+							$message             = array(
+								'msg'     => $return_data,
+								'msgType' => 'success',
+							);
+						} else {
+							$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
+							$message             = array(
+								'msg'     => $wps_wsfw_error_text,
+								'msgType' => 'error',
+							);
+						}
+					}
+				}
 			}
 			if ( 'rejected' === $updated_status ) {
 				$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
@@ -2936,6 +2995,9 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function register_wallet_recharge_post_type() {
 		if ( post_type_exists( 'wallet_shop_order' ) ) {
+			return;
+		}
+		if ( ! function_exists( 'wc_register_order_type' ) ) {
 			return;
 		}
 		wc_register_order_type(
@@ -3719,6 +3781,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wsfwp_min_wallet_transfer_amount',
 				'id'          => 'wsfwp_min_wallet_transfer_amount',
 				'min'         => 0,
+				'step'        => '0.1',
 				'value'       => get_option( 'wsfwp_min_wallet_transfer_amount', '' ),
 				'class'       => 'wpg-number-class wps_pro_settings',
 			),
@@ -4015,5 +4078,91 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		}
 
+	}
+
+	/**
+	 * This is used to enable wallet promotions.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_wallet_withdrawal_enable_settings_tab( $wsfw_settings_template ) {
+
+		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_comment_extra_settings_array', $wsfw_settings_template );
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable Wallet Withdrawal through Paypal', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => '',
+			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable',
+			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable',
+			'value'       => '',
+			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable to show Dropdown to Customer for Manual Withdrawal and Paypal Withdrawal', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => '',
+			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_dropdown',
+			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_dropdown',
+			'value'       => '',
+			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enter Paypal Client ID', 'wallet-system-for-woocommerce' ),
+			'type'        => 'text',
+			'description' => __( 'Please enter paypal Client ID', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable_client_id',
+			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable_client_id',
+			'value'       => '',
+			'placeholder' => __( 'Please enter paypal Client ID', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wws-text-class wps_pro_settings',
+
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enter Paypal Secret Key', 'wallet-system-for-woocommerce' ),
+			'type'        => 'text',
+			'description' => __( 'Please enter paypal Secret Key', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable_sceret_key',
+			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable_sceret_key',
+			'value'       => '',
+			'placeholder' => __( 'Please enter paypal Secret Key', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wws-text-class wps_pro_settings',
+
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Select paypal Mode', 'wallet-system-for-woocommerce' ),
+			'type'        => 'select',
+			'description' => __( 'Select paypal mode type live or test.', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wps_wsfwp_wallet_withdrawal_paypal_enable_mode',
+			'id'          => 'wps_wsfwp_wallet_withdrawal_paypal_enable_mode',
+			'value'       => '',
+			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+			'options'     => apply_filters(
+				'wsfw_withdrawal_paypal_mode_type__array',
+				array(
+					'live' => __( 'Live Mode', 'wallet-system-for-woocommerce' ),
+					'test'   => __( 'Test Mode', 'wallet-system-for-woocommerce' ),
+				)
+			),
+		);
+		$wsfw_settings_template[] = array(
+			'type'        => 'submit',
+			'name'        => 'wsfw_button_wallet_withdrawal_paypal_tab_option',
+			'id'          => 'wsfw_button_wallet_withdrawal_paypal_tab_option',
+			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wsfw-button-class wps_pro_settings',
+		);
+
+		return $wsfw_settings_template;
 	}
 }

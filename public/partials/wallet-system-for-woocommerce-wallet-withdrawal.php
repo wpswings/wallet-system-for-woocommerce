@@ -13,6 +13,9 @@ $wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 $check = false;
 $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
+$wps_wsfwp_wallet_withdrawal_fee_amount = '';
+$wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
+
 
 ?>
 
@@ -116,7 +119,32 @@ $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
 			<?php
 				$wallet_withdrawal_fee_html = apply_filters( 'wps_wsfw_show_wallet_withdrawal_fee_content', '' );
 			if ( ! empty( $wallet_withdrawal_fee_html ) ) {
-				echo wp_kses_post( $wallet_withdrawal_fee_html ); // phpcs:ignore
+				wp_kses_post( $wallet_withdrawal_fee_html ); // phpcs:ignore
+			}
+			 $wps_wsfwp_wallet_withdrawal_paypal_dropdown = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_dropdown' );
+
+			 $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
+			if ( 'on' == $wps_wsfwp_wallet_withdrawal_paypal_enable ) {
+
+				if ( 'on' == $wps_wsfwp_wallet_withdrawal_paypal_dropdown ) {
+					?>
+			<p class="wps-wallet-field-container form-row form-row-wide">
+				<label for="wps_wallet_withdrawal_option"><?php echo esc_html__( 'Select option for withdrawal.' ); ?></label>
+				<select name="wps_wallet_withdrawal_option" id="wps_wallet_withdrawal_option">
+						<option><?php esc_html_e( 'Select any', 'wallet-system-for-woocommerce' ); ?></option>
+						<option value="manual"><?php esc_html_e( 'Manual', 'wallet-system-for-woocommerce' ); ?></option>
+						<option value="paypal"><?php esc_html_e( 'Paypal', 'wallet-system-for-woocommerce' ); ?></option>
+				</select>
+			</p>
+					<?php
+				}
+				?>
+			<p class="wps-wallet-field-container form-row form-row-wide">
+				<label for="wps_wallet_withdrawal_paypal_user_email"><?php esc_html_e( 'Paypal Mail Id', 'wallet-system-for-woocommerce' ); ?></label>
+				<input type="email" placeholder="Please enter paypal mail id" class="wps-wallet-userselect" id="wps_wallet_withdrawal_paypal_user_email" name="wps_wallet_withdrawal_paypal_user_email" >
+			</p>
+				<?php
+
 			}
 			?>
 			<p class="wps-wallet-field-container form-row form-row-wide">
@@ -243,7 +271,18 @@ $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
 							<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
 							<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 							<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
-							<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+							<?php
+							if ( $check ) {
+								?>
+						<th>
+								<?php
+								esc_html_e( 'Withdrawal Fee', 'wallet-system-for-woocommerce' );
+								?>
+						</th>
+								<?php
+							}
+							?>
+						<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -260,6 +299,8 @@ $check = apply_filters( 'wps_wsfwp_pro_plugin_check', $check );
 								} else {
 									$withdrawal_status = $pending->post_status;
 								}
+								$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $request_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
+
 								$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_withdrawal_amount', true ) );
 								echo '<tr>
 								<td>' . esc_html( $i ) . '</td>
