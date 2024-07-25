@@ -45,7 +45,6 @@ if ( is_plugin_active( 'woocommerce-wallet-system/woocommerce-wallet-system.php'
 		}
 	}
 }
-
 $active_plugins = (array) get_option( 'active_plugins', array() );
 if ( is_multisite() ) {
 	$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
