@@ -313,6 +313,10 @@ $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $us
 $wallet_restrict_referral    = apply_filters( 'wallet_restrict_referral', $user_id );
 $wallet_restrict_qrcode      = apply_filters( 'wallet_restrict_qrcode', $user_id );
 
+$wps_wsfw_enable_cashback = get_option( 'wps_wsfw_enable_cashback' );
+$wps_wallet_cashback_bal = get_user_meta( $user_id, 'wps_wallet_cashback_bal', true );
+$wps_wallet_cashback_bal = empty( $wps_wallet_cashback_bal ) ? 0 : $wps_wallet_cashback_bal;
+
 $is_pro_plugin = false;
 $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 $wps_wallet_restrict_message_to_user = 'on';
@@ -410,17 +414,31 @@ $wallet_keys = array_keys( $wallet_tabs );
 <div class="wps_wcb_wallet_display_wrapper">
 <div class="wps_wcb_wallet_display_wrapper_with_qr">
 		<div class="wps_wcb_wallet_balance_container"> 
+			<div>
 			<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
 			<p>
 			<?php
 			$wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 
 			echo wp_kses_post( wc_price( $wallet_bal, array( 'currency' => $current_currency ) ) );
+
 			?>
 			</p>
-			</p>
+			</div>
+			<?php
+			if ( 'on' == $wps_wsfw_enable_cashback ) {
+				?>
+				<div class="wps_wcb_wallet_cashback_wrap">
+				<h4><?php esc_html_e( 'Cashback Earned', 'wallet-system-for-woocommerce' ); ?></h4>
+				<?php
+				echo wp_kses_post( wc_price( $wps_wallet_cashback_bal, array( 'currency' => $current_currency ) ) );
+				?>
+				</div>
+				<?php
+			}
+			?>
 		<?php if ( 'on' != $wallet_restrict_transaction ) { ?>
-			<div class=""><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
+			<div class="wps_wcb_wallet_view_transaction"><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
 			</div>
 			<?php
 		}
@@ -626,11 +644,9 @@ setInterval(function time(){
 
 							include_once $wallet_tab['file-path'];
 						}
-					} else {
-						if ( $current_url === $wallet_tab['url'] ) {
+					} elseif ( $current_url === $wallet_tab['url'] ) {
 
 							include_once $wallet_tab['file-path'];
-						}
 					}
 				}
 				?>

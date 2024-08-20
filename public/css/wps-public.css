@@ -125,6 +125,20 @@ input[type=submit].wps-btn__filled:hover {
   padding: 10px 12px;
   border-radius: 6px;
   background-color: #483DE0;
+  /* .wps_wcb_wallet_balance_container { */
+    /* padding: 18px 32px; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+/* } */
+}
+
+.wps_wcb_wallet_cashback_wrap {
+  text-align: right;
+}
+
+.wps_wcb_wallet_view_transaction {
+  grid-column-start: 1;
 }
 
 .wps_wcb_wallet_display_wrapper_with_qr .wps_wcb_wallet_balance_container h4 {
@@ -139,10 +153,12 @@ input[type=submit].wps-btn__filled:hover {
   margin: 0;
 }
 
+
+
 .wps_wcb_wallet_balance_container .woocommerce-Price-amount {
-  font-size: 28px;
+  font-size: 16px;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 600;
   color: #fff;
 }
 
@@ -241,6 +257,7 @@ input[type=submit].wps-btn__filled:hover {
       font-size: 40px;
       line-height: 1.25;
   }
+
   .wps_wcb_content_template ul.tabs {
       margin: 32px 0;
       border-radius: 8px;

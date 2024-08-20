@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.5.15';
+			$this->version = '2.5.16';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -99,7 +99,6 @@ class Wallet_System_For_Woocommerce {
 
 		// custom function for ajax.
 		$this->wallet_system_for_woocommerce_ajax_hooks();
-
 	}
 
 	/**
@@ -125,22 +124,22 @@ class Wallet_System_For_Woocommerce {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-wallet-system-for-woocommerce-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-wallet-system-for-woocommerce-i18n.php';
 
 		if ( is_admin() ) {
 
 			// The class responsible for defining all actions that occur in the admin area.
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wallet-system-for-woocommerce-admin.php';
+			require_once plugin_dir_path( __DIR__ ) . 'admin/class-wallet-system-for-woocommerce-admin.php';
 
 			// The class responsible for on-boarding steps for plugin.
-			if ( is_dir( plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Wallet_System_For_Woocommerce_Onboarding_Steps' ) ) {
-				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-onboarding-steps.php';
+			if ( is_dir( plugin_dir_path( __DIR__ ) . 'onboarding' ) && ! class_exists( 'Wallet_System_For_Woocommerce_Onboarding_Steps' ) ) {
+				require_once plugin_dir_path( __DIR__ ) . 'includes/class-wallet-system-for-woocommerce-onboarding-steps.php';
 			}
 
 			if ( class_exists( 'Wallet_System_For_Woocommerce_Onboarding_Steps' ) ) {
@@ -149,24 +148,24 @@ class Wallet_System_For_Woocommerce {
 		} else {
 
 			// The class responsible for defining all actions that occur in the public-facing side of the site.
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wallet-system-for-woocommerce-public.php';
+			require_once plugin_dir_path( __DIR__ ) . 'public/class-wallet-system-for-woocommerce-public.php';
 
 		}
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-for-woocommerce-dependency.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-wallet-system-for-woocommerce-dependency.php';
 
 		/**
 		 * The class responsible for handling ajax requests.
 		 */
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wallet-system-ajaxhandler.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'package/rest-api/class-wallet-system-for-woocommerce-rest-api.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-wallet-system-ajaxhandler.php';
+		require_once plugin_dir_path( __DIR__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-rest-api.php';
 
 		/**
 		 * This class responsible for defining common functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'common/class-wallet-system-for-woocommerce-common.php';
+		require_once plugin_dir_path( __DIR__ ) . 'common/class-wallet-system-for-woocommerce-common.php';
 
 		$enable = get_option( 'wps_wsfw_enable', '' );
 		if ( isset( $enable ) && 'on' === $enable ) {
@@ -174,16 +173,15 @@ class Wallet_System_For_Woocommerce {
 			/**
 			 * The class responsible for creating the wallet payment method.
 			 */
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wallet-credit-payment-gateway.php';
+			require_once plugin_dir_path( __DIR__ ) . 'public/class-wallet-credit-payment-gateway.php';
 
 			if ( class_exists( 'WCMp' ) ) {
-				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php';
-				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php';
+				require_once plugin_dir_path( __DIR__ ) . 'marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php';
+				require_once plugin_dir_path( __DIR__ ) . 'marketplace/multivendor-wcmarketplace/class-wallet-system-for-woocommerce-wcmp.php';
 			}
 		}
 
 		$this->loader = new Wallet_System_For_Woocommerce_Loader();
-
 	}
 
 	/**
@@ -200,7 +198,6 @@ class Wallet_System_For_Woocommerce {
 		$plugin_i18n = new Wallet_System_For_Woocommerce_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -316,7 +313,6 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wps_wsfw_set_cron_for_plugin_notification' );
 		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $wsfw_plugin_admin, 'wps_wsfw_save_notice_message' );
 		$this->loader->add_action( 'wp_ajax_wps_wsfw_dismiss_notice_banner', $wsfw_plugin_admin, 'wps_wsfw_dismiss_notice_banner_callback' );
-
 	}
 
 	/**
@@ -351,7 +347,6 @@ class Wallet_System_For_Woocommerce {
 		// woocommerce block code for wallet payment.
 		$this->loader->add_action( 'woocommerce_blocks_loaded', $wsfw_plugin_common, 'wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support' );
 		$this->loader->add_filter( 'woocommerce_order_get_tax_totals', $wsfw_plugin_common, 'wps_wsfw_woocommerce_order_get_tax_totals', 99999, 2 );
-
 	}
 
 	/**
@@ -416,7 +411,6 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders_api_checkout_org', 90 );
 			$this->loader->add_filter( 'woocommerce_available_payment_gateways', $wsfw_plugin_public, 'wps_wsfwp_add_wallet_recharge_message_restriction', 10, 1 );
 		}
-
 	}
 
 	/**
@@ -431,7 +425,6 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_plugin_api = new Wallet_System_For_Woocommerce_Rest_Api( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
 
 		$this->loader->add_action( 'rest_api_init', $wsfw_plugin_api, 'wps_wsfw_add_endpoint' );
-
 	}
 
 
@@ -1078,7 +1071,7 @@ class Wallet_System_For_Woocommerce {
 																					</span>
 											<span class="mdc-notched-outline__trailing"></span>
 										</span>
-									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" min=0 step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="<?php esc_html_e( 'Enter Subscriptions Per Interval', 'wallet-system-for-woocommerce' ) ?>">
+									<input class="mdc-text-field__input wws-text-class" name="wps_wsfw_subscriptions_per_interval" id="wps_wsfw_subscriptions_per_interval" min=0 step="0.01" type="number" value="<?php echo ! empty( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) ? esc_attr( get_option( 'wps_wsfw_subscriptions_per_interval' ) ) : 1; ?>" placeholder="<?php esc_html_e( 'Enter Subscriptions Per Interval', 'wallet-system-for-woocommerce' ); ?>">
 										</label>
 										<select id="wps_sfw_subscription_interval" name="wps_sfw_subscription_interval" class="mdl-textfield__input wsfw-select-class" value="<?php echo esc_attr( get_option( 'wps_sfw_subscription_interval', 'day' ) ); ?>">
 									<?php
@@ -1284,7 +1277,6 @@ class Wallet_System_For_Woocommerce {
 	private function wallet_system_for_woocommerce_ajax_hooks() {
 
 		$wsfw_plugin_ajax = new Wallet_System_AjaxHandler();
-
 	}
 
 	/**
@@ -1352,7 +1344,5 @@ class Wallet_System_For_Woocommerce {
 			'Reply-To: ' . $send_mail_through . "\r\n";
 		}
 		$flag = wc_mail( $to, $subject, $mail_message, $headers );
-
 	}
-
 }
