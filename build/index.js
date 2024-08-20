@@ -7026,13 +7026,13 @@ __webpack_require__.r(__webpack_exports__);
 const ReportingSystem = () => {
   const [chartdata, setChartData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     name: 'Debit',
-    amount: parseInt(frontend_ajax_object.user_data_debit)
+    amount: parseFloat(frontend_ajax_object.user_data_debit)
   }, {
     name: 'Credit',
-    amount: parseInt(frontend_ajax_object.user_data_credit)
+    amount: parseFloat(frontend_ajax_object.user_data_credit)
   }, {
     name: 'Current',
-    amount: parseInt(frontend_ajax_object.user_data_current)
+    amount: parseFloat(frontend_ajax_object.user_data_current)
   }]);
   const [fromDate, setFromDate] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [toDate, setToDate] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);

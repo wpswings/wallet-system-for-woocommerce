@@ -359,7 +359,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$user = get_user_by( 'email', $value['user_email'] );
 				if ( 'credit' == $value['transaction_type_1'] ) {
 
-					$amount_credited  += intval( $value['amount'] );
+					$amount_credited  += floatval( $value['amount'] );
 
 				}
 			}
@@ -369,7 +369,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			foreach ( $results_debit as $key => $value ) {
 				if ( 'debit' == $value['transaction_type_1'] ) {
 
-					$amount_debited  += intval( $value['amount'] );
+					$amount_debited  += floatval( $value['amount'] );
 
 				}
 			}
