@@ -113,8 +113,8 @@ if ( ! function_exists( 'wps_wsfw_credit_user_wallet_balance' ) ) {
 	 */
 	function wps_wsfw_credit_user_wallet_balance( $user_id, $amount, $order_id = '' ) {
 		$wallet_balance = get_user_meta( $user_id, 'wps_wallet', true );
-		$wallet_balance = intval( $wallet_balance );
-		$wallet_balance += intval( $amount );
+		$wallet_balance = floatval( $wallet_balance );
+		$wallet_balance += floatval( $amount );
 
 		$update_wallet          = update_user_meta( $user_id, 'wps_wallet', $wallet_balance );
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
