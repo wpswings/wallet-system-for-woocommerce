@@ -1643,7 +1643,7 @@ class Wallet_System_For_Woocommerce_Public {
 
 				if ( floatval( $cart_total ) < floatval( $wsfw_min_cart_amount ) ) {
 					?>
-					<div class="woocommerce-Message wps-woocommerce-message  woocommerce-Message--info wps-woocommerce-info woocommerce-info">
+					<div class="woocommerce-message wps-woocommerce-message woocommerce-Message--info wps-woocommerce-info">
 					<?php
 					/* translators: %s: search term */
 					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount ) );
