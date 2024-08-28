@@ -61,7 +61,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
 	}
 
 	/**
@@ -72,7 +71,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wpswings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id || 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
+		if ( isset( $screen->id ) && ( 'wpswings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id || 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id ) ) {
 			wp_enqueue_style( 'wps-wsfw-select2-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/select-2/wallet-system-for-woocommerce-select2.css', array(), time(), 'all' );
 
 			wp_enqueue_style( 'wps-wsfw-meterial-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
@@ -109,7 +108,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 
 		wp_enqueue_style( 'flatpickercss', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/flatpickr/dist/flatpickr.min.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -133,7 +131,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_wsfw_branner_notice', $wps_wsfw_branner_notice );
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
 
-		if ( isset( $screen->id ) && 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id || 'wpswings_page_wallet_system_for_woocommerce_menu' == $screen->id ) {
+		if ( isset( $screen->id ) && ( 'wp-swings_page_wallet_system_for_woocommerce_menu' == $screen->id || 'wp-swings_page_home' == $screen->id || 'wpswings_page_wallet_system_for_woocommerce_menu' == $screen->id ) ) {
 
 			// js for the multistep from.
 			$script_path      = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/index.js';
@@ -278,7 +276,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				wp_enqueue_script( 'wallet-recharge-admin-js' );
 			}
 		}
-
 	}
 
 	/**
@@ -359,7 +356,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$user = get_user_by( 'email', $value['user_email'] );
 				if ( 'credit' == $value['transaction_type_1'] ) {
 
-					$amount_credited  += intval( $value['amount'] );
+					$amount_credited  += floatval( $value['amount'] );
 
 				}
 			}
@@ -369,7 +366,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			foreach ( $results_debit as $key => $value ) {
 				if ( 'debit' == $value['transaction_type_1'] ) {
 
-					$amount_debited  += intval( $value['amount'] );
+					$amount_debited  += floatval( $value['amount'] );
 
 				}
 			}
@@ -386,7 +383,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 
 		return $data;
-
 	}
 
 	/**
@@ -580,7 +576,7 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @since 1.0.0
 	 */
 	public function wpswings_welcome_callback_function() {
-		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/wallet-system-for-woocommerce-welcome.php';
+		include_once plugin_dir_path( __DIR__ ) . 'admin/partials/wallet-system-for-woocommerce-welcome.php';
 	}
 
 
@@ -673,13 +669,11 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wps_all_payment_gateway[ $key ] = $value->title;
 					}
 				}
-			} else {
-				if ( 'yes' == $all_gateway[ $key ]->enabled ) {
-					if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
-						continue;
-					}
-					$wps_all_payment_gateway[ $key ] = $value->title;
+			} elseif ( 'yes' == $all_gateway[ $key ]->enabled ) {
+				if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+					continue;
 				}
+					$wps_all_payment_gateway[ $key ] = $value->title;
 			}
 		}
 		$wsfw_settings_general = array(
@@ -1057,13 +1051,11 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wps_all_payment_gateway[ $key ] = $value->title;
 					}
 				}
-			} else {
-				if ( 'yes' == $all_gateway[ $key ]->enabled ) {
-					if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
-						continue;
-					}
-					$wps_all_payment_gateway[ $key ] = $value->title;
+			} elseif ( 'yes' == $all_gateway[ $key ]->enabled ) {
+				if ( 'wps_wcb_wallet_payment_gateway' == $key ) {
+					continue;
 				}
+					$wps_all_payment_gateway[ $key ] = $value->title;
 			}
 		}
 
@@ -1661,12 +1653,10 @@ class Wallet_System_For_Woocommerce_Admin {
 							if ( isset( $wsfw_genaral_setting['id'] ) && '' !== $wsfw_genaral_setting['id'] ) {
 								if ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
 									update_option( $wsfw_genaral_setting['id'], map_deep( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) );
-								} else {
-									if ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
+								} elseif ( isset( $_POST[ $wsfw_genaral_setting['id'] ] ) ) {
 										update_option( $wsfw_genaral_setting['id'], sanitize_text_field( wp_unslash( $_POST[ $wsfw_genaral_setting['id'] ] ) ) );
-									} else {
-										update_option( $wsfw_genaral_setting['id'], '' );
-									}
+								} else {
+									update_option( $wsfw_genaral_setting['id'], '' );
 								}
 							} else {
 								$wps_wsfw_gen_flag = true;
@@ -1756,11 +1746,9 @@ class Wallet_System_For_Woocommerce_Admin {
 							$wallet_payment_enable['enabled'] = 'no';
 							update_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings', $wallet_payment_enable );
 						}
-					} else {
-						if ( $wallet_payment_enable ) {
+					} elseif ( $wallet_payment_enable ) {
 							$wallet_payment_enable['enabled'] = 'yes';
 							update_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings', $wallet_payment_enable );
-						}
 					}
 				}
 			} else {
@@ -2109,7 +2097,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
-
 	}
 
 
@@ -2262,7 +2249,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			wp_send_json( $data );
 			wp_die();
-
 	}
 
 		/**
@@ -2290,7 +2276,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 
 		wp_send_json( $message );
-
 	}
 
 	/**
@@ -2392,7 +2377,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -2465,14 +2449,12 @@ class Wallet_System_For_Woocommerce_Admin {
 					$walletamount = ( ! empty( $walletamount ) ) ? $walletamount : 0;
 					if ( $walletamount < $withdrawal_amount ) {
 						$walletamount = 0;
-					} else {
-						if ( $wps_wsfwp_wallet_withdrawal_fee_amount > 0 ) {
+					} elseif ( $wps_wsfwp_wallet_withdrawal_fee_amount > 0 ) {
 
 							$walletamount -= $withdrawal_amount + $wps_wsfwp_wallet_withdrawal_fee_amount;
-						} else {
+					} else {
 
-							$walletamount -= $withdrawal_amount;
-						}
+						$walletamount -= $withdrawal_amount;
 					}
 					$update_wallet = update_user_meta( $user_id, 'wps_wallet', $walletamount );
 					delete_user_meta( $user_id, 'disable_further_withdrawal_request' );
@@ -2613,7 +2595,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 		}
 		wp_send_json( $message );
-
 	}
 
 	/**
@@ -2718,7 +2699,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -2812,7 +2792,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				echo esc_html( $post->post_status );
 				break;
 		}
-
 	}
 
 	/**
@@ -3062,7 +3041,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 			}
 		}
-
 	}
 
 	/**
@@ -3181,7 +3159,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -3695,7 +3672,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_wallet_restriction_settings_array', $wsfw_settings_template );
 		return $wsfw_settings_template;
-
 	}
 
 
@@ -3748,7 +3724,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_auto_transfer_restriction_array', $wsfw_settings_template );
 		return $wsfw_settings_template;
-
 	}
 
 	/**
@@ -3799,7 +3774,6 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$wsfw_settings_template   = apply_filters( 'wsfwp_wallet_action_auto_transfer_restriction_array', $wsfw_settings_template );
 		return $wsfw_settings_template;
-
 	}
 
 	/**
@@ -3984,7 +3958,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
 			}
 		}
-
 	}
 
 
@@ -4077,7 +4050,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			$gateway->process_payment_manual( $order_id );
 
 		}
-
 	}
 
 	/**
@@ -4166,4 +4138,3 @@ class Wallet_System_For_Woocommerce_Admin {
 		return $wsfw_settings_template;
 	}
 }
-
