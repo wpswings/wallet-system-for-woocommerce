@@ -400,54 +400,6 @@ class Wallet_System_For_Woocommerce_Public {
 					</tr>
 						<?php
 					}
-				} elseif ( $wallet_amount >= $wps_cart_total ) {
-					$wps_has_subscription = false;
-
-					foreach ( WC()->cart->get_cart_contents() as $key => $values ) {
-						if ( function_exists( 'wps_sfw_check_product_is_subscription' ) ) {
-							if ( wps_sfw_check_product_is_subscription( $values['data'] ) ) {
-								$wps_has_subscription = true;
-								break;
-							}
-						}
-					}
-
-					if ( $wps_has_subscription ) {
-
-						$is_checked_data = $this->is_enable_wallet_partial_payment();
-						if ( $is_checked_data ) {
-							$is_checked_data = "checked='checked'";
-						}
-						?>
-							
-					<tr class="partial_payment">
-						<td></td>
-						<td>
-							<?php
-							if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) {
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_payment_wallet" value="enable" ' . $is_checked_data . ' data-walletamount="' . esc_attr( $wallet_amount ) . '" > </p>';
-
-								?>
-							
-								<?php
-							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) {
-
-								$block_checkout = '<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field"> <input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" ' . $is_checked_data . ' data-walletamount="' . esc_attr( $wallet_amount ) . '" > </p>';
-
-								?>
-							
-								<?php
-							}
-							?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span id="wps_wallet_show_total_msg"></span>
-						</td>
-					</tr>
-						<?php
-					}
 				}
 			}
 		}
@@ -519,46 +471,6 @@ class Wallet_System_For_Woocommerce_Public {
 
 					if ( ! WC()->session->__isset( 'recharge_amount' ) ) {
 
-						?>
-							
-					<tr class="partial_payment">
-						<td><?php echo esc_html__( 'Pay by wallet (', 'wallet-system-for-woocommerce' ) . wp_kses_post( wc_price( $wallet_amount ) ) . ')'; ?></td>
-						<td>
-							<?php if ( 'manual_pay' === $wsfw_wallet_partial_payment_method_options ) { ?>
-							<p class="form-row checkbox_field woocommerce-validated" id="partial_payment_wallet_field">
-								<input type="checkbox" class="input-checkbox " name="partial_payment_wallet" id="partial_payment_wallet" value="enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
-							</p>
-								<?php
-							} elseif ( 'total_pay' === $wsfw_wallet_partial_payment_method_options ) {
-								?>
-							<p class="form-row checkbox_field woocommerce-validated" id="partial_total_payment_wallet_field">
-								<input type="checkbox" class="input-checkbox " name="partial_total_payment_wallet" id="partial_total_payment_wallet" value="total_enable" <?php checked( $this->is_enable_wallet_partial_payment(), true, true ); ?> data-walletamount="<?php echo esc_attr( $wallet_amount ); ?>" >
-							</p>
-								<?php
-							}
-							?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span id="wps_wallet_show_total_msg"></span>
-						</td>
-					</tr>
-						<?php
-					}
-				} elseif ( $wallet_amount >= $wps_cart_total ) {
-					$wps_has_subscription = false;
-
-					foreach ( WC()->cart->get_cart_contents() as $key => $values ) {
-						if ( function_exists( 'wps_sfw_check_product_is_subscription' ) ) {
-							if ( wps_sfw_check_product_is_subscription( $values['data'] ) ) {
-								$wps_has_subscription = true;
-								break;
-							}
-						}
-					}
-
-					if ( $wps_has_subscription ) {
 						?>
 							
 					<tr class="partial_payment">
@@ -849,7 +761,14 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wps_wsfw_display_wallet_endpoint_content() {
 
-		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-public-display.php';
+		$wsfw_wallet_dashboard_template_css = get_option( 'wsfw_wallet_dashboard_template_css' );
+		
+		if( 'template1' == $wsfw_wallet_dashboard_template_css ){
+			do_action( 'wsfw_pro_version_wallet_template_file' );
+		} else {
+			
+			include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-public-display.php';
+		}
 	}
 
 	/**
