@@ -1568,6 +1568,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 				// wallet referal start.
 				$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
+				$wsfw_wallet_action_different_layout_settings      = apply_filters( 'wsfw_wallet_action_different_layout_settings_array', array() );
 				// wallet referal end.
 				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
 				update_option( 'wps_wsfw_subscriptions_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_per_interval'] ) ) : '' );
@@ -1586,6 +1587,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfwp_wallet_action_settings_withdrawal_array );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfwp_wallet_action_settings_transfer_array );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_refer_friend_settings );
+				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_different_layout_settings );
+				
 
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
 				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
@@ -3610,6 +3613,32 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => __( 'Enter comment description', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
+		);
+
+		return $wsfw_settings_template;
+	}
+
+
+	/**
+	 * This is used to create comment html.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_admin_wallet_different_layout_settings_array_org( $wsfw_settings_template ) {
+		$wsfw_settings_template = array(
+			array(
+				'title'       => __( 'Choose Template For Wallet Dashboard', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio',
+				'id'          => 'wsfw_wallet_dashboard_template_css',
+				'value'       => get_option( 'wsfw_wallet_dashboard_template_css' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'' => __( 'Default template', 'wallet-system-for-woocommerce' ),
+					'template1'  => __( 'New Wallet Dashboard Layout', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			
 		);
 
 		return $wsfw_settings_template;
