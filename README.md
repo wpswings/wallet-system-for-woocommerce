@@ -1,13 +1,13 @@
-﻿﻿﻿![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Active installs](https://img.shields.io/badge/Active-3000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.6.1-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.2.3-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2.24-blue)
+﻿﻿﻿﻿![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Active installs](https://img.shields.io/badge/Active-3000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.6.2-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.3.3-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2.24-blue)
 # Wallet System for WooCommerce – Digital Wallet, Cashback Rewards, Recharge User Wallets, View Transition History, woocommerce wallet![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png?rev=2671995)
 * Contributors: WP Swings
 * Author URI: [WP Swings](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-github-page&utm_campaign=site )
-* Tags: digital wallet, cashback wallet, wallet topup, user wallet, woocommerce wallet
+* Tags: wallet, cashback, partial payment, refunds, woocommerce wallet
 * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  
 # Description 
  
-**SPEED-UP TRANSACTIONS WITH A WALLET SYSTEM FOR WOOCOMMERCE. SET TOP-UP SUBSCRIPTION, RESTRICT USERS, AND VIEW WALLET USERS’ WITHDRAWAL REQUESTS.**
+**WOOCOMMERCE WALLET SYSTEM INTEGRATES SMOOTHLY WITH YOUR ONLINE STORE, OFFERING AUTO TOP-UP, SECURE PAYMENTS, AND MULTI-CURRENCY SUPPORT. YOU CAN EASILY MANAGE GIFT CARDS REDEMPTION, WITHDRAWAL REQUESTS, AND SET WALLET USAGE RESTRICTIONS.**
  
 Wallet System for WooCommerce is a digital wallet plugin. It helps you implement a digital wallet system on their WooCommerce store and lets customers buy your products & services with swift WooCommerce payments. It is one of the fastest WordPress Payment plugins.
 
@@ -20,7 +20,7 @@ Are you stuck with a different wallet plugin? No worries! Moving to our WooComme
 [**Wallet For WooCommerce Demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-github-page&utm_campaign=demo) | [**WooCommerce Wallet  Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-github-page&utm_campaign=wallet-doc).
 
 
-[**Video**] - [**How To Add A Digital Wallet System and Implement Wallet Cashback With Wallet System For WooCommerce?**](https://youtu.be/C5mwA5kttRU)
+[**Video**] - [**How To Add A Digital Wallet System and Implement Wallet Cashback With Wallet System For WooCommerce?**](https://www.youtube.com/watch?v=C5mwA5kttRU?rel=0)
    
 ## SALIENT FEATURES OF THE WOOCOMMERCE WALLET SYSTEM
  
@@ -143,9 +143,6 @@ You can choose a separate email address to send email notifications to your WooC
  ## TAKE ADVANTAGE OF THE EXCLUSIVE FEATURES OF THE WOOCOMMERCE WALLET SYSTEM PLUGIN 
  
 > Note:  Get [**Wallet System For WooCommerce Pro**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-github-page&utm_campaign=wallet-pro)
- 
-### DOCUMENTATION OF PREMIUM VERSION
-Visit [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-doc&utm_medium=wallet-github-page&utm_campaign=wallet-pro-doc ) and learn more about the features and working of the plugin.
  
 ### **SUPPORT**
  
