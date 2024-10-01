@@ -1,37 +1,37 @@
-=== Wallet System for WooCommerce – Wallet, Digital Wallet, Cashback, Recharge User Wallets, Partial Payments, Wallet restriction, Refunds ===
+=== Wallet System for WooCommerce – Wallet, Secure Online Payments, Cashback, Refunds, Partial Payment, Wallet Restriction, WooCommerce Payment  ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags:  wallet, cashback, wallet system, wallet, woocommerce wallet
+Tags:  wallet, cashback, partial payment, refunds, woocommerce wallet
 Requires at least: 5.5.0
-Tested up to: 6.6.1
+Tested up to: 6.6.2
 WC Requires at least: 6.5.2
-WC tested up to: 9.2.3
-Stable tag: 2.5.16
+WC tested up to: 9.3.3
+Stable tag: 2.5.17
 Requires PHP: 7.2.24
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-WooCommerce Wallet system is a digital wallet plugin that allows authorized users to purchase items, receive wallet cashback, and receive credits.
+An WooCommerce wallet system that offers effortless payments with features like auto top-up, wallet restrictions, manage refunds and cashback offers.
 
 == Description ==
 
-**SPEED-UP TRANSACTIONS WITH A WALLET SYSTEM FOR WOOCOMMERCE. SET TOP-UP SUBSCRIPTION, RESTRICT USERS, AND VIEW WALLET USERS’ WITHDRAWAL REQUESTS.**
+**WOOCOMMERCE WALLET SYSTEM INTEGRATES SMOOTHLY WITH YOUR ONLINE STORE, OFFERING AUTO TOP-UP, SECURE PAYMENTS, AND MULTI-CURRENCY SUPPORT. YOU CAN EASILY MANAGE GIFT CARDS REDEMPTION, WITHDRAWAL REQUESTS, AND SET WALLET USAGE RESTRICTIONS.**
 
 Wallet System for WooCommerce is a digital wallet plugin. It helps you implement a digital wallet system on their WooCommerce store and lets customers buy your products & services with swift WooCommerce payments. It is one of the fastest WordPress Payment plugins.
 
-This [**WooCommerce Wallet**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-page&utm_campaign=wallet-pro) allows users to add funds. using the available payment methods on your store and see their wallet transactions list. The merchant can manage the customers’ e-wallets and change the wallet amount.
+This [**WooCommerce Wallet**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-pro) allows users to add funds. using the available payment methods on your store and see their wallet transactions list. The merchant can manage the customers’ e-wallets and change the wallet amount.
 
 **Wallet for WooCommerce** plugin will significantly improve the payment & order processing speed. It shortens the average checkout duration as the customers can pay for items within seconds without entering their transaction details each time. In conclusion, wallet funds usage will better the overall user experience.
 
-Are you stuck with a different wallet plugin? No worries! Moving to our WooCommerce Wallet plugin is easy. Get in touch, and we'll help you migrate smoothly. – [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us)
+Are you stuck with a different wallet plugin? No worries! Moving to our WooCommerce Wallet plugin is easy. Get in touch, and we'll help you migrate smoothly. – [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-org-page&utm_medium=referral&utm_campaign=contact-us)
 
 The WooCommerce Wallet increases the ease and security of the payment process. making it a must-have WooCommerce payment plugin for your online store. 
 
-[**Wallet For WooCommerce Demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-demo&utm_medium=wallet-org-page&utm_campaign=demo) | [**WooCommerce Wallet  Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-doc ) 
+[**WooCommerce Wallet Demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=demo) | [**WooCommerce Wallet  Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-doc) 
 
-[youtube https://www.youtube.com/watch?v=C5mwA5kttRU&h=315&rel=0]
+[youtube https://www.youtube.com/watch?v=C5mwA5kttRU?rel=0]
 
-== SALIENT FEATURES OF THE WOOCOMMERCE PAYMENTS PLUGINS == 
+== SALIENT FEATURES OF THE WOOCOMMERCE WALLET PLUGIN == 
 
 **1.Create Manual Orders With Wallet Payment:** Our WordPress digital wallet plugin lets admins easily create manual orders using the wallet as the payment method.
 
@@ -75,9 +75,9 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 
 == LIVE DEMO OF WOOCOMMERCE  WALLET SYSTEM PLUGIN ==
 
-* [**WooCommerce Wallet System Frontend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-frontend-demo&utm_medium=wallet-org-page&utm_campaign=wallet-frontend-demo )
+* [**WooCommerce Wallet System Frontend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-frontend-demo)
 
-* [**WooCommerce Wallet System Backend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/get-your-personal-demo/?utm_source=wpswings-wallet-backend-demo&utm_medium=wallet-org-page&utm_campaign=wallet-backend-demo )
+* [**WooCommerce Wallet System Backend demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/get-your-personal-demo/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-backend-demo)
 
 == WITH THE WOOCOMMERCE WALLET YOU CAN: ==
 * Transfer Vendors’ commissions directly into their wallets. 
@@ -85,16 +85,16 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 * Show the wallet transaction date & time details in your selected time zone.  
 * Items bought via the WooCommerce wallet will be automatically marked complete. 
 * You can change your email address to send wallet notifications to users. 
-* The admin can restrict any particular wallet user from using the Add Balance, Wallet Transfer, and Wallet Withdrawal Request features at once, maintaining [secure online payments](https://wpswings.com/blog/secure-online-payments/?utm_source=wpswings-securepayments-blog&utm_medium=wallet-org-page&utm_campaign=securepayments-blog&utm_term=secure-online-payments)
+* The admin can restrict any particular wallet user from using the Add Balance, Wallet Transfer, and Wallet Withdrawal Request features at once, maintaining [secure online payments](https://wpswings.com/blog/secure-online-payments/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=securepayments-blog)
 
 == WOOCOMMERCE WALLET PLUGIN COMPATIBILITIES ==
 
-* Compatibility with [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) and [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-giftcards-pro&utm_medium=wallet-org-page&utm_campaign=giftcards-pro).
+* Compatibility with [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) and [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-wallet-pro&utm_medium=referral&utm_campaign=giftcards-pro).
 
 * Compatibility With  [**FOX – Currency Switcher**](https://wordpress.org/plugins/woocommerce-currency-switcher/). 
 
 * Compatibility  [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/
-) and  [**Subscriptions for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-subscription-pro&utm_medium=wallet-org-page&utm_campaign=subscription-pro).
+) and  [**Subscriptions for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=referral&utm_campaign=subscription-pro).
 
 * Compatibility with  [**Multi-Currency Switcher**](https://wordpress.org/plugins/woo-multi-currency/).
 
@@ -102,7 +102,7 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 
 * Compatibility with  [**Multi Vendor Marketplace**](https://wordpress.org/plugins/dc-woocommerce-multi-vendor/).
 
-* Compatibility with  [**RMA Return Refund & Exchange For WooCommerce Pro**](https://wpswings.com/product/rma-return-refund-exchange-for-woocommerce-pro/?utm_source=wpswings-rma-pro&utm_medium=wallet-org-page&utm_campaign=rma-pro).
+* Compatibility with  [**RMA Return Refund & Exchange For WooCommerce Pro**](https://wpswings.com/product/rma-return-refund-exchange-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=rma-pro).
 
 * The Wallet for WooCommerce plugin is compatible with the latest version of the WPML plugin and supports WordPress multisite network.
 
@@ -131,15 +131,11 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 
 WooCommerce Wallet plugin adds digital wallets to online stores. Customers can use their wallet balance to purchase your products & services.
 
-> Note:  Get [**Wallet System for WooCommerce Pro**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-page&utm_campaign=wallet-pro )
+> Note:  Get [**Wallet System for WooCommerce Pro**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-pro)
 
 == SEE WHAT BILIONERBIT IS SAYING ABOUT WORDPRESS WALLET PLUGIN ==
 
-> We implemented the Wallet System for WooCommerce Pro plugin, which resulted in a steady influx of new users within a short period of time. The plugin's seamless functionality and enhanced user experience immediately resulted in increased engagement, improved customer satisfaction, and streamlined payment processes. These immediate benefits contributed to BilionerBit's success in the competitive cryptocurrency market. See [**WooCommerce Wallet Case Study**](https://wpswings.com/case-studies/bilionerbit/?utm_source=wpswings-wallet-casestudies&utm_medium=wallet-org-page&utm_campaign=case-studies)
-
-== DOCUMENTATION OF PREMIUM VERSION ==
-
-* [**Wallet System for WooCommerce Pro Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wallet-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-pro-doc)
+> We implemented the Wallet System for WooCommerce Pro plugin, which resulted in a steady influx of new users within a short period of time. The plugin's seamless functionality and enhanced user experience immediately resulted in increased engagement, improved customer satisfaction, and streamlined payment processes. These immediate benefits contributed to BilionerBit's success in the competitive cryptocurrency market. See [**WooCommerce Wallet Case Study**](https://wpswings.com/case-studies/bilionerbit/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=bilionerbit-case-studies)
 
 **Additional Useful Content**
 
@@ -148,13 +144,13 @@ WooCommerce Wallet plugin adds digital wallets to online stores. Customers can u
 
 == SUPPORT ==
 
-If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-site&utm_medium=wallet-org-page&utm_campaign=wallet-org) and discover all types of [**WooCommerce Extentions**](https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-shop&utm_medium=wpswings-org-page&utm_campaign=woocommerce-plugins) for your eCommerce store.
+If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=site) and discover all types of [**WooCommerce Extentions**](https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=woocommerce-plugins) for your eCommerce store.
 
-> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=wallet-org-page&utm_campaign=forum) or  [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-wallet-ticket&utm_medium=wallet-org-page&utm_campaign=generate-ticket )
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=forum) or  [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=generate-ticket)
 
-Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-org-page&utm_campaign=woocommerce-services)
+Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=woocommerce-services)
 
-Get Huge Discounts On Wallet System Plugin – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-wallet-offers&utm_medium=wpswings-org-page&utm_campaign=offers)
+Get Huge Discounts On Wallet System Plugin – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=offers)
 
 == Installation ==
 
@@ -182,12 +178,12 @@ Navigate to the Wallet Transactions tab. There you can view the transaction list
 
 = Can I integrate the Wallet System for WooCommerce with local payment gateways? = 
 
-We provide integration with popular local payment gateways. But if you want integration with a specific payment gateway, please [contact us](https://wpswings.com/contact-us/?utm_source=wpswings-wallet-contact-us&utm_medium=wallet-org-page&utm_campaign=contact-us). 
+We provide integration with popular local payment gateways. But if you want integration with a specific payment gateway, please [contact us](https://wpswings.com/contact-us/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=contact-us). 
 
 = Can we recharge the wallet from the front end or without an admin dashboard? =
 Yes, we can recharge the wallet from the front end for this, please go to the *my-account page >> wallet >> add balance*.
 
-= Can we refund the order on the digital wallet plugin? =
+= Can we refund the order on this ecommerce wallet plugin? =
 Yes, the admin can refund the order on the plugin wallet. For this we have provided a setting name as a refund to the wallet, please enable this setting from the general tab.
 
 = Can the admin update the wallet amount of all the users at once? =
@@ -209,7 +205,7 @@ Yes, Admin can shortcode wps-wallet for using all the functionalities of the Wal
 Yes, the Wallet plugin supports WordPress Multisite Network
 
 = My question is not listed? =
-For more detail please visit [**WP Swings Wallet Knowledge base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-kb&utm_medium=wallet-org-page&utm_campaign=wallet-kb) for more detailed [**Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-page&utm_campaign=wallet-doc ). 
+For more detail please visit [**WP Swings Wallet Knowledge base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-kb) for more detailed [**Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-doc). 
 
 
 == Screenshots ==
@@ -248,6 +244,10 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 
 == Changelog ==
+
+= 2.5.17 – Released on 30 September 2024 =
+* New: Add wallet payment method and remove wallet partial payment method for subscription purchase. 
+* New: Compatible with latest WP [ 6.6.2 ] and WC [ 9.3.3 ].
 
 = 2.5.16 – Released on 27 August 2024 =
 * New: Show cashback amount to user on wallet tab.
@@ -364,7 +364,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 = 2.3.1 – Released on 30 January 2023 =
 * New: Full refund to the wallet or partial payment refund to the wallet
 * New: Compatible with [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/)
-* New: Compatible with [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-giftcards-pro&utm_medium=wallet-org-page&utm_campaign=giftcards-pro)
+* New: Compatible with [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=giftcards-pro)
 * Fix: Reduced load time for wallet user table
 
 = 2.3.0 – Released on 22 December 2022 =
@@ -429,7 +429,7 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 = 2.1.3 – Released on 3 February 2022 =
 * New: Change author from MakeWebBetter to WP Swings
-* New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-page&utm_campaign=official ).
+* New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=official).
 * New: Minor Bug fixes
 * New: Compatible with the latest WP and WC 
 
@@ -478,6 +478,6 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.16 – Released on 27 August 2024 =
-* New: Show cashback amount to user on wallet tab.
-* New: Latest WP [6.6.1] and WC [9.2.3].
+= 2.5.17 – Released on 30 September 2024 =
+* New: Add wallet payment method and remove wallet partial payment method for subscription purchase. 
+* New: Compatible with latest WP [ 6.6.2 ] and WC [ 9.3.3 ].
