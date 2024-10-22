@@ -95,6 +95,7 @@ class Wallet_System_For_Woocommerce_Public {
 		wp_enqueue_script( 'wps-silk-script', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/slick/slick.min.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/src/js/wallet-system-for-woocommerce-public.js', array( 'jquery' ), $this->version, false );
 		$wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withdrawal_paypal_enable' );
+		$wps_wsfw_notification_color = get_option( 'wps_wsfw_notification_color' );
 		wp_localize_script(
 			$this->plugin_name,
 			'wsfw_public_param',
@@ -121,6 +122,7 @@ class Wallet_System_For_Woocommerce_Public {
 				'wsfw_wallet_transfer'           => __( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ),
 				'wsfw_unset_amount'              => __( 'Wallet Amount Removed', 'wallet-system-for-woocommerce' ),
 				'wsfw_wallet_paypal'              => $wps_wsfwp_wallet_withdrawal_paypal_enable,
+				'wps_wsfw_notification_color'    => $wps_wsfw_notification_color,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name );

@@ -108,6 +108,8 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 
 		wp_enqueue_style( 'flatpickercss', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/flatpickr/dist/flatpickr.min.css', array(), $this->version, 'all' );
+
+		wp_enqueue_script( 'wp-color-picker' );
 	}
 
 	/**
@@ -3637,6 +3639,16 @@ class Wallet_System_For_Woocommerce_Admin {
 					'' => __( 'Default template', 'wallet-system-for-woocommerce' ),
 					'template1'  => __( 'New Wallet Dashboard Layout', 'wallet-system-for-woocommerce' ),
 				),
+			),
+
+			array(
+				'id'       => 'wps_wsfw_notification_color',
+				'type'     => 'color',
+				'title'    => __( 'Select Color For Wallet Dashboard', 'wallet-system-for-woocommerce' ),
+				'desc_tip' => __( 'You can also choose the color for your Notification Bar.', 'wallet-system-for-woocommerce' ),
+				'class'    => 'input-text',
+				'desc'     => __( 'choose color', 'wallet-system-for-woocommerce' ),
+				'value'  => get_option( 'wps_wsfw_notification_color'),
 			),
 			
 		);
