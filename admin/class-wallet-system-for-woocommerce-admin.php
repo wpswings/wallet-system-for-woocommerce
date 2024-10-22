@@ -109,7 +109,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		wp_enqueue_style( 'flatpickercss', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/flatpickr/dist/flatpickr.min.css', array(), $this->version, 'all' );
 
-		wp_enqueue_script( 'wp-color-picker' );
+		
 	}
 
 	/**
