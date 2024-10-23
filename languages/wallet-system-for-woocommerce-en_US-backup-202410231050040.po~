@@ -2,23 +2,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wallet System For WooCommerce 2.5.16\n"
 "POT-Creation-Date: 2024-09-29 23:42+0530\n"
-"PO-Revision-Date: 2024-10-23 10:50+0000\n"
+"PO-Revision-Date: 2024-09-29 23:42+0530\n"
 "Last-Translator: \n"
-"Language-Team: English (United States)\n"
+"Language-Team: WP Swings\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Loco https://localise.biz/\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;"
 "esc_html;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;"
 "translate_nooped_plural\n"
 "X-Poedit-SearchPath-0: .\n"
-"Report-Msgid-Bugs-To: \n"
-"X-Loco-Version: 2.6.11; wp-6.6.2"
 
 #: admin/class-wallet-orders-list.php:28 admin/class-wallet-orders-list.php:107
 #: admin/class-wallet-orders-list.php:148
@@ -1298,7 +1296,7 @@ msgstr ""
 #: common/class-wallet-system-for-woocommerce-common.php:1424
 #: public/class-wallet-system-for-woocommerce-public.php:870
 msgid "Via wallet"
-msgstr "Via wallet fee amount"
+msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:3106
 msgid "Automatically"

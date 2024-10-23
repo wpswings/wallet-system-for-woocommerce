@@ -1568,6 +1568,9 @@ class Wallet_System_For_Woocommerce_Public {
 					<?php
 					/* translators: %s: search term */
 					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Earn Cashback On Orders Above %s .', 'wallet-system-for-woocommerce' ), wc_price( $wsfw_min_cart_amount, $this->wsfw_wallet_price_args() ) ), $wsfw_min_cart_amount ) );
+					?>
+					</div>
+					<?php
 				} else {
 
 					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart' );
@@ -1594,6 +1597,9 @@ class Wallet_System_For_Woocommerce_Public {
 							<?php
 							/* translators: %s: search term */
 							echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
+							?>
+							</div>
+							<?php
 						}
 					} else {
 						?>
@@ -1601,6 +1607,9 @@ class Wallet_System_For_Woocommerce_Public {
 						<?php
 						/* translators: %s: search term */
 						echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Please <a href="%1$s">log in</a> to avail %2$s cashback from this order.', 'wallet-system-for-woocommerce' ), esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
+						?>
+						</div>
+						<?php
 					}
 				}
 			} elseif ( 'catwise' === $wps_wsfw_cashback_rule ) {
@@ -1623,6 +1632,9 @@ class Wallet_System_For_Woocommerce_Public {
 						<?php
 						/* translators: %s: search term */
 						echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
+						?>
+						</div>
+						<?php
 					}
 				} else {
 					?>
@@ -1630,11 +1642,12 @@ class Wallet_System_For_Woocommerce_Public {
 					<?php
 					/* translators: %s: search term */
 					echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Please <a href="%1$s">log in</a> to avail %2$s cashback from this order.', 'wallet-system-for-woocommerce' ), esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
+					?>
+					</div>
+					<?php
 				}
 			}
-			?>
-				</div>
-			<?php
+			
 		endif;
 	}
 
@@ -2213,12 +2226,30 @@ class Wallet_System_For_Woocommerce_Public {
 		$fee_total = '';
 		$fee_total_tax = '';
 		$order_fee_array = $order->get_items( 'fee' );
+
+		$wps_wsfw_wallet_fee_applied = false;
+		$feename = '';
+    	$fee_amount = 0;
+
+		$all_fees = wc()->cart->fees_api()->get_fees();
+		if (  isset( $all_fees['via_wallet_partial_payment'] ) ){
+			foreach ( $all_fees as $fee ) {
+				if ( isset($fee->id) && 'via_wallet_partial_payment' === $fee->id ) {
+					$wps_wsfw_wallet_fee_applied = true;
+					$feename = $fee->name;    // Get the fee name
+					$fee_amount = $fee->amount;
+					break;
+				}
+			}
+		
+		}
+											 
 		foreach ( $order_fee_array as $item_id => $item_fee ) {
 
-			if ( $item_fee->get_name() == 'Via wallet' ) {
+		if ( 'Via wallet' == $item_fee->get_name() || $wps_wsfw_wallet_fee_applied ) {
 
-				$fee_name = $item_fee->get_name();
-				$fee_total = $item_fee->get_amount();
+				$fee_name = $feename;
+				$fee_total = $fee_amount;
 				$fee_total_tax = abs( $item_fee->get_total_tax() );
 				if ( ! empty( $fee_total_tax ) ) {
 					$order->remove_item( $item_id );
