@@ -414,7 +414,6 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders_api_checkout_org', 90 );
 			$this->loader->add_filter( 'woocommerce_available_payment_gateways', $wsfw_plugin_public, 'wps_wsfwp_add_wallet_recharge_message_restriction', 10, 1 );
 
-			
 		}
 	}
 
@@ -1172,32 +1171,6 @@ class Wallet_System_For_Woocommerce {
 								<?php
 							break;
 						case 'color':
-							?>
-							<div class="wps-form-group wps-wsfw-<?php echo esc_attr( $wsfw_component['type'] ); ?> <?php echo esc_attr( $pro_group_tag ); ?>">
-								<div class="wps-form-group__label">
-									<label for="<?php echo esc_attr( $wsfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $wsfw_component['title'] ) ? esc_html( $wsfw_component['title'] ) : '' ); // WPCS: XSS ok. ?></label>
-								</div>
-								<div class="wps-form-group__control">
-									<label class="mdc-text-field mdc-text-field--outlined">
-										<input 
-										class="<?php echo ( isset( $wsfw_component['class'] ) ? esc_attr( $wsfw_component['class'] ) : '' ); ?>" 
-										name="<?php echo ( isset( $wsfw_component['name'] ) ? esc_html( $wsfw_component['name'] ) : esc_html( $wsfw_component['id'] ) ); ?>"
-										id="<?php echo esc_attr( $wsfw_component['id'] ); ?>"
-										type="<?php echo esc_attr( $wsfw_component['type'] ); ?>"
-										value="<?php echo ( isset( $wsfw_component['value'] ) ? esc_attr( $wsfw_component['value'] ) : '' ); ?>"
-										<?php
-										// phpcs:ignore
-										echo esc_html( ( 'date' === $wsfw_component['type'] ) ? 'max=' . gmdate( 'Y-m-d', strtotime( gmdate( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . 'min=' . gmdate( 'Y-m-d' ) . '' : '' );
-										?>
-										>
-									</label>
-									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
-									</div>
-								</div>
-							</div>
-							<?php
-							break;
 						case 'date':
 						case 'file':
 							?>

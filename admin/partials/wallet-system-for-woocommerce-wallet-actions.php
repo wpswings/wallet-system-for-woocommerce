@@ -176,20 +176,20 @@ $wsfw_wallet_action_html = '';
 			</div>
 			<hr>
 			<?php
-				if ( in_array( 'points-and-rewards-for-woocommerce/points-rewards-for-woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-					?>
+			if ( in_array( 'points-and-rewards-for-woocommerce/points-rewards-for-woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+				?>
 					<div class="wsfw-secion-gamification-rule">
 					  <span><b><?php esc_html_e( 'Win Wheel Rule', 'wallet-system-for-woocommerce' ); ?></b></span>
-						<?php
-							  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_gamification_rule_settings );
-						if ( ! empty( $wsfw_wallet_action_html ) ) {
-							echo wp_kses_post( $wsfw_wallet_action_html );
-						}
-						?>
+					<?php
+						  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_gamification_rule_settings );
+					if ( ! empty( $wsfw_wallet_action_html ) ) {
+						echo wp_kses_post( $wsfw_wallet_action_html );
+					}
+					?>
 					</div>
 					<hr>
 					<?php
-				}
+			}
 			?>
 		<?php
 	}

@@ -764,11 +764,12 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wps_wsfw_display_wallet_endpoint_content() {
 
 		$wsfw_wallet_dashboard_template_css = get_option( 'wsfw_wallet_dashboard_template_css' );
-		
-		if( 'template1' == $wsfw_wallet_dashboard_template_css ){
+		$is_pro_plugin = false;
+		$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+		if ( 'template1' == $wsfw_wallet_dashboard_template_css && $is_pro_plugin ) {
 			do_action( 'wsfw_pro_version_wallet_template_file' );
 		} else {
-			
+
 			include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-public-display.php';
 		}
 	}
@@ -1647,7 +1648,7 @@ class Wallet_System_For_Woocommerce_Public {
 					<?php
 				}
 			}
-			
+
 		endif;
 	}
 
@@ -2229,24 +2230,23 @@ class Wallet_System_For_Woocommerce_Public {
 
 		$wps_wsfw_wallet_fee_applied = false;
 		$feename = '';
-    	$fee_amount = 0;
+		$fee_amount = 0;
 
 		$all_fees = wc()->cart->fees_api()->get_fees();
-		if (  isset( $all_fees['via_wallet_partial_payment'] ) ){
+		if ( isset( $all_fees['via_wallet_partial_payment'] ) ) {
 			foreach ( $all_fees as $fee ) {
-				if ( isset($fee->id) && 'via_wallet_partial_payment' === $fee->id ) {
+				if ( isset( $fee->id ) && 'via_wallet_partial_payment' === $fee->id ) {
 					$wps_wsfw_wallet_fee_applied = true;
-					$feename = $fee->name;    // Get the fee name
+					$feename = $fee->name;    // Get the fee name.
 					$fee_amount = $fee->amount;
 					break;
 				}
 			}
-		
 		}
-											 
+
 		foreach ( $order_fee_array as $item_id => $item_fee ) {
 
-		if ( 'Via wallet' == $item_fee->get_name() || $wps_wsfw_wallet_fee_applied ) {
+			if ( 'Via wallet' == $item_fee->get_name() || $wps_wsfw_wallet_fee_applied ) {
 
 				$fee_name = $feename;
 				$fee_total = $fee_amount;

@@ -109,7 +109,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		wp_enqueue_style( 'flatpickercss', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/flatpickr/dist/flatpickr.min.css', array(), $this->version, 'all' );
 
-		
+		wp_enqueue_script( 'wp-color-picker' );
 	}
 
 	/**
@@ -1592,8 +1592,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_refer_friend_settings );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_different_layout_settings );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_gamification_rule_settings );
-				
-				
 
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
 				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
@@ -3645,27 +3643,32 @@ class Wallet_System_For_Woocommerce_Admin {
 			),
 
 			array(
-				'id'       => 'wps_wsfw_notification_color',
-				'type'     => 'color',
 				'title'    => __( 'Select Color For Wallet Dashboard', 'wallet-system-for-woocommerce' ),
-				'desc_tip' => __( 'You can also choose the color for your Notification Bar.', 'wallet-system-for-woocommerce' ),
-				'class'    => 'input-text',
-				'desc'     => __( 'choose color', 'wallet-system-for-woocommerce' ),
-				'value'  => get_option( 'wps_wsfw_notification_color'),
+				'type'     => 'text',
+				'id'       => 'wps_wsfw_notification_color',
+				'description' => __( 'You can also choose the color for Wallet Dashboard.', 'wallet-system-for-woocommerce' ),
+				'class'    => 'wps_wsfw_notification_color',
+				'value'  => get_option( 'wps_wsfw_notification_color' ),
 			),
-			
+
 		);
 
 		return $wsfw_settings_template;
 	}
 
-	public function wsfw_admin_wallet_gamification_rule_settings_array_org( $wsfw_settings_template ){
+	/**
+	 * Gamification comptability function
+	 *
+	 * @param array $wsfw_settings_template as template setting.
+	 * @return array
+	 */
+	public function wsfw_admin_wallet_gamification_rule_settings_array_org( $wsfw_settings_template ) {
 
 		$wsfw_settings_template = array(
 			array(
 				'title'       => __( 'Select Option in Which user will receive winning from Win Wheel ', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
-				'description' =>  __( 'Select Rule Type in which Winner Get Winning Price', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select Rule Type in which Winner Get Winning Price', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfwp_win_wheel_rule_type',
 				'id'          => 'wps_wsfwp_win_wheel_rule_type',
 				'value'       => get_option( 'wps_wsfwp_win_wheel_rule_type', 'only wallet' ),
@@ -3682,7 +3685,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 
 		return $wsfw_settings_template;
-		
 	}
 
 
