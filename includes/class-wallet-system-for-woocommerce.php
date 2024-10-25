@@ -349,7 +349,7 @@ class Wallet_System_For_Woocommerce {
 		// woocommerce block code for wallet payment.
 		$this->loader->add_action( 'woocommerce_blocks_loaded', $wsfw_plugin_common, 'wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support' );
 		$this->loader->add_filter( 'woocommerce_order_get_tax_totals', $wsfw_plugin_common, 'wps_wsfw_woocommerce_order_get_tax_totals', 99999, 2 );
-		$this->loader->add_filter( 'wps_wps_gamification_feature_for_wallet', $wsfw_plugin_common, 'wps_wps_gamification_feature_for_wallet_callback', 99, 2 );
+		$this->loader->add_filter( 'wps_wpr_gamification_feature_for_wallet', $wsfw_plugin_common, 'wps_wps_gamification_feature_for_wallet_callback', 99, 2 );
 	}
 
 	/**
