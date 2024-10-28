@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.6.2
 WC Requires at least: 6.5.2
 WC tested up to: 9.3.3
-Stable tag: 2.5.17
+Stable tag: 2.6.0
 Requires PHP: 7.2.24
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,6 +30,8 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 [**WooCommerce Wallet Demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=demo) | [**WooCommerce Wallet  Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-doc) 
 
 [youtube https://www.youtube.com/watch?v=C5mwA5kttRU?rel=0]
+
+Don’t miss our Halloween Sale—grab the [**Wallet System for WooCommerce PRO**]((https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=hwallet-pro))  today at 25% Off! 🎉👻
 
 == SALIENT FEATURES OF THE WOOCOMMERCE WALLET PLUGIN == 
 
@@ -90,6 +92,8 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 == WOOCOMMERCE WALLET PLUGIN COMPATIBILITIES ==
 
 * Compatibility with [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) and [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro?utm_source=wpswings-wallet-pro&utm_medium=referral&utm_campaign=giftcards-pro).
+
+* Compatibility with [**Points and Rewards for WooCommerce**](https://wordpress.org/plugins/points-and-rewards-for-woocommerce/) and [**Points and Rewards for WooCommerce Pro.**](https://wpswings.com/product/points-and-rewards-for-woocommerce-plugin/?utm_source=wpswings-wallet-pro&utm_medium=referral&utm_campaign=par-pro)
 
 * Compatibility With  [**FOX – Currency Switcher**](https://wordpress.org/plugins/woocommerce-currency-switcher/). 
 
@@ -244,6 +248,13 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 
 == Changelog ==
+
+= 2.6.0 – Released on 28 October 2024 =
+* New: compatibility with [**points and rewards for WooCommerce**](https://wordpress.org/plugins/points-and-rewards-for-woocommerce/) gamification feature. 
+* New: Option to change the color code of wallet tab in existing templates.
+* New: Latest WP(6.6.2) and WC(9.3.3) Update.
+* Fix: Deduction of wallet amount in case of partial wallet payment using the translation of the 'via wallet' string.
+* Fix: HTML fixes via wallet cashback notice on cart page.
 
 = 2.5.17 – Released on 30 September 2024 =
 * New: Add wallet payment method and remove wallet partial payment method for subscription purchase. 
@@ -478,6 +489,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.5.17 – Released on 30 September 2024 =
-* New: Add wallet payment method and remove wallet partial payment method for subscription purchase. 
-* New: Compatible with latest WP [ 6.6.2 ] and WC [ 9.3.3 ].
+= 2.6.0 – Released on 28 October 2024 =
+* New: compatibility with [**points and rewards for WooCommerce**](https://wordpress.org/plugins/points-and-rewards-for-woocommerce/) gamification feature. 
+* New: Option to change the color code of wallet tab in existing templates.
+* New: Latest WP(6.6.2) and WC(9.3.3) Update.
+* Fix: Deduction of wallet amount in case of partial wallet payment using the translation of the 'via wallet' string.
+* Fix: HTML fixes via wallet cashback notice on cart page.
