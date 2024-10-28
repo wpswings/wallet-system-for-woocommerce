@@ -96,20 +96,19 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 			</table>
 		</div>
 		<?php
-	} else {
-		if ( $wallet_bal > 0 ) {
+	} elseif ( $wallet_bal > 0 ) {
 			$is_pro_plugin = false;
 			$wsfwp_min_wallet_withdrawal_amount = 0;
 			$wsfwp_max_wallet_withdrawal_amount = 0;
 			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
-			if ( $is_pro_plugin ) {
-				$wps_wsfwp_wallet_withdrawal_restriction_enable = get_option( 'wps_wsfwp_wallet_withdrawal_restriction_enable' );
-				if ( 'on' == $wps_wsfwp_wallet_withdrawal_restriction_enable ) {
-					$wsfwp_min_wallet_withdrawal_amount = get_option( 'wsfwp_min_wallet_withdrawal_amount' );
-					$wsfwp_max_wallet_withdrawal_amount = get_option( 'wsfwp_max_wallet_withdrawal_amount' );
-				}
+		if ( $is_pro_plugin ) {
+			$wps_wsfwp_wallet_withdrawal_restriction_enable = get_option( 'wps_wsfwp_wallet_withdrawal_restriction_enable' );
+			if ( 'on' == $wps_wsfwp_wallet_withdrawal_restriction_enable ) {
+				$wsfwp_min_wallet_withdrawal_amount = get_option( 'wsfwp_min_wallet_withdrawal_amount' );
+				$wsfwp_max_wallet_withdrawal_amount = get_option( 'wsfwp_max_wallet_withdrawal_amount' );
 			}
-			?>
+		}
+		?>
 		<span id="wps_wallet_transfer_form">
 			<p class="wps-wallet-field-container form-row form-row-wide">
 				<label for="wps_wallet_withdrawal_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . ')'; ?></label>
@@ -244,24 +243,24 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 		</p>
 		
 			<?php
-		} else {
-			show_message_on_form_submit( esc_html__( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
-			?>
+	} else {
+		show_message_on_form_submit( esc_html__( 'Your wallet amount is 0, you cannot withdraw money from wallet.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		?>
 			<p>
 			<div class="wps_wcb_wallet_balance_container_withdrawal">
 			<div class="wps_view_withdrawal"><span id="wps_withdrawal_table_div" ><?php esc_html_e( 'View Withdrawal Request', 'wallet-system-for-woocommerce' ); ?></span>
 				</div>
 				<div class="wps_withdrawal_table">
-					<?php
-					$args               = array(
-						'numberposts' => -1,
-						'post_type'   => 'wallet_withdrawal',
-						'orderby'     => 'ID',
-						'order'       => 'DESC',
-						'post_status' => array( 'any' ),
-					);
-					$withdrawal_request = get_posts( $args );
-					?>
+				<?php
+				$args               = array(
+					'numberposts' => -1,
+					'post_type'   => 'wallet_withdrawal',
+					'orderby'     => 'ID',
+					'order'       => 'DESC',
+					'post_status' => array( 'any' ),
+				);
+				$withdrawal_request = get_posts( $args );
+				?>
 			<div class="wps-wallet-transaction-container">
 				<table class="wps-wsfw-wallet-field-table dt-responsive" id="transactions_table" >
 					<thead>
@@ -271,17 +270,17 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 							<th><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></th>
 							<th><?php esc_html_e( 'Status', 'wallet-system-for-woocommerce' ); ?></th>
 							<th><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></th>
-							<?php
-							if ( $check ) {
-								?>
-						<th>
-								<?php
-								esc_html_e( 'Withdrawal Fee', 'wallet-system-for-woocommerce' );
-								?>
-						</th>
-								<?php
-							}
+						<?php
+						if ( $check ) {
 							?>
+						<th>
+							<?php
+							esc_html_e( 'Withdrawal Fee', 'wallet-system-for-woocommerce' );
+							?>
+						</th>
+							<?php
+						}
+						?>
 						<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
 						</tr>
 					</thead>
@@ -328,7 +327,7 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 			</div>
 			</p>
 			<?php
-		}
+
 	}
 	?>
 

@@ -44,7 +44,6 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 
 				)
 			);
-
 		}
 
 
@@ -151,7 +150,6 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			if ( isset( $_REQUEST['s'] ) ) {
 				echo '<span class="subtitle">' . sprintf( 'Search results for %s', esc_html( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ) ) . '</span>';
 			}
-
 		}
 
 		/**
@@ -184,15 +182,12 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 				} else {
 					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND `post_status` = %s ORDER BY `ID` DESC', $post_status ) );
 				}
-			} else {
-
-				if ( isset( $post_status ) && ! empty( $post_status ) ) {
+			} elseif ( isset( $post_status ) && ! empty( $post_status ) ) {
 
 					$orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND `post_status` = %s ORDER BY `ID` DESC', $post_status ) );
-				} else {
+			} else {
 
-					$orders = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND ( NOT `post_status` = "auto-draft" && NOT `post_status` = "trash" ) ORDER BY `ID` DESC' );
-				}
+				$orders = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'posts WHERE `post_type` = "wallet_shop_order" AND ( NOT `post_status` = "auto-draft" && NOT `post_status` = "trash" ) ORDER BY `ID` DESC' );
 			}
 
 			if ( ! empty( $orders ) && is_array( $orders ) ) {
@@ -339,7 +334,6 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 				)
 			);
 			exit;
-
 		}
 
 		/**
@@ -388,7 +382,6 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			);
 
 			$this->items = $data;
-
 		}
 
 		/**
@@ -412,7 +405,6 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			$result = strnatcmp( $a[ $orderby ], $b[ $orderby ] ); // Determine sort order.
 
 			return ( 'asc' === $order ) ? $result : -$result; // Send final sort direction to usort.
-
 		}
 
 		/**
@@ -458,7 +450,6 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 					$date_format = get_option( 'date_format', 'm/d/Y' );
 					return date_format( $date, $date_format );
 			}
-
 		}
 
 		/**
@@ -479,7 +470,6 @@ if ( ! class_exists( 'Wallet_Orders_List' ) ) {
 			// Setup Hidden columns and return them.
 			return array();
 		}
-
 	}
 
 }

@@ -32,7 +32,6 @@ class Wallet_System_AjaxHandler {
 		add_action( 'wp_ajax_calculate_amount_after_wallet', array( &$this, 'calculate_amount_after_wallet' ) );
 		add_action( 'wp_ajax_unset_wallet_session', array( &$this, 'unset_wallet_session' ) );
 		add_action( 'wp_ajax_calculate_amount_total_after_wallet', array( &$this, 'calculate_amount_total_after_wallet' ) );
-
 	}
 
 	/**
@@ -131,6 +130,4 @@ class Wallet_System_AjaxHandler {
 		echo 'true';
 		wp_die();
 	}
-
-
 }

@@ -345,12 +345,10 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									$wallet = ( $wallet ) - abs( $updated_amount );
 								}
 							}
-						} else {
-							if ( $wallet < $updated_amount ) {
+						} elseif ( $wallet < $updated_amount ) {
 								$previous_wallet_amount = $wallet;
-							} else {
-								$wallet -= $updated_amount;
-							}
+						} else {
+							$wallet -= $updated_amount;
 						}
 
 						$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
@@ -362,12 +360,10 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 								} else {
 									$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
 								}
-							} else {
-								if ( $previous_wallet_amount < $updated_amount ) {
+							} elseif ( $previous_wallet_amount < $updated_amount ) {
 									$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-								} else {
-									$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-								}
+							} else {
+								$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 							}
 						} else {
 
@@ -511,12 +507,10 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 										$wallet = ( $wallet ) - abs( $updated_amount );
 									}
 								}
-							} else {
-								if ( $wallet < $updated_amount ) {
+							} elseif ( $wallet < $updated_amount ) {
 									$previous_wallet_amount = $wallet;
-								} else {
-									$wallet -= $updated_amount;
-								}
+							} else {
+								$wallet -= $updated_amount;
 							}
 
 							$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
@@ -528,12 +522,10 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									} else {
 										$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
 									}
-								} else {
-									if ( $previous_wallet_amount < $updated_amount ) {
+								} elseif ( $previous_wallet_amount < $updated_amount ) {
 										$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-									} else {
-										$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-									}
+								} else {
+									$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 								}
 							} else {
 
@@ -703,12 +695,10 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 							 $wallet = ( $wallet ) - abs( $updated_amount );
 						}
 					}
-				} else {
-					if ( $wallet < $updated_amount ) {
+				} elseif ( $wallet < $updated_amount ) {
 						$previous_wallet_amount = $wallet;
-					} else {
-						$wallet -= $updated_amount;
-					}
+				} else {
+					$wallet -= $updated_amount;
 				}
 
 				$updated_wallet   = update_user_meta( $user_id, 'wps_wallet', $wallet );
@@ -720,12 +710,10 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 						} else {
 							$transaction_type = sanitize_text_field( wp_unslash( $_POST['wps_wallet-edit-popup-transaction-detail'] ) );
 						}
-					} else {
-						if ( $previous_wallet_amount < $updated_amount ) {
+					} elseif ( $previous_wallet_amount < $updated_amount ) {
 							$transaction_type = __( 'unable to debit ', 'wallet-system-for-woocommerce' ) . __( ' amount due to Insufficient Balance ie. ', 'wallet-system-for-woocommerce' ) . wc_price( $wallet );
-						} else {
-							$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
-						}
+					} else {
+						$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
 					}
 				} else {
 					$transaction_type = __( 'Debited by admin', 'wallet-system-for-woocommerce' );
@@ -1109,7 +1097,6 @@ class Wallet_User_Table extends WP_List_Table {
 		$html = apply_filters( 'wsfw_wallet_user_restriction_after', $html, $user );
 		return $html;
 	}
-
 }
 ?>
 <form method="post">

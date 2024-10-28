@@ -59,7 +59,6 @@ class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
 	}
 
 	/**
@@ -236,7 +235,6 @@ class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'wps_wsfw_get_permission_check' ),
 			)
 		);
-
 	}
 
 	/**
@@ -363,5 +361,4 @@ class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 
 		return $wps_wsfw_response;
 	}
-
 }

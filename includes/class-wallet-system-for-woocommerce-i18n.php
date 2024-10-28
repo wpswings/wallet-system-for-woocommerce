@@ -38,9 +38,5 @@ class Wallet_System_For_Woocommerce_I18n {
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
-
 	}
-
-
-
 }
