@@ -1,4 +1,4 @@
-﻿﻿﻿﻿![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Active installs](https://img.shields.io/badge/Active-3000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.6.2-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.3.3-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2.24-blue)
+﻿﻿﻿![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Active installs](https://img.shields.io/badge/Active-3000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.6.2-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.3.3-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2.24-blue)
 # Wallet System for WooCommerce – Digital Wallet, Cashback Rewards, Recharge User Wallets, View Transition History, woocommerce wallet![Wallet System for WooCommerce](https://ps.w.org/wallet-system-for-woocommerce/assets/banner-772x250.png?rev=2671995)
 * Contributors: WP Swings
 * Author URI: [WP Swings](https://wpswings.com/?utm_source=wpswings-official&utm_medium=wallet-github-page&utm_campaign=site )
@@ -103,6 +103,8 @@ You can choose a separate email address to send email notifications to your WooC
 ## WOOCOMMERCE WALLET PLUGIN COMPATIBILITIES
 
 * [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) and [**Gift Cards for WooCommerce Pro**](https://wpswings.com/product/gift-cards-for-woocommerce-pro/?utm_source=wpswings-giftcards-pro&utm_medium=wallet-github-page&utm_campaign=giftcards-pro) 
+
+* [**Points and Rewards for WooCommerce**](https://wordpress.org/plugins/points-and-rewards-for-woocommerce/) and [**Points and Rewards for WooCommerce Pro.**](https://wpswings.com/product/points-and-rewards-for-woocommerce-plugin/?utm_source=wpswings-github-page&utm_medium=referral&utm_campaign=par-pro)
 
 * [**FOX - Currency Switcher**](https://wordpress.org/plugins/woocommerce-currency-switcher/)
 
