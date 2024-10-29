@@ -122,5 +122,4 @@ class Wallet_System_For_Woocommerce_Activator {
 			dbDelta( $sql );
 		}
 	}
-
 }

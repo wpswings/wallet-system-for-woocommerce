@@ -1440,4 +1440,143 @@ class Wallet_System_For_Woocommerce_Common {
 
 		return $tax_totals;
 	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param string $win_wheel_type as winning type.
+	 * @param int    $wps_claim_points as winning award.
+	 * @return string
+	 */
+	public function wps_wps_gamification_feature_for_wallet_callback( $win_wheel_type, $wps_claim_points ) {
+
+		$updated = false;
+		$user_id = get_current_user_id();
+		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+		$wallet_user            = get_user_by( 'id', $user_id );
+		$current_currency = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
+
+		$wps_wsfwp_win_wheel_rule_type = get_option( 'wps_wsfwp_win_wheel_rule_type' );
+
+		if ( empty( $wps_wsfwp_win_wheel_rule_type ) ) {
+			return $win_wheel_type;
+		} elseif ( 'wallet' == $wps_wsfwp_win_wheel_rule_type ) {
+				$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
+
+			if ( $wps_claim_points > 0 ) {
+				$amount          = $wps_claim_points;
+				$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount );
+				$walletamount    += $credited_amount;
+				update_user_meta( $user_id, 'wps_wallet', $walletamount );
+				$updated = true;
+			}
+
+			if ( $updated ) {
+
+				$balance   = $current_currency . ' ' . $wps_claim_points;
+				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+					$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+					$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+					$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through successfully Win Wheel.', 'wallet-system-for-woocommerce' );
+					$to         = $wallet_user->user_email;
+					$from       = get_option( 'admin_email' );
+					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+					$headers    = 'MIME-Version: 1.0' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+					$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+
+					if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+						if ( ! empty( $customer_email ) ) {
+							$user       = get_user_by( 'id', $user_id );
+							$balance_mail = $balance;
+							$user_name       = $user->first_name . ' ' . $user->last_name;
+							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+						}
+					} else {
+
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+					}
+				}
+
+				$transaction_type = __( 'Wallet credited through Win Wheel ', 'wallet-system-for-woocommerce' );
+				$transaction_data = array(
+					'user_id'          => $user_id,
+					'amount'           => $wps_claim_points,
+					'currency'         => $current_currency,
+					'payment_method'   => 'Win Wheel',
+					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'credit',
+					'order_id'         => '',
+					'note'             => '',
+				);
+				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+			}
+
+				return $wps_wsfwp_win_wheel_rule_type;
+
+		} else if ( 'both' == $wps_wsfwp_win_wheel_rule_type ) {
+
+			$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
+
+			if ( $wps_claim_points > 0 ) {
+				$amount          = $wps_claim_points;
+				$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $amount );
+				$walletamount    += $credited_amount;
+				update_user_meta( $user_id, 'wps_wallet', $walletamount );
+				$updated = true;
+			}
+
+			if ( $updated ) {
+
+				$balance   = $current_currency . ' ' . $wps_claim_points;
+				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+					$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+					$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+					$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through successfully Win Wheel.', 'wallet-system-for-woocommerce' );
+					$to         = $wallet_user->user_email;
+					$from       = get_option( 'admin_email' );
+					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+					$headers    = 'MIME-Version: 1.0' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+					$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+
+					if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+						if ( ! empty( $customer_email ) ) {
+							$user       = get_user_by( 'id', $user_id );
+							$balance_mail = $balance;
+							$user_name       = $user->first_name . ' ' . $user->last_name;
+							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+						}
+					} else {
+
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+					}
+				}
+
+				$transaction_type = __( 'Wallet credited through Win Wheel ', 'wallet-system-for-woocommerce' );
+				$transaction_data = array(
+					'user_id'          => $user_id,
+					'amount'           => $wps_claim_points,
+					'currency'         => $current_currency,
+					'payment_method'   => 'Win Wheel',
+					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'credit',
+					'order_id'         => '',
+					'note'             => '',
+				);
+				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+			}
+
+			return $win_wheel_type;
+
+		} else if ( 'point' == $wps_wsfwp_win_wheel_rule_type ) {
+			return $win_wheel_type;
+		}
+	}
 }

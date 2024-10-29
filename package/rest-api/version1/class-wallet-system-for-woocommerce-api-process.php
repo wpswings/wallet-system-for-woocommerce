@@ -32,7 +32,6 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 		 * @since    1.0.0
 		 */
 		public function __construct() {
-
 		}
 
 		/**
@@ -231,6 +230,5 @@ if ( ! class_exists( 'Wallet_System_For_Woocommerce_Api_Process' ) ) {
 
 			return $wps_wsfw_rest_response;
 		}
-
 	}
 }

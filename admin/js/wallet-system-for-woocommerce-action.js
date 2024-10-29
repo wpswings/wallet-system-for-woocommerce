@@ -5,6 +5,8 @@
     
     flatpickr('#fromdate_transaction', { dateFormat: 'Y-m-d'});
     flatpickr('#todate_transaction', { dateFormat: 'Y-m-d'});
+
+    jQuery( '#wps_wsfw_notification_color' ).wpColorPicker();
     
     if (wsfw_admin_action_param.is_pro_plugin != 1){
     jQuery('#action_user_trasaction').addClass('wps_pro_settings_tag');

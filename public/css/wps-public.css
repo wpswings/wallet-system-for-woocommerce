@@ -14,7 +14,10 @@
 
 
 /* Enter Your Global CSS here */
-
+:root{
+  --wallet-pc :'';
+  
+}
 * {
   box-sizing: border-box;
 }
@@ -67,20 +70,20 @@ ul {
 input[type=submit].wps-btn__filled {
   padding: 10px 25px;
   border-radius: 6px;
-  background-color: #483DE0;
+  background-color: var(--wallet-pc);
   color: #fff;
   font-size: 15px;
   font-weight: 700;
   line-height: 1.5;
   transition: all 0.3s linear;
-  border: 1px solid #483de0;
+  border: 1px solid var(--wallet-pc);
   min-height: 30px;
   cursor: pointer;
 }
 
 input[type=submit].wps-btn__filled:hover {
-  border-color: #483DE0;
-  color: #483DE0;
+  border-color: var(--wallet-pc);
+  color: var(--wallet-pc);
   background-color: #fff;
 }
 
@@ -124,7 +127,7 @@ input[type=submit].wps-btn__filled:hover {
   position: relative;
   padding: 10px 12px;
   border-radius: 6px;
-  background-color: #483DE0;
+  background-color: var(--wallet-pc);
   /* .wps_wcb_wallet_balance_container { */
     /* padding: 18px 32px; */
     display: grid;
@@ -168,7 +171,7 @@ input[type=submit].wps-btn__filled:hover {
   margin: 28px 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  background-color: #F6F5FD;
+  background-color: #f9f9f9;
   border-radius: 6px;
   text-align: center;
 }
@@ -187,7 +190,7 @@ input[type=submit].wps-btn__filled:hover {
 }
 
 .wps_wcb_content_template ul.tabs li.active {
-  background-color: #E5E3FA;
+  background-color: #f2f2f2;
   border-radius: 6px;
 }
 
@@ -199,7 +202,7 @@ input[type=submit].wps-btn__filled:hover {
 }
 
 .wps_wcb_content_template ul.tabs li svg path {
-  fill: #483DE0;
+  fill: var(--wallet-pc);
 }
 
 .wps_wcb_content_template ul.tabs li .wps_wallet_transfer_tab path:last-of-type,
@@ -227,10 +230,10 @@ input[type=submit].wps-btn__filled:hover {
 
 .wps_wcb_wallet_display_wrapper .woocommerce .woocommerce-info {
   border-radius: 8px;
-  border: 1px solid #483DE0;
+  border: 1px solid var(--wallet-pc);
   padding: 12px 18px 12px 42px;
-  background-color: #483DE010;
-  color: #483DE0;
+  background-color: var(--wallet-pc)10;
+  color: var(--wallet-pc);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
@@ -240,7 +243,7 @@ input[type=submit].wps-btn__filled:hover {
 
 .wps_wcb_wallet_display_wrapper .woocommerce-info::before {
   top: 12px;
-  color: #483DE0;
+  color: var(--wallet-pc);
   font-size: 20px;
   left: 14px;
   line-height: 1;
@@ -320,7 +323,7 @@ input[type=submit].wps-btn__filled:hover {
 #wps_wallet_transfer_form input[type=text]:focus,
 #wps_wallet_transfer_form textarea:focus {
   outline: none;
-  border-color: #483DE0;
+  border-color: var(--wallet-pc);
 }
 
 #wps_wallet_transfer_form p {
@@ -505,7 +508,7 @@ input[type=submit].wps-btn__filled:hover {
 }
 
 .wps_view_withdrawal span {
-  color: #483DE0;
+  color: var(--wallet-pc);
   text-decoration: underline;
   margin-bottom: 20px;
   display: block;
@@ -603,7 +606,7 @@ padding: 5px 14px;
   border-radius: 5px;
   background: #F6F5FD;
   cursor: pointer;
-  color: #483de0;
+  color: var(--wallet-pc);
 }
 
 .wps-wallet-referral-wrapper button.wps_wsfw_btn_copy:focus {
@@ -649,7 +652,7 @@ padding: 5px 14px;
 
 .wps-wsfw__prom-tab-item.wps-active .wps-pr__item-wrap,
 .wps-wsfw__re-tab-item.wps-active .wps-re__item-wrap {
-    border:1px solid #483de0;
+    border:1px solid var(--wallet-pc);
     background: #f6f5fd;
 }
 .wps-wsfw__prom-tab-item .wps-pr-offer,
@@ -658,7 +661,7 @@ padding: 5px 14px;
     padding: 5px;
     font-size: 14px;
     line-height: 1.5;
-    background-color: #483de0;
+    background-color: var(--wallet-pc);
     color: #fff;
 }
 
@@ -693,7 +696,7 @@ padding: 5px 14px;
 }
 
 .wps-wsfw__prom-tab-head .wps-pr-time {
-    color: #483de0;
+    color: var(--wallet-pc);
     font-size: 16px;
     font-weight: 600;
     line-height: 1.5;

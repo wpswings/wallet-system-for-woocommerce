@@ -40,5 +40,4 @@ class Wallet_System_For_Woocommerce_Deactivator {
 			update_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings', $wallet_payment_enable );
 		}
 	}
-
 }

@@ -487,7 +487,7 @@ if ( isset( $_POST['action'] ) ) {
 			} else {
 				$result  = true;
 			}
-			$index ++;
+			$index++;
 		}
 	}
 	if ( 'export_csv' == $_POST['action'] ) {

@@ -30,6 +30,14 @@
 	 */
 
 	 $(document).ready(function(){
+
+		var wps_wsfw_notification_color = wsfw_public_param.wps_wsfw_notification_color;
+		$(':root').css('--wallet-pc','#483de0');
+		if( wps_wsfw_notification_color ){
+			$(':root').css('--wallet-pc',wps_wsfw_notification_color);
+
+		}
+		
 		$(function(){
 
 			if ( window.history.replaceState ) {

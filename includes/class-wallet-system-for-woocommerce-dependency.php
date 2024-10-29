@@ -96,8 +96,6 @@ if ( ! function_exists( 'wps_wsfw_update_user_wallet_balance' ) ) {
 		} else {
 			return false;
 		}
-
-
 	}
 }
 
@@ -181,8 +179,6 @@ if ( ! function_exists( 'wps_wsfw_credit_user_wallet_balance' ) ) {
 		} else {
 			return false;
 		}
-
-
 	}
 }
 
@@ -333,6 +329,3 @@ if ( ! function_exists( 'wps_wsfw_create_referral_code_wallet' ) ) {
 		return $pkey;
 	}
 }
-
-
-

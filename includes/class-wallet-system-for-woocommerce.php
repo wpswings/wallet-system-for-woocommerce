@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.5.17';
+			$this->version = '2.6.0';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -299,6 +299,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wsfwp_wallet_action_settings_transfer_array', $wsfw_plugin_admin, 'wps_wsfws_admin_wallet_action_transfer_settings_page_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_settings_refer_friend_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_refer_friend_array_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_different_layout_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_different_layout_settings_array_org', 10 );
+			$this->loader->add_action( 'wsfw_wallet_action_gamification_rule_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_gamification_rule_settings_array_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_restriction_withdrawal_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_withdrawal_restriction_settings_page_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_restriction_transfer_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_transfer_restriction_settings_page_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_restriction_recharge_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_recharge_restriction_settings_page_org', 10 );
@@ -348,6 +349,7 @@ class Wallet_System_For_Woocommerce {
 		// woocommerce block code for wallet payment.
 		$this->loader->add_action( 'woocommerce_blocks_loaded', $wsfw_plugin_common, 'wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support' );
 		$this->loader->add_filter( 'woocommerce_order_get_tax_totals', $wsfw_plugin_common, 'wps_wsfw_woocommerce_order_get_tax_totals', 99999, 2 );
+		$this->loader->add_filter( 'wps_wpr_gamification_feature_for_wallet', $wsfw_plugin_common, 'wps_wps_gamification_feature_for_wallet_callback', 99, 2 );
 	}
 
 	/**
@@ -411,6 +413,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', $wsfw_plugin_public, 'wsfw_wps_enqueue_script_block_eheckout', 10 );
 			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders_api_checkout_org', 90 );
 			$this->loader->add_filter( 'woocommerce_available_payment_gateways', $wsfw_plugin_public, 'wps_wsfwp_add_wallet_recharge_message_restriction', 10, 1 );
+
 		}
 	}
 

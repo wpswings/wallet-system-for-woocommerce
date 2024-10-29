@@ -211,16 +211,12 @@ function wps_wsfw_wallet_payment_gateway_init() {
 							$is_condition_true = true;
 						}
 					}
-				} else {
+				} elseif ( $walletamount >= $order_total ) {
 
-					if ( $walletamount >= $order_total ) {
 						$is_condition_true = true;
-					}
 				}
-			} else {
-				if ( $debited_amount <= $walletamount ) {
+			} elseif ( $debited_amount <= $walletamount ) {
 					$is_condition_true = true;
-				}
 			}
 
 			if ( $is_condition_true ) {
@@ -300,7 +296,6 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
 
 			}
-
 		}
 
 		/**
@@ -333,10 +328,8 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 				$is_condition_true = true;
 
-			} else {
-				if ( $debited_amount <= $walletamount ) {
+			} elseif ( $debited_amount <= $walletamount ) {
 					$is_condition_true = true;
-				}
 			}
 
 			if ( $is_condition_true ) {
@@ -432,4 +425,3 @@ function wps_wsfw_wallet_payment_gateway_init() {
 	}
 }
 add_action( 'plugins_loaded', 'wps_wsfw_wallet_payment_gateway_init' );
-
