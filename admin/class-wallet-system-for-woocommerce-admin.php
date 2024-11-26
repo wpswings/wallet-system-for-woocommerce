@@ -2633,6 +2633,34 @@ class Wallet_System_For_Woocommerce_Admin {
 				'show_ui'         => true,
 			)
 		);
+		//fund_request.
+		register_post_type(
+			'wallet_fund_request',
+			array(
+				'labels'          => array(
+					'name'               => __( 'Fund Requests', 'your-text-domain' ),
+					'singular_name'      => __( 'Fund Request', 'your-text-domain' ),
+					'all_items'          => __( 'All Fund Requests', 'your-text-domain' ),
+					'view_item'          => __( 'View Fund Request', 'your-text-domain' ),
+					'edit_item'          => __( 'Edit Fund Request', 'your-text-domain' ),
+					'update_item'        => __( 'Update Fund Request', 'your-text-domain' ),
+					'search_items'       => __( 'Search Fund Requests', 'your-text-domain' ),
+					'not_found'          => __( 'No Fund Requests Found', 'your-text-domain' ),
+					'not_found_in_trash' => __( 'No Fund Requests Found in Trash', 'your-text-domain' ),
+					'add_new_item'       => __( 'Add New Fund Request', 'your-text-domain' ),
+					'add_new'            => __( 'Add Fund Request', 'your-text-domain' ),
+				),
+				'description'     => __( 'Handles user fund requests.', 'your-text-domain' ),
+				'supports'        => array( 'title', 'custom-fields' ),
+				'public'          => true,
+				'rewrite'         => array( 'slug' => 'wallet_fund_request' ),
+				'menu_icon'       => 'dashicons-admin-network',
+				'show_in_menu'    => false,
+				'capability_type' => 'post',
+				'show_ui'         => true,
+			)
+		);
+		//fund_request.
 		// register custom status rejected.
 		register_post_status(
 			'approved',

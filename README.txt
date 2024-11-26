@@ -1,17 +1,17 @@
-=== Wallet System for WooCommerce – Wallet, Secure Online Payments, Cashback, Refunds, Partial Payment, Wallet Restriction, WooCommerce Payment  ===
+=== Wallet System for WooCommerce – Wallet, Wallet Cashback, Refunds, Partial Payment, Wallet Restriction ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags:  wallet, cashback, partial payment, refunds, woocommerce wallet
+Tags: woocommerce wallet, wallet system, cashback, partial payment, refunds 
 Requires at least: 5.5.0
-Tested up to: 6.6.2
+Tested up to: 6.7.1
 WC Requires at least: 6.5.2
-WC tested up to: 9.3.3
-Stable tag: 2.6.0
-Requires PHP: 7.2.24
+WC tested up to: 9.4.2 
+Stable tag: 2.6.1
+Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-An WooCommerce wallet system that offers effortless payments with features like auto top-up, wallet restrictions, manage refunds and cashback offers.
+Add a digital wallet to your WooCommerce store! Let customers recharge, manage funds, & make easy, secure purchases with this WordPress wallet plugin.
 
 == Description ==
 
@@ -21,7 +21,7 @@ Wallet System for WooCommerce is a digital wallet plugin. It helps you implement
 
 This [**WooCommerce Wallet**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-pro) allows users to add funds. using the available payment methods on your store and see their wallet transactions list. The merchant can manage the customers’ e-wallets and change the wallet amount.
 
-**Wallet for WooCommerce** plugin will significantly improve the payment & order processing speed. It shortens the average checkout duration as the customers can pay for items within seconds without entering their transaction details each time. In conclusion, wallet funds usage will better the overall user experience.
+This WordPress wallet plugin will significantly improve the payment & order processing speed. It shortens the average checkout duration as the customers can pay for items within seconds without entering their transaction details each time. In conclusion, wallet funds usage will better the overall user experience.
 
 Are you stuck with a different wallet plugin? No worries! Moving to our WooCommerce Wallet plugin is easy. Get in touch, and we'll help you migrate smoothly. – [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-org-page&utm_medium=referral&utm_campaign=contact-us)
 
@@ -30,8 +30,6 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 [**WooCommerce Wallet Demo**](https://demo.wpswings.com/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=demo) | [**WooCommerce Wallet  Documentation**](https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-doc) 
 
 [youtube https://www.youtube.com/watch?v=C5mwA5kttRU?rel=0]
-
-Don’t miss our Halloween Sale—grab the [**Wallet System for WooCommerce PRO**]((https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=hwallet-pro))  today at 25% Off! 🎉👻
 
 == SALIENT FEATURES OF THE WOOCOMMERCE WALLET PLUGIN == 
 
@@ -187,7 +185,7 @@ We provide integration with popular local payment gateways. But if you want inte
 = Can we recharge the wallet from the front end or without an admin dashboard? =
 Yes, we can recharge the wallet from the front end for this, please go to the *my-account page >> wallet >> add balance*.
 
-= Can we refund the order on this ecommerce wallet plugin? =
+= Can we refund the order on this WordPress wallet plugin? =
 Yes, the admin can refund the order on the plugin wallet. For this we have provided a setting name as a refund to the wallet, please enable this setting from the general tab.
 
 = Can the admin update the wallet amount of all the users at once? =
@@ -245,14 +243,18 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 29. Recharge Using a Gift Card Coupon
 30. Wallet report of users
 31. Wallet report chart
+32. Win Wheel
 
 
 == Changelog ==
 
+= 2.6.1 – Released on 26 November 2024 =
+* New: Latest WP[6.7.1] and WC[9.4.2] Update.
+
 = 2.6.0 – Released on 28 October 2024 =
 * New: compatibility with [**points and rewards for WooCommerce**](https://wordpress.org/plugins/points-and-rewards-for-woocommerce/) gamification feature. 
 * New: Option to change the color code of wallet tab in existing templates.
-* New: Latest WP(6.6.2) and WC(9.3.3) Update.
+* New: Latest WP[6.6.2] and WC[9.3.3] Update.
 * Fix: Deduction of wallet amount in case of partial wallet payment using the translation of the 'via wallet' string.
 * Fix: HTML fixes via wallet cashback notice on cart page.
 
@@ -489,9 +491,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.6.0 – Released on 28 October 2024 =
-* New: compatibility with [**points and rewards for WooCommerce**](https://wordpress.org/plugins/points-and-rewards-for-woocommerce/) gamification feature. 
-* New: Option to change the color code of wallet tab in existing templates.
-* New: Latest WP(6.6.2) and WC(9.3.3) Update.
-* Fix: Deduction of wallet amount in case of partial wallet payment using the translation of the 'via wallet' string.
-* Fix: HTML fixes via wallet cashback notice on cart page.
+= 2.6.1 – Released on 26 November 2024 =
+* New: Latest WP[6.7.1] and WC[9.4.2] Update.

@@ -248,6 +248,80 @@ if ( wp_verify_nonce( $nonce ) ) {
 		}
 	}
 
+	if ( isset( $_POST['wps_wallet_fund_request'] ) && ! empty( $_POST['wps_wallet_fund_request'] ) ) {
+	
+		$update = true ;
+		$wps_wallet_fund_request_another_user_email     = ! empty( $_POST['wps_wallet_fund_request_another_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_fund_request_another_user_email'] ) ) : '';
+		$wps_wallet_fund_request_amount        = ! empty( $_POST['wps_wallet_fund_request_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_fund_request_amount'] ) ) : 0;
+		$wps_wallet_note        = ! empty( $_POST['wps_wallet_note'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_note'] ) ) : 0;
+		$wallet_user_id = ! empty( $_POST['wallet_user_id'] ) ? sanitize_text_field( wp_unslash( $_POST['wallet_user_id'] ) ) : 0;
+
+		$wps_current_user_email = ! empty( $_POST['wps_current_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_current_user_email'] ) ) : 0;
+		
+		$user                   = get_user_by( 'email', $wps_wallet_fund_request_another_user_email );
+
+		if ( $user ) {
+			$another_user_id = $user->ID;
+		} else {
+			$invitation_link = apply_filters( 'wsfw_add_invitation_link_message', '' );
+			if ( ! empty( $invitation_link ) ) {
+				global $wp_session;
+				$wp_session['wps_wallet_transfer_user_email'] = $wps_wallet_fund_request_another_user_email;
+				$wp_session['wps_wallet_transfer_amount']     = $wps_wallet_fund_request_amount;
+			}
+			show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
+			$update = false;
+		}
+
+		if ( empty( $wps_wallet_fund_request_amount ) ) {
+			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		}  elseif ( $wps_wallet_fund_request_another_user_email == $wps_current_user_email ) {
+			show_message_on_form_submit( esc_html__( 'You cannot request fund to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		}
+		if ( $update ) {
+
+			if ( ! empty( $wallet_user_id ) ) {
+				$user_id  = sanitize_text_field( wp_unslash( $wallet_user_id ) );
+				$user     = get_user_by( 'id', $user_id );
+				$username = $user->user_login;
+	
+			}
+			$args          = array(
+				'post_title'  => $username,
+				'post_type'   => 'wallet_fund_request',
+				'post_status' => 'publish',
+			);
+			$withdrawal_id = wp_insert_post( $args );
+
+			if ( ! empty( $withdrawal_id ) ) {
+				wp_update_post(
+					array(
+						'ID'          => $withdrawal_id,
+						'post_status' => 'pending1',
+					)
+				);
+				foreach ( $_POST as $key => $value ) {
+					if ( ! empty( $value ) ) {
+						$value = sanitize_text_field( $value );
+						if ( 'wps_wallet_fund_request_amount' === $key ) {
+							$withdrawal_bal = apply_filters( 'wps_wsfw_convert_to_base_price', $value );
+							update_post_meta( $withdrawal_id, $key, $withdrawal_bal );
+						} else {
+							update_post_meta( $withdrawal_id, $key, $value );
+						}
+					}
+				}
+				update_post_meta( $withdrawal_id, 'requested_user_id', $another_user_id );
+				// update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
+				wp_enqueue_script( 'wps-public-shortcode-dis' );
+				wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
+			}
+		}
+
+	}
+
 	if ( isset( $_POST['wps_coupon_wallet'] ) && ! empty( $_POST['wps_coupon_wallet'] ) ) {
 		unset( $_POST['wps_coupon_wallet'] );
 
@@ -294,6 +368,7 @@ $wallet_restrict_topup = apply_filters( 'wallet_restrict_topup', $user_id );
 $wallet_restrict_transfer = apply_filters( 'wallet_restrict_transfer', $user_id );
 $wallet_restrict_withdrawal = apply_filters( 'wallet_restrict_withdrawal', $user_id );
 $wallet_restrict_coupon = apply_filters( 'wallet_restrict_coupon', $user_id );
+$wallet_restrict_fund_request = apply_filters( 'wallet_restrict_fund_request', $user_id );
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
 $wallet_restrict_referral = apply_filters( 'wallet_restrict_referral', $user_id );
 $wallet_restrict_qrcode = apply_filters( 'wallet_restrict_qrcode', $user_id );
@@ -359,6 +434,10 @@ if ( 'restricted' !== $is_user_restricted ) {
 	if ( 'on' != $wallet_restrict_coupon ) {
 		$wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs_before_transaction', $wallet_tabs, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH );
 	}
+	if ( 'on' != $wallet_restrict_fund_request ) {
+		$wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs_wallet_fund_request', $wallet_tabs, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH );
+	}
+	
 }
 if ( 'on' != $wallet_restrict_transaction ) {
 
@@ -492,7 +571,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 	<?php
 
 	if ( 'on' == $wps_wallet_restrict_message_to_user ) {
-		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) ) {
+		if ( ( 'on' === $wallet_restrict_topup ) || ( 'on' === $wallet_restrict_transfer ) || ( 'on' === $wallet_restrict_withdrawal ) || ( 'on' === $wallet_restrict_coupon ) || ( 'on' === $wallet_restrict_transaction ) || ( 'on' === $wallet_restrict_fund_request ) ) {
 			?>
 			<div class="wsfw_show_user_restriction_notice">
 				<?php
