@@ -1218,6 +1218,50 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
 
+		//wallet instant discount.
+		if ($order->get_payment_method() === 'wps_wcb_wallet_payment_gateway') {
+
+
+			$wsfw_wallet_instant_discount_wallet = get_option( 'wsfw_wallet_instant_discount_wallet' );
+			$is_pro_plugin = false;
+			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+			if( 'on' == $wsfw_wallet_instant_discount_wallet ){
+
+				$wps_wsfwp_instant_wallet_discount_value = get_option( 'wps_wsfwp_instant_wallet_discount_value' );
+				if( $is_pro_plugin ){
+					$wps_wsfwp_wallet_instant_discount_type = get_option( 'wps_wsfwp_wallet_instant_discount_type' );
+				}else {
+					$wps_wsfwp_wallet_instant_discount_type = 'fixed';
+				}
+
+				$order_total = 0;
+				foreach ( $order_items as $item_id => $item ) {
+
+					$product_id = $item->get_product_id();
+					$order_total += $item->get_total();
+				}
+
+				if( 'fixed' == $wps_wsfwp_wallet_instant_discount_type ){
+					$discount_amount = $wps_wsfwp_instant_wallet_discount_value;
+				}elseif( 'percent' == $wps_wsfwp_wallet_instant_discount_type ){
+					$discount_amount =  ( (float)$order_total * (float)$wps_wsfwp_instant_wallet_discount_value )/ 100 ;
+				}
+				// Add the discount as a fee
+				$fee = new WC_Order_Item_Fee();
+				$fee->set_name(__('Wallet Instant Discount', 'text-domain')); // Name of the discount
+				$fee->set_amount(-$discount_amount); // Negative value for discount
+				$fee->set_total(-$discount_amount); // Ensure the total reflects the discount
+				$order->add_item($fee);
+		
+				// Recalculate order totals after adding the discount
+				$order->calculate_totals();
+		
+				// Save the order
+				$order->save();
+			}	
+		}
+		//wallet instant discount.
+
 		if ( ! empty( get_option( 'wsfw_enable_wallet_negative_balance_limit_order' ) ) ) {
 			$order_number = get_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', true );
 			update_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', intval( $order_number ) + 1 );
@@ -1281,6 +1325,8 @@ class Wallet_System_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function wps_wocuf_initate_upsell_orders( $order_id ) {
+
+		
 		$order     = wc_get_order( $order_id );
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
@@ -1293,6 +1339,52 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+
+		//wallet instant discount.
+		if ($order->get_payment_method() === 'wps_wcb_wallet_payment_gateway') {
+
+
+			$wsfw_wallet_instant_discount_wallet = get_option( 'wsfw_wallet_instant_discount_wallet' );
+			$is_pro_plugin = false;
+			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+			if( 'on' == $wsfw_wallet_instant_discount_wallet ){
+
+				$wps_wsfwp_instant_wallet_discount_value = get_option( 'wps_wsfwp_instant_wallet_discount_value' );
+				if( $is_pro_plugin ){
+					$wps_wsfwp_wallet_instant_discount_type = get_option( 'wps_wsfwp_wallet_instant_discount_type' );
+				}else {
+					$wps_wsfwp_wallet_instant_discount_type = 'fixed';
+				}
+
+				$order_total = 0;
+				foreach ( $order_items as $item_id => $item ) {
+
+					$product_id = $item->get_product_id();
+					$order_total += $item->get_total();
+				}
+
+				if( 'fixed' == $wps_wsfwp_wallet_instant_discount_type ){
+					$discount_amount = $wps_wsfwp_instant_wallet_discount_value;
+				}elseif( 'percent' == $wps_wsfwp_wallet_instant_discount_type ){
+					$discount_amount = ( (float)$order_total * (float)$wps_wsfwp_instant_wallet_discount_value )/ 100 ;
+				}
+				
+				// Add the discount as a fee
+				$fee = new WC_Order_Item_Fee();
+				$fee->set_name(__('Wallet Instant Discount', 'text-domain')); // Name of the discount
+				$fee->set_amount(-$discount_amount); // Negative value for discount
+				$fee->set_total(-$discount_amount); // Ensure the total reflects the discount
+				$order->add_item($fee);
+		
+				// Recalculate order totals after adding the discount
+				$order->calculate_totals();
+		
+				// Save the order
+				$order->save();
+			}	
+		}
+		//wallet instant discount.
+
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 		if ( ! empty( get_option( 'wsfw_enable_wallet_negative_balance_limit_order' ) ) ) {
 			$order_number = get_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', true );
@@ -2605,4 +2697,5 @@ class Wallet_System_For_Woocommerce_Public {
 
 		return $available_gateways;
 	}
+
 }

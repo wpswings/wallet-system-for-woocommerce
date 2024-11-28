@@ -1571,6 +1571,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				// wallet referal start.
 				$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
 				$wsfw_wallet_action_different_layout_settings      = apply_filters( 'wsfw_wallet_action_different_layout_settings_array', array() );
+				$wsfw_wallet_action_payment_settings      = apply_filters( 'wsfw_wallet_action_payment_settings_array', array() );
 				$wsfw_wallet_action_gamification_rule_settings      = apply_filters( 'wsfw_wallet_action_gamification_rule_settings_array', array() );
 				// wallet referal end.
 				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
@@ -1591,6 +1592,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfwp_wallet_action_settings_transfer_array );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_refer_friend_settings );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_different_layout_settings );
+				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_payment_settings );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_gamification_rule_settings );
 
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
@@ -3677,6 +3679,78 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'You can also choose the color for Wallet Dashboard.', 'wallet-system-for-woocommerce' ),
 				'class'    => 'wps_wsfw_notification_color',
 				'value'  => get_option( 'wps_wsfw_notification_color' ),
+			),
+
+		);
+
+		return $wsfw_settings_template;
+	}
+
+
+	/**
+	 * This is used to create comment html.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_wallet_action_payment_settings_array_org( $wsfw_settings_template ) {
+		$wsfw_settings_template = array(
+	
+			array(
+				'title'       => __( 'Enable to Give Instant Discount on Wallet Payment Method', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Check this box to enable the Wallet Instant Discount Feature', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_wallet_instant_discount_wallet',
+				'id'          => 'wsfw_wallet_instant_discount_wallet',
+				'value'       =>  get_option( 'wsfw_wallet_instant_discount_wallet' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+
+			array(
+				'title'       => __( 'Wallet Instant Discount Type', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'description' => __( 'Select Instant wallet Discount type Percentage or Fixed.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_wallet_instant_discount_type',
+				'id'          => 'wps_wsfwp_wallet_instant_discount_type',
+				'value'       => get_option( 'wps_wsfwp_wallet_instant_discount_type', 'Fixed' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => apply_filters(
+					'wsfw_wallet_instant_discount_type__array',
+					array(
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+
+			array(
+				'title'       => __( 'Enter Discount Value For Wallet Payment Method', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter Discount Value For Wallet Payment Method', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_instant_wallet_discount_value',
+				'id'          => 'wps_wsfwp_instant_wallet_discount_value',
+				'min'         => 0,
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfwp_instant_wallet_discount_value' ) ) ? get_option( 'wps_wsfwp_instant_wallet_discount_value' ) : 1,
+				'placeholder' => __( 'Enter wallet Transfer Fee amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			),
+
+
+			array(
+				'title'       => __( 'Enter Description For Wallet Instant Discount Feature', 'wallet-system-for-woocommerce' ),
+				'type'        => 'textarea',
+				'description' => __( 'Enter message for user that display on checkout page for wallet payment method.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_instant_discount_description',
+				'id'          => 'wps_wsfw_wallet_instant_discount_description',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_instant_discount_description' ) ) ? get_option( 'wps_wsfw_wallet_instant_discount_description' ) : '5% off on Wallet Payment',
+				'placeholder' => __( 'Enter instant discount description', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings',
 			),
 
 		);

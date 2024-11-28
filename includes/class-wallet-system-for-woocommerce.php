@@ -299,6 +299,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_filter( 'wsfwp_wallet_action_settings_transfer_array', $wsfw_plugin_admin, 'wps_wsfws_admin_wallet_action_transfer_settings_page_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_settings_refer_friend_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_refer_friend_array_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_different_layout_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_different_layout_settings_array_org', 10 );
+			$this->loader->add_action( 'wsfw_wallet_action_payment_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_payment_settings_array_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_gamification_rule_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_gamification_rule_settings_array_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_restriction_withdrawal_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_withdrawal_restriction_settings_page_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_restriction_transfer_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_transfer_restriction_settings_page_org', 10 );
