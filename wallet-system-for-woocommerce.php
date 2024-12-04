@@ -404,6 +404,28 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 		}
 	}
 }
+/**
+ * Dynamically Generate referral Code
+ *
+ * @name wps_wpr_create_referral_code
+ * @author WP Swings <webmaster@wpswings.com>
+ * @link https://www.wpswings.com/
+ */
+function wps_wsfw_create_referral_code() {
+
+	$length      = 10;
+	$pkey        = '';
+	$alphabets   = range( 'A', 'Z' );
+	$numbers     = range( '0', '9' );
+	$final_array = array_merge( $alphabets, $numbers );
+
+	while ( $length-- ) {
+		$key   = array_rand( $final_array );
+		$pkey .= $final_array[ $key ];
+	}
+	return $pkey;
+}
+
 add_action( 'admin_notices', 'wps_wsfw_banner_notification_html' );
 /**
  * Function to show banner image based on wallet.

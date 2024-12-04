@@ -3616,8 +3616,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				'description' => __( 'Check this box to enable the Referral setting.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_refer_friend_enable',
 				'id'          => 'wps_wsfw_wallet_action_refer_friend_enable',
-				'value'       => '',
-				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'value'       => get_option( 'wps_wsfw_wallet_action_refer_friend_enable' ),
+				'class'       => 'wsfw-radio-switch-class',
 				'options'     => array(
 					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
@@ -3631,9 +3631,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				'id'          => 'wps_wsfw_wallet_action_referal_amount',
 				'step'        => '0.01',
 				'min'         => 0,
-				'value'       => '',
+				'value'       => get_option( 'wps_wsfw_wallet_action_referal_amount' ),
 				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
-				'class'       => 'wws-text-class wps_pro_settings wps_pro_settings',
+				'class'       => 'wws-text-class',
 			),
 			array(
 				'title'       => __( 'Enter Referral Description', 'wallet-system-for-woocommerce' ),
@@ -3642,10 +3642,55 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_wallet_action_referral_description',
 				'id'          => 'wps_wsfw_wallet_action_referral_description',
 				'step'        => '0.01',
-				'value'       => '',
+				'value'       => get_option( 'wps_wsfw_wallet_action_referral_description' ),
 				'placeholder' => __( 'Enter comment description', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class ',
+			),
+			array(
+				'title'       => __( 'Refer Via Referral Coupon Code', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Check this box to enable the Referral via Coupon Code.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_refer_coupon_code_enable',
+				'id'          => 'wps_wsfw_wallet_action_refer_coupon_code_enable',
+				'value'       => get_option( 'wps_wsfw_wallet_action_refer_coupon_code_enable' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Amount for the Referral Coupon Discount', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter The Amount For Referral Coupon Discount .', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_referal_coupon_amount',
+				'id'          => 'wps_wsfw_wallet_action_referal_coupon_amount',
+				'step'        => '0.01',
+				'min'         => 0,
+				'value'       => get_option( 'wps_wsfw_wallet_action_referal_coupon_amount' ),
+				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
+
+			array(
+				'title'       => __( 'Referral Purchase Coupon Type', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'description' => __( 'elect The Coupon Type Referral Purchase Depending Upon Order Total .', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_referal_coupon_type',
+				'id'          => 'wps_wsfw_wallet_action_referal_coupon_type',
+				'value'       => get_option( 'wps_wsfw_wallet_action_referal_coupon_type', 'Fixed' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => apply_filters(
+					'wsfw_wallet_action_referral_coupon__array',
+					array(
+						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
+						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+					)
+				),
+			),
+			
+			
+			
 		);
 
 		return $wsfw_settings_template;

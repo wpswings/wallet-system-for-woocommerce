@@ -582,6 +582,7 @@ padding: 5px 14px;
 
 .wps-wallet-popup-right-rewards {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
@@ -597,6 +598,7 @@ padding: 5px 14px;
   line-height: 1.25;
   display: inline-block;
   font-size: 14px;
+  word-break: break-all;
 }
 
 .wps-wallet-referral-wrapper #wps_notify_user_copy {
