@@ -341,23 +341,28 @@ class Wallet_System_For_Woocommerce_Public {
 			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
 			$is_pro_plugin = false;
 			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+			
+
 			if ( $is_pro_plugin ) {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
 
 					if ( ! empty( $order_limit ) ) {
-						if ( intval( $order_number ) >= intval( $order_limit ) ) {
+						if ( intval( $order_number ) <= intval( $order_limit ) ) {
 
-							if ( ( intval( $wallet_amount ) ) <= intval( $limit ) ) {
-								$total_balance = intval( $wallet_amount ) + intval( $limit );
-								if ( $total_balance >= $wps_cart_total ) {
-									return;
-								}
-							} elseif ( ( intval( $wallet_amount ) ) >= ( intval( $limit ) ) ) {
-									$total_balance = intval( $wallet_amount ) + intval( $limit );
-								if ( $total_balance >= $wps_cart_total ) {
-									return;
-								}
-							}
+							return;
+						}
+					}
+
+					if ( ( $wallet_amount ) <= ( $limit ) ) {
+						$total_balance = intval( $wallet_amount ) + intval( $limit );
+						if ( $total_balance >= $wps_cart_total ) {
+
+							return;
+						}
+					} elseif ( ( intval( $wallet_amount ) ) >= ( intval( $limit ) ) ) {
+						$total_balance = intval( $wallet_amount ) + intval( $limit );
+						if ( $total_balance >= $wps_cart_total ) {
+							return;
 						}
 					}
 				}
@@ -1706,6 +1711,17 @@ class Wallet_System_For_Woocommerce_Public {
 					}
 				}
 			} elseif ( 'catwise' === $wps_wsfw_cashback_rule ) {
+				
+				if ( ! empty( WC()->cart->get_cart() ) ) {
+					foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+						$product    = $cart_item['data'];
+						$product_id = $cart_item['product_id'];
+					
+						$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
+						$cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, 1 );
+					}
+				}
+				
 				if ( is_user_logged_in() ) {
 					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart', true );
 					$is_hide_checkout = get_option( 'wps_wsfw_hide_cashback_checkout', true );
@@ -1764,6 +1780,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$product                = wc_get_product( $product_id );
 		$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 		$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, 1 );
+	
 
 		if ( ! $product ) {
 			return;
@@ -1801,6 +1818,7 @@ class Wallet_System_For_Woocommerce_Public {
 		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10;
 		$wsfw_cashbak_type       = get_option( 'wps_wsfw_cashback_type' );
 		$wps_wsfw_cashback_rule  = get_option( 'wps_wsfw_cashback_rule', '' );
+
 
 		if ( 'catwise' === $wps_wsfw_cashback_rule ) {
 			if ( ! empty( $price ) && $price > 0 ) {

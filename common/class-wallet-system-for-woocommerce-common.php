@@ -586,6 +586,8 @@ class Wallet_System_For_Woocommerce_Common {
 									if ( is_object( $product_obj ) ) {
 										$product_price         = $order->get_line_subtotal( $order_values );
 										$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $product_price, $product_id, $qty );
+										$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
+										$cashback_amount_order = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
 										if ( $cashback_amount_order > 0 ) {
 											$credited_amount     += apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
 											$updated             = true;
@@ -905,6 +907,7 @@ class Wallet_System_For_Woocommerce_Common {
 		} else {
 			$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 			$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
+			
 			if ( ! empty( $order_total ) ) {
 				if ( 'percent' === $wsfw_cashbak_type ) {
 
