@@ -756,6 +756,7 @@ form#wps_wallet_transfer_form {
 .wps_wsfw_wallet_fund_request_wrapper {
   display: flex;
   gap: 32px;
+  margin: 0 0 15px;
 }
 
 .wps_wsfw_wallet_fund_request_wrapper #wps_fund_recieve_table_div,.wps_wsfw_wallet_fund_request_wrapper #wps_fund_send_table_div {
