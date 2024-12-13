@@ -587,7 +587,16 @@ class Wallet_System_For_Woocommerce_Common {
 										$product_price         = $order->get_line_subtotal( $order_values );
 										$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $product_price, $product_id, $qty );
 										$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
-										$cashback_amount_order = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
+										$is_pro_plugin = false;
+										$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+										
+							
+										$pro_cashback_amount_order = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
+										if ( !is_array($pro_cashback_amount_order) ) {
+											$cashback_amount_order = $pro_cashback_amount_order;
+										}
+									
+										
 										if ( $cashback_amount_order > 0 ) {
 											$credited_amount     += apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
 											$updated             = true;

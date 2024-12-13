@@ -1523,6 +1523,7 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_calculate_cashback_cart() {
 		$cashback_amount         = 0;
 		$cashback_amount_order   = 0;
+		$pro_cashback_amount_order = 0;
 		$wsfw_max_cashbak_amount = ! empty( get_option( 'wps_wsfw_cashback_amount_max' ) ) ? get_option( 'wps_wsfw_cashback_amount_max' ) : 0;
 		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 0;
 		$wsfw_cashbak_type       = get_option( 'wps_wsfw_cashback_type' );
@@ -1548,7 +1549,9 @@ class Wallet_System_For_Woocommerce_Public {
 						$common_obj   = new Wallet_System_For_Woocommerce_Common( '', '' );
 						$wps_cat_wise = $common_obj->wps_get_cashback_cat_wise( $product_id );
 						if ( $wps_cat_wise ) {
-							$cashback_amount_order += $common_obj->wsfw_get_calculated_cashback_amount( $cart_item['line_subtotal'], $product_id, $qty );
+							$pro_cashback_amount_order = $common_obj->wsfw_get_calculated_cashback_amount( $cart_item['line_subtotal'], $product_id, $qty );
+							update_post_meta( $product_id, 'global_cashback_product', $pro_cashback_amount_order );
+							$cashback_amount += $pro_cashback_amount_order;
 							$update = true;
 						}
 					}
@@ -1652,14 +1655,15 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 
 			$cashback_amount        = $this->wsfw_calculate_cashback_cart();
+			// print_r($cashback_amount);echo'bbb';
 			$wsfw_min_cart_amount   = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : '';
-			$wsfw_min_cart_amount = apply_filters( 'wps_wsfw_show_converted_price', $wsfw_min_cart_amount );
+			$wsfw_min_cart_amount   = apply_filters( 'wps_wsfw_show_converted_price', $wsfw_min_cart_amount );
 			$cart_total             = ! empty( wc()->cart->get_subtotal() ) ? wc()->cart->get_subtotal() : wc()->cart->get_subtotal();
 			$cart_total             = apply_filters( 'wps_wsfw_wallet_cashback_on_total', $cart_total );
 			$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
 
 			if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
-
+			
 				if ( floatval( $cart_total ) < floatval( $wsfw_min_cart_amount ) ) {
 					?>
 					<div class="woocommerce-message wps-woocommerce-message woocommerce-Message--info wps-woocommerce-info">
@@ -1694,7 +1698,7 @@ class Wallet_System_For_Woocommerce_Public {
 							<div class="woocommerce-message wps-woocommerce-message woocommerce-Message--info wps-woocommerce-info">
 							<?php
 							/* translators: %s: search term */
-							echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
+							echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing thisee order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
 							?>
 							</div>
 							<?php
@@ -1711,14 +1715,22 @@ class Wallet_System_For_Woocommerce_Public {
 					}
 				}
 			} elseif ( 'catwise' === $wps_wsfw_cashback_rule ) {
-				
-				if ( ! empty( WC()->cart->get_cart() ) ) {
-					foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-						$product    = $cart_item['data'];
-						$product_id = $cart_item['product_id'];
-					
-						$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
-						$cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, 1 );
+				$is_pro_plugin = false;
+				$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+			
+				if( $is_pro_plugin ){
+					$procashback_amount = 0;
+					if ( ! empty( WC()->cart->get_cart() ) ) {
+						foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+							$product    = $cart_item['data'];
+							$product_id = $cart_item['product_id'];
+							$quantity   = $cart_item['quantity'];
+
+							$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
+							$procashback_amount += apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $quantity );
+// print_r($procashback_amount);
+							$cashback_amount = $procashback_amount;
+						}
 					}
 				}
 				
