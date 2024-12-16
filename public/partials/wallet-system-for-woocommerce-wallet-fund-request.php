@@ -61,16 +61,16 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 				);
 				$withdrawal_request = get_posts( $args );
 				$count = 0;
-				// Arrays to store user IDs
+				// Arrays to store user IDs.
 				$all_requested_user_ids = array();
 				$all_user_ids = array();
 
 				foreach ( $withdrawal_request as $key => $pending ) {
 					$request_id = $pending->ID;
 					$userid     = get_post_meta( $request_id, 'wallet_user_id', true );
-					$requested_user_id = get_post_meta( $request_id ,'requested_user_id', true );
+					$requested_user_id = get_post_meta( $request_id, 'requested_user_id', true );
 
-					 // Collect user IDs
+					 // Collect user IDs.
 					$all_user_ids[] = $userid;
 					$all_requested_user_ids[] = $requested_user_id;
 
@@ -82,8 +82,8 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 							$count++;
 						}
 					}
-				}	
-				
+				}
+
 				?>
 
 						<div class="wps_wcb_wallet_balance_container_fund">
@@ -91,11 +91,11 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 						<div class="wps_view_fund"><span id="wps_fund_send_table_div" ><?php esc_html_e( 'View Send Fund Request', 'wallet-system-for-woocommerce' ); ?></span>
 						</div>
 					<?php
-					
-					if (in_array($user_id, $all_requested_user_ids)) {
+
+					if ( in_array( $user_id, $all_requested_user_ids ) ) {
 						?>
 						<div class="wps_wcb_wallet_balance_container_fund_in">
-							<div class="wps_view_fund"><span id="wps_fund_recieve_table_div" ><?php esc_html_e( 'View Recieve Fund Request', 'wallet-system-for-woocommerce' ); ?><span class="show_pending_fund_request_count"><?php echo $count; ?></span></span>
+							<div class="wps_view_fund"><span id="wps_fund_recieve_table_div" ><?php esc_html_e( 'View Recieve Fund Request', 'wallet-system-for-woocommerce' ); ?><span class="show_pending_fund_request_count"><?php echo esc_html( $count ); ?></span></span>
 							</div>
 						</div>	
 						<?php
@@ -123,9 +123,9 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 								foreach ( $withdrawal_request as $key => $pending ) {
 									$request_id = $pending->ID;
 									$userid     = get_post_meta( $request_id, 'wallet_user_id', true );
-									$requested_user_id = get_post_meta( $request_id ,'requested_user_id', true );
+									$requested_user_id = get_post_meta( $request_id, 'requested_user_id', true );
 									$date_format = get_option( 'date_format', 'm/d/Y' );
-									if ( $userid == $user_id  ) { // check either current user present in request to user or request from user.
+									if ( $userid == $user_id ) { // check either current user present in request to user or request from user.
 										$date = date_create( $pending->post_date );
 										if ( 'pending1' === $pending->post_status ) {
 											$withdrawal_status = esc_html__( 'pending', 'wallet-system-for-woocommerce' );
@@ -135,17 +135,17 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 										$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $request_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
 
 										$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_fund_request_amount', true ) );
-										$wps_wallet_fund_request_another_user_email = get_post_meta( $request_id , 'wps_wallet_fund_request_another_user_email', true );
+										$wps_wallet_fund_request_another_user_email = get_post_meta( $request_id, 'wps_wallet_fund_request_another_user_email', true );
 										$wps_current_user_email = get_post_meta( $request_id, 'wps_current_user_email', true );
 										?>
 										<tr>
-										<td><?php echo esc_html( $i ) ?></td>
-										<td><?php echo esc_html( $request_id ) ?></td>
-										<td><?php echo wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) ?></td>
-										<?php 
-										if( $requested_user_id == $user_id && 'pending1' == $pending->post_status ){
+										<td><?php echo esc_html( $i ); ?></td>
+										<td><?php echo esc_html( $request_id ); ?></td>
+										<td><?php echo wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ); ?></td>
+										<?php
+										if ( $requested_user_id == $user_id && 'pending1' == $pending->post_status ) {
 											?>
-											<td><?php echo esc_html( $wps_current_user_email ) ?></td>
+											<td><?php echo esc_html( $wps_current_user_email ); ?></td>
 											<td class="wps_wsfw_fund_request_status">
 											<form action="" method="POST">
 													<select onchange="this.className=this.options[this.selectedIndex].className" name="wps-wpg-gen-table_status" id="wps-wpg-gen-table_status" aria-controls="wps-wpg-gen-section-table" class="<?php echo esc_attr( $pending->post_status ); ?>">
@@ -153,7 +153,7 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 														<option class="pending1" value="pending1" <?php selected( 'pending1', $pending->post_status, true ); ?> disabled  >&nbsp;&nbsp;<?php esc_html_e( 'pending', 'wallet-system-for-woocommerce' ); ?></option>
 														<option class="rejected" value="rejected" >&nbsp;&nbsp;<?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></option>
 													</select>
-													<input type="hidden" name="withdrawal_id" value="<?php echo esc_attr( $request_id); ?>" />
+													<input type="hidden" name="withdrawal_id" value="<?php echo esc_attr( $request_id ); ?>" />
 													<input type="hidden" name="user_id" value="<?php echo esc_attr( $user_id ); ?>" />
 													<div id="overlay">
 														<img src='<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'admin/image/loader.gif'; ?>' width="64" height="64" /><br>
@@ -161,17 +161,17 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 												</form>
 												</td>
 													<?php
-											
-										}else{
+
+										} else {
 											?>
-											<td><?php echo esc_html( $wps_wallet_fund_request_another_user_email ) ?></td>
-											<td class="wps_wsfw_fund_request_status wps_wallet_widthdrawal_'.<?php echo esc_html( $withdrawal_status ) ?>.'"> <img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ) ?>'.svg" title= "<?php echo esc_html( $withdrawal_status ) ?>" ></td>
+											<td><?php echo esc_html( $wps_wallet_fund_request_another_user_email ); ?></td>
+											<td class="wps_wsfw_fund_request_status wps_wallet_widthdrawal_'.<?php echo esc_html( $withdrawal_status ); ?>.'"> <img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ); ?>'.svg" title= "<?php echo esc_html( $withdrawal_status ); ?>" ></td>
 
 											<?php
 										}
 										?>
-										<td><?php echo esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) ?></td>
-										<td><?php echo esc_html( date_format( $date, $date_format ) ) ?></td>
+										<td><?php echo esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ); ?></td>
+										<td><?php echo esc_html( date_format( $date, $date_format ) ); ?></td>
 										</tr>
 										<?php
 										$i++;
@@ -203,9 +203,9 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 								foreach ( $withdrawal_request as $key => $pending ) {
 									$request_id = $pending->ID;
 									$userid     = get_post_meta( $request_id, 'wallet_user_id', true );
-									$requested_user_id = get_post_meta( $request_id ,'requested_user_id', true );
+									$requested_user_id = get_post_meta( $request_id, 'requested_user_id', true );
 									$date_format = get_option( 'date_format', 'm/d/Y' );
-									if ( $requested_user_id == $user_id  ) { // check either current user present in request to user or request from user.
+									if ( $requested_user_id == $user_id ) { // check either current user present in request to user or request from user.
 										$date = date_create( $pending->post_date );
 										if ( 'pending1' === $pending->post_status ) {
 											$withdrawal_status = esc_html__( 'pending', 'wallet-system-for-woocommerce' );
@@ -215,17 +215,17 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 										$wps_wsfwp_wallet_withdrawal_fee_amount = get_post_meta( $request_id, 'wps_wsfwp_wallet_withdrawal_fee_amount', true );
 
 										$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_fund_request_amount', true ) );
-										$wps_wallet_fund_request_another_user_email = get_post_meta( $request_id , 'wps_wallet_fund_request_another_user_email', true );
+										$wps_wallet_fund_request_another_user_email = get_post_meta( $request_id, 'wps_wallet_fund_request_another_user_email', true );
 										$wps_current_user_email = get_post_meta( $request_id, 'wps_current_user_email', true );
 										?>
 										<tr>
-										<td><?php echo esc_html( $i ) ?></td>
-										<td><?php echo esc_html( $request_id ) ?></td>
-										<td><?php echo wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ) ?></td>
-										<?php 
-										if( $requested_user_id == $user_id && 'pending1' == $pending->post_status ){
+										<td><?php echo esc_html( $i ); ?></td>
+										<td><?php echo esc_html( $request_id ); ?></td>
+										<td><?php echo wp_kses_post( wc_price( $withdrawal_balance, array( 'currency' => $current_currency ) ) ); ?></td>
+										<?php
+										if ( $requested_user_id == $user_id && 'pending1' == $pending->post_status ) {
 											?>
-											<td><?php echo esc_html( $wps_current_user_email ) ?></td>
+											<td><?php echo esc_html( $wps_current_user_email ); ?></td>
 											<td class="wps_wsfw_fund_request_status">
 											<form action="" method="POST">
 													<select onchange="this.className=this.options[this.selectedIndex].className" name="wps-wpg-gen-table_status" id="wps-wpg-gen-table_status" aria-controls="wps-wpg-gen-section-table" class="<?php echo esc_attr( $pending->post_status ); ?>">
@@ -242,17 +242,17 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 												</form>
 												</td>
 													<?php
-											
-										}else{
+
+										} else {
 											?>
-											<td><?php echo esc_html( $wps_wallet_fund_request_another_user_email ) ?></td>
-											<td class="wps_wsfw_fund_request_status wps_wallet_widthdrawal_'.<?php echo esc_html( $withdrawal_status ) ?>.'"> <img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ) ?>'.svg" title= "<?php echo esc_html( $withdrawal_status ) ?>" ></td>
+											<td><?php echo esc_html( $wps_wallet_fund_request_another_user_email ); ?></td>
+											<td class="wps_wsfw_fund_request_status wps_wallet_widthdrawal_'.<?php echo esc_html( $withdrawal_status ); ?>.'"> <img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . '/public/images/' . esc_html( $withdrawal_status ); ?>'.svg" title= "<?php echo esc_html( $withdrawal_status ); ?>" ></td>
 
 											<?php
 										}
 										?>
-										<td><?php echo esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ) ?></td>
-										<td><?php echo esc_html( date_format( $date, $date_format ) ) ?></td>
+										<td><?php echo esc_html( get_post_meta( $request_id, 'wps_wallet_note', true ) ); ?></td>
+										<td><?php echo esc_html( date_format( $date, $date_format ) ); ?></td>
 										</tr>
 										<?php
 										$i++;

@@ -341,7 +341,6 @@ class Wallet_System_For_Woocommerce_Public {
 			$wsfw_wallet_partial_payment_method_enable = get_option( 'wsfw_wallet_partial_payment_method_enabled', 'off' );
 			$is_pro_plugin = false;
 			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
-			
 
 			if ( $is_pro_plugin ) {
 				if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
@@ -1223,19 +1222,18 @@ class Wallet_System_For_Woocommerce_Public {
 		$walletamount           = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
 
-		//wallet instant discount.
-		if ($order->get_payment_method() === 'wps_wcb_wallet_payment_gateway') {
-
+		// wallet instant discount.
+		if ( $order->get_payment_method() === 'wps_wcb_wallet_payment_gateway' ) {
 
 			$wsfw_wallet_instant_discount_wallet = get_option( 'wsfw_wallet_instant_discount_wallet' );
 			$is_pro_plugin = false;
 			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
-			if( 'on' == $wsfw_wallet_instant_discount_wallet ){
+			if ( 'on' == $wsfw_wallet_instant_discount_wallet ) {
 
 				$wps_wsfwp_instant_wallet_discount_value = get_option( 'wps_wsfwp_instant_wallet_discount_value' );
-				if( $is_pro_plugin ){
+				if ( $is_pro_plugin ) {
 					$wps_wsfwp_wallet_instant_discount_type = get_option( 'wps_wsfwp_wallet_instant_discount_type' );
-				}else {
+				} else {
 					$wps_wsfwp_wallet_instant_discount_type = 'fixed';
 				}
 
@@ -1246,26 +1244,26 @@ class Wallet_System_For_Woocommerce_Public {
 					$order_total += $item->get_total();
 				}
 
-				if( 'fixed' == $wps_wsfwp_wallet_instant_discount_type ){
+				if ( 'fixed' == $wps_wsfwp_wallet_instant_discount_type ) {
 					$discount_amount = $wps_wsfwp_instant_wallet_discount_value;
-				}elseif( 'percent' == $wps_wsfwp_wallet_instant_discount_type ){
-					$discount_amount =  ( (float)$order_total * (float)$wps_wsfwp_instant_wallet_discount_value )/ 100 ;
+				} elseif ( 'percent' == $wps_wsfwp_wallet_instant_discount_type ) {
+					$discount_amount = ( (float) $order_total * (float) $wps_wsfwp_instant_wallet_discount_value ) / 100;
 				}
-				// Add the discount as a fee
+				// Add the discount as a fee.
 				$fee = new WC_Order_Item_Fee();
-				$fee->set_name(__('Wallet Instant Discount', 'text-domain')); // Name of the discount
-				$fee->set_amount(-$discount_amount); // Negative value for discount
-				$fee->set_total(-$discount_amount); // Ensure the total reflects the discount
-				$order->add_item($fee);
-		
-				// Recalculate order totals after adding the discount
+				$fee->set_name( __( 'Wallet Instant Discount', 'wallet-system-for-woocommerce' ) ); // Name of the discount.
+				$fee->set_amount( -$discount_amount ); // Negative value for discount.
+				$fee->set_total( -$discount_amount ); // Ensure the total reflects the discount.
+				$order->add_item( $fee );
+
+				// Recalculate order totals after adding the discount.
 				$order->calculate_totals();
-		
-				// Save the order
+
+				// Save the order.
 				$order->save();
-			}	
+			}
 		}
-		//wallet instant discount.
+		// wallet instant discount.
 
 		if ( ! empty( get_option( 'wsfw_enable_wallet_negative_balance_limit_order' ) ) ) {
 			$order_number = get_user_meta( $userid, 'wsfw_enable_wallet_negative_balance_limit_order', true );
@@ -1331,7 +1329,6 @@ class Wallet_System_For_Woocommerce_Public {
 	 */
 	public function wps_wocuf_initate_upsell_orders( $order_id ) {
 
-		
 		$order     = wc_get_order( $order_id );
 		$order_id               = $order->get_id();
 		$userid                 = $order->get_user_id();
@@ -1345,19 +1342,18 @@ class Wallet_System_For_Woocommerce_Public {
 		$user                   = get_user_by( 'id', $userid );
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 
-		//wallet instant discount.
-		if ($order->get_payment_method() === 'wps_wcb_wallet_payment_gateway') {
-
+		// wallet instant discount.
+		if ( $order->get_payment_method() === 'wps_wcb_wallet_payment_gateway' ) {
 
 			$wsfw_wallet_instant_discount_wallet = get_option( 'wsfw_wallet_instant_discount_wallet' );
 			$is_pro_plugin = false;
 			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
-			if( 'on' == $wsfw_wallet_instant_discount_wallet ){
+			if ( 'on' == $wsfw_wallet_instant_discount_wallet ) {
 
 				$wps_wsfwp_instant_wallet_discount_value = get_option( 'wps_wsfwp_instant_wallet_discount_value' );
-				if( $is_pro_plugin ){
+				if ( $is_pro_plugin ) {
 					$wps_wsfwp_wallet_instant_discount_type = get_option( 'wps_wsfwp_wallet_instant_discount_type' );
-				}else {
+				} else {
 					$wps_wsfwp_wallet_instant_discount_type = 'fixed';
 				}
 
@@ -1368,27 +1364,27 @@ class Wallet_System_For_Woocommerce_Public {
 					$order_total += $item->get_total();
 				}
 
-				if( 'fixed' == $wps_wsfwp_wallet_instant_discount_type ){
+				if ( 'fixed' == $wps_wsfwp_wallet_instant_discount_type ) {
 					$discount_amount = $wps_wsfwp_instant_wallet_discount_value;
-				}elseif( 'percent' == $wps_wsfwp_wallet_instant_discount_type ){
-					$discount_amount = ( (float)$order_total * (float)$wps_wsfwp_instant_wallet_discount_value )/ 100 ;
+				} elseif ( 'percent' == $wps_wsfwp_wallet_instant_discount_type ) {
+					$discount_amount = ( (float) $order_total * (float) $wps_wsfwp_instant_wallet_discount_value ) / 100;
 				}
-				
-				// Add the discount as a fee
+
+				// Add the discount as a fee.
 				$fee = new WC_Order_Item_Fee();
-				$fee->set_name(__('Wallet Instant Discount', 'text-domain')); // Name of the discount
-				$fee->set_amount(-$discount_amount); // Negative value for discount
-				$fee->set_total(-$discount_amount); // Ensure the total reflects the discount
-				$order->add_item($fee);
-		
-				// Recalculate order totals after adding the discount
+				$fee->set_name( __( 'Wallet Instant Discount', 'wallet-system-for-woocommerce' ) ); // Name of the discount.
+				$fee->set_amount( -$discount_amount ); // Negative value for discount.
+				$fee->set_total( -$discount_amount ); // Ensure the total reflects the discount.
+				$order->add_item( $fee );
+
+				// Recalculate order totals after adding the discount.
 				$order->calculate_totals();
-		
-				// Save the order
+
+				// Save the order.
 				$order->save();
-			}	
+			}
 		}
-		//wallet instant discount.
+		// wallet instant discount.
 
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 		if ( ! empty( get_option( 'wsfw_enable_wallet_negative_balance_limit_order' ) ) ) {
@@ -1655,7 +1651,7 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 
 			$cashback_amount        = $this->wsfw_calculate_cashback_cart();
-			// print_r($cashback_amount);echo'bbb';
+
 			$wsfw_min_cart_amount   = ! empty( get_option( 'wps_wsfw_cart_amount_min' ) ) ? get_option( 'wps_wsfw_cart_amount_min' ) : '';
 			$wsfw_min_cart_amount   = apply_filters( 'wps_wsfw_show_converted_price', $wsfw_min_cart_amount );
 			$cart_total             = ! empty( wc()->cart->get_subtotal() ) ? wc()->cart->get_subtotal() : wc()->cart->get_subtotal();
@@ -1663,7 +1659,7 @@ class Wallet_System_For_Woocommerce_Public {
 			$wps_wsfw_cashback_rule = get_option( 'wps_wsfw_cashback_rule', '' );
 
 			if ( 'cartwise' === $wps_wsfw_cashback_rule ) {
-			
+
 				if ( floatval( $cart_total ) < floatval( $wsfw_min_cart_amount ) ) {
 					?>
 					<div class="woocommerce-message wps-woocommerce-message woocommerce-Message--info wps-woocommerce-info">
@@ -1717,8 +1713,8 @@ class Wallet_System_For_Woocommerce_Public {
 			} elseif ( 'catwise' === $wps_wsfw_cashback_rule ) {
 				$is_pro_plugin = false;
 				$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
-			
-				if( $is_pro_plugin ){
+
+				if ( $is_pro_plugin ) {
 					$procashback_amount = 0;
 					if ( ! empty( WC()->cart->get_cart() ) ) {
 						foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
@@ -1728,12 +1724,12 @@ class Wallet_System_For_Woocommerce_Public {
 
 							$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 							$procashback_amount += apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $quantity );
-// print_r($procashback_amount);
+
 							$cashback_amount = $procashback_amount;
 						}
 					}
 				}
-				
+
 				if ( is_user_logged_in() ) {
 					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart', true );
 					$is_hide_checkout = get_option( 'wps_wsfw_hide_cashback_checkout', true );
@@ -1792,7 +1788,6 @@ class Wallet_System_For_Woocommerce_Public {
 		$product                = wc_get_product( $product_id );
 		$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 		$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, 1 );
-	
 
 		if ( ! $product ) {
 			return;
@@ -1830,7 +1825,6 @@ class Wallet_System_For_Woocommerce_Public {
 		$wsfw_cashbak_amount     = ! empty( get_option( 'wps_wsfw_cashback_amount' ) ) ? get_option( 'wps_wsfw_cashback_amount' ) : 10;
 		$wsfw_cashbak_type       = get_option( 'wps_wsfw_cashback_type' );
 		$wps_wsfw_cashback_rule  = get_option( 'wps_wsfw_cashback_rule', '' );
-
 
 		if ( 'catwise' === $wps_wsfw_cashback_rule ) {
 			if ( ! empty( $price ) && $price > 0 ) {
@@ -2727,5 +2721,4 @@ class Wallet_System_For_Woocommerce_Public {
 
 		return $available_gateways;
 	}
-
 }

@@ -2557,7 +2557,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					$wps_wallet_withdrawal_option = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_option', true );
 					if ( 'manual' != $wps_wallet_withdrawal_option ) {
 
-						$transaction_type_paypal = __( 'Wallet debited through withdrawal wallet transfer into paypal : ', 'woo-gift-cards-lite' ) . $withdrawal_mail_id . __( ' through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $withdrawal_id . '</a>';
+						$transaction_type_paypal = __( 'Wallet debited through withdrawal wallet transfer into paypal : ', 'wallet-system-for-woocommerce' ) . $withdrawal_mail_id . __( ' through user withdrawing request ', 'wallet-system-for-woocommerce' ) . '<a href="#" >#' . $withdrawal_id . '</a>';
 
 						$return_data = apply_filters( 'wps_wallet_withdrawal_through_paypal', $user_id, $withdrawal_amount, $withdrawal_mail_id, $transaction_type_paypal, $withdrawal_id );
 
@@ -2635,24 +2635,24 @@ class Wallet_System_For_Woocommerce_Admin {
 				'show_ui'         => true,
 			)
 		);
-		//fund_request.
+		// fund_request.
 		register_post_type(
 			'wallet_fund_request',
 			array(
 				'labels'          => array(
-					'name'               => __( 'Fund Requests', 'your-text-domain' ),
-					'singular_name'      => __( 'Fund Request', 'your-text-domain' ),
-					'all_items'          => __( 'All Fund Requests', 'your-text-domain' ),
-					'view_item'          => __( 'View Fund Request', 'your-text-domain' ),
-					'edit_item'          => __( 'Edit Fund Request', 'your-text-domain' ),
-					'update_item'        => __( 'Update Fund Request', 'your-text-domain' ),
-					'search_items'       => __( 'Search Fund Requests', 'your-text-domain' ),
-					'not_found'          => __( 'No Fund Requests Found', 'your-text-domain' ),
-					'not_found_in_trash' => __( 'No Fund Requests Found in Trash', 'your-text-domain' ),
-					'add_new_item'       => __( 'Add New Fund Request', 'your-text-domain' ),
-					'add_new'            => __( 'Add Fund Request', 'your-text-domain' ),
+					'name'               => __( 'Fund Requests', 'wallet-system-for-woocommerce' ),
+					'singular_name'      => __( 'Fund Request', 'wallet-system-for-woocommerce' ),
+					'all_items'          => __( 'All Fund Requests', 'wallet-system-for-woocommerce' ),
+					'view_item'          => __( 'View Fund Request', 'wallet-system-for-woocommerce' ),
+					'edit_item'          => __( 'Edit Fund Request', 'wallet-system-for-woocommerce' ),
+					'update_item'        => __( 'Update Fund Request', 'wallet-system-for-woocommerce' ),
+					'search_items'       => __( 'Search Fund Requests', 'wallet-system-for-woocommerce' ),
+					'not_found'          => __( 'No Fund Requests Found', 'wallet-system-for-woocommerce' ),
+					'not_found_in_trash' => __( 'No Fund Requests Found in Trash', 'wallet-system-for-woocommerce' ),
+					'add_new_item'       => __( 'Add New Fund Request', 'wallet-system-for-woocommerce' ),
+					'add_new'            => __( 'Add Fund Request', 'wallet-system-for-woocommerce' ),
 				),
-				'description'     => __( 'Handles user fund requests.', 'your-text-domain' ),
+				'description'     => __( 'Handles user fund requests.', 'wallet-system-for-woocommerce' ),
 				'supports'        => array( 'title', 'custom-fields' ),
 				'public'          => true,
 				'rewrite'         => array( 'slug' => 'wallet_fund_request' ),
@@ -2662,7 +2662,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'show_ui'         => true,
 			)
 		);
-		//fund_request.
+		// fund_request.
 		// register custom status rejected.
 		register_post_status(
 			'approved',
@@ -3688,9 +3688,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					)
 				),
 			),
-			
-			
-			
+
 		);
 
 		return $wsfw_settings_template;
@@ -3740,14 +3738,14 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_wallet_action_payment_settings_array_org( $wsfw_settings_template ) {
 		$wsfw_settings_template = array(
-	
+
 			array(
 				'title'       => __( 'Enable to Give Instant Discount on Wallet Payment Method', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Check this box to enable the Wallet Instant Discount Feature', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wsfw_wallet_instant_discount_wallet',
 				'id'          => 'wsfw_wallet_instant_discount_wallet',
-				'value'       =>  get_option( 'wsfw_wallet_instant_discount_wallet' ),
+				'value'       => get_option( 'wsfw_wallet_instant_discount_wallet' ),
 				'class'       => 'wsfw-radio-switch-class',
 				'options'     => array(
 					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
@@ -3784,7 +3782,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => __( 'Enter wallet Transfer Fee amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
-
 
 			array(
 				'title'       => __( 'Enter Description For Wallet Instant Discount Feature', 'wallet-system-for-woocommerce' ),

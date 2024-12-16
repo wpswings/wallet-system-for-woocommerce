@@ -589,14 +589,12 @@ class Wallet_System_For_Woocommerce_Common {
 										$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 										$is_pro_plugin = false;
 										$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
-										
-							
+
 										$pro_cashback_amount_order = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
-										if ( !is_array($pro_cashback_amount_order) ) {
+										if ( ! is_array( $pro_cashback_amount_order ) ) {
 											$cashback_amount_order = $pro_cashback_amount_order;
 										}
-									
-										
+
 										if ( $cashback_amount_order > 0 ) {
 											$credited_amount     += apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
 											$updated             = true;
@@ -916,7 +914,7 @@ class Wallet_System_For_Woocommerce_Common {
 		} else {
 			$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 			$wps_wsfwp_cashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
-			
+
 			if ( ! empty( $order_total ) ) {
 				if ( 'percent' === $wsfw_cashbak_type ) {
 
@@ -1274,7 +1272,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @return mixed
 	 */
 	public function wsfw_admin_mvx_list_mxfdxfodules( $payment_mode ) {
-		$payment_mode['wallet_payment'] = __( 'Wallet', 'multivendorx' );
+		$payment_mode['wallet_payment'] = __( 'Wallet', 'wallet-system-for-woocommerce' );
 		return $payment_mode;
 	}
 
@@ -1372,8 +1370,7 @@ class Wallet_System_For_Woocommerce_Common {
 						'currency'         => '',
 						'payment_method'   => esc_html__(
 							'Commission',
-							'wallet-system-for
-							-woocommerce'
+							'wallet-system-for-woocommerce'
 						),
 						'transaction_type' => htmlentities( $transaction_type ),
 						'transaction_type_1' => 'credit',
@@ -1381,7 +1378,7 @@ class Wallet_System_For_Woocommerce_Common {
 						'note'             => '',
 					);
 					$transaction_id = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-					$obj->add_commission_note( $commission_id, __( 'Commission paid to vendor through wallet', 'multivendorx' ), $vendor->id );
+					$obj->add_commission_note( $commission_id, __( 'Commission paid to vendor through wallet', 'wallet-system-for-woocommerce' ), $vendor->id );
 
 				}
 			}

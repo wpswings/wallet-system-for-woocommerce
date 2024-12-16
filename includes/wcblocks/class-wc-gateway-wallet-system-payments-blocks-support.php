@@ -77,26 +77,29 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 		);
 		wp_enqueue_script( 'wallet-system-payments-blocks' );
 
-		//wallet instant feature.
+		// wallet instant feature.
 		$wsfw_wallet_instant_discount_wallet = get_option( 'wsfw_wallet_instant_discount_wallet' );
 		$description = '';
 		$is_pro_plugin = false;
 		$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 		$wps_wsfw_wallet_instant_discount_description = get_option( 'wps_wsfw_wallet_instant_discount_description' );
-		if( 'on' == $wsfw_wallet_instant_discount_wallet ){
-			if( $wps_wsfw_wallet_instant_discount_description && $is_pro_plugin ){
-				$description = "( ". $wps_wsfw_wallet_instant_discount_description . " )";
-			}else {
+		if ( 'on' == $wsfw_wallet_instant_discount_wallet ) {
+			if ( $wps_wsfw_wallet_instant_discount_description && $is_pro_plugin ) {
+				$description = '( ' . $wps_wsfw_wallet_instant_discount_description . ' )';
+			} else {
 				$description = '( get instant discount on wallet payment method )';
 			}
 		}
-		//wallet instant feature. 
+		// wallet instant feature.
 
-		wp_localize_script('wallet-system-payments-blocks', 'CustomGatewayData', [
-			'title'       => __('Wallet Payment', 'woocommerce'),
-			'description' => $description,
-		]);
-
+		wp_localize_script(
+			'wallet-system-payments-blocks',
+			'CustomGatewayData',
+			array(
+				'title'       => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
+				'description' => $description,
+			)
+		);
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( 'wallet-system-payments-blocks', 'wallet-system-for-woocommerce', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'languages/' );

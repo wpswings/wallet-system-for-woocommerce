@@ -132,40 +132,41 @@ class Wallet_System_AjaxHandler {
 		wp_die();
 	}
 
-	public function change_wallet_fund_request_status_callback(){
+	/**
+	 * Wallet Fund Request status changed. function
+	 *
+	 * @return void
+	 */
+	public function change_wallet_fund_request_status_callback() {
 		if ( is_user_logged_in() ) {
 			check_ajax_referer( 'ajax-nonce', 'nonce' );
-			ini_set('display_errors',1);
-			error_reporting(E_ALL);
 
 			$request_id = empty( $_POST['request_id'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['request_id'] ) );
-		
+
 			$requesting_user_id = empty( $_POST['requesting_user_id'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['requesting_user_id'] ) );
-			
-	
+
 			$status = ( isset( $_POST['status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
-			// print_r($status);
-			
+
 			$withdrawal_balance = empty( $_POST['withdrawal_balance'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['withdrawal_balance'] ) );
-			$withdrawal_balance = (float)$withdrawal_balance;
+			$withdrawal_balance = (float) $withdrawal_balance;
 
 			$user_id                = get_current_user_id();
 			$current_currency = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
 
 			$withdrawal_request = get_post( $request_id );
-			
-			if( 'approved' == $status ){
 
-				$requesting_user_wallet = get_user_meta( $requesting_user_id , 'wps_wallet', true );
-				$requesting_user_wallet = (float)$requesting_user_wallet;
+			if ( 'approved' == $status ) {
+
+				$requesting_user_wallet = get_user_meta( $requesting_user_id, 'wps_wallet', true );
+				$requesting_user_wallet = (float) $requesting_user_wallet;
 				$user_wallet = get_user_meta( $user_id, 'wps_wallet', true );
-				$user_wallet = (float)$user_wallet;
-				// print_r($user_wallet);
-				if( $user_wallet >= $withdrawal_balance ){
+				$user_wallet = (float) $user_wallet;
+
+				if ( $user_wallet >= $withdrawal_balance ) {
 					$requesting_user_wallet += $withdrawal_balance;
 					$returnid = update_user_meta( $requesting_user_id, 'wps_wallet', $requesting_user_wallet );
 
-					if( $returnid ){
+					if ( $returnid ) {
 						$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 						$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 						// first user.
@@ -274,18 +275,18 @@ class Wallet_System_AjaxHandler {
 										'msgType' => 'error',
 									);
 						}
-					} 
-				}else{
+					}
+				} else {
 					$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
 					$message             = array(
 						'msg'     => $wps_wsfw_error_text,
 						'msgType' => 'error',
 					);
 				}
-			}	
-			if( 'rejected' == $status){
+			}
+			if ( 'rejected' == $status ) {
 				if ( $user_id ) {
-					
+
 					$withdrawal_request->post_status = 'rejected';
 					wp_update_post( $withdrawal_request );
 					$wps_wsfw_error_text = esc_html__( 'Wallet fund request is rejected for user #', 'wallet-system-for-woocommerce' ) . $requesting_user_id;
@@ -296,7 +297,7 @@ class Wallet_System_AjaxHandler {
 				}
 			}
 			if ( 'pending1' === $status ) {
-				
+
 				if ( $user_id ) {
 					$withdrawal_request->post_status = 'pending1';
 					wp_update_post( $withdrawal_request );
@@ -307,10 +308,9 @@ class Wallet_System_AjaxHandler {
 					);
 				};
 			}
-			
+
 			wp_send_json( $message );
 		}
 		wp_die();
-	
-   }
+	}
 }
