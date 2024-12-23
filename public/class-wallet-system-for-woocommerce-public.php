@@ -1717,18 +1717,33 @@ class Wallet_System_For_Woocommerce_Public {
 				if ( $is_pro_plugin ) {
 					$procashback_amount = 0;
 					if ( ! empty( WC()->cart->get_cart() ) ) {
+						$procashback_amount_cate_wise = 0;
 						foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+							$procashback_amount = '';
 							$product    = $cart_item['data'];
 							$product_id = $cart_item['product_id'];
 							$quantity   = $cart_item['quantity'];
-
+							$cashback_amount_cash = get_post_meta( $product_id, 'global_cashback_product',true );
+							
 							$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
-							$procashback_amount += apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $quantity );
+							$procashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $quantity );
 
-							$cashback_amount = $procashback_amount;
+							if ( empty( $procashback_amount ) ) {
+								$procashback_amount_cate_wise = $procashback_amount_cate_wise + $cashback_amount_cash;
+							} else{
+								$procashback_amount_cate_wise = $procashback_amount_cate_wise + $procashback_amount;
+							}
+							
 						}
+						$cashback_amount = $procashback_amount_cate_wise;
+						
 					}
 				}
+
+
+				
+
+
 
 				if ( is_user_logged_in() ) {
 					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart', true );
