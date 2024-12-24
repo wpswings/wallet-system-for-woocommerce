@@ -1967,8 +1967,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		$payment_method = $order->get_payment_method();
 		$order_currency = $order->get_currency();
 		$wallet_id      = get_option( 'wps_wsfw_rechargeable_product_id', '' );
-		$walletamount   = get_user_meta( $userid, 'wps_wallet', true );
-		$walletamount   = empty( $walletamount ) ? 0 : $walletamount;
 		$user                   = get_user_by( 'id', $userid );
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
@@ -2011,7 +2009,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					}
 					$transfer_note = apply_filters( 'wsfw_check_order_meta_for_recharge_reason', $order_id, '' );
 					$walletamount_user  = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
-					$walletamount_user  = ( ! empty( $walletamount ) ) ? $walletamount : 0;
+					$walletamount_user  = ( ! empty( $walletamount_user ) ) ? $walletamount_user : 0;
 					$wallet_user   = get_user_by( 'id', $update_wallet_userid );
 					$is_payment_gateway_cahrge = false;
 					$credited_amount_payment_charge = '';
@@ -2028,16 +2026,16 @@ class Wallet_System_For_Woocommerce_Admin {
 					if ( ! empty( $credited_amount_payment_charge ) ) {
 						$is_payment_gateway_cahrge = true;
 						$credited_amount = $credited_amount - $credited_amount_payment_charge;
-						$walletamount += $credited_amount;
+						$walletamount_user += $credited_amount;
 						$balance   = $credited_amount;
 					} else {
 
-						$walletamount += $credited_amount;
+						$walletamount_user += $credited_amount;
 						$balance   = $order->get_currency() . ' ' . $amount;
 					}
 
 					$mail_message = __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet recharge.', 'wallet-system-for-woocommerce' );
-					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount );
+					update_user_meta( $update_wallet_userid, 'wps_wallet', $walletamount_user );
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 						// HPOS usage is enabled.
 						$order->update_meta_data( 'wps_order_recharge_executed', 'done' );

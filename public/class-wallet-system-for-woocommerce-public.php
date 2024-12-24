@@ -979,7 +979,7 @@ class Wallet_System_For_Woocommerce_Public {
 				wp_safe_redirect( wc_get_checkout_url() );
 
 			}
-			WC()->session->__unset( 'wallet_recharge' );
+			// WC()->session->__unset( 'wallet_recharge' );
 		}
 	}
 
@@ -997,6 +997,38 @@ class Wallet_System_For_Woocommerce_Public {
 			}
 		}
 		return $cart_item_data;
+	}
+
+	/**
+	 * Undocumented function.
+	 *
+	 * @param [type] $order_data
+	 * @return void
+	 */
+	public function wps_wsfw_woocommerce_checkout_update_order_meta( $order_data ) {
+
+		// This function is triggered by two hooks, so we need to verify whether the parameter is an ID or an object.
+		if ( ! is_object( $order_data ) ) {
+			$order = wc_get_order( $order_data );
+		} else {
+			$order = $order_data;
+		}
+
+		$order_id = $order->get_id();
+		if ( WC()->session->__isset( 'wallet_recharge' ) ) {
+
+			$wallet_recharge = WC()->session->get( 'wallet_recharge' );
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+
+				// HPOS usage is enabled.
+				$order->update_meta_data( 'wps_wsfwp_user_id', $wallet_recharge['userid'] );
+				$order->save();
+			} else {
+
+				update_post_meta( $order_id, 'wps_wsfwp_user_id', $wallet_recharge['userid'] );
+			}
+			WC()->session->__unset( 'wallet_recharge' );
+		}
 	}
 
 	/**

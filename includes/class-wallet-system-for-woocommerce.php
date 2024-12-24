@@ -414,7 +414,9 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', $wsfw_plugin_public, 'wsfw_wps_enqueue_script_block_eheckout', 10 );
 			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders_api_checkout_org', 90 );
 			$this->loader->add_filter( 'woocommerce_available_payment_gateways', $wsfw_plugin_public, 'wps_wsfwp_add_wallet_recharge_message_restriction', 10, 1 );
-
+			// QR scan issues fixed.
+			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wsfw_woocommerce_checkout_update_order_meta' );
+			$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $wsfw_plugin_public, 'wps_wsfw_woocommerce_checkout_update_order_meta' );
 		}
 	}
 
