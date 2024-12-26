@@ -1755,7 +1755,7 @@ class Wallet_System_For_Woocommerce_Public {
 							$product    = $cart_item['data'];
 							$product_id = $cart_item['product_id'];
 							$quantity   = $cart_item['quantity'];
-							$cashback_amount_cash = get_post_meta( $product_id, 'global_cashback_product',true );
+							$cashback_amount_cash = (float)get_post_meta( $product_id, 'global_cashback_product',true );
 							
 							$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 							$procashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $quantity );
