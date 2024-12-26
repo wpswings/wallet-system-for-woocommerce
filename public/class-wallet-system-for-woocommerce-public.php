@@ -979,7 +979,7 @@ class Wallet_System_For_Woocommerce_Public {
 				wp_safe_redirect( wc_get_checkout_url() );
 
 			}
-			// WC()->session->__unset( 'wallet_recharge' );
+			WC()->session->__unset( 'wallet_recharge' );
 		}
 	}
 
