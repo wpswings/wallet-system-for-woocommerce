@@ -599,16 +599,41 @@ class Wallet_System_For_Woocommerce_Common {
 											$cashback_amount_order = $pro_cashback_amount_order;
 
 										}
+										
 
 										if ( $cashback_amount_order > 0 ) {
-											$credited_amount     += apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
-											$updated             = true;
+											// Ensure $credited_amount is defined and is a numeric value
+											if ( ! isset( $credited_amount ) || ! is_numeric( $credited_amount ) ) {
+												$credited_amount = 0; // Default to 0 if not set or not numeric
+											}
+										
+											// Get the cashback amount from the filter
+											$cashback_base_price = apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
+										
+											// Check if $cashback_base_price is an array and get the value at index 0
+											if ( is_array( $cashback_base_price ) && isset( $cashback_base_price[0] ) ) {
+												$cashback_base_price = $cashback_base_price[0];
+											}
+										
+											// Ensure the filtered value is numeric
+											if ( ! is_numeric( $cashback_base_price ) ) {
+												$cashback_base_price = 0; // Default to 0 if the result is not numeric
+											}
+										
+											// Add the numeric cashback amount to credited amount
+											$credited_amount += $cashback_base_price;
+										
+											$updated = true;
+										
 										}
+										
+										
 									}
 								}
 							}
+							
 
-							if ( $updated ) {
+								if ( $updated ) {
 								if ( 'percent' === $wsfw_cashbak_type ) {
 									if ( $credited_amount <= $wsfw_max_cashbak_amount ) {
 										$credited_amount = $credited_amount;
