@@ -592,15 +592,15 @@ class Wallet_System_For_Woocommerce_Common {
 										$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 
 										$pro_cashback_amount_order = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
-
+										
 										if ( ! is_array( $pro_cashback_amount_order ) && 0 == $pro_cashback_amount_order ) {
 											$cashback_amount_order += $pro_cashback_amount_order;
 										} else {
-											$cashback_amount_order = $pro_cashback_amount_order;
+											$cashback_amount_order = $cashback_amount_order;
 
 										}
 										
-
+										
 										if ( $cashback_amount_order > 0 ) {
 											// Ensure $credited_amount is defined and is a numeric value
 											if ( ! isset( $credited_amount ) || ! is_numeric( $credited_amount ) ) {
@@ -621,7 +621,7 @@ class Wallet_System_For_Woocommerce_Common {
 											}
 										
 											// Add the numeric cashback amount to credited amount
-											$credited_amount += $cashback_base_price;
+											$credited_amount = $cashback_base_price;
 										
 											$updated = true;
 										
@@ -631,6 +631,7 @@ class Wallet_System_For_Woocommerce_Common {
 									}
 								}
 							}
+							
 							
 
 								if ( $updated ) {
