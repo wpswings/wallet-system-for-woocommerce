@@ -589,7 +589,7 @@ class Wallet_System_For_Woocommerce_Common {
 										$cashback_amount_order = $this->wsfw_get_calculated_cashback_amount( $product_price, $product_id, $qty );
 										$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 										$is_pro_plugin = false;
-										$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+										$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin_common', $is_pro_plugin );
 
 										$pro_cashback_amount_order = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
 										
@@ -619,9 +619,14 @@ class Wallet_System_For_Woocommerce_Common {
 											if ( ! is_numeric( $cashback_base_price ) ) {
 												$cashback_base_price = 0; // Default to 0 if the result is not numeric
 											}
-										
-											// Add the numeric cashback amount to credited amount
-											$credited_amount = $cashback_base_price;
+											if($is_pro_plugin){
+												$credited_amount += $pro_cashback_amount_order;
+											
+											}else{
+	
+												$credited_amount += $cashback_base_price;
+											}
+											
 										
 											$updated = true;
 										
@@ -631,8 +636,7 @@ class Wallet_System_For_Woocommerce_Common {
 									}
 								}
 							}
-							
-							
+						
 
 								if ( $updated ) {
 								if ( 'percent' === $wsfw_cashbak_type ) {
