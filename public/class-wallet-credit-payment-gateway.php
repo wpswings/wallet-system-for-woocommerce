@@ -122,10 +122,26 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		public function get_icon() {
 			$customer_id = get_current_user_id();
 			if ( $customer_id > 0 ) {
+
+				// wallet instant discount.
+				$wsfw_wallet_instant_discount_wallet = get_option( 'wsfw_wallet_instant_discount_wallet' );
+				$description = '';
+				$is_pro_plugin = false;
+				$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+				$wps_wsfw_wallet_instant_discount_description = get_option( 'wps_wsfw_wallet_instant_discount_description' );
+				if ( 'on' == $wsfw_wallet_instant_discount_wallet ) {
+					if ( $wps_wsfw_wallet_instant_discount_description && $is_pro_plugin ) {
+						$description = '( ' . $wps_wsfw_wallet_instant_discount_description . ' )';
+					} else {
+						$description = '( get instant discount on wallet payment method )';
+					}
+				}
+				// wallet instatn discount.
+
 				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
-				echo '<b>' . esc_html__( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wp_kses_post( wc_price( $walletamount ) ) . ']</b>';
+				echo wp_kses_post( '<b>' . esc_html__( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wp_kses_post( wc_price( $walletamount ) ) . '] ' . $description . ' </b>' );
 				$order_number = get_user_meta( $customer_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
 				$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
 

@@ -63,7 +63,7 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 		$script_asset      = file_exists( $script_asset_path )
 		? require $script_asset_path
 		: array(
-			'dependencies' => array(),
+			'dependencies' => array( 'wc-blocks-registry', 'wc-settings', 'wp-element', 'wp-html-entities', 'wp-i18n' ),
 			'version'      => '1.2.0',
 		);
 		$script_url        = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . $script_path;
@@ -74,6 +74,31 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 			$script_asset['dependencies'],
 			$script_asset['version'],
 			true
+		);
+		wp_enqueue_script( 'wallet-system-payments-blocks' );
+
+		// wallet instant feature.
+		$wsfw_wallet_instant_discount_wallet = get_option( 'wsfw_wallet_instant_discount_wallet' );
+		$description = '';
+		$is_pro_plugin = false;
+		$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
+		$wps_wsfw_wallet_instant_discount_description = get_option( 'wps_wsfw_wallet_instant_discount_description' );
+		if ( 'on' == $wsfw_wallet_instant_discount_wallet ) {
+			if ( $wps_wsfw_wallet_instant_discount_description && $is_pro_plugin ) {
+				$description = '( ' . $wps_wsfw_wallet_instant_discount_description . ' )';
+			} else {
+				$description = '( get instant discount on wallet payment method )';
+			}
+		}
+		// wallet instant feature.
+
+		wp_localize_script(
+			'wallet-system-payments-blocks',
+			'CustomGatewayData',
+			array(
+				'title'       => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
+				'description' => $description,
+			)
 		);
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
@@ -91,8 +116,8 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 	public function get_payment_method_data() {
 		return array(
 			'title'       => $this->get_setting( 'title' ),
-			// 'description' => $this->get_setting( 'description' ),
-				'supports'    => array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ),
+			'description' => $this->get_setting( 'description' ),
+			'supports'    => array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ),
 		);
 	}
 }

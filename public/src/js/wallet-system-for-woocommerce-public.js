@@ -79,6 +79,17 @@
 
 		});
 
+		$(document).on( 'click','#wps_fund_send_table_div', function(){
+			jQuery('.wps_fund_send_table').show();
+			jQuery('.wps_fund_recieve_table').hide();
+
+		});
+		$(document).on( 'click','#wps_fund_recieve_table_div', function(){
+			jQuery('.wps_fund_recieve_table').show();
+			jQuery('.wps_fund_send_table').hide();
+
+		});
+
 		// Unset manually amount in partial payment.
 		$(document).on( 'change','#wps_wallet_withdrawal_option', function(){
 			$option_withdrawal = jQuery('#wps_wallet_withdrawal_option').val();
@@ -415,6 +426,48 @@
 		}
 
 		
+	});
+
+
+	//fund request feature.
+	$(document).on( 'change', 'select#wps-wpg-gen-table_status', function() {
+		var request_id = $(this).siblings('input[name=request_id]').val();
+		var requesting_user_id = $(this).siblings('input[name=requesting_user_id]').val();
+		var status = $(this).find(":selected").val();
+		
+		var withdrawal_balance = $(this).siblings('input[name=withdrawal_balance]').val();
+		var loader = $(this).siblings('#overlay');
+		loader.show();
+		$.ajax({
+			type: 'POST',
+			url: wsfw_public_param.ajaxurl,
+			data: {
+				action: 'change_wallet_fund_request_status',
+				nonce: wsfw_public_param.nonce,
+				request_id: request_id,
+				requesting_user_id: requesting_user_id,
+				withdrawal_balance: withdrawal_balance,
+				status: status,
+				
+			},
+			datatType: 'JSON',
+			success: function( response ) {
+				console.log(response);
+				$( '.wps-wpg-withdrawal-section-table' ).before('<div class="notice notice-' + response.msgType + ' is-dismissible wps-errorr-8"><p>' + response.msg + '</p></div>');		
+			
+				loader.hide();
+				setTimeout(function () {
+					location.reload();
+				}, 2000);
+				
+
+			},
+
+		})
+		.fail(function ( response ) {
+			$( '.wps-wpg-withdrawal-section-table' ).before('<div class="notice notice-error is-dismissible wps-errorr-8"><p>' + wsfw_public_param.wsfw_ajax_error + '</p></div>');		
+			loader.hide();
+		});
 	});
 	
 

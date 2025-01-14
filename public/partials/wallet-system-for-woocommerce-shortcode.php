@@ -279,6 +279,81 @@ if ( wp_verify_nonce( $nonce ) ) {
 			apply_filters( 'wps_wsfw_wallet_coupon_before_saving', $wps_wsfw_coupon_code );
 		}
 	}
+
+	if ( isset( $_POST['wps_wallet_fund_request'] ) && ! empty( $_POST['wps_wallet_fund_request'] ) ) {
+	
+		$update = true ;
+		$wps_wallet_fund_request_another_user_email     = ! empty( $_POST['wps_wallet_fund_request_another_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_fund_request_another_user_email'] ) ) : '';
+		$wps_wallet_fund_request_amount        = ! empty( $_POST['wps_wallet_fund_request_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_fund_request_amount'] ) ) : 0;
+		$wps_wallet_note        = ! empty( $_POST['wps_wallet_note'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_note'] ) ) : 0;
+		$wallet_user_id = ! empty( $_POST['wallet_user_id'] ) ? sanitize_text_field( wp_unslash( $_POST['wallet_user_id'] ) ) : 0;
+
+		$wps_current_user_email = ! empty( $_POST['wps_current_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_current_user_email'] ) ) : 0;
+		
+		$user                   = get_user_by( 'email', $wps_wallet_fund_request_another_user_email );
+
+		if ( $user ) {
+			$another_user_id = $user->ID;
+		} else {
+			$invitation_link = apply_filters( 'wsfw_add_invitation_link_message', '' );
+			if ( ! empty( $invitation_link ) ) {
+				global $wp_session;
+				$wp_session['wps_wallet_transfer_user_email'] = $wps_wallet_fund_request_another_user_email;
+				$wp_session['wps_wallet_transfer_amount']     = $wps_wallet_fund_request_amount;
+			}
+			show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
+			$update = false;
+		}
+
+		if ( empty( $wps_wallet_fund_request_amount ) ) {
+			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		}  elseif ( $wps_wallet_fund_request_another_user_email == $wps_current_user_email ) {
+			show_message_on_form_submit( esc_html__( 'You cannot request fund to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		}
+		if ( $update ) {
+
+			if ( ! empty( $wallet_user_id ) ) {
+				$user_id  = sanitize_text_field( wp_unslash( $wallet_user_id ) );
+				$user     = get_user_by( 'id', $user_id );
+				$username = $user->user_login;
+	
+			}
+			$args          = array(
+				'post_title'  => $username,
+				'post_type'   => 'wallet_fund_request',
+				'post_status' => 'publish',
+			);
+			$withdrawal_id = wp_insert_post( $args );
+
+			if ( ! empty( $withdrawal_id ) ) {
+				wp_update_post(
+					array(
+						'ID'          => $withdrawal_id,
+						'post_status' => 'pending1',
+					)
+				);
+				foreach ( $_POST as $key => $value ) {
+					if ( ! empty( $value ) ) {
+						$value = sanitize_text_field( $value );
+						if ( 'wps_wallet_fund_request_amount' === $key ) {
+							$withdrawal_bal = apply_filters( 'wps_wsfw_convert_to_base_price', $value );
+							update_post_meta( $withdrawal_id, $key, $withdrawal_bal );
+						} else {
+							update_post_meta( $withdrawal_id, $key, $value );
+						}
+					}
+				}
+				update_post_meta( $withdrawal_id, 'requested_user_id', $another_user_id );
+				// update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
+				wp_enqueue_script( 'wps-public-shortcode-dis' );
+				wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
+			}
+		}
+
+	}
+
 }
 
 ?>
@@ -309,6 +384,7 @@ $wallet_restrict_topup       = apply_filters( 'wallet_restrict_topup', $user_id 
 $wallet_restrict_transfer    = apply_filters( 'wallet_restrict_transfer', $user_id );
 $wallet_restrict_withdrawal  = apply_filters( 'wallet_restrict_withdrawal', $user_id );
 $wallet_restrict_coupon      = apply_filters( 'wallet_restrict_coupon', $user_id );
+$wallet_restrict_fund_request = apply_filters( 'wallet_restrict_fund_request', $user_id );
 $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $user_id );
 $wallet_restrict_referral    = apply_filters( 'wallet_restrict_referral', $user_id );
 $wallet_restrict_qrcode      = apply_filters( 'wallet_restrict_qrcode', $user_id );
@@ -373,8 +449,13 @@ if ( 'restricted' !== $is_user_restricted ) {
 		);
 	}
 
+	
+
 	if ( 'on' != $wallet_restrict_coupon ) {
 		$wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs_before_transaction', $wallet_tabs, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH );
+	}
+	if ( 'on' != $wallet_restrict_fund_request ) {
+		$wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs_wallet_fund_request', $wallet_tabs, WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH );
 	}
 }
 if ( 'on' != $wallet_restrict_transaction ) {
@@ -389,18 +470,21 @@ if ( 'on' != $wallet_restrict_transaction ) {
 		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-wallet-transactions.php',
 	);
 }
+$is_refer_option = get_option( 'wps_wsfw_wallet_action_refer_friend_enable' );
+if ( 'on' == $is_refer_option ) {
 
-if ( 'on' != $wallet_restrict_referral ) {
-
-	$wallet_tabs['wallet_referral'] = array(
-		'title'     => esc_html__( 'Wallet Referral', 'wallet-system-for-woocommerce' ),
-		'url'       => $wallet_referal_url,
-		'className' => 'wps_wallet_transactions_tab',
-		'icon'      => '<path fill-rule="evenodd" clip-rule="evenodd" d="M6.40263 9.52276C8.21174 6.39535 11.5966 4.28571 15.4762 4.28571H24.5238C30.3097 4.28571 35 8.97598 35 14.7619V23.8095C35 29.5954 30.3097 34.2857 24.5238 34.2857H15.4762C9.69028 34.2857 5 29.5954 5 23.8095V19.2857C5 18.4967 5.63959 17.8571 6.42857 17.8571C7.21755 17.8571 7.85714 18.4967 7.85714 19.2857V23.8095C7.85714 28.0175 11.2682 31.4286 15.4762 31.4286H24.5238C28.7318 31.4286 32.1429 28.0175 32.1429 23.8095V14.7619C32.1429 10.5539 28.7318 7.14285 24.5238 7.14285H15.4762C12.6578 7.14285 10.1953 8.67244 8.87578 10.9534C8.48072 11.6364 7.60683 11.8697 6.92388 11.4747C6.24094 11.0796 6.00756 10.2057 6.40263 9.52276Z" fill="#1E1E1E"/>
-		<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9996 11.0717C20.7885 11.0717 21.4281 11.7112 21.4281 12.5002V18.694L25.5335 22.7994C26.0914 23.3573 26.0914 24.2618 25.5335 24.8197C24.9756 25.3776 24.0711 25.3776 23.5132 24.8197L18.9894 20.2959C18.7215 20.028 18.571 19.6646 18.571 19.2857V12.5002C18.571 11.7112 19.2106 11.0717 19.9996 11.0717Z" fill="#483DE0"/>
-		<path fill-rule="evenodd" clip-rule="evenodd" d="M7.48138 3.93726C8.26561 4.02374 8.83124 4.72959 8.74476 5.51381L8.36239 8.98116L11.8297 9.36352C12.614 9.45001 13.1796 10.1559 13.0931 10.9401C13.0066 11.7243 12.3008 12.2899 11.5166 12.2035L6.62926 11.6645C5.84503 11.578 5.2794 10.8722 5.36588 10.0879L5.90483 5.20064C5.99131 4.41641 6.69716 3.85078 7.48138 3.93726Z" fill="#1E1E1E"/>',
-		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-referral.php',
-	);
+	if ( 'on' != $wallet_restrict_referral ) {
+	
+		$wallet_tabs['wallet_refer_friend'] = array(
+			'title'     => esc_html__( 'Wallet Referral', 'wallet-system-for-woocommerce' ),
+			'url'       => $wallet_referal_url,
+			'className' => 'wps_wallet_referral_tab',
+			'icon'      => '<path fill-rule="evenodd" clip-rule="evenodd" d="M6.40263 9.52276C8.21174 6.39535 11.5966 4.28571 15.4762 4.28571H24.5238C30.3097 4.28571 35 8.97598 35 14.7619V23.8095C35 29.5954 30.3097 34.2857 24.5238 34.2857H15.4762C9.69028 34.2857 5 29.5954 5 23.8095V19.2857C5 18.4967 5.63959 17.8571 6.42857 17.8571C7.21755 17.8571 7.85714 18.4967 7.85714 19.2857V23.8095C7.85714 28.0175 11.2682 31.4286 15.4762 31.4286H24.5238C28.7318 31.4286 32.1429 28.0175 32.1429 23.8095V14.7619C32.1429 10.5539 28.7318 7.14285 24.5238 7.14285H15.4762C12.6578 7.14285 10.1953 8.67244 8.87578 10.9534C8.48072 11.6364 7.60683 11.8697 6.92388 11.4747C6.24094 11.0796 6.00756 10.2057 6.40263 9.52276Z" fill="#1E1E1E"/>
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9996 11.0717C20.7885 11.0717 21.4281 11.7112 21.4281 12.5002V18.694L25.5335 22.7994C26.0914 23.3573 26.0914 24.2618 25.5335 24.8197C24.9756 25.3776 24.0711 25.3776 23.5132 24.8197L18.9894 20.2959C18.7215 20.028 18.571 19.6646 18.571 19.2857V12.5002C18.571 11.7112 19.2106 11.0717 19.9996 11.0717Z" fill="#483DE0"/>
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M7.48138 3.93726C8.26561 4.02374 8.83124 4.72959 8.74476 5.51381L8.36239 8.98116L11.8297 9.36352C12.614 9.45001 13.1796 10.1559 13.0931 10.9401C13.0066 11.7243 12.3008 12.2899 11.5166 12.2035L6.62926 11.6645C5.84503 11.578 5.2794 10.8722 5.36588 10.0879L5.90483 5.20064C5.99131 4.41641 6.69716 3.85078 7.48138 3.93726Z" fill="#1E1E1E"/>',
+			'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-referral.php',
+		);
+	}
 }
 $wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs', $wallet_tabs );
 $flag = false;
@@ -442,18 +526,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 			</div>
 			<?php
 		}
-		if ( $is_pro_plugin ) {
-
-			$is_refer_option = get_option( 'wps_wsfw_wallet_action_refer_friend_enable' );
-			if ( 'on' == $is_refer_option ) {
-
-				if ( 'on' != $wallet_restrict_referral ) {
-					?>
-						<a class="wps_wallet_referral_friend_link" href="<?php echo esc_url( $wallet_referal_url ); ?>"><span class="wps_wallet_referral_friend dashicons dashicons-share"></span></a>
-					<?php
-				}
-			}
-		}
+				
 		?>
 			
 

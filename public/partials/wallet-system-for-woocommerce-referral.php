@@ -46,22 +46,20 @@ $wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wal
 <div class="wps-wallet-referral-heading">
   <h4> <?php __( 'Wallet Referral', 'wallet-system-for-woocommerce' ); ?></h4>
 </div>
-		<div class="wps-wallet-popup-right-rewards wps-wallet-popup-right-rewards--login">
-	<input type="hidden" id="wps_wsfw_copy" name="custId" value="<?php echo wp_kses_post( $site_url . '?pkey=' . $referral_link ); ?>" readonly="">
-	  <div class="wps-wallet-popup-rewards-right-content-wallet">
-		<div id="wps_notify_user_copy"><code><?php echo wp_kses_post( $site_url . '?pkey=' . $referral_link ); ?></code></div>
-	  </div>
-	  <div class="wps-wallet-popup-rewards-right-content-wallet">
-		<button onclick="copyshareurl()" class="wps_wsfw_btn_copy wps_tooltip" data-clipboard-target="#wps_notify_user_copy" aria-label="copied">
-		<span  class="wps_tooltiptext"><?php esc_html_e( 'Copy', 'wallet-system-for-woocommerce' ); ?></span>
-		<img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'public/images/copy.png'; ?>" alt="Copy to clipboard"></button>
-		<span class="wps_tooltiptext_scl" id="myTooltip_referral"></span>
-	  </div>
+	<div class="wps-wallet-popup-right-rewards wps-wallet-popup-right-rewards--login">
+		<input type="hidden" id="wps_wsfw_copy" name="custId" value="<?php echo wp_kses_post( $site_url . '?pkey=' . $referral_link ); ?>" readonly="">
+		<div class="wps-wallet-popup-rewards-right-content-wallet">
+			<div id="wps_notify_user_copy"><code><?php echo wp_kses_post( $site_url . '?pkey=' . $referral_link ); ?></code></div>
+		</div>
+		 <div class="wps-wallet-popup-rewards-right-content-wallet">
+			<button onclick="copyshareurl()" class="wps_wsfw_btn_copy wps_tooltip" data-clipboard-target="#wps_notify_user_copy" aria-label="copied">
+			<span  class="wps_tooltiptext"><?php esc_html_e( 'Copy', 'wallet-system-for-woocommerce' ); ?></span>
+			<img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ) . 'public/images/copy.png'; ?>" alt="Copy to clipboard"></button>
+			<span class="wps_tooltiptext_scl" id="myTooltip_referral"></span>
+		  </div>
 
 	</div>
 	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency() ) . ( esc_html( $wps_wsfw_wallet_action_registration_amount ) ) . esc_html__( ' amount to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
 </div>
-
 </div>
-
-
+<?php do_action( 'wps_wsfw_filter_for_wallet_referral' ); ?>

@@ -517,6 +517,13 @@ input[type=submit].wps-btn__filled:hover {
 .wps_withdrawal_table{
   display: none;
 }
+.wps_fund_send_table{
+  display: none;
+}
+
+.wps_fund_recieve_table{
+  display: none;
+}
 
 /*=====  End of Transaction Section  ======*/
 
@@ -575,6 +582,7 @@ padding: 5px 14px;
 
 .wps-wallet-popup-right-rewards {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
@@ -590,6 +598,7 @@ padding: 5px 14px;
   line-height: 1.25;
   display: inline-block;
   font-size: 14px;
+  word-break: break-all;
 }
 
 .wps-wallet-referral-wrapper #wps_notify_user_copy {
@@ -721,4 +730,75 @@ form#wps_wallet_transfer_form {
   .wps_wallet_referral_friend.dashicons{
     right : 15px;
   }
+}
+
+
+.wps-wsfw-wallet-field-table #overlay {
+  display:none;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 50%;
+}
+
+.wps-wsfw-wallet-field-table select .approved, .wps-wsfw-wallet-field-table select.approved {
+  color: #03dac5 !important;
+}
+
+.wps-wsfw-wallet-field-table select .pending, .wps-wsfw-wallet-field-table select.pending1 {
+  color: #fdb51a !important;
+}
+
+.wps-wsfw-wallet-field-table select .rejected , .wps-wsfw-wallet-field-table select.rejected {
+  color: #f32121 !important;
+}
+
+.wps_wsfw_wallet_fund_request_wrapper {
+  display: flex;
+  gap: 32px;
+  margin: 0 0 15px;
+}
+
+.wps_wsfw_wallet_fund_request_wrapper #wps_fund_recieve_table_div,.wps_wsfw_wallet_fund_request_wrapper #wps_fund_send_table_div {
+  cursor: pointer;
+  position: relative;
+  color: var(--wallet-pc);
+  text-decoration: underline;
+}
+
+.wps_wsfw_wallet_fund_request_wrapper #wps_fund_recieve_table_div .show_pending_fund_request_count {
+  position: absolute;
+  top: 0;
+  display: inline-flex;
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 50%;
+  background: var(--wallet-pc);
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #ffffff;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 5px;
+}
+
+.wps-wsfw-wallet-field-table select {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.wps-wsfw-wallet-field-table select:focus {
+  outline: none;
+}
+
+.wps_wsfw_fund_request_status {
+  text-align: center;
+  position: relative;
+}
+
+.wps_wsfw_fund_request_status img {
+  margin: auto;
 }

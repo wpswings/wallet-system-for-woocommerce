@@ -114,6 +114,7 @@ $wsfw_wallet_action_html = '';
 			$wsfw_wallet_action_transfer_fee_settings = apply_filters( 'wsfwp_wallet_action_settings_transfer_array', array() );
 			$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
 			$wsfw_wallet_action_different_layout_settings      = apply_filters( 'wsfw_wallet_action_different_layout_settings_array', array() );
+			$wsfw_wallet_action_payment_settings        = apply_filters( 'wsfw_wallet_action_payment_settings_array', array() );
 			$wsfw_wallet_action_gamification_rule_settings      = apply_filters( 'wsfw_wallet_action_gamification_rule_settings_array', array() );
 			global $wsfwp_wps_wsfwp_obj;
 			$wallet_id          = get_option( 'wps_wsfw_rechargeable_product_id', '' );
@@ -169,6 +170,16 @@ $wsfw_wallet_action_html = '';
 			  <span><b><?php esc_html_e( 'Wallet Layout Settings', 'wallet-system-for-woocommerce' ); ?></b></span>
 				<?php
 					  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_different_layout_settings );
+				if ( ! empty( $wsfw_wallet_action_html ) ) {
+					echo wp_kses_post( $wsfw_wallet_action_html );
+				}
+				?>
+			</div>
+			<hr>
+			<div class="wsfw-secion-wallet">
+			  <span><b><?php esc_html_e( 'Wallet Payment Instant Discount Settings', 'wallet-system-for-woocommerce' ); ?></b></span>
+				<?php
+					  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_payment_settings );
 				if ( ! empty( $wsfw_wallet_action_html ) ) {
 					echo wp_kses_post( $wsfw_wallet_action_html );
 				}

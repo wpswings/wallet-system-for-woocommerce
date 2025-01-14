@@ -128,7 +128,7 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 				if ( 'on' == $wps_wsfwp_wallet_withdrawal_paypal_dropdown ) {
 					?>
 			<p class="wps-wallet-field-container form-row form-row-wide">
-				<label for="wps_wallet_withdrawal_option"><?php echo esc_html__( 'Select option for withdrawal.' ); ?></label>
+				<label for="wps_wallet_withdrawal_option"><?php echo esc_html__( 'Select option for withdrawal.', 'wallet-system-for-woocommerce' ); ?></label>
 				<select name="wps_wallet_withdrawal_option" id="wps_wallet_withdrawal_option">
 						<option><?php esc_html_e( 'Select any', 'wallet-system-for-woocommerce' ); ?></option>
 						<option value="manual"><?php esc_html_e( 'Manual', 'wallet-system-for-woocommerce' ); ?></option>
