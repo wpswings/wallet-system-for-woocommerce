@@ -1944,8 +1944,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			return wc_price( $wallet_bal );
 		}
 		if ( 'wps_wallet_actions' === $column_name ) {
-			$html = '<p><a href="' . esc_url( admin_url( "?page=wps-edit-wallet&id=$user_id" ) ) . '" title="Edit Wallet" class="button wallet-manage"></a> 
-			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wps-user-wallet-transactions&id=$user_id" ) ) . '" title="View Transactions" ></a></p>';
+			$nonce = wp_create_nonce( 'view_transactions_' . $user_id ); // Create nonce.
+			$html = '<p><a href="' . esc_url( admin_url( "?page=wps-edit-wallet&id=$user_id ." ) ) . '" title="Edit Wallet" class="button wallet-manage"></a> 
+			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wps-user-wallet-transactions&id=$user_id" )  . '&nonce=' . $nonce ) . '" title="View Transactions" ></a></p>';
 			return $html;
 		}
 	}
