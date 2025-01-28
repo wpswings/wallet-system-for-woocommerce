@@ -37,6 +37,7 @@ $wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
 $wallet_bal = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 $wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wallet_action_referal_amount' );
+$wps_wsfw_wallet_action_referral_description         = get_option( 'wps_wsfw_wallet_action_referral_description' );
 
 ?>
 
@@ -59,7 +60,17 @@ $wps_wsfw_wallet_action_registration_amount          = get_option( 'wps_wsfw_wal
 		  </div>
 
 	</div>
-	<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency() ) . ( esc_html( $wps_wsfw_wallet_action_registration_amount ) ) . esc_html__( ' amount to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
+	<?php
+	 	if( $wps_wsfw_wallet_action_referral_description ){
+			?>
+				<div class="wps-wallet-referral-notification"><?php echo esc_html( $wps_wsfw_wallet_action_referral_description ); ?></div>
+			<?php
+		}else{
+			?>
+				<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency() ) . ( esc_html( $wps_wsfw_wallet_action_registration_amount ) ) . esc_html__( ' amount to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
+			<?php
+		}
+	?>
 </div>
 </div>
 <?php do_action( 'wps_wsfw_filter_for_wallet_referral' ); ?>
