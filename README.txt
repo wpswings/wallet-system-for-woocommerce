@@ -1,12 +1,12 @@
 === Wallet System for WooCommerce – Wallet, Wallet Cashback, Refunds, Partial Payment, Wallet Restriction ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: woocommerce wallet, wallet system, cashback, partial payment, refunds 
+Tags: woocommerce wallet, wordpress wallet, cashback, partial payment, refunds 
 Requires at least: 5.5.0
 Tested up to: 6.7.1
-WC Requires at least: 6.5.2
-WC tested up to: 9.5.1 
-Stable tag: 2.6.2
+WC Requires at least: 6.5.1
+WC tested up to: 9.6.0 
+Stable tag: 2.6.3
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -241,9 +241,13 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
+= 2.6.3 – Released on 29 January 2025 =
+* New: Latest WP[6.7.1] and WC[9.6.0] Update.
+
 = 2.6.2 – Released on 2 January 2025 =
 * New: Wallet Referral Rewards.
 * New: Wallet Referral Tab.
+* New: Wallet Payment Instant Discount.
 * New: Latest WP[6.7.1] and WC[9.5.1] Update.
 
 = 2.6.1 – Released on 26 November 2024 =
@@ -489,7 +493,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.6.2 – Released on 2 January 2025 =
-* New: Wallet Referral Rewards.
-* New: Wallet Referral Tab.
-* New: Latest WP[6.7.1] and WC[9.5.1] Update.
+= 2.6.3 – Released on 29 January 2025 =
+* New: Latest WP[6.7.1] and WC[9.6.0] Update.
