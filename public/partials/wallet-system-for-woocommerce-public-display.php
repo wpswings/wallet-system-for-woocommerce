@@ -56,6 +56,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 		}
 	}
 	if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_transfer'] ) ) {
+		
 		unset( $_POST['wps_proceed_transfer'] );
 		$update = true;
 		// check whether $_POST key 'current_user_id' is empty or not.
@@ -216,36 +217,38 @@ if ( wp_verify_nonce( $nonce ) ) {
 
 		}
 
-		$args          = array(
-			'post_title'  => $username,
-			'post_type'   => 'wallet_withdrawal',
-			'post_status' => 'publish',
-		);
-		$withdrawal_id = wp_insert_post( $args );
-		if ( ! empty( $withdrawal_id ) ) {
-			wp_update_post(
-				array(
-					'ID'          => $withdrawal_id,
-					'post_status' => 'pending1',
-				)
-			);
-			foreach ( $_POST as $key => $value ) {
-				if ( ! empty( $value ) ) {
-					$value = sanitize_text_field( $value );
-					if ( 'wps_wallet_withdrawal_amount' === $key ) {
-						$withdrawal_bal = apply_filters( 'wps_wsfw_convert_to_base_price', $value );
-						update_post_meta( $withdrawal_id, $key, $withdrawal_bal );
-					} else {
-						update_post_meta( $withdrawal_id, $key, $value );
+				$args          = array(
+					'post_title'  => $username,
+					'post_type'   => 'wallet_withdrawal',
+					'post_status' => 'publish',
+				);
+				$withdrawal_id = wp_insert_post( $args );
+				if ( ! empty( $withdrawal_id ) ) {
+					wp_update_post(
+						array(
+							'ID'          => $withdrawal_id,
+							'post_status' => 'pending1',
+						)
+					);
+					foreach ( $_POST as $key => $value ) {
+						if ( ! empty( $value ) ) {
+							$value = sanitize_text_field( $value );
+							if ( 'wps_wallet_withdrawal_amount' === $key ) {
+								$withdrawal_bal = apply_filters( 'wps_wsfw_convert_to_base_price', $value );
+								update_post_meta( $withdrawal_id, $key, $withdrawal_bal );
+							} else {
+								update_post_meta( $withdrawal_id, $key, $value );
+							}
+						}
 					}
+					update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
+		
+					wp_register_script( 'wps-public-shortcode-dis', false, array(), '1.0.0', false );
+					wp_enqueue_script( 'wps-public-shortcode-dis' );
+					wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
 				}
-			}
-			update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
+		
 
-			wp_register_script( 'wps-public-shortcode-dis', false, array(), '1.0.0', false );
-			wp_enqueue_script( 'wps-public-shortcode-dis' );
-			wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
-		}
 	}
 
 	if ( isset( $_POST['wps_wallet_fund_request'] ) && ! empty( $_POST['wps_wallet_fund_request'] ) ) {

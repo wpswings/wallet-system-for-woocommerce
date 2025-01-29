@@ -620,11 +620,12 @@ class Wallet_System_For_Woocommerce_Public {
 						$wsfw_payment_charge_type = get_option( 'wps_wsfwp_payment_gateway_charge_fee_type' );
 						$_wps_wsfwp_payment_gateway_charge_type_bacs = get_option( 'wps_wsfwp_payment_gateway_charge_type_' . $payment_method );
 						if ( 'percent' === $wsfw_payment_charge_type ) {
-							$credited_amount_payment_charge = ( ( intval( $credited_amount ) * intval( $_wps_wsfwp_payment_gateway_charge_type_bacs ) ) / 100 );
+							$credited_amount_payment_charge = ( ( floatval( $credited_amount ) * floatval( $_wps_wsfwp_payment_gateway_charge_type_bacs ) ) / 100 );
 						} else {
 							$credited_amount_payment_charge = $_wps_wsfwp_payment_gateway_charge_type_bacs;
 						}
 					}
+				
 					if ( ! empty( $credited_amount_payment_charge ) ) {
 						$is_payment_gateway_cahrge = true;
 						$credited_amount = $credited_amount - $credited_amount_payment_charge;

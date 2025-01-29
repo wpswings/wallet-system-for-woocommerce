@@ -637,7 +637,7 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		</form>
 	</div>
 	<div class="dataTables_length_wallet_custom_search_table">
-	<form method="GET" class="wps_form_get_export_pdf">
+	<form method="POST" class="wps_form_get_export_pdf">
 		<input type="submit" class="btn button" name= "wps_wsfw_export_pdf" id="wps_wsfw_export_pdf" value="<?php esc_html_e( 'Export PDF', 'wallet-system-for-woocommerce' ); ?>">
 		<?php
 		$is_pro_plugin = false;
@@ -645,7 +645,7 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 
 		if ( $is_pro_plugin ) {
 			?>
-				<input type="button" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
+				<input type="submit" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
 			<?php
 		} else {
 			?>

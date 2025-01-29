@@ -1944,8 +1944,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			return wc_price( $wallet_bal );
 		}
 		if ( 'wps_wallet_actions' === $column_name ) {
-			$html = '<p><a href="' . esc_url( admin_url( "?page=wps-edit-wallet&id=$user_id" ) ) . '" title="Edit Wallet" class="button wallet-manage"></a> 
-			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wps-user-wallet-transactions&id=$user_id" ) ) . '" title="View Transactions" ></a></p>';
+			$nonce = wp_create_nonce( 'view_transactions_' . $user_id ); // Create nonce.
+			$html = '<p><a href="' . esc_url( admin_url( "?page=wps-edit-wallet&id=$user_id ." ) ) . '" title="Edit Wallet" class="button wallet-manage"></a> 
+			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wps-user-wallet-transactions&id=$user_id" )  . '&nonce=' . $nonce ) . '" title="View Transactions" ></a></p>';
 			return $html;
 		}
 	}
@@ -2018,7 +2019,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						$wsfw_payment_charge_type = get_option( 'wps_wsfwp_payment_gateway_charge_fee_type' );
 						$_wps_wsfwp_payment_gateway_charge_type_bacs = get_option( 'wps_wsfwp_payment_gateway_charge_type_' . $payment_method );
 						if ( 'percent' === $wsfw_payment_charge_type ) {
-							 $credited_amount_payment_charge = ( ( intval( $credited_amount ) * intval( $_wps_wsfwp_payment_gateway_charge_type_bacs ) ) / 100 );
+							 $credited_amount_payment_charge = ( ( floatval( $credited_amount ) * floatval( $_wps_wsfwp_payment_gateway_charge_type_bacs ) ) / 100 );
 						} else {
 							$credited_amount_payment_charge = $_wps_wsfwp_payment_gateway_charge_type_bacs;
 						}
@@ -2291,8 +2292,10 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wps_wsfw_download_pdf_file_callback() {
 
-		$screen_id = ( isset( $_GET['page'] ) ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
+		$screen_id = ( isset( $_GET['page'] ) ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+ 
+ 
 		if ( isset( $screen_id ) && 'wallet_shop_order' == $screen_id ) {
 			?>
 			<div style="display:none" class="wps_wallet_shop_order-header-container wps_wallet_shop_order-bg-white wps_wallet_shop_order-r-8">
@@ -2300,17 +2303,20 @@ class Wallet_System_For_Woocommerce_Admin {
 			<p>
 				<?php printf( esc_html__( 'Note: Orders for wallet recharge made prior to HPOS Compatibility and plugin version 2.5.0 will be displayed here. However, any orders placed After 2.5.0 version will be listed in the WooCommerce order section.', 'wallet-system-for-woocommerce' ) ); ?>
 			</p>
-			
+		   
 		</h1>
-	</div>
-
+		</div>
+ 
+ 
 			<?php
 		}
-		$nonce = ( isset( $_GET['updatenoncewallet_pdf_dwnload'] ) ) ? sanitize_text_field( wp_unslash( $_GET['updatenoncewallet_pdf_dwnload'] ) ) : '';
+		$nonce = ( isset( $_POST['updatenoncewallet_pdf_dwnload'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_pdf_dwnload'] ) ) : '';
 		if ( wp_verify_nonce( $nonce ) ) {
-
-			if ( isset( $_GET['wps_wsfw_export_pdf'] ) ) {
-
+ 
+ 
+			if ( isset( $_POST['wps_wsfw_export_pdf'] ) ) {
+ 
+ 
 				global $wpdb;
 				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
@@ -2346,7 +2352,8 @@ class Wallet_System_For_Woocommerce_Admin {
 							$useremail    = '';
 							$user_role    = '';
 						}
-
+ 
+ 
 						$pdf_html .= '<tr>';
 						$pdf_html .= '<td>' . $i . '</td>';
 						$pdf_html .= '<td>' . $display_name . ' #' . $transaction->user_id . '</td>';
@@ -2381,8 +2388,161 @@ class Wallet_System_For_Woocommerce_Admin {
 					echo $output; // phpcs:ignore
 					exit;
 				}
+			} elseif(  isset($_POST['wps_wsfw_export_csv'] )){
+ 
+ 
+			//  if ( isset( $_POST['action'] ) ) {
+					$current_page  = 1;
+					$reset_status  = '';
+					$get_count = 10;
+					$result = '';
+					$update = false;
+					// SQL query.
+					global $wpdb;
+					$transaction_count = $wpdb->get_results(
+						"SELECT count(id) as transaction_count
+							FROM {$wpdb->prefix}wps_wsfw_wallet_transaction",
+					);
+			   
+					if ( ! empty( $transaction_count ) ) {
+						$transaction_count = $transaction_count[0];
+						$transaction_count = $transaction_count->transaction_count;
+					}
+			   
+			   
+					if ( $transaction_count > $get_count ) {
+			   
+						$get_count = $get_count;
+						$loop_count = round( $transaction_count / $get_count ) + 1;
+					} else {
+						$get_count = $transaction_count;
+						$loop_count = 1;
+					}
+			   
+			   
+					$data = array(
+						'per_user_left'     => '',
+						'csv_data'     => '',
+					);
+					if ( $loop_count > 0 ) {
+						$index = 1;
+						for ( $i = 0; $i <= $loop_count; $i++ ) {
+							$user_count = intval( $i * 10 );
+							if ( intval( $transaction_count ) >= intval( $user_count ) ) {
+								$data = $this->export_data_csv_for_all_transaction( $user_count, $transaction_count, $data['csv_data'] );
+								$result  = false;
+							} else {
+								$result  = true;
+							}
+							$index++;
+						}
+					}
+					//if ( 'export_csv' == $_POST['action'] ) {
+						if ( $result ) {
+							if ( ! empty( $data ) ) {
+								$csv_data = $data['csv_data'];
+			   
+								// Create a file pointer.
+								$file = fopen( 'Transaction_Data.csv', 'w' );
+			   
+			   
+			   
+								// Write data to the CSV file.
+								foreach ( $csv_data as $row ) {
+									$row_data = array();
+									foreach ( $row as $key => $value ) {
+			   
+										array_push( $row_data, strip_tags( $value ) );
+									}
+									fputcsv( $file, $row_data );
+			   
+								}
+								// Close the file pointer.
+								fclose( $file );
+								// Output a download link for the generated CSV file.
+								echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
+								?>
+								<script>
+								   
+									const myAnchor = document.getElementById('transaction_data_csv_file');
+									myAnchor.click();
+								   
+								</script>
+								<?php
+							}
+						}
+					//}
+			//  }
+ 
+ 
+ 
+ 
+ 
+ 
+			   
+ 
+ 
+			}  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+		}
+	}
+ 
+
+
+	public function export_data_csv_for_all_transaction( $user_count, $current_page, $csv_data = '' ) {
+		$args['number'] = $user_count;
+	
+		$limit = 10;
+		$offset = $user_count;
+		global $wpdb;
+		$results_transaction = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT *
+			FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` =  table2.`ID`
+			ORDER BY table1.id DESC
+			LIMIT %d OFFSET %d",
+				$limit,
+				$offset
+			),
+			ARRAY_A
+		);
+	
+		$zsdsd = array();
+		if ( 0 == $user_count ) {
+			$zsdsd[] = array( 'User Id', 'User Name', 'User Email', 'Amount', 'Transaction Type', 'Payment Method', 'Transaction Id' );
+		}
+	
+		if ( ! empty( $results_transaction ) ) {
+			foreach ( $results_transaction as $sort_id ) {
+	
+				$user          = get_userdata( $sort_id['user_id'] );
+				$date = date_create( $sort_id['date'] );
+				$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
+				$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], html_entity_decode( $sort_id['transaction_type'] ), $sort_id['payment_method'], $transaction_data );
 			}
 		}
+	
+		if ( ! empty( $csv_data ) ) {
+			$user_data_array  = array_merge( $csv_data, $zsdsd );
+		} else {
+			$user_data_array  = $zsdsd;
+		}
+			$data = array(
+				'per_user_left'     => $user_count,
+				'csv_data'     => $user_data_array,
+			);
+			return $data;
 	}
 
 	/**
