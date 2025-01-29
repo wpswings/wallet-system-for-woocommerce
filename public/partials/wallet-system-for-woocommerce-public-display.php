@@ -217,18 +217,6 @@ if ( wp_verify_nonce( $nonce ) ) {
 
 		}
 
-			//secruity check.
-			$check_current_user = wp_get_current_user();
-		
-			// Retrieve user ID
-			$check_user_id = $check_current_user->ID;
-		
-			// Retrieve user email
-			$check_user_name = $check_current_user->user_login;
-			// if( $check_user_id != $user_id && $check_user_name != $username ){
-			// 	show_message_on_form_submit( esc_html__( 'their was security issue kindly reload the page and try again.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
-			// } else {
-
 				$args          = array(
 					'post_title'  => $username,
 					'post_type'   => 'wallet_withdrawal',
@@ -259,8 +247,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 					wp_enqueue_script( 'wps-public-shortcode-dis' );
 					wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
 				}
-			// }
-		//secruity check.
+		
 
 	}
 
