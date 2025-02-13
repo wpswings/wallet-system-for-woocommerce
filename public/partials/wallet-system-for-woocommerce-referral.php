@@ -48,6 +48,8 @@ $wps_wsfw_wallet_action_referral_description         = get_option( 'wps_wsfw_wal
   <h4> <?php __( 'Wallet Referral', 'wallet-system-for-woocommerce' ); ?></h4>
 </div>
 	<div class="wps-wallet-popup-right-rewards wps-wallet-popup-right-rewards--login">
+		<h4><?php echo esc_html__( 'Referral Link - ', 'wallet-system-for-woocommerce-pro' ); ?></h4>
+	<div class="wps-wallet-popup-right-rewards-in">
 		<input type="hidden" id="wps_wsfw_copy" name="custId" value="<?php echo wp_kses_post( $site_url . '?pkey=' . $referral_link ); ?>" readonly="">
 		<div class="wps-wallet-popup-rewards-right-content-wallet">
 			<div id="wps_notify_user_copy"><code><?php echo wp_kses_post( $site_url . '?pkey=' . $referral_link ); ?></code></div>
@@ -59,18 +61,25 @@ $wps_wsfw_wallet_action_referral_description         = get_option( 'wps_wsfw_wal
 			<span class="wps_tooltiptext_scl" id="myTooltip_referral"></span>
 		  </div>
 
-	</div>
-	<?php
-	 	if( $wps_wsfw_wallet_action_referral_description ){
-			?>
-				<div class="wps-wallet-referral-notification"><?php echo esc_html( $wps_wsfw_wallet_action_referral_description ); ?></div>
-			<?php
-		}else{
-			?>
-				<div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency() ) . ( esc_html( $wps_wsfw_wallet_action_registration_amount ) ) . esc_html__( ' amount to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
-			<?php
-		}
-	?>
+	
+	
+
+</div>
+<?php
+
+if( $wps_wsfw_wallet_action_referral_description ){
+   ?>
+	   <div class="wps-wallet-referral-notification"><?php echo esc_html( $wps_wsfw_wallet_action_referral_description ); ?></div>
+   <?php
+}else{
+   ?>
+	   <div class="wps-wallet-referral-notification">  <?php echo esc_html__( 'You will get ', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency() ) . ( esc_html( $wps_wsfw_wallet_action_registration_amount ) ) . esc_html__( ' amount to refer a friend', 'wallet-system-for-woocommerce' ); ?></div>
+   <?php
+}
+do_action( 'wps_wsfw_filter_for_wallet_multi_level_referral' );
+
+?>
+</div>
 </div>
 </div>
 <?php do_action( 'wps_wsfw_filter_for_wallet_referral' ); ?>

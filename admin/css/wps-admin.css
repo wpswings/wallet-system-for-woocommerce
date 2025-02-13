@@ -1532,12 +1532,13 @@ ul {
 }
 .wps_wallet_lite_go_pro_popup {
   background-color: #ffffff;
-  max-width: 800px;
+  max-width: 600px;
   border-radius: 4px;
   padding: 20px;
   text-align: center;
   position: relative;
-  margin-left: 160px;
+  margin: auto;
+  width: 100%;
 }
 .wps_wallet_lite_go_pro_popup_head h2 {
   background-color: #7979f6;
@@ -1545,7 +1546,7 @@ ul {
   color: #ffffff;
   font-size: 30px;
   font-weight: 500;
-  line-height: 1.7;
+  line-height: 1.25;
   margin: -20px -20px 30px -20px;
   padding: 10px;
 }
@@ -1582,7 +1583,7 @@ ul {
 .wps_wallet_lite_go_pro_popup_text {
   font-size: 16px;
   margin-bottom: 10px;
-  text-align: left;
+  text-align: center;
 }
 .wps_wallet_lite_go_pro_popup_head{
   margin-bottom: 30px;

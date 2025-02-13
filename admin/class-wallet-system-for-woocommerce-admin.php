@@ -563,8 +563,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 		}
 
-		add_submenu_page( '', 'Edit User Wallet', '', 'edit_posts', 'wps-edit-wallet', array( $this, 'edit_wallet_of_user' ) );
-
 		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', __( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ), 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
 	}
 
@@ -973,6 +971,16 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => get_option( 'wsfwp_withdrawal_admin_withdrawal_request_email' ),
 				'placeholder' => __( 'Enter Email Id of Admin', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
+			),
+
+			array(
+				'title'       => __( 'Wallet Dashboard Layout Shortcode', 'wallet-system-for-woocommerce' ),
+				'type'        => 'text',
+				'id'          => 'wsfw_wallet_shortcode',
+				'value'       => '[wps-wallet-dashboard]',
+				'attr'        => 'readonly',
+				'class'       => 'wsfw-select-class wps_pro_settings',
+				'placeholder' => __( 'ShortCode For Wallet New Dashboard Layout', 'wallet-system-for-woocommerce' ),
 			),
 
 		);
@@ -1782,134 +1790,9 @@ class Wallet_System_For_Woocommerce_Admin {
 		echo wp_kses_post( wc_price( $wallet_bal ) );
 		?>
 		</h2>
-		<table class="form-table">
-			<tr>
-				<th><label for="wps_wallet"><?php esc_html_e( 'Amount', 'wallet-system-for-woocommerce' ); ?></label></th>
-				<td>
-					<input type="number" step="0.01" name="wps_wallet" id="wps_wallet">
-					<span class="description"><?php esc_html_e( 'Add/deduct money to/from wallet', 'wallet-system-for-woocommerce' ); ?></span>
-					<p class="error" ></p>
-				</td>
-			</tr>
-			<tr>
-				<th><label for="wps_wallet"><?php esc_html_e( 'Action', 'wallet-system-for-woocommerce' ); ?></label></th>
-				<td>
-					<select name="wps_edit_wallet_action" id="wps_edit_wallet_action">
-						<option><?php esc_html_e( 'Select any', 'wallet-system-for-woocommerce' ); ?></option>
-						<option value="credit"><?php esc_html_e( 'Credit', 'wallet-system-for-woocommerce' ); ?></option>
-						<option value="debit"><?php esc_html_e( 'Debit', 'wallet-system-for-woocommerce' ); ?></option>
-					</select>
-					<span class="description"><?php esc_html_e( 'Whether want to add amount or deduct it from wallet', 'wallet-system-for-woocommerce' ); ?></span>
-				</td>
-			</tr>
-		</table>
 		<?php
 	}
 
-	/**
-	 * Save wallet edited fields in usermeta for admin and users
-	 *
-	 * @param int $user_id user id.
-	 * @return void
-	 */
-	public function wsfw_save_user_wallet_field( $user_id ) {
-		$currency  = get_woocommerce_currency();
-		if ( current_user_can( 'edit_user', $user_id ) ) {
-			$update        = true;
-			if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'update-user_' . $user_id ) ) {
-				return;
-			}
-			$wallet_amount = ( isset( $_POST['wps_wallet'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet'] ) ) : '';
-			$action        = ( isset( $_POST['wps_edit_wallet_action'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wps_edit_wallet_action'] ) ) : '';
-			if ( empty( $action ) || 'Select any' === $action || empty( $wallet_amount ) ) {
-				$update = false;
-			}
-			if ( $update ) {
-				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
-				$wps_wallet             = get_user_meta( $user_id, 'wps_wallet', true );
-				$wps_wallet             = ( ! empty( $wps_wallet ) ) ? $wps_wallet : 0;
-				if ( 'credit' === $action ) {
-					$wps_wallet       = floatval( $wps_wallet ) + floatval( $wallet_amount );
-					$transaction_type = esc_html__( 'Credited by admin', 'wallet-system-for-woocommerce' );
-					$balance   = $currency . ' ' . $wallet_amount;
-					$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance );
-					if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
-						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
-						if ( ! empty( $customer_email ) ) {
-							$user       = get_user_by( 'id', $user_id );
-							$balance_mail = $currency . ' ' . $wallet_amount;
-							$user_name       = $user->first_name . ' ' . $user->last_name;
-							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
-						}
-					}
-				} elseif ( 'debit' === $action ) {
-					if ( $wps_wallet < $wallet_amount ) {
-						$wps_wallet = 0;
-					} else {
-						$wps_wallet = floatval( $wps_wallet ) - floatval( $wallet_amount );
-					}
-					$transaction_type = esc_html__( 'Debited by admin', 'wallet-system-for-woocommerce' );
-					$balance   = $currency . ' ' . $wallet_amount;
-					$mail_message     = __( 'Merchant has deducted ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' from your wallet.', 'wallet-system-for-woocommerce' );
-
-					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
-
-						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
-						if ( ! empty( $customer_email ) ) {
-							$user       = get_user_by( 'id', $user_id );
-							$currency  = get_woocommerce_currency();
-							$balance_mail = $currency . ' ' . $wallet_amount;
-							$user_name       = $user->first_name . ' ' . $user->last_name;
-							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
-						}
-					}
-				}
-				update_user_meta( $user_id, 'wps_wallet', abs( $wps_wallet ) );
-
-				$send_email_enable = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-				$customer_email_credit = '';
-				$customer_email_debit = '';
-
-				if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) || key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
-
-					$customer_email_credit = WC()->mailer()->emails['wps_wswp_wallet_credit'];
-					$customer_email_debit = WC()->mailer()->emails['wps_wswp_wallet_debit'];
-				}
-				if ( empty( $customer_email_credit ) || empty( $customer_email_debit ) ) {
-
-					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-						$user       = get_user_by( 'id', $user_id );
-						$name       = $user->first_name . ' ' . $user->last_name;
-						$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
-						$mail_text .= $mail_message;
-						$to         = $user->user_email;
-						$from       = get_option( 'admin_email' );
-						$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
-						$headers    = 'MIME-Version: 1.0' . "\r\n";
-						$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
-						$headers   .= 'From: ' . $from . "\r\n" .
-							'Reply-To: ' . $to . "\r\n";
-
-						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
-					}
-				}
-
-				$transaction_data = array(
-					'user_id'          => $user_id,
-					'amount'           => $wallet_amount,
-					'currency'         => get_woocommerce_currency(),
-					'payment_method'   => esc_html__( 'Manually By Admin', 'wallet-system-for-woocommerce' ),
-					'transaction_type' => $transaction_type,
-					'transaction_type_1' => $action,
-					'order_id'         => '',
-					'note'             => '',
-
-				);
-
-				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-			}
-		}
-	}
 
 	/**
 	 * Add wallet column to user table.
@@ -1945,7 +1828,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		if ( 'wps_wallet_actions' === $column_name ) {
 			$nonce = wp_create_nonce( 'view_transactions_' . $user_id ); // Create nonce.
-			$html = '<p><a href="' . esc_url( admin_url( "?page=wps-edit-wallet&id=$user_id ." ) ) . '" title="Edit Wallet" class="button wallet-manage"></a> 
+			$html = '<p>
 			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wps-user-wallet-transactions&id=$user_id" )  . '&nonce=' . $nonce ) . '" title="View Transactions" ></a></p>';
 			return $html;
 		}
@@ -3134,14 +3017,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 	}
 
-	/**
-	 * Include template for wallet edit page
-	 *
-	 * @return void
-	 */
-	public function edit_wallet_of_user() {
-		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wps-edit-wallet.php';
-	}
 
 	/**
 	 * Includes user's wallet transactions template
@@ -3833,7 +3708,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			array(
 				'title'       => __( 'Referral Purchase Coupon Type', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
-				'description' => __( 'elect The Coupon Type Referral Purchase Depending Upon Order Total .', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select The Coupon Type Referral Purchase Depending Upon Order Total .', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_wallet_action_referal_coupon_type',
 				'id'          => 'wps_wsfw_wallet_action_referal_coupon_type',
 				'value'       => get_option( 'wps_wsfw_wallet_action_referal_coupon_type', 'Fixed' ),
@@ -3846,6 +3721,34 @@ class Wallet_System_For_Woocommerce_Admin {
 					)
 				),
 			),
+
+			//multi level referral feature.
+			array(
+				'title'       => __( 'Enable Multi-Level Referral', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Check this box to enable the Multi-Level Referral, Multi-Level only applicable at two level Referral', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_refer_multi_level_referral',
+				'id'          => 'wps_wsfw_wallet_action_refer_multi_level_referral',
+				'value'       => get_option( 'wps_wsfw_wallet_action_refer_multi_level_referral' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Amount for the Multi-Level Refer', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter The Amount For Multi-Level Refer .', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_multi_level_amount',
+				'id'          => 'wps_wsfw_wallet_action_multi_level_amount',
+				'step'        => '0.01',
+				'min'         => 0,
+				'value'       => get_option( 'wps_wsfw_wallet_action_multi_level_amount' ),
+				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class wps_pro_settings',
+			),
+			//multi level referral feature.
 
 		);
 
