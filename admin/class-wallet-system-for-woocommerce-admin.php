@@ -1829,7 +1829,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		if ( 'wps_wallet_actions' === $column_name ) {
 			$nonce = wp_create_nonce( 'view_transactions_' . $user_id ); // Create nonce.
 			$html = '<p>
-			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wps-user-wallet-transactions&id=$user_id" )  . '&nonce=' . $nonce ) . '" title="View Transactions" ></a></p>';
+			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wps-user-wallet-transactions&id=$user_id" ) . '&nonce=' . $nonce ) . '" title="View Transactions" ></a></p>';
 			return $html;
 		}
 	}
@@ -2175,10 +2175,8 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wps_wsfw_download_pdf_file_callback() {
 
-
 		$screen_id = ( isset( $_GET['page'] ) ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
- 
- 
+
 		if ( isset( $screen_id ) && 'wallet_shop_order' == $screen_id ) {
 			?>
 			<div style="display:none" class="wps_wallet_shop_order-header-container wps_wallet_shop_order-bg-white wps_wallet_shop_order-r-8">
@@ -2195,11 +2193,9 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 		$nonce = ( isset( $_POST['updatenoncewallet_pdf_dwnload'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_pdf_dwnload'] ) ) : '';
 		if ( wp_verify_nonce( $nonce ) ) {
- 
- 
+
 			if ( isset( $_POST['wps_wsfw_export_pdf'] ) ) {
- 
- 
+
 				global $wpdb;
 				$table_name   = $wpdb->prefix . 'wps_wsfw_wallet_transaction';
 				$transactions = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wps_wsfw_wallet_transaction ORDER BY Id DESC' );
@@ -2235,8 +2231,7 @@ class Wallet_System_For_Woocommerce_Admin {
 							$useremail    = '';
 							$user_role    = '';
 						}
- 
- 
+
 						$pdf_html .= '<tr>';
 						$pdf_html .= '<td>' . $i . '</td>';
 						$pdf_html .= '<td>' . $display_name . ' #' . $transaction->user_id . '</td>';
@@ -2271,10 +2266,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					echo $output; // phpcs:ignore
 					exit;
 				}
-			} elseif(  isset($_POST['wps_wsfw_export_csv'] )){
- 
- 
-			//  if ( isset( $_POST['action'] ) ) {
+			} elseif ( isset( $_POST['wps_wsfw_export_csv'] ) ) {
+
 					$current_page  = 1;
 					$reset_status  = '';
 					$get_count = 10;
@@ -2286,23 +2279,21 @@ class Wallet_System_For_Woocommerce_Admin {
 						"SELECT count(id) as transaction_count
 							FROM {$wpdb->prefix}wps_wsfw_wallet_transaction",
 					);
-			   
-					if ( ! empty( $transaction_count ) ) {
-						$transaction_count = $transaction_count[0];
-						$transaction_count = $transaction_count->transaction_count;
-					}
-			   
-			   
-					if ( $transaction_count > $get_count ) {
-			   
-						$get_count = $get_count;
-						$loop_count = round( $transaction_count / $get_count ) + 1;
-					} else {
-						$get_count = $transaction_count;
-						$loop_count = 1;
-					}
-			   
-			   
+
+				if ( ! empty( $transaction_count ) ) {
+					$transaction_count = $transaction_count[0];
+					$transaction_count = $transaction_count->transaction_count;
+				}
+
+				if ( $transaction_count > $get_count ) {
+
+					$get_count = $get_count;
+					$loop_count = round( $transaction_count / $get_count ) + 1;
+				} else {
+					$get_count = $transaction_count;
+					$loop_count = 1;
+				}
+
 					$data = array(
 						'per_user_left'     => '',
 						'csv_data'     => '',
@@ -2320,72 +2311,53 @@ class Wallet_System_For_Woocommerce_Admin {
 							$index++;
 						}
 					}
-					//if ( 'export_csv' == $_POST['action'] ) {
-						if ( $result ) {
-							if ( ! empty( $data ) ) {
-								$csv_data = $data['csv_data'];
-			   
-								// Create a file pointer.
-								$file = fopen( 'Transaction_Data.csv', 'w' );
-			   
-			   
-			   
-								// Write data to the CSV file.
-								foreach ( $csv_data as $row ) {
-									$row_data = array();
-									foreach ( $row as $key => $value ) {
-			   
-										array_push( $row_data, strip_tags( $value ) );
-									}
-									fputcsv( $file, $row_data );
-			   
+
+					if ( $result ) {
+						if ( ! empty( $data ) ) {
+							$csv_data = $data['csv_data'];
+
+							// Create a file pointer.
+							$file = fopen( 'Transaction_Data.csv', 'w' );
+
+							// Write data to the CSV file.
+							foreach ( $csv_data as $row ) {
+								$row_data = array();
+								foreach ( $row as $key => $value ) {
+
+									array_push( $row_data, strip_tags( $value ) );
 								}
-								// Close the file pointer.
-								fclose( $file );
-								// Output a download link for the generated CSV file.
-								echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
-								?>
+								fputcsv( $file, $row_data );
+
+							}
+							// Close the file pointer.
+							fclose( $file );
+							// Output a download link for the generated CSV file.
+							echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
+							?>
 								<script>
 								   
 									const myAnchor = document.getElementById('transaction_data_csv_file');
 									myAnchor.click();
 								   
 								</script>
-								<?php
-							}
+							<?php
 						}
-					//}
-			//  }
- 
- 
- 
- 
- 
- 
-			   
- 
- 
-			}  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+					}
+			}
 		}
 	}
- 
 
-
+	/**
+	 * Function To export all transaction into CSV.
+	 *
+	 * @param array $user_count as user count.
+	 * @param array $current_page as current page.
+	 * @param array $csv_data as csv data.
+	 * @return array
+	 */
 	public function export_data_csv_for_all_transaction( $user_count, $current_page, $csv_data = '' ) {
 		$args['number'] = $user_count;
-	
+
 		$limit = 10;
 		$offset = $user_count;
 		global $wpdb;
@@ -2400,22 +2372,22 @@ class Wallet_System_For_Woocommerce_Admin {
 			),
 			ARRAY_A
 		);
-	
+
 		$zsdsd = array();
 		if ( 0 == $user_count ) {
 			$zsdsd[] = array( 'User Id', 'User Name', 'User Email', 'Amount', 'Transaction Type', 'Payment Method', 'Transaction Id' );
 		}
-	
+
 		if ( ! empty( $results_transaction ) ) {
 			foreach ( $results_transaction as $sort_id ) {
-	
+
 				$user          = get_userdata( $sort_id['user_id'] );
 				$date = date_create( $sort_id['date'] );
 				$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
 				$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], html_entity_decode( $sort_id['transaction_type'] ), $sort_id['payment_method'], $transaction_data );
 			}
 		}
-	
+
 		if ( ! empty( $csv_data ) ) {
 			$user_data_array  = array_merge( $csv_data, $zsdsd );
 		} else {
@@ -3722,7 +3694,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 
-			//multi level referral feature.
+			// multi level referral feature.
 			array(
 				'title'       => __( 'Enable Multi-Level Referral', 'wallet-system-for-woocommerce' ),
 				'type'        => 'radio-switch',
@@ -3748,7 +3720,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => __( 'Enter comment amount', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class wps_pro_settings',
 			),
-			//multi level referral feature.
+			// multi level referral feature.
 
 		);
 

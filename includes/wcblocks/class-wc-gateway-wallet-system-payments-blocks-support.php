@@ -87,7 +87,7 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 			if ( $wps_wsfw_wallet_instant_discount_description && $is_pro_plugin ) {
 				$description = '( ' . $wps_wsfw_wallet_instant_discount_description . ' )';
 			} else {
-				$description = '( get instant discount on wallet payment method )';
+				$description = '( Enjoy an instant discount when you pay using a wallet. )';
 			}
 		}
 		// wallet instant feature.
