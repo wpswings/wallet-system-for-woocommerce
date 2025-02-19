@@ -21,9 +21,13 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 
 
 	$nonce = ( isset( $_POST['user_import_wallet_nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_import_wallet_nonce'] ) ) : '';
+
 	if ( ! wp_verify_nonce( $nonce ) ) {
+		$wps_wsfw_error_text = esc_html__( 'The import process cannot proceed because the nonce verification failed.', 'wallet-system-for-woocommerce' );
+		$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( $wps_wsfw_error_text, 'error' );
 		return false;
 	}
+
 	if ( current_user_can( 'manage_options' ) ) {
 		if ( ! empty( $_FILES['import_wallet_for_users'] ) ) {
 			$image_name      = ( isset( $_FILES['import_wallet_for_users']['name'] ) ) ? sanitize_text_field( wp_unslash( $_FILES['import_wallet_for_users']['name'] ) ) : '';
