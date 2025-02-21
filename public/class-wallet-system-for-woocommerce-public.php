@@ -1727,7 +1727,7 @@ class Wallet_System_For_Woocommerce_Public {
 							<div class="woocommerce-message wps-woocommerce-message woocommerce-Message--info wps-woocommerce-info">
 							<?php
 							/* translators: %s: search term */
-							echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing thisee order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
+							echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
 							?>
 							</div>
 							<?php
