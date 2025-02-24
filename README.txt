@@ -1,12 +1,12 @@
-=== Wallet System for WooCommerce – Wallet, Wallet Cashback, Refunds, Partial Payment, Wallet Restriction ===
+=== Wallet System for WooCommerce – Digital Wallet, Wallet Cashback, Refunds, Partial Payment, Wallet Restriction, Store Credit, Loyalty Rewards, Payment Gateway, E-Wallet ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: woocommerce wallet, wordpress wallet, cashback, partial payment, refunds 
 Requires at least: 5.5.0
-Tested up to: 6.7.1
+Tested up to: 6.7.2
 WC Requires at least: 6.5.1
-WC tested up to: 9.6.0 
-Stable tag: 2.6.3
+WC tested up to: 9.6.2
+Stable tag: 2.6.4
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -97,12 +97,11 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 
 * Compatibility with [**Points and Rewards for WooCommerce**](https://wordpress.org/plugins/points-and-rewards-for-woocommerce/) and [**Points and Rewards for WooCommerce Pro.**](https://wpswings.com/product/points-and-rewards-for-woocommerce-plugin/?utm_source=wpswings-wallet-pro&utm_medium=referral&utm_campaign=par-pro)
 
-* Compatibility With  [**FOX – Currency Switcher**](https://wordpress.org/plugins/woocommerce-currency-switcher/). 
+* Compatibility With [**FOX – Currency Switcher**](https://wordpress.org/plugins/woocommerce-currency-switcher/). 
 
-* Compatibility  [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/
-) and  [**Subscriptions for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=referral&utm_campaign=subscription-pro).
+* Compatibility [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) and [**Subscriptions for WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=referral&utm_campaign=subscription-pro).
 
-* Compatibility with  [**Multi-Currency Switcher**](https://wordpress.org/plugins/woo-multi-currency/).
+* Compatibility with [**Multi-Currency Switcher**](https://wordpress.org/plugins/woo-multi-currency/).
 
 * Compatible with WooCommerce High Performance Order Storage (HPOS).
 
@@ -124,7 +123,7 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 
 WooCommerce Wallet plugin adds digital wallets to online stores. Customers can use their wallet balance to purchase your products & services.
 
-> Note:  Get [**Wallet System for WooCommerce Pro**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-pro)
+> Note: Get [**Wallet System for WooCommerce Pro**](https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-org&utm_medium=referral&utm_campaign=wallet-pro)
 
 == SEE WHAT BILIONERBIT IS SAYING ABOUT WORDPRESS WALLET PLUGIN ==
 
@@ -240,6 +239,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 
 == Changelog ==
+
+= 2.6.4 - Released on 21 Febuary 2025 = 
+* New: Latest WP[6.7.2] and WC[9.6.2] Update
 
 = 2.6.3 – Released on 29 January 2025 =
 * New: Latest WP[6.7.1] and WC[9.6.0] Update.
@@ -493,5 +495,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.6.3 – Released on 29 January 2025 =
-* New: Latest WP[6.7.1] and WC[9.6.0] Update.
+= 2.6.4 - Released on 21 Febuary 2025 = 
+* New: Latest WP[6.7.2] and WC[9.6.2] Update

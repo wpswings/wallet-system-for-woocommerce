@@ -346,7 +346,6 @@ class Wallet_System_For_Woocommerce_Common {
 								$qty = $order_values->get_quantity();
 								$wps_cat_wise = $this->wps_get_cashback_cat_wise( $product_id );
 
-
 								if ( $wps_cat_wise ) {
 									$product_obj = wc_get_product( $product_id );
 									if ( is_object( $product_obj ) ) {
@@ -357,53 +356,50 @@ class Wallet_System_For_Woocommerce_Common {
 										$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin_common', $is_pro_plugin );
 
 										$pro_cashback_amount_order = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $qty );
-										 // LOAD THE WC LOGGER
+										 // LOAD THE WC LOGGER.
 										if ( ! is_array( $pro_cashback_amount_order ) && 0 == $pro_cashback_amount_order ) {
 											$cashback_amount_order += $pro_cashback_amount_order;
 										} else {
 											$cashback_amount_order = $cashback_amount_order;
 
 										}
-										
+
 										if ( $cashback_amount_order > 0 ) {
-											// Ensure $credited_amount is defined and is a numeric value
+											// Ensure $credited_amount is defined and is a numeric value.
 											if ( ! isset( $credited_amount ) || ! is_numeric( $credited_amount ) ) {
-												$credited_amount = 0; // Default to 0 if not set or not numeric
+												$credited_amount = 0; // Default to 0 if not set or not numeric.
 											}
-										
-											// Get the cashback amount from the filter
+
+											// Get the cashback amount from the filter.
 											$cashback_base_price = apply_filters( 'wps_wsfw_convert_to_base_price', $cashback_amount_order );
-										
-											// Check if $cashback_base_price is an array and get the value at index 0
+
+											// Check if $cashback_base_price is an array and get the value at index 0.
 											if ( is_array( $cashback_base_price ) && isset( $cashback_base_price[0] ) ) {
 												$cashback_base_price = $cashback_base_price[0];
 											}
-										
-											// Ensure the filtered value is numeric
+											// Ensure the filtered value is numeric.
 											if ( ! is_numeric( $cashback_base_price ) ) {
-												$cashback_base_price = 0; // Default to 0 if the result is not numeric
+												$cashback_base_price = 0; // Default to 0 if the result is not numeric.
 											}
-											if($is_pro_plugin){
-																
+											if ( $is_pro_plugin ) {
+
 												if ( ! empty( $pro_cashback_amount_order ) ) {
 													$credited_amount += $pro_cashback_amount_order;
-												} else{
+												} else {
 													$credited_amount += $cashback_amount_order;
-												}		
-											}else{
-											
+												}
+											} else {
+
 												$credited_amount += $cashback_base_price;
-											}										
-										
+											}
+
 											$updated = true;
-										
+
 										}
-										
-										
 									}
 								}
 							}
-						
+
 							if ( $updated ) {
 								if ( 'percent' === $wsfw_cashbak_type ) {
 									if ( $credited_amount <= $wsfw_max_cashbak_amount ) {

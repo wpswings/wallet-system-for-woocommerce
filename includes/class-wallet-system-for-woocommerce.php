@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.6.3';
+			$this->version = '2.6.4';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -250,8 +250,6 @@ class Wallet_System_For_Woocommerce {
 
 			$this->loader->add_action( 'show_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10, 1 );
 			$this->loader->add_action( 'edit_user_profile', $wsfw_plugin_admin, 'wsfw_add_user_wallet_field', 10, 1 );
-			$this->loader->add_action( 'personal_options_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 );
-			$this->loader->add_action( 'edit_user_profile_update', $wsfw_plugin_admin, 'wsfw_save_user_wallet_field', 10, 1 );
 
 			$this->loader->add_action( 'admin_head', $wsfw_plugin_admin, 'custom_code_in_head' );
 			$this->loader->add_action( 'woocommerce_email_customer_details', $wsfw_plugin_admin, 'wps_wsfw_remove_customer_details_in_emails', 5, 1 );

@@ -1727,7 +1727,7 @@ class Wallet_System_For_Woocommerce_Public {
 							<div class="woocommerce-message wps-woocommerce-message woocommerce-Message--info wps-woocommerce-info">
 							<?php
 							/* translators: %s: search term */
-							echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing thisee order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
+							echo wp_kses_post( apply_filters( 'wps_wsfw_cashback_notice_text', sprintf( __( 'Upon placing this order a cashback of %s will be credited to your wallet.', 'wallet-system-for-woocommerce' ), wc_price( $cashback_amount, $this->wsfw_wallet_price_args() ) ), $cashback_amount ) );
 							?>
 							</div>
 							<?php
@@ -2054,6 +2054,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_registration_amount );
 						$walletamount    += $credited_amount;
 						update_user_meta( $refere_id, 'wps_wallet', $walletamount );
+						update_user_meta( $customer_id, 'refere_id', $refere_id );
 						$updated = true;
 					}
 
@@ -2100,7 +2101,71 @@ class Wallet_System_For_Woocommerce_Public {
 						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 					}
 				}
+				//multi-level referral.
+				$first_level_refere_id = get_user_meta( $refere_id, 'refere_id', true );
+				$wps_wsfw_wallet_action_refer_multi_level_referral = get_option( 'wps_wsfw_wallet_action_refer_multi_level_referral' );
+				$wps_wsfw_wallet_action_multi_level_amount = get_option( 'wps_wsfw_wallet_action_multi_level_amount' );
+				if( 'on' == $wps_wsfw_wallet_action_refer_multi_level_referral &&  $first_level_refere_id ){
+
+					$first_level_refere_walletamount          = get_user_meta( $first_level_refere_id, 'wps_wallet', true );
+					$first_level_refere_walletamount           = empty( $first_level_refere_walletamount ) ? 0 : $first_level_refere_walletamount;
+					$first_level_wallet_user            = get_user_by( 'id', $first_level_refere_id );
+					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+					$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+					if ( $wps_wsfw_wallet_action_multi_level_amount > 0 ) {
+						$amount          = $wps_wsfw_wallet_action_multi_level_amount;
+						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_multi_level_amount );
+						$first_level_refere_walletamount    += $credited_amount;
+						update_user_meta( $first_level_refere_id, 'wps_wallet', $first_level_refere_walletamount );
+						
+						$updated = true;
+					}
+					if ( $updated ) {
+						$balance   = $current_currency . ' ' . $amount;
+						if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+							$user_name  = $first_level_wallet_user->first_name . ' ' . $first_level_wallet_user->last_name;
+							$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+							$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through successfully signup by multi-level.', 'wallet-system-for-woocommerce' );
+							$to         = $first_level_wallet_user->user_email;
+							$from       = get_option( 'admin_email' );
+							$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+							$headers    = 'MIME-Version: 1.0' . "\r\n";
+							$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+							$headers   .= 'From: ' . $from . "\r\n" .
+							'Reply-To: ' . $to . "\r\n";
+
+							if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+								$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+								if ( ! empty( $customer_email ) ) {
+									$user       = get_user_by( 'id', $first_level_refere_id );
+									$balance_mail = $balance;
+									$user_name       = $user->first_name . ' ' . $user->last_name;
+									$customer_email->trigger( $first_level_refere_id, $user_name, $balance_mail, '' );
+								}
+							} else {
+
+								$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+							}
+						}
+
+						$transaction_type = __( 'Wallet credited through multi-level refer', 'wallet-system-for-woocommerce' );
+						$transaction_data = array(
+							'user_id'          => $first_level_refere_id,
+							'amount'           => $amount,
+							'currency'         => $current_currency,
+							'payment_method'   => 'Multi-level Referral',
+							'transaction_type' => htmlentities( $transaction_type ),
+							'transaction_type_1' => 'credit',
+							'order_id'         => '',
+							'note'             => '',
+						);
+						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+					}
+				}
+				//multi-level referral.
 			}
+
 		}
 	}
 

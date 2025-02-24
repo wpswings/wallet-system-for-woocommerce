@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="wps_wallet_lite_go_pro_popup">
 			<!-- Main heading. -->
 			<div class="wps_wallet_lite_go_pro_popup_head">
-				<h2><?php esc_html_e( 'Unlock Seamless Payments With Wallet System for WooCommerce Pro!', 'wallet-system-for-woocommerce' ); ?></h2>
+				<h2><?php esc_html_e( 'Upgrade To Wallet System for WooCommerce Pro!', 'wallet-system-for-woocommerce' ); ?></h2>
 				<!-- Close button. -->
 				<a href="javascript:void(0)" class="wps_wallet_lite_go_pro_popup_close">
 					<span>×</span>
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>  
 
 			<!-- Notice icon. -->
-			<div class="wps_wallet_lite_go_pro_popup_head"><img height="200" class="wps_go_pro_images" src="<?php echo esc_attr( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/go-pro.png' ); ?>">
+			<div class="wps_wallet_lite_go_pro_popup_head"><img class="wps_go_pro_images" src="<?php echo esc_attr( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/image/go-pro.png' ); ?>">
 			</div>
 			
 				
@@ -48,15 +48,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 				?>
 							</p>
 					
-					<p class="wps_wallet_lite_go_pro_popup_text">
 					
-					<?php esc_html_e( 'Manage funds in bulk, view transaction history, send email notifications, & offer refunds directly to customer wallets. Elevate the digital payment experience.', 'wallet-system-for-woocommerce' ); ?>			
+							
 
 				</div>
 
 			<!-- Go pro button. -->
 			<div class="wps_wallet_lite_go_pro_popup_button">
-				<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend-page&utm_campaign=wallet-pro">	<?php esc_html_e( 'Upgrade To Premium today!', 'wallet-system-for-woocommerce' ); ?> </p>
+				<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend-page&utm_campaign=wallet-pro">	<?php esc_html_e( 'Upgrade', 'wallet-system-for-woocommerce' ); ?>
 			<span class="dashicons dashicons-arrow-right-alt"></span></a>
 			</div>
 		</div>
