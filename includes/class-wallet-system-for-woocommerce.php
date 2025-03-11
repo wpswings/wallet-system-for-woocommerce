@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.6.4';
+			$this->version = '2.6.5';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -349,6 +349,9 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'woocommerce_blocks_loaded', $wsfw_plugin_common, 'wsp_wsfw_woocommerce_gateway_wallet_woocommerce_block_support' );
 		$this->loader->add_filter( 'woocommerce_order_get_tax_totals', $wsfw_plugin_common, 'wps_wsfw_woocommerce_order_get_tax_totals', 99999, 2 );
 		$this->loader->add_filter( 'wps_wpr_gamification_feature_for_wallet', $wsfw_plugin_common, 'wps_wps_gamification_feature_for_wallet_callback', 99, 2 );
+
+		$this->loader->add_action( 'wps_wsfw_assign_wallet_ids_event', $wsfw_plugin_common, 'wps_wsfw_assign_unique_wallet_id_to_user' );
+		$this->loader->add_action('user_register', $wsfw_plugin_common, 'wps_wsfw_assign_wallet_id_to_new_user', 10 ,1 );
 	}
 
 	/**
