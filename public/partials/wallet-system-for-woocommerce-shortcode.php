@@ -399,6 +399,8 @@ $wallet_restrict_transaction = apply_filters( 'wallet_restrict_transaction', $us
 $wallet_restrict_referral    = apply_filters( 'wallet_restrict_referral', $user_id );
 $wallet_restrict_qrcode      = apply_filters( 'wallet_restrict_qrcode', $user_id );
 
+$wps_wallet_restrict_wallet_id     = get_user_meta( $user_id, 'wps_wallet_restrict_wallet_id', true );
+
 $wps_wsfw_enable_cashback = get_option( 'wps_wsfw_enable_cashback' );
 $wps_wallet_cashback_bal = get_user_meta( $user_id, 'wps_wallet_cashback_bal', true );
 $wps_wallet_cashback_bal = empty( $wps_wallet_cashback_bal ) ? 0 : $wps_wallet_cashback_bal;
@@ -541,8 +543,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 			$wps_wallet_id = 'Not Generated';
 		}
 		if( $is_pro_plugin ){
-			$wsfw_enable_wallet_id_show = get_option( 'wsfw_enable_wallet_id_show' );
-			if( 'on' == $wsfw_enable_wallet_id_show ){
+			if( 'on' != $wps_wallet_restrict_wallet_id ){
 				?>
 				<div class="wps_wsfw_wallet_user_id">
 					<h4><?php esc_html_e( 'wallet id - ', 'wallet-system-for-woocommerce' ); ?><strong><?php echo esc_html( $wps_wallet_id ) ;?></strong></h4>

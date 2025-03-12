@@ -1005,8 +1005,8 @@ ul {
 .wps_wallet-edit--popupwrap .wps_wallet-edit-popup .wps_wallet-edit-popup-label label {
   color: #1d201f;
   font-family: "NunitoSans-Bold";
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 14px;
+  line-height: 1.5;
   letter-spacing: 0.5px;
 }
 

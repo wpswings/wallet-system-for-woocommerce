@@ -710,20 +710,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			),
 
 			array(
-				'title'       => __( 'Show Wallet Id on Customer Wallet Tab', 'wallet-system-for-woocommerce' ),
-				'type'        => 'radio-switch',
-				'description' => __( 'Enable to show wallet id on customer wallet tab', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wsfw_enable_wallet_id_show',
-				'id'          => 'wsfw_enable_wallet_id_show',
-				'value'       => 'on',
-				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
-				'options'     => array(
-					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
-					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
-				),
-			),
-
-			array(
 				'title'       => __( 'Restrict Wallet Recharge For Particular Gateway', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_multiselect_wallet_recharge_restrict',
 				'type'        => 'multiselect',
@@ -3763,8 +3749,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => get_option( 'wsfw_wallet_dashboard_template_css' ),
 				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
 				'options'     => array(
-					'' => __( 'Default template', 'wallet-system-for-woocommerce' ),
-					'template1'  => __( 'New Wallet Dashboard Layout', 'wallet-system-for-woocommerce' ),
+					'' => __( 'Classic Wallet Dashboard', 'wallet-system-for-woocommerce' ),
+					'template1'  => __( 'Modern Wallet Dashboard', 'wallet-system-for-woocommerce' ),
 				),
 			),
 

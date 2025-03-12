@@ -40,7 +40,7 @@ jQuery( document ).ready(
 
         // creating user current points block.
         registerBlockType('wallet/user-old-wallet', {
-            title      : 'WPSwings Old-Wallet Dashboard',
+            title      : 'WPSwings Classic Wallet Dashboard',
             icon       : 'media-document',
             category   : 'widgets',
             attributes : {
@@ -88,7 +88,7 @@ jQuery( document ).ready(
         if (wps_wsfw_branner_notice.is_pro_plugin == 1){
             
             registerBlockType('wallet/user-new-wallet', {
-                title      : 'WPSwings New-Wallet Dashboard',
+                title      : 'WPSwings Modern Wallet Dashboard',
                 icon       : 'media-document',
                 category   : 'widgets',
                 attributes : {

@@ -370,6 +370,7 @@ $wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
 $is_pro_plugin = false;
 $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
 $is_user_restricted     = get_user_meta( $user_id, 'user_restriction_for_wallet', true );
+$wps_wallet_restrict_wallet_id     = get_user_meta( $user_id, 'wps_wallet_restrict_wallet_id', true );
 if ( $is_pro_plugin ) {
 	$is_user_restricted = '';
 }
@@ -574,12 +575,11 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<?php
 		}
 		$wps_wallet_id = get_user_meta( $user_id, 'wps_wallet_id', true );
-		$wsfw_enable_wallet_id_show = get_option( 'wsfw_enable_wallet_id_show' );
 		if( empty( $wps_wallet_id ) ){
 			$wps_wallet_id = 'Not Generated';
 		}
 		if( $is_pro_plugin ){
-			if( 'on' == $wsfw_enable_wallet_id_show ){
+			if( 'on' != $wps_wallet_restrict_wallet_id ){
 				?>
 				<div class="wps_wsfw_wallet_user_id">
 					<h4><?php esc_html_e( 'wallet id - ', 'wallet-system-for-woocommerce' ); ?><strong><?php echo esc_html( $wps_wallet_id ) ;?></strong></h4>
