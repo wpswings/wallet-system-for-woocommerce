@@ -625,7 +625,7 @@ class Wallet_System_For_Woocommerce_Public {
 							$credited_amount_payment_charge = $_wps_wsfwp_payment_gateway_charge_type_bacs;
 						}
 					}
-				
+
 					if ( ! empty( $credited_amount_payment_charge ) ) {
 						$is_payment_gateway_cahrge = true;
 						$credited_amount = $credited_amount - $credited_amount_payment_charge;
@@ -1003,7 +1003,7 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * Undocumented function.
 	 *
-	 * @param [type] $order_data
+	 * @param object $order_data as order data.
 	 * @return void
 	 */
 	public function wps_wsfw_woocommerce_checkout_update_order_meta( $order_data ) {
@@ -1756,27 +1756,21 @@ class Wallet_System_For_Woocommerce_Public {
 							$product    = $cart_item['data'];
 							$product_id = $cart_item['product_id'];
 							$quantity   = $cart_item['quantity'];
-							$cashback_amount_cash = (float)get_post_meta( $product_id, 'global_cashback_product',true );
-							
+							$cashback_amount_cash = (float) get_post_meta( $product_id, 'global_cashback_product', true );
+
 							$product_cats_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
 							$procashback_amount = apply_filters( 'wsfw_wallet_cashback_using_catwise', $product_cats_ids, $product_id, $quantity );
 
 							if ( empty( $procashback_amount ) ) {
 								$procashback_amount_cate_wise = $procashback_amount_cate_wise + $cashback_amount_cash;
-							} else{
+							} else {
 								$procashback_amount_cate_wise = $procashback_amount_cate_wise + $procashback_amount;
 							}
-							
 						}
 						$cashback_amount = $procashback_amount_cate_wise;
-						
+
 					}
 				}
-
-
-				
-
-
 
 				if ( is_user_logged_in() ) {
 					$is_hide_cart = get_option( 'wps_wsfw_hide_cashback_cart', true );
@@ -2101,11 +2095,11 @@ class Wallet_System_For_Woocommerce_Public {
 						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 					}
 				}
-				//multi-level referral.
+				// multi-level referral.
 				$first_level_refere_id = get_user_meta( $refere_id, 'refere_id', true );
 				$wps_wsfw_wallet_action_refer_multi_level_referral = get_option( 'wps_wsfw_wallet_action_refer_multi_level_referral' );
 				$wps_wsfw_wallet_action_multi_level_amount = get_option( 'wps_wsfw_wallet_action_multi_level_amount' );
-				if( 'on' == $wps_wsfw_wallet_action_refer_multi_level_referral &&  $first_level_refere_id ){
+				if ( 'on' == $wps_wsfw_wallet_action_refer_multi_level_referral && $first_level_refere_id ) {
 
 					$first_level_refere_walletamount          = get_user_meta( $first_level_refere_id, 'wps_wallet', true );
 					$first_level_refere_walletamount           = empty( $first_level_refere_walletamount ) ? 0 : $first_level_refere_walletamount;
@@ -2117,7 +2111,7 @@ class Wallet_System_For_Woocommerce_Public {
 						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_multi_level_amount );
 						$first_level_refere_walletamount    += $credited_amount;
 						update_user_meta( $first_level_refere_id, 'wps_wallet', $first_level_refere_walletamount );
-						
+
 						$updated = true;
 					}
 					if ( $updated ) {
@@ -2163,9 +2157,8 @@ class Wallet_System_For_Woocommerce_Public {
 						$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 					}
 				}
-				//multi-level referral.
+				// multi-level referral.
 			}
-
 		}
 	}
 

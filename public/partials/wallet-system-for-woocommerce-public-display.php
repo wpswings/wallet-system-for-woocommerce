@@ -56,7 +56,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 		}
 	}
 	if ( isset( $_POST['wps_proceed_transfer'] ) && ! empty( $_POST['wps_proceed_transfer'] ) ) {
-		
+
 		unset( $_POST['wps_proceed_transfer'] );
 		$update = true;
 		// check whether $_POST key 'current_user_id' is empty or not.
@@ -242,13 +242,11 @@ if ( wp_verify_nonce( $nonce ) ) {
 						}
 					}
 					update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
-		
+
 					wp_register_script( 'wps-public-shortcode-dis', false, array(), '1.0.0', false );
 					wp_enqueue_script( 'wps-public-shortcode-dis' );
 					wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
 				}
-		
-
 	}
 
 	if ( isset( $_POST['wps_wallet_fund_request'] ) && ! empty( $_POST['wps_wallet_fund_request'] ) ) {
@@ -337,15 +335,15 @@ if ( wp_verify_nonce( $nonce ) ) {
 		}
 	}
 
-	if( isset( $_POST['wps_wallet_generate_wallet_id'] ) && ! empty( $_POST['wps_wallet_generate_wallet_id'] )  ){
-		$assign_wallet_id  = sanitize_text_field( wp_unslash( $_POST['assign_wallet_id'] ) );
-		$existing_wallet_id = get_user_meta($assign_wallet_id, 'wps_wallet_id', true);
-	
-			if (empty($existing_wallet_id)) {
-				$common_obj  = new Wallet_System_For_Woocommerce_Common( 'wallet system for woocommerce', WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION );
-				$wallet_id = $common_obj->wps_wsfw_generate_unique_wallet_id($assign_wallet_id);
-				update_user_meta($assign_wallet_id, 'wps_wallet_id', $wallet_id);
-			}
+	if ( isset( $_POST['wps_wallet_generate_wallet_id'] ) && ! empty( $_POST['wps_wallet_generate_wallet_id'] ) ) {
+		$assign_wallet_id  = ! empty( $_POST['assign_wallet_id'] ) ? sanitize_text_field( wp_unslash( $_POST['assign_wallet_id'] ) ) : '';
+		$existing_wallet_id = get_user_meta( $assign_wallet_id, 'wps_wallet_id', true );
+
+		if ( empty( $existing_wallet_id ) ) {
+			$common_obj  = new Wallet_System_For_Woocommerce_Common( 'wallet system for woocommerce', WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION );
+			$wallet_id = $common_obj->wps_wsfw_generate_unique_wallet_id( $assign_wallet_id );
+			update_user_meta( $assign_wallet_id, 'wps_wallet_id', $wallet_id );
+		}
 	}
 }
 
@@ -572,20 +570,20 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<?php if ( 'on' != $wallet_restrict_transaction ) { ?>
 			<div class="wps_wcb_wallet_view_transaction"><a href="<?php echo esc_url( $transaction_url ); ?>"><h4><?php esc_html_e( 'View Transactions', 'wallet-system-for-woocommerce' ); ?> </h4></a>
 		</div>
-		<?php
+			<?php
 		}
 		$wps_wallet_id = get_user_meta( $user_id, 'wps_wallet_id', true );
-		if( empty( $wps_wallet_id ) ){
+		if ( empty( $wps_wallet_id ) ) {
 			$wps_wallet_id = 'Not Generated';
 		}
-		if( $is_pro_plugin ){
-			if( 'on' != $wps_wallet_restrict_wallet_id ){
+		if ( $is_pro_plugin ) {
+			if ( 'on' != $wps_wallet_restrict_wallet_id ) {
 				?>
 				<div class="wps_wsfw_wallet_user_id">
-					<h4><?php esc_html_e( 'wallet id - ', 'wallet-system-for-woocommerce' ); ?><strong><?php echo esc_html( $wps_wallet_id ) ;?></strong></h4>
+					<h4><?php esc_html_e( 'wallet id - ', 'wallet-system-for-woocommerce' ); ?><strong><?php echo esc_html( $wps_wallet_id ); ?></strong></h4>
 				
 				<?php
-				if( 'Not Generated' == $wps_wallet_id ){
+				if ( 'Not Generated' == $wps_wallet_id ) {
 					?>
 					<form method="post" action="">
 						<input type="hidden" name="assign_wallet_id" value="<?php echo esc_attr( $user_id ); ?>">
@@ -601,10 +599,10 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		} else {
 			?>
 			<div class="wps_wsfw_wallet_user_id">
-				<h4><?php esc_html_e( 'wallet id - ', 'wallet-system-for-woocommerce' ); ?><strong><?php echo esc_html( $wps_wallet_id ) ;?></strong></h4>
+				<h4><?php esc_html_e( 'wallet id - ', 'wallet-system-for-woocommerce' ); ?><strong><?php echo esc_html( $wps_wallet_id ); ?></strong></h4>
 			
 			<?php
-			if( 'Not Generated' == $wps_wallet_id ){
+			if ( 'Not Generated' == $wps_wallet_id ) {
 				?>
 				<form method="post" action="">
 					<input type="hidden" name="assign_wallet_id" value="<?php echo esc_attr( $user_id ); ?>">

@@ -132,7 +132,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		wp_register_script( $this->plugin_name . 'admin-notice', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-wsfw-wallet-card-notices.js', array( 'jquery' ), $this->version, false );
 
 		wp_register_script( 'google-embeds-org-block-wallet', plugins_url( 'js/wps-wsfw-wallet-card-notices.js', __FILE__ ), array( 'wp-blocks', 'wp-editor', 'wp-element', 'wp-components' ), time(), false );
-		register_block_type( 'wpswings/googles-embed-org-wallet', array( 'editor_script' => 'google-embeds-org-block-wallet',	) );
+		register_block_type( 'wpswings/googles-embed-org-wallet', array( 'editor_script' => 'google-embeds-org-block-wallet' ) );
 
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_wsfw_branner_notice', $wps_wsfw_branner_notice );
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
@@ -2753,7 +2753,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -4193,9 +4192,9 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_schedule_event( $wps_sfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
 		}
 
-		if (!get_option('wps_wallet_id_cron_completed')) {
-			if (!wp_next_scheduled('wps_wsfw_assign_wallet_ids_event')) {
-				wp_schedule_single_event(time() + 10, 'wps_wsfw_assign_wallet_ids_event');
+		if ( ! get_option( 'wps_wallet_id_cron_completed' ) ) {
+			if ( ! wp_next_scheduled( 'wps_wsfw_assign_wallet_ids_event' ) ) {
+				wp_schedule_single_event( time() + 10, 'wps_wsfw_assign_wallet_ids_event' );
 			}
 		}
 	}
