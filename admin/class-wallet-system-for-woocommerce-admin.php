@@ -127,8 +127,12 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wps_wsfw_branner_notice = array(
 			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 			'wps_wsfw_nonce' => wp_create_nonce( 'wp_rest' ),
+			'is_pro_plugin'             => apply_filters( 'wsfw_check_pro_plugin', $is_plugin ),
 		);
 		wp_register_script( $this->plugin_name . 'admin-notice', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-wsfw-wallet-card-notices.js', array( 'jquery' ), $this->version, false );
+
+		wp_register_script( 'google-embeds-org-block-wallet', plugins_url( 'js/wps-wsfw-wallet-card-notices.js', __FILE__ ), array( 'wp-blocks', 'wp-editor', 'wp-element', 'wp-components' ), time(), false );
+		register_block_type( 'wpswings/googles-embed-org-wallet', array( 'editor_script' => 'google-embeds-org-block-wallet' ) );
 
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_wsfw_branner_notice', $wps_wsfw_branner_notice );
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
@@ -704,6 +708,7 @@ class Wallet_System_For_Woocommerce_Admin {
 					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
 				),
 			),
+
 			array(
 				'title'       => __( 'Restrict Wallet Recharge For Particular Gateway', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_multiselect_wallet_recharge_restrict',
@@ -3743,8 +3748,8 @@ class Wallet_System_For_Woocommerce_Admin {
 				'value'       => get_option( 'wsfw_wallet_dashboard_template_css' ),
 				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
 				'options'     => array(
-					'' => __( 'Default template', 'wallet-system-for-woocommerce' ),
-					'template1'  => __( 'New Wallet Dashboard Layout', 'wallet-system-for-woocommerce' ),
+					'' => __( 'Classic Wallet Dashboard', 'wallet-system-for-woocommerce' ),
+					'template1'  => __( 'Modern Wallet Dashboard', 'wallet-system-for-woocommerce' ),
 				),
 			),
 
@@ -4185,6 +4190,12 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wps_sfw_time   = time() + $wps_sfw_offset * 60 * 60;
 		if ( ! wp_next_scheduled( 'wps_wgm_check_for_notification_update' ) ) {
 			wp_schedule_event( $wps_sfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
+		}
+
+		if ( ! get_option( 'wps_wallet_id_cron_completed' ) ) {
+			if ( ! wp_next_scheduled( 'wps_wsfw_assign_wallet_ids_event' ) ) {
+				wp_schedule_single_event( time() + 10, 'wps_wsfw_assign_wallet_ids_event' );
+			}
 		}
 	}
 

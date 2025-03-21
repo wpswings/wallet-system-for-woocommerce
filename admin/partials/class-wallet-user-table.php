@@ -910,6 +910,7 @@ class Wallet_User_Table extends WP_List_Table {
 		$columns = array(
 			'cb'       => '<input type="checkbox" />',
 			'id'       => esc_html__( 'ID', 'wallet-system-for-woocommerce' ),
+			'wallet_id' => esc_html__( 'Wallet ID', 'wallet-system-for-woocommerce' ),
 			'name'     => esc_html__( 'Name', 'wallet-system-for-woocommerce' ),
 			'email'    => esc_html__( 'Email', 'wallet-system-for-woocommerce' ),
 			'role'     => esc_html__( 'Role', 'wallet-system-for-woocommerce' ),
@@ -953,6 +954,7 @@ class Wallet_User_Table extends WP_List_Table {
 				$user               = get_user_by( 'id', $all_user );
 				$x      = array(
 					'id'       => $this->wsfw_get_id( $user ),
+					'wallet_id' => $this->wsfw_get_wallet_id( $user ),
 					'name'     => $this->wsfw_get_name( $user ),
 					'email'    => $this->wsfw_get_email( $user ),
 					'role'     => $this->wsfw_get_role( $user ),
@@ -1042,6 +1044,18 @@ class Wallet_User_Table extends WP_List_Table {
 		$wallet_bal = ! empty( $wallet_bal ) ? $wallet_bal : 0;
 		$wallet_bal = wc_price( $wallet_bal, array( 'currency' => get_woocommerce_currency() ) );
 		return $wallet_bal;
+	}
+
+	/**
+	 * Function to get user wallet id.
+	 *
+	 * @param object $user as user.
+	 * @return string
+	 */
+	public function wsfw_get_wallet_id( $user ) {
+		$wallet_id = get_user_meta( $user->ID, 'wps_wallet_id', true );
+		$wallet_id = ! empty( $wallet_id ) ? $wallet_id : 'Not Generated';
+		return $wallet_id;
 	}
 
 	/**

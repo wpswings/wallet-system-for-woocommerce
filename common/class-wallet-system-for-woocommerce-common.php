@@ -1387,4 +1387,70 @@ class Wallet_System_For_Woocommerce_Common {
 			return $win_wheel_type;
 		}
 	}
+
+	/**
+	 * Assign wallet id to existing user.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_assign_unique_wallet_id_to_user() {
+		$users = get_users( array( 'fields' => 'ID' ) );
+
+		foreach ( $users as $user_id ) {
+			$existing_wallet_id = get_user_meta( $user_id, 'wps_wallet_id', true );
+
+			if ( empty( $existing_wallet_id ) ) {
+				$wallet_id = $this->wps_wsfw_generate_unique_wallet_id( $user_id );
+				update_user_meta( $user_id, 'wps_wallet_id', $wallet_id );
+			}
+		}
+
+		update_option( 'wps_wallet_id_cron_completed', true );
+	}
+
+	/**
+	 * Assing wallet id to new register user.
+	 *
+	 * @param int $user_id as user id.
+	 * @return void
+	 */
+	public function wps_wsfw_assign_wallet_id_to_new_user( $user_id ) {
+		$existing_wallet_id = get_user_meta( $user_id, 'wps_wallet_id', true );
+
+		if ( empty( $existing_wallet_id ) ) {
+			$wallet_id = $this->wps_wsfw_generate_unique_wallet_id( $user_id );
+			update_user_meta( $user_id, 'wps_wallet_id', $wallet_id );
+		}
+	}
+
+	/**
+	 * Function to generate unique wallet id.
+	 *
+	 * @param int $user_id as user id.
+	 * @return string
+	 */
+	public function wps_wsfw_generate_unique_wallet_id( $user_id ) {
+		$wallet_prefix = 'wps';
+
+		do {
+			// Generate a 4-digit random number.
+			$random_number = rand( 1000, 9999 );
+
+			// Combine prefix, user ID, and random number.
+			$wallet_id = $wallet_prefix . $user_id . $random_number;
+
+			// Check if wallet ID already exists in user meta.
+			$existing_user = get_users(
+				array(
+					'meta_key'   => 'wps_wallet_id',
+					'meta_value' => $wallet_id,
+					'fields'     => 'ID',
+					'number'     => 1,
+				)
+			);
+
+		} while ( ! empty( $existing_user ) );
+
+		return $wallet_id;
+	}
 }

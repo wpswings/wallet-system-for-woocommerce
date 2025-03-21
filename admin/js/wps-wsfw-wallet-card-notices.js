@@ -32,9 +32,87 @@ jQuery( document ).ready(
             jQuery( '<div class="wps_wallet_shop_order-header-container wps_wallet_shop_order-bg-white wps_wallet_shop_order-r-8">'+jQuery('.wps_wallet_shop_order-header-container').html()+'</div>' ).insertBefore( "#wpbody-content" );
     
         }
+       //shortcode in gunterberg work.
+       const { registerBlockType }      = wp.blocks;
+        const { TextControl, PanelBody } = wp.components;
+        const { useState }               = wp.element;
+        const { useBlockProps }          = wp.blockEditor;
+
+        // creating user current points block.
+        registerBlockType('wallet/user-old-wallet', {
+            title      : 'WPSwings Classic Wallet Dashboard',
+            icon       : 'media-document',
+            category   : 'widgets',
+            attributes : {
+                shortcode : { type: 'string', default: '[wps-wallet]' }
+            },
+            edit: function(props) {
+                return wp.element.createElement('div', useBlockProps(),
+                    wp.element.createElement(TextControl, {
+                        label       : 'Enter Shortcode',
+                        value       : props.attributes.shortcode,
+                        onChange    : function(shortcode) { props.setAttributes({ shortcode: shortcode }) },
+                        placeholder : '[wps-wallet]'
+                    }),
+                    wp.element.createElement('p', {}, 'Shortcode Output: ' + props.attributes.shortcode)
+                );
+            },
+            save: function(props) {
+                return wp.element.createElement('div', useBlockProps.save(), props.attributes.shortcode);
+            }
+        });
+
+        registerBlockType('wallet/user-wallet-amount', {
+            title      : 'WPSwings Wallet Amount',
+            icon       : 'media-document',
+            category   : 'widgets',
+            attributes : {
+                shortcode : { type: 'string', default: '[wps-wallet-amount]' }
+            },
+            edit: function(props) {
+                return wp.element.createElement('div', useBlockProps(),
+                    wp.element.createElement(TextControl, {
+                        label       : 'Enter Shortcode',
+                        value       : props.attributes.shortcode,
+                        onChange    : function(shortcode) { props.setAttributes({ shortcode: shortcode }) },
+                        placeholder : '[wps-wallet-amount]'
+                    }),
+                    wp.element.createElement('p', {}, 'Shortcode Output: ' + props.attributes.shortcode)
+                );
+            },
+            save: function(props) {
+                return wp.element.createElement('div', useBlockProps.save(), props.attributes.shortcode);
+            }
+        });
+
+        if (wps_wsfw_branner_notice.is_pro_plugin == 1){
+            
+            registerBlockType('wallet/user-new-wallet', {
+                title      : 'WPSwings Modern Wallet Dashboard',
+                icon       : 'media-document',
+                category   : 'widgets',
+                attributes : {
+                    shortcode : { type: 'string', default: '[wps-wallet-dashboard]' }
+                },
+                edit: function(props) {
+                    return wp.element.createElement('div', useBlockProps(),
+                        wp.element.createElement(TextControl, {
+                            label       : 'Enter Shortcode',
+                            value       : props.attributes.shortcode,
+                            onChange    : function(shortcode) { props.setAttributes({ shortcode: shortcode }) },
+                            placeholder : '[wps-wallet-dashboard]'
+                        }),
+                        wp.element.createElement('p', {}, 'Shortcode Output: ' + props.attributes.shortcode)
+                    );
+                },
+                save: function(props) {
+                    return wp.element.createElement('div', useBlockProps.save(), props.attributes.shortcode);
+                }
+            });
+        }
+        //shortcode in gunterberg work.
     }
 
-   
 
 
 
