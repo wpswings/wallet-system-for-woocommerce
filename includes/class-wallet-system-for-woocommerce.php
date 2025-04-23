@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.6.5';
+			$this->version = '2.6.6';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -298,13 +298,13 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wsfw_wallet_action_settings_refer_friend_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_refer_friend_array_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_different_layout_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_different_layout_settings_array_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_payment_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_payment_settings_array_org', 10 );
+			$this->loader->add_action( 'wsfw_wallet_action_low_balance_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_low_balance_settings_array_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_gamification_rule_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_gamification_rule_settings_array_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_restriction_withdrawal_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_withdrawal_restriction_settings_page_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_restriction_transfer_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_transfer_restriction_settings_page_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_restriction_recharge_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_recharge_restriction_settings_page_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_recharge_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_recharge_enable_settings_tab_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
-
 			$this->loader->add_filter( 'wsfw_wallet_action_withdrawal_settings', $wsfw_plugin_admin, 'wsfw_wallet_withdrawal_enable_settings_tab', 10 );
 
 		}
@@ -352,6 +352,11 @@ class Wallet_System_For_Woocommerce {
 
 		$this->loader->add_action( 'wps_wsfw_assign_wallet_ids_event', $wsfw_plugin_common, 'wps_wsfw_assign_unique_wallet_id_to_user' );
 		$this->loader->add_action('user_register', $wsfw_plugin_common, 'wps_wsfw_assign_wallet_id_to_new_user', 10 ,1 );
+		// woocoommerce subscription renewal payment.
+		$this->loader->add_action( 'woocommerce_scheduled_subscription_payment_wps_wcb_wallet_payment_gateway', $wsfw_plugin_common, 'wps_wsfw_process_woo_sub_renewal_order_payment_from_wallet', 10, 2 );
+
+		$this->loader->add_action( 'init', $wsfw_plugin_common, 'wps_wsfw_cron_for_wallet_notification' );
+		$this->loader->add_action( 'wps_wsfw_daily_wallet_thresold', $wsfw_plugin_common, 'wps_wsfw_daily_wallet_thresold_callback' );
 	}
 
 	/**

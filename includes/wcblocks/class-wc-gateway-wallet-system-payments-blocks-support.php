@@ -98,6 +98,7 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 			array(
 				'title'       => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
 				'description' => $description,
+				'supports'    => array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ),
 			)
 		);
 
