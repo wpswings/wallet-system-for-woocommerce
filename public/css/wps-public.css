@@ -215,7 +215,9 @@ input[type=submit].wps-btn__filled:hover {
 .wps_wcb_content_template ul.tabs li .wps_wallet_withdrawal_tab path:last-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_recharge_tab path:first-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:first-of-type,
-.wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:last-of-type {
+.wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:last-of-type,
+.wps_wcb_content_template ul.tabs li .wps_wallet_fund_request_tab path:last-of-type,
+.wps_wcb_content_template ul.tabs li .wps_wallet_referral_tab path:last-of-type, .wps_wcb_content_template ul.tabs li .wps_wallet_referral_tab path:first-of-type {
     fill: #000;
 }
 
