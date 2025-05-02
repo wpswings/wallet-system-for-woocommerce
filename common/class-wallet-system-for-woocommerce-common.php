@@ -1453,4 +1453,124 @@ class Wallet_System_For_Woocommerce_Common {
 
 		return $wallet_id;
 	}
+
+	/**
+	 * Deduct Wallet amount for WooCommerce subscription renewal.
+	 *
+	 * @param int    $amount_to_charge as amount.
+	 * @param object $subscription as subscription object.
+	 * @return void
+	 */
+	public function wps_wsfw_process_woo_sub_renewal_order_payment_from_wallet( $amount_to_charge, $subscription ) {
+
+		$order_id    = $subscription->get_id();
+		$customer_id = $subscription->get_user_id();
+		$payment_method_id = $subscription->get_payment_method();
+
+		if ( 'wps_wcb_wallet_payment_gateway' == $payment_method_id ) {
+
+			$payment_success = false;
+
+			$wallet_bal = get_user_meta( $customer_id, 'wps_wallet', true );
+
+			if ( $wallet_bal >= $amount_to_charge ) {
+				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+				$current_currency = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
+
+				$transaction_type = __( 'Wallet debit for subscription renewal payment for order ', 'wallet-system-for-woocommerce' ) . ' <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+				$wallet_transfer_data = array(
+					'user_id'          => $customer_id,
+					'amount'           => $amount_to_charge,
+					'currency'         => $current_currency,
+					'payment_method'   => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
+					'transaction_type' => $transaction_type,
+					'transaction_type_1' => 'debit',
+					'order_id'         => $order_id,
+					'note'             => '',
+
+				);
+
+				$wallet_payment_gateway->insert_transaction_data_in_table( $wallet_transfer_data );
+
+				$wallet_bal -= $amount_to_charge;
+				update_user_meta( $customer_id, 'wps_wallet', abs( $wallet_bal ) );
+				$payment_success = true;
+			}
+			if ( $payment_success ) {
+				$subscription->payment_complete(); // Mark subscription as paid.
+				$message = __( 'Payment completed from customer wallet', 'wallet-system-for-woocommerce' );
+				$subscription->add_order_note( $message );
+			} else {
+				$subscription->update_status( 'failed' ); // Mark as failed.
+				$message = __( 'customer has not sufficient fund in their wallet', 'wallet-system-for-woocommerce' );
+				$subscription->add_order_note( $message );
+			}
+		}
+		// Process payment via your custom gateway function.
+	}
+
+	/**
+	 * Function to schedule the cron job for wallet notification.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_cron_for_wallet_notification() {
+		$wps_sfw_offset = get_option( 'gmt_offset' );
+		$wps_sfw_time   = time() + $wps_sfw_offset * 60 * 60;
+		if ( ! wp_next_scheduled( 'wps_wsfw_daily_wallet_thresold' ) ) {
+			wp_schedule_event( $wps_sfw_time, 'daily', 'wps_wsfw_daily_wallet_thresold' );
+		}
+	}
+
+	/**
+	 * Function to send the wallet notification to user.
+	 *
+	 * @return void
+	 */
+	public function wps_wsfw_daily_wallet_thresold_callback() {
+		$wsfw_wallet_enable_low_balance_wallet = get_option( 'wsfw_wallet_enable_low_balance_wallet' );
+		$wps_wsfwp_low_balance_wallet_value = get_option( 'wps_wsfwp_low_balance_wallet_value' );
+
+		if ( 'on' == $wsfw_wallet_enable_low_balance_wallet && ! empty( $wps_wsfwp_low_balance_wallet_value ) ) {
+			$users = get_users( array( 'fields' => 'ID' ) );
+			foreach ( $users as $user_id ) {
+				$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
+
+				if ( empty( $walletamount ) ) {
+					$walletamount = 0;
+				}
+				if ( $walletamount < $wps_wsfwp_low_balance_wallet_value ) {
+
+					$user                   = get_user_by( 'id', $user_id );
+					$name                   = $user->first_name . ' ' . $user->last_name;
+
+					$to         = $user->user_email;
+
+					$from       = get_option( 'admin_email' );
+
+					$subject    = __( 'Wallet Less Balance notification', 'wallet-system-for-woocommerce' );
+
+					$headers    = 'MIME-Version: 1.0' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+					$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+
+					$mail_text  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name ) . ",\r\n";
+					$mail_text .= __( 'Your Wallet Balance i.e ', 'wallet-system-for-woocommerce' ) . wp_kses_post( wc_price( $walletamount ) ) . __( ' is less than wallet thresold value i.e ', 'wallet-system-for-woocommerce' ) . wp_kses_post( wc_price( $wps_wsfwp_low_balance_wallet_value ) ) . __( ' Please recharge your wallet to continue using our services.', 'wallet-system-for-woocommerce' );
+
+					$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+					if ( key_exists( 'wps_wswp_wallet_low_balance_notification', WC()->mailer()->emails ) ) {
+
+						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_low_balance_notification'];
+						if ( ! empty( $customer_email ) ) {
+							$customer_email->trigger( $user_id, $name, $walletamount, $wps_wsfwp_low_balance_wallet_value );
+						}
+					} else {
+
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+					}
+				}
+			}
+		}
+	}
 }

@@ -15,17 +15,17 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce
  * Description:       <code><strong>Wallet System for WooCommerce</strong></code> is a digital wallet plugin where users can add or delete balances in bulk, give refunds and earn cashback. <a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-shop&utm_medium=wallet-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>.
- * Version:           2.6.5
+ * Version:           2.6.6
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  * Requires Plugins: woocommerce
  * WC Requires at least: 5.5.0
- * WC tested up to: 9.7.1
+ * WC tested up to: 9.8.2
  * WP Requires at least: 5.5.0
- * WP tested up to: 6.7.2
- * Requires PHP: 7.2.24
+ * WP tested up to: 6.8
+ * Requires PHP: 7.5
  *
  * License:           GNU General Public License v3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -64,7 +64,7 @@ if ( $activated ) {
 
 		$wp_upload = wp_upload_dir();
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR', $wp_upload['basedir'] );
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.6.5' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.6.6' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );

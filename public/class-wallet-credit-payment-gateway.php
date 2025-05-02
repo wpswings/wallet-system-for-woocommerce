@@ -79,7 +79,17 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			$this->description  = $this->get_option( 'description' );
 
 			$this->enabled      = $this->get_option( 'enabled' );
-
+			$this->supports = array(
+				'products',
+				'subscriptions',
+				'subscription_cancellation',
+				'subscription_suspension',
+				'subscription_reactivation',
+				'subscription_amount_changes',
+				'subscription_date_changes',
+				'subscription_payment_method_change',
+				'subscription_payment_method_change_customer', 
+			);
 			// Actions.
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		}

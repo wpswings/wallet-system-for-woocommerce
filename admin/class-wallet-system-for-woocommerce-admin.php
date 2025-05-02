@@ -1585,6 +1585,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_wallet_action_refer_friend_settings      = apply_filters( 'wsfw_wallet_action_settings_refer_friend_array', array() );
 				$wsfw_wallet_action_different_layout_settings      = apply_filters( 'wsfw_wallet_action_different_layout_settings_array', array() );
 				$wsfw_wallet_action_payment_settings      = apply_filters( 'wsfw_wallet_action_payment_settings_array', array() );
+				$wsfw_wallet_action_low_balance_settings      = apply_filters( 'wsfw_wallet_action_low_balance_settings_array', array() );
 				$wsfw_wallet_action_gamification_rule_settings      = apply_filters( 'wsfw_wallet_action_gamification_rule_settings_array', array() );
 				// wallet referal end.
 				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
@@ -1606,6 +1607,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_refer_friend_settings );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_different_layout_settings );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_payment_settings );
+				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_low_balance_settings );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_gamification_rule_settings );
 
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
@@ -4393,6 +4395,47 @@ class Wallet_System_For_Woocommerce_Admin {
 			'id'          => 'wsfw_button_wallet_withdrawal_paypal_tab_option',
 			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
 			'class'       => 'wsfw-button-class wps_pro_settings',
+		);
+
+		return $wsfw_settings_template;
+	}
+
+	/**
+	 * This is used to create comment html.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_wallet_action_low_balance_settings_array_org( $wsfw_settings_template ) {
+		$wsfw_settings_template = array(
+
+			array(
+				'title'       => __( 'Enable to Notifiy Customer On Wallet Low Balance', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Check this box to enable the Wallet Instant Discount Feature', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_wallet_enable_low_balance_wallet',
+				'id'          => 'wsfw_wallet_enable_low_balance_wallet',
+				'value'       => get_option( 'wsfw_wallet_enable_low_balance_wallet' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+
+			array(
+				'title'       => __( 'Enter Minimum Wallet Amount on which Customer get notification', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => __( 'Enter Minimum Wallet value', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfwp_low_balance_wallet_value',
+				'id'          => 'wps_wsfwp_low_balance_wallet_value',
+				'min'         => 0,
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfwp_low_balance_wallet_value' ) ) ? get_option( 'wps_wsfwp_low_balance_wallet_value' ) : 1,
+				'placeholder' => __( 'Low wallet amount', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			),
+
 		);
 
 		return $wsfw_settings_template;
