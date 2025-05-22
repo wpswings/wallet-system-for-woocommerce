@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.6.6';
+			$this->version = '2.6.7';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -306,6 +306,7 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wsfw_wallet_action_recharge_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_recharge_enable_settings_tab_org', 10 );
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_action_withdrawal_settings', $wsfw_plugin_admin, 'wsfw_wallet_withdrawal_enable_settings_tab', 10 );
+			$this->loader->add_filter( 'wsfw_wallet_action_sms_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_sms_notification_settings_tab', 10 );
 
 		}
 		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
@@ -357,6 +358,9 @@ class Wallet_System_For_Woocommerce {
 
 		$this->loader->add_action( 'init', $wsfw_plugin_common, 'wps_wsfw_cron_for_wallet_notification' );
 		$this->loader->add_action( 'wps_wsfw_daily_wallet_thresold', $wsfw_plugin_common, 'wps_wsfw_daily_wallet_thresold_callback' );
+
+		$this->loader->add_action('woocommerce_order_status_changed', $wsfw_plugin_common,  'wps_wallet_auto_refund_if_wallet_payment', 10, 3 );
+		$this->loader->add_action('woocommerce_order_status_changed', $wsfw_plugin_common,  'wps_wallet_auto_deduct_cashback_order_cancel_or_refund', 10, 3 );
 	}
 
 	/**
@@ -566,6 +570,10 @@ class Wallet_System_For_Woocommerce {
 			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-recharge-tab'] = array(
 				'title'     => esc_html__( 'Wallet Quick Recharge', 'wallet-system-for-woocommerce' ),
 				'name'      => 'wallet-system-for-woocommerce-org-wallet-recharge-tab',
+			);
+			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-sms-notification-settings'] = array(
+				'title'     => esc_html__( 'SMS Notification', 'wallet-system-for-woocommerce' ),
+				'name'      => 'wallet-system-for-woocommerce-org-wallet-sms-notification-settings',
 			);
 		}
 

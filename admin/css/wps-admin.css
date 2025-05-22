@@ -1472,7 +1472,8 @@ ul {
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab,
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions,
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-withdrawal-settings,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction {
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-sms-notification-settings {
   position: relative;
 }
 
@@ -1480,7 +1481,8 @@ ul {
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab:before,
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions:before,
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-withdrawal-settings:before,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction:before {
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction:before,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-sms-notification-settings:before {
   clip-path: polygon(100% 0, 0 0, 0 100%);
   background-color: #008000;
   position: absolute;
@@ -1495,7 +1497,8 @@ ul {
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab:after,
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions:after,
 .wps_class_li_wallet-system-for-woocommerce-org-wallet-withdrawal-settings:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction:after {
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction:after,
+.wps_class_li_wallet-system-for-woocommerce-org-wallet-sms-notification-settings:after {
   position: absolute;
   content: 'pro';
   left: 0px;

@@ -1573,4 +1573,193 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 		}
 	}
+
+	/**
+	 * Function to auto refund wallet payment on order status change.
+	 *
+	 * @param [int] $order_id as order id.
+	 * @param [type] $old_status as old order status.
+	 * @param [type] $new_status as new order status.
+	 * @return void
+	 */
+	public function wps_wallet_auto_refund_if_wallet_payment( $order_id, $old_status, $new_status ){
+
+		
+		if ($new_status !== 'refunded') {
+			return;
+		}
+	
+		// Check if setting is enabled
+		$auto_refund_enabled = get_option('wsfw_wallet_payment_refund_order_payment'); // adjust if needed
+		
+		if ($auto_refund_enabled !== 'on') {
+			return;
+		}
+	
+		$order = wc_get_order($order_id);
+		if (!$order) return;
+	
+		// Check if payment was made using Wallet
+	
+		if ($order->get_payment_method() !== 'wps_wcb_wallet_payment_gateway') { // Replace 'wallet' with your gateway ID
+			return;
+		}
+	
+		$user_id = $order->get_user_id();
+		
+		if (!$user_id) return;
+	
+		$refunded_total = $order->get_total_refunded();
+		
+		if ($refunded_total <= 0) {
+			return;
+		}
+	
+		// Check if already refunded to wallet (avoid duplicate credit)
+		if ($order->get_meta('_wallet_refunded_on_status_change') === 'yes') {
+			return;
+		}
+	
+		// Refund to wallet (replace with your actual credit function)
+		if ( $refunded_total > 0) {
+
+			$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+			$balance   = $order->get_currency() . ' ' . $refunded_total;
+			$wallet_user            = get_user_by( 'id', $user_id );
+
+			$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
+
+			$wallet_bal = (float)$wallet_bal + (float)$refunded_total;
+
+			update_user_meta( $user_id, 'wps_wallet', $wallet_bal );
+
+			if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+				$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+				$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+				;
+				$mail_text .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through order refunded.', 'wallet-system-for-woocommerce' );
+				$to         = $wallet_user->user_email;
+				$from       = get_option( 'admin_email' );
+				$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+				$headers    = 'MIME-Version: 1.0' . "\r\n";
+				$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+				$headers   .= 'From: ' . $from . "\r\n" .
+					'Reply-To: ' . $to . "\r\n";
+
+				if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
+
+					$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+					if ( ! empty( $customer_email ) ) {
+						$user       = get_user_by( 'id', $user_id );
+						$balance_mail = $refunded_total;
+						$user_name       = $user->first_name . ' ' . $user->last_name;
+						$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+					}
+				} else {
+
+					$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+				}
+			}
+			$transaction_type = __( 'Wallet credited through ', 'wallet-system-for-woocommerce' ) . $new_status . ' status <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+			$transaction_data = array(
+				'user_id'          => $user_id,
+				'amount'           => $refunded_total,
+				'currency'         => $order->get_currency(),
+				'payment_method'   => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
+				'transaction_type' => htmlentities( $transaction_type ),
+				'transaction_type_1' => 'credit',
+				'order_id'         => $order_id,
+				'note'             => '',
+			);
+			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+			$order->update_meta_data('_wallet_refunded_on_status_change', 'yes');
+			$order->save();
+		}
+		
+	}
+
+	public function wps_wallet_auto_deduct_cashback_order_cancel_or_refund( $order_id, $old_status, $new_status ) {
+		if ( 'cancelled' === $new_status || 'refunded' === $new_status ) {
+
+			$order = wc_get_order($order_id);
+			if (!$order) return;
+
+			if ($order->get_meta('_wallet_cashback_on_status_refund_or_cancel') === 'yes') {
+				return;
+			}
+
+			$wps_cashback_receive_amount = '';
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+				// HPOS usage is enabled.
+				$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount1', true );
+			} else {
+				$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount1', true );
+			}
+
+			if( $wps_cashback_receive_amount > 0 ){
+				$user_id = $order->get_user_id();
+
+				$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
+				$wps_wallet_cashback_bal = get_user_meta( $user_id, 'wps_wallet_cashback_bal', true );
+
+				$wallet_bal = (float)$wallet_bal - (float)$wps_cashback_receive_amount;
+				$wps_wallet_cashback_bal = (float)$wps_wallet_cashback_bal - (float)$wps_cashback_receive_amount;
+
+				update_user_meta( $user_id, 'wps_wallet', $wallet_bal );
+				update_user_meta( $user_id, 'wps_wallet_cashback_bal', $wps_wallet_cashback_bal );
+
+				
+				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
+				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
+				$balance   = $order->get_currency() . ' ' . $wps_cashback_receive_amount;
+				$wallet_user            = get_user_by( 'id', $user_id );
+
+				if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
+					$user_name  = $wallet_user->first_name . ' ' . $wallet_user->last_name;
+					$mail_text  = sprintf( 'Hello %s', $user_name ) . ",\r\n";
+					;
+					$mail_text .= __( 'Wallet debited by cashback amount of ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through order refunded or cancelled.', 'wallet-system-for-woocommerce' );
+					$to         = $wallet_user->user_email;
+					$from       = get_option( 'admin_email' );
+					$subject    = __( 'Wallet updating notification', 'wallet-system-for-woocommerce' );
+					$headers    = 'MIME-Version: 1.0' . "\r\n";
+					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
+					$headers   .= 'From: ' . $from . "\r\n" .
+						'Reply-To: ' . $to . "\r\n";
+	
+					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
+	
+						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+						if ( ! empty( $customer_email ) ) {
+							$user       = get_user_by( 'id', $user_id );
+							$balance_mail = $wps_cashback_receive_amount;
+							$user_name       = $user->first_name . ' ' . $user->last_name;
+							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
+						}
+					} else {
+	
+						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
+					}
+				}
+				$transaction_type = __( 'Wallet debited by cashback amount of ', 'wallet-system-for-woocommerce' ) . $new_status . ' status <a href="' . admin_url( 'post.php?post=' . $order_id . '&action=edit' ) . '" >#' . $order_id . '</a>';
+				$transaction_data = array(
+					'user_id'          => $user_id,
+					'amount'           => $wps_cashback_receive_amount,
+					'currency'         => $order->get_currency(),
+					'payment_method'   => __( 'Wallet Cashback Payment', 'wallet-system-for-woocommerce' ),
+					'transaction_type' => htmlentities( $transaction_type ),
+					'transaction_type_1' => 'debit',
+					'order_id'         => $order_id,
+					'note'             => '',
+				);
+				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
+				$order->update_meta_data('_wallet_cashback_on_status_refund_or_cancel', 'yes');
+				$order->save();
+
+			}
+			
+		}
+
+	}
 }

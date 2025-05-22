@@ -12,6 +12,8 @@ const ReportingSystem = () => {
     { name: 'Debit', amount: parseInt(frontend_ajax_object.user_data_debit) },
     { name: 'Credit', amount: parseInt(frontend_ajax_object.user_data_credit) },
     { name: 'Current',  amount: parseInt(frontend_ajax_object.user_data_current) },
+    { name: 'Cashback',  amount: parseInt(frontend_ajax_object.user_data_cashback) },
+    { name: 'Withdraw',  amount: parseInt(frontend_ajax_object.user_data_withdrawal) },
   
     ]
   );
@@ -52,6 +54,8 @@ const ReportingSystem = () => {
               { name: 'Credit', amount:res.data.data.credit },
               { name: 'Debit', amount: res.data.data.debit },
               { name: 'Current',  amount: res.data.data.current_amount },
+              { name: 'Cashback',  amount: res.data.data.cashback_amount },
+              { name: 'Withdraw',  amount: res.data.data.withdrawal_amount },
               
               // Add more data points as needed
             ];

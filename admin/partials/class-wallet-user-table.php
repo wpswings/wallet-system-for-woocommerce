@@ -185,6 +185,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 
 if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatewallet'] ) ) {
 	unset( $_POST['confirm_updatewallet'] );
+	
 	$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce ) ) {
 		return false;
@@ -476,6 +477,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 
 						$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
 						$wallet  = ( ! empty( $wallet ) ) ? $wallet : 0;
+						
 						if ( 'credit' === $wallet_option ) {
 							$wallet          += $wallet_amount;
 							$transaction_type_1 = 'credit';
@@ -501,6 +503,57 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 
 								}
 							}
+
+							// sms notification.
+							$is_pro_plugin = false;
+							$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+							if ( $is_pro_plugin ) {
+								$sms_enable   = get_option( 'wps_wsfwp_wallet_sms_notification_enable' );
+								$auth_token   = get_option( 'wps_wsfwp_wallet_sms_notification_auth_token' );
+								$account_sid  = get_option( 'wps_wsfwp_wallet_sms_notification_account_sid' );
+								$from_number  = get_option( 'wps_wsfwp_wallet_sms_notification_phone_number' );
+								if ( 'on' === $sms_enable && $auth_token && $account_sid && $from_number ) {
+									$wps_wsfw_customer_sms_number = get_user_meta( $user_id, 'wps_wsfw_customer_sms_number', true );
+
+									$user       = get_user_by( 'id', $user_id );
+									$full_name = $user->first_name . ' ' . $user->last_name;;
+
+									$site_name = get_bloginfo( 'name' );
+									$credited_amount =  $wallet_amount;
+									
+									$wallet_bal = $wallet;
+									
+
+									$message = "\n\n" . sprintf(
+										__( 'Hello %s,', 'wallet-system-for-woocommerce' ),
+										$full_name
+									);
+									$message .= "\n\n" . sprintf(
+										__( 'Your wallet is credited with %s by Merchant', 'wallet-system-for-woocommerce' ),
+										$credited_amount
+									);
+									$message .= "\n\n" . sprintf(
+										__( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+										$wallet_bal
+									);
+									$message .= "\n\n- " . $site_name;
+
+									$request_args = array(
+										'body' => array(
+											'To'   => '+'.$wps_wsfw_customer_sms_number,
+											'From' => $from_number,
+											'Body' => $message,
+										),
+										'headers' => array(
+											'Authorization' => 'Basic ' . base64_encode( $account_sid . ':' . $auth_token ),
+											'Content-Type' => 'application/x-www-form-urlencoded',
+										),
+									);
+									$response = wp_remote_post( 'https://api.twilio.com/2010-04-01/Accounts/' . $account_sid . '/Messages.json', $request_args );
+									$response_body = wp_remote_retrieve_body( $response );
+								}
+							}
+							// sms notification.
 						} elseif ( 'debit' === $wallet_option ) {
 
 							$previous_wallet_amount = $wallet;
@@ -559,6 +612,57 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									$email_status = $customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
 								}
 							}
+
+							// sms notification.
+							$is_pro_plugin = false;
+							$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+							if ( $is_pro_plugin ) {
+								$sms_enable   = get_option( 'wps_wsfwp_wallet_sms_notification_enable' );
+								$auth_token   = get_option( 'wps_wsfwp_wallet_sms_notification_auth_token' );
+								$account_sid  = get_option( 'wps_wsfwp_wallet_sms_notification_account_sid' );
+								$from_number  = get_option( 'wps_wsfwp_wallet_sms_notification_phone_number' );
+								if ( 'on' === $sms_enable && $auth_token && $account_sid && $from_number ) {
+									$wps_wsfw_customer_sms_number = get_user_meta( $user_id, 'wps_wsfw_customer_sms_number', true );
+
+									$user       = get_user_by( 'id', $user_id );
+									$full_name = $user->first_name . ' ' . $user->last_name;;
+
+									$site_name = get_bloginfo( 'name' );
+									$credited_amount =  $wallet_amount;
+									
+									$wallet_bal = $wallet;
+									
+
+									$message = "\n\n" . sprintf(
+										__( 'Hello %s,', 'wallet-system-for-woocommerce' ),
+										$full_name
+									);
+									$message .= "\n\n" . sprintf(
+										__( 'Your wallet is debited with %s by Merchant', 'wallet-system-for-woocommerce' ),
+										$credited_amount
+									);
+									$message .= "\n\n" . sprintf(
+										__( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+										$wallet_bal
+									);
+									$message .= "\n\n- " . $site_name;
+
+									$request_args = array(
+										'body' => array(
+											'To'   => '+'.$wps_wsfw_customer_sms_number,
+											'From' => $from_number,
+											'Body' => $message,
+										),
+										'headers' => array(
+											'Authorization' => 'Basic ' . base64_encode( $account_sid . ':' . $auth_token ),
+											'Content-Type' => 'application/x-www-form-urlencoded',
+										),
+									);
+									$response = wp_remote_post( 'https://api.twilio.com/2010-04-01/Accounts/' . $account_sid . '/Messages.json', $request_args );
+									$response_body = wp_remote_retrieve_body( $response );
+								}
+							}
+							// sms notification.
 						}
 
 						if ( $updated_wallet ) {
