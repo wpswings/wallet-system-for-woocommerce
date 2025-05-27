@@ -805,7 +805,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @return void
 	 */
 	public function wps_wsfw_comment_amount_function( $comment_ids, $comment_approved ) {
-
+	
 		$user_id = get_current_user_id();
 		$updated = false;
 		if ( 1 === $comment_approved ) {
@@ -824,10 +824,10 @@ class Wallet_System_For_Woocommerce_Common {
 				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 				$user_comment           = WC()->session->get( 'w1' );
 				$wsfw_comment_limit     = WC()->session->get( 'w2' );
-				if ( ! empty( $user_comment ) ) {
+				
 					if ( count( $user_comment ) < $wsfw_comment_limit ) {
 						$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
-
+					
 						if ( 'not_done' === $wps_wsfw_comment_done ) {
 							$amount          = $wps_wsfw_wallet_action_comment_amount;
 							$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
@@ -837,7 +837,7 @@ class Wallet_System_For_Woocommerce_Common {
 							$updated = true;
 						}
 					}
-				}
+				
 			}
 		}
 		if ( $updated ) {

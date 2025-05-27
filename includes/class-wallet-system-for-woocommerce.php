@@ -851,7 +851,7 @@ class Wallet_System_For_Woocommerce {
 									>
 								</label><br>
 								<div class="mdc-text-field-helper-line">
-											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? esc_attr( $wsfw_component['description'] ) : '' ); ?></div>
+											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $wsfw_component['description'] ) ? wp_kses_post( $wsfw_component['description'] ) : '' ); ?></div>
 								</div>
 							</div>
 						</div>

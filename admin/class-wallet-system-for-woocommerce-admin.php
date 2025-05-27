@@ -382,6 +382,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
 		$wps_wallet_cashback_bal = 0;
 		$wps_wallet_cashback_bal = get_user_meta( $user_id, 'wps_wallet_cashback_bal', true );
+		$wps_wallet_cashback_bal = (float) $wps_wallet_cashback_bal;
 		// wallet withdrawal.
 		
 			$args               = array(
@@ -4559,7 +4560,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wsfw_settings_template[] = array(
 			'title'       => __( 'Enter Twilio Account SID', 'wallet-system-for-woocommerce' ),
 			'type'        => 'text',
-			'description' => __( 'Please enter Twilio Account SID', 'wallet-system-for-woocommerce' ),
+			'description' => esc_html__( 'To view Twilio Account SID credentials visit ', 'wallet-system-for-woocommerce' ) . '<a href="https://www.twilio.com/user/account/voice-sms-mms">' . esc_html( 'Twilio Website', 'wallet-system-for-woocommerce' ) . '</a>',
 			'name'        => 'wps_wsfwp_wallet_sms_notification_account_sid',
 			'id'          => 'wps_wsfwp_wallet_sms_notification_account_sid',
 			'value'       => '',
@@ -4581,7 +4582,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wsfw_settings_template[] = array(
 			'title'       => __( 'Enter Twilio Account Phone Number', 'wallet-system-for-woocommerce' ),
 			'type'        => 'text',
-			'description' => __( 'Please enter Twilio Account Phone Number', 'wallet-system-for-woocommerce' ),
+			'description' => esc_html__( 'To Buy a Twilio Number ', 'wallet-system-for-woocommerce' ) . '<a href="https://www.twilio.com/console/phone-numbers/search">' . esc_html( 'Click Here', 'wallet-system-for-woocommerce' ) . '</a>',
 			'name'        => 'wps_wsfwp_wallet_sms_notification_phone_number',
 			'id'          => 'wps_wsfwp_wallet_sms_notification_phone_number',
 			'value'       => '',
