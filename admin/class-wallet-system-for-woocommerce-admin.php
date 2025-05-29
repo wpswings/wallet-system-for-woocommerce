@@ -2085,8 +2085,7 @@ class Wallet_System_For_Woocommerce_Admin {
 						);
 						$response = wp_remote_post( 'https://api.twilio.com/2010-04-01/Accounts/' . $account_sid . '/Messages.json', $request_args );
 						$response_body = wp_remote_retrieve_body( $response );
-						// echo"<pre>";
-						// print_r( $response_body );die('fdfdfdfdffd');
+						
 
 					}
 					// send sms notification feature.

@@ -22,9 +22,9 @@
  * Domain Path:       /languages
  * Requires Plugins: woocommerce
  * WC Requires at least: 5.5.0
- * WC tested up to: 9.8.2
+ * WC tested up to: 9.8.5
  * WP Requires at least: 5.5.0
- * WP tested up to: 6.8
+ * WP tested up to: 6.8.1
  * Requires PHP: 7.4
  *
  * License:           GNU General Public License v3.0

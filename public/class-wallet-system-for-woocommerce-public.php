@@ -2727,13 +2727,6 @@ class Wallet_System_For_Woocommerce_Public {
 					// custom work.
 					if ( ! empty( $_order_currency ) && $wps_wsfw_custom_check ) {
 
-						// $total = $item->get_total();
-						// $total = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
-						// $subtotal = $item->get_subtotal();
-						// $subtotal = apply_filters( 'wps_wsfw_convert_to_base_price', $subtotal );
-						// $item->set_total( $total );
-						// $item->set_subtotal( $subtotal );
-						// $order->set_total( $total );
 						$_order_currency = '';
 						$_woocs_order_base_currency = '';
 						if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
