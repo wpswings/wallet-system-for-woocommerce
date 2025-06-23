@@ -1716,6 +1716,17 @@ class Wallet_System_For_Woocommerce_Public {
 	public function wsfw_woocommerce_before_cart_total_cashback_message() {
 
 		if ( 'on' == get_option( 'wps_wsfw_enable_cashback' ) ) :
+
+			// Check if the user is eligible for cashback.
+			if ( class_exists( 'Wallet_System_For_Woocommerce_Common' ) ) {
+
+				$common_obj = new Wallet_System_For_Woocommerce_Common( '', '' );
+				if ( ! $common_obj->wps_wsfw_restrict_cashback_amount_user_role_wise( get_current_user_id() ) ) {
+
+					return false;
+				}
+			}
+
 			$wallet_id          = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 			$is_wallet_recharge = false;
 			if ( ! empty( WC()->cart->get_cart() ) ) {

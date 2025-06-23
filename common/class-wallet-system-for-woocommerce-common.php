@@ -215,6 +215,13 @@ class Wallet_System_For_Woocommerce_Common {
 			return;
 		}
 
+		$userid = $order->get_user_id();
+		// Check if the user is eligible for cashback based on user role.
+		if ( ! $this->wps_wsfw_restrict_cashback_amount_user_role_wise( $userid ) ) {
+
+			return false;
+		}
+
 		$payment_method = $order->get_payment_method();
 		$restrict_gatewaay  = ! empty( get_option( 'wps_wsfw_multiselect_cashback_restrict' ) ) ? get_option( 'wps_wsfw_multiselect_cashback_restrict' ) : array();
 		if ( in_array( $payment_method, $restrict_gatewaay ) ) {
@@ -224,7 +231,6 @@ class Wallet_System_For_Woocommerce_Common {
 		if ( $old_status != $new_status ) {
 
 			$order                  = wc_get_order( $order_id );
-			$userid                 = $order->get_user_id();
 
 			if ( empty( $userid ) ) {
 				return;
@@ -1761,5 +1767,26 @@ class Wallet_System_For_Woocommerce_Common {
 			
 		}
 
+	}
+
+	/**
+	 * Function to restrict cashback amount user role wise.
+	 *
+	 * @param  string $user_id is the user id.
+	 * @return bool
+	 */
+	public function wps_wsfw_restrict_cashback_amount_user_role_wise( $user_id ) {
+
+		$flag                                    = false;
+		$user_role                               = get_user_by( 'ID', $user_id );
+		$user_role                               = ! empty( $user_role->roles ) ? $user_role->roles[0] : '';
+		$wps_wsfw_enable_user_role_wise_cashback = get_option( 'wps_wsfw_enable_user_role_wise_cashback' );
+		$wps_wsfw_user_role_cashback_restrict    = get_option( 'wps_wsfw_user_role_cashback_restrict' );
+		$wps_wsfw_user_role_cashback_restrict    = ! empty( $wps_wsfw_user_role_cashback_restrict ) && is_array( $wps_wsfw_user_role_cashback_restrict ) ? $wps_wsfw_user_role_cashback_restrict : array();
+		if ( 'on' === $wps_wsfw_enable_user_role_wise_cashback && in_array( $user_role, $wps_wsfw_user_role_cashback_restrict ) ) {
+			
+			$flag = true;
+		}
+		return $flag;
 	}
 }

@@ -1401,6 +1401,15 @@ class Wallet_System_For_Woocommerce_Admin {
 			$wps_all_payment_gateway[ $key ] = $value->title;
 		}
 
+		// list all wordpress user roles.
+		$wps_all_user_roles = array();
+		global $wp_roles;
+
+		foreach ( $wp_roles->roles as $role_key => $role_details ) {
+			$wps_all_user_roles[ $role_key ] = $role_details['name'];
+		}
+
+
 		$wsfw_settings_general = array(
 
 			// enable wallet cashback.
@@ -1526,6 +1535,30 @@ class Wallet_System_For_Woocommerce_Admin {
 				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
 				'placeholder' => '',
 				'options' => $wps_all_payment_gateway,
+			),
+			array(
+				'title'       => __( 'Enable cashback based on user roles', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable this setting to offer cashback based on user roles.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_enable_user_role_wise_cashback',
+				'id'          => 'wps_wsfw_enable_user_role_wise_cashback',
+				'value'       => get_option( 'wps_wsfw_enable_user_role_wise_cashback' ),
+				'class'       => 'wsfw-radio-switch-class',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
+				'title'       => __( 'Select user role for cashback', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_user_role_cashback_restrict',
+				'type'        => 'multiselect',
+				'description' => __( 'Users with selected roles are eligible for cashback when they place an order.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wps_wsfw_user_role_cashback_restrict',
+				'value'       => get_option( 'wps_wsfw_user_role_cashback_restrict' ),
+				'class'       => 'wsfw-multiselect-class wps-defaut-multiselect',
+				'placeholder' => '',
+				'options'     => $wps_all_user_roles,
 			),
 			array(
 				'title'       => __( 'Enable Cashback for Wallet Recharge', 'wallet-system-for-woocommerce' ),
@@ -4315,7 +4348,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
 			update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
 			if ( 'regular' == $banner_type ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
+				update_option( 'wps_wgm_notify_hide_baneer_notification', 0 );
 			}
 		}
 	}
