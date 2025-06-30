@@ -22,7 +22,7 @@
  * Domain Path:       /languages
  * Requires Plugins: woocommerce
  * WC Requires at least: 5.5.0
- * WC tested up to: 9.9.4
+ * WC tested up to: 9.9.5
  * WP Requires at least: 5.5.0
  * WP tested up to: 6.8.1
  * Requires PHP: 7.4
@@ -379,6 +379,12 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 		$screen = get_current_screen();
 		if ( ! $screen || empty( $screen->id ) ) {
 			return;
+		}
+
+		$secure_nonce      = wp_create_nonce( 'wps-wallet-thankyou-order-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-wallet-thankyou-order-nonce' );
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'wallet-system-for-woocommerce' ) );
 		}
 
 		$target_screens = array( 'plugins', 'dashboard', 'wp-swings_page_home' );

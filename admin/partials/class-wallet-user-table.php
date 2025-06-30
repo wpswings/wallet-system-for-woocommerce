@@ -525,15 +525,15 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									
 
 									$message = "\n\n" . sprintf(
-										__( 'Hello %s,', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */ __( 'Hello %s,', 'wallet-system-for-woocommerce' ),
 										$full_name
 									);
 									$message .= "\n\n" . sprintf(
-										__( 'Your wallet is credited with %s by Merchant', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */ __( 'Your wallet is credited with %s by Merchant', 'wallet-system-for-woocommerce' ),
 										$credited_amount
 									);
 									$message .= "\n\n" . sprintf(
-										__( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */ __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
 										$wallet_bal
 									);
 									$message .= "\n\n- " . $site_name;
@@ -634,15 +634,15 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									
 
 									$message = "\n\n" . sprintf(
-										__( 'Hello %s,', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */ __( 'Hello %s,', 'wallet-system-for-woocommerce' ),
 										$full_name
 									);
 									$message .= "\n\n" . sprintf(
-										__( 'Your wallet is debited with %s by Merchant', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */ __( 'Your wallet is debited with %s by Merchant', 'wallet-system-for-woocommerce' ),
 										$credited_amount
 									);
 									$message .= "\n\n" . sprintf(
-										__( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */ __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
 										$wallet_bal
 									);
 									$message .= "\n\n- " . $site_name;

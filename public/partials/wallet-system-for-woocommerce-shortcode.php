@@ -354,14 +354,14 @@ if ( wp_verify_nonce( $nonce ) ) {
 	}
 
 	if( isset( $_POST['wps_wallet_generate_wallet_id'] ) && ! empty( $_POST['wps_wallet_generate_wallet_id'] )  ){
-		$assign_wallet_id  = sanitize_text_field( wp_unslash( $_POST['assign_wallet_id'] ) );
+		$assign_wallet_id   = ! empty( $_POST['assign_wallet_id'] ) ? sanitize_text_field( wp_unslash( $_POST['assign_wallet_id'] ) ) : '';
 		$existing_wallet_id = get_user_meta($assign_wallet_id, 'wps_wallet_id', true);
 	
-			if (empty($existing_wallet_id)) {
-				$common_obj  = new Wallet_System_For_Woocommerce_Common( 'wallet system for woocommerce', WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION );
-				$wallet_id = $common_obj->wps_wsfw_generate_unique_wallet_id($assign_wallet_id);
-				update_user_meta($assign_wallet_id, 'wps_wallet_id', $wallet_id);
-			}
+		if (empty($existing_wallet_id)) {
+			$common_obj  = new Wallet_System_For_Woocommerce_Common( 'wallet system for woocommerce', WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION );
+			$wallet_id = $common_obj->wps_wsfw_generate_unique_wallet_id($assign_wallet_id);
+			update_user_meta($assign_wallet_id, 'wps_wallet_id', $wallet_id);
+		}
 	}
 
 }

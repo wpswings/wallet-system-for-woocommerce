@@ -1440,7 +1440,7 @@ class Wallet_System_For_Woocommerce_Common {
 
 		do {
 			// Generate a 4-digit random number.
-			$random_number = rand( 1000, 9999 );
+			$random_number = wp_rand( 1000, 9999 );
 
 			// Combine prefix, user ID, and random number.
 			$wallet_id = $wallet_prefix . $user_id . $random_number;
@@ -1783,10 +1783,20 @@ class Wallet_System_For_Woocommerce_Common {
 		$wps_wsfw_enable_user_role_wise_cashback = get_option( 'wps_wsfw_enable_user_role_wise_cashback' );
 		$wps_wsfw_user_role_cashback_restrict    = get_option( 'wps_wsfw_user_role_cashback_restrict' );
 		$wps_wsfw_user_role_cashback_restrict    = ! empty( $wps_wsfw_user_role_cashback_restrict ) && is_array( $wps_wsfw_user_role_cashback_restrict ) ? $wps_wsfw_user_role_cashback_restrict : array();
+
+		// If the feature is disabled or no restrictions are set, allow cashback (return false).
+		if ( empty( $wps_wsfw_enable_user_role_wise_cashback ) || empty( $wps_wsfw_user_role_cashback_restrict ) ) {
+			
+			$flag = true;
+		}
+
+		// If enabled and user's role is in restricted list, restrict cashback.
 		if ( 'on' === $wps_wsfw_enable_user_role_wise_cashback && in_array( $user_role, $wps_wsfw_user_role_cashback_restrict ) ) {
 			
 			$flag = true;
 		}
+
+		// Default: allow cashback.
 		return $flag;
 	}
 }

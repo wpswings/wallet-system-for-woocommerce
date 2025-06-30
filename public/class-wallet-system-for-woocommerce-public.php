@@ -676,15 +676,15 @@ class Wallet_System_For_Woocommerce_Public {
 									
 
 									$message = "\n\n" . sprintf(
-										__( 'Hello %s,', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */ __( 'Hello %s,', 'wallet-system-for-woocommerce' ),
 										$full_name
 									);
 									$message .= "\n\n" . sprintf(
-										__( 'Your wallet is credited with %s by Merchant', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string*/ __( 'Your wallet is credited with %s by Merchant', 'wallet-system-for-woocommerce' ),
 										$credited_amount
 									);
 									$message .= "\n\n" . sprintf(
-										__( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string*/ __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
 										$wallet_bal
 									);
 									$message .= "\n\n- " . $site_name;

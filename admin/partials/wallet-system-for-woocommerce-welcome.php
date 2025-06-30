@@ -24,7 +24,7 @@ $wsfw_tab_key = '';
 	do_action( 'wps_wsfw_settings_saved_notice' );
 	?>
 	<div class="wps-header-container wps-bg-white wps-r-8">
-		<h1 class="wps-header-title"><?php echo esc_attr( __( 'WP Swings' ) ); ?></h1>
+		<h1 class="wps-header-title"><?php esc_html_e( 'WP Swings', 'wallet-system-for-woocommerce' ); ?></h1>
 	</div>
 </header>
 <main class="wps-main wps-bg-white wps-r-8">
@@ -65,9 +65,9 @@ $wsfw_tab_key = '';
 					<?php
 					$wsfw_general_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_genaral_settings );
 					echo esc_html( $wsfw_general_html );
-
+					
 					?>
-					<input type="hidden" id="updatenonce" name="updatenonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+					<input type="hidden" id="updatenonce" name="updatenonce" value="<?php echo esc_html( wp_create_nonce() ); ?>" />
 	
 				</div>
 			</form>
@@ -97,8 +97,8 @@ $wsfw_tab_key = '';
 				<?php if ( 'WP Swings' === $value['Author'] ) : ?>
 					<article class="card">
 						<div class="container">
-							<h4><b><?php echo wp_kses_post( $value['Name'] ); ?></b></h4> 
-							<p><?php echo wp_kses_post( $value['Version'] ); ?></p> 
+							<h4><b><?php echo esc_html( $value['Name'] ); ?></b></h4> 
+							<p><?php echo esc_html( $value['Version'] ); ?></p> 
 							<p><?php echo wp_kses_post( $value['Description'] ); ?></p>
 						</div>
 					</article>

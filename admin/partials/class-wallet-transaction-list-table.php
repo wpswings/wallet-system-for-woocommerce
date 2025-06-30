@@ -505,7 +505,7 @@ if ( isset( $_POST['action'] ) ) {
 					$row_data = array();
 					foreach ( $row as $key => $value ) {
 
-						array_push( $row_data, strip_tags( $value ) );
+						array_push( $row_data, wp_strip_all_tags( $value ) );
 					}
 					fputcsv( $file, $row_data );
 

@@ -384,7 +384,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wps_wallet_cashback_bal = get_user_meta( $user_id, 'wps_wallet_cashback_bal', true );
 		$wps_wallet_cashback_bal = (float) $wps_wallet_cashback_bal;
 		// wallet withdrawal.
-		
+
 			$args               = array(
 				'numberposts' => -1,
 				'post_type'   => 'wallet_withdrawal',
@@ -397,25 +397,25 @@ class Wallet_System_For_Woocommerce_Admin {
 			foreach ( $withdrawal_request as $key => $pending ) {
 				$request_id = $pending->ID;
 				$userid     = get_post_meta( $request_id, 'wallet_user_id', true );
-				if( $pending->post_status == 'approved' && $userid == $user_id ) {
+				if ( 'approved' == $pending->post_status && $userid == $user_id ) {
 					$wps_wallet_withdrawal_amount += get_post_meta( $request_id, 'wps_wallet_withdrawal_amount', true );
 				}
 			}
 
-		// wallet withdrawal.
-		if ( empty( $wallet_bal ) ) {
-			$wallet_bal = 0;
-		}
-		$data      = array(
-			'credit'       => $amount_credited,
-			'debit'     => $amount_debited,
-			'current_amount'     => round( $wallet_bal ),
-			'cashback_amount'     => round( $wps_wallet_cashback_bal ),
-			'withdrawal_amount'     => round( $wps_wallet_withdrawal_amount ),
+			// wallet withdrawal.
+			if ( empty( $wallet_bal ) ) {
+				$wallet_bal = 0;
+			}
+			$data      = array(
+				'credit'       => $amount_credited,
+				'debit'     => $amount_debited,
+				'current_amount'     => round( $wallet_bal ),
+				'cashback_amount'     => round( $wps_wallet_cashback_bal ),
+				'withdrawal_amount'     => round( $wps_wallet_withdrawal_amount ),
 
-		);
+			);
 
-		return $data;
+			return $data;
 	}
 
 	/**
@@ -1409,7 +1409,6 @@ class Wallet_System_For_Woocommerce_Admin {
 			$wps_all_user_roles[ $role_key ] = $role_details['name'];
 		}
 
-
 		$wsfw_settings_general = array(
 
 			// enable wallet cashback.
@@ -1788,13 +1787,16 @@ class Wallet_System_For_Woocommerce_Admin {
 			$nonce = ( isset( $_POST['updatenonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenonce'] ) ) : '';
 			$screen = get_current_screen();
 			if ( isset( $screen->id ) && 'wp-swings_page_home' === $screen->id ) {
+				if ( wp_verify_nonce( $nonce ) ) {
 
-				$enable_tracking = ! empty( $_POST['wsfw_enable_tracking'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_enable_tracking'] ) ) : '';
-				update_option( 'wsfw_enable_tracking', $enable_tracking );
+					$enable_tracking = ! empty( $_POST['wsfw_enable_tracking'] ) ? sanitize_text_field( wp_unslash( $_POST['wsfw_enable_tracking'] ) ) : '';
+					update_option( 'wsfw_enable_tracking', $enable_tracking );
 
-				return;
+					return;
+				}
 			}
 		}
+
 		if ( isset( $_POST['wsfw_button_demo'] ) ) {
 
 			$nonce = ( isset( $_POST['updatenonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenonce'] ) ) : '';
@@ -2071,43 +2073,39 @@ class Wallet_System_For_Woocommerce_Admin {
 					$auth_token   = get_option( 'wps_wsfwp_wallet_sms_notification_auth_token' );
 					$account_sid  = get_option( 'wps_wsfwp_wallet_sms_notification_account_sid' );
 					$from_number  = get_option( 'wps_wsfwp_wallet_sms_notification_phone_number' );
-				
+
 					if ( 'on' === $sms_enable && $auth_token && $account_sid && $from_number ) {
 						$wps_wsfw_customer_sms_number = get_user_meta( $update_wallet_userid, 'wps_wsfw_customer_sms_number', true );
 
 						// $order = wc_get_order( $order_id );
-						
+
 						$user       = get_user_by( 'id', $update_wallet_userid );
-						$full_name = $user->first_name . ' ' . $user->last_name;;
+						$full_name = $user->first_name . ' ' . $user->last_name;
+						;
 
 						$site_name = get_bloginfo( 'name' );
-						$credited_amount =  $credited_amount;
+						$credited_amount = $credited_amount;
 						$wallet_bal = get_user_meta( $update_wallet_userid, 'wps_wallet', true );
 						$wallet_bal = $wallet_bal;
-						
 
 						$message  = "\n\n" . sprintf(
-							__( 'Hi %s! Your order #%s has been successfully completed.', 'wallet-system-for-woocommerce' ),
+							/* translators: %s: search term */                            __( 'Hi %1$s! Your order %2$s has been successfully completed.', 'wallet-system-for-woocommerce' ),
 							$full_name,
 							$order_id
 						);
 						$message .= "\n\n" . sprintf(
-							__( 'Your wallet is credited with %s.', 'wallet-system-for-woocommerce' ),
+							/* translators: %s: search term */                            __( 'Your wallet is credited with %s.', 'wallet-system-for-woocommerce' ),
 							$credited_amount
 						);
 						$message .= "\n\n" . sprintf(
-							__( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+							/* translators: %s: search term */                            __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
 							$wallet_bal
 						);
 						$message .= "\n\n- " . $site_name;
-						
-
-						
-
 
 						$request_args = array(
 							'body' => array(
-								'To'   => '+'.$wps_wsfw_customer_sms_number,
+								'To'   => '+' . $wps_wsfw_customer_sms_number,
 								'From' => $from_number,
 								'Body' => $message,
 							),
@@ -2118,7 +2116,6 @@ class Wallet_System_For_Woocommerce_Admin {
 						);
 						$response = wp_remote_post( 'https://api.twilio.com/2010-04-01/Accounts/' . $account_sid . '/Messages.json', $request_args );
 						$response_body = wp_remote_retrieve_body( $response );
-						
 
 					}
 					// send sms notification feature.
@@ -2818,7 +2815,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		register_post_status(
 			'approved',
 			array(
-				'label'                     => _x( 'Approved', 'wallet-system-for-woocommerce' ),
+				'label'                     => esc_html__( 'Approved', 'wallet-system-for-woocommerce' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
 				/* translators: %s: search term */
@@ -2831,7 +2828,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		register_post_status(
 			'rejected',
 			array(
-				'label'                     => _x( 'Rejected', 'wallet-system-for-woocommerce' ),
+				'label'                     => esc_html__( 'Rejected', 'wallet-system-for-woocommerce' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
 				/* translators: %s: search term */
@@ -2843,7 +2840,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		register_post_status(
 			'pending1',
 			array(
-				'label'                     => _x( 'Pending', 'wallet-system-for-woocommerce' ),
+				'label'                     => esc_html__( 'Pending', 'wallet-system-for-woocommerce' ),
 				'public'                    => true,
 				/* translators: %s: search term */
 				'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ), // phpcs:ignore
@@ -4572,6 +4569,12 @@ class Wallet_System_For_Woocommerce_Admin {
 		return $wsfw_settings_template;
 	}
 
+	/**
+	 * Undocumented function.
+	 *
+	 * @param  array $wsfw_settings_template wsfw_settings_template.
+	 * @return array
+	 */
 	public function wsfw_wallet_sms_notification_settings_tab( $wsfw_settings_template ) {
 
 		$wsfw_settings_template   = apply_filters( 'wsfw_wallet_action_comment_extra_settings_array', $wsfw_settings_template );
@@ -4622,7 +4625,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			'class'       => 'wws-text-class wps_pro_settings',
 
 		);
-		
+
 		$wsfw_settings_template[] = array(
 			'type'        => 'submit',
 			'name'        => 'wsfw_button_wallet_withdrawal_paypal_tab_option',
