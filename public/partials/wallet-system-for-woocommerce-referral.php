@@ -48,7 +48,7 @@ $wps_wsfw_wallet_action_referral_description         = get_option( 'wps_wsfw_wal
   <h4> <?php __( 'Wallet Referral', 'wallet-system-for-woocommerce' ); ?></h4>
 </div>
 	<div class="wps-wallet-popup-right-rewards wps-wallet-popup-right-rewards--login">
-		<h4><?php echo esc_html__( 'Referral Link - ', 'wallet-system-for-woocommerce-pro' ); ?></h4>
+		<h4><?php echo esc_html__( 'Referral Link - ', 'wallet-system-for-woocommerce' ); ?></h4>
 	<div class="wps-wallet-popup-right-rewards-in">
 		<input type="hidden" id="wps_wsfw_copy" name="custId" value="<?php echo wp_kses_post( $site_url . '?pkey=' . $referral_link ); ?>" readonly="">
 		<div class="wps-wallet-popup-rewards-right-content-wallet">

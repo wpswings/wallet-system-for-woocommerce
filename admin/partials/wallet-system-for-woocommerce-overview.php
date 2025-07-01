@@ -24,17 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 		$check = false;
 		$check  = apply_filters( 'wsfw_check_pro_plugin', $check );
-
-	if ( $check ) {
 		?>
-				<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/Wallet-System-for-WooCommerce-Pro-banner-1200x389.webp" alt="Overview banner image">
-			<?php
-
-	} else {
-		?>
-				<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/org-banner.jpg" alt="Overview banner image">
-			<?php
-	}
+			<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/wallet-org-banner-img.jpeg" alt="Overview banner image">
+		<?php
 	?>
 <?php
 		$additional_content = apply_filters( 'wps_wsfw_overview_additional_content', '' );

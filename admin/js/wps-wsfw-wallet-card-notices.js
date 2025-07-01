@@ -11,21 +11,24 @@ jQuery( document ).ready(
             '#dismiss-banner',
             function(e){
                 e.preventDefault();
-                var data = {
-                    action:'wps_wsfw_dismiss_notice_banner',
-                    wps_nonce:wps_wsfw_branner_notice.wps_wsfw_nonce
-                };
-                $.ajax(
-                    {
-                        url: wps_wsfw_branner_notice.ajaxurl,
-                        type: "POST",
-                        data: data,
-                        success: function(response)
-                        {
+                if ( wps_wsfw_branner_notice.is_pro_plugin ) {
+
+                    var data = {
+                        action    :'wps_wsfw_dismiss_notice_banner',
+                        wps_nonce :wps_wsfw_branner_notice.wps_wsfw_nonce
+                    };
+                    $.ajax({
+                        url  : wps_wsfw_branner_notice.ajaxurl,
+                        type : "POST",
+                        data : data,
+                        success : function(response){
                             window.location.reload();
                         }
-                    }
-                );
+                    });
+                } else {
+
+                    jQuery(document).find('.wps-offer-notice').hide();
+                }
             }
         );
         if (jQuery('.wps_wallet_shop_order-header-container').html() != undefined){

@@ -658,6 +658,52 @@ class Wallet_System_For_Woocommerce_Public {
 							// Remove cart.
 							WC()->cart->empty_cart();
 
+							$sms_enable   = get_option( 'wps_wsfwp_wallet_sms_notification_enable' );
+								$auth_token   = get_option( 'wps_wsfwp_wallet_sms_notification_auth_token' );
+								$account_sid  = get_option( 'wps_wsfwp_wallet_sms_notification_account_sid' );
+								$from_number  = get_option( 'wps_wsfwp_wallet_sms_notification_phone_number' );
+							if ( 'on' === $sms_enable && $auth_token && $account_sid && $from_number ) {
+								$wps_wsfw_customer_sms_number = get_user_meta( $update_wallet_userid, 'wps_wsfw_customer_sms_number', true );
+
+								$user       = get_user_by( 'id', $update_wallet_userid );
+								$full_name = $user->first_name . ' ' . $user->last_name;
+								;
+
+								$site_name = get_bloginfo( 'name' );
+
+								$wallet_bal = $walletamount;
+
+								$message = "\n\n" . sprintf(
+									/* translators: %s: add string */                                    __( 'Hello %s,', 'wallet-system-for-woocommerce' ),
+									$full_name
+								);
+								$message .= "\n\n" . sprintf(
+									/* translators: %s: add string*/                                    __( 'Your wallet is credited with %s by Merchant', 'wallet-system-for-woocommerce' ),
+									$credited_amount
+								);
+								$message .= "\n\n" . sprintf(
+									/* translators: %s: add string*/                                    __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+									$wallet_bal
+								);
+								$message .= "\n\n- " . $site_name;
+
+								$request_args = array(
+									'timeout' => 15, // timeout in seconds.
+									'body' => array(
+										'To'   => '+' . $wps_wsfw_customer_sms_number,
+										'From' => $from_number,
+										'Body' => $message,
+									),
+									'headers' => array(
+										'Authorization' => 'Basic ' . base64_encode( $account_sid . ':' . $auth_token ),
+										'Content-Type'  => 'application/x-www-form-urlencoded',
+									),
+								);
+
+								$response = wp_remote_post( 'https://api.twilio.com/2010-04-01/Accounts/' . $account_sid . '/Messages.json', $request_args );
+								$response_body = wp_remote_retrieve_body( $response );
+
+							}
 						}
 					}
 
@@ -1658,11 +1704,22 @@ class Wallet_System_For_Woocommerce_Public {
 	/**
 	 * This function is used to show cashback notice on cart page.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function wsfw_woocommerce_before_cart_total_cashback_message() {
 
 		if ( 'on' == get_option( 'wps_wsfw_enable_cashback' ) ) :
+
+			// Check if the user is eligible for cashback.
+			if ( class_exists( 'Wallet_System_For_Woocommerce_Common' ) ) {
+
+				$common_obj = new Wallet_System_For_Woocommerce_Common( '', '' );
+				if ( ! $common_obj->wps_wsfw_restrict_cashback_amount_user_role_wise( get_current_user_id() ) ) {
+
+					return false;
+				}
+			}
+
 			$wallet_id          = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 			$is_wallet_recharge = false;
 			if ( ! empty( WC()->cart->get_cart() ) ) {
@@ -2674,13 +2731,6 @@ class Wallet_System_For_Woocommerce_Public {
 					// custom work.
 					if ( ! empty( $_order_currency ) && $wps_wsfw_custom_check ) {
 
-						// $total = $item->get_total();
-						// $total = apply_filters( 'wps_wsfw_convert_to_base_price', $total );
-						// $subtotal = $item->get_subtotal();
-						// $subtotal = apply_filters( 'wps_wsfw_convert_to_base_price', $subtotal );
-						// $item->set_total( $total );
-						// $item->set_subtotal( $subtotal );
-						// $order->set_total( $total );
 						$_order_currency = '';
 						$_woocs_order_base_currency = '';
 						if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
