@@ -811,7 +811,7 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @return void
 	 */
 	public function wps_wsfw_comment_amount_function( $comment_ids, $comment_approved ) {
-	
+
 		$user_id = get_current_user_id();
 		$updated = false;
 		if ( 1 === $comment_approved ) {
@@ -830,20 +830,19 @@ class Wallet_System_For_Woocommerce_Common {
 				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 				$user_comment           = WC()->session->get( 'w1' );
 				$wsfw_comment_limit     = WC()->session->get( 'w2' );
-				
-					if ( count( $user_comment ) < $wsfw_comment_limit ) {
-						$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
-					
-						if ( 'not_done' === $wps_wsfw_comment_done ) {
-							$amount          = $wps_wsfw_wallet_action_comment_amount;
-							$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
-							$walletamount    += $credited_amount;
-							update_user_meta( $user_id, 'wps_wallet', $walletamount );
-							update_option( $comment_ids . '_wps_wsfw_comment_done', 'done' );
-							$updated = true;
-						}
+
+				if ( count( $user_comment ) < $wsfw_comment_limit ) {
+					$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
+
+					if ( 'not_done' === $wps_wsfw_comment_done ) {
+						$amount          = $wps_wsfw_wallet_action_comment_amount;
+						$credited_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $wps_wsfw_wallet_action_comment_amount );
+						$walletamount    += $credited_amount;
+						update_user_meta( $user_id, 'wps_wallet', $walletamount );
+						update_option( $comment_ids . '_wps_wsfw_comment_done', 'done' );
+						$updated = true;
 					}
-				
+				}
 			}
 		}
 		if ( $updated ) {
@@ -1583,51 +1582,54 @@ class Wallet_System_For_Woocommerce_Common {
 	/**
 	 * Function to auto refund wallet payment on order status change.
 	 *
-	 * @param [int] $order_id as order id.
+	 * @param [int]  $order_id as order id.
 	 * @param [type] $old_status as old order status.
 	 * @param [type] $new_status as new order status.
 	 * @return void
 	 */
-	public function wps_wallet_auto_refund_if_wallet_payment( $order_id, $old_status, $new_status ){
+	public function wps_wallet_auto_refund_if_wallet_payment( $order_id, $old_status, $new_status ) {
 
-		
-		if ($new_status !== 'refunded') {
+		if ( 'refunded' !== $new_status ) {
 			return;
 		}
-	
-		// Check if setting is enabled
-		$auto_refund_enabled = get_option('wsfw_wallet_payment_refund_order_payment'); // adjust if needed
-		
-		if ($auto_refund_enabled !== 'on') {
+
+		// Check if setting is enabled.
+		$auto_refund_enabled = get_option( 'wsfw_wallet_payment_refund_order_payment' ); // adjust if needed.
+
+		if ( 'on' !== $auto_refund_enabled ) {
 			return;
 		}
-	
-		$order = wc_get_order($order_id);
-		if (!$order) return;
-	
-		// Check if payment was made using Wallet
-	
-		if ($order->get_payment_method() !== 'wps_wcb_wallet_payment_gateway') { // Replace 'wallet' with your gateway ID
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
 			return;
 		}
-	
+
+		// Check if payment was made using Wallet.
+
+		if ( $order->get_payment_method() !== 'wps_wcb_wallet_payment_gateway' ) { // Replace 'wallet' with your gateway ID.
+			return;
+		}
+
 		$user_id = $order->get_user_id();
-		
-		if (!$user_id) return;
-	
+
+		if ( ! $user_id ) {
+			return;
+		}
+
 		$refunded_total = $order->get_total_refunded();
-		
-		if ($refunded_total <= 0) {
+
+		if ( $refunded_total <= 0 ) {
 			return;
 		}
-	
-		// Check if already refunded to wallet (avoid duplicate credit)
-		if ($order->get_meta('_wallet_refunded_on_status_change') === 'yes') {
+
+		// Check if already refunded to wallet (avoid duplicate credit).
+		if ( $order->get_meta( '_wallet_refunded_on_status_change' ) === 'yes' ) {
 			return;
 		}
-	
-		// Refund to wallet (replace with your actual credit function)
-		if ( $refunded_total > 0) {
+
+		// Refund to wallet (replace with your actual credit function).
+		if ( $refunded_total > 0 ) {
 
 			$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 			$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
@@ -1636,7 +1638,7 @@ class Wallet_System_For_Woocommerce_Common {
 
 			$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
 
-			$wallet_bal = (float)$wallet_bal + (float)$refunded_total;
+			$wallet_bal = (float) $wallet_bal + (float) $refunded_total;
 
 			update_user_meta( $user_id, 'wps_wallet', $wallet_bal );
 
@@ -1679,19 +1681,28 @@ class Wallet_System_For_Woocommerce_Common {
 				'note'             => '',
 			);
 			$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-			$order->update_meta_data('_wallet_refunded_on_status_change', 'yes');
+			$order->update_meta_data( '_wallet_refunded_on_status_change', 'yes' );
 			$order->save();
 		}
-		
 	}
 
+	/**
+	 * Undocumented function.
+	 *
+	 * @param int    $order_id order_id.
+	 * @param string $old_status old_status.
+	 * @param string $new_status new_status.
+	 * @return void
+	 */
 	public function wps_wallet_auto_deduct_cashback_order_cancel_or_refund( $order_id, $old_status, $new_status ) {
 		if ( 'cancelled' === $new_status || 'refunded' === $new_status ) {
 
-			$order = wc_get_order($order_id);
-			if (!$order) return;
+			$order = wc_get_order( $order_id );
+			if ( ! $order ) {
+				return;
+			}
 
-			if ($order->get_meta('_wallet_cashback_on_status_refund_or_cancel') === 'yes') {
+			if ( $order->get_meta( '_wallet_cashback_on_status_refund_or_cancel' ) === 'yes' ) {
 				return;
 			}
 
@@ -1703,19 +1714,18 @@ class Wallet_System_For_Woocommerce_Common {
 				$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount1', true );
 			}
 
-			if( $wps_cashback_receive_amount > 0 ){
+			if ( $wps_cashback_receive_amount > 0 ) {
 				$user_id = $order->get_user_id();
 
 				$wallet_bal = get_user_meta( $user_id, 'wps_wallet', true );
 				$wps_wallet_cashback_bal = get_user_meta( $user_id, 'wps_wallet_cashback_bal', true );
 
-				$wallet_bal = (float)$wallet_bal - (float)$wps_cashback_receive_amount;
-				$wps_wallet_cashback_bal = (float)$wps_wallet_cashback_bal - (float)$wps_cashback_receive_amount;
+				$wallet_bal = (float) $wallet_bal - (float) $wps_cashback_receive_amount;
+				$wps_wallet_cashback_bal = (float) $wps_wallet_cashback_bal - (float) $wps_cashback_receive_amount;
 
 				update_user_meta( $user_id, 'wps_wallet', $wallet_bal );
 				update_user_meta( $user_id, 'wps_wallet_cashback_bal', $wps_wallet_cashback_bal );
 
-				
 				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 				$balance   = $order->get_currency() . ' ' . $wps_cashback_receive_amount;
@@ -1733,9 +1743,9 @@ class Wallet_System_For_Woocommerce_Common {
 					$headers   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 					$headers   .= 'From: ' . $from . "\r\n" .
 						'Reply-To: ' . $to . "\r\n";
-	
+
 					if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
-	
+
 						$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
 						if ( ! empty( $customer_email ) ) {
 							$user       = get_user_by( 'id', $user_id );
@@ -1744,7 +1754,7 @@ class Wallet_System_For_Woocommerce_Common {
 							$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
 						}
 					} else {
-	
+
 						$wallet_payment_gateway->send_mail_on_wallet_updation( $to, $subject, $mail_text, $headers );
 					}
 				}
@@ -1760,13 +1770,11 @@ class Wallet_System_For_Woocommerce_Common {
 					'note'             => '',
 				);
 				$wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
-				$order->update_meta_data('_wallet_cashback_on_status_refund_or_cancel', 'yes');
+				$order->update_meta_data( '_wallet_cashback_on_status_refund_or_cancel', 'yes' );
 				$order->save();
 
 			}
-			
 		}
-
 	}
 
 	/**
@@ -1786,13 +1794,13 @@ class Wallet_System_For_Woocommerce_Common {
 
 		// If the feature is disabled or no restrictions are set, allow cashback (return false).
 		if ( empty( $wps_wsfw_enable_user_role_wise_cashback ) || empty( $wps_wsfw_user_role_cashback_restrict ) ) {
-			
+
 			$flag = true;
 		}
 
 		// If enabled and user's role is in restricted list, restrict cashback.
 		if ( 'on' === $wps_wsfw_enable_user_role_wise_cashback && in_array( $user_role, $wps_wsfw_user_role_cashback_restrict ) ) {
-			
+
 			$flag = true;
 		}
 
