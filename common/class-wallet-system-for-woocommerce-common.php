@@ -1710,8 +1710,22 @@ class Wallet_System_For_Woocommerce_Common {
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				// HPOS usage is enabled.
 				$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount1', true );
+				if( empty( $wps_cashback_receive_amount) ){
+					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount2', true );
+				}elseif( empty( $wps_cashback_receive_amount) ){
+					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount3', true );
+				} elseif( empty( $wps_cashback_receive_amount) ){
+					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount4', true );
+				}
 			} else {
 				$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount1', true );
+				if( empty( $wps_cashback_receive_amount) ){
+					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount2', true );
+				}elseif( empty( $wps_cashback_receive_amount ) ){
+					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount3', true );
+				}elseif( empty( $wps_cashback_receive_amount ) ){
+					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount4', true );
+				}
 			}
 
 			if ( $wps_cashback_receive_amount > 0 ) {

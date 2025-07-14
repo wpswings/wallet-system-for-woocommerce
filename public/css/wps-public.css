@@ -730,11 +730,6 @@ form#wps_wallet_transfer_form {
 
 /* Promotion tab and recharge end */
 
-.payment_method_wallet{
-  padding-left: 3rem;
-  margin-top: 1rem;
-}
-
 @media only screen and ( max-width: 992px ){
   .wps_wallet_referral_friend.dashicons{
     right : 15px;

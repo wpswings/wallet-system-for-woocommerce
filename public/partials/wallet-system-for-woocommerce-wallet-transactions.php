@@ -18,6 +18,20 @@ $allowed_html = array(
 <div class='content active'>
 	<div class="wps-wallet-transaction-container">
 		<table class="wps-wsfw-wallet-field-table " id="transactions_table">
+			<form method="POST" class="wps_form_get_export_pdf">
+			<?php
+			$is_pro_plugin = false;
+			$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin_common', $is_pro_plugin );
+			if ( $is_pro_plugin ) {
+				?>
+				<div class="wps_wsfw_pdf_user_outer_class">
+				<input type="submit" class="btn button" name= "wps_wsfw_export_pdf_user" id="wps_wsfw_export_pdf_user" value="<?php esc_html_e( 'Download Transaction', 'wallet-system-for-woocommerce' ); ?>">
+				<input type="hidden" id="updatenoncewallet_user_pdf_dwnload" name="updatenoncewallet_user_pdf_dwnload" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+				</div>
+				<?php
+			}
+			?>	
+			</form>
 			<thead>
 				<tr>
 					<th>#</th>

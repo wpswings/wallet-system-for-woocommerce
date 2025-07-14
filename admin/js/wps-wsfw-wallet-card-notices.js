@@ -31,10 +31,6 @@ jQuery( document ).ready(
                 }
             }
         );
-        if (jQuery('.wps_wallet_shop_order-header-container').html() != undefined){
-            jQuery( '<div class="wps_wallet_shop_order-header-container wps_wallet_shop_order-bg-white wps_wallet_shop_order-r-8">'+jQuery('.wps_wallet_shop_order-header-container').html()+'</div>' ).insertBefore( "#wpbody-content" );
-    
-        }
        //shortcode in gunterberg work.
        const { registerBlockType }      = wp.blocks;
         const { TextControl, PanelBody } = wp.components;
