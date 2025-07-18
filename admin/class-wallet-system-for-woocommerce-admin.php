@@ -1251,7 +1251,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_wallet_action_comment_description',
 				'id'          => 'wps_wsfw_wallet_action_comment_description',
 				'step'        => '0.01',
-				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_comment_description' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_description' ) : 'You will get 1 points for product review',
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_comment_description' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_description' ) : 'Enter Comment Description',
 				'placeholder' => __( 'Enter comment description', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
@@ -1576,10 +1576,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_wallet_action_low_balance_settings      = apply_filters( 'wsfw_wallet_action_low_balance_settings_array', array() );
 				$wsfw_wallet_action_gamification_rule_settings      = apply_filters( 'wsfw_wallet_action_gamification_rule_settings_array', array() );
 				// wallet referal end.
-				
-				$wsfw_wallet_bnpl_rule_settings      = apply_filters( 'wsfw_wallet_bnpl_notification_settings', array() );
-
-
+	
 				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
 				update_option( 'wps_wsfw_subscriptions_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_per_interval'] ) ) : '' );
 				update_option( 'wps_sfw_subscription_expiry_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
@@ -1602,7 +1599,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_low_balance_settings );
 				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_action_gamification_rule_settings );
 
-				$wsfw_settings_wallet_action_new_registration = array_merge( $wsfw_settings_wallet_action_new_registration, $wsfw_wallet_bnpl_rule_settings );
 
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_settings_wallet_action_new_registration, 'type' ) );
 				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
@@ -4627,7 +4623,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			);
 		$wsfw_settings_template[] = array(
-				'title'       => __( 'Enter name to add on checkout page for interest of Wallet negative balance', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Enter name to add on checkout page for interest of WBNPL', 'wallet-system-for-woocommerce' ),
 				'type'        => 'text',
 				'description' => __( 'Enter name of fee to add for wallet recharge.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_intrest_text_name_amount_negative_balance',
@@ -4637,9 +4633,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => __( 'Enter Interest Name', 'wallet-system-for-woocommerce' ),
 		);
 		$wsfw_settings_template[] =	array(
-				'title'       => __( 'Wallet interest Type for negative balance', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'WBNPL interest Type for negative balance', 'wallet-system-for-woocommerce' ),
 				'type'        => 'select',
-				'description' => __( 'Select type of interest on Wallet Negative Balance recharge.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Select type of interest on WBNPL during Balance recharge.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_intrest_type_amount_negative_balance',
 				'id'          => 'wps_wsfw_intrest_type_amount_negative_balance',
 				'value'       => get_option( 'wps_wsfw_intrest_type_amount_negative_balance', 'percent' ),
@@ -4653,9 +4649,9 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			);
 		$wsfw_settings_template[] =	array(
-				'title'       => __( 'Enter Wallet interest Amount for negative balance', 'wallet-system-for-woocommerce' ),
+				'title'       => __( 'Enter WBNPL interest Amount for negative balance', 'wallet-system-for-woocommerce' ),
 				'type'        => 'number',
-				'description' => __( 'Charge interest on Wallet Negative Balance recharge.', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Charge interest on WBNPL during Balance recharge.', 'wallet-system-for-woocommerce' ),
 				'name'        => 'wps_wsfw_intrest_amount_negative_balance',
 				'id'          => 'wps_wsfw_intrest_amount_negative_balance',
 				'min'         => 0,

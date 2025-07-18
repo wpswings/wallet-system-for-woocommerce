@@ -56,15 +56,6 @@ $wsfw_wallet_bnpl_enable_settings      = apply_filters( 'wsfw_wallet_bnpl_notifi
 
 		?>
 
-
-	<div class="wsfw-secion-daily-visit">
-		<?php
-			$wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_withdrawal_settings );
-		if ( ! empty( $wsfw_wallet_action_html ) ) {
-			echo wp_kses_post( $wsfw_wallet_action_html );
-		}
-		?>
-	</div>
 		<input type="hidden" id="updatenoncewallet_bnpl" name="updatenoncewallet_bnpl" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
 	</div>
 </form>
