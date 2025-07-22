@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: woocommerce wallet, wordpress wallet, cashback, partial payment, refunds 
 Requires at least: 5.5.0
-Tested up to: 6.8.1
+Tested up to: 6.8.2
 WC Requires at least: 6.5.1
-WC tested up to: 9.9.5
-Stable tag: 2.6.8
+WC tested up to: 10.0.3
+Stable tag: 2.6.9
 Requires PHP: 7.5
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -49,7 +49,7 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 
 **8. Adding Balance to Digital Wallet Account:** Customers can add digital money to their wallets using the available WooCommerce payment methods.
 
-**9. Negative Wallet Amount:** The digital money system for Woocommerce allows you to credit the amount in negative in customers’ wallets. The negative amount will get debited once users recharge their wallets.
+**9. Buy Now Pay Later:** You can set up a buy now, pay later (BNPL) functionality so your user can continue shopping even if they have insufficient funds in their wallet. The remaining balance will be recorded as a pay-later amount, which they can pay later.
 
 **10. Wallet Balance Withdrawal:** Customers can file a withdrawal request to withdraw their wallet balance into their bank account or other payment applications.
 
@@ -247,9 +247,16 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 33. Wallet referral rewards
 34. Wallet instant discount
 35. Low wallet balance notification threshold
+36. Buy Now Pay Later
 
 
 == Changelog ==
+
+= 2.6.9 - Released on 22 July 2025 =
+* New: Wallet Buy Now Pay Later Feature.
+* New: Latest WP(6.8.2) and WC(10.0.3). 
+* Fix: Vulnerability issue fix in term wallet recharge. 
+* Fix:  Compatibility issue fix with [woocs multi currency](https://wordpress.org/plugins/woocommerce-currency-switcher/) in term of refund process.
 
 = 2.6.8 - Released on 1 July 2025 = 
 * New : User role wise cashback restriction.
@@ -526,6 +533,8 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.6.8 - Released on 1 July 2025 = 
-* New : User role wise cashback restriction.
-* New : Compatible with latest WP[6.8.1] & WC [9.9.5].
+= 2.6.9 - Released on 22 July 2025 =
+* New: Wallet Buy Now Pay Later Feature.
+* New: Latest WP(6.8.2) and WC(10.0.3). 
+* Fix: Vulnerability issue fix in term wallet recharge. 
+* Fix:  Compatibility issue fix with [woocs multi currency](https://wordpress.org/plugins/woocommerce-currency-switcher/) in term of refund process.
