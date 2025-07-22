@@ -24,7 +24,7 @@
  * WC Requires at least: 5.5.0
  * WC tested up to: 10.0.3
  * WP Requires at least: 6.7.0
- * WP tested up to: 6.8.1
+ * WP tested up to: 6.8.2
  * Requires PHP: 7.4
  *
  * License:           GNU General Public License v3.0
