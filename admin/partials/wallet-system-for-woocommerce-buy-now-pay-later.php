@@ -19,7 +19,7 @@ global $wsfw_wps_wsfw_obj;
 
 if ( isset( $_POST['wsfw_button_wallet_withdrawal_wbnpl_tab_option'] ) ) {
 	$nonce = ( isset( $_POST['updatenoncewallet_bnpl'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_bnpl'] ) ) : '';
-    // die('gggg');
+
 	if ( wp_verify_nonce( $nonce ) ) {
 
 		$wsfw_plugin_admin = new Wallet_System_For_Woocommerce_Admin( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
