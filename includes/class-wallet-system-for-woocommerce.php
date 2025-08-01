@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.6.8';
+			$this->version = '2.6.9';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -307,8 +307,9 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_action_withdrawal_settings', $wsfw_plugin_admin, 'wsfw_wallet_withdrawal_enable_settings_tab', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_action_sms_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_sms_notification_settings_tab', 10 );
-
+			
 		}
+		$this->loader->add_filter( 'wsfw_wallet_bnpl_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_bnpl_notification_settings_tab', 10 );
 		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
 
 		/*cron for notification*/
@@ -361,6 +362,9 @@ class Wallet_System_For_Woocommerce {
 
 		$this->loader->add_action('woocommerce_order_status_changed', $wsfw_plugin_common,  'wps_wallet_auto_refund_if_wallet_payment', 10, 3 );
 		$this->loader->add_action('woocommerce_order_status_changed', $wsfw_plugin_common,  'wps_wallet_auto_deduct_cashback_order_cancel_or_refund', 10, 3 );
+
+			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_common, 'wps_wsfwp_show_common_converted_price', 10, 1 );
+			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_common, 'wps_wsfwp_common_convert_to_base_price', 10, 1 );
 	}
 
 	/**
@@ -411,12 +415,11 @@ class Wallet_System_For_Woocommerce {
 			// daily visit balance.
 			$this->loader->add_action( 'wp', $wsfw_plugin_public, 'wps_wsfw_daily_visit_balance', 100 );
 			$this->loader->add_filter( 'woocommerce_cart_totals_fee_html', $wsfw_plugin_public, 'wsfw_wallet_cart_totals_fee_html', 10, 2 );
-			$this->loader->add_filter( 'wps_wsfw_check_parent_order', $wsfw_plugin_public, 'wps_wsfw_check_parent_order_for_subscription_listing', 10, 2 );
 			$this->loader->add_filter( 'woocommerce_thankyou_order_id', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_order_id', 99999 );
 			$this->loader->add_action( 'woocommerce_thankyou', $wsfw_plugin_public, 'wps_wsfw_woocommerce_thankyou_page', 99999 );
 			$this->loader->add_filter( 'wc_order_types', $wsfw_plugin_public, 'wps_wsfw_wc_order_types_', 20, 2 );
-			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
-			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
+			// $this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_public, 'wps_wsfwp_show_converted_price', 10, 1 );
+			// $this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_public, 'wps_wsfwp_convert_to_base_price', 10, 1 );
 			$this->loader->add_action( 'woocommerce_checkout_order_processed', $wsfw_plugin_public, 'wps_wocuf_initate_upsell_orders', 90 );
 			$this->loader->add_action( 'wp_loaded', $wsfw_plugin_public, 'wps_wsfw_referral_link_using_cookie' );
 			$this->loader->add_filter( 'mvx_available_payment_gateways', $wsfw_plugin_public, 'wsfw_admin_mvx_list_modules', 10 );
@@ -427,6 +430,7 @@ class Wallet_System_For_Woocommerce {
 			// QR scan issues fixed.
 			$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $wsfw_plugin_public, 'wps_wsfw_woocommerce_checkout_update_order_meta' );
 			$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $wsfw_plugin_public, 'wps_wsfw_woocommerce_checkout_update_order_meta' );
+
 		}
 	}
 
@@ -576,6 +580,11 @@ class Wallet_System_For_Woocommerce {
 				'name'      => 'wallet-system-for-woocommerce-org-wallet-sms-notification-settings',
 			);
 		}
+
+		$wsfw_default_tabs['wallet-system-for-woocommerce-buy-now-pay-later']      = array(
+			'title' => esc_html__( 'Buy Now Pay Later', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-for-woocommerce-buy-now-pay-later',
+		);
 
 		$wsfw_default_tabs['wallet-system-rest-api'] = array(
 			'title' => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),

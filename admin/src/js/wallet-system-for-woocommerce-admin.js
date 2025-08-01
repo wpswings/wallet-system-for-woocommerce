@@ -290,11 +290,16 @@
 			$('#wps_wallet_submit_val_submit').trigger('click');
 			jQuery("#wps_wallet_submit_val").attr('disabled',true);
 		});
+
+		$(document).on("click", ".wps_wallet-edit-popup-fill", function(e) {
+			jQuery("#wps_wallet_submit_val").removeAttr('disabled');
+		});
 		
 
 		$(document).on("click", "#close_wallet_form", function(e) {
 			$('.wps_wallet-edit-popup-fill').val('');
 			$('.error').html('');
+			jQuery("#wps_wallet_submit_val").removeAttr('disabled');
 			$('.wps_wallet-edit--popupwrap').find('.userid').remove();
 			$('.wps_wallet-edit--popupwrap').hide();
 

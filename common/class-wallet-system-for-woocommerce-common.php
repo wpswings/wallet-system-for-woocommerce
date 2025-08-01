@@ -1710,8 +1710,22 @@ class Wallet_System_For_Woocommerce_Common {
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				// HPOS usage is enabled.
 				$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount1', true );
+				if( empty( $wps_cashback_receive_amount) ){
+					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount2', true );
+				}elseif( empty( $wps_cashback_receive_amount) ){
+					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount3', true );
+				} elseif( empty( $wps_cashback_receive_amount) ){
+					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount4', true );
+				}
 			} else {
 				$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount1', true );
+				if( empty( $wps_cashback_receive_amount) ){
+					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount2', true );
+				}elseif( empty( $wps_cashback_receive_amount ) ){
+					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount3', true );
+				}elseif( empty( $wps_cashback_receive_amount ) ){
+					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount4', true );
+				}
 			}
 
 			if ( $wps_cashback_receive_amount > 0 ) {
@@ -1807,4 +1821,71 @@ class Wallet_System_For_Woocommerce_Common {
 		// Default: allow cashback.
 		return $flag;
 	}
+
+	/**
+	 * Returns converted price of wallet balance.
+	 *
+	 * @param float $wallet_bal wallet balance.
+	 * @return float
+	 */
+	public function wps_wsfwp_show_common_converted_price( $wallet_bal ) {
+
+		if ( class_exists( 'WOOCS' ) ) {
+			global $WOOCS; // phpcs:ignore issues due to plugin compatibility.
+
+			$amount = $WOOCS->woocs_exchange_value( $wallet_bal ); // phpcs:ignore issues due to plugin compatibility.
+
+			return $amount;
+		} else if ( function_exists( 'wmc_get_price' ) ) {
+
+			$wallet_bal = wmc_get_price( $wallet_bal );
+			return $wallet_bal;
+		} else if ( class_exists( 'WOOMULTI_CURRENCY_Data' ) ) {
+			$multi_currency_settings = WOOMULTI_CURRENCY_Data::get_ins();
+			$wmc_currencies = $multi_currency_settings->get_list_currencies();
+			$current_currency = $multi_currency_settings->get_current_currency();
+			$current_currency_rate = floatval( $wmc_currencies[ $current_currency ]['rate'] );
+		} else {
+			return $wallet_bal;
+		}
+	}
+	/**
+	 * Convert the amount into base currency amount.
+	 *
+	 * @param string $price price.
+	 * @return string
+	 */
+	public function wps_wsfwp_common_convert_to_base_price( $price ) {
+
+		$wps_sfw_active_plugins = get_option( 'active_plugins' );
+		if ( in_array( 'woocommerce-currency-switcher/index.php', $wps_sfw_active_plugins ) ) {
+
+			if ( class_exists( 'WOOCS' ) ) {
+				global $WOOCS; // phpcs:ignore issues due to plugin compatibility.
+				$amount = '';
+				if ( $WOOCS->is_multiple_allowed ) { // phpcs:ignore issues due to plugin compatibility.
+					 $currrent = $WOOCS->current_currency; // phpcs:ignore issues due to plugin compatibility.
+					if ( $currrent != $WOOCS->default_currency ) { // phpcs:ignore issues due to plugin compatibility.
+						$currencies = $WOOCS->get_currencies(); // phpcs:ignore issues due to plugin compatibility.
+						$rate = $currencies[ $currrent ]['rate'];
+						$amount = $price / ( $rate );
+						return $amount;
+					} else {
+						return $price;
+					}
+				}
+			}
+		}
+
+		
+
+		if ( function_exists( 'wmc_revert_price' ) ) {
+
+			$price = wmc_revert_price( $price );
+			return $price;
+		}
+
+		return $price;
+	}
+
 }

@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		$check = false;
 		$check  = apply_filters( 'wsfw_check_pro_plugin', $check );
 		?>
-			<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/wallet-org-banner-img.jpeg" alt="Overview banner image">
+			<img src="<?php echo esc_html( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/wallet-org-banner-img.webp" alt="Overview banner image">
 		<?php
 	?>
 <?php

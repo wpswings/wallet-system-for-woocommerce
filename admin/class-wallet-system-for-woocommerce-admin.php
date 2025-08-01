@@ -593,8 +593,6 @@ class Wallet_System_For_Woocommerce_Admin {
 				}
 			}
 		}
-
-		add_submenu_page( 'woocommerce', 'Wallet Recharge Orders', __( 'Wallet Recharge Orders', 'wallet-system-for-woocommerce' ), 'edit_posts', 'wallet_shop_order', array( $this, 'show_wallet_orders' ) );
 	}
 
 
@@ -778,91 +776,6 @@ class Wallet_System_For_Woocommerce_Admin {
 						'completed' => __( 'Completed', 'wallet-system-for-woocommerce' ),
 					)
 				),
-			),
-			array(
-				'title'       => __( 'Enable Wallet Negative Balance', 'wallet-system-for-woocommerce' ),
-				'type'        => 'radio-switch',
-				'description' => __( 'Enable to debit customers wallet in negative balance.', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wsfw_enable_wallet_negative_balance',
-				'id'          => 'wsfw_enable_wallet_negative_balance',
-				'value'       => get_option( 'wsfw_enable_wallet_negative_balance', 'no' ),
-				'class'       => 'wsfw-radio-switch-class',
-				'options'     => array(
-					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
-					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
-				),
-			),
-			array(
-				'title'       => __( 'Limit for Wallet Negative Balance (Pay Later Amount )', 'wallet-system-for-woocommerce' ),
-				'type'        => 'number',
-				'description' => __( 'Enter limit upto customer can use balance in negative', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wsfw_enable_wallet_negative_balance_limit',
-				'id'          => 'wsfw_enable_wallet_negative_balance_limit',
-				'min'         => 0,
-				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit', '0' ),
-				'class'       => 'wsfw-text-class wps_pro_settings',
-				'placeholder' => __( 'Enter Amount Limit upto user can use negative balance', 'wallet-system-for-woocommerce' ),
-			),
-			array(
-				'title'       => __( 'Limit order number for Wallet Negative Balance Use', 'wallet-system-for-woocommerce' ),
-				'type'        => 'number',
-				'description' => __( 'Enter order limit after customer can avail balance in negative', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wsfw_enable_wallet_negative_balance_limit_order',
-				'id'          => 'wsfw_enable_wallet_negative_balance_limit_order',
-				'min'         => 0,
-				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit_order', 0 ),
-				'class'       => 'wsfw-text-class wps_pro_settings',
-				'placeholder' => __( 'Enter Order Limit after which user can use negative balance at checkout', 'wallet-system-for-woocommerce' ),
-			),
-			array(
-				'title'       => __( 'Enable Wallet Interest for Negative Balance Recharge', 'wallet-system-for-woocommerce' ),
-				'type'        => 'radio-switch',
-				'description' => __( 'Enable to allow customers get charge for wallet recharge in negative balance', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wsfw_enable_wallet_negative_balance_enabled_interest',
-				'id'          => 'wsfw_enable_wallet_negative_balance_enabled_interest',
-				'value'       => get_option( 'wsfw_enable_wallet_negative_balance_enabled_interest', 'no' ),
-				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
-				'options'     => array(
-					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
-					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
-				),
-			),
-			array(
-				'title'       => __( 'Enter name to add on checkout page for interest of Wallet negative balance', 'wallet-system-for-woocommerce' ),
-				'type'        => 'text',
-				'description' => __( 'Enter name of fee to add for wallet.', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wps_wsfw_intrest_text_name_amount_negative_balance',
-				'id'          => 'wps_wsfw_intrest_text_name_amount_negative_balance',
-				'value'       => get_option( 'wps_wsfw_intrest_text_name_amount_negative_balance', 'Interest wallet' ),
-				'class'       => 'wsfw-text-class wps_pro_settings',
-				'placeholder' => __( 'Enter Interest Name', 'wallet-system-for-woocommerce' ),
-			),
-			array(
-				'title'       => __( 'Wallet interest Type for negative balance', 'wallet-system-for-woocommerce' ),
-				'type'        => 'select',
-				'description' => __( 'Select type of interest on Wallet Negative Balance recharge.', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wps_wsfw_intrest_type_amount_negative_balance',
-				'id'          => 'wps_wsfw_intrest_type_amount_negative_balance',
-				'value'       => get_option( 'wps_wsfw_intrest_type_amount_negative_balance', 'percent' ),
-				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
-				'options'     => apply_filters(
-					'wsfw_cashback_type__array',
-					array(
-						'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
-						'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
-					)
-				),
-			),
-			array(
-				'title'       => __( 'Enter Wallet interest Amount for negative balance', 'wallet-system-for-woocommerce' ),
-				'type'        => 'number',
-				'description' => __( 'Charge interest on Wallet Negative Balance recharge.', 'wallet-system-for-woocommerce' ),
-				'name'        => 'wps_wsfw_intrest_amount_negative_balance',
-				'id'          => 'wps_wsfw_intrest_amount_negative_balance',
-				'min'         => 0,
-				'value'       => ! empty( get_option( 'wps_wsfw_intrest_amount_negative_balance' ) ) ? get_option( 'wps_wsfw_intrest_amount_negative_balance' ) : 10,
-				'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
-				'class'       => 'wws-text-class wps_pro_settings',
 			),
 
 			array(
@@ -1336,7 +1249,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'name'        => 'wps_wsfw_wallet_action_comment_description',
 				'id'          => 'wps_wsfw_wallet_action_comment_description',
 				'step'        => '0.01',
-				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_comment_description' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_description' ) : 'You will get 1 points for product review',
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_comment_description' ) ) ? get_option( 'wps_wsfw_wallet_action_comment_description' ) : 'Enter Comment Description',
 				'placeholder' => __( 'Enter comment description', 'wallet-system-for-woocommerce' ),
 				'class'       => 'wws-text-class',
 			),
@@ -1661,6 +1574,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$wsfw_wallet_action_low_balance_settings      = apply_filters( 'wsfw_wallet_action_low_balance_settings_array', array() );
 				$wsfw_wallet_action_gamification_rule_settings      = apply_filters( 'wsfw_wallet_action_gamification_rule_settings_array', array() );
 				// wallet referal end.
+
 				update_option( 'wps_sfw_subscription_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
 				update_option( 'wps_wsfw_subscriptions_per_interval', ! empty( $_POST['wps_wsfw_subscriptions_per_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_subscriptions_per_interval'] ) ) : '' );
 				update_option( 'wps_sfw_subscription_expiry_interval', ! empty( $_POST['wps_sfw_subscription_interval'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_sfw_subscription_interval'] ) ) : '' );
@@ -1724,6 +1638,35 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	/**
+	 * Wallet System for WooCommerce save tab settings.
+	 *
+	 * @since 1.0.0
+	 */
+	public function wsfw_admis_save_tab_settings_for_bnpl() {
+		global $wsfw_wps_wsfw_obj;
+		if ( isset( $_POST['wsfw_button_wallet_withdrawal_wbnpl_tab_option'] ) ) {
+			$nonce = ( isset( $_POST['updatenoncewallet_bnpl'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_bnpl'] ) ) : '';
+			if ( wp_verify_nonce( $nonce ) ) {
+
+				$wps_wsfw_gen_flag     = false;
+				$wsfw_genaral_settings = apply_filters( 'wsfw_wallet_bnpl_notification_settings', array() );
+				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
+				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
+					$wsfw_button_index = array_search( 'button', array_column( $wsfw_genaral_settings, 'type' ) );
+				}
+				$this->wsfw_admin_save_data( $wsfw_genaral_settings, $wps_wsfw_gen_flag );
+
+			} else {
+				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
+			}
+		}
+	}
+
+
+
+
+
+	/**
 	 * This function is used to save wallet action tab data.
 	 *
 	 * @param array  $wsfw_genaral_settings wsfw_genaral_settings.
@@ -1732,10 +1675,11 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_save_data( $wsfw_genaral_settings, $wps_wsfw_gen_flag ) {
 		global $wsfw_wps_wsfw_obj;
-		if ( isset( $_POST['wsfw_button_wallet_action'] ) || isset( $_POST['wsfw_button_cashback'] ) ) {
+		if ( isset( $_POST['wsfw_button_wallet_action'] ) || isset( $_POST['wsfw_button_cashback'] ) || isset( $_POST['wsfw_button_wallet_withdrawal_wbnpl_tab_option'] ) ) {
 			$nonce_action   = ( isset( $_POST['updatenoncewallet_action'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_action'] ) ) : '';
 			$nonce_cashback = ( isset( $_POST['updatenoncecashback'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncecashback'] ) ) : '';
-			if ( wp_verify_nonce( $nonce_action ) || wp_verify_nonce( $nonce_cashback ) ) {
+			$nonce_bpnl = ( isset( $_POST['updatenoncewallet_bnpl'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_bnpl'] ) ) : '';
+			if ( wp_verify_nonce( $nonce_action ) || wp_verify_nonce( $nonce_cashback ) || wp_verify_nonce( $nonce_bpnl ) ) {
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
 				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
 					$wsfw_button_index = array_search( 'button', array_column( $wsfw_genaral_settings, 'type' ) );
@@ -3134,14 +3078,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wps-user-wallet-transactions.php';
 	}
 
-	/**
-	 * Includes  wallet recharge relate custom table(WP_LIST)
-	 *
-	 * @return void
-	 */
-	public function show_wallet_orders() {
-		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wps-custom-table-for-orders.php';
-	}
 
 	/**
 	 * Register new order type (wallet_shop_order)
@@ -4632,6 +4568,121 @@ class Wallet_System_For_Woocommerce_Admin {
 			'id'          => 'wsfw_button_wallet_withdrawal_paypal_tab_option',
 			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
 			'class'       => 'wsfw-button-class wps_pro_settings',
+		);
+
+		return $wsfw_settings_template;
+	}
+
+	/**
+	 * This is used to enable wallet BNPL.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_wallet_bnpl_notification_settings_tab( $wsfw_settings_template ) {
+
+		$is_pro_plugin = false;
+		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+
+		if ( $is_pro_plugin ) {
+			$setting_description = __( 'Enable to allow customers to use wallet with Buy Now, Pay Later.', 'wallet-system-for-woocommerce' );
+		} else {
+
+			$setting_description = __( 'Enable to allow admin to use wallet with Buy Now, Pay Later.', 'wallet-system-for-woocommerce' );
+		}
+
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable Wallet Buy Now Pay Later', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => $setting_description,
+			'name'        => 'wsfw_enable_wallet_negative_balance',
+			'id'          => 'wsfw_enable_wallet_negative_balance',
+			'value'       => get_option( 'wsfw_enable_wallet_negative_balance', 'no' ),
+			'class'       => 'wsfw-radio-switch-class',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Limit for Wallet Buy Now Pay Later Amount', 'wallet-system-for-woocommerce' ),
+			'type'        => 'number',
+			'description' => __( 'Set Maximum Buy Now, Pay Later Limit', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wsfw_enable_wallet_negative_balance_limit',
+			'id'          => 'wsfw_enable_wallet_negative_balance_limit',
+			'min'         => 0,
+			'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit', '0' ),
+			'class'       => 'wsfw-text-class wps_pro_settings',
+			'placeholder' => __( 'Enter Amount Limit upto user can use negative balance', 'wallet-system-for-woocommerce' ),
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Minimum Order Count Required to Avail BNPL', 'wallet-system-for-woocommerce' ),
+			'type'        => 'number',
+			'description' => __( 'Set Order Count to Allow Wallet Overdraft (BNPL)', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wsfw_enable_wallet_negative_balance_limit_order',
+			'id'          => 'wsfw_enable_wallet_negative_balance_limit_order',
+			'min'         => 0,
+			'value'       => get_option( 'wsfw_enable_wallet_negative_balance_limit_order', 0 ),
+			'class'       => 'wsfw-text-class wps_pro_settings',
+			'placeholder' => __( 'Enter Order Limit after which user can use negative balance at checkout', 'wallet-system-for-woocommerce' ),
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable Wallet Interest for Buy Now Pay Later at Wallet Recharge', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => __( 'Enable to allow customers get charge for wallet recharge in negative balance', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wsfw_enable_wallet_negative_balance_enabled_interest',
+			'id'          => 'wsfw_enable_wallet_negative_balance_enabled_interest',
+			'value'       => get_option( 'wsfw_enable_wallet_negative_balance_enabled_interest', 'no' ),
+			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enter name to add on checkout page for interest of WBNPL', 'wallet-system-for-woocommerce' ),
+			'type'        => 'text',
+			'description' => __( 'Enter name of fee to add for wallet recharge.', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wps_wsfw_intrest_text_name_amount_negative_balance',
+			'id'          => 'wps_wsfw_intrest_text_name_amount_negative_balance',
+			'value'       => get_option( 'wps_wsfw_intrest_text_name_amount_negative_balance', 'Interest wallet' ),
+			'class'       => 'wsfw-text-class wps_pro_settings',
+			'placeholder' => __( 'Enter Interest Name', 'wallet-system-for-woocommerce' ),
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'WBNPL interest Type for negative balance', 'wallet-system-for-woocommerce' ),
+			'type'        => 'select',
+			'description' => __( 'Select type of interest on WBNPL during Balance recharge.', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wps_wsfw_intrest_type_amount_negative_balance',
+			'id'          => 'wps_wsfw_intrest_type_amount_negative_balance',
+			'value'       => get_option( 'wps_wsfw_intrest_type_amount_negative_balance', 'percent' ),
+			'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+			'options'     => apply_filters(
+				'wsfw_cashback_type__array',
+				array(
+					'percent' => __( 'Percentage', 'wallet-system-for-woocommerce' ),
+					'fixed'   => __( 'Fixed', 'wallet-system-for-woocommerce' ),
+				)
+			),
+		);
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enter WBNPL interest Amount for negative balance', 'wallet-system-for-woocommerce' ),
+			'type'        => 'number',
+			'description' => __( 'Charge interest on WBNPL during Balance recharge.', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wps_wsfw_intrest_amount_negative_balance',
+			'id'          => 'wps_wsfw_intrest_amount_negative_balance',
+			'min'         => 0,
+			'value'       => ! empty( get_option( 'wps_wsfw_intrest_amount_negative_balance' ) ) ? get_option( 'wps_wsfw_intrest_amount_negative_balance' ) : 10,
+			'placeholder' => __( 'Enter amount', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wws-text-class wps_pro_settings',
+		);
+
+		$wsfw_settings_template[] = array(
+			'type'        => 'submit',
+			'name'        => 'wsfw_button_wallet_withdrawal_wbnpl_tab_option',
+			'id'          => 'wsfw_button_wallet_withdrawal_wbnpl_tab_option',
+			'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+			'class'       => 'wsfw-button-class',
 		);
 
 		return $wsfw_settings_template;
