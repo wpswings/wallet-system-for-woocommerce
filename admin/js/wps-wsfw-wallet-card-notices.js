@@ -11,7 +11,6 @@ jQuery( document ).ready(
             '#dismiss-banner',
             function(e){
                 e.preventDefault();
-                if ( wps_wsfw_branner_notice.is_pro_plugin ) {
 
                     var data = {
                         action    :'wps_wsfw_dismiss_notice_banner',
@@ -25,10 +24,6 @@ jQuery( document ).ready(
                             window.location.reload();
                         }
                     });
-                } else {
-
-                    jQuery(document).find('.wps-offer-notice').hide();
-                }
             }
         );
        //shortcode in gunterberg work.
