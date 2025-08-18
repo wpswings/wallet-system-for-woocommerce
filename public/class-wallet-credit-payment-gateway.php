@@ -88,7 +88,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				'subscription_amount_changes',
 				'subscription_date_changes',
 				'subscription_payment_method_change',
-				'subscription_payment_method_change_customer', 
+				'subscription_payment_method_change_customer',
 			);
 			// Actions.
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );

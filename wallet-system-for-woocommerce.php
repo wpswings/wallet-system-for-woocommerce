@@ -22,7 +22,7 @@
  * Domain Path:       /languages
  * Requires Plugins: woocommerce
  * WC Requires at least: 5.5.0
- * WC tested up to: 10.0.3
+ * WC tested up to: 10.1.0
  * WP Requires at least: 6.7.0
  * WP tested up to: 6.8.2
  * Requires PHP: 7.4
@@ -416,7 +416,7 @@ function wps_wsfw_banner_notification_html() {
 			$banner_image     = get_option( 'wps_wgm_notify_new_banner_image', '' );
 			$banner_url       = get_option( 'wps_wgm_notify_new_banner_url', '' );
 			if ( $hidden_banner_id < $banner_id && ! empty( $banner_image ) && ! empty( $banner_url ) ) {
-				
+
 				?>
 				<div class="wps-offer-notice notice notice-warning is-dismissible">
 					<div class="notice-container">
