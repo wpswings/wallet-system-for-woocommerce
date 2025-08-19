@@ -127,7 +127,6 @@ class Wallet_System_For_Woocommerce_Admin {
 		$wps_wsfw_branner_notice = array(
 			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 			'wps_wsfw_nonce' => wp_create_nonce( 'wp_rest' ),
-			'is_pro_plugin'             => apply_filters( 'wsfw_check_pro_plugin', $is_plugin ),
 		);
 		wp_register_script( $this->plugin_name . 'admin-notice', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-wsfw-wallet-card-notices.js', array( 'jquery' ), $this->version, false );
 

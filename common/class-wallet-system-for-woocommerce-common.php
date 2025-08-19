@@ -828,8 +828,8 @@ class Wallet_System_For_Woocommerce_Common {
 				$wallet_user            = get_user_by( 'id', $user_id );
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-				$user_comment           = WC()->session->get( 'w1' );
-				$wsfw_comment_limit     = WC()->session->get( 'w2' );
+				$user_comment       = (array) WC()->session->get( 'w1', array() );
+				$wsfw_comment_limit = (int) WC()->session->get( 'w2', 0 );
 
 				if ( count( $user_comment ) < $wsfw_comment_limit ) {
 					$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
@@ -1710,20 +1710,20 @@ class Wallet_System_For_Woocommerce_Common {
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				// HPOS usage is enabled.
 				$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount1', true );
-				if( empty( $wps_cashback_receive_amount) ){
+				if ( empty( $wps_cashback_receive_amount ) ) {
 					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount2', true );
-				}elseif( empty( $wps_cashback_receive_amount) ){
+				} elseif ( empty( $wps_cashback_receive_amount ) ) {
 					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount3', true );
-				} elseif( empty( $wps_cashback_receive_amount) ){
+				} elseif ( empty( $wps_cashback_receive_amount ) ) {
 					$wps_cashback_receive_amount = $order->get_meta( 'wps_cashback_receive_amount4', true );
 				}
 			} else {
 				$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount1', true );
-				if( empty( $wps_cashback_receive_amount) ){
+				if ( empty( $wps_cashback_receive_amount ) ) {
 					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount2', true );
-				}elseif( empty( $wps_cashback_receive_amount ) ){
+				} elseif ( empty( $wps_cashback_receive_amount ) ) {
 					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount3', true );
-				}elseif( empty( $wps_cashback_receive_amount ) ){
+				} elseif ( empty( $wps_cashback_receive_amount ) ) {
 					$wps_cashback_receive_amount = get_post_meta( $order_id, 'wps_cashback_receive_amount4', true );
 				}
 			}
@@ -1877,8 +1877,6 @@ class Wallet_System_For_Woocommerce_Common {
 			}
 		}
 
-		
-
 		if ( function_exists( 'wmc_revert_price' ) ) {
 
 			$price = wmc_revert_price( $price );
@@ -1887,5 +1885,4 @@ class Wallet_System_For_Woocommerce_Common {
 
 		return $price;
 	}
-
 }
