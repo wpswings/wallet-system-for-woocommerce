@@ -23,7 +23,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
         $is_pro_plugin = false;
         $is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
         if ( $is_pro_plugin ) {
-            $wsfw_number_of_documents_for_kyc = get_option( 'wsfw_pro_number_of_documents_for_kyc', 1 );
+            $wsfw_number_of_documents_for_kyc = get_option( 'wsfw_number_of_documents_for_kyc' );
         }else{
             $wsfw_number_of_documents_for_kyc = 1;
         }
@@ -80,7 +80,6 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
             ?>
         
             <form action="" method="post" id="wps_wallet_kyc_form" enctype="multipart/form-data" >
-                
             <?php for ( $i = 1; $i <= $wsfw_number_of_documents_for_kyc; $i++ ) : ?>
                     <p class="wps-wallet-field-container form-row form-row-wide">
                         <label for="wps_wallet_kyc_document_<?php echo esc_attr( $i ); ?>">
