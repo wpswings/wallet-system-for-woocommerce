@@ -213,6 +213,7 @@ input[type=submit].wps-btn__filled:hover {
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:first-of-type,
 .wps_wcb_content_template ul.wps_wcb_content_template ul.tabs li .wps_wallet_transfer_tab path:last-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_withdrawal_tab path:last-of-type,
+.wps_wcb_content_template ul.tabs li .wps_kyc_verification_tab path:first-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_recharge_tab path:first-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:first-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:last-of-type,
@@ -221,6 +222,19 @@ input[type=submit].wps-btn__filled:hover {
     fill: #000;
 }
 
+.wps_wcb_wallet_display_wrapper_with_qr .wps_wcb_wallet_balance_container h4.wallet-balance-title {
+  font-size: 18px;
+}
+
+.wps_kyc_approved_icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.wps_kyc_approved_icon svg {
+    width: 24px;
+    height: 24px;
+}
 
 
 

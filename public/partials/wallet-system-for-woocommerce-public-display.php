@@ -206,6 +206,70 @@ if ( wp_verify_nonce( $nonce ) ) {
 		}
 	}
 
+	// kyc saving.
+	if ( isset( $_POST['wps_submit_kyc'] ) && ! empty( $_POST['wps_submit_kyc'] ) ) {
+
+		$update = true;
+
+		if ( ! empty( $_POST['current_user_id'] ) ) {
+			$user_id = intval( sanitize_text_field( wp_unslash( $_POST['current_user_id'] ) ) );
+		} else {
+			show_message_on_form_submit( __( 'Invalid request. User not found.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		}
+
+		if ( $update ) {
+			$uploaded_files = array();
+			$errors = array();
+
+			// ✅ Load upload handling functions
+			if ( ! function_exists( 'wp_handle_upload' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
+
+			if ( ! empty( $_FILES['wps_wallet_kyc_document']['name'] ) ) {
+				foreach ( $_FILES['wps_wallet_kyc_document']['name'] as $key => $name ) {
+					if ( ! empty( $name ) ) {
+						$file = array(
+							'name'     => $_FILES['wps_wallet_kyc_document']['name'][ $key ],
+							'type'     => $_FILES['wps_wallet_kyc_document']['type'][ $key ],
+							'tmp_name' => $_FILES['wps_wallet_kyc_document']['tmp_name'][ $key ],
+							'error'    => $_FILES['wps_wallet_kyc_document']['error'][ $key ],
+							'size'     => $_FILES['wps_wallet_kyc_document']['size'][ $key ],
+						);
+
+						$upload = wp_handle_upload( $file, array( 'test_form' => false ) );
+
+						if ( isset( $upload['url'] ) && ! isset( $upload['error'] ) ) {
+							$uploaded_files[] = $upload['url'];
+						} else {
+							$errors[] = sprintf( __( 'Error uploading document: %s', 'wallet-system-for-woocommerce' ), $upload['error'] );
+						}
+					}
+				}
+			}
+
+			if ( empty( $errors ) && ! empty( $uploaded_files ) ) {
+				update_user_meta( $user_id, 'wps_wallet_kyc_documents', $uploaded_files );
+				update_user_meta( $user_id, 'key_verification_status', 'pending' );
+
+				show_message_on_form_submit(
+					__( 'KYC documents uploaded successfully. Your verification is pending.', 'wallet-system-for-woocommerce' ),
+					'woocommerce-message'
+				);
+			} else {
+				foreach ( $errors as $error ) {
+					show_message_on_form_submit( $error, 'woocommerce-error' );
+				}
+			}
+		}
+	}
+
+
+
+
+	// kyc saving.
+
 	if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawal_request'] ) ) {
 		unset( $_POST['wps_withdrawal_request'] );
 
@@ -361,6 +425,7 @@ $wallet_url             = wc_get_endpoint_url( 'wps-wallet', 'wallet-transfer' )
 $wallet_referal_url     = wc_get_endpoint_url( 'wps-wallet', 'wallet-referral' );
 $withdrawal_url         = wc_get_endpoint_url( 'wps-wallet', 'wallet-withdrawal' );
 $transaction_url        = wc_get_endpoint_url( 'wps-wallet', 'wallet-transactions' );
+
 $enable_wallet_recharge = get_option( 'wsfw_enable_wallet_recharge', '' );
 $product_id             = get_option( 'wps_wsfw_rechargeable_product_id', '' );
 $user_id                = get_current_user_id();
@@ -398,8 +463,11 @@ if ( $is_pro_plugin ) {
 	$wps_wallet_restrict_message_for = apply_filters( 'wps_wallet_restrict_message_for', $user_id );
 }
 
+$kyc_verification_url   = wc_get_endpoint_url( 'wps-wallet', 'wallet-kyc-verification' );
+$wsfw_enable_wallet_kyc = get_option( 'wsfw_enable_wallet_kyc' );
 
 $wallet_tabs = array();
+
 if ( 'restricted' !== $is_user_restricted ) {
 
 	if ( ! empty( $product_id ) && ! empty( $enable_wallet_recharge ) ) {
@@ -491,6 +559,17 @@ if ( 'on' != $wallet_restrict_referral ) {
 	);
 }
 
+if( 'on' === $wsfw_enable_wallet_kyc ){
+	$wallet_tabs['wallet_kyc_verification'] = array(
+		'title'     => esc_html__( 'Kyc Verification', 'wallet-system-for-woocommerce' ),
+		'url'       => $kyc_verification_url,
+		'className' => 'wps_kyc_verification_tab',
+		'icon'      => '<path xmlns="http://www.w3.org/2000/svg" d="M20.5616 5C21.0048 5.00004 21.5204 5.12237 22.0167 5.27637C22.535 5.43721 23.1219 5.6621 23.7383 5.92188C24.9722 6.44188 26.383 7.12943 27.7061 7.80859C29.0322 8.48928 30.2846 9.16871 31.2042 9.67773C31.6641 9.93233 32.0418 10.145 32.3047 10.2939C32.436 10.3683 32.5392 10.4267 32.6094 10.4668C32.6446 10.4869 32.6722 10.5032 32.6905 10.5137C32.6994 10.5188 32.7063 10.5227 32.711 10.5254C32.7134 10.5267 32.7156 10.5276 32.7169 10.5283L32.7178 10.5293H32.7188L33.171 10.79L33.2159 11.3115V11.3174C33.2162 11.3209 33.2173 11.3258 33.2178 11.332C33.2188 11.3444 33.22 11.362 33.2217 11.3848C33.2252 11.4305 33.2298 11.4972 33.2354 11.583C33.2467 11.7548 33.2616 12.0043 33.2755 12.3203C33.3031 12.9521 33.3268 13.8523 33.3145 14.9326C33.2899 17.0882 33.1197 19.9863 32.5274 22.918C31.877 26.1373 29.533 29.2565 27.1622 31.5264C25.9629 32.6745 24.7175 33.6432 23.6055 34.332C23.0499 34.6762 22.5126 34.9598 22.0196 35.1602C21.5434 35.3537 21.0359 35.5 20.5616 35.5C20.0868 35.5 19.5797 35.354 19.1046 35.1602C18.6129 34.9596 18.0781 34.6754 17.5255 34.3311C16.4192 33.6417 15.182 32.6723 13.9932 31.5234C11.6435 29.2525 9.32842 26.1309 8.70905 22.9092C8.14547 19.9771 8.00344 17.0784 8.00006 14.9229C7.99838 13.8425 8.03167 12.9423 8.06549 12.3105C8.08241 11.9945 8.09938 11.745 8.11237 11.5732C8.11886 11.4874 8.12407 11.4208 8.12799 11.375C8.12994 11.3522 8.13176 11.3346 8.13287 11.3223C8.13343 11.3161 8.13353 11.3111 8.13385 11.3076C8.134 11.306 8.13473 11.3047 8.13483 11.3037V11.3018L8.18268 10.7939L8.62213 10.5352V10.5342H8.62408C8.62528 10.5335 8.62673 10.5316 8.62897 10.5303C8.63358 10.5276 8.64066 10.5237 8.64948 10.5186C8.66736 10.508 8.69428 10.4927 8.72858 10.4727C8.79715 10.4325 8.89715 10.3733 9.02545 10.2988C9.28225 10.1499 9.65118 9.93735 10.1006 9.68262C10.9991 9.17342 12.2234 8.49356 13.5215 7.8125C14.8167 7.13299 16.2004 6.44456 17.4141 5.92383C18.0203 5.66375 18.5993 5.43965 19.1124 5.27832C19.6042 5.12369 20.1171 5 20.5616 5ZM20.5616 7C20.4331 7 20.1586 7.0451 19.712 7.18555C19.2866 7.31929 18.775 7.51596 18.2022 7.76172C17.0578 8.25273 15.7272 8.91454 14.4512 9.58398C13.1782 10.2519 11.9736 10.9203 11.087 11.4229C10.678 11.6547 10.337 11.8504 10.0889 11.9941C10.081 12.1153 10.0711 12.2568 10.0626 12.417C10.0304 13.0179 9.99845 13.8808 10.0001 14.9189C10.0033 17.0006 10.1411 19.7645 10.6729 22.5312C11.1783 25.1604 13.1528 27.9287 15.3839 30.085C16.4855 31.1496 17.612 32.0287 18.5831 32.6338C19.0689 32.9366 19.5015 33.1612 19.8604 33.3076C20.2359 33.4608 20.4634 33.5 20.5616 33.5C20.6603 33.4999 20.8891 33.4611 21.2667 33.3076C21.6278 33.1609 22.0625 32.9349 22.5518 32.6318C23.5297 32.0261 24.6666 31.1474 25.7794 30.082C28.0328 27.9246 30.0348 25.1531 30.5665 22.5215C31.1255 19.7545 31.2918 16.9907 31.3155 14.9092C31.3273 13.871 31.3037 13.0081 31.2774 12.4072C31.2707 12.253 31.2615 12.1162 31.2549 11.998C31.0009 11.8544 30.6526 11.6587 30.2354 11.4277C29.3273 10.9251 28.0947 10.256 26.793 9.58789C25.4884 8.91821 24.1286 8.25633 22.962 7.76465C22.378 7.51855 21.8565 7.32077 21.4239 7.18652C20.9698 7.04561 20.6914 7.00005 20.5616 7Z" fill="#0B0925"/>
+		<path xmlns="http://www.w3.org/2000/svg" d="M25.4064 16.5596C25.8134 16.1864 26.4462 16.2142 26.8195 16.6211C27.1927 17.0281 27.1658 17.6609 26.759 18.0342L19.6994 24.5108C19.317 24.8617 18.7293 24.8617 18.3469 24.5108L15.0432 21.4795C14.6363 21.1062 14.6086 20.4734 14.9816 20.0664C15.355 19.6595 15.9878 19.6325 16.3947 20.0059L19.0226 22.416L25.4064 16.5596Z" fill="#FC9918"/>',
+		'file-path' => WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'public/partials/wallet-system-for-woocommerce-kyc-verification.php',
+	);
+}
+
 
 $wallet_tabs = apply_filters( 'wps_wsfw_add_wallet_tabs', $wallet_tabs );
 $flag = false;
@@ -515,7 +594,21 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 	<div class="wps_wcb_wallet_display_wrapper_with_qr">
 		<div class="wps_wcb_wallet_balance_container"> 
 			<div>
-			<h4><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?></h4>
+			<h4 class="wallet-balance-title"><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?>
+			<?php 
+			  $wps_wallet_kyc_status    = get_user_meta( $user_id, 'key_verification_status', true );
+			  if( 'approved' == $wps_wallet_kyc_status ) {
+				  // Show the KYC approved icon
+				  ?>
+				  <span title="<?php esc_html_e( 'KYC Approved', 'wallet-system-for-woocommerce' ); ?>" class="wps_kyc_approved_icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+					<path d="M20.25 6C28.1201 6 34.5 12.3799 34.5 20.25C34.5 28.1201 28.1201 34.5 20.25 34.5C12.3799 34.5 6 28.1201 6 20.25C6 12.3799 12.3799 6 20.25 6ZM27.0879 16.5137C26.7109 16.1104 26.0783 16.0891 25.6748 16.4658L18.7305 22.9521L15.8438 20.2559C15.4403 19.8789 14.8077 19.9004 14.4307 20.3037C14.0536 20.7073 14.075 21.3398 14.4785 21.7168L18.0479 25.0518C18.4322 25.4105 19.0298 25.4107 19.4141 25.0518L27.04 17.9268C27.4433 17.5498 27.4646 16.9172 27.0879 16.5137Z" fill="white"/>
+					</svg>
+				  </span>
+				  <?php
+			  }
+			?>
+			</h4>
 			<p>
 			<?php
 			$wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
@@ -798,7 +891,7 @@ setInterval(function time(){
 				<?php
 	}
 	?>
-	<form method="post" action="" id="wps_wallet_main_tab_form">
+	<form method="post" action="" id="wps_wallet_main_tab_form" enctype="multipart/form-data" >
 				<div class='content-section'>
 
 				<?php
