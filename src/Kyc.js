@@ -116,8 +116,8 @@ function Kyc() {
               <th>Name</th>
               <th>Email</th>
               <th>Required Document</th>
-              <th>Status</th>
               <th>Remark</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -144,6 +144,18 @@ function Kyc() {
                         ))}
                     </td>
                     <td>
+                      <input
+                        type="text"
+                        value={row.remark}
+                        onChange={(e) =>
+                          handleRemarkChange(row.id, e.target.value)
+                        }
+                        placeholder="Enter remark"
+                        style={{ width: "100%" }}
+                        disabled={isFinal}
+                      />
+                    </td>
+                    <td>
                       <select
                         value={row.status}
                         onChange={(e) =>
@@ -156,18 +168,7 @@ function Kyc() {
                         <option value="rejected">Rejected</option>
                       </select>
                     </td>
-                    <td>
-                      <input
-                        type="text"
-                        value={row.remark}
-                        onChange={(e) =>
-                          handleRemarkChange(row.id, e.target.value)
-                        }
-                        placeholder="Enter remark"
-                        style={{ width: "100%" }}
-                        disabled={isFinal}
-                      />
-                    </td>
+                    
                   </tr>
                 );
               })

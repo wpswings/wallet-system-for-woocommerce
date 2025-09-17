@@ -528,3 +528,64 @@ function copyshareurl() {
 		jQuery( '.wps_wsfw_btn_copy' ).hide();
     }
 }
+jQuery(document).ready(function($) {
+    var $methodSelect  = $('#wps_wallet_transfer_method');
+    var $emailWrap     = $('#wps_wallet_transfer_email_wrap');
+    var $walletIdWrap  = $('#wps_wallet_transfer_walletid_wrap');
+    var $emailInput    = $('#wps_wallet_transfer_user_email');
+    var $walletIdInput = $('#wps_wallet_transfer_user_walletid');
+
+    // Run once on page load to set correct state
+    toggleFields($methodSelect.val());
+
+    // Change event
+    $methodSelect.on('change', function() {
+        var selectedVal = $(this).val();
+        toggleFields(selectedVal);
+    });
+
+    function toggleFields(selectedVal) {
+        if (selectedVal === 'wallet_id') {
+            $emailWrap.hide();
+            $walletIdWrap.show();
+            $emailInput.removeAttr('required');
+            $walletIdInput.attr('required', 'required');
+        } else {
+            $walletIdWrap.hide();
+            $emailWrap.show();
+            $walletIdInput.removeAttr('required');
+            $emailInput.attr('required', 'required');
+        }
+    }
+});
+
+
+jQuery(document).ready(function($) {
+    var $methodSelect   = $('#wps_wallet_fund_request_another_method');
+    var $emailWrap      = $('#wps_wallet_fund_request_another_email_wrap');
+    var $walletIdWrap   = $('#wps_wallet_fund_request_another_walletid_wrap');
+    var $emailInput     = $('#wps_wallet_fund_request_another_user_email');
+    var $walletIdInput  = $('#wps_wallet_fund_request_another_user_walletid');
+
+    // Initialize state on page load
+    toggleFields($methodSelect.val());
+
+    $methodSelect.on('change', function() {
+        toggleFields($(this).val());
+    });
+
+    function toggleFields(selectedVal) {
+        if (selectedVal === 'wallet_id') {
+            $emailWrap.hide();
+            $walletIdWrap.show();
+            $emailInput.removeAttr('required');
+            $walletIdInput.attr('required', 'required');
+        } else {
+            $walletIdWrap.hide();
+            $emailWrap.show();
+            $walletIdInput.removeAttr('required');
+            $emailInput.attr('required', 'required');
+        }
+    }
+});
+

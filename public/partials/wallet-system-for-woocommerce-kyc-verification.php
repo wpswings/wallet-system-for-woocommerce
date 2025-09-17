@@ -86,7 +86,7 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
                             <?php printf( esc_html__( 'Upload Document %d', 'wallet-system-for-woocommerce' ), $i ); ?>
                         </label>
                         <span id="wps_wallet_kyc_document">
-                        <input type="file" name="wps_wallet_kyc_document[]" id="wps_wallet_kyc_document_<?php echo esc_attr( $i ); ?>" class="wps_wallet_kyc_document" />
+                        <input type="file" name="wps_wallet_kyc_document[]" id="wps_wallet_kyc_document_<?php echo esc_attr( $i ); ?>" class="wps_wallet_kyc_document" required />
                         </span>
                     </p>
                 <?php endfor; ?>

@@ -601,7 +601,7 @@ class Wallet_System_For_Woocommerce {
 		);
 
 		$wsfw_default_tabs['wallet-system-for-woocommerce-wallet-kyc']      = array(
-			'title' => esc_html__( 'Wallet Kyc', 'wallet-system-for-woocommerce' ),
+			'title' => esc_html__( 'Wallet KYC', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-wallet-kyc',
 		);
 
@@ -614,11 +614,6 @@ class Wallet_System_For_Woocommerce {
 			'title' => esc_html__( 'System Status', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-system-status',
 		);
-
-		// $wsfw_default_tabs['wallet-system-for-woocommerce-overview']      = array(
-		// 	'title' => esc_html__( 'Overview', 'wallet-system-for-woocommerce' ),
-		// 	'name'  => 'wallet-system-for-woocommerce-overview',
-		// );
 
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plug_extra_tabs', $wsfw_default_tabs );
 

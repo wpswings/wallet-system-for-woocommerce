@@ -7221,7 +7221,7 @@ function Kyc() {
       borderCollapse: "collapse",
       width: "100%"
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "ID"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Name"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Email"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Required Document"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Status"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Remark"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, kycData.length > 0 ? kycData.map(row => {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "ID"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Name"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Email"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Required Document"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Remark"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Status"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, kycData.length > 0 ? kycData.map(row => {
     const isFinal = row.status === "approved" || row.status === "rejected";
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
       key: row.id
@@ -7233,7 +7233,16 @@ function Kyc() {
       style: {
         display: "block"
       }
-    }, "Document ", index + 1))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
+    }, "Document ", index + 1))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      type: "text",
+      value: row.remark,
+      onChange: e => handleRemarkChange(row.id, e.target.value),
+      placeholder: "Enter remark",
+      style: {
+        width: "100%"
+      },
+      disabled: isFinal
+    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
       value: row.status,
       onChange: e => handleStatusChange(row.id, e.target.value, row.remark),
       disabled: isFinal
@@ -7243,16 +7252,7 @@ function Kyc() {
       value: "approved"
     }, "Approved"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
       value: "rejected"
-    }, "Rejected"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-      type: "text",
-      value: row.remark,
-      onChange: e => handleRemarkChange(row.id, e.target.value),
-      placeholder: "Enter remark",
-      style: {
-        width: "100%"
-      },
-      disabled: isFinal
-    })));
+    }, "Rejected"))));
   }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
     colSpan: "6",
     align: "center"

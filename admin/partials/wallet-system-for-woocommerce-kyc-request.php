@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="wps-wpg-gen-section-form-container">
 	<div class="wpg-secion-wrap">
-		<h3><?php esc_html_e( 'Wallet Kyc Request', 'wallet-system-for-woocommerce' ); ?></h3>
+		<h3><?php esc_html_e( 'Wallet KYC Request', 'wallet-system-for-woocommerce' ); ?></h3>
 		<div id="react-kyc-request-app"></div>
 	</div>
 </div>  

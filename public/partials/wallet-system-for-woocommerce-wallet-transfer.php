@@ -19,8 +19,9 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 	<?php
 
 	$wsfw_restrict_wallet_transfer_kyc   = get_option( 'wsfw_restrict_wallet_transfer_kyc' );
+	$wsfw_enable_wallet_kyc = get_option('wsfw_enable_wallet_kyc');
 	$kyc_not_approved = false;
-	if ( 'on' === $wsfw_restrict_wallet_transfer_kyc ) {
+	if ( 'on' === $wsfw_restrict_wallet_transfer_kyc && 'on' == $wsfw_enable_wallet_kyc ) {
 		$wps_wallet_kyc_status    = get_user_meta( $user_id, 'key_verification_status', true );
 		if ( 'pending' == $wps_wallet_kyc_status || 'rejected' == $wps_wallet_kyc_status || '' == $wps_wallet_kyc_status ) {
 			$kyc_not_approved = true;
@@ -59,9 +60,28 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 			}
 			?>
 			<span  id="wps_wallet_transfer_form">
-			<p class="wps-wallet-field-container form-row form-row-wide">
+			<!-- <p class="wps-wallet-field-container form-row form-row-wide">
 				<label for="wps_wallet_transfer_user_email"><?php esc_html_e( 'Transfer to', 'wallet-system-for-woocommerce' ); ?></label>
 				<input type="email" class="wps-wallet-userselect" id="wps_wallet_transfer_user_email" name="wps_wallet_transfer_user_email" data-current-email="<?php echo esc_attr( $current_user_email ); ?>" required="">
+			</p> -->
+			<p class="wps-wallet-field-container form-row form-row-wide">
+				<label for="wps_wallet_transfer_method"><?php esc_html_e( 'Select Transfer Method', 'wallet-system-for-woocommerce' ); ?></label>
+				<select id="wps_wallet_transfer_method" name="wps_wallet_transfer_method" class="wps-wallet-method">
+					<option value="email" selected><?php esc_html_e( 'User Email', 'wallet-system-for-woocommerce' ); ?></option>
+					<option value="wallet_id"><?php esc_html_e( 'User Wallet ID', 'wallet-system-for-woocommerce' ); ?></option>
+				</select>
+			</p>
+
+			<!-- Transfer to (Email field - default visible) -->
+			<p class="wps-wallet-field-container form-row form-row-wide" id="wps_wallet_transfer_email_wrap">
+				<label for="wps_wallet_transfer_user_email"><?php esc_html_e( 'Transfer to (Email)', 'wallet-system-for-woocommerce' ); ?></label>
+				<input type="email" class="wps-wallet-userselect" id="wps_wallet_transfer_user_email" name="wps_wallet_transfer_user_email" data-current-email="<?php echo esc_attr( $current_user_email ); ?>" required="">
+			</p>
+
+			<!-- Transfer to (Wallet ID field - hidden by default) -->
+			<p class="wps-wallet-field-container form-row form-row-wide" id="wps_wallet_transfer_walletid_wrap" style="display:none;">
+				<label for="wps_wallet_transfer_user_walletid"><?php esc_html_e( 'Transfer to (Wallet ID)', 'wallet-system-for-woocommerce' ); ?></label>
+				<input type="text" class="wps-wallet-walletid" id="wps_wallet_transfer_user_walletid" name="wps_wallet_transfer_user_walletid">
 			</p>
 			<p class="transfer-error"></p>
 			<p class="wps-wallet-field-container form-row form-row-wide">

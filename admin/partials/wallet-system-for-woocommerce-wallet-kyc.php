@@ -46,7 +46,7 @@ $wsfw_wallet_kyc_enable_settings      = apply_filters( 'wsfw_wallet_kyc_notifica
 	
 	<div class="wsfw-secion-kyc-outer-settings">
         <div class="wsfw-secion-kyc-title-link">
-	        <h4><?php esc_html_e( 'Wallet Kyc Settings', 'wallet-system-for-woocommerce' ); ?></h4>
+	        <h4><?php esc_html_e( 'Wallet KYC Settings', 'wallet-system-for-woocommerce' ); ?></h4>
             <?php   echo  wsfw_get_kyc_request( wp_get_current_user() ); ?>
         </div>
 		<?php

@@ -24,8 +24,9 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 	<?php
 	$disable_withdrawal_request = get_user_meta( $user_id, 'disable_further_withdrawal_request', true );
 	$wsfw_restrict_wallet_withdrawal_kyc   = get_option( 'wsfw_restrict_wallet_withdrawal_kyc' );
+	$wsfw_enable_wallet_kyc = get_option('wsfw_enable_wallet_kyc');
 	$kyc_not_approved = false;
-	if ( 'on' === $wsfw_restrict_wallet_withdrawal_kyc ) {
+	if ( 'on' === $wsfw_restrict_wallet_withdrawal_kyc && 'on' == $wsfw_enable_wallet_kyc ) {
 		$wps_wallet_kyc_status    = get_user_meta( $user_id, 'key_verification_status', true );
 		if ( 'pending' == $wps_wallet_kyc_status || 'rejected' == $wps_wallet_kyc_status || '' == $wps_wallet_kyc_status ) {
 			$kyc_not_approved = true;

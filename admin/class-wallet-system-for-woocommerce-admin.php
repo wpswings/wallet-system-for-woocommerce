@@ -4842,7 +4842,7 @@ class Wallet_System_For_Woocommerce_Admin {
         $documents = get_user_meta( $user->ID, 'wps_wallet_kyc_documents', true );
         $status    = get_user_meta( $user->ID, 'key_verification_status', true );
 
-        // if ( ! empty( $documents ) && ! empty( $status ) ) {
+        if ( ! empty( $documents ) && ! empty( $status ) ) {
             // unserialize if needed
             if ( is_serialized( $documents ) ) {
                 $documents = maybe_unserialize( $documents );
@@ -4856,7 +4856,7 @@ class Wallet_System_For_Woocommerce_Admin {
                 'status'            => $status,
 				'remark'            => get_user_meta( $user->ID, 'kyc_admin_remark', true ),
             ];
-        // }
+        }
     }
 
     wp_send_json_success( $kyc_requests );

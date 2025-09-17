@@ -23,8 +23,9 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 
 		<?php
 		$wsfw_restrict_wallet_fund_request_kyc   = get_option( 'wsfw_restrict_wallet_fund_request_kyc' );
+		$wsfw_enable_wallet_kyc = get_option('wsfw_enable_wallet_kyc');
 		$kyc_not_approved = false;
-		if ( 'on' === $wsfw_restrict_wallet_fund_request_kyc ) {
+		if ( 'on' === $wsfw_restrict_wallet_fund_request_kyc && 'on' == $wsfw_enable_wallet_kyc ) {
 			$wps_wallet_kyc_status    = get_user_meta( $user_id, 'key_verification_status', true );
 			if ( 'pending' == $wps_wallet_kyc_status || 'rejected' == $wps_wallet_kyc_status || '' == $wps_wallet_kyc_status ) {
 				$kyc_not_approved = true;
@@ -37,16 +38,34 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 			?>
 				<span id="wps_wallet_transfer_form">
 
+					<!-- Select Method -->
 					<p class="wps-wallet-field-container form-row form-row-wide">
-						<label for="wps_wallet_fund_request_another_user_email"><?php esc_html_e( 'Fund Requested User Email id', 'wallet-system-for-woocommerce' ); ?></label>
-						<input type="email" placeholder="Please enter request user mail id" class="wps-wallet-userselect" id="wps_wallet_fund_request_another_user_email" name="wps_wallet_fund_request_another_user_email" required="" >
+						<label for="wps_wallet_fund_request_another_method"><?php esc_html_e( 'Select Request Method', 'wallet-system-for-woocommerce' ); ?></label>
+						<select id="wps_wallet_fund_request_another_method" name="wps_wallet_fund_request_another_method" class="wps-wallet-method">
+							<option value="email" selected><?php esc_html_e( 'User Email', 'wallet-system-for-woocommerce' ); ?></option>
+							<option value="wallet_id"><?php esc_html_e( 'User Wallet ID', 'wallet-system-for-woocommerce' ); ?></option>
+						</select>
 					</p>
 
+					<!-- Email Field (default visible) -->
+					<p class="wps-wallet-field-container form-row form-row-wide" id="wps_wallet_fund_request_another_email_wrap">
+						<label for="wps_wallet_fund_request_another_user_email"><?php esc_html_e( 'Fund Requested User Email ID', 'wallet-system-for-woocommerce' ); ?></label>
+						<input type="email" placeholder="Please enter request user email" class="wps-wallet-userselect" id="wps_wallet_fund_request_another_user_email" name="wps_wallet_fund_request_another_user_email" required>
+					</p>
+
+					<!-- Wallet ID Field (hidden by default) -->
+					<p class="wps-wallet-field-container form-row form-row-wide" id="wps_wallet_fund_request_another_walletid_wrap" style="display:none;">
+						<label for="wps_wallet_fund_request_another_user_walletid"><?php esc_html_e( 'Fund Requested User Wallet ID', 'wallet-system-for-woocommerce' ); ?></label>
+						<input type="text" placeholder="Please enter request user wallet ID" class="wps-wallet-walletid" id="wps_wallet_fund_request_another_user_walletid" name="wps_wallet_fund_request_another_user_walletid">
+					</p>
+
+					<!-- Amount -->
 					<p class="wps-wallet-field-container form-row form-row-wide">
 						<label for="wps_wallet_fund_request_amount"><?php echo esc_html__( 'Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol( $current_currency ) ) . ')'; ?></label>
-						<input type="number" step="0.01" min="0" id="wps_wallet_fund_request_amount" name="wps_wallet_fund_request_amount" required="">
+						<input type="number" step="0.01" min="0" id="wps_wallet_fund_request_amount" name="wps_wallet_fund_request_amount" required>
 					</p>
 					<p class="error"></p>
+
 
 					<p class="wps-wallet-field-container form-row form-row-wide">
 						<label for="wps_wallet_note"><?php esc_html_e( 'Note', 'wallet-system-for-woocommerce' ); ?></label>
@@ -150,6 +169,10 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 
 												$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_fund_request_amount', true ) );
 												$wps_wallet_fund_request_another_user_email = get_post_meta( $request_id, 'wps_wallet_fund_request_another_user_email', true );
+												if( empty( $wps_wallet_fund_request_another_user_email ) ) {
+													$wps_wallet_fund_request_another_user_email = get_userdata( $requested_user_id )->user_email;
+												}
+												// print_r($requested_user_id);die;
 												$wps_current_user_email = get_post_meta( $request_id, 'wps_current_user_email', true );
 												?>
 												<tr>
@@ -230,6 +253,9 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 
 												$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_fund_request_amount', true ) );
 												$wps_wallet_fund_request_another_user_email = get_post_meta( $request_id, 'wps_wallet_fund_request_another_user_email', true );
+												if( empty( $wps_wallet_fund_request_another_user_email ) ) {
+													$wps_wallet_fund_request_another_user_email = get_userdata( $userid )->user_email;
+												}
 												$wps_current_user_email = get_post_meta( $request_id, 'wps_current_user_email', true );
 												?>
 												<tr>
