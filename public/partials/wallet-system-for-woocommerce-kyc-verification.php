@@ -67,6 +67,9 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
                 if( !empty( $kyc_admin_remark ) ){ 
                     echo '<p><strong>' . esc_html__( 'Admin Remark: ', 'wallet-system-for-woocommerce' ) . '</strong> ' . esc_html( $kyc_admin_remark ) . '</p>';
                 }
+                ?>
+            </div>
+            <?php
         } 
         if( ( 'approved' !== $wps_wallet_kyc_status && 'pending' !== $wps_wallet_kyc_status ) || empty( $wps_wallet_kyc_status ) ) {
             if ( ! empty( $wps_wsfw_wallet_action_kyc_description ) ) {
@@ -103,5 +106,5 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
         wc_print_notice( esc_html__( 'Wallet KYC verification is disabled by admin.', 'wallet-system-for-woocommerce' ), 'notice' );
     }
     ?>
+ 
 </div>
-

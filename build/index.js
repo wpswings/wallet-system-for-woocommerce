@@ -7001,22 +7001,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _App_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.css */ "./src/App.css");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! qs */ "./node_modules/qs/lib/index.js");
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/ResponsiveContainer.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/chart/BarChart.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/CartesianGrid.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/XAxis.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/YAxis.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/Tooltip.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/Legend.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/Bar.js");
-
-
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! qs */ "./node_modules/qs/lib/index.js");
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/ResponsiveContainer.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/chart/BarChart.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/CartesianGrid.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/XAxis.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/YAxis.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/Tooltip.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/Legend.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/Bar.js");
 
 
 
@@ -7058,7 +7055,7 @@ const ReportingSystem = () => {
       'action': 'wps_wsfw_filter_chart_data',
       nonce: frontend_ajax_object.wps_standard_nonce // pass the nonce here
     };
-    axios__WEBPACK_IMPORTED_MODULE_2___default().post(frontend_ajax_object.ajaxurl, qs__WEBPACK_IMPORTED_MODULE_3___default().stringify(user)).then(res => {
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post(frontend_ajax_object.ajaxurl, qs__WEBPACK_IMPORTED_MODULE_2___default().stringify(user)).then(res => {
       const data = [{
         name: 'Credit',
         amount: res.data.data.credit
@@ -7097,21 +7094,21 @@ const ReportingSystem = () => {
     id: "toDate",
     value: toDate,
     onChange: handleToDateChange
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["default"], {
     onClick: handleFormSubmit,
     variant: "contained",
     color: "primary",
     size: "large"
-  }, "Search"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_5__.ResponsiveContainer, {
+  }, "Search"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_4__.ResponsiveContainer, {
     width: "100%",
     height: 400
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_6__.BarChart, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_5__.BarChart, {
     data: chartdata
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_7__.CartesianGrid, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_6__.CartesianGrid, {
     strokeDasharray: "3 3"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_8__.XAxis, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_7__.XAxis, {
     dataKey: "name"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_9__.YAxis, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_10__.Tooltip, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_11__.Legend, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_12__.Bar, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_8__.YAxis, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_9__.Tooltip, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_10__.Legend, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(recharts__WEBPACK_IMPORTED_MODULE_11__.Bar, {
     dataKey: "amount",
     fill: "#8884d8"
   }))));
@@ -7206,21 +7203,14 @@ function Kyc() {
       remark: value
     } : row));
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "KYC Requests"), message && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    style: {
-      marginBottom: "10px",
-      padding: "8px",
-      borderRadius: "5px",
-      backgroundColor: "#f0f8ff",
-      border: "1px solid #ccc"
-    }
-  }, message), loading ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Loading...") : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
-    border: "1",
-    cellPadding: "8",
-    style: {
-      borderCollapse: "collapse",
-      width: "100%"
-    }
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "kyc-container"
+  }, message && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "kyc-message"
+  }, message), loading ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "kyc-loading"
+  }, "Loading...") : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
+    className: "kyc-table"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "ID"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Name"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Email"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Required Document"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Remark"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, "Status"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, kycData.length > 0 ? kycData.map(row => {
     const isFinal = row.status === "approved" || row.status === "rejected";
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
@@ -7230,21 +7220,18 @@ function Kyc() {
       href: doc,
       target: "_blank",
       rel: "noopener noreferrer",
-      style: {
-        display: "block"
-      }
+      className: "kyc-document-link"
     }, "Document ", index + 1))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
       type: "text",
       value: row.remark,
       onChange: e => handleRemarkChange(row.id, e.target.value),
       placeholder: "Enter remark",
-      style: {
-        width: "100%"
-      },
+      className: "kyc-remark-input",
       disabled: isFinal
     })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
       value: row.status,
       onChange: e => handleStatusChange(row.id, e.target.value, row.remark),
+      className: "kyc-status-select",
       disabled: isFinal
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
       value: "pending"
@@ -7255,7 +7242,7 @@ function Kyc() {
     }, "Rejected"))));
   }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
     colSpan: "6",
-    align: "center"
+    className: "kyc-empty"
   }, "No KYC requests found.")))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Kyc);
@@ -23662,19 +23649,6 @@ var createCaseFirst = __webpack_require__(/*! ./_createCaseFirst */ "./node_modu
 var upperFirst = createCaseFirst('toUpperCase');
 
 module.exports = upperFirst;
-
-
-/***/ }),
-
-/***/ "./src/App.css":
-/*!*********************!*\
-  !*** ./src/App.css ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
 
 
 /***/ }),

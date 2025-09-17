@@ -85,31 +85,13 @@ function Kyc() {
   };
 
   return (
-    <div>
-      <h2>KYC Requests</h2>
-
-      {message && (
-        <div
-          style={{
-            marginBottom: "10px",
-            padding: "8px",
-            borderRadius: "5px",
-            backgroundColor: "#f0f8ff",
-            border: "1px solid #ccc",
-          }}
-        >
-          {message}
-        </div>
-      )}
+    <div className="kyc-container">
+      {message && <div className="kyc-message">{message}</div>}
 
       {loading ? (
-        <p>Loading...</p>
+        <p className="kyc-loading">Loading...</p>
       ) : (
-        <table
-          border="1"
-          cellPadding="8"
-          style={{ borderCollapse: "collapse", width: "100%" }}
-        >
+        <table className="kyc-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -123,7 +105,8 @@ function Kyc() {
           <tbody>
             {kycData.length > 0 ? (
               kycData.map((row) => {
-                const isFinal = row.status === "approved" || row.status === "rejected";
+                const isFinal =
+                  row.status === "approved" || row.status === "rejected";
                 return (
                   <tr key={row.id}>
                     <td>{row.id}</td>
@@ -137,7 +120,7 @@ function Kyc() {
                             href={doc}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ display: "block" }}
+                            className="kyc-document-link"
                           >
                             Document {index + 1}
                           </a>
@@ -151,7 +134,7 @@ function Kyc() {
                           handleRemarkChange(row.id, e.target.value)
                         }
                         placeholder="Enter remark"
-                        style={{ width: "100%" }}
+                        className="kyc-remark-input"
                         disabled={isFinal}
                       />
                     </td>
@@ -161,6 +144,7 @@ function Kyc() {
                         onChange={(e) =>
                           handleStatusChange(row.id, e.target.value, row.remark)
                         }
+                        className="kyc-status-select"
                         disabled={isFinal}
                       >
                         <option value="pending">Pending</option>
@@ -168,13 +152,12 @@ function Kyc() {
                         <option value="rejected">Rejected</option>
                       </select>
                     </td>
-                    
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan="6" align="center">
+                <td colSpan="6" className="kyc-empty">
                   No KYC requests found.
                 </td>
               </tr>
