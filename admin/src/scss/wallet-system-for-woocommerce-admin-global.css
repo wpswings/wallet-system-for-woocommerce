@@ -189,10 +189,11 @@ select {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin-top: 15px;
     margin-bottom: 8px;
     margin-right: 15px;
+    gap: 6px;
 }
 
 .mdc-floating-label {
@@ -212,8 +213,8 @@ select {
     line-height: 24px;
     letter-spacing: 0.3px;
     color: var(--mdc-theme-primary);
-    flex: 0 0 100%;
-    max-width: calc(100% - 270px);
+    flex: 1 0 60%;
+    /* max-width: calc(100% - 270px); */
 }
 
 .wps-navbar {

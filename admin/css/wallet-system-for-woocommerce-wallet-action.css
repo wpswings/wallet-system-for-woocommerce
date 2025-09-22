@@ -110,6 +110,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
   .wps-header-container h1.wps-header-title {
       max-width: 95%;
+      flex: 1 0 95%;
   }
 
   .thirty-days-notice .wps-header-title #wps-wsfw-day-count {

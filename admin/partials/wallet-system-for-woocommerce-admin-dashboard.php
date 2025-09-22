@@ -58,11 +58,14 @@ $wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway
 		if ( $check ) {
 			?>
 				<h1  class="wps-header-title"><?php echo esc_attr__( 'WALLET SYSTEM FOR WOOCOMMERCE PRO', 'wallet-system-for-woocommerce' ); ?></h1>
+				<a href="https://wpswings.com/woocommerce-services/?utm_source=wpswings-wallet-services&utm_medium=wallet-pro-backend&utm_campaign=woocommerce-services" target="_blank" class="wps-link"><?php esc_html_e( 'Services', 'wallet-system-for-woocommerce' ); ?></a>
+				<span>|</span>
 				<a href="https://docs.wpswings.com/wallet-system-for-woocommerce/?utm_source=wpswings-wallet-doc&utm_medium=wallet-org-backend&utm_campaign=wallet-doc" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'wallet-system-for-woocommerce' ); ?></a>
 				<span>|</span>
 				<a href="https://youtu.be/mnMfoSL0aZc" target="_blank" class="wps-link"><?php esc_html_e( 'Video', 'wallet-system-for-woocommerce' ); ?></a>
 				<span>|</span>
 				<a href="https://wpswings.com/contact-us/" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
+				
 	
 			<?php
 
