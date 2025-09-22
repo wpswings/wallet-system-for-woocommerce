@@ -45,12 +45,12 @@ $wsfw_wallet_kyc_enable_settings      = apply_filters( 'wsfw_wallet_kyc_notifica
 
 	
 	<div class="wsfw-secion-kyc-outer-settings">
-        <div class="wsfw-secion-kyc-title-link">
-	        <h4><?php esc_html_e( 'Wallet KYC Settings', 'wallet-system-for-woocommerce' ); ?></h4>
-            <?php   echo  wsfw_get_kyc_request( wp_get_current_user() ); ?>
-        </div>
+		<div class="wsfw-secion-kyc-title-link">
+			<h4><?php esc_html_e( 'Wallet KYC Settings', 'wallet-system-for-woocommerce' ); ?></h4>
+			<?php echo wsfw_get_kyc_request( wp_get_current_user() ); ?>
+		</div>
 		<?php
-           
+
 			$wsfw_wallet_kyc_enable_settings = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_kyc_enable_settings );
 
 		if ( ! empty( $wsfw_wallet_kyc_enable_settings ) ) {
@@ -64,7 +64,7 @@ $wsfw_wallet_kyc_enable_settings      = apply_filters( 'wsfw_wallet_kyc_notifica
 	</div>
 </form>
 
-<?php 
+<?php
 
 /**
  * This function is to show user wallet report.
@@ -73,14 +73,14 @@ $wsfw_wallet_kyc_enable_settings      = apply_filters( 'wsfw_wallet_kyc_notifica
  * @return string
  */
 function wsfw_get_kyc_request( $user ) {
-    $wallet_bal = get_user_meta( $user->ID, 'wps_wallet', true );
-    $wallet_bal = ! empty( $wallet_bal ) ? $wallet_bal : 0;
-    $nonce = wp_create_nonce( 'view_report_' . $user->ID ); // Create nonce.
-    $url_report = esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wallet-system-for-woocommerce-kyc-request&report_userid=' . $user->ID . '&nonce=' . $nonce );
+	$wallet_bal = get_user_meta( $user->ID, 'wps_wallet', true );
+	$wallet_bal = ! empty( $wallet_bal ) ? $wallet_bal : 0;
+	$nonce = wp_create_nonce( 'view_report_' . $user->ID ); // Create nonce.
+	$url_report = esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wallet-system-for-woocommerce-kyc-request&report_userid=' . $user->ID . '&nonce=' . $nonce );
 
-    $data  = '';
-    $data .= '<a href="' . $url_report . '" title="View Kyc Request" >View Kyc Request</a>';
-    
-    return $data;
+	$data  = '';
+	$data .= '<a href="' . $url_report . '" title="View Kyc Request" >View Kyc Request</a>';
+
+	return $data;
 }
 ?>

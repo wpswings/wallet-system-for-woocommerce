@@ -71,14 +71,14 @@ if ( wp_verify_nonce( $nonce ) ) {
 		$transfer_amount        = ! empty( $_POST['wps_wallet_transfer_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_transfer_amount'] ) ) : 0;
 		$wallet_transfer_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $transfer_amount );
 
-		
+
 
 		$transfer_method = ! empty( $_POST['wps_wallet_transfer_method'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_transfer_method'] ) ) : 'email';
 
 		$another_user_id = 0;
 		$another_user_email = '';
 
-		if ( $transfer_method === 'email' ) {
+		if ( 'email' === $transfer_method ) {
 			// ✅ Transfer via Email
 			$another_user_email = ! empty( $_POST['wps_wallet_transfer_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_transfer_user_email'] ) ) : '';
 			$user = get_user_by( 'email', $another_user_email );
@@ -95,19 +95,20 @@ if ( wp_verify_nonce( $nonce ) ) {
 				show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
 				$update = false;
 			}
-
-		} elseif ( $transfer_method === 'wallet_id' ) {
+		} elseif ( 'wallet_id' === $transfer_method ) {
 			// ✅ Transfer via Wallet ID
 			$wallet_id_input = ! empty( $_POST['wps_wallet_transfer_user_walletid'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_transfer_user_walletid'] ) ) : '';
 
 			if ( ! empty( $wallet_id_input ) ) {
-				// Find user by wallet_id meta
-				$user_query = new WP_User_Query( array(
-					'meta_key'   => 'wps_wallet_id',
-					'meta_value' => $wallet_id_input,
-					'number'     => 1,
-					'fields'     => 'all',
-				) );
+				// Find user by wallet_id meta.
+				$user_query = new WP_User_Query(
+					array(
+						'meta_key'   => 'wps_wallet_id',
+						'meta_value' => $wallet_id_input,
+						'number'     => 1,
+						'fields'     => 'all',
+					)
+				);
 
 				if ( ! empty( $user_query->results ) ) {
 					$user = $user_query->results[0];
@@ -365,7 +366,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 				}
 	}
 
-	
+
 
 	if ( isset( $_POST['wps_wallet_fund_request'] ) && ! empty( $_POST['wps_wallet_fund_request'] ) ) {
 
@@ -383,7 +384,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 		$another_user_email = '';
 
 		// ------------------ Check method ------------------
-		if ( $fund_request_method === 'email' ) {
+		if ( 'email' === $fund_request_method ) {
 			$wps_wallet_fund_request_another_user_email = ! empty( $_POST['wps_wallet_fund_request_another_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_fund_request_another_user_email'] ) ) : '';
 			$user = get_user_by( 'email', $wps_wallet_fund_request_another_user_email );
 
@@ -400,17 +401,18 @@ if ( wp_verify_nonce( $nonce ) ) {
 				show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
 				$update = false;
 			}
-
-		} elseif ( $fund_request_method === 'wallet_id' ) {
+		} elseif ( 'wallet_id' === $fund_request_method ) {
 			$wps_wallet_fund_request_another_user_walletid = ! empty( $_POST['wps_wallet_fund_request_another_user_walletid'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_fund_request_another_user_walletid'] ) ) : '';
 
 			if ( ! empty( $wps_wallet_fund_request_another_user_walletid ) ) {
-				$user_query = new WP_User_Query( array(
-					'meta_key'   => 'wps_wallet_id',
-					'meta_value' => $wps_wallet_fund_request_another_user_walletid,
-					'number'     => 1,
-					'fields'     => 'all',
-				) );
+				$user_query = new WP_User_Query(
+					array(
+						'meta_key'   => 'wps_wallet_id',
+						'meta_value' => $wps_wallet_fund_request_another_user_walletid,
+						'number'     => 1,
+						'fields'     => 'all',
+					)
+				);
 
 				if ( ! empty( $user_query->results ) ) {
 					$user               = $user_query->results[0];
@@ -427,7 +429,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 		}
 		// ------------------ End method check ------------------
 
-		// Basic validations
+		// Basic validations.
 		if ( empty( $wps_wallet_fund_request_amount ) ) {
 			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
@@ -649,7 +651,7 @@ if ( 'on' != $wallet_restrict_referral ) {
 	);
 }
 
-if( 'on' === $wsfw_enable_wallet_kyc ){
+if ( 'on' === $wsfw_enable_wallet_kyc ) {
 	$wallet_tabs['wallet_kyc_verification'] = array(
 		'title'     => esc_html__( 'KYC Verification', 'wallet-system-for-woocommerce' ),
 		'url'       => $kyc_verification_url,
@@ -685,18 +687,18 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 		<div class="wps_wcb_wallet_balance_container"> 
 			<div>
 			<h4 class="wallet-balance-title"><?php esc_html_e( 'Wallet Balance', 'wallet-system-for-woocommerce' ); ?>
-			<?php 
+			<?php
 			  $wps_wallet_kyc_status    = get_user_meta( $user_id, 'key_verification_status', true );
-			  if( 'approved' == $wps_wallet_kyc_status ) {
-				  // Show the KYC approved icon
-				  ?>
+			if ( 'approved' == $wps_wallet_kyc_status ) {
+				// Show the KYC approved icon.
+				?>
 				  <span title="<?php esc_html_e( 'KYC Approved', 'wallet-system-for-woocommerce' ); ?>" class="wps_kyc_approved_icon">
 					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
 					<path d="M20.25 6C28.1201 6 34.5 12.3799 34.5 20.25C34.5 28.1201 28.1201 34.5 20.25 34.5C12.3799 34.5 6 28.1201 6 20.25C6 12.3799 12.3799 6 20.25 6ZM27.0879 16.5137C26.7109 16.1104 26.0783 16.0891 25.6748 16.4658L18.7305 22.9521L15.8438 20.2559C15.4403 19.8789 14.8077 19.9004 14.4307 20.3037C14.0536 20.7073 14.075 21.3398 14.4785 21.7168L18.0479 25.0518C18.4322 25.4105 19.0298 25.4107 19.4141 25.0518L27.04 17.9268C27.4433 17.5498 27.4646 16.9172 27.0879 16.5137Z" fill="white"/>
 					</svg>
 				  </span>
 				  <?php
-			  }
+			}
 			?>
 			</h4>
 			<p>

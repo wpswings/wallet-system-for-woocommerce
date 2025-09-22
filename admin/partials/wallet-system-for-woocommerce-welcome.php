@@ -65,7 +65,7 @@ $wsfw_tab_key = '';
 					<?php
 					$wsfw_general_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_genaral_settings );
 					echo esc_html( $wsfw_general_html );
-					
+
 					?>
 					<input type="hidden" id="updatenonce" name="updatenonce" value="<?php echo esc_html( wp_create_nonce() ); ?>" />
 	

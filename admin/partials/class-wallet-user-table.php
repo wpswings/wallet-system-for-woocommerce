@@ -185,7 +185,7 @@ if ( isset( $_POST['import_wallets'] ) && ! empty( $_POST['import_wallets'] ) ) 
 
 if ( isset( $_POST['confirm_updatewallet'] ) && ! empty( $_POST['confirm_updatewallet'] ) ) {
 	unset( $_POST['confirm_updatewallet'] );
-	
+
 	$nonce = ( isset( $_POST['updatenoncewallet_creation'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_creation'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce ) ) {
 		return false;
@@ -477,7 +477,7 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 
 						$wallet  = get_user_meta( $user_id, 'wps_wallet', true );
 						$wallet  = ( ! empty( $wallet ) ) ? $wallet : 0;
-						
+
 						if ( 'credit' === $wallet_option ) {
 							$wallet          += $wallet_amount;
 							$transaction_type_1 = 'credit';
@@ -516,31 +516,31 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									$wps_wsfw_customer_sms_number = get_user_meta( $user_id, 'wps_wsfw_customer_sms_number', true );
 
 									$user       = get_user_by( 'id', $user_id );
-									$full_name = $user->first_name . ' ' . $user->last_name;;
+									$full_name = $user->first_name . ' ' . $user->last_name;
+									;
 
 									$site_name = get_bloginfo( 'name' );
-									$credited_amount =  $wallet_amount;
-									
+									$credited_amount = $wallet_amount;
+
 									$wallet_bal = $wallet;
-									
 
 									$message = "\n\n" . sprintf(
-										/* translators: %s: add string */ __( 'Hello %s,', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */                                        __( 'Hello %s,', 'wallet-system-for-woocommerce' ),
 										$full_name
 									);
 									$message .= "\n\n" . sprintf(
-										/* translators: %s: add string */ __( 'Your wallet is credited with %s by Merchant', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */                                        __( 'Your wallet is credited with %s by Merchant', 'wallet-system-for-woocommerce' ),
 										$credited_amount
 									);
 									$message .= "\n\n" . sprintf(
-										/* translators: %s: add string */ __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */                                        __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
 										$wallet_bal
 									);
 									$message .= "\n\n- " . $site_name;
 
 									$request_args = array(
 										'body' => array(
-											'To'   => '+'.$wps_wsfw_customer_sms_number,
+											'To'   => '+' . $wps_wsfw_customer_sms_number,
 											'From' => $from_number,
 											'Body' => $message,
 										),
@@ -625,31 +625,31 @@ function confirm_updatewallet_for_all_user( $user_count, $current_page, $update,
 									$wps_wsfw_customer_sms_number = get_user_meta( $user_id, 'wps_wsfw_customer_sms_number', true );
 
 									$user       = get_user_by( 'id', $user_id );
-									$full_name = $user->first_name . ' ' . $user->last_name;;
+									$full_name = $user->first_name . ' ' . $user->last_name;
+									;
 
 									$site_name = get_bloginfo( 'name' );
-									$credited_amount =  $wallet_amount;
-									
+									$credited_amount = $wallet_amount;
+
 									$wallet_bal = $wallet;
-									
 
 									$message = "\n\n" . sprintf(
-										/* translators: %s: add string */ __( 'Hello %s,', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */                                        __( 'Hello %s,', 'wallet-system-for-woocommerce' ),
 										$full_name
 									);
 									$message .= "\n\n" . sprintf(
-										/* translators: %s: add string */ __( 'Your wallet is debited with %s by Merchant', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */                                        __( 'Your wallet is debited with %s by Merchant', 'wallet-system-for-woocommerce' ),
 										$credited_amount
 									);
 									$message .= "\n\n" . sprintf(
-										/* translators: %s: add string */ __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
+										/* translators: %s: add string */                                        __( 'Current balance: %s', 'wallet-system-for-woocommerce' ),
 										$wallet_bal
 									);
 									$message .= "\n\n- " . $site_name;
 
 									$request_args = array(
 										'body' => array(
-											'To'   => '+'.$wps_wsfw_customer_sms_number,
+											'To'   => '+' . $wps_wsfw_customer_sms_number,
 											'From' => $from_number,
 											'Body' => $message,
 										),

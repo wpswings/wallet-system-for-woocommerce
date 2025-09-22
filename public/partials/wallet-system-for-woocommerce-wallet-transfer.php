@@ -19,46 +19,44 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 	<?php
 
 	$wsfw_restrict_wallet_transfer_kyc   = get_option( 'wsfw_restrict_wallet_transfer_kyc' );
-	$wsfw_enable_wallet_kyc = get_option('wsfw_enable_wallet_kyc');
+	$wsfw_enable_wallet_kyc = get_option( 'wsfw_enable_wallet_kyc' );
 	$kyc_not_approved = false;
 	if ( 'on' === $wsfw_restrict_wallet_transfer_kyc && 'on' == $wsfw_enable_wallet_kyc ) {
 		$wps_wallet_kyc_status    = get_user_meta( $user_id, 'key_verification_status', true );
 		if ( 'pending' == $wps_wallet_kyc_status || 'rejected' == $wps_wallet_kyc_status || '' == $wps_wallet_kyc_status ) {
 			$kyc_not_approved = true;
-		} 		
+		}
 	}
-	if( $kyc_not_approved ){
+	if ( $kyc_not_approved ) {
 		show_message_on_form_submit( esc_html__( 'You must complete KYC verification to transfer funds from your wallet.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
-		// return;
-	} else {
-		if ( $wallet_bal > 0 ) {
+	} elseif ( $wallet_bal > 0 ) {
 			global $wp_session;
-			if ( ! empty( $wp_session['wps_wallet_transfer_user_email'] ) ) {
-				$useremail = $wp_session['wps_wallet_transfer_user_email'];
-			} else {
-				$useremail = '';
-			}
-			if ( ! empty( $wp_session['wps_wallet_transfer_amount'] ) ) {
-				$transfer_amount = $wp_session['wps_wallet_transfer_amount'];
-			} else {
-				$transfer_amount = 0;
-			}
+		if ( ! empty( $wp_session['wps_wallet_transfer_user_email'] ) ) {
+			$useremail = $wp_session['wps_wallet_transfer_user_email'];
+		} else {
+			$useremail = '';
+		}
+		if ( ! empty( $wp_session['wps_wallet_transfer_amount'] ) ) {
+			$transfer_amount = $wp_session['wps_wallet_transfer_amount'];
+		} else {
+			$transfer_amount = 0;
+		}
 			$show_additional_content = apply_filters( 'wps_wsfw_show_additional_content', '', $user_id, $useremail, $transfer_amount );
-			if ( ! empty( $show_additional_content ) ) {
-				echo wp_kses_post( $show_additional_content ); // phpcs:ignore
-			}
+		if ( ! empty( $show_additional_content ) ) {
+			echo wp_kses_post( $show_additional_content ); // phpcs:ignore
+		}
 			$is_pro_plugin = false;
 			$wsfwp_min_wallet_transfer_amount = 0;
 			$wsfwp_max_wallet_transfer_amount = 0;
 			$is_pro_plugin = apply_filters( 'wps_wsfwp_pro_plugin_check', $is_pro_plugin );
-			if ( $is_pro_plugin ) {
-				$wps_wsfwp_wallet_transfer_restriction_enable = get_option( 'wps_wsfwp_wallet_transfer_restriction_enable' );
-				if ( 'on' == $wps_wsfwp_wallet_transfer_restriction_enable ) {
-					$wsfwp_min_wallet_transfer_amount = get_option( 'wsfwp_min_wallet_transfer_amount' );
-					$wsfwp_max_wallet_transfer_amount = get_option( 'wsfwp_max_wallet_transfer_amount' );
-				}
+		if ( $is_pro_plugin ) {
+			$wps_wsfwp_wallet_transfer_restriction_enable = get_option( 'wps_wsfwp_wallet_transfer_restriction_enable' );
+			if ( 'on' == $wps_wsfwp_wallet_transfer_restriction_enable ) {
+				$wsfwp_min_wallet_transfer_amount = get_option( 'wsfwp_min_wallet_transfer_amount' );
+				$wsfwp_max_wallet_transfer_amount = get_option( 'wsfwp_max_wallet_transfer_amount' );
 			}
-			?>
+		}
+		?>
 			<span  id="wps_wallet_transfer_form">
 			<!-- <p class="wps-wallet-field-container form-row form-row-wide">
 				<label for="wps_wallet_transfer_user_email"><?php esc_html_e( 'Transfer to', 'wallet-system-for-woocommerce' ); ?></label>
@@ -112,10 +110,8 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 			</p>
 		</span>
 			<?php
-		} else {
-			show_message_on_form_submit( esc_html__( 'Your wallet amount is 0, you cannot transfer money.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
-		}
-
+	} else {
+		show_message_on_form_submit( esc_html__( 'Your wallet amount is 0, you cannot transfer money.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 	}
 
 	?>

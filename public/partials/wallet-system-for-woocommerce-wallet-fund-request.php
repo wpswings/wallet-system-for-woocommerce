@@ -23,15 +23,15 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 
 		<?php
 		$wsfw_restrict_wallet_fund_request_kyc   = get_option( 'wsfw_restrict_wallet_fund_request_kyc' );
-		$wsfw_enable_wallet_kyc = get_option('wsfw_enable_wallet_kyc');
+		$wsfw_enable_wallet_kyc = get_option( 'wsfw_enable_wallet_kyc' );
 		$kyc_not_approved = false;
 		if ( 'on' === $wsfw_restrict_wallet_fund_request_kyc && 'on' == $wsfw_enable_wallet_kyc ) {
 			$wps_wallet_kyc_status    = get_user_meta( $user_id, 'key_verification_status', true );
 			if ( 'pending' == $wps_wallet_kyc_status || 'rejected' == $wps_wallet_kyc_status || '' == $wps_wallet_kyc_status ) {
 				$kyc_not_approved = true;
-			} 		
+			}
 		}
-		if( $kyc_not_approved ){
+		if ( $kyc_not_approved ) {
 			show_message_on_form_submit( esc_html__( 'You must complete KYC verification to use wallet funds request.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			return;
 		} else {
@@ -169,10 +169,10 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 
 												$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_fund_request_amount', true ) );
 												$wps_wallet_fund_request_another_user_email = get_post_meta( $request_id, 'wps_wallet_fund_request_another_user_email', true );
-												if( empty( $wps_wallet_fund_request_another_user_email ) ) {
+												if ( empty( $wps_wallet_fund_request_another_user_email ) ) {
 													$wps_wallet_fund_request_another_user_email = get_userdata( $requested_user_id )->user_email;
 												}
-												// print_r($requested_user_id);die;
+
 												$wps_current_user_email = get_post_meta( $request_id, 'wps_current_user_email', true );
 												?>
 												<tr>
@@ -253,7 +253,7 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 
 												$withdrawal_balance = apply_filters( 'wps_wsfw_show_converted_price', get_post_meta( $request_id, 'wps_wallet_fund_request_amount', true ) );
 												$wps_wallet_fund_request_another_user_email = get_post_meta( $request_id, 'wps_wallet_fund_request_another_user_email', true );
-												if( empty( $wps_wallet_fund_request_another_user_email ) ) {
+												if ( empty( $wps_wallet_fund_request_another_user_email ) ) {
 													$wps_wallet_fund_request_another_user_email = get_userdata( $userid )->user_email;
 												}
 												$wps_current_user_email = get_post_meta( $request_id, 'wps_current_user_email', true );
