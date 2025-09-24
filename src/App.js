@@ -1,5 +1,4 @@
-import './App.css';
-import React from 'react';
+
 import {useState} from 'react';
 import { Button} from '@material-ui/core';
 import axios from 'axios';
@@ -17,9 +16,6 @@ const ReportingSystem = () => {
   
     ]
   );
-
-
-
  
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -28,8 +24,6 @@ const ReportingSystem = () => {
   const handleFromDateChange = (e) => {
     setFromDate(e.target.value);
   };
-
- 
 
   const handleToDateChange = (e) => {
     setToDate(e.target.value);

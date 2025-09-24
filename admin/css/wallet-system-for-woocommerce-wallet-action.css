@@ -110,6 +110,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
   .wps-header-container h1.wps-header-title {
       max-width: 95%;
+      flex: 1 0 95%;
   }
 
   .thirty-days-notice .wps-header-title #wps-wsfw-day-count {
@@ -417,4 +418,27 @@ form.wps_form_get_export_pdf {
 
 .wps-form-select .select2 {
   min-width: 200px;
+}
+
+/* wallet kyc admin setting */
+.wsfw-secion-kyc-title-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.wsfw-secion-kyc-title-link a {
+    padding: 8px 16px;
+    background: #0089f40d;
+    border-radius: 5px;
+    border: 1.5px solid #0089f4;
+    color: #0089f4;
+    transition: 0.3s all linear;
+}
+
+.wsfw-secion-kyc-title-link a:hover {
+    background: #0089f4;
+    color: white;
 }

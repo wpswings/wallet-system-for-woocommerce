@@ -1,6 +1,6 @@
-/*!*********************************************************************************************************************************************************************!*\
-  !*** css ../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/style.css ***!
-  \*********************************************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/style.css ***!
+  \*******************************************************************************************************************************************************************/
 .wpsMsfWrapper {
   height: 100%;
   min-height: 100vh;
@@ -142,5 +142,95 @@ form.wpsMsf textarea::placeholder {
       padding: 20px 5px;
   }
 }
+
+/* kyc css start */
+/* Container */
+.kyc-container {
+  margin: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Message */
+.kyc-message {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #f0f8ff;
+  border: 1px solid #b3d7ff;
+  color: #004085;
+  font-weight: 500;
+}
+
+/* Loading */
+.kyc-loading {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+
+/* Table */
+.kyc-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.kyc-table th,
+.kyc-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.kyc-table th {
+  background: #f7f9fc;
+  font-weight: bold;
+  color: #333;
+}
+
+.kyc-table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.kyc-table tr:hover {
+  background: #f1f7ff;
+}
+
+/* Empty row */
+.kyc-empty {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+}
+
+/* Document link */
+.kyc-document-link {
+  display: block;
+  color: #0073e6;
+  text-decoration: none;
+  margin: 3px 0;
+}
+.kyc-document-link:hover {
+  text-decoration: underline;
+}
+
+/* Remark input */
+.kyc-remark-input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Status select */
+.kyc-status-select {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+}
+/* kyc css end */
 
 /*# sourceMappingURL=style-index.css.map*/

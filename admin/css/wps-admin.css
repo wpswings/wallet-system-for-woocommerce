@@ -1436,7 +1436,7 @@ ul {
 }
 
 .wps-header-container {
-    justify-content: flex-start;
+    gap: 3px;
 }
 
 .wps-header-container span {

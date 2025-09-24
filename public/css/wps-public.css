@@ -213,6 +213,7 @@ input[type=submit].wps-btn__filled:hover {
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:first-of-type,
 .wps_wcb_content_template ul.wps_wcb_content_template ul.tabs li .wps_wallet_transfer_tab path:last-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_withdrawal_tab path:last-of-type,
+.wps_wcb_content_template ul.tabs li .wps_kyc_verification_tab path:first-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_recharge_tab path:first-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:first-of-type,
 .wps_wcb_content_template ul.tabs li .wps_wallet_transactions_tab path:last-of-type,
@@ -221,6 +222,19 @@ input[type=submit].wps-btn__filled:hover {
     fill: #000;
 }
 
+.wps_wcb_wallet_display_wrapper_with_qr .wps_wcb_wallet_balance_container h4.wallet-balance-title {
+  font-size: 18px;
+}
+
+.wps_kyc_approved_icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.wps_kyc_approved_icon svg {
+    width: 24px;
+    height: 24px;
+}
 
 
 
@@ -817,3 +831,86 @@ form#wps_wallet_transfer_form {
 .wps_wsfw_wallet_user_id h4{
   font-size: 16px !important;
 }
+
+/* kyc css start  */
+
+/* Container */
+.wps-wallet-kyc-documents {
+  margin: 20px 0;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Status messages */
+.wps-wallet-kyc-status {
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.wps-wallet-kyc-status.pending {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+}
+
+.wps-wallet-kyc-status.approved {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.wps-wallet-kyc-status.rejected {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* Headings */
+.wps-wallet-kyc-documents h4 {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+/* Paragraphs */
+.wps-wallet-kyc-documents p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Strong labels */
+.wps-wallet-kyc-documents p strong {
+  color: #222;
+}
+
+/* Documents list */
+.wps-wallet-kyc-documents ul {
+  list-style: disc inside;
+  margin: 10px 0 15px 10px;
+  padding: 0;
+}
+
+.wps-wallet-kyc-documents ul li {
+  margin: 5px 0;
+}
+
+.wps-wallet-kyc-documents ul li a {
+  color: #0073e6;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.wps-wallet-kyc-documents ul li a:hover {
+  color: #005bb5;
+  text-decoration: underline;
+}
+/* kyc verification */

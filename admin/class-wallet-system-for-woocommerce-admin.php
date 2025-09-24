@@ -1661,6 +1661,31 @@ class Wallet_System_For_Woocommerce_Admin {
 		}
 	}
 
+	/**
+	 * Wallet System for WooCommerce KYC save tab settings.
+	 *
+	 * @since 1.0.0
+	 */
+	public function wsfw_admis_save_tab_settings_for_kyc() {
+		global $wsfw_wps_wsfw_obj;
+		if ( isset( $_POST['wsfw_button_wallet_kyc_tab_option'] ) ) {
+			$nonce = ( isset( $_POST['updatenoncewallet_kyc'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_kyc'] ) ) : '';
+			if ( wp_verify_nonce( $nonce ) ) {
+
+				$wps_wsfw_gen_flag     = false;
+				$wsfw_genaral_settings = apply_filters( 'wsfw_wallet_kyc_notification_settings', array() );
+				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
+				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
+					$wsfw_button_index = array_search( 'button', array_column( $wsfw_genaral_settings, 'type' ) );
+				}
+				$this->wsfw_admin_save_data( $wsfw_genaral_settings, $wps_wsfw_gen_flag );
+
+			} else {
+				$wsfw_wps_wsfw_obj->wps_wsfw_plug_admin_notice( esc_html__( 'Failed security check', 'wallet-system-for-woocommerce' ), 'error' );
+			}
+		}
+	}
+
 
 
 
@@ -1674,11 +1699,12 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wsfw_admin_save_data( $wsfw_genaral_settings, $wps_wsfw_gen_flag ) {
 		global $wsfw_wps_wsfw_obj;
-		if ( isset( $_POST['wsfw_button_wallet_action'] ) || isset( $_POST['wsfw_button_cashback'] ) || isset( $_POST['wsfw_button_wallet_withdrawal_wbnpl_tab_option'] ) ) {
+		if ( isset( $_POST['wsfw_button_wallet_action'] ) || isset( $_POST['wsfw_button_cashback'] ) || isset( $_POST['wsfw_button_wallet_withdrawal_wbnpl_tab_option'] ) || isset( $_POST['wsfw_button_wallet_kyc_tab_option'] ) ) {
 			$nonce_action   = ( isset( $_POST['updatenoncewallet_action'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_action'] ) ) : '';
 			$nonce_cashback = ( isset( $_POST['updatenoncecashback'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncecashback'] ) ) : '';
 			$nonce_bpnl = ( isset( $_POST['updatenoncewallet_bnpl'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_bnpl'] ) ) : '';
-			if ( wp_verify_nonce( $nonce_action ) || wp_verify_nonce( $nonce_cashback ) || wp_verify_nonce( $nonce_bpnl ) ) {
+			$nonce_kyc = ( isset( $_POST['updatenoncewallet_kyc'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_kyc'] ) ) : '';
+			if ( wp_verify_nonce( $nonce_action ) || wp_verify_nonce( $nonce_cashback ) || wp_verify_nonce( $nonce_bpnl ) || wp_verify_nonce( $nonce_kyc ) ) {
 				$wsfw_button_index     = array_search( 'submit', array_column( $wsfw_genaral_settings, 'type' ) );
 				if ( isset( $wsfw_button_index ) && ( null == $wsfw_button_index || '' == $wsfw_button_index ) ) {
 					$wsfw_button_index = array_search( 'button', array_column( $wsfw_genaral_settings, 'type' ) );
@@ -4685,5 +4711,189 @@ class Wallet_System_For_Woocommerce_Admin {
 		);
 
 		return $wsfw_settings_template;
+	}
+
+	/**
+	 * This is used to enable wallet Kyc.
+	 *
+	 * @param array $wsfw_settings_template setting template.
+	 * @return array
+	 */
+	public function wsfw_wallet_kyc_notification_settings_tab( $wsfw_settings_template ) {
+
+		$is_pro_plugin = false;
+		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', $is_pro_plugin );
+
+		if ( $is_pro_plugin ) {
+			$setting_description = __( 'Enter how many document customer need to upload for KYC verfication based on that customer will see that number of upload button', 'wallet-system-for-woocommerce' );
+		} else {
+			$setting_description = __( 'In Free Version you have ability to get only 1 document for KYC Verification.', 'wallet-system-for-woocommerce' );
+		}
+
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable Wallet KYC', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => __( 'Enable to use wallet with KYC.', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wsfw_enable_wallet_kyc',
+			'id'          => 'wsfw_enable_wallet_kyc',
+			'value'       => get_option( 'wsfw_enable_wallet_kyc', 'no' ),
+			'class'       => 'wsfw-radio-switch-class',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+		);
+
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable to Restrict Wallet Withdrawal if KYC not Approved', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => __( 'By Enabling this if user has not approved KYC then wallet withdrawal is restrict.', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wsfw_restrict_wallet_withdrawal_kyc',
+			'id'          => 'wsfw_restrict_wallet_withdrawal_kyc',
+			'value'       => get_option( 'wsfw_restrict_wallet_withdrawal_kyc', 'no' ),
+			'class'       => 'wsfw-radio-switch-class',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+		);
+
+		$wsfw_settings_template[] = array(
+			'title'       => __( 'Enable to Restrict Wallet Transfer if KYC not Approved', 'wallet-system-for-woocommerce' ),
+			'type'        => 'radio-switch',
+			'description' => __( 'By Enabling this if user has not approved KYC then wallet transfer is restrict.', 'wallet-system-for-woocommerce' ),
+			'name'        => 'wsfw_restrict_wallet_transfer_kyc',
+			'id'          => 'wsfw_restrict_wallet_transfer_kyc',
+			'value'       => get_option( 'wsfw_restrict_wallet_transfer_kyc', 'no' ),
+			'class'       => 'wsfw-radio-switch-class',
+			'options'     => array(
+				'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+				'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+			),
+		);
+
+			$wsfw_settings_template[] = array(
+				'title'       => __( 'Enable to Restrict Wallet Fund Request if KYC not Approved', 'wallet-system-for-woocommerce' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'By Enabling this if user has not approved KYC then wallet fund request is restrict.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wsfw_restrict_wallet_fund_request_kyc',
+				'id'          => 'wsfw_restrict_wallet_fund_request_kyc',
+				'value'       => get_option( 'wsfw_restrict_wallet_fund_request_kyc', 'no' ),
+				'class'       => 'wsfw-radio-switch-class wps_pro_settings',
+				'options'     => array(
+					'yes' => __( 'YES', 'wallet-system-for-woocommerce' ),
+					'no'  => __( 'NO', 'wallet-system-for-woocommerce' ),
+				),
+			);
+
+			$wsfw_settings_template[] = array(
+				'title'       => __( 'Number Of Document customer need to upload for Kyc Verification', 'wallet-system-for-woocommerce' ),
+				'type'        => 'number',
+				'description' => $setting_description,
+				'name'        => 'wsfw_number_of_documents_for_kyc',
+				'id'          => 'wsfw_number_of_documents_for_kyc',
+				'min'         => 1,
+				'value'       => ! empty( get_option( 'wsfw_number_of_documents_for_kyc' ) ) ? get_option( 'wsfw_number_of_documents_for_kyc' ) : 1,
+				'class'       => 'wsfw-text-class wps_pro_settings',
+				'placeholder' => __( 'Enter Number Of Document for Kyc Verification', 'wallet-system-for-woocommerce' ),
+			);
+
+			$wsfw_settings_template[] = array(
+				'title'       => __( 'Enter Rule And Description For KYC Verification Process', 'wallet-system-for-woocommerce' ),
+				'type'        => 'textarea',
+				'description' => __( 'Enter the rules and description for the KYC verification process.', 'wallet-system-for-woocommerce' ),
+				'name'        => 'wps_wsfw_wallet_action_kyc_description',
+				'id'          => 'wps_wsfw_wallet_action_kyc_description',
+				'step'        => '0.01',
+				'value'       => ! empty( get_option( 'wps_wsfw_wallet_action_kyc_description' ) ) ? get_option( 'wps_wsfw_wallet_action_kyc_description' ) : 'Need To upload Required Document for KYC Verification.',
+				'placeholder' => __( 'Enter KYC description', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wws-text-class',
+			);
+
+			$wsfw_settings_template[] = array(
+				'type'        => 'submit',
+				'name'        => 'wsfw_button_wallet_kyc_tab_option',
+				'id'          => 'wsfw_button_wallet_kyc_tab_option',
+				'button_text' => __( 'Save Settings', 'wallet-system-for-woocommerce' ),
+				'class'       => 'wsfw-button-class',
+			);
+
+			return $wsfw_settings_template;
+	}
+
+	/**
+	 * Ajax handler to get KYC requests.
+	 */
+	public function wps_get_kyc_requests_handler() {
+		// ✅ Security check.
+
+		check_ajax_referer( 'ajax-nonce', 'nonce' );
+
+		$args = array(
+			'role__in' => array( 'subscriber', 'customer', 'administrator', 'editor', 'author', 'contributor' ),
+			'number'   => -1,
+		);
+
+		$users = get_users( $args );
+
+		$kyc_requests = array();
+
+		foreach ( $users as $user ) {
+			$documents = get_user_meta( $user->ID, 'wps_wallet_kyc_documents', true );
+			$status    = get_user_meta( $user->ID, 'key_verification_status', true );
+
+			if ( ! empty( $documents ) && ! empty( $status ) ) {
+				// unserialize if needed.
+				if ( is_serialized( $documents ) ) {
+					$documents = maybe_unserialize( $documents );
+				}
+
+				$kyc_requests[] = array(
+					'id'                => $user->ID,
+					'name'              => $user->display_name,
+					'email'             => $user->user_email,
+					'required_document' => $documents,
+					'status'            => $status,
+					'remark'            => get_user_meta( $user->ID, 'kyc_admin_remark', true ),
+				);
+			}
+		}
+
+		wp_send_json_success( $kyc_requests );
+	}
+
+	/**
+	 * Ajax handler to update KYC status.
+	 */
+	public function wps_update_kyc_status_handler() {
+
+		check_ajax_referer( 'ajax-nonce', 'nonce' );
+
+		$user_id = intval( $_POST['user_id'] ?? 0 );
+		$status  = ! empty( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : ' ';
+		$remark  = ! empty( $_POST['remark'] ) ? sanitize_text_field( wp_unslash( $_POST['remark'] ) ) : ' ';
+
+		// Get current status.
+		$current_status = get_user_meta( $user_id, 'key_verification_status', true );
+
+		// Block if already approved/rejected.
+		if ( in_array( $current_status, array( 'approved', 'rejected' ), true ) ) {
+			wp_send_json_error( array( 'message' => 'This request is already finalized and cannot be changed.' ) );
+		}
+
+		if ( $user_id && in_array( $status, array( 'pending', 'approved', 'rejected' ), true ) && ! empty( $remark ) ) {
+			update_user_meta( $user_id, 'key_verification_status', $status );
+			update_user_meta( $user_id, 'kyc_admin_remark', $remark );
+
+			wp_send_json_success(
+				array(
+					'message' => 'Status & remark updated',
+					'status'  => $status,
+					'remark'  => $remark,
+				)
+			);
+		} else {
+			wp_send_json_error( array( 'message' => 'Invalid data or remark missing' ) );
+		}
 	}
 }

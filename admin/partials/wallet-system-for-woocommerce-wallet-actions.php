@@ -188,8 +188,15 @@ $wsfw_wallet_action_html = '';
 			</div>
 			<hr>
 			<div class="wsfw-secion-wallet">
-			  <span><b><?php esc_html_e( 'Low Wallet Balance Notification Threshold
-', 'wallet-system-for-woocommerce' ); ?></b></span>
+			<span><b>
+			<?php
+			esc_html_e(
+				'Low Wallet Balance Notification Threshold
+',
+				'wallet-system-for-woocommerce'
+			);
+			?>
+						</b></span>
 				<?php
 					  $wsfw_wallet_action_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_action_low_balance_settings );
 				if ( ! empty( $wsfw_wallet_action_html ) ) {

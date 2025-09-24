@@ -30,8 +30,8 @@ $allowed_html = array(
 				</div>
 				<?php
 			}
-			?>	
-			</form>
+			?>
+						</form>
 			<thead>
 				<tr>
 					<th>#</th>

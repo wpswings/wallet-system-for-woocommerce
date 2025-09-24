@@ -81,7 +81,7 @@ class Wallet_System_For_Woocommerce {
 			$this->version = WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '2.7.0';
+			$this->version = '2.7.1';
 		}
 
 		$this->plugin_name = 'wallet-system-for-woocommerce';
@@ -307,10 +307,18 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_action_withdrawal_settings', $wsfw_plugin_admin, 'wsfw_wallet_withdrawal_enable_settings_tab', 10 );
 			$this->loader->add_filter( 'wsfw_wallet_action_sms_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_sms_notification_settings_tab', 10 );
-			
+
 		}
 		$this->loader->add_filter( 'wsfw_wallet_bnpl_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_bnpl_notification_settings_tab', 10 );
+		$this->loader->add_filter( 'wsfw_wallet_kyc_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_kyc_notification_settings_tab', 10 );
 		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
+
+		// Logged-in users.
+		$this->loader->add_action( 'wp_ajax_wps_get_kyc_requests', $wsfw_plugin_admin, 'wps_get_kyc_requests_handler' );
+
+		// Guests (if needed).
+		$this->loader->add_action( 'wp_ajax_nopriv_wps_get_kyc_requests', $wsfw_plugin_admin, 'wps_get_kyc_requests_handler' );
+		$this->loader->add_action( 'wp_ajax_wps_update_kyc_status', $wsfw_plugin_admin, 'wps_update_kyc_status_handler' );
 
 		/*cron for notification*/
 		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wps_wsfw_set_cron_for_plugin_notification' );
@@ -353,15 +361,15 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_filter( 'wps_wpr_gamification_feature_for_wallet', $wsfw_plugin_common, 'wps_wps_gamification_feature_for_wallet_callback', 99, 2 );
 
 		$this->loader->add_action( 'wps_wsfw_assign_wallet_ids_event', $wsfw_plugin_common, 'wps_wsfw_assign_unique_wallet_id_to_user' );
-		$this->loader->add_action('user_register', $wsfw_plugin_common, 'wps_wsfw_assign_wallet_id_to_new_user', 10 ,1 );
+		$this->loader->add_action( 'user_register', $wsfw_plugin_common, 'wps_wsfw_assign_wallet_id_to_new_user', 10, 1 );
 		// woocoommerce subscription renewal payment.
 		$this->loader->add_action( 'woocommerce_scheduled_subscription_payment_wps_wcb_wallet_payment_gateway', $wsfw_plugin_common, 'wps_wsfw_process_woo_sub_renewal_order_payment_from_wallet', 10, 2 );
 
 		$this->loader->add_action( 'init', $wsfw_plugin_common, 'wps_wsfw_cron_for_wallet_notification' );
 		$this->loader->add_action( 'wps_wsfw_daily_wallet_thresold', $wsfw_plugin_common, 'wps_wsfw_daily_wallet_thresold_callback' );
 
-		$this->loader->add_action('woocommerce_order_status_changed', $wsfw_plugin_common,  'wps_wallet_auto_refund_if_wallet_payment', 10, 3 );
-		$this->loader->add_action('woocommerce_order_status_changed', $wsfw_plugin_common,  'wps_wallet_auto_deduct_cashback_order_cancel_or_refund', 10, 3 );
+		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wps_wallet_auto_refund_if_wallet_payment', 10, 3 );
+		$this->loader->add_action( 'woocommerce_order_status_changed', $wsfw_plugin_common, 'wps_wallet_auto_deduct_cashback_order_cancel_or_refund', 10, 3 );
 
 			$this->loader->add_filter( 'wps_wsfw_show_converted_price', $wsfw_plugin_common, 'wps_wsfwp_show_common_converted_price', 10, 1 );
 			$this->loader->add_filter( 'wps_wsfw_convert_to_base_price', $wsfw_plugin_common, 'wps_wsfwp_common_convert_to_base_price', 10, 1 );
@@ -519,6 +527,12 @@ class Wallet_System_For_Woocommerce {
 	public function wps_wsfw_plug_default_tabs() {
 
 		$wsfw_default_tabs = array();
+
+		$wsfw_default_tabs['wallet-system-for-woocommerce-overview']      = array(
+			'title' => esc_html__( 'Overview', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-for-woocommerce-overview',
+		);
+
 		$wsfw_default_tabs['wallet-system-for-woocommerce-general'] = array(
 			'title' => esc_html__( 'General', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-general',
@@ -586,6 +600,11 @@ class Wallet_System_For_Woocommerce {
 			'name'  => 'wallet-system-for-woocommerce-buy-now-pay-later',
 		);
 
+		$wsfw_default_tabs['wallet-system-for-woocommerce-wallet-kyc']      = array(
+			'title' => esc_html__( 'Wallet KYC', 'wallet-system-for-woocommerce' ),
+			'name'  => 'wallet-system-for-woocommerce-wallet-kyc',
+		);
+
 		$wsfw_default_tabs['wallet-system-rest-api'] = array(
 			'title' => esc_html__( 'REST API', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-rest-api',
@@ -594,11 +613,6 @@ class Wallet_System_For_Woocommerce {
 		$wsfw_default_tabs['wallet-system-for-woocommerce-system-status'] = array(
 			'title' => esc_html__( 'System Status', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-system-status',
-		);
-
-		$wsfw_default_tabs['wallet-system-for-woocommerce-overview']      = array(
-			'title' => esc_html__( 'Overview', 'wallet-system-for-woocommerce' ),
-			'name'  => 'wallet-system-for-woocommerce-overview',
 		);
 
 		$wsfw_default_tabs = apply_filters( 'wps_wsfw_plug_extra_tabs', $wsfw_default_tabs );
