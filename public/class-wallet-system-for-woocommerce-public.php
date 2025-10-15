@@ -127,15 +127,14 @@ class Wallet_System_For_Woocommerce_Public {
 		);
 		wp_enqueue_script( $this->plugin_name );
 		global $wp_query;
-		$is_endpoint = isset($wp_query->query_vars['wps-wallet']) ? $wp_query->query_vars['wps-wallet'] : '';
-		
+		$is_endpoint = isset( $wp_query->query_vars['wps-wallet'] ) ? $wp_query->query_vars['wps-wallet'] : '';
+
 		$http_host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
 		$request_url = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
 		$current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . '://' . $http_host . $request_url;
 		$main_url               = wc_get_endpoint_url( 'wps-wallet' );
-		
-		// if ( ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) && is_account_page() ) || ( ( 'wallet-transactions' === $is_endpoint || 'wallet-withdrawal' === $is_endpoint ) ) ) {
+
 		if ( $current_url == $main_url ) {
 			wp_enqueue_script( 'wps-datatable', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/js/jquery.dataTables.min.js', array(), $this->version, true );
 			wp_enqueue_script( 'wps-public-min', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'public/js/wps-public.min.js', array(), $this->version, 'all' );

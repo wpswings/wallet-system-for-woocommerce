@@ -4869,37 +4869,37 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wps_update_kyc_status_handler() {
 
 		check_ajax_referer( 'ajax-nonce', 'nonce' );
-	
+
 		// Ensure user is logged in and has permission.
 		if ( ! is_user_logged_in() ) {
 			wp_send_json_error( array( 'message' => 'Unauthorized: user not logged in.' ), 403 );
 		}
-	
+
 		$current_user_id = get_current_user_id();
-	
+
 		// Optional: Restrict to admins or shop managers only.
 		if ( ! current_user_can( 'manage_woocommerce' ) && ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( array( 'message' => 'Unauthorized: insufficient permissions.' ), 403 );
 		}
-	
+
 		$user_id = intval( $_POST['user_id'] ?? 0 );
 		$status  = ! empty( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
 		$remark  = ! empty( $_POST['remark'] ) ? sanitize_text_field( wp_unslash( $_POST['remark'] ) ) : '';
-	
+
 		// Validate input.
 		if ( ! $user_id || empty( $status ) || empty( $remark ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid data or remark missing.' ), 400 );
 		}
-	
+
 		// Prevent status change for approved/rejected users.
 		$current_status = get_user_meta( $user_id, 'key_verification_status', true );
 		if ( in_array( $current_status, array( 'approved', 'rejected' ), true ) ) {
 			wp_send_json_error( array( 'message' => 'This request is already finalized.' ), 400 );
 		}
-	
+
 		update_user_meta( $user_id, 'key_verification_status', $status );
 		update_user_meta( $user_id, 'kyc_admin_remark', $remark );
-	
+
 		wp_send_json_success(
 			array(
 				'message' => 'Status & remark updated successfully.',
@@ -4908,5 +4908,4 @@ class Wallet_System_For_Woocommerce_Admin {
 			)
 		);
 	}
-	
 }
