@@ -1884,6 +1884,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			<a class="button view-transactions" href="' . esc_url( admin_url( "admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wps-user-wallet-transactions&id=$user_id" ) . '&nonce=' . $nonce ) . '" title="View Transactions" ></a></p>';
 			return $html;
 		}
+		return $value;
 	}
 
 	/**
@@ -4869,31 +4870,42 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		check_ajax_referer( 'ajax-nonce', 'nonce' );
 
+		// Ensure user is logged in and has permission.
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized: user not logged in.' ), 403 );
+		}
+
+		$current_user_id = get_current_user_id();
+
+		// Optional: Restrict to admins or shop managers only.
+		if ( ! current_user_can( 'manage_woocommerce' ) && ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized: insufficient permissions.' ), 403 );
+		}
+
 		$user_id = intval( $_POST['user_id'] ?? 0 );
-		$status  = ! empty( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : ' ';
-		$remark  = ! empty( $_POST['remark'] ) ? sanitize_text_field( wp_unslash( $_POST['remark'] ) ) : ' ';
+		$status  = ! empty( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+		$remark  = ! empty( $_POST['remark'] ) ? sanitize_text_field( wp_unslash( $_POST['remark'] ) ) : '';
 
-		// Get current status.
+		// Validate input.
+		if ( ! $user_id || empty( $status ) || empty( $remark ) ) {
+			wp_send_json_error( array( 'message' => 'Invalid data or remark missing.' ), 400 );
+		}
+
+		// Prevent status change for approved/rejected users.
 		$current_status = get_user_meta( $user_id, 'key_verification_status', true );
-
-		// Block if already approved/rejected.
 		if ( in_array( $current_status, array( 'approved', 'rejected' ), true ) ) {
-			wp_send_json_error( array( 'message' => 'This request is already finalized and cannot be changed.' ) );
+			wp_send_json_error( array( 'message' => 'This request is already finalized.' ), 400 );
 		}
 
-		if ( $user_id && in_array( $status, array( 'pending', 'approved', 'rejected' ), true ) && ! empty( $remark ) ) {
-			update_user_meta( $user_id, 'key_verification_status', $status );
-			update_user_meta( $user_id, 'kyc_admin_remark', $remark );
+		update_user_meta( $user_id, 'key_verification_status', $status );
+		update_user_meta( $user_id, 'kyc_admin_remark', $remark );
 
-			wp_send_json_success(
-				array(
-					'message' => 'Status & remark updated',
-					'status'  => $status,
-					'remark'  => $remark,
-				)
-			);
-		} else {
-			wp_send_json_error( array( 'message' => 'Invalid data or remark missing' ) );
-		}
+		wp_send_json_success(
+			array(
+				'message' => 'Status & remark updated successfully.',
+				'status'  => $status,
+				'remark'  => $remark,
+			)
+		);
 	}
 }
