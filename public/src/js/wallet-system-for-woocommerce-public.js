@@ -433,6 +433,7 @@
 	$(document).on( 'change', 'select#wps-wpg-gen-table_status', function() {
 		var request_id = $(this).siblings('input[name=request_id]').val();
 		var requesting_user_id = $(this).siblings('input[name=requesting_user_id]').val();
+		var requested_user_id = $(this).siblings('input[name=requested_user_id]').val();
 		var status = $(this).find(":selected").val();
 		
 		var withdrawal_balance = $(this).siblings('input[name=withdrawal_balance]').val();
@@ -447,6 +448,7 @@
 				request_id: request_id,
 				requesting_user_id: requesting_user_id,
 				withdrawal_balance: withdrawal_balance,
+				requested_user_id: requested_user_id,
 				status: status,
 				
 			},
