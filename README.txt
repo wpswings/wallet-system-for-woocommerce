@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: woocommerce wallet, wordpress wallet, cashback, payments, digital wallet, wallet
 Requires at least: 5.5.0
-Tested up to: 6.8.3
+Tested up to: 6.9
 WC Requires at least: 6.5.1
-WC tested up to: 10.3.3
-Stable tag: 2.7.2
+WC tested up to: 10.4.3
+Stable tag: 2.7.3
 Requires PHP: 7.5
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -302,13 +302,16 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
+= 2.7.3 - Released on 9 January 2026 =
+* New: Comptability with latest wp [6.9] and wc [10.4.3] 
+* Fix: Vulnerability and security related wallet fund request feature
+
 = 2.7.2 - Released on 31 October 2025 =
-* New  - latest  WP [6.8.3]and WC [10.3.3]
-* Fix - Code fixes for some js enqueue code.
-* Fix - Secuirty and vulnerability fixes in term of wallet kyc.
+* New: latest  WP [6.8.3]and WC [10.3.3]
+* Fix: Code fixes for some js enqueue code.
+* Fix: Secuirty and vulnerability fixes in term of wallet kyc.
 
 = 2.7.1 - Released on 24 September 2025 =
-
 * New: Wallet KYC Verification and restriction.
 * New: latest  WC [10.1.2] and WP [6.8.2].
 * New: Wallet id link to wallet transfer, wallet transfer QR.
@@ -597,7 +600,6 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.7.2 - Released on 31 October 2025 =
-* New - latest  WC [10.3.3] and WP [6.8.3].
-* Fix - Code fixes for some js enqueue code.
-* Fix - Secuirty and vulnerability fixes in term of wallet kyc.
+= 2.7.3 - Released on 9 January 2026 =
+* New - compatibility with latest wp [6.9] and wc [10.4.3]
+* Fix - Vulnerability and security related wallet fund request feature
