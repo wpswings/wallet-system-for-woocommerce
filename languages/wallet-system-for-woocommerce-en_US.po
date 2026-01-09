@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-10-31 09:19+0530\n"
-"PO-Revision-Date: 2025-10-31 09:19+0530\n"
+"POT-Creation-Date: 2026-01-09 16:06+0530\n"
+"PO-Revision-Date: 2026-01-09 16:06+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -762,7 +762,7 @@ msgstr ""
 #: common/class-wallet-system-for-woocommerce-common.php:1293
 #: common/class-wallet-system-for-woocommerce-common.php:1351
 #: common/class-wallet-system-for-woocommerce-common.php:1649
-#: includes/class-wallet-system-ajaxhandler.php:182
+#: includes/class-wallet-system-ajaxhandler.php:191
 #: includes/class-wallet-system-for-woocommerce-dependency.php:169
 #: public/class-wallet-system-for-woocommerce-public.php:724
 #: public/class-wallet-system-for-woocommerce-public.php:2054
@@ -797,7 +797,7 @@ msgstr ""
 #: common/class-wallet-system-for-woocommerce-common.php:1354
 #: common/class-wallet-system-for-woocommerce-common.php:1652
 #: common/class-wallet-system-for-woocommerce-common.php:1755
-#: includes/class-wallet-system-ajaxhandler.php:185
+#: includes/class-wallet-system-ajaxhandler.php:194
 #: includes/class-wallet-system-for-woocommerce-dependency.php:81
 #: includes/class-wallet-system-for-woocommerce-dependency.php:172
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:183
@@ -909,8 +909,8 @@ msgstr ""
 #: admin/partials/class-wallet-user-table.php:867
 #: admin/partials/wps-edit-wallet.php:105
 #: common/class-wallet-system-for-woocommerce-common.php:1563
-#: includes/class-wallet-system-ajaxhandler.php:181
-#: includes/class-wallet-system-ajaxhandler.php:227
+#: includes/class-wallet-system-ajaxhandler.php:190
+#: includes/class-wallet-system-ajaxhandler.php:236
 #: includes/class-wallet-system-for-woocommerce-dependency.php:77
 #: includes/class-wallet-system-for-woocommerce-dependency.php:168
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:179
@@ -969,8 +969,8 @@ msgstr ""
 #: admin/partials/class-wallet-user-table.php:260
 #: admin/partials/class-wallet-user-table.php:898
 #: admin/partials/wps-edit-wallet.php:137
-#: includes/class-wallet-system-ajaxhandler.php:272
-#: includes/class-wallet-system-ajaxhandler.php:280
+#: includes/class-wallet-system-ajaxhandler.php:281
+#: includes/class-wallet-system-ajaxhandler.php:289
 msgid "There is an error in database"
 msgstr ""
 
@@ -987,7 +987,7 @@ msgid "Wallet withdrawal request is rejected for user #"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:2715
-#: includes/class-wallet-system-ajaxhandler.php:304
+#: includes/class-wallet-system-ajaxhandler.php:313
 msgid "Wallet withdrawal request status is changed to pending for user #"
 msgstr ""
 
@@ -1276,7 +1276,7 @@ msgstr ""
 #: admin/class-wallet-system-for-woocommerce-admin.php:3272
 #: common/class-wallet-system-for-woocommerce-common.php:543
 #: common/class-wallet-system-for-woocommerce-common.php:640
-#: includes/class-wallet-system-ajaxhandler.php:228
+#: includes/class-wallet-system-ajaxhandler.php:237
 #: includes/class-wallet-system-for-woocommerce-dependency.php:78
 #: public/class-wallet-credit-payment-gateway.php:269
 #: public/class-wallet-credit-payment-gateway.php:382
@@ -3084,48 +3084,52 @@ msgstr ""
 msgid "Wallet amount is empty: "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:182
+#: includes/class-wallet-system-ajaxhandler.php:161
+msgid "You are not authorized to perform this action"
+msgstr ""
+
+#: includes/class-wallet-system-ajaxhandler.php:191
 msgid " through wallet fund request by "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:207
+#: includes/class-wallet-system-ajaxhandler.php:216
 #: public/partials/wallet-system-for-woocommerce-public-display.php:194
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:211
 msgid "Wallet credited by user "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:207
+#: includes/class-wallet-system-ajaxhandler.php:216
 #: public/partials/wallet-system-for-woocommerce-public-display.php:194
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:211
 msgid " to user "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:212
-#: includes/class-wallet-system-ajaxhandler.php:255
+#: includes/class-wallet-system-ajaxhandler.php:221
+#: includes/class-wallet-system-ajaxhandler.php:264
 msgid "Wallet Fund Request"
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:228
+#: includes/class-wallet-system-ajaxhandler.php:237
 msgid " through wallet fund request to "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:250
+#: includes/class-wallet-system-ajaxhandler.php:259
 #: public/partials/wallet-system-for-woocommerce-public-display.php:237
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:254
 msgid "Wallet debited from user "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:250
+#: includes/class-wallet-system-ajaxhandler.php:259
 #: public/partials/wallet-system-for-woocommerce-public-display.php:237
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:254
 msgid " wallet, transferred to user "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:266
+#: includes/class-wallet-system-ajaxhandler.php:275
 msgid "Wallet fund request is approved for user #"
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:292
+#: includes/class-wallet-system-ajaxhandler.php:301
 msgid "Wallet fund request is rejected for user #"
 msgstr ""
 
