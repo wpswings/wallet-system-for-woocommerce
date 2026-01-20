@@ -4828,7 +4828,14 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wps_get_kyc_requests_handler() {
 		// ✅ Security check.
 
+
 		check_ajax_referer( 'ajax-nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array(
+				'message' => __( 'Unauthorized request.', 'wallet-system-for-woocommerce' ),
+			), 403 );
+		}
 
 		$args = array(
 			'role__in' => array( 'subscriber', 'customer', 'administrator', 'editor', 'author', 'contributor' ),
