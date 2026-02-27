@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Wallet System For WooCommerce 2.7.3\n"
-"POT-Creation-Date: 2026-01-09 16:06+0530\n"
+"Project-Id-Version: Wallet System For WooCommerce 2.7.4\n"
+"POT-Creation-Date: 2026-02-27 11:15+0530\n"
 "PO-Revision-Date: 2024-10-28 14:54+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -1899,6 +1899,10 @@ msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:4810
 msgid "Enter KYC description"
+msgstr ""
+
+#: admin/class-wallet-system-for-woocommerce-admin.php:4836
+msgid "Unauthorized request."
 msgstr ""
 
 #: admin/partials/class-wallet-transaction-list-table.php:54
