@@ -64,6 +64,30 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	/**
+	 * Check whether the current user is allowed to manage wallet admin actions.
+	 *
+	 * @return bool
+	 */
+	private function wps_wsfw_current_user_can_manage_wallet() {
+		return current_user_can( 'manage_woocommerce' ) || current_user_can( 'manage_options' );
+	}
+
+	/**
+	 * Send an AJAX permission error and stop execution.
+	 *
+	 * @return void
+	 */
+	private function wps_wsfw_send_ajax_permission_error() {
+		wp_send_json_error(
+			array(
+				'msg'     => esc_html__( 'Sorry, you are not allowed to do that.', 'wallet-system-for-woocommerce' ),
+				'msgType' => 'error',
+			),
+			403
+		);
+	}
+
+	/**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
@@ -126,7 +150,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$wps_wsfw_branner_notice = array(
 			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-			'wps_wsfw_nonce' => wp_create_nonce( 'wp_rest' ),
+			'wps_wsfw_nonce' => wp_create_nonce( 'wsfw_admin_nonce' ),
 		);
 		wp_register_script( $this->plugin_name . 'admin-notice', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-wsfw-wallet-card-notices.js', array( 'jquery' ), $this->version, false );
 
@@ -206,7 +230,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				array(
 					'ajaxurl'                   => admin_url( 'admin-ajax.php' ),
 					'wps_wsfw_user_count'         => $this->wps_wsfw_user_count(),
-					'nonce'                     => wp_create_nonce( 'wp_rest' ),
+					'nonce'                     => wp_create_nonce( 'wsfw_admin_nonce' ),
 					'reloadurl'                 => admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ),
 					'wsfw_gen_tab_enable'       => get_option( 'wps_wsfw_enable' ),
 					'datatable_pagination_text' => __( 'Rows per page _MENU_', 'wallet-system-for-woocommerce' ),
@@ -2190,7 +2214,11 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function export_users_wallet() {
-		check_ajax_referer( 'wp_rest', 'nonce' );
+		check_ajax_referer( 'wsfw_admin_nonce', 'nonce' );
+		if ( ! $this->wps_wsfw_current_user_can_manage_wallet() ) {
+			$this->wps_wsfw_send_ajax_permission_error();
+		}
+
 		$per_user     = ! empty( $_POST['wps_wsfw_per_user'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_per_user'] ) ) : 0;
 		$current_page = ! empty( $_POST['wps_wsfw_current_page'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_current_page'] ) ) : 1;
 		$csv_data = ! empty( $_POST['csv_data'] ) ? map_deep( wp_unslash( $_POST['csv_data'] ), 'sanitize_text_field' ) : '';
@@ -2253,11 +2281,15 @@ class Wallet_System_For_Woocommerce_Admin {
 		 */
 	public function restrict_user_from_wallet_access() {
 		$update = true;
-		check_ajax_referer( 'wp_rest', 'nonce' );
-		$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
+		check_ajax_referer( 'wsfw_admin_nonce', 'nonce' );
+		if ( ! $this->wps_wsfw_current_user_can_manage_wallet() ) {
+			$this->wps_wsfw_send_ajax_permission_error();
+		}
+
+		$user_id            = ( isset( $_POST['user_id'] ) ) ? absint( wp_unslash( $_POST['user_id'] ) ) : 0;
 		$restriction_status = ( isset( $_POST['restriction_status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['restriction_status'] ) ) : '';
 
-		if ( ! empty( $user_id ) ) {
+		if ( $user_id > 0 ) {
 
 			if ( 'true' == $restriction_status ) {
 				update_user_meta( $user_id, 'user_restriction_for_wallet', 'restricted', true );
@@ -2512,7 +2544,11 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function change_wallet_withdrawan_status() {
 		$update = true;
-		check_ajax_referer( 'wp_rest', 'nonce' );
+		check_ajax_referer( 'wsfw_admin_nonce', 'nonce' );
+		if ( ! $this->wps_wsfw_current_user_can_manage_wallet() ) {
+			$this->wps_wsfw_send_ajax_permission_error();
+		}
+
 		if ( empty( $_POST['withdrawal_id'] ) ) {
 			$wps_wsfw_error_text = esc_html__( 'Withdrawal Id is not given', 'wallet-system-for-woocommerce' );
 			$message             = array(
@@ -2529,8 +2565,8 @@ class Wallet_System_For_Woocommerce_Admin {
 			);
 			$update = false;
 		}
-		$withdrawal_id      = ( isset( $_POST['withdrawal_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['withdrawal_id'] ) ) : '';
-		$user_id            = ( isset( $_POST['user_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
+		$withdrawal_id      = ( isset( $_POST['withdrawal_id'] ) ) ? absint( wp_unslash( $_POST['withdrawal_id'] ) ) : 0;
+		$user_id            = ( isset( $_POST['user_id'] ) ) ? absint( wp_unslash( $_POST['user_id'] ) ) : 0;
 
 		$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
 		$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
@@ -4249,9 +4285,21 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wps_wallet_delete_user_tranasactions() {
 		$update = true;
-		check_ajax_referer( 'wp_rest', 'nonce' );
+		check_ajax_referer( 'wsfw_admin_nonce', 'nonce' );
+		if ( ! $this->wps_wsfw_current_user_can_manage_wallet() ) {
+			$this->wps_wsfw_send_ajax_permission_error();
+		}
 
-		$transaction_id = ! empty( $_POST['transaction_id'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['transaction_id'] ) ) ) : '';
+		$transaction_id = ! empty( $_POST['transaction_id'] ) ? absint( wp_unslash( $_POST['transaction_id'] ) ) : 0;
+		if ( empty( $transaction_id ) ) {
+			wp_send_json_error(
+				array(
+					'message' => esc_html__( 'Transaction ID is missing.', 'wallet-system-for-woocommerce' ),
+				),
+				400
+			);
+		}
+
 		global $wpdb;
 		$transaction_executed = $wpdb->delete( $wpdb->prefix . 'wps_wsfw_wallet_transaction', array( 'id' => $transaction_id ), array( '%d' ) );
 
@@ -4351,16 +4399,28 @@ class Wallet_System_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function wps_wsfw_dismiss_notice_banner_callback() {
-		if ( isset( $_REQUEST['wps_wsfw_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_wsfw_nonce'] ) ), 'wp_rest' ) ) {
-
-			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
-
-			if ( isset( $banner_id ) && '' != $banner_id ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
-			}
-
-			wp_send_json_success();
+		$nonce = '';
+		if ( isset( $_REQUEST['wps_wsfw_nonce'] ) ) {
+			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['wps_wsfw_nonce'] ) );
+		} elseif ( isset( $_REQUEST['wps_nonce'] ) ) {
+			// Backward compatibility for older JS payloads.
+			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) );
 		}
+
+		if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wsfw_admin_nonce' ) ) {
+			$this->wps_wsfw_send_ajax_permission_error();
+		}
+
+		if ( ! $this->wps_wsfw_current_user_can_manage_wallet() ) {
+			$this->wps_wsfw_send_ajax_permission_error();
+		}
+
+		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+		if ( isset( $banner_id ) && '' != $banner_id ) {
+			update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
+		}
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -4374,7 +4434,32 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$from_date = ! empty( $_POST['fromdate'] ) ? sanitize_text_field( wp_unslash( $_POST['fromdate'] ) ) : ' ';
 		$to_date = ! empty( $_POST['toDate'] ) ? sanitize_text_field( wp_unslash( $_POST['toDate'] ) ) : ' ';
-		$user_id = ! empty( $_POST['user_id'] ) ? sanitize_text_field( wp_unslash( $_POST['user_id'] ) ) : '';
+		$user_id = ! empty( $_POST['user_id'] ) ? absint( wp_unslash( $_POST['user_id'] ) ) : 0;
+
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error(
+				array(
+					'msg'     => esc_html__( 'You must be logged in to do that.', 'wallet-system-for-woocommerce' ),
+					'msgType' => 'error',
+				),
+				401
+			);
+		}
+
+		$current_user_id = get_current_user_id();
+		if ( empty( $user_id ) ) {
+			$user_id = $current_user_id;
+		}
+
+		if ( $user_id !== $current_user_id && ! $this->wps_wsfw_current_user_can_manage_wallet() ) {
+			wp_send_json_error(
+				array(
+					'msg'     => esc_html__( 'Unauthorized request.', 'wallet-system-for-woocommerce' ),
+					'msgType' => 'error',
+				),
+				403
+			);
+		}
 
 		$user_data = $this->wps_wsfw_get_user_report( $user_id, $from_date, $to_date );
 

@@ -12,10 +12,10 @@ jQuery( document ).ready(
             function(e){
                 e.preventDefault();
 
-                    var data = {
-                        action    :'wps_wsfw_dismiss_notice_banner',
-                        wps_nonce :wps_wsfw_branner_notice.wps_wsfw_nonce
-                    };
+	                    var data = {
+	                        action    :'wps_wsfw_dismiss_notice_banner',
+	                        wps_wsfw_nonce :wps_wsfw_branner_notice.wps_wsfw_nonce
+	                    };
                     $.ajax({
                         url  : wps_wsfw_branner_notice.ajaxurl,
                         type : "POST",
