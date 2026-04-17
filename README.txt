@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: woocommerce wallet, wordpress wallet, cashback, payments, digital wallet, wallet
 Requires at least: 6.7.0
-Tested up to: 6.9.4
+Tested up to: 6.9
 WC requires at least: 6.5.0
-WC tested up to: 10.6.1
-Stable tag: 2.7.5
+WC tested up to: 10.7
+Stable tag: 2.7.6
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -301,6 +301,10 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 
 == Changelog ==
+
+= 2.7.6 - Released on 17 April 2026 =
+* New: Compatibility with latest wp [6.9] and wc [10.7] 
+* Fix: Vulnerability and security related issue fixes
 
 = 2.7.5 - Released on 24 March 2026 =
 * New: Compatibility with latest wp [6.9.4] and wc [10.6.1] 
@@ -612,6 +616,6 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.7.5 - Released on 24 March 2026 =
-* New: Compatibility with latest wp [6.9.4] and wc [10.6.1] 
-* Fix: Addition KYC tab in wallet short code
+= 2.7.6 - Released on 17 April 2026 =
+* New: Compatibility with latest wp [6.9] and wc [10.7] 
+* Fix: Vulnerability and security related issue fixes
