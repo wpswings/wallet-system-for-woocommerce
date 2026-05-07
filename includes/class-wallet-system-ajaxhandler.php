@@ -141,52 +141,70 @@ class Wallet_System_AjaxHandler {
 		if ( is_user_logged_in() ) {
 			check_ajax_referer( 'ajax-nonce', 'nonce' );
 
-			$request_id = empty( $_POST['request_id'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['request_id'] ) );
+			$request_id        = empty( $_POST['request_id'] ) ? 0 : absint( wp_unslash( $_POST['request_id'] ) );
+			$status            = isset( $_POST['status'] ) ? sanitize_key( wp_unslash( $_POST['status'] ) ) : '';
+			$allowed_statuses  = array( 'approved', 'rejected' );
+			$message           = array(
+				'msg'     => esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' ),
+				'msgType' => 'error',
+			);
+			$user_id           = get_current_user_id();
+			$current_currency  = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
+			$withdrawal_request = $request_id ? get_post( $request_id ) : false;
 
-			$requesting_user_id = empty( $_POST['requesting_user_id'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['requesting_user_id'] ) );
-
-			$requested_user_id = empty( $_POST['requested_user_id'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['requested_user_id'] ) );
-
-			$status = ( isset( $_POST['status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
-
-			$withdrawal_balance = empty( $_POST['withdrawal_balance'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['withdrawal_balance'] ) );
-			$withdrawal_balance = (float) $withdrawal_balance;
-
-			$user_id                = get_current_user_id();
-			$current_currency = apply_filters( 'wps_wsfw_get_current_currency', get_woocommerce_currency() );
-
-			$withdrawal_request = get_post( $request_id );
-
-			if ( $requested_user_id != $user_id ) {
-				$wps_wsfw_error_text = esc_html__( 'You are not authorized to perform this action', 'wallet-system-for-woocommerce' );
+			if ( empty( $withdrawal_request ) || 'wallet_fund_request' !== $withdrawal_request->post_type ) {
+				$wps_wsfw_error_text = esc_html__( 'Invalid wallet fund request.', 'wallet-system-for-woocommerce' );
+				$message             = array(
+					'msg'     => $wps_wsfw_error_text,
+					'msgType' => 'error',
+				);
+			} elseif ( ! in_array( $status, $allowed_statuses, true ) ) {
+				$wps_wsfw_error_text = esc_html__( 'Invalid wallet fund request status.', 'wallet-system-for-woocommerce' );
 				$message             = array(
 					'msg'     => $wps_wsfw_error_text,
 					'msgType' => 'error',
 				);
 			} else {
-				if ( 'approved' == $status ) {
-	
-					$requesting_user_wallet = get_user_meta( $requesting_user_id, 'wps_wallet', true );
-					$requesting_user_wallet = (float) $requesting_user_wallet;
-					$user_wallet = get_user_meta( $user_id, 'wps_wallet', true );
-					$user_wallet = (float) $user_wallet;
-	
+				$requesting_user_id = absint( get_post_meta( $request_id, 'wallet_user_id', true ) );
+				$requested_user_id  = absint( get_post_meta( $request_id, 'requested_user_id', true ) );
+				$withdrawal_balance = (float) get_post_meta( $request_id, 'wps_wallet_fund_request_amount', true );
+				$user1              = get_user_by( 'id', $requesting_user_id );
+				$user2              = get_user_by( 'id', $user_id );
+
+				if ( $requested_user_id !== $user_id ) {
+					$wps_wsfw_error_text = esc_html__( 'You are not authorized to perform this action', 'wallet-system-for-woocommerce' );
+					$message             = array(
+						'msg'     => $wps_wsfw_error_text,
+						'msgType' => 'error',
+					);
+				} elseif ( empty( $requesting_user_id ) || empty( $requested_user_id ) || $withdrawal_balance <= 0 || empty( $user1 ) || empty( $user2 ) ) {
+					$wps_wsfw_error_text = esc_html__( 'Invalid wallet fund request data.', 'wallet-system-for-woocommerce' );
+					$message             = array(
+						'msg'     => $wps_wsfw_error_text,
+						'msgType' => 'error',
+					);
+				} elseif ( 'pending1' !== $withdrawal_request->post_status ) {
+					$wps_wsfw_error_text = esc_html__( 'This wallet fund request has already been processed.', 'wallet-system-for-woocommerce' );
+					$message             = array(
+						'msg'     => $wps_wsfw_error_text,
+						'msgType' => 'error',
+					);
+				} elseif ( 'approved' === $status ) {
+					$requesting_user_wallet = (float) get_user_meta( $requesting_user_id, 'wps_wallet', true );
+					$user_wallet            = (float) get_user_meta( $user_id, 'wps_wallet', true );
+
 					if ( $user_wallet >= $withdrawal_balance ) {
 						$requesting_user_wallet += $withdrawal_balance;
 						$returnid = update_user_meta( $requesting_user_id, 'wps_wallet', $requesting_user_wallet );
-	
+
 						if ( $returnid ) {
 							$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 							$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-							// first user.
-							$user1 = get_user_by( 'id', $requesting_user_id );
-							$name1 = $user1->first_name . ' ' . $user1->last_name;
-	
-							$user2 = get_user_by( 'id', $user_id );
-							$name2 = $user2->first_name . ' ' . $user2->last_name;
-							$balance   = $current_currency . ' ' . $withdrawal_balance;
+							$name1                  = $user1->first_name . ' ' . $user1->last_name;
+							$name2                  = $user2->first_name . ' ' . $user2->last_name;
+							$balance                = $current_currency . ' ' . $withdrawal_balance;
+
 							if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
-	
 								$mail_text1  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name1 ) . ",\r\n";
 								$mail_text1 .= __( 'Wallet credited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet fund request by ', 'wallet-system-for-woocommerce' ) . $name2;
 								$to1         = $user1->user_email;
@@ -196,42 +214,42 @@ class Wallet_System_AjaxHandler {
 								$headers1   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 								$headers1   .= 'From: ' . $from . "\r\n" .
 								'Reply-To: ' . $to1 . "\r\n";
-	
+
 								if ( key_exists( 'wps_wswp_wallet_credit', WC()->mailer()->emails ) ) {
-	
 									$customer_email = WC()->mailer()->emails['wps_wswp_wallet_credit'];
+
 									if ( ! empty( $customer_email ) ) {
-										$user       = get_user_by( 'id', $requesting_user_id );
-										$currency  = get_woocommerce_currency();
+										$user         = get_user_by( 'id', $requesting_user_id );
+										$currency     = get_woocommerce_currency();
 										$balance_mail = $balance;
-										$user_name       = $user->first_name . ' ' . $user->last_name;
+										$user_name    = $user->first_name . ' ' . $user->last_name;
 										$email_status = $customer_email->trigger( $requesting_user_id, $user_name, $balance_mail, '' );
 									}
 								} else {
-	
 									$wallet_payment_gateway->send_mail_on_wallet_updation( $to1, $subject, $mail_text1, $headers1 );
 								}
 							}
-	
+
 							$transaction_type     = __( 'Wallet credited by user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 							$wallet_transfer_data = array(
-								'user_id'          => $requesting_user_id,
-								'amount'           => $withdrawal_balance,
-								'currency'         => $current_currency,
-								'payment_method'   => __( 'Wallet Fund Request', 'wallet-system-for-woocommerce' ),
-								'transaction_type' => $transaction_type,
+								'user_id'            => $requesting_user_id,
+								'amount'             => $withdrawal_balance,
+								'currency'           => $current_currency,
+								'payment_method'     => __( 'Wallet Fund Request', 'wallet-system-for-woocommerce' ),
+								'transaction_type'   => $transaction_type,
 								'transaction_type_1' => 'credit',
-								'order_id'         => '',
-								'note'             => '',
-	
+								'order_id'           => '',
+								'note'               => '',
 							);
-	
+
 							$wallet_payment_gateway->insert_transaction_data_in_table( $wallet_transfer_data );
-	
+
 							$user_wallet -= $withdrawal_balance;
-							$update_user = update_user_meta( $user_id, 'wps_wallet', abs( $user_wallet ) );
+							$update_user = update_user_meta( $user_id, 'wps_wallet', $user_wallet );
+
 							if ( $update_user ) {
-								$balance   = $current_currency . ' ' . $withdrawal_balance;
+								$balance = $current_currency . ' ' . $withdrawal_balance;
+
 								if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
 									$mail_text2  = esc_html__( 'Hello ', 'wallet-system-for-woocommerce' ) . esc_html( $name2 ) . ",\r\n";
 									$mail_text2 .= __( 'Wallet debited by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance ) . __( ' through wallet fund request to ', 'wallet-system-for-woocommerce' ) . $name1;
@@ -240,35 +258,34 @@ class Wallet_System_AjaxHandler {
 									$headers2   .= 'Content-Type: text/html;  charset=UTF-8' . "\r\n";
 									$headers2   .= 'From: ' . $from . "\r\n" .
 									'Reply-To: ' . $to2 . "\r\n";
+
 									if ( key_exists( 'wps_wswp_wallet_debit', WC()->mailer()->emails ) ) {
-	
 										$customer_email = WC()->mailer()->emails['wps_wswp_wallet_debit'];
+
 										if ( ! empty( $customer_email ) ) {
-											$user       = get_user_by( 'id', $user_id );
-											$currency  = get_woocommerce_currency();
+											$user         = get_user_by( 'id', $user_id );
+											$currency     = get_woocommerce_currency();
 											$balance_mail = $balance;
-											$user_name       = $user->first_name . ' ' . $user->last_name;
+											$user_name    = $user->first_name . ' ' . $user->last_name;
 											$customer_email->trigger( $user_id, $user_name, $balance_mail, '' );
 										}
 									} else {
-	
 										$wallet_payment_gateway->send_mail_on_wallet_updation( $to2, $subject, $mail_text2, $headers2 );
 									}
 								}
-	
+
 								$transaction_type = __( 'Wallet debited from user ', 'wallet-system-for-woocommerce' ) . $user2->user_email . __( ' wallet, transferred to user ', 'wallet-system-for-woocommerce' ) . $user1->user_email;
 								$transaction_data = array(
-									'user_id'          => $user_id,
-									'amount'           => $withdrawal_balance,
-									'currency'         => $current_currency,
-									'payment_method'   => __( 'Wallet Fund Request', 'wallet-system-for-woocommerce' ),
-									'transaction_type' => $transaction_type,
+									'user_id'            => $user_id,
+									'amount'             => $withdrawal_balance,
+									'currency'           => $current_currency,
+									'payment_method'     => __( 'Wallet Fund Request', 'wallet-system-for-woocommerce' ),
+									'transaction_type'   => $transaction_type,
 									'transaction_type_1' => 'debit',
-									'order_id'         => '',
-									'note'             => '',
-	
+									'order_id'           => '',
+									'note'               => '',
 								);
-	
+
 								$result = $wallet_payment_gateway->insert_transaction_data_in_table( $transaction_data );
 								$withdrawal_request->post_status = 'approved';
 								wp_update_post( $withdrawal_request );
@@ -279,10 +296,10 @@ class Wallet_System_AjaxHandler {
 								);
 							} else {
 								$wps_wsfw_error_text = esc_html__( 'There is an error in database', 'wallet-system-for-woocommerce' );
-										$message             = array(
-											'msg'     => $wps_wsfw_error_text,
-											'msgType' => 'error',
-										);
+								$message             = array(
+									'msg'     => $wps_wsfw_error_text,
+									'msgType' => 'error',
+								);
 							}
 						}
 					} else {
@@ -292,30 +309,14 @@ class Wallet_System_AjaxHandler {
 							'msgType' => 'error',
 						);
 					}
-				}
-				if ( 'rejected' == $status ) {
-					if ( $user_id ) {
-	
-						$withdrawal_request->post_status = 'rejected';
-						wp_update_post( $withdrawal_request );
-						$wps_wsfw_error_text = esc_html__( 'Wallet fund request is rejected for user #', 'wallet-system-for-woocommerce' ) . $requesting_user_id;
-						$message             = array(
-							'msg'     => $wps_wsfw_error_text,
-							'msgType' => 'success',
-						);
-					}
-				}
-				if ( 'pending1' === $status ) {
-	
-					if ( $user_id ) {
-						$withdrawal_request->post_status = 'pending1';
-						wp_update_post( $withdrawal_request );
-						$wps_wsfw_error_text = esc_html__( 'Wallet withdrawal request status is changed to pending for user #', 'wallet-system-for-woocommerce' ) . $user_id;
-						$message             = array(
-							'msg'     => $wps_wsfw_error_text,
-							'msgType' => 'success',
-						);
-					};
+				} elseif ( 'rejected' === $status ) {
+					$withdrawal_request->post_status = 'rejected';
+					wp_update_post( $withdrawal_request );
+					$wps_wsfw_error_text = esc_html__( 'Wallet fund request is rejected for user #', 'wallet-system-for-woocommerce' ) . $requesting_user_id;
+					$message             = array(
+						'msg'     => $wps_wsfw_error_text,
+						'msgType' => 'success',
+					);
 				}
 			}
 
