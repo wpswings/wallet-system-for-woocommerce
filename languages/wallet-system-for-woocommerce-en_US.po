@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Wallet System For WooCommerce 2.7.6\n"
-"POT-Creation-Date: 2026-04-16 18:41+0530\n"
-"PO-Revision-Date: 2026-04-16 18:41+0530\n"
+"Project-Id-Version: Wallet System For WooCommerce 2.7.7\n"
+"POT-Creation-Date: 2026-05-07 10:30+0530\n"
+"PO-Revision-Date: 2026-05-07 10:31+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: .\n"
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:83
@@ -748,8 +748,8 @@ msgid "Wallet Balance: "
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:1882
-#: public/partials/wallet-system-for-woocommerce-public-display.php:689
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:680
+#: public/partials/wallet-system-for-woocommerce-public-display.php:690
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:681
 msgid "Wallet Balance"
 msgstr ""
 
@@ -766,7 +766,7 @@ msgstr ""
 #: common/class-wallet-system-for-woocommerce-common.php:1297
 #: common/class-wallet-system-for-woocommerce-common.php:1355
 #: common/class-wallet-system-for-woocommerce-common.php:1653
-#: includes/class-wallet-system-ajaxhandler.php:191
+#: includes/class-wallet-system-ajaxhandler.php:209
 #: includes/class-wallet-system-for-woocommerce-dependency.php:169
 #: public/class-wallet-system-for-woocommerce-public.php:724
 #: public/class-wallet-system-for-woocommerce-public.php:2054
@@ -801,7 +801,7 @@ msgstr ""
 #: common/class-wallet-system-for-woocommerce-common.php:1358
 #: common/class-wallet-system-for-woocommerce-common.php:1656
 #: common/class-wallet-system-for-woocommerce-common.php:1759
-#: includes/class-wallet-system-ajaxhandler.php:194
+#: includes/class-wallet-system-ajaxhandler.php:212
 #: includes/class-wallet-system-for-woocommerce-dependency.php:81
 #: includes/class-wallet-system-for-woocommerce-dependency.php:172
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:183
@@ -913,8 +913,8 @@ msgstr ""
 #: admin/partials/class-wallet-user-table.php:867
 #: admin/partials/wps-edit-wallet.php:105
 #: common/class-wallet-system-for-woocommerce-common.php:1567
-#: includes/class-wallet-system-ajaxhandler.php:190
-#: includes/class-wallet-system-ajaxhandler.php:236
+#: includes/class-wallet-system-ajaxhandler.php:208
+#: includes/class-wallet-system-ajaxhandler.php:254
 #: includes/class-wallet-system-for-woocommerce-dependency.php:77
 #: includes/class-wallet-system-for-woocommerce-dependency.php:168
 #: marketplace/multivendor-wcmarketplace/class-wcmp-gateway-wps-wallet.php:179
@@ -973,8 +973,9 @@ msgstr ""
 #: admin/partials/class-wallet-user-table.php:260
 #: admin/partials/class-wallet-user-table.php:898
 #: admin/partials/wps-edit-wallet.php:137
-#: includes/class-wallet-system-ajaxhandler.php:281
-#: includes/class-wallet-system-ajaxhandler.php:289
+#: includes/class-wallet-system-ajaxhandler.php:148
+#: includes/class-wallet-system-ajaxhandler.php:298
+#: includes/class-wallet-system-ajaxhandler.php:306
 msgid "There is an error in database"
 msgstr ""
 
@@ -991,7 +992,6 @@ msgid "Wallet withdrawal request is rejected for user #"
 msgstr ""
 
 #: admin/class-wallet-system-for-woocommerce-admin.php:2751
-#: includes/class-wallet-system-ajaxhandler.php:313
 msgid "Wallet withdrawal request status is changed to pending for user #"
 msgstr ""
 
@@ -1280,7 +1280,7 @@ msgstr ""
 #: admin/class-wallet-system-for-woocommerce-admin.php:3308
 #: common/class-wallet-system-for-woocommerce-common.php:547
 #: common/class-wallet-system-for-woocommerce-common.php:644
-#: includes/class-wallet-system-ajaxhandler.php:237
+#: includes/class-wallet-system-ajaxhandler.php:255
 #: includes/class-wallet-system-for-woocommerce-dependency.php:78
 #: public/class-wallet-credit-payment-gateway.php:269
 #: public/class-wallet-credit-payment-gateway.php:382
@@ -1962,8 +1962,8 @@ msgstr ""
 
 #: admin/partials/class-wallet-transaction-list-table.php:594
 #: admin/partials/wallet-system-wallet-transactions.php:43
-#: public/partials/wallet-system-for-woocommerce-public-display.php:631
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:631
+#: public/partials/wallet-system-for-woocommerce-public-display.php:632
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:632
 msgid "Transactions"
 msgstr ""
 
@@ -3076,10 +3076,10 @@ msgstr ""
 #: includes/class-wallet-system-ajaxhandler.php:57
 #: public/partials/wallet-system-for-woocommerce-public-display.php:37
 #: public/partials/wallet-system-for-woocommerce-public-display.php:141
-#: public/partials/wallet-system-for-woocommerce-public-display.php:434
+#: public/partials/wallet-system-for-woocommerce-public-display.php:435
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:55
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:158
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:463
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:464
 msgid "Please enter amount greater than 0"
 msgstr ""
 
@@ -3101,52 +3101,68 @@ msgstr ""
 msgid "Wallet amount is empty: "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:161
+#: includes/class-wallet-system-ajaxhandler.php:156
+msgid "Invalid wallet fund request."
+msgstr ""
+
+#: includes/class-wallet-system-ajaxhandler.php:162
+msgid "Invalid wallet fund request status."
+msgstr ""
+
+#: includes/class-wallet-system-ajaxhandler.php:175
 msgid "You are not authorized to perform this action"
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:191
+#: includes/class-wallet-system-ajaxhandler.php:181
+msgid "Invalid wallet fund request data."
+msgstr ""
+
+#: includes/class-wallet-system-ajaxhandler.php:187
+msgid "This wallet fund request has already been processed."
+msgstr ""
+
+#: includes/class-wallet-system-ajaxhandler.php:209
 msgid " through wallet fund request by "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:216
+#: includes/class-wallet-system-ajaxhandler.php:233
 #: public/partials/wallet-system-for-woocommerce-public-display.php:194
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:211
 msgid "Wallet credited by user "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:216
+#: includes/class-wallet-system-ajaxhandler.php:233
 #: public/partials/wallet-system-for-woocommerce-public-display.php:194
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:211
 msgid " to user "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:221
-#: includes/class-wallet-system-ajaxhandler.php:264
+#: includes/class-wallet-system-ajaxhandler.php:238
+#: includes/class-wallet-system-ajaxhandler.php:282
 msgid "Wallet Fund Request"
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:237
+#: includes/class-wallet-system-ajaxhandler.php:255
 msgid " through wallet fund request to "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:259
+#: includes/class-wallet-system-ajaxhandler.php:277
 #: public/partials/wallet-system-for-woocommerce-public-display.php:237
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:254
 msgid "Wallet debited from user "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:259
+#: includes/class-wallet-system-ajaxhandler.php:277
 #: public/partials/wallet-system-for-woocommerce-public-display.php:237
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:254
 msgid " wallet, transferred to user "
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:275
+#: includes/class-wallet-system-ajaxhandler.php:292
 msgid "Wallet fund request is approved for user #"
 msgstr ""
 
-#: includes/class-wallet-system-ajaxhandler.php:301
+#: includes/class-wallet-system-ajaxhandler.php:315
 msgid "Wallet fund request is rejected for user #"
 msgstr ""
 
@@ -3714,16 +3730,16 @@ msgid "Wallet KYC verification is disabled by admin."
 msgstr ""
 
 #: public/partials/wallet-system-for-woocommerce-public-display.php:118
-#: public/partials/wallet-system-for-woocommerce-public-display.php:422
+#: public/partials/wallet-system-for-woocommerce-public-display.php:423
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:134
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:451
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:452
 msgid "Wallet ID does not exist."
 msgstr ""
 
 #: public/partials/wallet-system-for-woocommerce-public-display.php:122
-#: public/partials/wallet-system-for-woocommerce-public-display.php:426
+#: public/partials/wallet-system-for-woocommerce-public-display.php:427
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:138
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:455
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:456
 msgid "Please enter a Wallet ID."
 msgstr ""
 
@@ -3734,10 +3750,10 @@ msgstr ""
 
 #: public/partials/wallet-system-for-woocommerce-public-display.php:199
 #: public/partials/wallet-system-for-woocommerce-public-display.php:242
-#: public/partials/wallet-system-for-woocommerce-public-display.php:582
+#: public/partials/wallet-system-for-woocommerce-public-display.php:583
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:216
 #: public/partials/wallet-system-for-woocommerce-shortcode.php:259
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:595
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:596
 msgid "Wallet Transfer"
 msgstr ""
 
@@ -3777,80 +3793,80 @@ msgstr ""
 msgid "KYC documents uploaded successfully. Your verification is pending."
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:437
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:466
+#: public/partials/wallet-system-for-woocommerce-public-display.php:438
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:467
 msgid "You cannot request fund to yourself."
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:568
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:582
+#: public/partials/wallet-system-for-woocommerce-public-display.php:569
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:583
 msgid "Add Balance"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:595
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:608
+#: public/partials/wallet-system-for-woocommerce-public-display.php:596
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:609
 msgid "Wallet Withdrawal Request"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:610
+#: public/partials/wallet-system-for-woocommerce-public-display.php:611
 msgid "Walet Referral"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:644
+#: public/partials/wallet-system-for-woocommerce-public-display.php:645
 #: public/partials/wallet-system-for-woocommerce-referral.php:48
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:646
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:647
 msgid "Wallet Referral"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:656
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:659
+#: public/partials/wallet-system-for-woocommerce-public-display.php:657
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:660
 msgid "KYC Verification"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:695
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:686
+#: public/partials/wallet-system-for-woocommerce-public-display.php:696
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:687
 msgid "KYC Approved"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:746
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:708
+#: public/partials/wallet-system-for-woocommerce-public-display.php:747
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:709
 msgid "Cashback Earned"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:756
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:717
+#: public/partials/wallet-system-for-woocommerce-public-display.php:757
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:718
 msgid "View Transactions"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:768
-#: public/partials/wallet-system-for-woocommerce-public-display.php:787
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:729
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:747
+#: public/partials/wallet-system-for-woocommerce-public-display.php:769
+#: public/partials/wallet-system-for-woocommerce-public-display.php:788
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:730
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:748
 msgid "wallet id - "
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:776
-#: public/partials/wallet-system-for-woocommerce-public-display.php:795
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:736
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:754
+#: public/partials/wallet-system-for-woocommerce-public-display.php:777
+#: public/partials/wallet-system-for-woocommerce-public-display.php:796
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:737
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:755
 msgid "Generate Wallet ID"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:824
-#: public/partials/wallet-system-for-woocommerce-public-display.php:839
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:780
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:795
+#: public/partials/wallet-system-for-woocommerce-public-display.php:825
+#: public/partials/wallet-system-for-woocommerce-public-display.php:840
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:781
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:796
 msgid ""
 "Some functionalities are restricted by Admin but you can use your wallet "
 "amount !!"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:923
+#: public/partials/wallet-system-for-woocommerce-public-display.php:924
 msgid "Wallet Promotion :"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-public-display.php:929
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:883
+#: public/partials/wallet-system-for-woocommerce-public-display.php:930
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:884
 msgid "Limited Time Only:"
 msgstr ""
 
@@ -3870,7 +3886,7 @@ msgstr ""
 msgid " amount to refer a friend"
 msgstr ""
 
-#: public/partials/wallet-system-for-woocommerce-shortcode.php:877
+#: public/partials/wallet-system-for-woocommerce-shortcode.php:878
 msgid "Wallet Promotion"
 msgstr ""
 
