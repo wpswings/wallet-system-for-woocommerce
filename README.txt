@@ -6,7 +6,7 @@ Requires at least: 6.7
 Tested up to: 6.9.4
 WC requires at least: 6.5
 WC tested up to: 10.7.1
-Stable tag: 2.7.7
+Stable tag: 2.7.8
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -301,6 +301,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 
 == Changelog ==
+
+= 2.7.8 - Released on 08 May 2026 =
+* Enhancement: UI enhancement
 
 = 2.7.7 - Released on 07 May 2026 =
 * Fix: Vulnerability and security related issue fixes
@@ -619,5 +622,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.7.7 - Released on 07 May 2026 =
-* Fix: Vulnerability and security related issue fixes
+= 2.7.8 - Released on 08 May 2026 =
+* Enhancement: UI enhancement
