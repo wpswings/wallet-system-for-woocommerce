@@ -242,6 +242,10 @@ class Wallet_System_For_Woocommerce_Admin {
 					'wsfw_is_subscription'      => $this->wps_wsfw_subscription_active_plugin(),
 					'is_negative_balance'       => get_option( 'wsfw_enable_wallet_negative_balance' ),
 					'is_pro_plugin'             => apply_filters( 'wsfw_check_pro_plugin', $is_plugin ),
+					'talk_to_expert_action'     => Wallet_System_For_Woocommerce_Talk_To_Expert_Form::AJAX_ACTION,
+					'talk_to_expert_nonce'      => wp_create_nonce( Wallet_System_For_Woocommerce_Talk_To_Expert_Form::NONCE_ACTION ),
+					'talk_to_expert_success_delay' => 2600,
+					'talk_to_expert_error'      => esc_html__( 'Unable to submit the request right now. Please try again.', 'wallet-system-for-woocommerce' ),
 				)
 			);
 

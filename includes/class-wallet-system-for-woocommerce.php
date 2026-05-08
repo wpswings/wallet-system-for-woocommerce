@@ -137,6 +137,9 @@ class Wallet_System_For_Woocommerce {
 			// The class responsible for defining all actions that occur in the admin area.
 			require_once plugin_dir_path( __DIR__ ) . 'admin/class-wallet-system-for-woocommerce-admin.php';
 
+			// The class responsible for the admin Talk to Expert form.
+			require_once plugin_dir_path( __DIR__ ) . 'includes/class-wallet-system-for-woocommerce-talk-to-expert-form.php';
+
 			// The class responsible for on-boarding steps for plugin.
 			if ( is_dir( plugin_dir_path( __DIR__ ) . 'onboarding' ) && ! class_exists( 'Wallet_System_For_Woocommerce_Onboarding_Steps' ) ) {
 				require_once plugin_dir_path( __DIR__ ) . 'includes/class-wallet-system-for-woocommerce-onboarding-steps.php';
@@ -210,6 +213,7 @@ class Wallet_System_For_Woocommerce {
 	private function wallet_system_for_woocommerce_admin_hooks() {
 
 		$wsfw_plugin_admin = new Wallet_System_For_Woocommerce_Admin( $this->wsfw_get_plugin_name(), $this->wsfw_get_version() );
+		$wsfw_talk_to_expert = Wallet_System_For_Woocommerce_Talk_To_Expert_Form::get_instance();
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $wsfw_plugin_admin, 'wsfw_admin_enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $wsfw_plugin_admin, 'wsfw_admin_enqueue_scripts' );
@@ -324,6 +328,7 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'admin_init', $wsfw_plugin_admin, 'wps_wsfw_set_cron_for_plugin_notification' );
 		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $wsfw_plugin_admin, 'wps_wsfw_save_notice_message' );
 		$this->loader->add_action( 'wp_ajax_wps_wsfw_dismiss_notice_banner', $wsfw_plugin_admin, 'wps_wsfw_dismiss_notice_banner_callback' );
+		$this->loader->add_action( 'wp_ajax_' . Wallet_System_For_Woocommerce_Talk_To_Expert_Form::AJAX_ACTION, $wsfw_talk_to_expert, 'submit_form_ajax' );
 	}
 
 	/**

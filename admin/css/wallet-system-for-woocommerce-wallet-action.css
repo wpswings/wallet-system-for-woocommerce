@@ -62,17 +62,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 /* activation notice fix end */
-
-.wps-wsfw-gen-section-form .wsfw-secion-wrap .wps-form-group .wps-form-group__control {
-  flex: 0 0 70%;
-  max-width: 70%;
-}
-
-.wps-wsfw-gen-section-form .wsfw-secion-wrap .wps-form-group .wps-form-group__label {
-  flex: 0 0 30%;
-  max-width: 30%;
-}
-
 .wps-form-group__control .mdc-text-field-helper-line {
   margin-top: 10px;
 }
@@ -361,6 +350,30 @@ table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
   bottom: 0px;
   background-color: white;
   padding: 10px 0px 20px;
+}
+
+.wps-wallet-admin-shell .wps-wsfw-gen-section-form .wps-wallet-action-wrap {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 18px 0 0 !important;
+  outline: 0 !important;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+.wps-wallet-admin-shell .wps-wallet-action-wrap table,
+.wps-wallet-admin-shell .wps-wallet-action-wrap tbody,
+.wps-wallet-admin-shell .wps-wallet-action-wrap tr,
+.wps-wallet-admin-shell .wps-wallet-action-wrap td {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  display: block !important;
+  margin: 0 !important;
+  outline: 0 !important;
+  padding: 0 !important;
 }
 
 .wps_wsfw_export_user_loader,
