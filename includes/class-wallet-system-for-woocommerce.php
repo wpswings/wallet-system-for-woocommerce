@@ -1360,6 +1360,8 @@ class Wallet_System_For_Woocommerce {
 				'note'             => $transactiondata['note'],
 				'date'             => gmdate( 'Y-m-d H:i:s' ),
 				'transaction_type_1'   => $transactiondata['transaction_type_1'],
+				'source'               => isset( $transactiondata['source'] ) ? $transactiondata['source'] : $this->wps_wsfw_detect_pos_transaction_source( $transactiondata['order_id'] ),
+				'register_session_id'  => isset( $transactiondata['register_session_id'] ) ? $transactiondata['register_session_id'] : $this->wps_wsfw_detect_pos_register_session_id( $transactiondata['order_id'] ),
 			);
 
 			$results        = $wpdb->insert(
@@ -1374,6 +1376,45 @@ class Wallet_System_For_Woocommerce {
 			}
 
 		endif;
+	}
+
+	/**
+	 * Determines whether a ledger row belongs to a POS order, so callers
+	 * that don't know about POS (e.g. the cashback flow) still get tagged
+	 * correctly without any changes on their part.
+	 *
+	 * @param int|string $order_id WC order id, if any.
+	 * @return string 'pos' or 'online'.
+	 */
+	private function wps_wsfw_detect_pos_transaction_source( $order_id ) {
+		if ( empty( $order_id ) ) {
+			return 'online';
+		}
+
+		$order = wc_get_order( $order_id );
+
+		return ( $order && 'pos' === $order->get_created_via() ) ? 'pos' : 'online';
+	}
+
+	/**
+	 * Reads the POS register session id off a POS order, if any.
+	 *
+	 * @param int|string $order_id WC order id, if any.
+	 * @return int|null
+	 */
+	private function wps_wsfw_detect_pos_register_session_id( $order_id ) {
+		if ( empty( $order_id ) ) {
+			return null;
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
+			return null;
+		}
+
+		$session_id = $order->get_meta( '_wsfw_pos_register_session_id', true );
+
+		return '' !== $session_id ? absint( $session_id ) : null;
 	}
 
 	/**
