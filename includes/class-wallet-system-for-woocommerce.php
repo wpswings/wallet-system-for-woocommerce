@@ -294,25 +294,6 @@ class Wallet_System_For_Woocommerce {
 			}
 		}
 
-		$is_pro = false;
-		$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
-		if ( ! $is_pro ) {
-			$this->loader->add_filter( 'wsfwp_wallet_action_settings_withdrawal_array', $wsfw_plugin_admin, 'wps_wsfws_admin_wallet_action_withdrawal_settings_page_org', 10 );
-			$this->loader->add_filter( 'wsfwp_wallet_action_settings_transfer_array', $wsfw_plugin_admin, 'wps_wsfws_admin_wallet_action_transfer_settings_page_org', 10 );
-			$this->loader->add_action( 'wsfw_wallet_action_settings_refer_friend_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_action_settings_refer_friend_array_org', 10 );
-			$this->loader->add_action( 'wsfw_wallet_action_different_layout_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_different_layout_settings_array_org', 10 );
-			$this->loader->add_action( 'wsfw_wallet_action_payment_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_payment_settings_array_org', 10 );
-			$this->loader->add_action( 'wsfw_wallet_action_low_balance_settings_array', $wsfw_plugin_admin, 'wsfw_wallet_action_low_balance_settings_array_org', 10 );
-			$this->loader->add_action( 'wsfw_wallet_action_gamification_rule_settings_array', $wsfw_plugin_admin, 'wsfw_admin_wallet_gamification_rule_settings_array_org', 10 );
-			$this->loader->add_filter( 'wsfw_wallet_restriction_withdrawal_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_withdrawal_restriction_settings_page_org', 10 );
-			$this->loader->add_filter( 'wsfw_wallet_restriction_transfer_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_transfer_restriction_settings_page_org', 10 );
-			$this->loader->add_filter( 'wsfw_wallet_restriction_recharge_array_org', $wsfw_plugin_admin, 'wps_wsfw_admin_wallet_recharge_restriction_settings_page_org', 10 );
-			$this->loader->add_action( 'wsfw_wallet_action_recharge_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_recharge_enable_settings_tab_org', 10 );
-			$this->loader->add_action( 'wsfw_wallet_action_promotions_enable_settings_org', $wsfw_plugin_admin, 'wsfw_wallet_action_promotion_enable_settings_tab_org', 10 );
-			$this->loader->add_filter( 'wsfw_wallet_action_withdrawal_settings', $wsfw_plugin_admin, 'wsfw_wallet_withdrawal_enable_settings_tab', 10 );
-			$this->loader->add_filter( 'wsfw_wallet_action_sms_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_sms_notification_settings_tab', 10 );
-
-		}
 		$this->loader->add_filter( 'wsfw_wallet_bnpl_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_bnpl_notification_settings_tab', 10 );
 		$this->loader->add_filter( 'wsfw_wallet_kyc_notification_settings', $wsfw_plugin_admin, 'wsfw_wallet_kyc_notification_settings_tab', 10 );
 		$this->loader->add_action( 'woocommerce_new_order', $wsfw_plugin_admin, 'wps_wsfw_wallet_payment_on_order_create' );
@@ -574,32 +555,6 @@ class Wallet_System_For_Woocommerce {
 			'title' => esc_html__( 'Wallet Actions', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-wallet-actions',
 		);
-		$is_pro = false;
-		$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
-
-		if ( ! $is_pro ) {
-			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-withdrawal-settings'] = array(
-				'title'     => esc_html__( 'Withdrawal Settings', 'wallet-system-for-woocommerce' ),
-				'name'      => 'wallet-system-for-woocommerce-org-wallet-withdrawal-settings',
-			);
-			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-restriction'] = array(
-				'title'     => esc_html__( 'Wallet Regulation', 'wallet-system-for-woocommerce' ),
-				'name'      => 'wallet-system-for-woocommerce-org-wallet-restriction',
-			);
-			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-promotions'] = array(
-				'title'     => esc_html__( 'Wallet Promotions', 'wallet-system-for-woocommerce' ),
-				'name'      => 'wallet-system-for-woocommerce-org-wallet-promotions',
-			);
-			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-recharge-tab'] = array(
-				'title'     => esc_html__( 'Wallet Quick Recharge', 'wallet-system-for-woocommerce' ),
-				'name'      => 'wallet-system-for-woocommerce-org-wallet-recharge-tab',
-			);
-			$wsfw_default_tabs['wallet-system-for-woocommerce-org-wallet-sms-notification-settings'] = array(
-				'title'     => esc_html__( 'SMS Notification', 'wallet-system-for-woocommerce' ),
-				'name'      => 'wallet-system-for-woocommerce-org-wallet-sms-notification-settings',
-			);
-		}
-
 		$wsfw_default_tabs['wallet-system-for-woocommerce-buy-now-pay-later']      = array(
 			'title' => esc_html__( 'Buy Now Pay Later', 'wallet-system-for-woocommerce' ),
 			'name'  => 'wallet-system-for-woocommerce-buy-now-pay-later',
@@ -1311,8 +1266,6 @@ class Wallet_System_For_Woocommerce {
 					}
 				}
 			}
-			include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';
-
 		}
 	}
 

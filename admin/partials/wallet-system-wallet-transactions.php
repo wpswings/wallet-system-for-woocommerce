@@ -138,13 +138,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php
 								$is_pro = false;
 								$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
-							if ( ! $is_pro ) {
+							if ( $is_pro ) {
 								?>
-									<td class="wps_wallet_delete_action wps_pro_settings" ><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
+									<td class="wps_wallet_delete_action" onclick="wps_wallet_delete_function(<?php echo esc_attr( $transaction->id ); ?>)"><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
 									<?php
 							} else {
 								?>
-									<td class="wps_wallet_delete_action" onclick="wps_wallet_delete_function(<?php echo esc_attr( $transaction->id ); ?>)"><?php esc_html_e( 'Delete', 'wallet-system-for-woocommerce' ); ?></td>
+									<td></td>
 									<?php
 							}
 
@@ -193,8 +193,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 
 <?php
-include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';
-
 // including datepicker jquery for input tag.
 wp_enqueue_script( 'datepicker', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js', array(), '1.11.2', true );
 

@@ -182,20 +182,6 @@
 			});
 		});
 
-		if (wsfw_admin_param.is_pro_plugin != 1){
-
-			
-			for (let index = 0; index < jQuery('.wps_pro_settings').length; index++) {
-				
-				if (jQuery(jQuery('.wps_pro_settings')[index]).attr('type') != "checkbox"){
-					jQuery(jQuery('.wps_pro_settings')[index]).attr('disabled','disabled');
-				}
-				
-			}
-
-		}
-
-		
 		var interest_type = jQuery('#wps_wsfw_intrest_type_amount_negative_balance').val();
 		if ( interest_type == 'percent' ) {
 			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('max',100);
@@ -213,19 +199,6 @@
 			}
 		});
 
-		
-		// on clicking element change the input type password to text or vice-versa
-		$(document).on( 'click', '.wps_pro_settings', function() {
-			if (wsfw_admin_param.is_pro_plugin != 1){
-			$(this).prop("checked", false);
-			$('.wps_wallet_lite_go_pro_popup_wrap').addClass('wps_wallet_lite_go_pro_popup_show');
-			}
-		});
-
-		$(document).on( 'click', '.wps_wallet_lite_go_pro_popup_close', function() {
-			$('.wps_wallet_lite_go_pro_popup_wrap').removeClass('wps_wallet_lite_go_pro_popup_show');
-		});
-						
 		// hide show category fields.
 		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
 		if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {

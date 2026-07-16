@@ -1468,184 +1468,6 @@ ul {
 
 
 
-.wps_pro_settings_tag {
-  position: relative;
-}
-
-.wps_pro_settings_tag:before {
-  align-items: center;
-  background: #f5a400;
-  border: 1px solid rgba(245, 164, 0, 0.42);
-  border-radius: 999px;
-  box-shadow: 0 8px 18px rgba(245, 164, 0, 0.18);
-  color: #20143b;
-  content: 'PRO';
-  display: inline-flex;
-  font-family: NunitoSans-ExtraBold, Arial, sans-serif;
-  font-size: 10px;
-  letter-spacing: 0;
-  line-height: 1;
-  min-height: 20px;
-  padding: 0 8px;
-  position: absolute;
-  right: 14px;
-  text-transform: uppercase;
-  top: 14px;
-  z-index: 3;
-}
-
-.wps_pro_settings_tag:after {
-  display: none;
-}
-
-.wps_pro_settings_tag .wps-form-group__label,
-.wps_pro_settings_tag .wps-form-group__control {
-  padding-top: 8px;
-}
-
-.wps_pro_settings {
-  cursor: pointer;
-}
-
-input.wps_pro_settings,
-select.wps_pro_settings,
-textarea.wps_pro_settings,
-button.wps_pro_settings {
-  background-color: #fbf8ff !important;
-  border-color: #eadffd !important;
-  color: #76688f !important;
-}
-
-
-.wps_class_li_wallet-system-for-woocommerce-cashback,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-withdrawal-settings,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-sms-notification-settings,
-.wps_class_li_wallet-system-for-woocommerce-buy-now-pay-later,
-.wps_class_li_wallet-system-for-woocommerce-wallet-kyc {
-  position: relative;
-}
-
-.wps_class_li_wallet-system-for-woocommerce-cashback > a:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab > a:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions > a:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-withdrawal-settings > a:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction > a:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-sms-notification-settings > a:after,
-.wps_class_li_wallet-system-for-woocommerce-buy-now-pay-later > a:after,
-.wps_class_li_wallet-system-for-woocommerce-wallet-kyc > a:after,
-.wps_class_li_wallet-system-for-woocommerce-cashback > button:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab > button:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions > button:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-withdrawal-settings > button:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction > button:after,
-.wps_class_li_wallet-system-for-woocommerce-org-wallet-sms-notification-settings > button:after,
-.wps_class_li_wallet-system-for-woocommerce-buy-now-pay-later > button:after,
-.wps_class_li_wallet-system-for-woocommerce-wallet-kyc > button:after {
-  align-items: center;
-  background: #a1e9b7;
-  border: 0;
-  border-radius: 4px;
-  color: #17602e;
-  content: 'PRO';
-  display: inline-flex;
-  font-family: NunitoSans-ExtraBold, Arial, sans-serif;
-  font-size: 9px;
-  height: 17px;
-  justify-content: center;
-  letter-spacing: 0;
-  line-height: 1;
-  margin-left: 6px;
-  min-width: 30px;
-  padding: 0 5px;
-  position: static;
-  transform: none;
-  vertical-align: middle;
-}
-.wps_wallet_lite_go_pro_popup_wrap {
-  align-items: center;
-  background-color: rgb(0 0 0 / 24%);
-  bottom: 0;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  opacity: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  transition: 0.3s linear all;
-  visibility: hidden;
-  width: 100%;
-  z-index: 99999;
-}
-.wps_wallet_lite_go_pro_popup_wrap.wps_wallet_lite_go_pro_popup_show {
-  opacity: 1;
-  visibility: visible;
-  transition: 0.3s linear all;
-}
-.wps_wallet_lite_go_pro_popup {
-  background-color: #ffffff;
-  max-width: 600px;
-  border-radius: 4px;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  margin: auto;
-  width: 100%;
-}
-.wps_wallet_lite_go_pro_popup_head h2 {
-  background-color: #7979f6;
-  border-radius: 5px 5px 0 0;
-  color: #ffffff;
-  font-size: 30px;
-  font-weight: 500;
-  line-height: 1.25;
-  margin: -20px -20px 30px -20px;
-  padding: 10px;
-}
-.wps_wallet_lite_go_pro_popup_close {
-  position: absolute;
-  right: 8px;
-  top: 6px;
-  opacity: 0.8;
-  width: 25px;
-  color: rgba(255,255,255,0.6);
-  text-decoration: none;
-  font-size: 22px;
-  border: 1px solid rgba(255,255,255,0.6);
-  height: 25px;
-  line-height: 21px;
-  border-radius: 50%;
-}
-.wps_wallet_lite_go_pro_popup_button .wps_ubo_lite_overview_go_pro_button, .button.wps_ubo_lite_overview_go_pro_button {
-  background-color: #78c900;
-  color: #ffffff;
-
-  height: auto;
-  border: none;
-  font-size: 18px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-transform: capitalize;
-  box-shadow: none;
-}
-.wps_wallet_lite_go_pro_popup_button .wps_ubo_lite_overview_go_pro_button span, .button.wps_ubo_lite_overview_go_pro_button span {
-  vertical-align: middle;
-  margin-left: 5px;
-}
-.wps_wallet_lite_go_pro_popup_text {
-  font-size: 16px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-.wps_wallet_lite_go_pro_popup_head{
-  margin-bottom: 30px;
-}
-
-
 .wps_wallet_delete_action{
   color:red;
   cursor: pointer;
@@ -1979,8 +1801,8 @@ button.wps_pro_settings {
 .wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > div:not(.wps-form-group) > span,
 .wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > span,
 .wps-wallet-admin-shell .wps-wpg-gen-section-form-container h3 {
-  background: #fbf8ff;
-  border-bottom: 1px solid #f0e8fb;
+  background: #fff6df;
+  border-bottom: 1px solid #f0e2b8;
   color: #20143b;
   display: block;
   font-family: NunitoSans-ExtraBold, Arial, sans-serif;
@@ -3506,16 +3328,17 @@ button.wps_pro_settings {
   padding: 0;
 }
 
-/* Save action row should not render as a bordered settings card. */
+/* Save action row renders as a warm sticky footer instead of a bordered settings card. */
 .wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > .wps-wallet-action-wrap {
-  background: transparent !important;
+  background: #fff6df !important;
   border: 0 !important;
-  border-radius: 0 !important;
+  border-top: 1px solid #f0e2b8 !important;
+  border-radius: 8px !important;
   box-shadow: none !important;
   margin: 18px 0 0 !important;
   outline: 0 !important;
   overflow: visible !important;
-  padding: 0 !important;
+  padding: 14px 22px !important;
 }
 
 .wps-wallet-admin-shell .wps-wallet-action-wrap table,
@@ -4026,62 +3849,3 @@ body.wps-wallet-expert-modal-open {
   }
 }
 
-/* Final refreshed PRO badge overrides. */
-.wps-wallet-admin-shell .wps_pro_settings_tag:before {
-  align-items: center;
-  background: #f5a400;
-  border-radius: 999px;
-  box-shadow: 0 8px 18px rgba(245, 164, 0, 0.18);
-  color: #20143b;
-  content: 'PRO';
-  display: inline-flex;
-  font-family: NunitoSans-ExtraBold, Arial, sans-serif;
-  font-size: 10px;
-  justify-content: center;
-  left: auto;
-  letter-spacing: 0;
-  line-height: 1;
-  min-height: 20px;
-  min-width: 34px;
-  padding: 0 8px;
-  position: absolute;
-  right: 14px;
-  text-transform: uppercase;
-  top: 14px;
-  transform: none;
-  width: auto;
-  z-index: 4;
-}
-
-.wps-wallet-admin-shell .wps_pro_settings_tag:after {
-  display: none;
-}
-
-.wps-wallet-admin-shell .wps_class_li_wallet-system-for-woocommerce-cashback > a:after,
-.wps-wallet-admin-shell .wps_class_li_wallet-system-for-woocommerce-org-wallet-recharge-tab > a:after,
-.wps-wallet-admin-shell .wps_class_li_wallet-system-for-woocommerce-org-wallet-promotions > a:after,
-.wps-wallet-admin-shell .wps_class_li_wallet-system-for-woocommerce-org-wallet-withdrawal-settings > a:after,
-.wps-wallet-admin-shell .wps_class_li_wallet-system-for-woocommerce-org-wallet-restriction > a:after,
-.wps-wallet-admin-shell .wps_class_li_wallet-system-for-woocommerce-org-wallet-sms-notification-settings > a:after,
-.wps-wallet-admin-shell .wps_class_li_wallet-system-for-woocommerce-buy-now-pay-later > a:after,
-.wps-wallet-admin-shell .wps_class_li_wallet-system-for-woocommerce-wallet-kyc > a:after {
-  align-items: center;
-  background: #a1e9b7;
-  border: 0;
-  border-radius: 4px;
-  color: #17602e;
-  content: 'PRO';
-  display: inline-flex !important;
-  font-family: NunitoSans-ExtraBold, Arial, sans-serif;
-  font-size: 9px;
-  height: 17px;
-  justify-content: center;
-  letter-spacing: 0;
-  line-height: 1;
-  margin-left: 6px;
-  min-width: 30px;
-  padding: 0 5px;
-  position: static;
-  transform: none;
-  vertical-align: middle;
-}

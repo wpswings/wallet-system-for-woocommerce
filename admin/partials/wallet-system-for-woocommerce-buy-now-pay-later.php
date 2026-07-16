@@ -33,18 +33,19 @@ if ( isset( $_POST['wsfw_button_wallet_withdrawal_wbnpl_tab_option'] ) ) {
 
 $wsfw_wallet_bnpl_enable_settings      = apply_filters( 'wsfw_wallet_bnpl_notification_settings', array() );
 
+$wsfw_wallet_bnpl_submit_button_array = array();
+if ( is_array( $wsfw_wallet_bnpl_enable_settings ) && ! empty( $wsfw_wallet_bnpl_enable_settings ) ) {
+	$wsfw_wallet_bnpl_submit_button_array = array( array_pop( $wsfw_wallet_bnpl_enable_settings ) );
+}
+
 
 
 ?>
 <!--  template file for admin settings. -->
 <form action="" method="POST" class="wps-wsfw-gen-section-form">
 	<div class="wsfw-secion-wrap">
-  
-	<div class="wps-wsfw-text">
-		
 
-	
-	<div class="wsfw-secion-daily-visit">
+	<div class="wsfw-secion-bnpl-settings">
 	  <span><b><?php esc_html_e( 'Wallet Buy Now Pay Later Settings', 'wallet-system-for-woocommerce' ); ?></b></span>
 		<?php
 			$wsfw_wallet_bnpl_enable_settings = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_bnpl_enable_settings );
@@ -55,7 +56,17 @@ $wsfw_wallet_bnpl_enable_settings      = apply_filters( 'wsfw_wallet_bnpl_notifi
 
 
 		?>
+	</div><!-- .wsfw-secion-bnpl-settings -->
+
+	<div class="wps-wallet-action-wrap">
+		<?php
+			$wsfw_wallet_bnpl_submit_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_bnpl_submit_button_array );
+		if ( ! empty( $wsfw_wallet_bnpl_submit_html ) ) {
+			echo wp_kses_post( $wsfw_wallet_bnpl_submit_html );
+		}
+		?>
+	</div>
 
 		<input type="hidden" id="updatenoncewallet_bnpl" name="updatenoncewallet_bnpl" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
-	</div>
+	</div><!-- .wsfw-secion-wrap -->
 </form>
