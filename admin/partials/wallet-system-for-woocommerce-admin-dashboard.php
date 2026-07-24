@@ -23,7 +23,6 @@ if ( ! $id_nonce_verified ) {
 global $wsfw_wps_wsfw_obj, $wsfwp_wps_wsfwp_obj;
 $wsfw_active_tab   = isset( $_GET['wsfw_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['wsfw_tab'] ) ) : 'wallet-system-for-woocommerce-general';
 $wsfw_default_tabs = $wsfw_wps_wsfw_obj->wps_wsfw_plug_default_tabs();
-$show_additional_section = apply_filters( 'wps_wsfw_show_additional_section', '' );
 $wallet_payment_enable = get_option( 'woocommerce_wps_wcb_wallet_payment_gateway_settings' );
 $check = false;
 $check = apply_filters( 'wsfw_check_pro_plugin', $check );
@@ -74,6 +73,10 @@ $wsfw_tab_intro_description = isset( $wsfw_tab_intro_descriptions[ $wsfw_active_
 
 ?>
 <div class="wps-wallet-admin-shell">
+	<?php
+	// Render the pro license / trial notice (if any) inside the shell so it stays aligned with the page content.
+	apply_filters( 'wps_wsfw_show_additional_section', '' );
+	?>
 	<div class="wps-wallet-announcement">
 		<span class="wps-wallet-announcement__badge"><?php esc_html_e( 'NEW LAYOUT', 'wallet-system-for-woocommerce' ); ?></span>
 		<div class="wps-wallet-announcement__content">

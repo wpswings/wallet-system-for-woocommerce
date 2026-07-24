@@ -59,8 +59,14 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			'details' => __( 'Details', 'wallet-system-for-woocommerce' ),
 			'transaction_id'         => __( 'Transaction ID', 'wallet-system-for-woocommerce' ),
 			'date'        => __( 'Date', 'wallet-system-for-woocommerce' ),
-			'action_user_trasaction'        => __( 'Action', 'wallet-system-for-woocommerce' ),
 		);
+
+		// The Action column only holds the Pro "Delete" control, so hide it entirely on the org plugin.
+		$is_pro = apply_filters( 'wsfw_check_pro_plugin', false );
+		if ( $is_pro ) {
+			$columns['action_user_trasaction'] = __( 'Action', 'wallet-system-for-woocommerce' );
+		}
+
 		return $columns;
 	}
 

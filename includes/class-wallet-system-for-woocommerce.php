@@ -274,13 +274,6 @@ class Wallet_System_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_wps_wallet_delete_user_tranasactions', $wsfw_plugin_admin, 'wps_wallet_delete_user_tranasactions' );
 
 		$this->loader->add_action( 'woocommerce_after_order_fee_item_name', $wsfw_plugin_admin, 'woocommerce_after_order_fee_item_name_callback', 10, 2 );
-		// Adding Upsell Orders column in Orders table in backend.
-		$this->loader->add_filter( 'manage_edit-shop_order_columns', $wsfw_plugin_admin, 'wps_wsfw_wallet_add_columns_to_admin_orders', 11 );
-		// Populating Upsell Orders column with Single Order or Upsell order.
-		$this->loader->add_action( 'manage_shop_order_posts_custom_column', $wsfw_plugin_admin, 'wps_wocuf_pro_populate_wallet_order_column', 10, 2 );
-
-		$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $wsfw_plugin_admin, 'wps_wocuf_pro_populate_wallet_order_column', 10, 2 );
-		$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $wsfw_plugin_admin, 'wps_wsfw_wallet_add_columns_to_admin_orders', 99 );
 		$this->loader->add_action( 'wp_ajax_wps_wsfw_filter_chart_data', $wsfw_plugin_admin, 'wps_wsfw_filter_chart_data' );
 		// Chart data contains user wallet details; never expose to guests.
 

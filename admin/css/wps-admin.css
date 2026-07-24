@@ -1493,7 +1493,7 @@ ul {
   color: #20143b;
   font-family: NunitoSans-Regular, Arial, sans-serif;
   margin: 24px 20px 40px 0;
-  max-width: 1440px;
+  max-width: none;
 }
 
 .wps-wallet-admin-shell *,
@@ -1692,7 +1692,6 @@ ul {
 }
 
 .wps-wallet-admin-shell .wps-navbar .wps-navbar__items .wps-link.active {
-  background: #fff6df;
   border-radius: 999px;
   color: #20143b !important;
   margin: 12px 0 10px;
@@ -1755,7 +1754,6 @@ ul {
 
 .wps-wallet-more-link:hover,
 .wps-wallet-more-link.active {
-  background: #fff6df;
   color: #20143b;
 }
 
@@ -1801,7 +1799,6 @@ ul {
 .wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > div:not(.wps-form-group) > span,
 .wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > span,
 .wps-wallet-admin-shell .wps-wpg-gen-section-form-container h3 {
-  background: #fff6df;
   border-bottom: 1px solid #f0e2b8;
   color: #20143b;
   display: block;
@@ -1879,6 +1876,20 @@ ul {
   color: #20143b !important;
   min-height: 48px;
   width: 100%;
+}
+
+/* Dropdowns must look like dropdowns: the base styles strip the native arrow, so add a caret back. */
+.wps-wallet-admin-shell .wps-form-select select,
+.wps-wallet-admin-shell select:not([multiple]):not(.select2-hidden-accessible) {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2376688f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-position: right 14px center !important;
+  background-repeat: no-repeat !important;
+  background-size: 12px 8px !important;
+  cursor: pointer;
+  padding-right: 38px !important;
 }
 
 .wps-wallet-admin-shell .mdc-notched-outline {
@@ -2265,7 +2276,6 @@ ul {
 }
 
 .wps-wallet-overview-support a:hover {
-  background: #fff6df;
   border-color: #f4d99f;
 }
 
@@ -2321,6 +2331,19 @@ ul {
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Left "Edit wallet" card spans both rows; the "Import" card and the export buttons stack in column 2,
+   so the export actions fill the space under the Import card instead of leaving an empty box. */
+.wps-wallet-admin-shell .wps-wpg-gen-section-form-wrapper > .wps-wpg-gen-section-form:first-child {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.wps-wallet-admin-shell .wps-wpg-gen-section-form-wrapper > .wps-wpg-gen-section-form:nth-of-type(2) {
+  align-self: start;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .wps-wallet-admin-shell .wps-wpg-gen-section-form-wrapper .wps-wpg-gen-section-form {
@@ -2425,12 +2448,18 @@ ul {
 }
 
 .wps-wallet-admin-shell .wps-wpg-gen-section-form-ex-btn {
+  align-items: center;
+  align-self: end;
+  bottom: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  grid-column: 1 / -1;
+  grid-column: 2;
+  grid-row: 2;
   justify-content: flex-end;
   padding: 0;
+  position: static;
+  right: auto;
   text-align: right;
 }
 
@@ -2562,6 +2591,15 @@ ul {
 @media screen and (max-width: 1180px) {
   .wps-wallet-admin-shell .wps-wpg-gen-section-form-wrapper {
     grid-template-columns: 1fr;
+  }
+
+  /* Single column: stack the cards and export buttons in natural order. */
+  .wps-wallet-admin-shell .wps-wpg-gen-section-form-wrapper > .wps-wpg-gen-section-form:first-child,
+  .wps-wallet-admin-shell .wps-wpg-gen-section-form-wrapper > .wps-wpg-gen-section-form:nth-of-type(2),
+  .wps-wallet-admin-shell .wps-wpg-gen-section-form-ex-btn {
+    align-self: auto;
+    grid-column: 1;
+    grid-row: auto;
   }
 }
 
@@ -2817,7 +2855,6 @@ ul {
 }
 
 .wps-wallet-admin-shell .wps-wallet-report > .wpg-secion-wrap > h3:before {
-  background: #fff6df;
   border: 1px solid #f5d48c;
   border-radius: 8px;
   color: #f2a000;
@@ -3123,8 +3160,8 @@ ul {
 .wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search table tbody {
   align-items: center;
   display: grid;
-  gap: 8px 10px;
-  grid-template-columns: minmax(220px, 260px) auto;
+  gap: 10px;
+  grid-template-columns: minmax(0, 200px) minmax(0, 200px) auto;
   justify-content: end;
 }
 
@@ -3136,18 +3173,25 @@ ul {
   display: none;
 }
 
+/* From date | To date | Clear — one aligned row. */
 .wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search table tbody tr:nth-child(2) td {
-  grid-column: 1 / -1;
-  justify-self: end;
-  width: min(260px, 100%);
-}
-
-.wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search table tbody tr:nth-child(3) td {
   grid-column: 1;
 }
 
-.wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search table tbody tr:nth-child(4) td {
+.wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search table tbody tr:nth-child(3) td {
   grid-column: 2;
+}
+
+.wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search table tbody tr:nth-child(4) td {
+  align-self: stretch;
+  grid-column: 3;
+}
+
+.wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search table tbody tr:nth-child(4) td #clear_table {
+  align-items: center;
+  display: inline-flex;
+  height: 100%;
+  justify-content: center;
 }
 
 .wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search input[type="text"] {
@@ -3168,15 +3212,16 @@ ul {
 }
 
 .wps-wallet-admin-shell .wps-wpg-transcation-section-table > .dataTables_length_wallet_custom_search_table {
-  position: static;
+  position: relative;
 }
 
+/* Export buttons sit top-left; the search box is pinned to the top-right so they share one row. */
 .wps-wallet-admin-shell .wps-wpg-transcation-section-table .wps_form_get_export_pdf {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   left: auto;
-  margin: 0 0 18px;
+  margin: 0 0 16px;
   position: static !important;
   top: auto;
 }
@@ -3190,7 +3235,10 @@ ul {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-  margin: 0 0 14px;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .wps-wallet-admin-shell .wps-wpg-transcation-section-table .search-box input[type="search"] {
@@ -3212,6 +3260,15 @@ ul {
 
   .wps-wallet-admin-shell .wps-wpg-transcation-section-table > .wps-wpg-transcation-section-search table tbody {
     justify-content: start;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  /* Un-pin the search box so it drops below the export buttons instead of overlapping. */
+  .wps-wallet-admin-shell .wps-wpg-transcation-section-table .search-box {
+    justify-content: flex-start;
+    margin: 4px 0 14px;
+    position: static;
   }
 }
 
@@ -3240,6 +3297,30 @@ ul {
     min-width: 0;
     width: 100%;
   }
+}
+
+/* Wallet Transactions: tighten the vertical rhythm between filter card, export action and result bar. */
+.wps-wallet-admin-shell .wps-wpg-transcation-section-search {
+  margin-bottom: 14px !important;
+}
+
+.wps-wallet-admin-shell .wps-wpg-transcation-section-table > form {
+  margin: 0 0 14px;
+}
+
+.wps-wallet-admin-shell .wps-wpg-transcation-section-table > .bottom {
+  align-items: center;
+  column-gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 16px;
+  row-gap: 10px;
+}
+
+.wps-wallet-admin-shell .wps-wpg-transcation-section-table > .bottom .dataTables_info_wallet_custom_data {
+  color: #6f6388;
+  font-size: 13px;
 }
 
 /* Align Material radio rows used by Wallet Action layout settings. */
@@ -3330,15 +3411,28 @@ ul {
 
 /* Save action row renders as a warm sticky footer instead of a bordered settings card. */
 .wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > .wps-wallet-action-wrap {
-  background: #fff6df !important;
+  align-items: center;
   border: 0 !important;
   border-top: 1px solid #f0e2b8 !important;
   border-radius: 8px !important;
   box-shadow: none !important;
+  display: flex !important;
   margin: 18px 0 0 !important;
+  min-height: 0 !important;
   outline: 0 !important;
   overflow: visible !important;
   padding: 14px 22px !important;
+}
+
+/* Collapse the button's table shell so the bar hugs the button (no empty height). */
+.wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > .wps-wallet-action-wrap table,
+.wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > .wps-wallet-action-wrap tbody,
+.wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > .wps-wallet-action-wrap tr,
+.wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > .wps-wallet-action-wrap td {
+  height: auto !important;
+  line-height: normal !important;
+  vertical-align: middle !important;
+  width: auto !important;
 }
 
 .wps-wallet-admin-shell .wps-wallet-action-wrap table,
@@ -3352,6 +3446,48 @@ ul {
   margin: 0 !important;
   outline: 0 !important;
   padding: 0 !important;
+}
+
+/* Wallet KYC settings: pin the "View Kyc Request" action into the section header, styled as an outline button. */
+.wps-wallet-admin-shell .wsfw-secion-kyc-outer-settings {
+  position: relative;
+}
+
+.wps-wallet-admin-shell .wsfw-secion-kyc-title-link {
+  position: absolute;
+  right: 22px;
+  top: 11px;
+  z-index: 2;
+}
+
+.wps-wallet-admin-shell .wsfw-secion-kyc-title-link a {
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--wps-wallet-action-border);
+  border-radius: 8px;
+  color: var(--wps-wallet-action);
+  display: inline-flex;
+  font-family: NunitoSans-Bold, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.2;
+  min-height: 36px;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.wps-wallet-admin-shell .wsfw-secion-kyc-title-link a:hover,
+.wps-wallet-admin-shell .wsfw-secion-kyc-title-link a:focus {
+  background: var(--wps-wallet-action-soft);
+  border-color: var(--wps-wallet-action);
+  color: var(--wps-wallet-action);
+}
+
+@media screen and (max-width: 600px) {
+  .wps-wallet-admin-shell .wsfw-secion-kyc-title-link {
+    display: block;
+    padding: 14px 22px 0;
+    position: static;
+  }
 }
 
 /* Shared tab intro header. */

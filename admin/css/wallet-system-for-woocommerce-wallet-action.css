@@ -353,7 +353,6 @@ table#wps-wpg-gen-table_trasa tr:nth-of-type(even) {
 }
 
 .wps-wallet-admin-shell .wps-wsfw-gen-section-form .wps-wallet-action-wrap {
-  background: #fff6df !important;
   border: 0 !important;
   border-top: 1px solid #f0e2b8 !important;
   border-radius: 8px !important;

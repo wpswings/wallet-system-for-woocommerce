@@ -123,6 +123,24 @@ input[type=submit].wps-btn__filled:hover {
   outline: none!important;
 }
 
+/* Keep the wallet UI inside its My Account column so it never overlaps a theme sidebar. */
+.wps_wcb_wallet_display_wrapper {
+  box-sizing: border-box;
+  clear: both;
+  max-width: 100%;
+  width: 100%;
+}
+
+.wps_wcb_wallet_display_wrapper * {
+  max-width: 100%;
+}
+
+/* Wide transaction tables scroll within the column instead of pushing the layout wider. */
+.wps_wcb_wallet_display_wrapper .wps-wallet-transaction-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .wps_wcb_wallet_balance_container {
   position: relative;
   padding: 10px 12px;
@@ -131,7 +149,7 @@ input[type=submit].wps-btn__filled:hover {
   /* .wps_wcb_wallet_balance_container { */
     /* padding: 18px 32px; */
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 20px;
 /* } */
 }

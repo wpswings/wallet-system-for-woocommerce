@@ -27,11 +27,17 @@ jQuery( document ).ready(
             }
         );
        //shortcode in gunterberg work.
-       const { registerBlockType }      = wp.blocks;
+       // Only run the block-editor registration when the Gutenberg APIs are present.
+       // On non-editor admin screens (e.g. the WooCommerce Orders page) wp.blocks is
+       // undefined, and destructuring it here would throw and break the rest of the page.
+       if ( 'undefined' !== typeof wp && wp.blocks && wp.element && wp.components && wp.blockEditor ) {
+        const { registerBlockType }      = wp.blocks;
         const { TextControl, PanelBody } = wp.components;
         const { useState }               = wp.element;
         const { useBlockProps }          = wp.blockEditor;
 
+        // Avoid re-registering when this file is also loaded as the block editor_script.
+        if ( ! wp.blocks.getBlockType( 'wallet/user-old-wallet' ) ) {
         // creating user current points block.
         registerBlockType('wallet/user-old-wallet', {
             title      : 'WPSwings Classic Wallet Dashboard',
@@ -55,7 +61,9 @@ jQuery( document ).ready(
                 return wp.element.createElement('div', useBlockProps.save(), props.attributes.shortcode);
             }
         });
+        }
 
+        if ( ! wp.blocks.getBlockType( 'wallet/user-wallet-amount' ) ) {
         registerBlockType('wallet/user-wallet-amount', {
             title      : 'WPSwings Wallet Amount',
             icon       : 'media-document',
@@ -78,9 +86,10 @@ jQuery( document ).ready(
                 return wp.element.createElement('div', useBlockProps.save(), props.attributes.shortcode);
             }
         });
+        }
 
-        if (wps_wsfw_branner_notice.is_pro_plugin == 1){
-            
+        if ( 'undefined' !== typeof wps_wsfw_branner_notice && wps_wsfw_branner_notice.is_pro_plugin == 1 && ! wp.blocks.getBlockType( 'wallet/user-new-wallet' ) ){
+
             registerBlockType('wallet/user-new-wallet', {
                 title      : 'WPSwings Modern Wallet Dashboard',
                 icon       : 'media-document',
@@ -104,6 +113,7 @@ jQuery( document ).ready(
                 }
             });
         }
+       } // end wp.blocks availability guard
         //shortcode in gunterberg work.
     }
 

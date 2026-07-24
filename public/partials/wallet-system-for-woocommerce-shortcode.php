@@ -674,7 +674,7 @@ $wallet_keys = array_keys( $wallet_tabs );
 
 
 ?>
-<div class="wps_wcb_wallet_display_w;rapper">
+<div class="wps_wcb_wallet_display_wrapper">
 <div class="wps_wcb_wallet_display_wrapper_with_qr">
 		<div class="wps_wcb_wallet_balance_container"> 
 			<div>
