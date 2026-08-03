@@ -155,7 +155,10 @@ class Wallet_System_For_Woocommerce_Pos_Page {
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<title><?php echo esc_html__( 'Wallet POS', 'wallet-system-for-woocommerce' ); ?></title>
 	<link rel="stylesheet" href="<?php echo esc_url( $dist_url . '/assets/index.css?ver=' . rawurlencode( $version ) ); ?>" />
-	<script>window.WSFW_POS_BASENAME = <?php echo wp_json_encode( $basename ); ?>;</script>
+	<script>
+		window.WSFW_POS_BASENAME = <?php echo wp_json_encode( $basename ); ?>;
+		window.WSFW_POS_API_BASE = <?php echo wp_json_encode( rest_url( 'pos/v1' ) ); ?>;
+	</script>
 </head>
 <body>
 	<div id="root"></div>
