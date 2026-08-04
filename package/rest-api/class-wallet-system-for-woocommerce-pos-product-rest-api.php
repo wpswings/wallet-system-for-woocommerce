@@ -74,7 +74,12 @@ class Wallet_System_For_Woocommerce_Pos_Product_Rest_Api {
 				'product_id'   => $product->get_id(),
 				'name'         => $product->get_name(),
 				'sku'          => $product->get_sku(),
-				'price'        => (float) $product->get_price(),
+				// Tax-inclusive: get_price() returns whatever the admin typed,
+				// which is pre-tax under "prices entered exclusive of tax" —
+				// the POS cart/payment screen needs the real customer-facing
+				// price so its total matches what checkout's calculate_totals()
+				// requires, or every taxed sale fails the payment-split check.
+				'price'        => (float) wc_get_price_including_tax( $product ),
 				'stock_status' => $product->get_stock_status(),
 				'image'        => wp_get_attachment_image_url( $product->get_image_id(), 'thumbnail' ),
 			);
