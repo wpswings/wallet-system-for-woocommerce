@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: woocommerce wallet, wordpress wallet, cashback, payments, digital wallet, wallet
 Requires at least: 6.7
-Tested up to: 6.9.4
+Tested up to: 7.0.2
 WC requires at least: 6.5
-WC tested up to: 10.7.1
-Stable tag: 2.7.8
+WC tested up to: 10.9.4
+Stable tag: 2.7.9
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -32,103 +32,107 @@ The WooCommerce Wallet increases the ease and security of the payment process. m
 
 == SALIENT FEATURES OF THE WOOCOMMERCE WALLET PLUGIN == 
 
-####1.  Reward Cashback on Purchase:
+####1.  Wallet Points of Sale (POS) System:
+
+A new POS (Point of Sale) system is now available in the Wallet Plugin. Create dedicated cashier roles and let your staff handle transactions through an intuitive POS dashboard. Payments can be collected directly from a customer's wallet balance or accepted manually through cash payments, making in-store sales faster and more convenient 
+
+####2.  Reward Cashback on Purchase:
 
 WordPress Wallet Plugin makes it easy to reward customers with cashback in several ways. You can offer cashback based on user roles, so when a customer with a selected role places an order, they automatically receive the reward. If an order is refunded or canceled, the cashback is automatically deducted from their wallet, so you don’t have to manage it manually. All cashback earned is clearly displayed next to the user’s wallet balance, making it easy for them to track their rewards. You can also control how cashback is used by restricting it to specific WooCommerce payment gateways.
 
-####2. Setup Referral Program:
+####3. Setup Referral Program:
 
 With our wallet payments plugin, customers can share referral links with unregistered users to encourage them to join the wallet system. For every successful referral, they earn a small reward, making the wallet system more engaging and rewarding.
 
-####3. Buy Now Pay Later Options:
+####4. Buy Now Pay Later Options:
 
 Our WooCommerce Wallet plugin allows you to set up a buy now, pay later (BNPL) functionality so your user can continue shopping even if they have insufficient WooCommerce wallet funds in their wallet. The remaining balance will be recorded as a pay-later amount, which they can pay later.
 
-####4. Wallet KYC Verification and Feature Restriction:
+####5. Wallet KYC Verification and Feature Restriction:
 
 Our wallet payment gateway plugin introduces KYC verification. Users can upload documents for verification, and as an admin, you can approve, reject, or request resubmission. If KYC is not completed, certain actions like wallet withdrawals or transfers can be restricted. You can customize the messages shown to users for their better understanding. For more feature restrictions and KYC features, you can switch to the Pro version.
 
-####5. Restrict User:
+####6. Restrict User:
 
 The admin has the option to restrict a specific user; however, they will be able to use their wallet balance but will not be able to access any other feature.
 
-####6. Withdrawal and Transfer:
+####7. Withdrawal and Transfer:
 
 Wallet System plugin allows customers to easily manage their WooCommerce wallet funds. They can request to withdraw their wallet balance directly to their bank account or other payment apps. Plus, customers can transfer funds to other users’ wallets, which helps increase interaction on your WooCommerce store.
 
-####7. Automatic Wallet Subscriptions Top-up:
+####8. Automatic Wallet Subscriptions Top-up:
 
 You can create a daily or weekly top-up subscription plan to recharge customers’ wallets automatically.
 
-####8. Notify Users of Low Balance:
+####9. Notify Users of Low Balance:
 
 Our wallet payment gateway plugin helps you send an email notification to your users when their wallet balance is low. You can set a wallet balance threshold, and when the balance is reached below that, your customers will receive an email notification prompting them to recharge their wallet.
 
-####9. Credit Amount on Daily User Visit, Commenting, and Sign Up:
+####10. Credit Amount on Daily User Visit, Commenting, and Sign Up:
 
 Our plugin allows you to implement a WooCommerce credit system. You can decide on a daily login reward amount and enable your customers to earn wallet credit daily by simply logging in to their wallets.
 
-####10. Instant Discount With Wallet Payment:
+####11. Instant Discount With Wallet Payment:
 
 Our WordPress plugin allows you to give instant discounts to users who have opted for the wallet payment method while purchasing a product, the discount amount will be deducted from the total order amount instantly, encouraging wallet usage and boosting customer loyalty.
 
-####11. Wallet Reports for Individual Users:
+####12. Wallet Reports for Individual Users:
 
 The Wallet Plugin includes a report feature that allows you to see credit, debit, and current amounts for a specific user in an interactive bar chart window.
 
-####12. Adding Balance to Digital Wallet Account:
+####13. Adding Balance to Digital Wallet Account:
 
 Customers can add digital money to their wallets using the available payment methods.
 
-####13. Partial Payment Option:
+####14. Partial Payment Option:
 
 Customers can use Wallet as partial payment option when the wallet balance is lower than the total cart value.
 
-####14. Credit Refund Amount To User's Wallet:
+####15. Credit Refund Amount To User's Wallet:
 
 With the Wallet System plugin, you can send the refund amount straight to the customer’s wallet whenever they ask for a return or cancellation. This makes the refund process quicker and more user-friendly.
 
-####15. Create Manual Orders With Wallet Payment:
+####16. Create Manual Orders With Wallet Payment:
 
 Our WordPress plugin lets admins easily create manual orders using the wallet as the payment method.
 
-####16. Gutenberg Shortcodes Blocks:
+####17. Gutenberg Shortcodes Blocks:
 
 In our digital wallet plugin, the existing shortcodes like [wps-wallet] are now converted into Gutenberg blocks, making customization simple. You can simply add the block to your page, adjust the options as required, and it's all set.
 
-####17. WooCommerce Payment Gateway Restriction For Wallet Recharge:
+####18. WooCommerce Payment Gateway Restriction For Wallet Recharge:
 
 Our WordPress plugin has the feature to restrict users using WooCommerce Payment gateways like Direct Payment, Cash on Delivery, or Check Payments for Wallet recharge.
 
-####18. Charge Gateway Fee for Wallet Recharge:
+####19. Charge Gateway Fee for Wallet Recharge:
 
 Our Wallet plugin allows you to set and charge fees at a fixed or percentage rate for Wallet recharge.
 
-####19. Wallet Recharge By Admin:
+####20. Wallet Recharge By Admin:
 
 As the admin, you can recharge or deduct customers’ wallet balances in bulk or individually and also mention details for every transaction you make.
 
-####20. Auto Order Complete :
+####21. Auto Order Complete :
 
 You can enable the auto-complete feature for orders placed with wallet payment.
 
-####21. Refund Through Wallet or Payment Gateways :
+####22. Refund Through Wallet or Payment Gateways :
 
 You can refund the value of purchased products & services directly into customers' wallets.
 
-####22. Transaction History [User]:
+####23. Transaction History [User]:
 
 The customers’ wallet transaction history contains wallet recharge, debit, credit, transfer, and withdrawal entries. You can also see edits they’ve made to customers’ wallet accounts and the list of customers’ transactions.
 
-####23. Email Notifications:
+####24. Email Notifications:
 
 The Merchant can allow customers to review email notifications on the wallet recharge, the WooCommerce customer credit, and the deduction of the wallet balance. Our WordPress payment plugin will keep your users updated about the current values of their wallets.
 
-####24. Selectively Bulk Edit Wallet Balance:
+####25. Selectively Bulk Edit Wallet Balance:
 
 You can credit and debit value into customers' wallets selectively. From the user list, you can choose any number of users in bulk and edit their wallet balance as you need.
 
-####25. Use a Different Email Address for Wallet Notification :
+####26. Use a Different Email Address for Wallet Notification :
 
 You can choose a separate email address to send email notifications to your WooCommerce Wallet users.
 
@@ -301,6 +305,12 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 
 == Changelog ==
+
+= 2.7.9 - Released on 05 Aug 2026 =
+* New - Compatibility with latest  WC( 10.9.4 ) and WP( 7.0.1 ) 
+* New - Inbuilt POS feature
+* New - UI update in plugin setting 
+* Fix - Vulnerability issue fixes related to AJAX handlers (calculate_amount_after_wallet, calculate_amount_total_after_wallet) 
 
 = 2.7.8 - Released on 08 May 2026 =
 * Enhancement: UI enhancement
@@ -622,5 +632,8 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.7.8 - Released on 08 May 2026 =
-* Enhancement: UI enhancement
+= 2.7.9 - Released on 05 Aug 2026 =
+* New - Compatibility with latest  WC( 10.9.4 ) and WP( 7.0.1 ) 
+* New - Inbuilt POS feature
+* New - UI update in plugin setting 
+* Fix - Vulnerability issue fixes related to AJAX handlers (calculate_amount_after_wallet, calculate_amount_total_after_wallet) 
