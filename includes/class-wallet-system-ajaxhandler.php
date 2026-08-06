@@ -52,6 +52,12 @@ class Wallet_System_AjaxHandler {
 			}
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['wallet_amount'] ) );
 			$amount        = empty( $_POST['amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['amount'] ) );
+
+			$user_id                = get_current_user_id();
+			$actual_wallet_balance  = (float) get_user_meta( $user_id, 'wps_wallet', true );
+			$actual_wallet_balance  = (float) apply_filters( 'wps_wsfw_show_converted_price', $actual_wallet_balance );
+			$wallet_amount          = min( $wallet_amount, max( 0, $actual_wallet_balance ) );
+
 			if ( '' == $amount || $amount <= 0 ) {
 				$message['status']  = false;
 				$message['message'] = esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' );
@@ -96,6 +102,11 @@ class Wallet_System_AjaxHandler {
 			}
 
 			$wallet_amount = empty( $_POST['wallet_amount'] ) ? 0 : sanitize_text_field( wp_unslash( $_POST['wallet_amount'] ) );
+
+			$user_id               = get_current_user_id();
+			$actual_wallet_balance = (float) get_user_meta( $user_id, 'wps_wallet', true );
+			$actual_wallet_balance = (float) apply_filters( 'wps_wsfw_show_converted_price', $actual_wallet_balance );
+			$wallet_amount         = min( $wallet_amount, max( 0, $actual_wallet_balance ) );
 
 			if ( ! empty( $wallet_amount ) ) {
 				$message['status']  = true;
