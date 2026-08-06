@@ -306,6 +306,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
+= 2.7.10 - Released on 06 Aug 2026 =
+* Fix - Vulnerability issue fixes related to AJAX handlers 
+
 = 2.7.9 - Released on 05 Aug 2026 =
 * New - Compatibility with latest  WC( 10.9.4 ) and WP( 7.0.1 ) 
 * New - Inbuilt POS feature
@@ -632,8 +635,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.7.9 - Released on 05 Aug 2026 =
-* New - Compatibility with latest  WC( 10.9.4 ) and WP( 7.0.1 ) 
-* New - Inbuilt POS feature
-* New - UI update in plugin setting 
-* Fix - Vulnerability issue fixes related to AJAX handlers (calculate_amount_after_wallet, calculate_amount_total_after_wallet) 
+= 2.7.10 - Released on 06 Aug 2026 =
+* Fix - Vulnerability issue fixes related to AJAX handlers 
