@@ -1,0 +1,16 @@
+{
+  "name": "wallet-system-for-woocommerce-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright E2E test suite for the Wallet System for WooCommerce (free) plugin",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.47.0",
+    "mysql2": "^3.24.2"
+  }
+}
