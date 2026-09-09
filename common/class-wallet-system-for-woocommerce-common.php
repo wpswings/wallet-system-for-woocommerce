@@ -68,13 +68,17 @@ class Wallet_System_For_Woocommerce_Common {
 	 * @since    1.0.0
 	 */
 	public function wsfw_common_enqueue_scripts() {
+		$enable = get_option( 'wps_wsfw_enable', '' );
+		if ( ! isset( $enable ) || 'on' !== $enable ) {
+			return;
+		}
+
 		wp_register_script( $this->plugin_name . 'common', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'common/src/js/wallet-system-for-woocommerce-common.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script(
 			$this->plugin_name . 'common',
 			'wsfw_common_param',
 			array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'nonce'   => wp_create_nonce( 'wp_rest' ),
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );

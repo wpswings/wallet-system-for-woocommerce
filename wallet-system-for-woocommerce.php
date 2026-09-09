@@ -15,16 +15,16 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce
  * Description:       <code><strong>Wallet System for WooCommerce</strong></code> is a digital wallet plugin where users can add or delete balances in bulk, give refunds and earn cashback. <a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-shop&utm_medium=wallet-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>.
- * Version:           2.7.2
+ * Version:           2.7.10
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
  * Domain Path:       /languages
  * Requires Plugins: woocommerce
  * WC Requires at least: 5.5.0
- * WC tested up to: 10.3.3
+ * WC tested up to: 10.7.1
  * WP Requires at least: 6.7.0
- * WP tested up to: 6.8.3
+ * WP tested up to: 6.9.4
  * Requires PHP: 7.4
  *
  * License:           GNU General Public License v3.0
@@ -64,7 +64,7 @@ if ( $activated ) {
 
 		$wp_upload = wp_upload_dir();
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR', $wp_upload['basedir'] );
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.7.3' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.7.10' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -96,6 +96,8 @@ if ( $activated ) {
 	function activate_wallet_system_for_woocommerce( $network_wide ) {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-activator.php';
 		Wallet_System_For_Woocommerce_Activator::wallet_system_for_woocommerce_activate( $network_wide );
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-pos-activator.php';
+		Wallet_System_For_Woocommerce_Pos_Activator::maybe_upgrade();
 		$wps_wsfw_active_plugin = get_option( 'wps_all_plugins_active', false );
 		if ( is_array( $wps_wsfw_active_plugin ) && ! empty( $wps_wsfw_active_plugin ) ) {
 			$wps_wsfw_active_plugin['wallet-system-for-woocommerce'] = array(
@@ -239,26 +241,51 @@ if ( $activated ) {
 	}
 	run_wallet_system_for_woocommerce();
 
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-pos-activator.php';
+	add_action( 'plugins_loaded', array( 'Wallet_System_For_Woocommerce_Pos_Activator', 'maybe_upgrade' ) );
 
-	add_action( 'admin_enqueue_scripts', 'wps_wsfw_admin_enqueue_styles' );
-	/**
-	 * Register the JavaScript for the admin area.
-	 *
-	 * @since    1.0.0
-	 * @name mfw_admin_enqueue_styles.
-	 */
-	function wps_wsfw_admin_enqueue_styles() {
-		$screen = get_current_screen();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-pos-auth.php';
+	add_action( 'plugins_loaded', array( 'Wallet_System_For_Woocommerce_Pos_Auth', 'register_role' ) );
+	add_filter( 'determine_current_user', array( 'Wallet_System_For_Woocommerce_Pos_Auth', 'force_application_password_for_pos' ), 21 );
+	add_filter( 'rest_authentication_errors', array( 'Wallet_System_For_Woocommerce_Pos_Auth', 'restore_application_password_user' ), 200 );
+	add_action( 'show_user_profile', array( 'Wallet_System_For_Woocommerce_Pos_Auth', 'render_profile_field' ) );
+	add_action( 'edit_user_profile', array( 'Wallet_System_For_Woocommerce_Pos_Auth', 'render_profile_field' ) );
+	add_action( 'personal_options_update', array( 'Wallet_System_For_Woocommerce_Pos_Auth', 'save_profile_field' ) );
+	add_action( 'edit_user_profile_update', array( 'Wallet_System_For_Woocommerce_Pos_Auth', 'save_profile_field' ) );
 
-		if ( isset( $screen->id ) || isset( $screen->post_type ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-pos-wallet.php';
 
-			$screen = get_current_screen();
-			if ( isset( $screen->id ) && 'plugins' == $screen->id ) {
-				wp_enqueue_style( 'wallet-system-for-woocommerce-admin-global', plugin_dir_url( __FILE__ ) . '/admin/src/scss/wallet-system-for-woocommerce-go-pro.css', array(), time(), 'all' );
+	require_once plugin_dir_path( __FILE__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-pos-rest-api.php';
+	add_action( 'rest_api_init', array( 'Wallet_System_For_Woocommerce_Pos_Rest_Api', 'register_routes' ) );
 
-			}
-		}
-	}
+	require_once plugin_dir_path( __FILE__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-pos-auth-rest-api.php';
+	add_action( 'rest_api_init', array( 'Wallet_System_For_Woocommerce_Pos_Auth_Rest_Api', 'register_routes' ) );
+
+	require_once plugin_dir_path( __FILE__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-pos-register-rest-api.php';
+	add_action( 'rest_api_init', array( 'Wallet_System_For_Woocommerce_Pos_Register_Rest_Api', 'register_routes' ) );
+
+	require_once plugin_dir_path( __FILE__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-pos-customer-rest-api.php';
+	add_action( 'rest_api_init', array( 'Wallet_System_For_Woocommerce_Pos_Customer_Rest_Api', 'register_routes' ) );
+
+	require_once plugin_dir_path( __FILE__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-pos-checkout-rest-api.php';
+	add_action( 'rest_api_init', array( 'Wallet_System_For_Woocommerce_Pos_Checkout_Rest_Api', 'register_routes' ) );
+
+	require_once plugin_dir_path( __FILE__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-pos-refund-rest-api.php';
+	add_action( 'rest_api_init', array( 'Wallet_System_For_Woocommerce_Pos_Refund_Rest_Api', 'register_routes' ) );
+
+	require_once plugin_dir_path( __FILE__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-pos-receipt-rest-api.php';
+	add_action( 'rest_api_init', array( 'Wallet_System_For_Woocommerce_Pos_Receipt_Rest_Api', 'register_routes' ) );
+
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-pos-page.php';
+	add_action( 'init', array( 'Wallet_System_For_Woocommerce_Pos_Page', 'register_rewrite_rule' ) );
+	add_action( 'template_redirect', array( 'Wallet_System_For_Woocommerce_Pos_Page', 'maybe_render_app' ) );
+
+	require_once plugin_dir_path( __FILE__ ) . 'admin/class-wallet-system-for-woocommerce-pos-admin.php';
+	add_filter( 'wps_add_plugins_menus_array', array( 'Wallet_System_For_Woocommerce_Pos_Admin', 'add_menu' ), 15 );
+
+	require_once plugin_dir_path( __FILE__ ) . 'package/rest-api/class-wallet-system-for-woocommerce-pos-product-rest-api.php';
+	add_action( 'rest_api_init', array( 'Wallet_System_For_Woocommerce_Pos_Product_Rest_Api', 'register_routes' ) );
+
 
 	// Add settings link on plugin page.
 	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wallet_system_for_woocommerce_settings_link' );
@@ -274,11 +301,6 @@ if ( $activated ) {
 		$my_link = array(
 			'<a href="' . admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '">' . __( 'Settings', 'wallet-system-for-woocommerce' ) . '</a>',
 		);
-		$mfw_plugins = get_plugins();
-		if ( ! isset( $mfw_plugins['wallet-system-for-woocommerce-pro/wallet-system-for-woocommerce-pro.php'] ) ) {
-
-			$my_link['goPro'] = '<a class="wps-wsfw-go-pro" target="_blank" href="https://wpswings.com/product/wallet-system-for-woocommerce-pro/?utm_source=wpswings-wallet-pro&utm_medium=wallet-org-backend&utm_campaign=go-pro">' . esc_html__( 'GO PRO', 'wallet-system-for-woocommerce' ) . '</a>';
-		}
 		return array_merge( $my_link, $links );
 	}
 

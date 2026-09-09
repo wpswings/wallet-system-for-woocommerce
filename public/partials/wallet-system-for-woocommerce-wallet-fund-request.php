@@ -274,6 +274,7 @@ $wps_wsfwp_wallet_withdrawal_paypal_enable = get_option( 'wps_wsfwp_wallet_withd
 																<option class="rejected" value="rejected" >&nbsp;&nbsp;<?php esc_html_e( 'rejected', 'wallet-system-for-woocommerce' ); ?></option>
 															</select>
 															<input type="hidden" name="requesting_user_id" value="<?php echo esc_attr( $userid ); ?>" />
+															<input type="hidden" name="requested_user_id" value="<?php echo esc_attr( $requested_user_id ); ?>" />
 															<input type="hidden" name="withdrawal_balance" value="<?php echo esc_attr( $withdrawal_balance ); ?>" />
 															<input type="hidden" name="request_id" value="<?php echo esc_attr( $request_id ); ?>" />
 															<div id="overlay">

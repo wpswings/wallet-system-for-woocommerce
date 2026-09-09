@@ -47,20 +47,141 @@
     
 		jQuery('#wsfw_wallet_amount_for_users').attr('step','any');
 
-		if (wsfw_admin_param.is_pro_plugin != 1){
+		$('.wps-wallet-announcement').each(function() {
+			var announcementKey = $(this).closest('.wps-wallet-admin-shell--pro').length ? 'wps_wallet_pro_announcement_dismissed' : 'wps_wallet_announcement_dismissed';
+			if (window.localStorage && 'yes' === window.localStorage.getItem(announcementKey)) {
+				$(this).remove();
+			}
+		});
 
-			
-			for (let index = 0; index < jQuery('.wps_pro_settings').length; index++) {
-				
-				if (jQuery(jQuery('.wps_pro_settings')[index]).attr('type') != "checkbox"){
-					jQuery(jQuery('.wps_pro_settings')[index]).attr('disabled','disabled');
-				}
-				
+		$(document).off('click.wpsWalletAnnouncement').on('click.wpsWalletAnnouncement', '.wps-wallet-announcement__dismiss', function(e) {
+			e.preventDefault();
+			var announcement = $(this).closest('.wps-wallet-announcement');
+			var announcementKey = announcement.closest('.wps-wallet-admin-shell--pro').length ? 'wps_wallet_pro_announcement_dismissed' : 'wps_wallet_announcement_dismissed';
+			if (window.localStorage) {
+				window.localStorage.setItem(announcementKey, 'yes');
+			}
+			announcement.slideUp(180, function() {
+				$(this).remove();
+			});
+		});
+
+		var expertModal = $('[data-wps-wsfw-expert-modal]');
+		var expertForm = $('[data-wps-wsfw-expert-form]');
+		var expertFormWrap = $('[data-wps-wsfw-expert-form-wrap]');
+		var expertSuccess = $('[data-wps-wsfw-expert-success]');
+		var expertMessage = $('[data-wps-wsfw-expert-message]');
+		var expertSubmitLabel = $('[data-wps-wsfw-submit-label]');
+		var expertDefaultSubmitLabel = expertSubmitLabel.text();
+
+		function wpsWsfwResetExpertForm() {
+			if (!expertForm.length) {
+				return;
 			}
 
+			expertForm[0].reset();
+			expertForm.removeClass('is-loading');
+			expertFormWrap.removeAttr('hidden');
+			expertSuccess.attr('hidden', true);
+			expertMessage.removeClass('is-error is-success').text('');
+			expertSubmitLabel.text(expertDefaultSubmitLabel);
+			expertForm.find('button[type="submit"]').prop('disabled', false);
 		}
 
-		
+		function wpsWsfwOpenExpertModal() {
+			if (!expertModal.length) {
+				return;
+			}
+
+			wpsWsfwResetExpertForm();
+			expertModal.removeAttr('hidden').addClass('is-open');
+			$('body').addClass('wps-wallet-expert-modal-open');
+			setTimeout(function() {
+				expertModal.find('input, select, textarea, button').filter(':visible:first').trigger('focus');
+			}, 40);
+		}
+
+		function wpsWsfwCloseExpertModal() {
+			expertModal.removeClass('is-open').attr('hidden', true);
+			$('body').removeClass('wps-wallet-expert-modal-open');
+		}
+
+		function wpsWsfwNormalizeExpertFormData(form) {
+			var formData = {};
+			var services = [];
+
+			$.each($(form).serializeArray(), function(index, field) {
+				if ('services[]' === field.name) {
+					services.push(field.value);
+					return;
+				}
+
+				formData[field.name] = field.value;
+			});
+
+			formData.services = services;
+			return formData;
+		}
+
+		$(document).on('click', '[data-wps-wsfw-open-expert-modal]', function(e) {
+			e.preventDefault();
+			wpsWsfwOpenExpertModal();
+		});
+
+		$(document).on('click', '[data-wps-wsfw-close-expert-modal]', function(e) {
+			e.preventDefault();
+			wpsWsfwCloseExpertModal();
+		});
+
+		$(document).on('keydown', function(e) {
+			if ('Escape' === e.key && expertModal.hasClass('is-open')) {
+				wpsWsfwCloseExpertModal();
+			}
+		});
+
+		expertForm.on('submit', function(e) {
+			e.preventDefault();
+
+			if (!window.wsfw_admin_param || !wsfw_admin_param.ajaxurl || !wsfw_admin_param.talk_to_expert_action) {
+				expertMessage.addClass('is-error').text(window.wsfw_admin_param && wsfw_admin_param.talk_to_expert_error ? wsfw_admin_param.talk_to_expert_error : 'Unable to submit the request right now. Please try again.');
+				return;
+			}
+
+			expertForm.addClass('is-loading');
+			expertMessage.removeClass('is-error is-success').text('');
+			expertSubmitLabel.text('Submitting...');
+			expertForm.find('button[type="submit"]').prop('disabled', true);
+
+			$.ajax({
+				url: wsfw_admin_param.ajaxurl,
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					action: wsfw_admin_param.talk_to_expert_action,
+					nonce: wsfw_admin_param.talk_to_expert_nonce,
+					form_data: JSON.stringify(wpsWsfwNormalizeExpertFormData(this))
+				}
+			}).done(function(response) {
+				if (response && response.success) {
+					expertFormWrap.attr('hidden', true);
+					expertSuccess.removeAttr('hidden');
+					setTimeout(function() {
+						wpsWsfwCloseExpertModal();
+					}, parseInt(wsfw_admin_param.talk_to_expert_success_delay, 10) || 2600);
+					return;
+				}
+
+				var message = response && response.data && response.data.message ? response.data.message : wsfw_admin_param.talk_to_expert_error;
+				expertMessage.addClass('is-error').text(message);
+			}).fail(function() {
+				expertMessage.addClass('is-error').text(wsfw_admin_param.talk_to_expert_error);
+			}).always(function() {
+				expertForm.removeClass('is-loading');
+				expertSubmitLabel.text(expertDefaultSubmitLabel);
+				expertForm.find('button[type="submit"]').prop('disabled', false);
+			});
+		});
+
 		var interest_type = jQuery('#wps_wsfw_intrest_type_amount_negative_balance').val();
 		if ( interest_type == 'percent' ) {
 			jQuery('#wps_wsfw_intrest_amount_negative_balance').attr('max',100);
@@ -78,19 +199,6 @@
 			}
 		});
 
-		
-		// on clicking element change the input type password to text or vice-versa
-		$(document).on( 'click', '.wps_pro_settings', function() {
-			if (wsfw_admin_param.is_pro_plugin != 1){
-			$(this).prop("checked", false);
-			$('.wps_wallet_lite_go_pro_popup_wrap').addClass('wps_wallet_lite_go_pro_popup_show');
-			}
-		});
-
-		$(document).on( 'click', '.wps_wallet_lite_go_pro_popup_close', function() {
-			$('.wps_wallet_lite_go_pro_popup_wrap').removeClass('wps_wallet_lite_go_pro_popup_show');
-		});
-						
 		// hide show category fields.
 		var cash_back_rule = jQuery('#wps_wsfw_cashback_rule').val();
 		if ( 'cartwise' == cash_back_rule || '' == cash_back_rule ) {

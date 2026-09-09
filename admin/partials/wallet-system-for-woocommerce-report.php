@@ -26,7 +26,7 @@ if ( isset( $user_id, $nonce ) && wp_verify_nonce( $nonce, 'view_report_' . $use
 
 
 ?>
-<div class="wps-wpg-gen-section-form-container">
+<div class="wps-wpg-gen-section-form-container wps-wallet-report">
 	<div class="wpg-secion-wrap">
 		<h3><?php esc_html_e( 'Wallet Report', 'wallet-system-for-woocommerce' ); ?></h3>
 		<div id="react-app"></div>
@@ -34,5 +34,4 @@ if ( isset( $user_id, $nonce ) && wp_verify_nonce( $nonce, 'view_report_' . $use
 	<input type="hidden" id="report_userid" name="report_userid" value="<?php echo esc_attr( $user_id ); ?>"  >     
 
 </div>  
-
 

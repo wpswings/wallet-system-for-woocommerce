@@ -927,7 +927,12 @@ class Wallet_System_For_Woocommerce_Public {
 				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
+				// Never let the applied discount exceed the customer's real, database-backed wallet balance.
+				$discount = min( $discount, max( 0, (float) $walletamount ) );
+			} else {
+				$discount = 0;
 			}
+
 
 			if ( $discount ) {
 				$fee = array(

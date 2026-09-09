@@ -33,20 +33,21 @@ if ( isset( $_POST['wsfw_button_wallet_kyc_tab_option'] ) ) {
 
 $wsfw_wallet_kyc_enable_settings      = apply_filters( 'wsfw_wallet_kyc_notification_settings', array() );
 
+$wsfw_wallet_kyc_submit_button_array = array();
+if ( is_array( $wsfw_wallet_kyc_enable_settings ) && ! empty( $wsfw_wallet_kyc_enable_settings ) ) {
+	$wsfw_wallet_kyc_submit_button_array = array( array_pop( $wsfw_wallet_kyc_enable_settings ) );
+}
+
 
 
 ?>
 <!--  template file for admin settings. -->
 <form action="" method="POST" class="wps-wsfw-gen-section-form">
 	<div class="wsfw-secion-wrap">
-  
-	<div class="wps-wsfw-text">
-		
 
-	
 	<div class="wsfw-secion-kyc-outer-settings">
+		<span><b><?php esc_html_e( 'Wallet KYC Settings', 'wallet-system-for-woocommerce' ); ?></b></span>
 		<div class="wsfw-secion-kyc-title-link">
-			<h4><?php esc_html_e( 'Wallet KYC Settings', 'wallet-system-for-woocommerce' ); ?></h4>
 			<?php echo wsfw_get_kyc_request( wp_get_current_user() ); ?>
 		</div>
 		<?php
@@ -59,9 +60,19 @@ $wsfw_wallet_kyc_enable_settings      = apply_filters( 'wsfw_wallet_kyc_notifica
 
 
 		?>
+	</div><!-- .wsfw-secion-kyc-outer-settings -->
+
+	<div class="wps-wallet-action-wrap">
+		<?php
+			$wsfw_wallet_kyc_submit_html = $wsfw_wps_wsfw_obj->wps_wsfw_plug_generate_html( $wsfw_wallet_kyc_submit_button_array );
+		if ( ! empty( $wsfw_wallet_kyc_submit_html ) ) {
+			echo wp_kses_post( $wsfw_wallet_kyc_submit_html );
+		}
+		?>
+	</div>
 
 		<input type="hidden" id="updatenoncewallet_kyc" name="updatenoncewallet_kyc" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
-	</div>
+	</div><!-- .wsfw-secion-wrap -->
 </form>
 
 <?php

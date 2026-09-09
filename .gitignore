@@ -7,7 +7,7 @@ node_modules/*
 .github/*
 .history
 vendor
-
+.claude
 # ignore compiled files
 *.com
 *.class

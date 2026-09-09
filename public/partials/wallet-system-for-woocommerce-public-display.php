@@ -370,15 +370,16 @@ if ( wp_verify_nonce( $nonce ) ) {
 
 	if ( isset( $_POST['wps_wallet_fund_request'] ) && ! empty( $_POST['wps_wallet_fund_request'] ) ) {
 
-		$update = true;
+		$update              = true;
+		$current_user        = wp_get_current_user();
+		$wallet_user_id      = get_current_user_id();
+		$wps_current_user_email = isset( $current_user->user_email ) ? $current_user->user_email : '';
 
 		$fund_request_method = ! empty( $_POST['wps_wallet_fund_request_another_method'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_fund_request_another_method'] ) ) : 'email';
 
 		$wps_wallet_fund_request_amount = ! empty( $_POST['wps_wallet_fund_request_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_fund_request_amount'] ) ) : 0;
 		$wps_wallet_note                = ! empty( $_POST['wps_wallet_note'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_note'] ) ) : '';
-		$wallet_user_id                 = ! empty( $_POST['wallet_user_id'] ) ? sanitize_text_field( wp_unslash( $_POST['wallet_user_id'] ) ) : 0;
-
-		$wps_current_user_email         = ! empty( $_POST['wps_current_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_current_user_email'] ) ) : '';
+		$fund_request_amount            = (float) $wps_wallet_fund_request_amount;
 
 		$another_user_id    = 0;
 		$another_user_email = '';
@@ -430,7 +431,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 		// ------------------ End method check ------------------
 
 		// Basic validations.
-		if ( empty( $wps_wallet_fund_request_amount ) ) {
+		if ( empty( $wps_wallet_fund_request_amount ) || $fund_request_amount <= 0 ) {
 			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		} elseif ( $another_user_email == $wps_current_user_email ) {

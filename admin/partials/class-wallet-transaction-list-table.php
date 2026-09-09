@@ -59,8 +59,14 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			'details' => __( 'Details', 'wallet-system-for-woocommerce' ),
 			'transaction_id'         => __( 'Transaction ID', 'wallet-system-for-woocommerce' ),
 			'date'        => __( 'Date', 'wallet-system-for-woocommerce' ),
-			'action_user_trasaction'        => __( 'Action', 'wallet-system-for-woocommerce' ),
 		);
+
+		// The Action column only holds the Pro "Delete" control, so hide it entirely on the org plugin.
+		$is_pro = apply_filters( 'wsfw_check_pro_plugin', false );
+		if ( $is_pro ) {
+			$columns['action_user_trasaction'] = __( 'Action', 'wallet-system-for-woocommerce' );
+		}
+
 		return $columns;
 	}
 
@@ -121,15 +127,13 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			case 'action_user_trasaction':
 				$is_pro = false;
 				$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
-				if ( ! $is_pro ) {
-
-					return '<span class="wps_wallet_delete_action wps_pro_settings " >&nbsp&nbsp&nbsp' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
-
-				} else {
+				if ( $is_pro ) {
 
 					return ' <span class="wps_wallet_delete_action" onclick="wps_wallet_delete_function(' . esc_attr( $item['id'] ) . ')">' . esc_html__( 'Delete', 'wallet-system-for-woocommerce' ) . '</span>';
 
 				}
+
+				return '';
 
 			default:
 				return false;
@@ -647,11 +651,6 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 			?>
 				<input type="submit" class="btn button" name= "wps_wsfw_export_csv" id="wps_wsfw_export_csv" value="<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?>">
 			<?php
-		} else {
-			?>
-			<span class="button btn wps_demo_csv_button wps_pro_settings wps_pro_settings_tag" >&nbsp&nbsp&nbsp&nbsp<?php esc_html_e( 'Export CSV', 'wallet-system-for-woocommerce' ); ?></span>
-			
-			<?php
 		}
 		?>
 		<input type="hidden" id="updatenoncewallet_pdf_dwnload" name="updatenoncewallet_pdf_dwnload" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
@@ -675,5 +674,3 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 		</form>
 	</div>
 </div>
-<?php
-	include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-go-pro-data.php';
