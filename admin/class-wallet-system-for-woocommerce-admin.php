@@ -877,6 +877,20 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Wallet Balance Display on Cart Page', 'wallet-system-for-woocommerce' ),
+				'type'        => 'select',
+				'name'        => 'wsfw_cart_wallet_balance_placement',
+				'description' => __( 'Choose where to display wallet balance on the cart page. "Inside Cart Totals" is recommended for best user experience.', 'wallet-system-for-woocommerce' ),
+				'id'          => 'wsfw_cart_wallet_balance_placement',
+				'value'       => get_option( 'wsfw_cart_wallet_balance_placement', 'option_a' ),
+				'class'       => 'wsfw-select-class',
+				'options'     => array(
+					'option_a' => __( 'Inside Cart Totals - Above Estimated Total (Recommended)', 'wallet-system-for-woocommerce' ),
+					'option_b' => __( 'Notice Banner - Above Cart Table', 'wallet-system-for-woocommerce' ),
+					'disabled' => __( 'Disabled - Do Not Show', 'wallet-system-for-woocommerce' ),
+				),
+			),
+			array(
 				'title'       => __( 'Wallet Shortcode', 'wallet-system-for-woocommerce' ),
 				'type'        => 'text',
 				'id'          => 'wsfw_wallet_shortcode',

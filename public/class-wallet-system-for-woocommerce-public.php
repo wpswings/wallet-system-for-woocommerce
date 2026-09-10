@@ -219,6 +219,46 @@ class Wallet_System_For_Woocommerce_Public {
 		wp_enqueue_script( 'wallet-system-for-woocommerce-block-checkout' );
 	}
 
+	/**
+	 * Enqueue script for block cart.
+	 *
+	 * @return void
+	 */
+	public function wsfw_enqueue_cart_block_script() {
+		// Check if wallet display is enabled
+		$wallet_placement = get_option( 'wsfw_cart_wallet_balance_placement', 'disabled' );
+
+		// Get wallet balance
+		$wallet_balance = 0;
+		$wallet_balance_formatted = '';
+
+		if ( is_user_logged_in() && 'disabled' !== $wallet_placement ) {
+			$wallet_balance = $this->wsfw_get_user_wallet_balance();
+			$wallet_balance_formatted = wc_price( $wallet_balance );
+		}
+
+		wp_enqueue_script(
+			'wallet-system-cart-block',
+			WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'blockassets/js/frontend/wps-cart-block.js',
+			array(),
+			$this->version,
+			true
+		);
+
+		// Localize script with wallet data
+		wp_localize_script(
+			'wallet-system-cart-block',
+			'wsfwCartBlockData',
+			array(
+				'placement_enabled' => ( 'disabled' !== $wallet_placement ),
+				'placement_option' => $wallet_placement,
+				'wallet_balance' => $wallet_balance,
+				'wallet_balance_formatted' => $wallet_balance_formatted,
+				'label_wallet_balance' => __( 'Wallet balance', 'wallet-system-for-woocommerce' ),
+				'label_available_to_spend' => __( 'Available to spend on this order', 'wallet-system-for-woocommerce' ),
+			)
+		);
+	}
 
 	/**
 	 * Unset COD if wallet topup product in cart.
@@ -2892,5 +2932,217 @@ class Wallet_System_For_Woocommerce_Public {
 		}
 
 		return $available_gateways;
+	}
+
+	/**
+	 * ========================================================================
+	 * WALLET BALANCE PLACEMENT ON CART PAGE
+	 * ========================================================================
+	 */
+
+	/**
+	 * Get the selected wallet balance placement option
+	 *
+	 * @return string Placement option ID (option_a, option_b, option_c, option_d, or disabled)
+	 */
+	public function wsfw_get_cart_wallet_placement() {
+		return get_option( 'wsfw_cart_wallet_balance_placement', 'option_a' );
+	}
+
+	/**
+	 * Check if wallet balance display is enabled on cart
+	 *
+	 * @return bool
+	 */
+	public function wsfw_is_cart_wallet_display_enabled() {
+		$placement = $this->wsfw_get_cart_wallet_placement();
+		return ( 'disabled' !== $placement && ! empty( $placement ) );
+	}
+
+	/**
+	 * Get current user's wallet balance
+	 *
+	 * @return float
+	 */
+	public function wsfw_get_user_wallet_balance() {
+		$customer_id = get_current_user_id();
+		if ( ! $customer_id ) {
+			return 0;
+		}
+
+		$wallet_balance = get_user_meta( $customer_id, 'wps_wallet', true );
+		$wallet_balance = empty( $wallet_balance ) ? 0 : $wallet_balance;
+		return apply_filters( 'wps_wsfw_show_converted_price', $wallet_balance );
+	}
+
+	/**
+	 * Display wallet balance based on selected placement option
+	 *
+	 * @return void
+	 */
+	public function wsfw_display_cart_wallet_balance() {
+		if ( ! $this->wsfw_is_cart_wallet_display_enabled() ) {
+			return;
+		}
+
+		$placement = $this->wsfw_get_cart_wallet_placement();
+
+		switch ( $placement ) {
+			case 'option_a':
+				$this->wsfw_display_wallet_option_a();
+				break;
+			case 'option_b':
+				$this->wsfw_display_wallet_option_b();
+				break;
+			case 'option_c':
+				$this->wsfw_display_wallet_option_c();
+				break;
+			case 'option_d':
+				$this->wsfw_display_wallet_option_d();
+				break;
+		}
+	}
+
+	/**
+	 * Option A: Inside Cart Totals - Above Estimated Total (Recommended)
+	 *
+	 * @return void
+	 */
+	public function wsfw_display_wallet_option_a() {
+		$wallet_balance = $this->wsfw_get_user_wallet_balance();
+
+		if ( $wallet_balance <= 0 ) {
+			return;
+		}
+
+		$cart_total = WC()->cart ? WC()->cart->get_total( 'edit' ) : 0;
+		$applicable_amount = min( $wallet_balance, $cart_total );
+
+		// Check if wallet is currently applied
+		$is_applied = WC()->session && WC()->session->get( 'wsfw_cart_wallet_applied' );
+		$applied_amount = $is_applied ? WC()->session->get( 'wsfw_cart_wallet_amount', 0 ) : 0;
+
+		?>
+		<tr class="wps-wallet-cart-totals-block">
+			<td colspan="2">
+				<div class="wps-wallet-balance-container">
+					<div class="wps-wallet-balance-row">
+						<span class="wps-wallet-balance-label"><?php esc_html_e( 'Wallet balance', 'wallet-system-for-woocommerce' ); ?></span>
+						<span class="wps-wallet-balance-amount"><?php echo wp_kses_post( wc_price( $wallet_balance ) ); ?></span>
+					</div>
+					<div class="wps-wallet-balance-subtitle">
+						<?php esc_html_e( 'Available to spend on this order', 'wallet-system-for-woocommerce' ); ?>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Option B: Notice Banner - Above Cart Table
+	 *
+	 * @return void
+	 */
+	public function wsfw_display_wallet_option_b() {
+		$wallet_balance = $this->wsfw_get_user_wallet_balance();
+
+		if ( $wallet_balance <= 0 ) {
+			return;
+		}
+
+		?>
+		<div class="wps-wallet-notice-banner woocommerce-info">
+			<span class="wps-wallet-notice-icon">ℹ️</span>
+			<span class="wps-wallet-notice-message">
+				<?php
+				/* translators: %s: wallet balance amount */
+				echo wp_kses_post( sprintf( __( 'You have %s in your wallet. It can be applied at checkout.', 'wallet-system-for-woocommerce' ), wc_price( $wallet_balance ) ) );
+				?>
+			</span>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Option C: Collapsible Panel - Beside Add Coupons
+	 *
+	 * @return void
+	 */
+	public function wsfw_display_wallet_option_c() {
+		$wallet_balance = $this->wsfw_get_user_wallet_balance();
+
+		if ( $wallet_balance <= 0 ) {
+			return;
+		}
+
+		$cart_total = WC()->cart ? WC()->cart->get_total( 'edit' ) : 0;
+		$max_applicable = min( $wallet_balance, $cart_total );
+
+		// Check if wallet is currently applied
+		$is_applied = WC()->session && WC()->session->get( 'wsfw_cart_wallet_applied' );
+		$applied_amount = $is_applied ? WC()->session->get( 'wsfw_cart_wallet_amount', 0 ) : 0;
+
+		?>
+		<tr class="wps-wallet-collapsible-panel">
+			<th><?php
+			/* translators: %s: wallet balance */
+			echo wp_kses_post( sprintf( __( 'Use wallet balance %s', 'wallet-system-for-woocommerce' ), wc_price( $wallet_balance ) ) );
+			?></th>
+			<td data-title="<?php esc_attr_e( 'Wallet', 'wallet-system-for-woocommerce' ); ?>">
+				<div class="wps-wallet-panel-toggle" data-collapsed="true">
+					<span class="wps-wallet-panel-arrow">▼</span>
+				</div>
+				<div class="wps-wallet-panel-content" style="display: none;">
+					<div class="wps-wallet-input-group">
+						<input
+							type="number"
+							id="wps_wallet_amount_input"
+							class="input-text wps-wallet-amount-input"
+							placeholder="0.00"
+							value="<?php echo esc_attr( $applied_amount > 0 ? $applied_amount : $max_applicable ); ?>"
+							min="0"
+							max="<?php echo esc_attr( $max_applicable ); ?>"
+							step="0.01"
+						>
+						<button
+							type="button"
+							class="button wps-wallet-apply-button"
+							id="wps_wallet_apply_btn"
+							data-max-amount="<?php echo esc_attr( $max_applicable ); ?>"
+						>
+							<?php esc_html_e( 'Apply', 'wallet-system-for-woocommerce' ); ?>
+						</button>
+					</div>
+					<p class="wps-wallet-panel-message"></p>
+				</div>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Option D: Header Chip - Persistent Site-wide Display
+	 *
+	 * @param string $items Menu items HTML.
+	 * @param object $args Menu args.
+	 * @return string Modified menu items
+	 */
+	public function wsfw_display_wallet_option_d( $items, $args ) {
+		if ( ! is_user_logged_in() ) {
+			return $items;
+		}
+
+		$wallet_balance = $this->wsfw_get_user_wallet_balance();
+		$wallet_url = wc_get_account_endpoint_url( 'wps-wallet' );
+
+		$wallet_chip = sprintf(
+			'<li class="menu-item wps-wallet-header-chip"><a href="%s"><span class="wps-wallet-chip-label">%s</span> · <span class="wps-wallet-chip-amount">%s</span></a></li>',
+			esc_url( $wallet_url ),
+			esc_html__( 'My Wallet', 'wallet-system-for-woocommerce' ),
+			wp_kses_post( wc_price( $wallet_balance ) )
+		);
+
+		return $items . $wallet_chip;
 	}
 }

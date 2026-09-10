@@ -187,11 +187,7 @@ $wsfw_tab_intro_description = isset( $wsfw_tab_intro_descriptions[ $wsfw_active_
 				<a href="https://wpswings.com/contact-us/" target="_blank"><?php esc_html_e( 'Support', 'wallet-system-for-woocommerce' ); ?></a>
 			</div>
 			<?php Wallet_System_For_Woocommerce_Talk_To_Expert_Form::get_instance()->render_sidebar_card(); ?>
-			<div class="wps-wallet-side-card">
-				<h2><?php esc_html_e( 'Explore more plugins', 'wallet-system-for-woocommerce' ); ?></h2>
-				<p><?php esc_html_e( 'Discover additional commerce and automation plugins from the same product family.', 'wallet-system-for-woocommerce' ); ?></p>
-				<a href="https://wpswings.com/woocommerce-plugins/" target="_blank" class="wps-wallet-side-button"><?php esc_html_e( 'View More Plugins', 'wallet-system-for-woocommerce' ); ?></a>
-			</div>
+			
 		</aside>
 	</div>
 	</main>

@@ -77,7 +77,7 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 		);
 		wp_enqueue_script( 'wallet-system-payments-blocks' );
 
-		// wallet instant feature.
+		// wallet instant feature and balance data.
 		$wsfw_wallet_instant_discount_wallet = get_option( 'wsfw_wallet_instant_discount_wallet' );
 		$description = '';
 		$is_pro_plugin = false;
@@ -90,15 +90,39 @@ final class WC_Gateway_Wallet_System_Payments_Blocks_Support extends AbstractPay
 				$description = '( Enjoy an instant discount when you pay using a wallet. )';
 			}
 		}
+
+		// Get wallet balance.
+		$customer_id = get_current_user_id();
+		$wallet_balance = 0;
+		$wallet_balance_formatted = '';
+		$cart_total = 0;
+		$has_sufficient_balance = false;
+
+		if ( $customer_id > 0 ) {
+			$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
+			$wallet_balance = empty( $walletamount ) ? 0 : $walletamount;
+			$wallet_balance = apply_filters( 'wps_wsfw_show_converted_price', $wallet_balance );
+			$wallet_balance_formatted = wp_strip_all_tags( wc_price( $wallet_balance ) );
+
+			if ( WC()->cart ) {
+				$cart_total = WC()->cart->get_total( 'edit' );
+				$has_sufficient_balance = ( $wallet_balance >= $cart_total );
+			}
+		}
+
 		// wallet instant feature.
 
 		wp_localize_script(
 			'wallet-system-payments-blocks',
 			'CustomGatewayData',
 			array(
-				'title'       => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
-				'description' => $description,
-				'supports'    => array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ),
+				'title'                   => __( 'Wallet Payment', 'wallet-system-for-woocommerce' ),
+				'description'             => $description,
+				'wallet_balance'          => $wallet_balance,
+				'wallet_balance_formatted' => $wallet_balance_formatted,
+				'cart_total'              => $cart_total,
+				'has_sufficient_balance'  => $has_sufficient_balance,
+				'supports'                => array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ),
 			)
 		);
 
