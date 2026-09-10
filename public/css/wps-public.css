@@ -987,6 +987,7 @@ form#wps_wallet_transfer_form {
   border-radius: 8px;
   padding: 20px;
   margin: 0;
+  width:436px;
 }
 
 .wps-wallet-block-cart-balance .wps-wallet-balance-row {
