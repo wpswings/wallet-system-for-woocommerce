@@ -76,7 +76,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 
 			// Define user set variables.
 			$this->title        = $this->get_option( 'title' );
-			$this->description  = $this->get_option( 'description' );
+			$this->description  = $this->get_wallet_payment_description();
 
 			$this->enabled      = $this->get_option( 'enabled' );
 			$this->supports = array(
@@ -127,6 +127,33 @@ function wps_wsfw_wallet_payment_gateway_init() {
 		}
 
 		/**
+		 * Get wallet payment description with balance info.
+		 *
+		 * @return string
+		 */
+		public function get_wallet_payment_description() {
+			$customer_id = get_current_user_id();
+			$description = $this->get_option( 'description' );
+
+			if ( $customer_id > 0 ) {
+				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
+				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
+				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
+
+				$cart_total = WC()->cart ? WC()->cart->get_total( 'edit' ) : 0;
+
+				if ( $walletamount >= $cart_total && $cart_total > 0 ) {
+					$description .= ' ' . __( 'Your balance covers this order in full. Nothing else to pay.', 'wallet-system-for-woocommerce' );
+				} elseif ( $walletamount > 0 && $cart_total > 0 ) {
+					$remaining = $cart_total - $walletamount;
+					$description .= ' ' . sprintf( __( 'Wallet balance: %s. Remaining to pay: %s', 'wallet-system-for-woocommerce' ), wc_price( $walletamount ), wc_price( $remaining ) );
+				}
+			}
+
+			return $description;
+		}
+
+		/**
 		 * Current Wallet Balance.
 		 */
 		public function get_icon() {
@@ -151,7 +178,8 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				$walletamount = get_user_meta( $customer_id, 'wps_wallet', true );
 				$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 				$walletamount = apply_filters( 'wps_wsfw_show_converted_price', $walletamount );
-				echo wp_kses_post( '<b>' . esc_html__( '[Your Amount :', 'wallet-system-for-woocommerce' ) . ' ' . wp_kses_post( wc_price( $walletamount ) ) . '] ' . $description . ' </b>' );
+				$balance_html = '<span style="color: #ff5722; font-weight: bold; float: right;">' . esc_html__( 'Balance ', 'wallet-system-for-woocommerce' ) . wp_kses_post( wc_price( $walletamount ) ) . '</span>';
+				echo wp_kses_post( $balance_html );
 				$order_number = get_user_meta( $customer_id, 'wsfw_enable_wallet_negative_balance_limit_order', true );
 				$order_limit = get_option( 'wsfw_enable_wallet_negative_balance_limit_order' );
 

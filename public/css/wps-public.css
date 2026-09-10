@@ -932,3 +932,159 @@ form#wps_wallet_transfer_form {
   text-decoration: underline;
 }
 /* kyc verification */
+
+/* Wallet Balance Display - Option A (Inside Cart Totals) */
+.wps-wallet-cart-totals-block {
+  border: none;
+}
+
+.wps-wallet-balance-container {
+  background: #fff;
+  border: 2px solid #ff6b35;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.wps-wallet-balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.wps-wallet-balance-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.wps-wallet-balance-amount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff6b35;
+}
+
+.wps-wallet-balance-amount .woocommerce-Price-amount {
+  color: #ff6b35;
+}
+
+.wps-wallet-balance-subtitle {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-top: 5px;
+}
+
+/* Wallet Balance Display - Block Cart (Before Estimated Total) */
+.wps-wallet-block-cart-balance {
+  width: 100%;
+  margin: 10px 0 !important;
+}
+
+.wps-wallet-block-cart-balance .wps-wallet-balance-container {
+  background: #fff;
+  border: 2px solid #ff6b35;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 0;
+}
+
+.wps-wallet-block-cart-balance .wps-wallet-balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.wps-wallet-block-cart-balance .wps-wallet-balance-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.wps-wallet-block-cart-balance .wps-wallet-balance-amount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff6b35;
+}
+
+.wps-wallet-block-cart-balance .wps-wallet-balance-amount .woocommerce-Price-amount,
+.wps-wallet-block-cart-balance .wps-wallet-balance-amount .wc-block-formatted-money-amount {
+  color: #ff6b35;
+}
+
+.wps-wallet-block-cart-balance .wps-wallet-balance-subtitle {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-top: 5px;
+}
+
+/* Wallet Notice Banner - Block Cart (Above Product Table) */
+.wps-wallet-notice-banner-block {
+  display: flex;
+  align-items: center;
+  background: #e7f5fe;
+  border-left: 4px solid #2196f3;
+  padding: 16px 20px;
+  margin: 0 0 20px 0;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.wps-wallet-notice-banner-block .wps-wallet-notice-icon {
+  font-size: 18px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.wps-wallet-notice-banner-block .wps-wallet-notice-message {
+  color: #555;
+  flex: 1;
+}
+
+.wps-wallet-notice-banner-block .wps-wallet-notice-message .woocommerce-Price-amount,
+.wps-wallet-notice-banner-block .wps-wallet-notice-message .wc-block-formatted-money-amount {
+  font-weight: 600;
+  color: #2196f3;
+}
+
+/* Wallet Collapsible Panel (Option C) */
+.wps-wallet-collapsible-panel .wps-wallet-panel-toggle {
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 10px;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.wps-wallet-collapsible-panel .wps-wallet-panel-toggle:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.wps-wallet-collapsible-panel .wps-wallet-panel-arrow {
+  display: inline-block;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.wps-wallet-collapsible-panel .wps-wallet-panel-content {
+  margin-top: 10px;
+}
+
+.wps-wallet-collapsible-panel .wps-wallet-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.wps-wallet-collapsible-panel .wps-wallet-amount-input {
+  max-width: 150px;
+}
+
+.wps-wallet-collapsible-panel .wps-wallet-panel-message {
+  margin-top: 10px;
+  font-size: 13px;
+}
+

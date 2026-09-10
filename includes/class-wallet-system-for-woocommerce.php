@@ -391,6 +391,32 @@ class Wallet_System_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', $wsfw_plugin_public, 'wsfw_woocommerce_before_cart_total_cashback_message', 10 );
 
+			// Enqueue cart block script.
+			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $wsfw_plugin_public, 'wsfw_enqueue_cart_block_script', 10 );
+
+			// Wallet balance placement on cart page.
+			$wallet_placement = get_option( 'wsfw_cart_wallet_balance_placement', 'option_a' );
+			if ( 'disabled' !== $wallet_placement ) {
+				switch ( $wallet_placement ) {
+					case 'option_a':
+						// Inside Cart Totals - Above Estimated Total.
+						$this->loader->add_action( 'woocommerce_cart_totals_before_order_total', $wsfw_plugin_public, 'wsfw_display_wallet_option_a', 10 );
+						break;
+					case 'option_b':
+						// Notice Banner - Above Cart Table.
+						$this->loader->add_action( 'woocommerce_before_cart_table', $wsfw_plugin_public, 'wsfw_display_wallet_option_b', 5 );
+						break;
+					case 'option_c':
+						// Collapsible Panel - Beside Add Coupons.
+						$this->loader->add_action( 'woocommerce_cart_totals_before_order_total', $wsfw_plugin_public, 'wsfw_display_wallet_option_c', 10 );
+						break;
+					case 'option_d':
+						// Header Chip - Persistent Site-wide Display.
+						$this->loader->add_filter( 'wp_nav_menu_items', $wsfw_plugin_public, 'wsfw_display_wallet_option_d', 10, 2 );
+						break;
+				}
+			}
+
 			// show cashback notice on shop page.
 			$this->loader->add_action( 'woocommerce_after_shop_loop_item_title', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );
 			$this->loader->add_action( 'woocommerce_single_product_summary', $wsfw_plugin_public, 'wsfw_display_category_wise_cashback_price_on_shop_page', 15 );

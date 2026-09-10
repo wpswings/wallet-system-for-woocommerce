@@ -78,32 +78,31 @@ class Wallet_System_For_Woocommerce_Talk_To_Expert_Form {
 	}
 
 	/**
-	 * Service cards shown in the sidebar card.
+	 * Plugin cards shown in the sidebar card.
 	 *
 	 * @return array
 	 */
 	private function get_service_cards() {
 		return array(
 			array(
-				'icon'        => 'SEO',
-				'title'       => __( 'SEO Services', 'wallet-system-for-woocommerce' ),
-				'description' => __( 'Improve rankings and organic traffic', 'wallet-system-for-woocommerce' ),
+				'icon'        => 'SUB',
+				'title'       => __( 'Subscriptions for WooCommerce', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Recurring payments & membership billing', 'wallet-system-for-woocommerce' ),
+				'link'        => 'https://wordpress.org/plugins/subscriptions-for-woocommerce/',
 			),
 			array(
-				'icon'        => 'ADS',
-				'title'       => __( 'Google Ads Setup And GA4 Setup', 'wallet-system-for-woocommerce' ),
-				'description' => __( 'Run profitable ad campaigns', 'wallet-system-for-woocommerce' ),
+				'icon'        => 'RPE',
+				'title'       => __( 'Role Permission Editor', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Manage user roles and capabilities', 'wallet-system-for-woocommerce' ),
+				'link'        => 'https://wordpress.org/plugins/wpswings-role-permissions-editor/',
 			),
 			array(
-				'icon'        => 'SPD',
-				'title'       => __( 'Speed Optimization', 'wallet-system-for-woocommerce' ),
-				'description' => __( 'Faster store, happier customers', 'wallet-system-for-woocommerce' ),
+				'icon'        => 'AWO',
+				'title'       => __( 'AI Website Optimizer', 'wallet-system-for-woocommerce' ),
+				'description' => __( 'Boost performance with caching & optimization', 'wallet-system-for-woocommerce' ),
+				'link'        => 'https://wordpress.org/plugins/wpswings-ai-website-optimizer/',
 			),
-			array(
-				'icon'        => 'DEV',
-				'title'       => __( 'WooCommerce Development Services', 'wallet-system-for-woocommerce' ),
-				'description' => __( 'Custom solution for your store needs', 'wallet-system-for-woocommerce' ),
-			),
+			
 		);
 	}
 
@@ -116,26 +115,26 @@ class Wallet_System_For_Woocommerce_Talk_To_Expert_Form {
 		?>
 		<div class="wps-wallet-side-card wps-wallet-side-card--expert">
 			<div class="wps-wallet-expert-card__header">
-				<h2><?php esc_html_e( 'Grow Your Store With WP Swings', 'wallet-system-for-woocommerce' ); ?></h2>
+				<h2><?php esc_html_e( 'Explore More WPSwings Plugins', 'wallet-system-for-woocommerce' ); ?></h2>
 				<span aria-hidden="true">&#9733;</span>
 			</div>
-			<p><?php esc_html_e( 'Expert WooCommerce services for performance, campaigns, custom development, and store growth.', 'wallet-system-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'Discover our collection of WordPress and WooCommerce plugins to enhance your store functionality and user experience.', 'wallet-system-for-woocommerce' ); ?></p>
 			<div class="wps-wallet-expert-services">
-				<?php foreach ( $this->get_service_cards() as $service_card ) { ?>
-					<div class="wps-wallet-expert-service">
-						<span class="wps-wallet-expert-service__icon" aria-hidden="true"><?php echo esc_html( $service_card['icon'] ); ?></span>
+				<?php foreach ( $this->get_service_cards() as $plugin_card ) { ?>
+					<a href="<?php echo esc_url( $plugin_card['link'] ); ?>" target="_blank" rel="noopener noreferrer" class="wps-wallet-expert-service wps-wallet-plugin-card">
+						<span class="wps-wallet-expert-service__icon" aria-hidden="true"><?php echo esc_html( $plugin_card['icon'] ); ?></span>
 						<div>
-							<h3><?php echo esc_html( $service_card['title'] ); ?></h3>
-							<p><?php echo esc_html( $service_card['description'] ); ?></p>
+							<h3><?php echo esc_html( $plugin_card['title'] ); ?></h3>
+							<p><?php echo esc_html( $plugin_card['description'] ); ?></p>
 						</div>
-						<span aria-hidden="true">&rsaquo;</span>
-					</div>
+					</a>
 				<?php } ?>
 			</div>
-			<button type="button" class="wps-wallet-side-button wps-wallet-expert-open" data-wps-wsfw-open-expert-modal>
-				<?php esc_html_e( 'Talk to an Expert', 'wallet-system-for-woocommerce' ); ?>
-			</button>
-			<p class="wps-wallet-expert-card__footer"><?php esc_html_e( 'Services by WP Swings', 'wallet-system-for-woocommerce' ); ?></p>
+			<a href="https://wordpress.org/plugins/search/wpswings/" target="_blank" rel="noopener noreferrer" class="wps-wallet-side-button wps-wallet-view-more-plugins">
+				<?php esc_html_e( 'View More Plugins', 'wallet-system-for-woocommerce' ); ?>
+			</a>
+		
+		
 		</div>
 		<?php
 	}

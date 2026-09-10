@@ -3413,7 +3413,7 @@ ul {
 .wps-wallet-admin-shell .wps-wsfw-gen-section-form > .wsfw-secion-wrap > .wps-wallet-action-wrap {
   align-items: center;
   border: 0 !important;
-  border-top: 1px solid #f0e2b8 !important;
+  /* border-top: 1px solid #f0e2b8 !important; */
   border-radius: 8px !important;
   box-shadow: none !important;
   display: flex !important;
