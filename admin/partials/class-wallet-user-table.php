@@ -783,6 +783,72 @@ if ( isset( $_POST['update_wallet'] ) && ! empty( $_POST['update_wallet'] ) ) {
 					} else {
 						$transaction_type = __( 'Credited by admin', 'wallet-system-for-woocommerce' );
 					}
+
+					// Handle bonus amount and expiry if provided
+					$contains_bonus = isset( $_POST['wps_wallet_contains_bonus'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_contains_bonus'] ) ) : '';
+					$bonus_amount = isset( $_POST['wps_wallet-bonus-amount'] ) ? floatval( sanitize_text_field( wp_unslash( $_POST['wps_wallet-bonus-amount'] ) ) ) : 0;
+					$expiry_period = isset( $_POST['wps_wallet_expiry_period'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_expiry_period'] ) ) : 'none';
+					$custom_expiry_days = isset( $_POST['wps_wallet_custom_expiry_days'] ) ? absint( wp_unslash( $_POST['wps_wallet_custom_expiry_days'] ) ) : 0;
+
+					// Calculate expiry date if applicable
+					$expiry_date = null;
+					if ( 'none' !== $expiry_period ) {
+						if ( function_exists( 'wps_wsfwrpa_calculate_expiry_date' ) ) {
+							// Use rechargeable addon function if available
+							$expiry_date = wps_wsfwrpa_calculate_expiry_date( $expiry_period, $custom_expiry_days );
+						} else {
+							// Fallback expiry calculation
+							switch ( $expiry_period ) {
+								case '1_month':
+									$expiry_date = gmdate( 'Y-m-d H:i:s', strtotime( '+1 month' ) );
+									break;
+								case '3_months':
+									$expiry_date = gmdate( 'Y-m-d H:i:s', strtotime( '+3 months' ) );
+									break;
+								case '6_months':
+									$expiry_date = gmdate( 'Y-m-d H:i:s', strtotime( '+6 months' ) );
+									break;
+								case 'custom':
+									if ( $custom_expiry_days > 0 ) {
+										$expiry_date = gmdate( 'Y-m-d H:i:s', strtotime( "+{$custom_expiry_days} days" ) );
+									}
+									break;
+							}
+						}
+					}
+
+					// Store expiry and bonus info if rechargeable addon is active
+					if ( function_exists( 'wps_wsfwrpa_get_ledger_table' ) && $expiry_date ) {
+						global $wpdb;
+
+						// If bonus is enabled and amount is provided, that's what gets deducted
+						// Otherwise, the full amount is deducted on expiry
+						$deduct_amount = ( 'yes' === $contains_bonus && $bonus_amount > 0 ) ? $bonus_amount : floatval( $updated_amount );
+
+						$wpdb->insert(
+							wps_wsfwrpa_get_ledger_table(),
+							array(
+								'user_id'       => $user_id,
+								'order_id'      => 0, // No order ID for manual credits
+								'order_item_id' => 0,
+								'product_id'    => 0,
+								'amount'        => floatval( $updated_amount ),
+								'deduct_amount' => $deduct_amount,
+								'currency'      => get_woocommerce_currency(),
+								'credited_date' => gmdate( 'Y-m-d H:i:s' ),
+								'expiry_date'   => $expiry_date,
+								'status'        => 'active',
+							),
+							array( '%d', '%d', '%d', '%d', '%f', '%f', '%s', '%s', '%s', '%s' )
+						);
+
+						// Add expiry info to transaction type for better tracking
+						if ( $expiry_date ) {
+							$expiry_formatted = date_i18n( get_option( 'date_format' ), strtotime( $expiry_date ) );
+							$transaction_type .= ' (Expires: ' . $expiry_formatted . ')';
+						}
+					}
+
 					$balance   = $currency . ' ' . $updated_amount;
 					$mail_message     = __( 'Merchant has credited your wallet by ', 'wallet-system-for-woocommerce' ) . esc_html( $balance );
 
@@ -1250,50 +1316,83 @@ class Wallet_User_Table extends WP_List_Table {
 		<p><span id="close_wallet_form"><img src="<?php echo esc_url( WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL ); ?>admin/image/cancel.svg"></span></p>
 		<form method="post">
 			<div class="wps_wallet-edit-popup-content">
-				<div class="wps_wallet-edit-popup-amount">
-					<div class="wps_wallet-edit-popup-label">
-						<label for="wps_wallet-edit-popup-input" class="wps_wallet-edit-popup-input">
-							<?php echo esc_html__( 'Select Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol() ) . '):'; ?>
-						</label>
-					</div>
-					<div class="wps_wallet-edit-popup-control">
-						<input type="number" name="wps_wallet-edit-popup-input" min="0" step="0.01" id="wps_wallet-edit-popup-input"  class="wps_wallet-edit-popup-fill">
-						<p class="error"></p>
-					</div>
+				<!-- Amount Input -->
+				<div class="wps_wallet-edit-popup-field">
+					<label for="wps_wallet-edit-popup-input" class="wps_wallet-edit-popup-label">
+						<?php echo esc_html__( 'Select Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol() ) . '):'; ?>
+					</label>
+					<input type="number" name="wps_wallet-edit-popup-input" min="0" step="0.01" id="wps_wallet-edit-popup-input"  class="wps_wallet-edit-popup-input-field" placeholder="<?php esc_html_e( 'Enter amount', 'wallet-system-for-woocommerce' ); ?>">
+					<p class="error"></p>
 				</div>
-				<div class="wps_wallet-edit-popup-amount">
-					<div class="wps_wallet-edit-popup-label">
-					<label for="wps_wallet-edit-popup-input" class="wps_wallet-edit-popup-input">
-							<?php echo esc_html__( 'Transaction Detail:', 'wallet-system-for-woocommerce' ); ?>
-						</label>
-					</div>
-					<div class="wps_wallet-edit-popup-control">
-						<input type="text" name="wps_wallet-edit-popup-transaction-detail" id="wps_wallet-edit-popup-transaction-detail"  class="wps_wallet-edit-popup-fill">
-					
-					</div>
+
+				<!-- Contains Bonus Amount Checkbox -->
+				<div class="wps_wallet-edit-popup-field wps_wallet-checkbox-field">
+					<label class="wps_wallet-checkbox-label">
+						<input type="checkbox" id="wps_wallet_contains_bonus" name="wps_wallet_contains_bonus" value="yes">
+						<span><?php esc_html_e( 'Contains bonus amount? (only work for Credit)', 'wallet-system-for-woocommerce' ); ?></span>
+					</label>
 				</div>
-				<div class="wps_wallet-edit-popup-amount">
-					<div class="wps_wallet-edit-popup-label">
-						<label for="wps_wallet-edit-popup-card" class="wps_wallet-edit-popup-card"><?php esc_html_e( 'Select Action:', 'wallet-system-for-woocommerce' ); ?></label>
-					</div>
-					<div class="wps_wallet-edit-popup-control">
-						<div class="wps-form-select-card">
+
+				<!-- Bonus Amount Input (Hidden by default) -->
+				<div class="wps_wallet-edit-popup-field wps_wallet-bonus-field" style="display: none;">
+					<label for="wps_wallet-bonus-amount" class="wps_wallet-edit-popup-label">
+						<?php echo esc_html__( 'Bonus Amount (', 'wallet-system-for-woocommerce' ) . esc_html( get_woocommerce_currency_symbol() ) . '):'; ?>
+					</label>
+					<input type="number" name="wps_wallet-bonus-amount" min="0" step="0.01" id="wps_wallet-bonus-amount"  class="wps_wallet-edit-popup-input-field" placeholder="<?php esc_html_e( 'Enter bonus amount', 'wallet-system-for-woocommerce' ); ?>">
+					<p class="wps_wallet-help-text"><?php esc_html_e( 'The bonus portion that will be deducted on expiry', 'wallet-system-for-woocommerce' ); ?></p>
+				</div>
+
+				<!-- Custom Expiry Dropdown -->
+				<div class="wps_wallet-edit-popup-field">
+					<label for="wps_wallet_expiry_period" class="wps_wallet-edit-popup-label">
+						<?php esc_html_e( 'Credit Expiration:', 'wallet-system-for-woocommerce' ); ?>
+					</label>
+					<select name="wps_wallet_expiry_period" id="wps_wallet_expiry_period" class="wps_wallet-edit-popup-select-field">
+						<option value="none"><?php esc_html_e( 'No Expiration', 'wallet-system-for-woocommerce' ); ?></option>
+						<option value="1_month"><?php esc_html_e( '1 Month', 'wallet-system-for-woocommerce' ); ?></option>
+						<option value="3_months"><?php esc_html_e( '3 Months', 'wallet-system-for-woocommerce' ); ?></option>
+						<option value="6_months"><?php esc_html_e( '6 Months', 'wallet-system-for-woocommerce' ); ?></option>
+						<option value="custom"><?php esc_html_e( 'Custom (Days)', 'wallet-system-for-woocommerce' ); ?></option>
+					</select>
+				</div>
+
+				<!-- Custom Expiry Days Input (Hidden by default) -->
+				<div class="wps_wallet-edit-popup-field wps_wallet-custom-expiry-field" style="display: none;">
+					<label for="wps_wallet_custom_expiry_days" class="wps_wallet-edit-popup-label">
+						<?php esc_html_e( 'Custom Expiry (Days):', 'wallet-system-for-woocommerce' ); ?>
+					</label>
+					<input type="number" name="wps_wallet_custom_expiry_days" min="1" step="1" id="wps_wallet_custom_expiry_days" class="wps_wallet-edit-popup-input-field" placeholder="<?php esc_html_e( 'Enter number of days', 'wallet-system-for-woocommerce' ); ?>">
+				</div>
+
+				<!-- Transaction Detail -->
+				<div class="wps_wallet-edit-popup-field">
+					<label for="wps_wallet-edit-popup-transaction-detail" class="wps_wallet-edit-popup-label">
+						<?php echo esc_html__( 'Transaction Detail:', 'wallet-system-for-woocommerce' ); ?>
+					</label>
+					<input type="text" name="wps_wallet-edit-popup-transaction-detail" id="wps_wallet-edit-popup-transaction-detail"  class="wps_wallet-edit-popup-input-field" placeholder="<?php esc_html_e( 'Enter transaction details', 'wallet-system-for-woocommerce' ); ?>">
+				</div>
+
+				<!-- Select Action -->
+				<div class="wps_wallet-edit-popup-field">
+					<label class="wps_wallet-edit-popup-label"><?php esc_html_e( 'Select Action:', 'wallet-system-for-woocommerce' ); ?></label>
+					<div class="wps_wallet-edit-popup-radio-group">
+						<div class="wps_wallet-radio-option">
 							<input type="radio" id="debit" name="action_type" value="debit">
 							<label for="debit"><?php esc_html_e( 'Debit Wallet', 'wallet-system-for-woocommerce' ); ?></label>
 						</div>
-						<div class="wps-form-select-card">
+						<div class="wps_wallet-radio-option">
 							<input type="radio" id="credit" name="action_type" value="credit">
 							<label for="credit"><?php esc_html_e( 'Credit Wallet', 'wallet-system-for-woocommerce' ); ?></label>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<!-- Submit Button -->
 			<div class="wps_wallet-edit-popup-btn">
 				<input type="hidden" id="user_update_nonce" name="user_update_nonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
-				
-				<input type="button" id="wps_wallet_submit_val" name="update_wallet" class="wps-btn wps-btn__filled" value="<?php esc_html_e( 'Update Wallet', 'wallet-system-for-woocommerce' ); ?>">
+				<input type="button" id="wps_wallet_submit_val" name="update_wallet" class="wps-btn wps-btn__filled wps_wallet-update-btn" value="<?php esc_html_e( 'Update Wallet', 'wallet-system-for-woocommerce' ); ?>">
 				<input type="submit" style="display:none" id="wps_wallet_submit_val_submit" name="update_wallet" class="wps-btn wps-btn__filled" value="<?php esc_html_e( 'Update Wallet', 'wallet-system-for-woocommerce' ); ?>">
-			
 			</div>
 		</form>
 	</div>

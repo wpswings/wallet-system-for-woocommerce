@@ -22,9 +22,9 @@
  * Domain Path:       /languages
  * Requires Plugins: woocommerce
  * WC Requires at least: 5.5.0
- * WC tested up to: 11.1.0
+ * WC tested up to: 10.7.1
  * WP Requires at least: 6.7.0
- * WP tested up to: 7.1
+ * WP tested up to: 6.9.4
  * Requires PHP: 7.4
  *
  * License:           GNU General Public License v3.0
@@ -243,6 +243,32 @@ if ( $activated ) {
 
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-pos-activator.php';
 	add_action( 'plugins_loaded', array( 'Wallet_System_For_Woocommerce_Pos_Activator', 'maybe_upgrade' ) );
+
+	/**
+	 * Delete transaction exports left in the web root by versions before 2.8.0.
+	 *
+	 * Older versions wrote Transaction_Data.csv to a relative path, which resolved to the directory of the
+	 * entry script (usually wp-admin/) and was publicly downloadable.
+	 *
+	 * @return void
+	 */
+	function wps_wsfw_remove_legacy_transaction_export() {
+		if ( get_option( 'wps_wsfw_legacy_export_removed' ) ) {
+			return;
+		}
+		$remaining = false;
+		foreach ( array( ABSPATH . 'wp-admin/Transaction_Data.csv', ABSPATH . 'wp-admin/network/Transaction_Data.csv', ABSPATH . 'Transaction_Data.csv' ) as $legacy_file ) {
+			if ( file_exists( $legacy_file ) ) {
+				wp_delete_file( $legacy_file );
+				$remaining = $remaining || file_exists( $legacy_file );
+			}
+		}
+		// Keep retrying on later requests if a file could not be deleted.
+		if ( ! $remaining ) {
+			update_option( 'wps_wsfw_legacy_export_removed', 1 );
+		}
+	}
+	add_action( 'init', 'wps_wsfw_remove_legacy_transaction_export' );
 
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wallet-system-for-woocommerce-pos-auth.php';
 	add_action( 'plugins_loaded', array( 'Wallet_System_For_Woocommerce_Pos_Auth', 'register_role' ) );
@@ -473,3 +499,17 @@ function wps_wsfw_create_referral_code() {
 	}
 	return $pkey;
 }
+
+ if ( ! function_exists( 'wps_wsfwrpa_get_ledger_table' ) ) {
+        ?>
+        <style>
+                .wps_wallet-checkbox-field,
+                .wps_wallet-bonus-field,
+                .wps_wallet-edit-popup-field:has(#wps_wallet_expiry_period),
+                .wps_wallet-custom-expiry-field {
+                        display: none !important;
+                }
+        </style>
+        <?php
+  }
+  

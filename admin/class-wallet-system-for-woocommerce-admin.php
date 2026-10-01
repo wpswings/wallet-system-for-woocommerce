@@ -109,6 +109,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_style( 'wps--admin--min-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wps-admin.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wps-datatable-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datatables/media/css/jquery.dataTables.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wps-wallet-action-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-wallet-action.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'wps-wallet-modal-redesign-css', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/css/wallet-system-for-woocommerce-modal-redesign.css', array(), $this->version, 'all' );
 			$style_url        = WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'build/style-index.css';
 			wp_enqueue_style(
 				'wps-admin-react-styles',
@@ -243,6 +244,7 @@ class Wallet_System_For_Woocommerce_Admin {
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
 			wp_enqueue_script( 'wps-admin-min-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wps-admin.js', array(), time(), false );
 			wp_enqueue_script( 'wps-admin-wallet-action-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wallet-system-for-woocommerce-action.js', array(), time(), false );
+			wp_enqueue_script( 'wps-wallet-modal-enhancements-js', WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL . 'admin/js/wallet-modal-enhancements.js', array( 'jquery' ), time(), false );
 
 			wp_localize_script(
 				'wps-admin-wallet-action-js',
@@ -653,6 +655,16 @@ class Wallet_System_For_Woocommerce_Admin {
 			'instance'  => $this,
 			'function'  => 'wsfw_options_menu_html',
 		);
+		$is_pro_plugin = apply_filters( 'wsfw_check_pro_plugin', false );
+		if ( $is_pro_plugin ) {
+			$menus[] = array(
+				'name'      => __( 'Wallet Credits Expiry', 'wallet-system-for-woocommerce' ),
+				'slug'      => 'wallet_credits_expiry',
+				'menu_link' => 'wallet_credits_expiry',
+				'instance'  => $this,
+				'function'  => 'wsfw_wallet_credits_expiry_page',
+			);
+		}
 		return $menus;
 	}
 
@@ -677,6 +689,16 @@ class Wallet_System_For_Woocommerce_Admin {
 	public function wsfw_options_menu_html() {
 
 		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-admin-dashboard.php';
+	}
+
+	/**
+	 * Wallet Credits with Expiry page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wsfw_wallet_credits_expiry_page() {
+
+		include_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/wallet-system-for-woocommerce-wallet-credits-expiry.php';
 	}
 
 
@@ -2343,7 +2365,8 @@ class Wallet_System_For_Woocommerce_Admin {
 			<?php
 		}
 		$nonce = ( isset( $_POST['updatenoncewallet_pdf_dwnload'] ) ) ? sanitize_text_field( wp_unslash( $_POST['updatenoncewallet_pdf_dwnload'] ) ) : '';
-		if ( wp_verify_nonce( $nonce ) ) {
+		// The export covers every wallet holder's transactions, so it is restricted to wallet managers.
+		if ( wp_verify_nonce( $nonce, 'wps_wsfw_export_transactions' ) && $this->wps_wsfw_current_user_can_manage_wallet() ) {
 
 			if ( isset( $_POST['wps_wsfw_export_pdf'] ) ) {
 
@@ -2418,82 +2441,44 @@ class Wallet_System_For_Woocommerce_Admin {
 					exit;
 				}
 			} elseif ( isset( $_POST['wps_wsfw_export_csv'] ) ) {
+				global $wpdb;
+				$transactions = $wpdb->get_results(
+					"SELECT table1.*, table2.display_name, table2.user_email
+					FROM {$wpdb->prefix}wps_wsfw_wallet_transaction table1 JOIN {$wpdb->prefix}users table2 on table1.`user_id` = table2.`ID`
+					ORDER BY table1.id DESC",
+					ARRAY_A
+				);
 
-					$current_page  = 1;
-					$reset_status  = '';
-					$get_count = 10;
-					$result = '';
-					$update = false;
-					// SQL query.
-					global $wpdb;
-					$transaction_count = $wpdb->get_results(
-						"SELECT count(id) as transaction_count
-							FROM {$wpdb->prefix}wps_wsfw_wallet_transaction",
-					);
+				@ob_end_clean(); // phpcs:ignore
+				header( 'Content-Description: File Transfer' );
+				header( 'Content-Type: text/csv; charset=utf-8' );
+				header( 'Content-Disposition: attachment; filename="Transaction_Data.csv"' );
+				header( 'Expires: 0' );
+				header( 'Cache-Control: no-store, must-revalidate' );
+				header( 'Pragma: public' );
 
-				if ( ! empty( $transaction_count ) ) {
-					$transaction_count = $transaction_count[0];
-					$transaction_count = $transaction_count->transaction_count;
-				}
-
-				if ( $transaction_count > $get_count ) {
-
-					$get_count = $get_count;
-					$loop_count = round( $transaction_count / $get_count ) + 1;
-				} else {
-					$get_count = $transaction_count;
-					$loop_count = 1;
-				}
-
-					$data = array(
-						'per_user_left'     => '',
-						'csv_data'     => '',
-					);
-					if ( $loop_count > 0 ) {
-						$index = 1;
-						for ( $i = 0; $i <= $loop_count; $i++ ) {
-							$user_count = intval( $i * 10 );
-							if ( intval( $transaction_count ) >= intval( $user_count ) ) {
-								$data = $this->export_data_csv_for_all_transaction( $user_count, $transaction_count, $data['csv_data'] );
-								$result  = false;
-							} else {
-								$result  = true;
-							}
-							$index++;
-						}
+				// Stream the CSV to the browser; never write it to disk, where it would be publicly downloadable.
+				$output = fopen( 'php://output', 'w' ); // phpcs:ignore
+				fputcsv( $output, array( 'User Id', 'User Name', 'User Email', 'Amount', 'Transaction Type', 'Payment Method', 'Transaction Id' ) );
+				if ( ! empty( $transactions ) ) {
+					foreach ( $transactions as $transaction ) {
+						$date = date_create( $transaction['date'] );
+						fputcsv(
+							$output,
+							array(
+								$transaction['user_id'],
+								wp_strip_all_tags( $transaction['display_name'] ),
+								wp_strip_all_tags( $transaction['user_email'] ),
+								wp_strip_all_tags( $transaction['amount'] ),
+								wp_strip_all_tags( html_entity_decode( $transaction['transaction_type'] ) ),
+								wp_strip_all_tags( $transaction['payment_method'] ),
+								( $date ? $date->getTimestamp() : '' ) . $transaction['id'],
+							)
+						);
 					}
-
-					if ( $result ) {
-						if ( ! empty( $data ) ) {
-							$csv_data = $data['csv_data'];
-
-							// Create a file pointer.
-							$file = fopen( 'Transaction_Data.csv', 'w' );
-
-							// Write data to the CSV file.
-							foreach ( $csv_data as $row ) {
-								$row_data = array();
-								foreach ( $row as $key => $value ) {
-
-									array_push( $row_data, strip_tags( $value ) );
-								}
-								fputcsv( $file, $row_data );
-
-							}
-							// Close the file pointer.
-							fclose( $file );
-							// Output a download link for the generated CSV file.
-							echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
-							?>
-								<script>
-								   
-									const myAnchor = document.getElementById('transaction_data_csv_file');
-									myAnchor.click();
-								   
-								</script>
-							<?php
-						}
-					}
+				}
+				fclose( $output ); // phpcs:ignore
+				exit;
 			}
 		}
 	}

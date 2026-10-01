@@ -58,7 +58,7 @@ $wsfw_general_group_notifications = wsfw_general_extract_group(
 
 $wsfw_general_group_shortcodes = wsfw_general_extract_group(
 	$wsfw_general_field_pool,
-	array( 'wsfw_wallet_script_for_account_enabled', 'wsfw_wallet_shortcode' )
+	array( 'wsfw_wallet_script_for_account_enabled', 'wsfw_cart_wallet_balance_placement', 'wsfw_wallet_shortcode' )
 );
 
 $wsfw_general_group_recharge_automation = wsfw_general_extract_group(

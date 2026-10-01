@@ -40,6 +40,9 @@ $allowed_html = array(
 					<th><?php esc_html_e( 'Details', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Method', 'wallet-system-for-woocommerce' ); ?></th>
 					<th><?php esc_html_e( 'Date', 'wallet-system-for-woocommerce' ); ?></th>
+					<?php if ( function_exists( 'wps_wsfwrpa_get_ledger_table' ) ) : ?>
+					<th><?php esc_html_e( 'Expiry Date', 'wallet-system-for-woocommerce' ); ?></th>
+					<?php endif; ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -107,6 +110,74 @@ $allowed_html = array(
 							}
 							?>
 							</td>
+							<?php if ( function_exists( 'wps_wsfwrpa_get_ledger_table' ) ) : ?>
+							<td class="wps-expiry-date-cell" data-transaction-id="<?php echo esc_attr( $transaction->id ); ?>">
+								<?php
+								// Get expiry date from ledger table for credit transactions
+								if ( 'credit' === $transaction->transaction_type_1 ) {
+									$ledger_table = wps_wsfwrpa_get_ledger_table();
+
+									// Try to find by order_id first
+									$expiry_info = null;
+									if ( ! empty( $transaction->transaction_id ) && is_numeric( $transaction->transaction_id ) ) {
+										// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+										$expiry_info = $wpdb->get_row(
+											$wpdb->prepare(
+												"SELECT expiry_date, status FROM {$ledger_table}
+												WHERE user_id = %d AND order_id = %d AND status = 'active'
+												LIMIT 1",
+												$transaction->user_id,
+												$transaction->transaction_id
+											)
+										);
+									}
+
+									// If not found, try to match by amount and date
+									if ( ! $expiry_info ) {
+										// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+										$expiry_info = $wpdb->get_row(
+											$wpdb->prepare(
+												"SELECT expiry_date, status FROM {$ledger_table}
+												WHERE user_id = %d
+												AND amount = %f
+												AND status = 'active'
+												AND ABS(TIMESTAMPDIFF(SECOND, credited_date, %s)) < 60
+												ORDER BY credited_date DESC
+												LIMIT 1",
+												$transaction->user_id,
+												$transaction->amount,
+												$transaction->date
+											)
+										);
+									}
+
+									if ( $expiry_info && ! empty( $expiry_info->expiry_date ) && 'NULL' !== $expiry_info->expiry_date ) {
+										$expiry_time = strtotime( $expiry_info->expiry_date );
+										$now = current_time( 'timestamp' );
+										$days_left = floor( ( $expiry_time - $now ) / DAY_IN_SECONDS );
+
+										$expiry_date_formatted = date_i18n( get_option( 'date_format' ), $expiry_time );
+
+										if ( $expiry_time < $now ) {
+											echo '<span style="color: #dc2626; font-weight: 600;">' . esc_html( $expiry_date_formatted ) . '</span>';
+											echo '<br><small style="color: #dc2626;">' . esc_html__( 'Expired', 'wallet-system-for-woocommerce' ) . '</small>';
+										} else {
+											echo '<span style="color: #2ea44f;">' . esc_html( $expiry_date_formatted ) . '</span>';
+											if ( $days_left <= 7 ) {
+												echo '<br><small style="color: #f59e0b;">' . esc_html( $days_left ) . ' ' . esc_html__( 'days left', 'wallet-system-for-woocommerce' ) . '</small>';
+											} else {
+												echo '<br><small style="color: #2ea44f;">' . esc_html( $days_left ) . ' ' . esc_html__( 'days left', 'wallet-system-for-woocommerce' ) . '</small>';
+											}
+										}
+									} else {
+										echo '<span style="color: #999;">—</span>';
+									}
+								} else {
+									echo '<span style="color: #999;">—</span>';
+								}
+								?>
+							</td>
+							<?php endif; ?>
 						</tr>
 						<?php
 						$i++;

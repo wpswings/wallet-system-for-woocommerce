@@ -42,13 +42,6 @@
 
 
     
-    jQuery(document).on( 'click', '#wps_wsfw_export_csv', function() {
-		
-    jQuery('#bulk-action-selector-top').val('export_csv');
-      const myAnchor = document.getElementById('doaction');
-				myAnchor.click();
-		});
-    
     jQuery( "#wps_sfw_subscription_interval" ).change(function() {
        
     var wps_sfw_subscription_interval = jQuery( "#wps_sfw_subscription_interval" ).val();        

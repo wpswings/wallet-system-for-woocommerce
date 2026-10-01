@@ -77,14 +77,12 @@ if ( wp_verify_nonce( $nonce ) ) {
 		unset( $_POST['wps_proceed_transfer'] );
 
 		$update = true;
-		// check whether $_POST key 'current_user_id' is empty or not.
-		if ( ! empty( $_POST['current_user_id'] ) ) {
-			$user_id = sanitize_text_field( wp_unslash( $_POST['current_user_id'] ) );
-		}
+		// The sender is always the authenticated session user; a client-supplied id must never be trusted here.
+		$user_id = get_current_user_id();
 
 		$wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
 		$wallet_bal             = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
-		$wps_current_user_email = ! empty( $_POST['wps_current_user_email'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_current_user_email'] ) ) : '';
+		$wps_current_user_email = $current_user_email;
 		$transfer_note          = ! empty( $_POST['wps_wallet_transfer_note'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_transfer_note'] ) ) : '';
 		$transfer_amount        = ! empty( $_POST['wps_wallet_transfer_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_transfer_amount'] ) ) : 0;
 		$wallet_transfer_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $transfer_amount );
@@ -154,13 +152,13 @@ if ( wp_verify_nonce( $nonce ) ) {
 			show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
 			$update = false;
 		}
-		if ( empty( $_POST['wps_wallet_transfer_amount'] ) ) {
+		if ( ! is_numeric( $wallet_transfer_amount ) || (float) $wallet_transfer_amount <= 0 ) {
 			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		} elseif ( $wallet_bal < $wallet_transfer_amount ) {
 			show_message_on_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
-		} elseif ( $another_user_email == $wps_current_user_email ) {
+		} elseif ( (int) $another_user_id === (int) $user_id ) {
 			show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		}
@@ -223,8 +221,11 @@ if ( wp_verify_nonce( $nonce ) ) {
 
 				$wallet_payment_gateway->insert_transaction_data_in_table( $wallet_transfer_data );
 
-				$wallet_bal -= $wallet_transfer_amount;
-				$update_user = update_user_meta( $user_id, 'wps_wallet', abs( $wallet_bal ) );
+				// Re-read the sender's balance immediately before debiting instead of reusing the pre-credit snapshot.
+				$sender_wallet_bal  = get_user_meta( $user_id, 'wps_wallet', true );
+				$sender_wallet_bal  = ( ! empty( $sender_wallet_bal ) ) ? $sender_wallet_bal : 0;
+				$sender_wallet_bal -= $wallet_transfer_amount;
+				$update_user        = update_user_meta( $user_id, 'wps_wallet', max( 0, $sender_wallet_bal ) );
 				if ( $update_user ) {
 					$balance   = $current_currency . ' ' . $transfer_amount;
 					if ( isset( $send_email_enable ) && 'on' === $send_email_enable ) {
@@ -279,42 +280,59 @@ if ( wp_verify_nonce( $nonce ) ) {
 	if ( isset( $_POST['wps_withdrawal_request'] ) && ! empty( $_POST['wps_withdrawal_request'] ) ) {
 		unset( $_POST['wps_withdrawal_request'] );
 
+		// The wallet is always the authenticated session user's; a client-supplied id must never be trusted here.
+		$user_id  = get_current_user_id();
+		$user     = get_user_by( 'id', $user_id );
+		$username = $user ? $user->user_login : '';
 
-		if ( ! empty( $_POST['wallet_user_id'] ) ) {
-			$user_id  = sanitize_text_field( wp_unslash( $_POST['wallet_user_id'] ) );
-			$user     = get_user_by( 'id', $user_id );
-			$username = $user->user_login;
-
-		}
-
-		$args          = array(
-			'post_title'  => $username,
-			'post_type'   => 'wallet_withdrawal',
-			'post_status' => 'publish',
-		);
-		$withdrawal_id = wp_insert_post( $args );
-		if ( ! empty( $withdrawal_id ) ) {
-			wp_update_post(
-				array(
-					'ID'          => $withdrawal_id,
-					'post_status' => 'pending1',
-				)
+		if ( ! $user || ( ! empty( $_POST['wallet_user_id'] ) && absint( wp_unslash( $_POST['wallet_user_id'] ) ) !== $user_id ) ) {
+			show_message_on_form_submit( esc_html__( 'You are not allowed to request a withdrawal for this wallet.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		} else {
+			$args          = array(
+				'post_title'  => $username,
+				'post_type'   => 'wallet_withdrawal',
+				'post_status' => 'publish',
 			);
-			foreach ( $_POST as $key => $value ) {
-				if ( ! empty( $value ) ) {
-					$value = sanitize_text_field( $value );
+			$withdrawal_id = wp_insert_post( $args );
+			if ( ! empty( $withdrawal_id ) ) {
+				wp_update_post(
+					array(
+						'ID'          => $withdrawal_id,
+						'post_status' => 'pending1',
+					)
+				);
+				update_post_meta( $withdrawal_id, 'wallet_user_id', $user_id );
+
+				// Only persist the fields the withdrawal form submits. Server-computed values such as
+				// the withdrawal fee must never be taken from the request.
+				$withdrawal_fields = array(
+					'wps_wallet_withdrawal_amount',
+					'wps_wallet_withdrawal_option',
+					'wps_wallet_withdrawal_paypal_user_email',
+					'wps_wallet_note',
+				);
+				foreach ( $withdrawal_fields as $key ) {
+					if ( empty( $_POST[ $key ] ) ) {
+						continue;
+					}
 					if ( 'wps_wallet_withdrawal_amount' === $key ) {
+						$value          = sanitize_text_field( wp_unslash( $_POST[ $key ] ) );
 						$withdrawal_bal = apply_filters( 'wps_wsfw_convert_to_base_price', $value );
 						update_post_meta( $withdrawal_id, $key, $withdrawal_bal );
+					} elseif ( 'wps_wallet_withdrawal_paypal_user_email' === $key ) {
+						update_post_meta( $withdrawal_id, $key, sanitize_email( wp_unslash( $_POST[ $key ] ) ) );
+					} elseif ( 'wps_wallet_note' === $key ) {
+						update_post_meta( $withdrawal_id, $key, sanitize_textarea_field( wp_unslash( $_POST[ $key ] ) ) );
 					} else {
-						update_post_meta( $withdrawal_id, $key, $value );
+						update_post_meta( $withdrawal_id, $key, sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) );
 					}
 				}
+				update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
+
+				wp_register_script( 'wps-public-shortcode', false, array(), '1.0.0', false );
+				wp_enqueue_script( 'wps-public-shortcode' );
+				wp_add_inline_script( 'wps-public-shortcode', 'window.location.href = "' . $current_url . '"' );
 			}
-			update_user_meta( $user_id, 'disable_further_withdrawal_request', true );
-			wp_register_script( 'wps-public-shortcode', false, array(), '1.0.0', false );
-			wp_enqueue_script( 'wps-public-shortcode' );
-			wp_add_inline_script( 'wps-public-shortcode', 'window.location.href = "' . $current_url . '"' );
 		}
 	}
 

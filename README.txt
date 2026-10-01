@@ -635,5 +635,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.7.10 - Released on 06 Aug 2026 =
+= 2.8.0 - Released on 06 Aug 2026 =
 * Fix - Vulnerability issue fixes related to AJAX handlers 
