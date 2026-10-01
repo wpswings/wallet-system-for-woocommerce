@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: woocommerce wallet, wordpress wallet, cashback, payments, digital wallet, wallet
 Requires at least: 6.7
-Tested up to: 7.0.2
+Tested up to: 7.1.2
 WC requires at least: 6.5
-WC tested up to: 10.9.4
-Stable tag: 2.7.9
+WC tested up to:  11.1.2
+Stable tag: 2.8.0
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -306,8 +306,14 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
-= 2.7.10 - Released on 06 Aug 2026 =
-* Fix - Vulnerability issue fixes related to AJAX handlers 
+= 2.8.0 - Released on 01 Oct 2026 =
+* Fix - Vulnerability fix: transaction export (PDF/CSV) now checks the user's permission and a nonce tied to the export action
+* Fix - Transaction CSV export now downloads directly instead of saving a public file on the server
+* Fix - Vulnerability fix: users can no longer transfer wallet balance out of another user's wallet
+* Fix - Vulnerability fix: users can no longer submit withdrawal requests against another user's wallet
+* Fix - Withdrawal requests now save only the expected form fields, so the withdrawal fee can't be changed from the browser
+* Fix - Wallet recharge, transfer and withdrawal forms now use a nonce tied to the action
+* Fix - Approving a withdrawal now includes the withdrawal fee when checking the wallet balance
 
 = 2.7.9 - Released on 05 Aug 2026 =
 * New - Compatibility with latest  WC( 10.9.4 ) and WP( 7.0.1 ) 
@@ -635,5 +641,11 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.8.0 - Released on 06 Aug 2026 =
-* Fix - Vulnerability issue fixes related to AJAX handlers 
+= 2.8.0 - Released on 01 Oct 2026 =
+* Fix - Vulnerability fix: transaction export (PDF/CSV) now checks the user's permission and a nonce tied to the export action
+* Fix - Transaction CSV export now downloads directly instead of saving a public file on the server
+* Fix - Vulnerability fix: users can no longer transfer wallet balance out of another user's wallet
+* Fix - Vulnerability fix: users can no longer submit withdrawal requests against another user's wallet
+* Fix - Withdrawal requests now save only the expected form fields, so the withdrawal fee can't be changed from the browser
+* Fix - Wallet recharge, transfer and withdrawal forms now use a nonce tied to the action
+* Fix - Approving a withdrawal now includes the withdrawal fee when checking the wallet balance 
