@@ -299,6 +299,13 @@
 
 	});
 
+	// Quick recharge: fill the selected amount and submit the recharge form.
+	$(document).on( 'click','.wps_wallet_top_up_custom_button', function(){
+		var amount = $(this).attr('recharge_amount');
+		$('#wps_wallet_recharge').val(amount);
+		$('#wps_recharge_wallet').trigger('click');
+	});
+
 	$(document).on( 'blur','#wps_wallet_recharge', function(){
 		var amount = $(this).val();
 		var minamount = $(this).data('min');
