@@ -1,1 +1,82 @@
-!function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=5)}([function(e,t){e.exports=window.wp.element},function(e,t){e.exports=window.wp.htmlEntities},function(e,t){e.exports=window.wp.i18n},function(e,t){e.exports=window.wc.wcBlocksRegistry},function(e,t){e.exports=window.wc.wcSettings},function(e,t,n){"use strict";n.r(t);var r=n(0),o=n(2),c=n(3),i=n(1),u=n(4),l=Object(u.getSetting)("woocommerce_wallet_gateway_settings",{}),a=Object(o.__)(CustomGatewayData.title+" "+CustomGatewayData.description,"woo-gutenberg-products-block"),s=Object(i.decodeEntities)(l.title)||a,d=()=>Object(i.decodeEntities)(l.description||""),f={name:"wps_wcb_wallet_payment_gateway",label:Object(r.createElement)(e=>{const{PaymentMethodLabel:t}=e.components;return Object(r.createElement)(t,{text:s})},null),content:Object(r.createElement)(d,null),edit:Object(r.createElement)(d,null),canMakePayment:()=>!0,ariaLabel:s,supports:{features:CustomGatewayData.supports}};Object(c.registerPaymentMethod)(f)}]);
+/**
+ * Wallet Payment Gateway Block for WooCommerce Blocks
+ */
+
+const { registerPaymentMethod } = window.wc.wcBlocksRegistry;
+const { getSetting } = window.wc.wcSettings;
+const { createElement } = window.wp.element;
+const { __ } = window.wp.i18n;
+const { decodeEntities } = window.wp.htmlEntities;
+
+const settings = getSetting('woocommerce_wallet_gateway_settings', {});
+const gatewayData = typeof CustomGatewayData !== 'undefined' ? CustomGatewayData : {};
+
+const defaultLabel = __( gatewayData.title || 'Wallet Payment', 'wallet-system-for-woocommerce' );
+const label = decodeEntities(settings.title) || defaultLabel;
+
+/**
+ * Content component - shows payment method description and balance
+ */
+const Content = () => {
+	const walletBalance = gatewayData.wallet_balance_formatted || '';
+	const hasSufficientBalance = gatewayData.has_sufficient_balance || false;
+	const description = gatewayData.description || '';
+
+	return createElement(
+		'div',
+		{ className: 'wps-wallet-payment-content' },
+		description && createElement(
+			'p',
+			{ className: 'wps-wallet-description' },
+			decodeEntities(description)
+		),
+		hasSufficientBalance && createElement(
+			'p',
+			{
+				className: 'wps-wallet-balance-message',
+				style: { color: '#2e7d32', fontWeight: '500' }
+			},
+			__('Your balance covers this order in full. Nothing else to pay.', 'wallet-system-for-woocommerce')
+		)
+	);
+};
+
+/**
+ * Label component - shows payment method name with balance
+ */
+const Label = (props) => {
+	const { PaymentMethodLabel } = props.components;
+	const walletBalance = gatewayData.wallet_balance_formatted || '';
+
+	return createElement(
+		'div',
+		{ className: 'wps-wallet-payment-label', style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' } },
+		createElement(PaymentMethodLabel, { text: label }),
+		walletBalance && createElement(
+			'span',
+			{
+				className: 'wps-wallet-balance',
+				style: { color: '#000000', fontWeight: 'bold', fontSize: '14px' }
+			},
+			__('Balance ', 'wallet-system-for-woocommerce') + walletBalance
+		)
+	);
+};
+
+/**
+ * Wallet Payment Method Config
+ */
+const WalletPaymentMethod = {
+	name: 'wps_wcb_wallet_payment_gateway',
+	label: createElement(Label, null),
+	content: createElement(Content, null),
+	edit: createElement(Content, null),
+	canMakePayment: () => true,
+	ariaLabel: label,
+	supports: {
+		features: gatewayData.supports || []
+	}
+};
+
+// Register the payment method
+registerPaymentMethod(WalletPaymentMethod);

@@ -447,89 +447,6 @@ $date_from = '';
 $date_to = '';
 
 
-
-if ( isset( $_POST['action'] ) ) {
-	$current_page  = 1;
-	$reset_status  = '';
-	$get_count = 10;
-	$result = '';
-	$update = false;
-	// SQL query.
-	global $wpdb;
-	$transaction_count = $wpdb->get_results(
-		"SELECT count(id) as transaction_count
-			FROM {$wpdb->prefix}wps_wsfw_wallet_transaction",
-	);
-
-	if ( ! empty( $transaction_count ) ) {
-		$transaction_count = $transaction_count[0];
-		$transaction_count = $transaction_count->transaction_count;
-	}
-
-
-	if ( $transaction_count > $get_count ) {
-
-		$get_count = $get_count;
-		$loop_count = round( $transaction_count / $get_count ) + 1;
-	} else {
-		$get_count = $transaction_count;
-		$loop_count = 1;
-	}
-
-
-	$data = array(
-		'per_user_left'     => '',
-		'csv_data'     => '',
-	);
-	if ( $loop_count > 0 ) {
-		$index = 1;
-		for ( $i = 0; $i <= $loop_count; $i++ ) {
-			$user_count = intval( $i * 10 );
-			if ( intval( $transaction_count ) >= intval( $user_count ) ) {
-				$data = export_data_csv_for_all_transaction( $user_count, $transaction_count, $data['csv_data'] );
-				$result  = false;
-			} else {
-				$result  = true;
-			}
-			$index++;
-		}
-	}
-	if ( 'export_csv' == $_POST['action'] ) {
-		if ( $result ) {
-			if ( ! empty( $data ) ) {
-				$csv_data = $data['csv_data'];
-
-				// Create a file pointer.
-				$file = fopen( 'Transaction_Data.csv', 'w' );
-
-
-
-				// Write data to the CSV file.
-				foreach ( $csv_data as $row ) {
-					$row_data = array();
-					foreach ( $row as $key => $value ) {
-
-						array_push( $row_data, wp_strip_all_tags( $value ) );
-					}
-					fputcsv( $file, $row_data );
-
-				}
-				// Close the file pointer.
-				fclose( $file );
-				// Output a download link for the generated CSV file.
-				echo '<a href="Transaction_Data.csv" id="transaction_data_csv_file" style="display:none"  download>Download Transaction CSV Data </a>';
-				?>
-				<script>
-					
-					const myAnchor = document.getElementById('transaction_data_csv_file');
-					myAnchor.click();
-				</script>
-				<?php
-			}
-		}
-	}
-}
-
 /**
  * Download all transaction into csv.
  *
@@ -653,7 +570,7 @@ if ( isset( $_POST['hidden_from_date'] ) && ! empty( $_POST['hidden_from_date'] 
 			<?php
 		}
 		?>
-		<input type="hidden" id="updatenoncewallet_pdf_dwnload" name="updatenoncewallet_pdf_dwnload" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+		<input type="hidden" id="updatenoncewallet_pdf_dwnload" name="updatenoncewallet_pdf_dwnload" value="<?php echo esc_attr( wp_create_nonce( 'wps_wsfw_export_transactions' ) ); ?>" />
 		
 	</form>
 		<form method="post">
