@@ -500,16 +500,28 @@ function wps_wsfw_create_referral_code() {
 	return $pkey;
 }
 
- if ( ! function_exists( 'wps_wsfwrpa_get_ledger_table' ) ) {
-        ?>
-        <style>
-                .wps_wallet-checkbox-field,
-                .wps_wallet-bonus-field,
-                .wps_wallet-edit-popup-field:has(#wps_wallet_expiry_period),
-                .wps_wallet-custom-expiry-field {
-                        display: none !important;
-                }
-        </style>
-        <?php
-  }
+add_action( 'admin_head', 'wps_wsfw_hide_rechargeable_addon_fields' );
+
+/**
+ * Hide rechargeable addon fields in admin when the addon is not active.
+ *
+ * Printed on admin_head so it never leaks into AJAX/REST responses.
+ *
+ * @return void
+ */
+function wps_wsfw_hide_rechargeable_addon_fields() {
+	if ( function_exists( 'wps_wsfwrpa_get_ledger_table' ) ) {
+		return;
+	}
+	?>
+	<style>
+		.wps_wallet-checkbox-field,
+		.wps_wallet-bonus-field,
+		.wps_wallet-edit-popup-field:has(#wps_wallet_expiry_period),
+		.wps_wallet-custom-expiry-field {
+			display: none !important;
+		}
+	</style>
+	<?php
+}
   

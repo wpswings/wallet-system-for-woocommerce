@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ruleset name="Wallet System For WooCommerce">
+	<description>WordPress coding standards for Wallet System For WooCommerce.</description>
+
+	<file>.</file>
+
+	<!-- Third-party, generated and non-PHP-source paths. -->
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/package/lib/*</exclude-pattern>
+	<exclude-pattern>*/build/*</exclude-pattern>
+	<exclude-pattern>*/pos-app/*</exclude-pattern>
+	<exclude-pattern>*/languages/*</exclude-pattern>
+	<exclude-pattern>*.js</exclude-pattern>
+	<exclude-pattern>*.css</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<config name="minimum_supported_wp_version" value="6.7"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wallet-system-for-woocommerce"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

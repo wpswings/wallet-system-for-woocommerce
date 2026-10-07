@@ -89,9 +89,46 @@ function wsfw_get_kyc_request( $user ) {
 	$nonce = wp_create_nonce( 'view_report_' . $user->ID ); // Create nonce.
 	$url_report = esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu' ) . '&wsfw_tab=wallet-system-for-woocommerce-kyc-request&report_userid=' . $user->ID . '&nonce=' . $nonce );
 
+	$pending_count = wsfw_get_pending_kyc_count();
+	$badge         = '';
+	if ( $pending_count > 0 ) {
+		/* translators: %d: number of pending KYC requests. */
+		$badge_title = sprintf( _n( '%d pending KYC request', '%d pending KYC requests', $pending_count, 'wallet-system-for-woocommerce' ), $pending_count );
+		$badge       = '<span class="wsfw-kyc-pending-badge" title="' . esc_attr( $badge_title ) . '">' . esc_html( number_format_i18n( $pending_count ) ) . '</span>';
+	}
+
 	$data  = '';
-	$data .= '<a href="' . $url_report . '" title="View Kyc Request" >View Kyc Request</a>';
+	$data .= '<a href="' . $url_report . '" title="View Kyc Request" >View Kyc Request' . $badge . '</a>';
 
 	return $data;
+}
+
+/**
+ * Count KYC requests that are still pending (excludes approved and rejected).
+ *
+ * @return int
+ */
+function wsfw_get_pending_kyc_count() {
+	$user_ids = get_users(
+		array(
+			'role__in'   => array( 'subscriber', 'customer', 'administrator', 'editor', 'author', 'contributor' ),
+			'fields'     => 'ID',
+			'number'     => -1,
+			'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				'relation' => 'AND',
+				array(
+					'key'   => 'key_verification_status',
+					'value' => 'pending',
+				),
+				array(
+					'key'     => 'wps_wallet_kyc_documents',
+					'value'   => '',
+					'compare' => '!=',
+				),
+			),
+		)
+	);
+
+	return count( $user_ids );
 }
 ?>
