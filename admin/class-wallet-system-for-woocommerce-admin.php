@@ -957,12 +957,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				'placeholder' => '',
 				'options' => apply_filters(
 					'wps_wsfw_wallet_order_auto_process_pre',
-					array(
-						'pending' => __( 'Pending payment', 'wallet-system-for-woocommerce' ),
-						'on-hold' => __( 'On hold', 'wallet-system-for-woocommerce' ),
-						'processing' => __( 'Processing', 'wallet-system-for-woocommerce' ),
-						'completed' => __( 'Completed', 'wallet-system-for-woocommerce' ),
-					)
+					$this->wps_wsfw_get_recharge_order_status_options()
 				),
 			);
 			$wsfw_settings_general[] = array(
@@ -1004,6 +999,28 @@ class Wallet_System_For_Woocommerce_Admin {
 			'class'       => 'wsfw-button-class',
 		);
 		return $wsfw_settings_general;
+	}
+
+	/**
+	 * Get order statuses (core + custom) for the wallet recharge status setting.
+	 *
+	 * @return array Status slug without "wc-" prefix => label.
+	 */
+	public function wps_wsfw_get_recharge_order_status_options() {
+		$options = array();
+
+		// Statuses where the customer has not paid, so the wallet must never be credited.
+		$excluded = array( 'cancelled', 'failed', 'refunded', 'checkout-draft' );
+
+		foreach ( wc_get_order_statuses() as $status => $label ) {
+			$status = 'wc-' === substr( $status, 0, 3 ) ? substr( $status, 3 ) : $status;
+			if ( in_array( $status, $excluded, true ) ) {
+				continue;
+			}
+			$options[ $status ] = $label;
+		}
+
+		return $options;
 	}
 
 
