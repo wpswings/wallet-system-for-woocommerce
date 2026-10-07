@@ -1106,6 +1106,8 @@ class Wallet_User_Table extends WP_List_Table {
 			'number' => $per_page,
 			'offset' => ( $current_page - 1 ) * $per_page,
 			'fields' => 'ID',
+			'orderby' => 'ID',
+			'order'   => 'ASC',
 		);
 
 		if ( isset( $_REQUEST['s'] ) ) {

@@ -2581,6 +2581,41 @@ ul {
   vertical-align: middle;
 }
 
+/*
+ * Keep the checkbox and ID cells aligned with the other columns.
+ * Core renders the row checkbox as td.check-column and the primary (ID) column as th[scope=row],
+ * both with vertical-align: top and their own padding.
+ */
+.wps-wallet-admin-shell .wps-wpg-gen-section-table-wrap .wp-list-table tbody .check-column,
+.wps-wallet-admin-shell .wps-wpg-gen-section-table-wrap .wp-list-table tbody .column-primary {
+  border-bottom: 1px solid #f2edf8;
+  color: #4b3a64;
+  font-size: 13px;
+  font-weight: normal;
+  padding: 14px 12px !important;
+  vertical-align: middle !important;
+}
+
+.wps-wallet-admin-shell .wps-wpg-gen-section-table-wrap .wp-list-table thead .check-column,
+.wps-wallet-admin-shell .wps-wpg-gen-section-table-wrap .wp-list-table tfoot .check-column {
+  padding: 14px 12px !important;
+  vertical-align: middle !important;
+}
+
+.wps-wallet-admin-shell .wps-wpg-gen-section-table-wrap .wp-list-table .check-column {
+  width: 20px;
+}
+
+/* Space between the checkbox column and the ID column. */
+.wps-wallet-admin-shell .wps-wpg-gen-section-table-wrap .wp-list-table .column-id {
+  padding-left: 24px !important;
+}
+
+.wps-wallet-admin-shell .wps-wpg-gen-section-table-wrap .wp-list-table .check-column input[type="checkbox"] {
+  margin: 0;
+  vertical-align: middle;
+}
+
 .wps-wallet-admin-shell .wps-wpg-gen-section-table-wrap .wp-list-table tbody tr:nth-child(odd) {
   background: #fff;
 }
