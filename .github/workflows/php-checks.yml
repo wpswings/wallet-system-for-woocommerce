@@ -1,0 +1,126 @@
+name: PHP Checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phpcs:
+    name: PHPCS (WordPress Coding Standards)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer:v2, cs2pr
+          coverage: none
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Collect changed PHP files
+        id: files
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+          elif [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            BASE="${{ github.event.before }}"
+          else
+            BASE=""
+          fi
+
+          if [ -n "$BASE" ]; then
+            git diff --name-only --diff-filter=ACMR "$BASE"...HEAD -- '*.php' > changed-files.txt
+          else
+            # Manual run: scan the whole plugin.
+            echo "." > changed-files.txt
+          fi
+
+          echo "Files to check:"
+          cat changed-files.txt
+          if [ -s changed-files.txt ]; then
+            echo "has_files=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_files=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run PHPCS
+        if: steps.files.outputs.has_files == 'true'
+        run: vendor/bin/phpcs --standard=phpcs.xml.dist -q --report-full --report-checkstyle=./phpcs-report.xml --file-list=changed-files.txt
+
+      - name: Annotate PR with PHPCS results
+        if: always() && steps.files.outputs.has_files == 'true' && hashFiles('phpcs-report.xml') != ''
+        run: cs2pr ./phpcs-report.xml --graceful-warnings
+
+  php-compatibility:
+    name: PHP compatibility (7.4+)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer:v2, cs2pr
+          coverage: none
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Run PHPCompatibilityWP
+        run: >
+          vendor/bin/phpcs .
+          --standard=PHPCompatibilityWP
+          --runtime-set testVersion 7.4-
+          --extensions=php
+          --ignore=*/vendor/*,*/node_modules/*,*/package/lib/*,*/build/*,*/pos-app/*
+          -p -s
+          --report-full --report-checkstyle=./phpcompat-report.xml
+
+      - name: Annotate PR with compatibility results
+        if: always() && hashFiles('phpcompat-report.xml') != ''
+        run: cs2pr ./phpcompat-report.xml --graceful-warnings
+
+  php-lint:
+    name: PHP ${{ matrix.php }} syntax lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Lint PHP files
+        run: |
+          find . -type f -name '*.php' \
+            -not -path './vendor/*' \
+            -not -path './node_modules/*' \
+            -not -path './package/lib/*' \
+            -print0 | xargs -0 -n1 -P4 php -l > lint.log 2>&1 || true
+          if grep -E 'Parse error|Fatal error|Errors parsing' lint.log; then
+            exit 1
+          fi
+          echo "No syntax errors on PHP ${{ matrix.php }}."

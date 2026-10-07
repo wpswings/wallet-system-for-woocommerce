@@ -3482,6 +3482,24 @@ ul {
   color: var(--wps-wallet-action);
 }
 
+.wps-wallet-admin-shell .wsfw-secion-kyc-title-link .wsfw-kyc-pending-badge,
+.wsfw-secion-kyc-title-link .wsfw-kyc-pending-badge {
+  align-items: center;
+  background: #d63638;
+  border-radius: 10px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  height: 20px;
+  justify-content: center;
+  line-height: 1;
+  margin-left: 8px;
+  min-width: 20px;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+
 @media screen and (max-width: 600px) {
   .wps-wallet-admin-shell .wsfw-secion-kyc-title-link {
     display: block;
