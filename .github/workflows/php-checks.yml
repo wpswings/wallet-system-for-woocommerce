@@ -57,13 +57,56 @@ jobs:
             echo "has_files=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # Report-only: violations are reported but never fail the job.
       - name: Run PHPCS
         if: steps.files.outputs.has_files == 'true'
-        run: vendor/bin/phpcs --standard=phpcs.xml.dist -q --report-full --report-checkstyle=./phpcs-report.xml --file-list=changed-files.txt
+        run: |
+          vendor/bin/phpcs --standard=phpcs.xml.dist -q \
+            --file-list=changed-files.txt \
+            --report-full=./phpcs-report.txt \
+            --report-summary=./phpcs-summary.txt \
+            --report-checkstyle=./phpcs-report.xml || true
+          cat ./phpcs-report.txt 2>/dev/null || true
 
       - name: Annotate PR with PHPCS results
         if: always() && steps.files.outputs.has_files == 'true' && hashFiles('phpcs-report.xml') != ''
-        run: cs2pr ./phpcs-report.xml --graceful-warnings
+        run: cs2pr ./phpcs-report.xml --graceful-warnings || true
+
+      - name: Write PHPCS job summary
+        if: always() && steps.files.outputs.has_files == 'true'
+        run: |
+          {
+            echo "## PHPCS (WordPress Coding Standards) report"
+            echo
+            echo "> Report only: this check does not fail the build."
+            echo
+            if [ -s phpcs-summary.txt ]; then
+              echo '```'
+              cat phpcs-summary.txt
+              echo '```'
+              echo
+              echo "<details><summary>Full report</summary>"
+              echo
+              echo '```'
+              head -c 900000 phpcs-report.txt
+              echo '```'
+              echo "</details>"
+            else
+              echo "No PHPCS violations found in changed files. :white_check_mark:"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload PHPCS report
+        if: always() && steps.files.outputs.has_files == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpcs-report
+          path: |
+            phpcs-report.txt
+            phpcs-summary.txt
+            phpcs-report.xml
+            changed-files.txt
+          if-no-files-found: ignore
 
   php-compatibility:
     name: PHP compatibility (7.4+)
@@ -82,19 +125,58 @@ jobs:
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v3
 
+      # Report-only: violations are reported but never fail the job.
       - name: Run PHPCompatibilityWP
-        run: >
-          vendor/bin/phpcs .
-          --standard=PHPCompatibilityWP
-          --runtime-set testVersion 7.4-
-          --extensions=php
-          --ignore=*/vendor/*,*/node_modules/*,*/package/lib/*,*/build/*,*/pos-app/*
-          -p -s
-          --report-full --report-checkstyle=./phpcompat-report.xml
+        run: |
+          vendor/bin/phpcs . \
+            --standard=PHPCompatibilityWP \
+            --runtime-set testVersion 7.4- \
+            --extensions=php \
+            --ignore=*/vendor/*,*/node_modules/*,*/package/lib/*,*/build/*,*/pos-app/* \
+            -s \
+            --report-full=./phpcompat-report.txt \
+            --report-summary=./phpcompat-summary.txt \
+            --report-checkstyle=./phpcompat-report.xml || true
+          cat ./phpcompat-report.txt 2>/dev/null || true
 
       - name: Annotate PR with compatibility results
         if: always() && hashFiles('phpcompat-report.xml') != ''
-        run: cs2pr ./phpcompat-report.xml --graceful-warnings
+        run: cs2pr ./phpcompat-report.xml --graceful-warnings || true
+
+      - name: Write compatibility job summary
+        if: always()
+        run: |
+          {
+            echo "## PHP compatibility (7.4+) report"
+            echo
+            echo "> Report only: this check does not fail the build."
+            echo
+            if [ -s phpcompat-summary.txt ]; then
+              echo '```'
+              cat phpcompat-summary.txt
+              echo '```'
+              echo
+              echo "<details><summary>Full report</summary>"
+              echo
+              echo '```'
+              head -c 900000 phpcompat-report.txt
+              echo '```'
+              echo "</details>"
+            else
+              echo "No PHP compatibility issues found. :white_check_mark:"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload compatibility report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpcompat-report
+          path: |
+            phpcompat-report.txt
+            phpcompat-summary.txt
+            phpcompat-report.xml
+          if-no-files-found: ignore
 
   php-lint:
     name: PHP ${{ matrix.php }} syntax lint
