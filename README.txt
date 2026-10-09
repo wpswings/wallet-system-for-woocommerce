@@ -6,7 +6,7 @@ Requires at least: 6.7
 Tested up to: 7.1.2
 WC requires at least: 6.5
 WC tested up to:  11.1.2
-Stable tag: 2.8.0
+Stable tag: 2.8.1
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -305,6 +305,9 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 
 == Changelog ==
+
+= 2.8.1 - Released on 09 Oct 2026 =
+* Fix - Old checkout payment select issue fix
 
 = 2.8.0 - Released on 01 Oct 2026 =
 * Fix - Vulnerability fix: transaction export (PDF/CSV) now checks the user's permission and a nonce tied to the export action
@@ -641,11 +644,5 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Upgrade Notice ==
 
-= 2.8.0 - Released on 01 Oct 2026 =
-* Fix - Vulnerability fix: transaction export (PDF/CSV) now checks the user's permission and a nonce tied to the export action
-* Fix - Transaction CSV export now downloads directly instead of saving a public file on the server
-* Fix - Vulnerability fix: users can no longer transfer wallet balance out of another user's wallet
-* Fix - Vulnerability fix: users can no longer submit withdrawal requests against another user's wallet
-* Fix - Withdrawal requests now save only the expected form fields, so the withdrawal fee can't be changed from the browser
-* Fix - Wallet recharge, transfer and withdrawal forms now use a nonce tied to the action
-* Fix - Approving a withdrawal now includes the withdrawal fee when checking the wallet balance 
+= 2.8.1 - Released on 09 Oct 2026 =
+* Fix - Old checkout payment select issue fix
