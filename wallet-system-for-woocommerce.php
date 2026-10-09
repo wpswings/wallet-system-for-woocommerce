@@ -15,7 +15,7 @@
  * Plugin Name:       Wallet System For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/wallet-system-for-woocommerce
  * Description:       <code><strong>Wallet System for WooCommerce</strong></code> is a digital wallet plugin where users can add or delete balances in bulk, give refunds and earn cashback. <a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-wallet-shop&utm_medium=wallet-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>.
- * Version:           2.8.0
+ * Version:           2.8.1
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-wallet-official&utm_medium=wallet-org-backend&utm_campaign=official
  * Text Domain:       wallet-system-for-woocommerce
@@ -64,7 +64,7 @@ if ( $activated ) {
 
 		$wp_upload = wp_upload_dir();
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_UPLOAD_DIR', $wp_upload['basedir'] );
-		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.8.0' );
+		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION', '2.8.1' );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		wallet_system_for_woocommerce_constants( 'WALLET_SYSTEM_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -500,16 +500,28 @@ function wps_wsfw_create_referral_code() {
 	return $pkey;
 }
 
- if ( ! function_exists( 'wps_wsfwrpa_get_ledger_table' ) ) {
-        ?>
-        <style>
-                .wps_wallet-checkbox-field,
-                .wps_wallet-bonus-field,
-                .wps_wallet-edit-popup-field:has(#wps_wallet_expiry_period),
-                .wps_wallet-custom-expiry-field {
-                        display: none !important;
-                }
-        </style>
-        <?php
-  }
-  
+add_action( 'admin_head', 'wps_wsfw_hide_pro_wallet_popup_fields' );
+
+/**
+ * Hide pro-only fields in the admin wallet edit popup when the pro plugin is not active.
+ *
+ * Hooked to admin_head so the CSS is never echoed during plugin load, which would
+ * corrupt AJAX, REST and front-end responses.
+ *
+ * @return void
+ */
+function wps_wsfw_hide_pro_wallet_popup_fields() {
+	if ( function_exists( 'wps_wsfwrpa_get_ledger_table' ) ) {
+		return;
+	}
+	?>
+	<style>
+		.wps_wallet-checkbox-field,
+		.wps_wallet-bonus-field,
+		.wps_wallet-edit-popup-field:has(#wps_wallet_expiry_period),
+		.wps_wallet-custom-expiry-field {
+			display: none !important;
+		}
+	</style>
+	<?php
+}
