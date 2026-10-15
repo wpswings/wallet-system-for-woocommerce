@@ -18,12 +18,12 @@ global $wsfw_wps_wsfw_obj;
 
 if ( isset( $_POST['generate_api_key'] ) && ! empty( $_POST['generate_api_key'] ) ) {
 	$nonce = ( isset( $_POST['verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['verifynonce'] ) ) : '';
-	if ( wp_verify_nonce( $nonce ) ) {
+	if ( wp_verify_nonce( $nonce, 'wps_wsfw_generate_api_keys' ) && current_user_can( 'manage_options' ) ) {
 		unset( $_POST['generate_api_key'] );
 		$api_keys = array();
+		// md5( wp_rand() ) only has ~2^32 possible values; use a CSPRNG-backed key instead.
 		for ( $i = 0; $i < 2; $i++ ) {
-			$random     = wp_rand();
-			$api_keys[] = md5( $random );
+			$api_keys[] = wp_generate_password( 32, false, false );
 		}
 		$wallet_api_keys['consumer_key']    = $api_keys[0];
 		$wallet_api_keys['consumer_secret'] = $api_keys[1];
@@ -40,7 +40,7 @@ if ( isset( $_POST['generate_api_key'] ) && ! empty( $_POST['generate_api_key'] 
 	}
 }
 
-if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
+if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'wps_wsfw_delete_api_keys' ) && current_user_can( 'manage_options' ) ) {
 	$result = delete_option( 'wps_wsfw_wallet_rest_api_keys' );
 	if ( $result ) {
 		wp_safe_redirect( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-rest-api&wsfw_tab=wallet-system-rest-api' ) );
@@ -67,7 +67,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 					<div class="wps-form-group__control">
 
 						<p><?php esc_html_e( 'REST API allows external apps to view and manage wallet. Access is granted only to those with valid API keys.', 'wallet-system-for-woocommerce' ); ?></p>
-						<input type="hidden" id="verifynonce" name="verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+						<input type="hidden" id="verifynonce" name="verifynonce" value="<?php echo esc_attr( wp_create_nonce( 'wps_wsfw_generate_api_keys' ) ); ?>" />
 						<input type="submit" class="wps-btn wps-btn__filled" name="generate_api_key"  value="Generate API key">
 					</div>
 				</div>
@@ -96,7 +96,7 @@ if ( isset( $_GET['action'] ) && ( 'delete_api_keys' === $_GET['action'] ) ) {
 				</tr>
 			</tbody>
 		</table>
-		<p><a href="<?php echo esc_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-rest-api' ) ); ?>&action=delete_api_keys" class="wps-btn wps-btn__filled delete_keys" ><?php esc_html_e( 'Delete API Keys', 'wallet-system-for-woocommerce' ); ?></a></p>
+		<p><a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=wallet_system_for_woocommerce_menu&wsfw_tab=wallet-system-rest-api&action=delete_api_keys' ), 'wps_wsfw_delete_api_keys' ) ); ?>" class="wps-btn wps-btn__filled delete_keys" ><?php esc_html_e( 'Delete API Keys', 'wallet-system-for-woocommerce' ); ?></a></p>
 		<?php
 	}
 	?>

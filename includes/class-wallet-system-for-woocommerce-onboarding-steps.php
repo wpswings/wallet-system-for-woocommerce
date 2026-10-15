@@ -123,11 +123,9 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 
 		// Ajax to send data.
 		add_action( 'wp_ajax_wps_wsfw_send_onboarding_data', array( $this, 'wps_wsfw_send_onboarding_data' ) );
-		add_action( 'wp_ajax_nopriv_wps_wsfw_send_onboarding_data', array( $this, 'wps_wsfw_send_onboarding_data' ) );
 
 		// Ajax to Skip popup.
 		add_action( 'wp_ajax_wsfw_skip_onboarding_popup', array( $this, 'wps_wsfw_skip_onboarding_popup' ) );
-		add_action( 'wp_ajax_nopriv_wsfw_skip_onboarding_popup', array( $this, 'wps_wsfw_skip_onboarding_popup' ) );
 	}
 
 	/**
@@ -251,6 +249,11 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	 * @since    1.0.0
 	 */
 	public function wps_wsfw_skip_onboarding_popup() {
+
+		check_ajax_referer( 'wps_wsfw_onboarding_nonce', 'nonce' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You are not allowed to do this.', 'wallet-system-for-woocommerce' ), 403 );
+		}
 
 		$get_skipped_timstamp = update_option( 'wps_wsfw_onboarding_data_skipped', time() );
 		echo wp_json_encode( 'true' );
@@ -551,6 +554,9 @@ class Wallet_System_For_Woocommerce_Onboarding_Steps {
 	public function wps_wsfw_send_onboarding_data() {
 
 		check_ajax_referer( 'wps_wsfw_onboarding_nonce', 'nonce' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You are not allowed to do this.', 'wallet-system-for-woocommerce' ), 403 );
+		}
 
 		$posted_data = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : '';
 		$form_data   = json_decode( $posted_data );

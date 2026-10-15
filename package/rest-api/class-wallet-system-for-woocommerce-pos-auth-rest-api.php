@@ -72,6 +72,15 @@ class Wallet_System_For_Woocommerce_Pos_Auth_Rest_Api {
 			return new WP_REST_Response( array( 'error' => $verified->get_error_message() ), 401 );
 		}
 
+		// Every login mints a new Application Password and the app never revokes
+		// one on logout, so retire this user's POS-issued passwords that are
+		// more than a day old instead of letting them stay valid forever.
+		foreach ( WP_Application_Passwords::get_user_application_passwords( $user->ID ) as $item ) {
+			if ( 0 === strpos( (string) $item['name'], 'POS terminal ' ) && ! empty( $item['created'] ) && ( time() - (int) $item['created'] ) > DAY_IN_SECONDS ) {
+				WP_Application_Passwords::delete_application_password( $user->ID, $item['uuid'] );
+			}
+		}
+
 		$app_password_name = sprintf(
 			'POS terminal %s (%s)',
 			$terminal_id ? $terminal_id : 'unknown',

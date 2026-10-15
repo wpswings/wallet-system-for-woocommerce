@@ -245,12 +245,14 @@ class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 	 * @since    1.0.0
 	 */
 	public function wps_wsfw_get_permission_check( $request ) {
-		$parameters    = $request->get_params();
 		$rest_api_keys = get_option( 'wps_wsfw_wallet_rest_api_keys', '' );
-		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {
-			$key    = $parameters['consumer_key'];
-			$secret = $parameters['consumer_secret'];
-			if ( $key === $rest_api_keys['consumer_key'] && $secret === $rest_api_keys['consumer_secret'] ) {
+		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) && ! empty( $rest_api_keys['consumer_key'] ) && ! empty( $rest_api_keys['consumer_secret'] ) ) {
+			$key    = (string) $request->get_param( 'consumer_key' );
+			$secret = (string) $request->get_param( 'consumer_secret' );
+			// Constant-time comparison so the keys cannot be recovered through response timing.
+			$key_ok    = hash_equals( (string) $rest_api_keys['consumer_key'], $key );
+			$secret_ok = hash_equals( (string) $rest_api_keys['consumer_secret'], $secret );
+			if ( $key_ok && $secret_ok ) {
 				return true;
 			}
 			return new WP_Error( 'rest_forbidden', esc_html__( 'Sorry, your key details are incorrect.', 'wallet-system-for-woocommerce' ), array( 'status' => 401 ) );
@@ -265,17 +267,8 @@ class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 	 * @return  Boolean
 	 */
 	public function wps_wsfw_update_item_permissions_check( $request ) {
-		$data = json_decode( $request->get_body() );
-		$rest_api_keys = get_option( 'wps_wsfw_wallet_rest_api_keys', '' );
-		if ( ! empty( $rest_api_keys ) && is_array( $rest_api_keys ) ) {
-			$key    = $data->consumer_key;
-			$secret = $data->consumer_secret;
-			if ( $key === $rest_api_keys['consumer_key'] && $secret === $rest_api_keys['consumer_secret'] ) {
-				return true;
-			}
-			return new WP_Error( 'rest_forbidden', esc_html__( 'Sorry, your key details are incorrect.', 'wallet-system-for-woocommerce' ), array( 'status' => 401 ) );
-		}
-		return false;
+		// get_param() covers JSON and form-encoded bodies alike, and the same constant-time check applies.
+		return $this->wps_wsfw_get_permission_check( $request );
 	}
 
 	/**
@@ -327,7 +320,7 @@ class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 		require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/rest-api/version1/class-wallet-system-for-woocommerce-api-process.php';
 		$wps_wsfw_api_obj = new Wallet_System_For_Woocommerce_Api_Process();
 		$parameters       = $request->get_params();
-		if ( isset( $parameters['amount'] ) && ! empty( $parameters['amount'] ) ) {
+		if ( isset( $parameters['amount'] ) && is_numeric( $parameters['amount'] ) && (float) $parameters['amount'] > 0 && in_array( $parameters['action'] ?? '', array( 'credit', 'debit' ), true ) ) {
 			$wps_wsfw_resultsdata = $wps_wsfw_api_obj->update_wallet_balance( $parameters );
 			if ( is_array( $wps_wsfw_resultsdata ) && isset( $wps_wsfw_resultsdata['status'] ) && 200 === $wps_wsfw_resultsdata['status'] ) {
 				unset( $wps_wsfw_resultsdata['status'] );
@@ -336,7 +329,7 @@ class Wallet_System_For_Woocommerce_Rest_Api extends WP_REST_Controller {
 				$wps_wsfw_response = new WP_Error( $wps_wsfw_resultsdata );
 			}
 		} else {
-			$wps_wsfw_response = new WP_REST_Response( array( 'response' => 'Amount should be greater than 0' ), 401 );
+			$wps_wsfw_response = new WP_REST_Response( array( 'response' => 'Amount should be greater than 0 and action should be credit or debit' ), 400 );
 		}
 		return $wps_wsfw_response;
 	}

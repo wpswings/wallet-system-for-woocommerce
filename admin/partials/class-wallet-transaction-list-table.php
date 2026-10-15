@@ -111,19 +111,20 @@ class Wallet_Transaction_List_Table extends WP_List_Table {
 			case 'user_id':
 				return '<b>' . $item['user_id'] . '</b>';
 			case 'user_name':
-				return '<b>' . $item['user_name'] . '</b>';
+				return '<b>' . esc_html( $item['user_name'] ) . '</b>';
 			case 'user_email':
-				return '<b>' . $item['user_email'] . '</b>';
+				return '<b>' . esc_html( $item['user_email'] ) . '</b>';
 			case 'user_amount':
 				return '<b class="wps_wallet_' . esc_attr( $item['details_amount'] ) . '">' . $tranasction_symbol . wc_price( $item['user_amount'] ) . '</b>';
 			case 'payment_method':
-				return '<b>' . $item['payment_method'] . '</b>';
+				return '<b>' . esc_html( $item['payment_method'] ) . '</b>';
 			case 'details':
-				return '<b>' . ( html_entity_decode( $item['details'] ) ) . '</b>';
+				// Details carry a stored order link; allow safe markup only.
+				return '<b>' . wp_kses_post( html_entity_decode( $item['details'] ) ) . '</b>';
 			case 'transaction_id':
 				return '<b>' . $item['transaction_id'] . '</b>';
 			case 'date':
-				return '<b>' . $item['date'] . '</b>';
+				return '<b>' . esc_html( $item['date'] ) . '</b>';
 			case 'action_user_trasaction':
 				$is_pro = false;
 				$is_pro = apply_filters( 'wsfw_check_pro_plugin', $is_pro );
@@ -484,7 +485,11 @@ function export_data_csv_for_all_transaction( $user_count, $current_page, $csv_d
 			$user          = get_userdata( $sort_id['user_id'] );
 			$date = date_create( $sort_id['date'] );
 			$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
-			$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], html_entity_decode( $sort_id['transaction_type'] ), $sort_id['payment_method'], $transaction_data );
+			// Prefix formula-leading text so spreadsheet software doesn't evaluate user-controlled cells (CSV injection).
+			$csv_safe = function ( $value ) {
+				return preg_replace( '/^([=+\-@\t\r])/', "'$1", (string) $value );
+			};
+			$zsdsd[] = array( $sort_id['user_id'], $csv_safe( $user->display_name ), $csv_safe( $user->user_email ), $sort_id['amount'], $csv_safe( wp_strip_all_tags( html_entity_decode( $sort_id['transaction_type'] ) ) ), $csv_safe( $sort_id['payment_method'] ), $transaction_data );
 		}
 	}
 

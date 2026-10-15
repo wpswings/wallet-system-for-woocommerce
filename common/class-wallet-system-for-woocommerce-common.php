@@ -832,10 +832,10 @@ class Wallet_System_For_Woocommerce_Common {
 				$wallet_user            = get_user_by( 'id', $user_id );
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
-				$user_comment       = (array) WC()->session->get( 'w1', array() );
-				$wsfw_comment_limit = (int) WC()->session->get( 'w2', 0 );
-
-				if ( count( $user_comment ) < $wsfw_comment_limit ) {
+				// The limit is counted from the database, not from the WC session: the session
+				// snapshot was taken when the form rendered, so posting repeatedly without
+				// reloading the page (or with a fresh session) skipped the limit entirely.
+				if ( $user_id > 0 && ! $this->wps_wsfw_comment_reward_limit_reached( $user_id, $comment_ids ) ) {
 					$wps_wsfw_comment_done = get_option( $comment_ids . '_wps_wsfw_comment_done', 'not_done' );
 
 					if ( 'not_done' === $wps_wsfw_comment_done ) {
@@ -895,6 +895,43 @@ class Wallet_System_For_Woocommerce_Common {
 	}
 
 	/**
+	 * Whether the user has already been rewarded for the configured number of
+	 * comments on the post this comment belongs to.
+	 *
+	 * @param int $user_id    User id of the comment author.
+	 * @param int $comment_id Comment being rewarded.
+	 * @return bool
+	 */
+	private function wps_wsfw_comment_reward_limit_reached( $user_id, $comment_id ) {
+		$comment = get_comment( $comment_id );
+		if ( ! $comment || (int) $comment->user_id !== (int) $user_id ) {
+			return true;
+		}
+
+		$limit = get_option( 'wps_wsfw_wallet_action_restrict_comment', '' );
+		$limit = '' === $limit ? 1 : (int) $limit;
+
+		$other_comment_ids = get_comments(
+			array(
+				'user_id'         => $user_id,
+				'post_id'         => $comment->comment_post_ID,
+				'comment__not_in' => array( $comment->comment_ID ),
+				'status'          => 'all',
+				'fields'          => 'ids',
+			)
+		);
+
+		$rewarded = 0;
+		foreach ( $other_comment_ids as $other_comment_id ) {
+			if ( 'done' === get_option( $other_comment_id . '_wps_wsfw_comment_done', 'not_done' ) ) {
+				++$rewarded;
+			}
+		}
+
+		return $rewarded >= $limit;
+	}
+
+	/**
 	 * Undocumented function
 	 *
 	 * @param string $new_status new status.
@@ -920,7 +957,7 @@ class Wallet_System_For_Woocommerce_Common {
 				$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 				$send_email_enable      = get_option( 'wps_wsfw_enable_email_notification_for_wallet_update', '' );
 
-				if ( 'on' === $wps_wsfw_enable && 'on' === $wps_wsfw_wallet_action_comment_enable ) {
+				if ( 'on' === $wps_wsfw_enable && 'on' === $wps_wsfw_wallet_action_comment_enable && $user_id > 0 && ! $this->wps_wsfw_comment_reward_limit_reached( $user_id, $comment_id ) ) {
 					$wps_wsfw_comment_done = get_option( $comment_id . '_wps_wsfw_comment_done', 'not_done' );
 					if ( 'not_done' === $wps_wsfw_comment_done ) {
 
@@ -1621,7 +1658,8 @@ class Wallet_System_For_Woocommerce_Common {
 			return;
 		}
 
-		$refunded_total = $order->get_total_refunded();
+		// Exclude any amount already credited to the wallet through the admin "Refund to user wallet" action.
+		$refunded_total = (float) $order->get_total_refunded() - (float) $order->get_meta( '_wps_wallet_refunded_to_wallet_total' );
 
 		if ( $refunded_total <= 0 ) {
 			return;

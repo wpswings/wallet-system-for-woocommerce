@@ -26,6 +26,13 @@ class Wallet_System_For_Woocommerce_Pos_Auth {
 	const LOCKOUT_TIME = 15 * MINUTE_IN_SECONDS;
 
 	/**
+	 * Consecutive failures (across lockout windows) after which the PIN is
+	 * disabled until an admin sets a new one. Without this, 5 tries every
+	 * 15 minutes walks a 4-digit PIN space in days.
+	 */
+	const MAX_TOTAL_FAILURES = 20;
+
+	/**
 	 * User id resolved by force_application_password_for_pos(), read back by
 	 * restore_application_password_user() later in the same request. Not
 	 * using WordPress's own $wp_rest_application_password_status global here
@@ -81,9 +88,7 @@ class Wallet_System_For_Woocommerce_Pos_Auth {
 	 * @return int|false
 	 */
 	public static function force_application_password_for_pos( $input_user ) {
-		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-
-		if ( false === strpos( $request_uri, '/pos/v1/' ) ) {
+		if ( ! self::is_pos_rest_request() ) {
 			return $input_user;
 		}
 
@@ -103,7 +108,7 @@ class Wallet_System_For_Woocommerce_Pos_Auth {
 			$user = get_user_by( 'email', $_SERVER['PHP_AUTH_USER'] );
 		}
 
-		if ( ! $user ) {
+		if ( ! $user || ! wp_is_application_passwords_available_for_user( $user ) ) {
 			return $input_user;
 		}
 
@@ -143,9 +148,7 @@ class Wallet_System_For_Woocommerce_Pos_Auth {
 	 * @return mixed
 	 */
 	public static function restore_application_password_user( $result ) {
-		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-
-		if ( false === strpos( $request_uri, '/pos/v1/' ) ) {
+		if ( ! self::is_pos_rest_request() ) {
 			return $result;
 		}
 
@@ -154,6 +157,28 @@ class Wallet_System_For_Woocommerce_Pos_Auth {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Whether the current request targets the pos/v1 REST namespace. Matches
+	 * only the request path (or the rest_route query var on plain-permalink
+	 * sites), so '/pos/v1/' smuggled into the query string of some other REST
+	 * route cannot switch on the POS auth overrides there.
+	 *
+	 * @return bool
+	 */
+	private static function is_pos_rest_request() {
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$path        = (string) wp_parse_url( $request_uri, PHP_URL_PATH );
+
+		if ( false !== strpos( $path, '/' . rest_get_url_prefix() . '/pos/v1/' ) ) {
+			return true;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$rest_route = isset( $_GET['rest_route'] ) ? sanitize_text_field( wp_unslash( $_GET['rest_route'] ) ) : '';
+
+		return 0 === strpos( $rest_route, '/pos/v1/' );
 	}
 
 	/**
@@ -280,6 +305,10 @@ class Wallet_System_For_Woocommerce_Pos_Auth {
 	 * @return bool
 	 */
 	private static function is_locked_out( $user_id ) {
+		if ( (int) get_user_meta( $user_id, 'wps_wsfw_pos_pin_failures', true ) >= self::MAX_TOTAL_FAILURES ) {
+			return true;
+		}
+
 		return (int) get_transient( self::attempts_key( $user_id ) ) >= self::MAX_ATTEMPTS;
 	}
 
@@ -293,6 +322,9 @@ class Wallet_System_For_Woocommerce_Pos_Auth {
 		$key      = self::attempts_key( $user_id );
 		$attempts = (int) get_transient( $key );
 		set_transient( $key, $attempts + 1, self::LOCKOUT_TIME );
+
+		$failures = (int) get_user_meta( $user_id, 'wps_wsfw_pos_pin_failures', true );
+		update_user_meta( $user_id, 'wps_wsfw_pos_pin_failures', $failures + 1 );
 	}
 
 	/**
@@ -303,5 +335,6 @@ class Wallet_System_For_Woocommerce_Pos_Auth {
 	 */
 	private static function reset_attempts( $user_id ) {
 		delete_transient( self::attempts_key( $user_id ) );
+		delete_user_meta( $user_id, 'wps_wsfw_pos_pin_failures' );
 	}
 }

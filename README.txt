@@ -306,6 +306,25 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 
 == Changelog ==
 
+= 2.8.2 =
+* Fix - Vulnerability fix: users can no longer overwrite another user's KYC documents or verification status. Thanks to Marcial Diaz for the responsible disclosure
+* Fix - KYC uploads now accept only image and PDF files, are renamed randomly and are limited to the configured number of documents
+* Fix - Vulnerability fix: wallet fund requests save only the expected form fields, so the requester or the account paid on approval can't be changed from the browser
+* Fix - Vulnerability fix: simultaneous wallet transfers, wallet checkouts, fund request approvals and POS refunds can no longer spend or credit the same balance twice
+* Fix - Vulnerability fix: partial payment refunds can no longer be credited more than once, and refunding a wallet-paid order no longer credits the wallet twice
+* Fix - Vulnerability fix: POS cashiers can no longer refund another customer's order into their own wallet
+* Fix - POS PIN login now locks after repeated failures, and old POS login credentials are removed automatically
+* Fix - Wallet checkout now rejects guest orders and honours the negative balance limit
+* Fix - Wallet forms now use a nonce tied to the action, and restrictions (restricted users, disabled tabs, KYC required) are checked on submission, not only by hiding the forms
+* Fix - Wallet recharge and withdrawal amounts are now validated on the server, and recharge, coupon and wallet ID generation always use the logged-in user
+* Fix - Withdrawal approval can no longer debit a wallet twice or act on a mismatched user
+* Fix - Withdrawal and fund request records are no longer publicly viewable or editable by non-shop-manager users
+* Fix - REST API keys are now generated securely, compared in constant time and can only be deleted by an administrator with a valid nonce; credit/debit requests reject negative amounts
+* Fix - Onboarding and KYC request AJAX actions are no longer available to logged-out visitors and now check permissions
+* Fix - Product review wallet rewards now enforce the per-product limit
+* Fix - Transaction PDF export no longer loads remote resources, and CSV exports are protected against spreadsheet formula injection
+* Fix - Escaped user data in admin wallet tables and the referral link; the referral cookie is now HttpOnly and Secure on SSL sites
+
 = 2.8.0 - Released on 01 Oct 2026 =
 * Fix - Vulnerability fix: transaction export (PDF/CSV) now checks the user's permission and a nonce tied to the export action
 * Fix - Transaction CSV export now downloads directly instead of saving a public file on the server
@@ -640,6 +659,25 @@ For more detail please visit [**WP Swings Wallet Knowledge base**](https://suppo
 * First version
 
 == Upgrade Notice ==
+
+= 2.8.2 =
+* Fix - Vulnerability fix: users can no longer overwrite another user's KYC documents or verification status. Thanks to Marcial Diaz for the responsible disclosure
+* Fix - KYC uploads now accept only image and PDF files, are renamed randomly and are limited to the configured number of documents
+* Fix - Vulnerability fix: wallet fund requests save only the expected form fields, so the requester or the account paid on approval can't be changed from the browser
+* Fix - Vulnerability fix: simultaneous wallet transfers, wallet checkouts, fund request approvals and POS refunds can no longer spend or credit the same balance twice
+* Fix - Vulnerability fix: partial payment refunds can no longer be credited more than once, and refunding a wallet-paid order no longer credits the wallet twice
+* Fix - Vulnerability fix: POS cashiers can no longer refund another customer's order into their own wallet
+* Fix - POS PIN login now locks after repeated failures, and old POS login credentials are removed automatically
+* Fix - Wallet checkout now rejects guest orders and honours the negative balance limit
+* Fix - Wallet forms now use a nonce tied to the action, and restrictions (restricted users, disabled tabs, KYC required) are checked on submission, not only by hiding the forms
+* Fix - Wallet recharge and withdrawal amounts are now validated on the server, and recharge, coupon and wallet ID generation always use the logged-in user
+* Fix - Withdrawal approval can no longer debit a wallet twice or act on a mismatched user
+* Fix - Withdrawal and fund request records are no longer publicly viewable or editable by non-shop-manager users
+* Fix - REST API keys are now generated securely, compared in constant time and can only be deleted by an administrator with a valid nonce; credit/debit requests reject negative amounts
+* Fix - Onboarding and KYC request AJAX actions are no longer available to logged-out visitors and now check permissions
+* Fix - Product review wallet rewards now enforce the per-product limit
+* Fix - Transaction PDF export no longer loads remote resources, and CSV exports are protected against spreadsheet formula injection
+* Fix - Escaped user data in admin wallet tables and the referral link; the referral cookie is now HttpOnly and Secure on SSL sites
 
 = 2.8.0 - Released on 01 Oct 2026 =
 * Fix - Vulnerability fix: transaction export (PDF/CSV) now checks the user's permission and a nonce tied to the export action

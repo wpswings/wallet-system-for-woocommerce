@@ -143,15 +143,24 @@ class Wallet_System_For_Woocommerce_Pos_Wallet {
 			return new WP_Error( 'wsfw_pos_invalid_order', __( 'Order not found.', 'wallet-system-for-woocommerce' ) );
 		}
 
-		$refund_limit = self::get_wallet_paid_amount( $order_id ) - self::get_wallet_refunded_amount( $order );
-
-		if ( $amount > $refund_limit && ! apply_filters( 'wsfw_pos_allow_refund_exceeding_wallet_paid', false, $user_id, $order_id ) ) {
-			return new WP_Error( 'wsfw_pos_refund_exceeds_wallet_paid', __( 'Refund amount exceeds the wallet-paid portion of this order.', 'wallet-system-for-woocommerce' ) );
+		// A wallet refund can only go back to the customer who placed the order,
+		// never to an arbitrary user id supplied by the caller.
+		if ( absint( $user_id ) !== (int) $order->get_customer_id() ) {
+			return new WP_Error( 'wsfw_pos_refund_wrong_customer', __( 'Wallet refunds can only be credited to the customer who placed the order.', 'wallet-system-for-woocommerce' ) );
 		}
 
 		return self::with_wallet_lock(
 			$user_id,
-			function () use ( $user_id, $order, $order_id, $amount, $register_session_id ) {
+			function () use ( $user_id, $order_id, $amount, $register_session_id ) {
+				// Re-read the order and check the limit while holding the lock, so two
+				// concurrent refunds cannot both pass the check and refund twice.
+				$order        = wc_get_order( $order_id );
+				$refund_limit = self::get_wallet_paid_amount( $order_id ) - self::get_wallet_refunded_amount( $order );
+
+				if ( $amount > $refund_limit && ! apply_filters( 'wsfw_pos_allow_refund_exceeding_wallet_paid', false, $user_id, $order_id ) ) {
+					return new WP_Error( 'wsfw_pos_refund_exceeds_wallet_paid', __( 'Refund amount exceeds the wallet-paid portion of this order.', 'wallet-system-for-woocommerce' ) );
+				}
+
 				$new_balance = self::get_balance( $user_id ) + $amount;
 				update_user_meta( $user_id, 'wps_wallet', $new_balance );
 

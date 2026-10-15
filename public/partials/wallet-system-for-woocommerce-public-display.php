@@ -11,6 +11,49 @@
  * @subpackage Wallet_System_For_Woocommerce/public/partials
  */
 
+if ( ! function_exists( 'wps_wsfw_get_wallet_action_restriction' ) ) {
+	/**
+	 * Server-side check that a user may perform a wallet action. The wallet templates only hide
+	 * the forms, so every request handler has to repeat these checks before acting.
+	 *
+	 * @param int    $user_id user id.
+	 * @param string $action  action key: topup, transfer, withdrawal, coupon or fund_request.
+	 * @return string error message, empty when the action is allowed.
+	 */
+	function wps_wsfw_get_wallet_action_restriction( $user_id, $action ) {
+		if ( empty( $user_id ) ) {
+			return __( 'Please log in to use your wallet.', 'wallet-system-for-woocommerce' );
+		}
+		$is_user_restricted = apply_filters( 'wsfw_user_restrict_pro_check', get_user_meta( $user_id, 'user_restriction_for_wallet', true ) );
+		if ( 'restricted' === $is_user_restricted || 'on' === apply_filters( 'wallet_restrict_' . $action, $user_id ) ) {
+			return __( 'You are not allowed to perform this wallet action.', 'wallet-system-for-woocommerce' );
+		}
+		$kyc_options = array(
+			'transfer'     => 'wsfw_restrict_wallet_transfer_kyc',
+			'withdrawal'   => 'wsfw_restrict_wallet_withdrawal_kyc',
+			'fund_request' => 'wsfw_restrict_wallet_fund_request_kyc',
+		);
+		if ( isset( $kyc_options[ $action ] ) && 'on' === get_option( $kyc_options[ $action ] ) && 'on' === get_option( 'wsfw_enable_wallet_kyc' ) && 'approved' !== get_user_meta( $user_id, 'key_verification_status', true ) ) {
+			return __( 'You must complete KYC verification to use this wallet feature.', 'wallet-system-for-woocommerce' );
+		}
+		return '';
+	}
+}
+
+if ( ! function_exists( 'wps_wsfw_kyc_unique_filename' ) ) {
+	/**
+	 * Give uploaded KYC documents an unguessable name, since they are identity documents stored under uploads.
+	 *
+	 * @param string $dir  upload directory.
+	 * @param string $name original file name.
+	 * @param string $ext  file extension, including the dot.
+	 * @return string
+	 */
+	function wps_wsfw_kyc_unique_filename( $dir, $name, $ext ) {
+		return 'kyc-' . wp_generate_password( 24, false ) . strtolower( $ext );
+	}
+}
+
 global $wp;
 $logged_in_user = wp_get_current_user();
 if ( ! empty( $logged_in_user ) ) {
@@ -28,21 +71,30 @@ $current_url = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'htt
 
 
 $nonce = ( isset( $_POST['wps_verifynonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wps_verifynonce'] ) ) : '';
-if ( wp_verify_nonce( $nonce ) ) {
+if ( wp_verify_nonce( $nonce, 'wps_wsfw_wallet_account_action' ) ) {
 
 	if ( isset( $_POST['wps_recharge_wallet'] ) && ! empty( $_POST['wps_recharge_wallet'] ) ) {
 		unset( $_POST['wps_recharge_wallet'] );
 
-		if ( empty( $_POST['wps_wallet_recharge_amount'] ) ) {
-			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
-		} else {
-			$recharge_amount = sanitize_text_field( wp_unslash( $_POST['wps_wallet_recharge_amount'] ) );
-			$recharge_amount = apply_filters( 'wps_wsfw_convert_to_base_price', $recharge_amount );
+		// The wallet to credit and the recharge product are fixed server-side; only the amount comes from the request.
+		$user_id         = get_current_user_id();
+		$recharge_raw    = isset( $_POST['wps_wallet_recharge_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_recharge_amount'] ) ) : '';
+		$recharge_amount = is_numeric( $recharge_raw ) ? apply_filters( 'wps_wsfw_convert_to_base_price', $recharge_raw ) : 0;
+		$product_id      = get_option( 'wps_wsfw_rechargeable_product_id', '' );
+		$recharge_limits = apply_filters( 'wsfw_min_max_value_for_wallet_recharge', array() );
+		$recharge_min    = ( is_array( $recharge_limits ) && ! empty( $recharge_limits['min_value'] ) ) ? (float) $recharge_limits['min_value'] : 0;
+		$recharge_max    = ( is_array( $recharge_limits ) && ! empty( $recharge_limits['max_value'] ) ) ? (float) $recharge_limits['max_value'] : 0;
+		$restriction     = wps_wsfw_get_wallet_action_restriction( $user_id, 'topup' );
 
-			if ( ! empty( $_POST['user_id'] ) ) {
-				$user_id = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
-			}
-			$product_id = ( isset( $_POST['product_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : '';
+		if ( ! empty( $restriction ) ) {
+			show_message_on_form_submit( esc_html( $restriction ), 'woocommerce-error' );
+		} elseif ( empty( $product_id ) || empty( get_option( 'wsfw_enable_wallet_recharge', '' ) ) ) {
+			show_message_on_form_submit( esc_html__( 'Wallet recharge is not available.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		} elseif ( ! is_numeric( $recharge_amount ) || (float) $recharge_amount <= 0 ) {
+			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		} elseif ( ( $recharge_min > 0 && (float) $recharge_amount < $recharge_min ) || ( $recharge_max > 0 && (float) $recharge_amount > $recharge_max ) ) {
+			show_message_on_form_submit( esc_html__( 'Please enter a recharge amount within the allowed limits.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		} else {
 			WC()->session->set(
 				'wallet_recharge',
 				array(
@@ -62,6 +114,11 @@ if ( wp_verify_nonce( $nonce ) ) {
 		// The sender is always the authenticated session user; a client-supplied id must never be trusted here.
 		$user_id = get_current_user_id();
 
+		// Serialise balance changes for this sender so concurrent requests can't spend the same balance twice.
+		global $wpdb;
+		$wallet_lock_name = 'wsfw_wallet_lock_' . $user_id;
+		$wallet_locked    = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, %d )', $wallet_lock_name, 10 ) );
+
 		$wallet_bal             = get_user_meta( $user_id, 'wps_wallet', true );
 		$wallet_bal             = ( ! empty( $wallet_bal ) ) ? $wallet_bal : 0;
 		$wps_current_user_email = $current_user_email;
@@ -73,6 +130,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 
 		$transfer_method = ! empty( $_POST['wps_wallet_transfer_method'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_transfer_method'] ) ) : 'email';
 
+		$user = false;
 		$another_user_id = 0;
 		$another_user_email = '';
 
@@ -135,11 +193,27 @@ if ( wp_verify_nonce( $nonce ) ) {
 			show_message_on_form_submit( 'Email Id does not exist. ' . $invitation_link, 'woocommerce-error' );
 			$update = false;
 		}
-		if ( ! is_numeric( $wallet_transfer_amount ) || (float) $wallet_transfer_amount <= 0 ) {
+		$restriction  = wps_wsfw_get_wallet_action_restriction( $user_id, 'transfer' );
+		$transfer_min = 0;
+		$transfer_max = 0;
+		if ( apply_filters( 'wps_wsfwp_pro_plugin_check', false ) && 'on' === get_option( 'wps_wsfwp_wallet_transfer_restriction_enable' ) ) {
+			$transfer_min = (float) get_option( 'wsfwp_min_wallet_transfer_amount' );
+			$transfer_max = (float) get_option( 'wsfwp_max_wallet_transfer_amount' );
+		}
+		if ( ! empty( $restriction ) ) {
+			show_message_on_form_submit( esc_html( $restriction ), 'woocommerce-error' );
+			$update = false;
+		} elseif ( '0' === (string) $wallet_locked ) {
+			show_message_on_form_submit( esc_html__( 'Another wallet operation is in progress. Please try again.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		} elseif ( ! is_numeric( $wallet_transfer_amount ) || (float) $wallet_transfer_amount <= 0 ) {
 			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		} elseif ( $wallet_bal < $wallet_transfer_amount ) {
 			show_message_on_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		} elseif ( ( $transfer_min > 0 && (float) $transfer_amount < $transfer_min ) || ( $transfer_max > 0 && (float) $transfer_amount > $transfer_max ) ) {
+			show_message_on_form_submit( esc_html__( 'Please enter a transfer amount within the allowed limits.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		} elseif ( (int) $another_user_id === (int) $user_id ) {
 			show_message_on_form_submit( esc_html__( 'You cannot transfer amount to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
@@ -258,6 +332,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 				show_message_on_form_submit( esc_html__( 'No user found.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			}
 		}
+		$wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $wallet_lock_name ) );
 	}
 
 	// kyc saving.
@@ -265,10 +340,15 @@ if ( wp_verify_nonce( $nonce ) ) {
 
 		$update = true;
 
-		if ( ! empty( $_POST['current_user_id'] ) ) {
-			$user_id = intval( sanitize_text_field( wp_unslash( $_POST['current_user_id'] ) ) );
-		} else {
+		// KYC documents always belong to the authenticated session user; a client-supplied id must never be trusted here.
+		$user_id   = get_current_user_id();
+		$kyc_nonce = isset( $_POST['wps_wsfw_kyc_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_kyc_nonce'] ) ) : '';
+
+		if ( ! $user_id || 'on' !== get_option( 'wsfw_enable_wallet_kyc' ) || ! current_user_can( 'read' ) || ! wp_verify_nonce( $kyc_nonce, 'wps_wsfw_submit_kyc' ) ) {
 			show_message_on_form_submit( __( 'Invalid request. User not found.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		} elseif ( ! empty( $_POST['current_user_id'] ) && absint( wp_unslash( $_POST['current_user_id'] ) ) !== $user_id ) {
+			show_message_on_form_submit( __( 'You are not allowed to submit KYC documents for this account.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		}
 
@@ -281,8 +361,19 @@ if ( wp_verify_nonce( $nonce ) ) {
 				require_once ABSPATH . 'wp-admin/includes/file.php';
 			}
 
-			if ( ! empty( $_FILES['wps_wallet_kyc_document']['name'] ) ) {
-				foreach ( $_FILES['wps_wallet_kyc_document']['name'] as $key => $name ) {
+			$kyc_allowed_mimes = array(
+				'jpg|jpeg|jpe' => 'image/jpeg',
+				'png'          => 'image/png',
+				'webp'         => 'image/webp',
+				'pdf'          => 'application/pdf',
+			);
+			$kyc_max_documents = 1;
+			if ( apply_filters( 'wps_wsfwp_pro_plugin_check', false ) ) {
+				$kyc_max_documents = max( 1, absint( get_option( 'wsfw_number_of_documents_for_kyc' ) ) );
+			}
+
+			if ( ! empty( $_FILES['wps_wallet_kyc_document']['name'] ) && is_array( $_FILES['wps_wallet_kyc_document']['name'] ) ) {
+				foreach ( array_slice( $_FILES['wps_wallet_kyc_document']['name'], 0, $kyc_max_documents, true ) as $key => $name ) {
 					if ( ! empty( $name ) ) {
 						$file = array(
 							'name'     => $_FILES['wps_wallet_kyc_document']['name'][ $key ],
@@ -292,12 +383,19 @@ if ( wp_verify_nonce( $nonce ) ) {
 							'size'     => $_FILES['wps_wallet_kyc_document']['size'][ $key ],
 						);
 
-						$upload = wp_handle_upload( $file, array( 'test_form' => false ) );
+						$upload = wp_handle_upload(
+							$file,
+							array(
+								'test_form'                => false,
+								'mimes'                    => $kyc_allowed_mimes,
+								'unique_filename_callback' => 'wps_wsfw_kyc_unique_filename',
+							)
+						);
 
 						if ( isset( $upload['url'] ) && ! isset( $upload['error'] ) ) {
 							$uploaded_files[] = $upload['url'];
 						} else {
-							$errors[] = sprintf( __( 'Error uploading document: %s', 'wallet-system-for-woocommerce' ), $upload['error'] );
+							$errors[] = sprintf( __( 'Error uploading document: %s', 'wallet-system-for-woocommerce' ), esc_html( $upload['error'] ) );
 						}
 					}
 				}
@@ -332,8 +430,29 @@ if ( wp_verify_nonce( $nonce ) ) {
 		$user     = get_user_by( 'id', $user_id );
 		$username = $user ? $user->user_login : '';
 
+		$withdrawal_raw    = ! empty( $_POST['wps_wallet_withdrawal_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_withdrawal_amount'] ) ) : '';
+		$withdrawal_amount = is_numeric( $withdrawal_raw ) ? apply_filters( 'wps_wsfw_convert_to_base_price', $withdrawal_raw ) : 0;
+		$withdrawal_wallet = (float) get_user_meta( $user_id, 'wps_wallet', true );
+		$withdrawal_min    = 0;
+		$withdrawal_max    = 0;
+		if ( apply_filters( 'wps_wsfwp_pro_plugin_check', false ) && 'on' === get_option( 'wps_wsfwp_wallet_withdrawal_restriction_enable' ) ) {
+			$withdrawal_min = (float) get_option( 'wsfwp_min_wallet_withdrawal_amount' );
+			$withdrawal_max = (float) get_option( 'wsfwp_max_wallet_withdrawal_amount' );
+		}
+		$restriction = $user ? wps_wsfw_get_wallet_action_restriction( $user_id, 'withdrawal' ) : '';
+
 		if ( ! $user || ( ! empty( $_POST['wallet_user_id'] ) && absint( wp_unslash( $_POST['wallet_user_id'] ) ) !== $user_id ) ) {
 			show_message_on_form_submit( esc_html__( 'You are not allowed to request a withdrawal for this wallet.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		} elseif ( ! empty( $restriction ) ) {
+			show_message_on_form_submit( esc_html( $restriction ), 'woocommerce-error' );
+		} elseif ( get_user_meta( $user_id, 'disable_further_withdrawal_request', true ) ) {
+			show_message_on_form_submit( esc_html__( 'Your wallet\'s withdrawal request is in pending.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		} elseif ( ! is_numeric( $withdrawal_amount ) || (float) $withdrawal_amount <= 0 ) {
+			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		} elseif ( (float) $withdrawal_amount > $withdrawal_wallet ) {
+			show_message_on_form_submit( esc_html__( 'Please enter amount less than or equal to wallet balance', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+		} elseif ( ( $withdrawal_min > 0 && (float) $withdrawal_raw < $withdrawal_min ) || ( $withdrawal_max > 0 && (float) $withdrawal_raw > $withdrawal_max ) ) {
+			show_message_on_form_submit( esc_html__( 'Please enter a withdrawal amount within the allowed limits.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 		} else {
 			$args          = array(
 				'post_title'  => $username,
@@ -378,7 +497,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 
 				wp_register_script( 'wps-public-shortcode-dis', false, array(), '1.0.0', false );
 				wp_enqueue_script( 'wps-public-shortcode-dis' );
-				wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
+				wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = ' . wp_json_encode( esc_url_raw( $current_url ) ) . ';' );
 			}
 		}
 	}
@@ -398,6 +517,7 @@ if ( wp_verify_nonce( $nonce ) ) {
 		$wps_wallet_note                = ! empty( $_POST['wps_wallet_note'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wallet_note'] ) ) : '';
 		$fund_request_amount            = (float) $wps_wallet_fund_request_amount;
 
+		$user               = false;
 		$another_user_id    = 0;
 		$another_user_email = '';
 
@@ -448,10 +568,17 @@ if ( wp_verify_nonce( $nonce ) ) {
 		// ------------------ End method check ------------------
 
 		// Basic validations.
-		if ( empty( $wps_wallet_fund_request_amount ) || $fund_request_amount <= 0 ) {
+		$restriction = wps_wsfw_get_wallet_action_restriction( $wallet_user_id, 'fund_request' );
+		if ( ! empty( $restriction ) ) {
+			show_message_on_form_submit( esc_html( $restriction ), 'woocommerce-error' );
+			$update = false;
+		} elseif ( $update && empty( $another_user_id ) ) {
+			show_message_on_form_submit( esc_html__( 'No user found.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
+			$update = false;
+		} elseif ( empty( $wps_wallet_fund_request_amount ) || ! is_numeric( $wps_wallet_fund_request_amount ) || $fund_request_amount <= 0 ) {
 			show_message_on_form_submit( esc_html__( 'Please enter amount greater than 0', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
-		} elseif ( $another_user_email == $wps_current_user_email ) {
+		} elseif ( (int) $another_user_id === (int) $wallet_user_id ) {
 			show_message_on_form_submit( esc_html__( 'You cannot request fund to yourself.', 'wallet-system-for-woocommerce' ), 'woocommerce-error' );
 			$update = false;
 		}
@@ -476,21 +603,20 @@ if ( wp_verify_nonce( $nonce ) ) {
 						'post_status' => 'pending1',
 					)
 				);
-				foreach ( $_POST as $key => $value ) {
-					if ( ! empty( $value ) ) {
-						$value = sanitize_text_field( $value );
-						if ( 'wps_wallet_fund_request_amount' === $key ) {
-							$withdrawal_bal = apply_filters( 'wps_wsfw_convert_to_base_price', $value );
-							update_post_meta( $withdrawal_id, $key, $withdrawal_bal );
-						} else {
-							update_post_meta( $withdrawal_id, $key, $value );
-						}
-					}
+				// Only persist known fields. The requesting account and its email always come from the session,
+				// so a request can't be raised on behalf of, or paid out to, another account.
+				update_post_meta( $withdrawal_id, 'wallet_user_id', $wallet_user_id );
+				update_post_meta( $withdrawal_id, 'wps_current_user_email', $wps_current_user_email );
+				update_post_meta( $withdrawal_id, 'wps_wallet_fund_request_amount', apply_filters( 'wps_wsfw_convert_to_base_price', $fund_request_amount ) );
+				update_post_meta( $withdrawal_id, 'wps_wallet_fund_request_another_method', $fund_request_method );
+				update_post_meta( $withdrawal_id, 'wps_wallet_fund_request_another_user_email', $another_user_email );
+				if ( ! empty( $wps_wallet_note ) ) {
+					update_post_meta( $withdrawal_id, 'wps_wallet_note', $wps_wallet_note );
 				}
 				update_post_meta( $withdrawal_id, 'requested_user_id', $another_user_id );
 
 				wp_enqueue_script( 'wps-public-shortcode-dis' );
-				wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = "' . $current_url . '"' );
+				wp_add_inline_script( 'wps-public-shortcode-dis', 'window.location.href = ' . wp_json_encode( esc_url_raw( $current_url ) ) . ';' );
 			}
 		}
 	}
@@ -500,8 +626,14 @@ if ( wp_verify_nonce( $nonce ) ) {
 		unset( $_POST['wps_coupon_wallet'] );
 
 
-		if ( ! empty( $_POST['user_id'] ) ) {
-			$user_id  = sanitize_text_field( wp_unslash( $_POST['user_id'] ) );
+		$user_id     = get_current_user_id();
+		$restriction = wps_wsfw_get_wallet_action_restriction( $user_id, 'coupon' );
+		if ( ! empty( $restriction ) ) {
+			show_message_on_form_submit( esc_html( $restriction ), 'woocommerce-error' );
+		} elseif ( ! empty( $_POST['user_id'] ) ) {
+			// Code hooked below may read the account from the request; pin it to the session user.
+			$_POST['user_id']             = $user_id;
+			$_POST['wps_current_user_id'] = $user_id;
 			$user     = get_user_by( 'id', $user_id );
 			$username = $user->user_login;
 			$wps_wsfw_coupon_code = ! empty( $_POST['wps_wsfw_coupon_code'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wsfw_coupon_code'] ) ) : '';
@@ -510,10 +642,11 @@ if ( wp_verify_nonce( $nonce ) ) {
 	}
 
 	if ( isset( $_POST['wps_wallet_generate_wallet_id'] ) && ! empty( $_POST['wps_wallet_generate_wallet_id'] ) ) {
-		$assign_wallet_id  = ! empty( $_POST['assign_wallet_id'] ) ? sanitize_text_field( wp_unslash( $_POST['assign_wallet_id'] ) ) : '';
+		// A wallet id is only ever generated for the logged-in user's own account.
+		$assign_wallet_id   = get_current_user_id();
 		$existing_wallet_id = get_user_meta( $assign_wallet_id, 'wps_wallet_id', true );
 
-		if ( empty( $existing_wallet_id ) ) {
+		if ( ! empty( $assign_wallet_id ) && empty( $existing_wallet_id ) ) {
 			$common_obj  = new Wallet_System_For_Woocommerce_Common( 'wallet system for woocommerce', WALLET_SYSTEM_FOR_WOOCOMMERCE_VERSION );
 			$wallet_id = $common_obj->wps_wsfw_generate_unique_wallet_id( $assign_wallet_id );
 			update_user_meta( $assign_wallet_id, 'wps_wallet_id', $wallet_id );
@@ -790,7 +923,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 					?>
 					<form method="post" action="">
 						<input type="hidden" name="assign_wallet_id" value="<?php echo esc_attr( $user_id ); ?>">
-						<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+						<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce( 'wps_wsfw_wallet_account_action' ) ); ?>" />
 						<input type="submit" class=" button" id="wps_wallet_generate_wallet_id" name="wps_wallet_generate_wallet_id" value="<?php esc_html_e( 'Generate Wallet ID', 'wallet-system-for-woocommerce' ); ?>" >
 					</form>
 					<?php
@@ -809,7 +942,7 @@ function show_message_on_form_submit( $wpg_message, $type = 'error' ) {
 				?>
 				<form method="post" action="">
 					<input type="hidden" name="assign_wallet_id" value="<?php echo esc_attr( $user_id ); ?>">
-					<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+					<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce( 'wps_wsfw_wallet_account_action' ) ); ?>" />
 					<input type="submit" class=" button" id="wps_wallet_generate_wallet_id" name="wps_wallet_generate_wallet_id" value="<?php esc_html_e( 'Generate Wallet ID', 'wallet-system-for-woocommerce' ); ?>" >
 				</form>
 				<?php
@@ -1016,7 +1149,7 @@ setInterval(function time(){
 					}
 				}
 				?>
-				<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce() ); ?>" />
+				<input type="hidden" id="wps_verifynonce" name="wps_verifynonce" value="<?php echo esc_attr( wp_create_nonce( 'wps_wsfw_wallet_account_action' ) ); ?>" />
 				</div>
 			</form>
 			</div>
