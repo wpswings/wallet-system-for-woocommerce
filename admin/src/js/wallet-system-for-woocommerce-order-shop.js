@@ -10,7 +10,8 @@ jQuery(document).ready(function($){
             
             var data = {
                 action: 'wps_wallet_refund_partial_payment',
-                order_id: woocommerce_admin_meta_boxes.post_id
+                order_id: woocommerce_admin_meta_boxes.post_id,
+                security: woocommerce_admin_meta_boxes.order_item_nonce
             };
             jQuery.post(woocommerce_admin_meta_boxes.ajax_url, data, function (response) {
                  

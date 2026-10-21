@@ -2296,7 +2296,7 @@ class Wallet_System_For_Woocommerce_Public {
 				$referral_link = trim( $wps_referral_key );// phpcs:ignore WordPress.Security.NonceVerification
 
 				if ( isset( $wps_wsfw_ref_link_expiry ) && ! empty( $wps_wsfw_ref_link_expiry ) && ! empty( $referral_link ) ) {
-					setcookie( 'wps_wsfw_cookie_set', $referral_link, time() + ( 86400 * $wps_wsfw_ref_link_expiry ), '/' );
+					setcookie( 'wps_wsfw_cookie_set', $referral_link, time() + ( 86400 * $wps_wsfw_ref_link_expiry ), '/', '', is_ssl(), true );
 				}
 			}
 		}

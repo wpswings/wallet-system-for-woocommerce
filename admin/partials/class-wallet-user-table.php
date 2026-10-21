@@ -1162,7 +1162,8 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_default( $item, $column_name ) {
-		return sprintf( $item[ $column_name ], true );
+		// Cells are pre-escaped by the getters below; don't run user data through sprintf() as a format string.
+		return $item[ $column_name ];
 	}
 
 	/**
@@ -1182,7 +1183,7 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function wsfw_get_name( $user ) {
-		return $user->display_name;
+		return esc_html( $user->display_name );
 	}
 
 	/**
@@ -1192,7 +1193,7 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function wsfw_get_email( $user ) {
-		return $user->user_email;
+		return esc_html( $user->user_email );
 	}
 
 	/**
@@ -1202,7 +1203,7 @@ class Wallet_User_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function wsfw_get_role( $user ) {
-		return ! empty( $user->roles[0] ) ? $user->roles[0] : '-';
+		return ! empty( $user->roles[0] ) ? esc_html( $user->roles[0] ) : '-';
 	}
 
 	/**
@@ -1227,7 +1228,7 @@ class Wallet_User_Table extends WP_List_Table {
 	public function wsfw_get_wallet_id( $user ) {
 		$wallet_id = get_user_meta( $user->ID, 'wps_wallet_id', true );
 		$wallet_id = ! empty( $wallet_id ) ? $wallet_id : 'Not Generated';
-		return $wallet_id;
+		return esc_html( $wallet_id );
 	}
 
 	/**

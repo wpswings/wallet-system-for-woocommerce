@@ -89,13 +89,14 @@ $wallet_bal = apply_filters( 'wps_wsfw_show_converted_price', $wallet_bal );
 							<?php printf( esc_html__( 'Upload Document %d', 'wallet-system-for-woocommerce' ), $i ); ?>
 						</label>
 						<span id="wps_wallet_kyc_document">
-						<input type="file" name="wps_wallet_kyc_document[]" id="wps_wallet_kyc_document_<?php echo esc_attr( $i ); ?>" class="wps_wallet_kyc_document" required />
+						<input type="file" name="wps_wallet_kyc_document[]" id="wps_wallet_kyc_document_<?php echo esc_attr( $i ); ?>" class="wps_wallet_kyc_document" accept=".jpg,.jpeg,.png,.webp,.pdf" required />
 						</span>
 					</p>
 				<?php endfor; ?>
 
 				<p class="wps-wallet-field-container form-row">
 					<input type="hidden" name="current_user_id" value="<?php echo esc_attr( $user_id ); ?>">
+					<input type="hidden" name="wps_wsfw_kyc_nonce" value="<?php echo esc_attr( wp_create_nonce( 'wps_wsfw_submit_kyc' ) ); ?>">
 					<input type="submit" class="wps-btn__filled button" id="wps_submit_kyc" name="wps_submit_kyc" value="<?php esc_html_e( 'Submit KYC Documents', 'wallet-system-for-woocommerce' ); ?>">
 				</p>
 			</form>

@@ -88,6 +88,21 @@ class Wallet_System_For_Woocommerce_Admin {
 	}
 
 	/**
+	 * Neutralise a user-controlled value before it is written to a CSV export, so spreadsheet
+	 * software does not evaluate it as a formula (CSV injection).
+	 *
+	 * @param mixed $value cell value.
+	 * @return string
+	 */
+	private function wps_wsfw_csv_safe( $value ) {
+		$value = (string) $value;
+		if ( '' !== $value && in_array( $value[0], array( '=', '+', '-', '@', "\t", "\r" ), true ) ) {
+			$value = "'" . $value;
+		}
+		return $value;
+	}
+
+	/**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
@@ -290,7 +305,8 @@ class Wallet_System_For_Woocommerce_Admin {
 					'payment_method' => $order->get_payment_method( 'edit' ),
 					'default_price' => wc_price( 0 ),
 					'currency_symbol' => $currency_symbol,
-					'is_refundable' => apply_filters( 'wps_wallet_is_order_refundable', ( ! wps_is_wallet_rechargeable_order( $order ) && $order->get_payment_method( 'edit' ) != 'wallet' ) && $order->get_customer_id( 'edit' ), $order ),
+					// Wallet-paid orders are refunded to the wallet by the gateway's own process_refund(); offering this button too double-credits.
+					'is_refundable' => apply_filters( 'wps_wallet_is_order_refundable', ( ! wps_is_wallet_rechargeable_order( $order ) && ! in_array( $order->get_payment_method( 'edit' ), array( 'wallet', 'wps_wcb_wallet_payment_gateway' ), true ) ) && $order->get_customer_id( 'edit' ), $order ),
 					'i18n' => array(
 						'refund' => __( 'Refund', 'wallet-system-for-woocommerce' ),
 						'via_wallet' => __( 'to user wallet', 'wallet-system-for-woocommerce' ),
@@ -2425,13 +2441,14 @@ class Wallet_System_For_Woocommerce_Admin {
 
 						$pdf_html .= '<tr>';
 						$pdf_html .= '<td>' . $i . '</td>';
-						$pdf_html .= '<td>' . $display_name . ' #' . $transaction->user_id . '</td>';
-						$pdf_html .= '<td>' . $useremail . '</td>';
-						$pdf_html .= '<td>' . $user_role . '</td>';
-						$pdf_html .= '<td>' . get_woocommerce_currency() . ' ' . $transaction->amount . '</td>';
-						$pdf_html .= '<td>' . $transaction->payment_method . '</td>';
-						$pdf_html .= '<td>' . html_entity_decode( $transaction->transaction_type ) . '</td>';
-						$pdf_html .= '<td>' . $transaction->id . '</td>';
+						// Names, notes and details are user-controlled; escape them so they can't inject markup or remote resources into the PDF.
+						$pdf_html .= '<td>' . esc_html( $display_name ) . ' #' . esc_html( $transaction->user_id ) . '</td>';
+						$pdf_html .= '<td>' . esc_html( $useremail ) . '</td>';
+						$pdf_html .= '<td>' . esc_html( $user_role ) . '</td>';
+						$pdf_html .= '<td>' . esc_html( get_woocommerce_currency() . ' ' . $transaction->amount ) . '</td>';
+						$pdf_html .= '<td>' . esc_html( $transaction->payment_method ) . '</td>';
+						$pdf_html .= '<td>' . esc_html( wp_strip_all_tags( html_entity_decode( $transaction->transaction_type ) ) ) . '</td>';
+						$pdf_html .= '<td>' . esc_html( $transaction->id ) . '</td>';
 						$date_format = get_option( 'date_format', 'm/d/Y' );
 						$date        = date_create( $transaction->date );
 						$pdf_html .= '<td>' . date_format( $date, $date_format ) . ' ' . esc_html( date_format( $date, 'H:i:s' ) ) . '</td>';
@@ -2440,12 +2457,11 @@ class Wallet_System_For_Woocommerce_Admin {
 					}
 					$pdf_html .= '</tbody></table>';
 					require_once WALLET_SYSTEM_FOR_WOOCOMMERCE_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-					$dompdf = new Dompdf( array( 'enable_remote' => true ) );
+					$dompdf = new Dompdf( array( 'enable_remote' => false ) );
 					$dompdf->setPaper( 'A4', 'landscape' );
 					$dompdf->loadHtml( $pdf_html );
 					@ob_end_clean(); // phpcs:ignore
 					$dompdf->render();
-					$dompdf->set_option( 'isRemoteEnabled', true );
 					$output = $dompdf->output();
 					header( 'Content-Description: File Transfer' );
 					header( 'Content-Type: application/pdf' );
@@ -2484,11 +2500,11 @@ class Wallet_System_For_Woocommerce_Admin {
 							$output,
 							array(
 								$transaction['user_id'],
-								wp_strip_all_tags( $transaction['display_name'] ),
-								wp_strip_all_tags( $transaction['user_email'] ),
+								$this->wps_wsfw_csv_safe( wp_strip_all_tags( $transaction['display_name'] ) ),
+								$this->wps_wsfw_csv_safe( wp_strip_all_tags( $transaction['user_email'] ) ),
 								wp_strip_all_tags( $transaction['amount'] ),
-								wp_strip_all_tags( html_entity_decode( $transaction['transaction_type'] ) ),
-								wp_strip_all_tags( $transaction['payment_method'] ),
+								$this->wps_wsfw_csv_safe( wp_strip_all_tags( html_entity_decode( $transaction['transaction_type'] ) ) ),
+								$this->wps_wsfw_csv_safe( wp_strip_all_tags( $transaction['payment_method'] ) ),
 								( $date ? $date->getTimestamp() : '' ) . $transaction['id'],
 							)
 						);
@@ -2537,7 +2553,7 @@ class Wallet_System_For_Woocommerce_Admin {
 				$user          = get_userdata( $sort_id['user_id'] );
 				$date = date_create( $sort_id['date'] );
 				$transaction_data = esc_html( $date->getTimestamp() . $sort_id['id'] );
-				$zsdsd[] = array( $sort_id['user_id'], $user->display_name, $user->user_email, $sort_id['amount'], html_entity_decode( $sort_id['transaction_type'] ), $sort_id['payment_method'], $transaction_data );
+				$zsdsd[] = array( $sort_id['user_id'], $this->wps_wsfw_csv_safe( $user->display_name ), $this->wps_wsfw_csv_safe( $user->user_email ), $sort_id['amount'], $this->wps_wsfw_csv_safe( wp_strip_all_tags( html_entity_decode( $sort_id['transaction_type'] ) ) ), $this->wps_wsfw_csv_safe( $sort_id['payment_method'] ), $transaction_data );
 			}
 		}
 
@@ -2587,6 +2603,22 @@ class Wallet_System_For_Woocommerce_Admin {
 		$walletamount = get_user_meta( $user_id, 'wps_wallet', true );
 		$withdrawal_amount = get_post_meta( $withdrawal_id, 'wps_wallet_withdrawal_amount', true );
 		$updated_status     = ( isset( $_POST['status'] ) ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+
+		// The wallet debited must be the one that raised the request, and an approved request must not be debited again.
+		$withdrawal_post = $update ? get_post( $withdrawal_id ) : null;
+		if ( $update && ( empty( $withdrawal_post ) || 'wallet_withdrawal' !== $withdrawal_post->post_type || absint( get_post_meta( $withdrawal_id, 'wallet_user_id', true ) ) !== $user_id || ! in_array( $updated_status, array( 'approved', 'rejected', 'pending1' ), true ) ) ) {
+			$message = array(
+				'msg'     => esc_html__( 'Invalid withdrawal request.', 'wallet-system-for-woocommerce' ),
+				'msgType' => 'error',
+			);
+			$update  = false;
+		} elseif ( $update && 'approved' === $withdrawal_post->post_status ) {
+			$message = array(
+				'msg'     => esc_html__( 'This withdrawal request has already been approved.', 'wallet-system-for-woocommerce' ),
+				'msgType' => 'error',
+			);
+			$update  = false;
+		}
 		if ( 'approved' === $updated_status ) {
 			if ( $walletamount < $withdrawal_amount ) {
 				$wps_wsfw_error_text = esc_html__( 'Wallet Amount is not sufficient for widthdrawal.', 'wallet-system-for-woocommerce' );
@@ -2797,12 +2829,18 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 				'description'     => __( 'Merchant can see all withdrawal request of users', 'wallet-system-for-woocommerce' ),
 				'supports'        => array( 'title', 'custom-fields' ),
-				'public'          => true,
-				'rewrite'         => array( 'slug' => 'wallet_withdrawal' ),
-				'menu_icon'       => 'dashicons-groups',
-				'show_in_menu'    => false,
-				'capability_type' => 'post',
-				'show_ui'         => true,
+				// Requests hold users' payout details; keep them off the front end and REST, and restrict editing to shop managers.
+				'public'              => false,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'show_in_rest'        => false,
+				'rewrite'             => false,
+				'query_var'           => false,
+				'menu_icon'           => 'dashicons-groups',
+				'show_in_menu'        => false,
+				'capability_type'     => 'shop_order',
+				'map_meta_cap'        => true,
+				'show_ui'             => true,
 			)
 		);
 		// fund_request.
@@ -2824,12 +2862,18 @@ class Wallet_System_For_Woocommerce_Admin {
 				),
 				'description'     => __( 'Handles user fund requests.', 'wallet-system-for-woocommerce' ),
 				'supports'        => array( 'title', 'custom-fields' ),
-				'public'          => true,
-				'rewrite'         => array( 'slug' => 'wallet_fund_request' ),
-				'menu_icon'       => 'dashicons-admin-network',
-				'show_in_menu'    => false,
-				'capability_type' => 'post',
-				'show_ui'         => true,
+				// Requests hold users' payout details; keep them off the front end and REST, and restrict editing to shop managers.
+				'public'              => false,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'show_in_rest'        => false,
+				'rewrite'             => false,
+				'query_var'           => false,
+				'menu_icon'           => 'dashicons-admin-network',
+				'show_in_menu'        => false,
+				'capability_type'     => 'shop_order',
+				'map_meta_cap'        => true,
+				'show_ui'             => true,
 			)
 		);
 		// fund_request.
@@ -3466,6 +3510,12 @@ class Wallet_System_For_Woocommerce_Admin {
 			}
 			$refund_reason = $refund_reason ? $refund_reason : __( 'Refunded to wallet #', 'wallet-system-for-woocommerce' ) . $order->get_order_number();
 
+			// Record what this handler credits to the wallet before the refund is created: a full refund moves the
+			// order to "refunded" inside wc_create_refund(), and the status-change auto refund must not credit it again.
+			$prev_wallet_refunded = (float) $order->get_meta( '_wps_wallet_refunded_to_wallet_total', true );
+			$order->update_meta_data( '_wps_wallet_refunded_to_wallet_total', $prev_wallet_refunded + (float) $refund_amount );
+			$order->save();
+
 			// Create the refund object.
 			$refund = wc_create_refund(
 				array(
@@ -3543,6 +3593,11 @@ class Wallet_System_For_Woocommerce_Admin {
 			if ( $refund && is_a( $refund, 'WC_Order_Refund' ) ) {
 				wp_delete_post( $refund->get_id(), true );
 			}
+			if ( isset( $prev_wallet_refunded ) ) {
+				$order = wc_get_order( $order_id );
+				$order->update_meta_data( '_wps_wallet_refunded_to_wallet_total', $prev_wallet_refunded );
+				$order->save();
+			}
 			wp_send_json_error( array( 'error' => $ex->getMessage() ) );
 		}
 	}
@@ -3555,11 +3610,25 @@ class Wallet_System_For_Woocommerce_Admin {
 	 */
 	public function wps_wallet_refund_partial_payment() {
 
+		check_ajax_referer( 'order-item', 'security' );
 		if ( ! current_user_can( 'edit_shop_orders' ) ) {
 			wp_die( -1 );
 		}
 		$order_id = absint( filter_input( INPUT_POST, 'order_id' ) );
 		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
+			wp_send_json( array( 'success' => false ) );
+		}
+
+		// A partial payment can only be refunded to the wallet once.
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			$is_refunded = $order->get_meta( '_wps_wallet_partial_payment_refunded', true );
+		} else {
+			$is_refunded = get_post_meta( $order_id, '_wps_wallet_partial_payment_refunded', true );
+		}
+		if ( $is_refunded || (float) get_order_partial_payment_amount( $order_id ) <= 0 ) {
+			wp_send_json( array( 'success' => false ) );
+		}
 		$userid         = $order->get_user_id();
 		$wallet_payment_gateway = new Wallet_System_For_Woocommerce();
 		$wallet_id      = get_option( 'wps_wsfw_rechargeable_product_id', '' );
@@ -4087,7 +4156,7 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		check_ajax_referer( 'ajax-nonce', 'nonce' );
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! $this->wps_wsfw_current_user_can_manage_wallet() ) {
 			wp_send_json_error( array(
 				'message' => __( 'Unauthorized request.', 'wallet-system-for-woocommerce' ),
 			), 403 );
@@ -4140,8 +4209,8 @@ class Wallet_System_For_Woocommerce_Admin {
 
 		$current_user_id = get_current_user_id();
 
-		// Optional: Restrict to admins or shop managers only.
-		if ( ! current_user_can( 'manage_woocommerce' ) && ! current_user_can( 'administrator' ) ) {
+		// Restrict to admins or shop managers only.
+		if ( ! $this->wps_wsfw_current_user_can_manage_wallet() ) {
 			wp_send_json_error( array( 'message' => 'Unauthorized: insufficient permissions.' ), 403 );
 		}
 
@@ -4150,7 +4219,7 @@ class Wallet_System_For_Woocommerce_Admin {
 		$remark  = ! empty( $_POST['remark'] ) ? sanitize_text_field( wp_unslash( $_POST['remark'] ) ) : '';
 
 		// Validate input.
-		if ( ! $user_id || empty( $status ) || empty( $remark ) ) {
+		if ( ! $user_id || ! get_userdata( $user_id ) || ! in_array( $status, array( 'pending', 'approved', 'rejected' ), true ) || empty( $remark ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid data or remark missing.' ), 400 );
 		}
 

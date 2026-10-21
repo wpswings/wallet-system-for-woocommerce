@@ -378,10 +378,26 @@ function wps_wsfw_wallet_payment_gateway_init() {
 			$walletamount = empty( $walletamount ) ? 0 : $walletamount;
 			$is_condition_true = false;
 
-			if ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+			// Serialise wallet debits for this customer so concurrent checkouts can't spend the same balance twice.
+			global $wpdb;
+			$wallet_lock_name = 'wsfw_wallet_lock_' . $customer_id;
+			$wallet_locked    = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, %d )', $wallet_lock_name, 10 ) );
+			$walletamount     = get_user_meta( $customer_id, 'wps_wallet', true );
+			$walletamount     = empty( $walletamount ) ? 0 : $walletamount;
 
-				$is_condition_true = true;
-
+			if ( empty( $customer_id ) || '0' === (string) $wallet_locked ) {
+				// Guest orders have no wallet to pay from.
+				$is_condition_true = false;
+			} elseif ( 'on' == get_option( 'wsfw_enable_wallet_negative_balance' ) ) {
+				// Buy now, pay later may only take the wallet down to the configured limit, and only after
+				// the configured number of orders; with no pro limit the balance can't go below zero.
+				$is_pro      = apply_filters( 'wps_wsfwp_pro_plugin_check', false );
+				$limit       = $is_pro ? abs( (float) get_option( 'wsfw_enable_wallet_negative_balance_limit', 0 ) ) : 0;
+				$order_count = intval( get_user_meta( $customer_id, 'wsfw_enable_wallet_negative_balance_limit_order', true ) );
+				if ( $is_pro && $order_count < intval( get_option( 'wsfw_enable_wallet_negative_balance_limit_order' ) ) ) {
+					$limit = 0;
+				}
+				$is_condition_true = ( (float) $walletamount - (float) $debited_amount ) >= ( -1 * $limit );
 			} elseif ( $debited_amount <= $walletamount ) {
 					$is_condition_true = true;
 			}
@@ -470,6 +486,7 @@ function wps_wsfw_wallet_payment_gateway_init() {
 				$order->update_status( 'failed', __( 'Do not have sufficient amount in wallet.', 'wallet-system-for-woocommerce' ) );
 
 			}
+			$wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $wallet_lock_name ) );
 			// Return thankyou redirect.
 			return array(
 				'result'   => 'success',
